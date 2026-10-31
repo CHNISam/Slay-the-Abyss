@@ -71,7 +71,7 @@ test('deck overlay and close remain inside approved canvas safe areas at every d
     const panel = layout.controls.find(c => c.name === 'deckPanel');
     for (const c of ['close','grid','browseTitle','sort',
       'filterAll','filterAttack','filterSkill','filterPower','filterStatus','filterCurse',
-      'previous','next','pageHint'].map(name => panel.children.find(c => c.name === name)).concat([
+      'previous','next','pageHint','upgradePreview'].map(name => panel.children.find(c => c.name === name)).concat([
       layout.controls.find(c => c.name === 'deckEntry').children.find(c => c.name === 'open')])) {
       assert.ok((Math.abs(c.position[0]) + c.size[0] / 2 + theme.canvas.safe.x) * k <= device[0] / 2);
       assert.ok((Math.abs(c.position[1]) + c.size[1] / 2 + theme.canvas.safe.y) * k <= device[1] / 2);
@@ -107,3 +107,15 @@ test('controller overlays isolate nearest-control navigation and deck pages leav
     assert.ok(control.position[1] + control.size[1] / 2 < grid.position[1] - grid.size[1] / 2);
   }
 });
+
+ test('upgrade preview is an explicit native button outside the text paging hit', () => {
+ const panel=gameLayout().controls.find(c=>c.name==='deckPanel');
+ const toggle=panel.children.find(c=>c.name==='upgradePreview');
+ const textHit=panel.children.find(c=>c.name==='detailHit');
+ assert.equal(toggle.visible,false);
+ assert.equal(toggle.children[0].kind,'presetButton');
+ assert.equal(toggle.children[0].focusable,true);
+ assert.ok(toggle.size[1]>=48);
+ assert.ok(toggle.position[1]+toggle.size[1]/2<textHit.position[1]-textHit.size[1]/2);
+ for(const state of toggle.children[0].children)assert.equal(state.children.find(c=>c.name==='label').text.content,'升级预览');
+ });

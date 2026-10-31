@@ -59,6 +59,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         end
     end
     local details,detailHit=root:GetChild('details'),root:GetChild('detailHit')
+    local upgradePreview=root:GetChild('upgradePreview')
     local function closeLabel(value)
         for _,state in ipairs({'normal','hover','pressed','disabled'}) do
             root:GetChild('close'):GetChild('hit'):GetChild(state):GetChild('label').text=value
@@ -97,8 +98,49 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         if keywords~=''then raw=raw..'\n'..keywords end
         return self:showText(definition.name..(upgraded and '+' or ''),raw)
     end
+    -- Always rebuild from the captured current instance, never from the last preview.
+    local function paintCardDetail()
+        local context=self.cardDetail
+        local instance=Combat.copy(context.instance)
+        if context.preview then Combat.upgrade(context.state,instance) end
+        local definition=Combat.cardDefinition(context.state,instance)
+        local display=assert(presentation[instance.cardId], 'missing detail presentation')
+        local text
+        if definition.originalV4 then
+            text=OriginalDisplay.describe(definition,instance.upgraded)
+            local keywords=OriginalDisplay.keywordDefinitions(definition,instance.upgraded)
+            if keywords~='' then text=text..'\n'..keywords end
+        elseif context.combat then
+            text=CardDisplay.combatText(display,definition,instance,Combat.cardPreview(context.state,instance),context.state)
+        else text=CardDisplay.permanentText(display,definition,instance) end
+        local suffix=instance.upgraded and ('+'..(definition.repeatable and tostring(instance.upgrades or 1) or '')) or ''
+        local mode=context.preview and '升级预览' or '当前'
+        local cost=definition.cost==-2 and '不可打出' or definition.costMode=='all_energy' and 'X' or tostring(definition.cost)
+        self:showText(display.name..suffix..' · '..mode,mode..' · '..(typeNames[definition.type] or definition.type)..' · 费用 '..cost..'\n\n'..text)
+        self.cardDetail=context
+        upgradePreview:SetVisible(Combat.canUpgrade(context.state,context.instance)==true)
+        for _,state in ipairs({'normal','hover','pressed','disabled'})do
+            upgradePreview:GetChild('hit'):GetChild(state):GetChild('label').text=context.preview and '查看当前' or '升级预览'
+        end
+        return true
+    end
+    function self.showCardDetails(_,instance)
+        if not self.visible or self.choiceToken or self.detailPages then return false end
+        -- Snapshot the whole battle as preview calculations can depend on other piles.
+        self.cardDetail={instance=Combat.copy(instance),state=Combat.copy(self.battle or {catalog=self.catalog}),combat=self.battle~=nil,preview=false}
+        return paintCardDetail()
+    end
+    function self.toggleUpgradePreview(_)
+        local context=self.cardDetail
+        if not self.visible or not self.detailPages or not context or self.choiceToken
+            or not Combat.canUpgrade(context.state,context.instance) then return false end
+        context.preview=not context.preview
+        return paintCardDetail()
+    end
     function self.showText(_,title,raw)
         if not self.visible or self.choiceToken then return false end
+        self.cardDetail=nil;upgradePreview:SetVisible(false)
+        for _,name in ipairs({'previous','next','pageHint'})do root:GetChild(name):SetVisible(false) end
         -- Bound each page using the shared viewport/font, counting a CJK codepoint
         -- as a full em. Do not truncate rules; every wrapped line stays reachable.
         local columns=math.max(1,math.floor(Theme.layout.deckView.viewport[3]/Theme.font.body)-2)
@@ -173,14 +215,14 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         CardSkin.apply(face,definition,platform,{cost=definition.cost,baseCost=base,selected=selected})
         control:GetChild("uid").text = selected and '已选择' or ''
         local hit=control:GetChild('hit')
-        hit:SetVisible(self.choiceToken~=nil or definition.originalV4~=nil)
+        hit:SetVisible(true)
         if not self.bindings[control] then
             self.bindings[control]={}
             local function pick()
                 local b=self.bindings[control]
                 if control.alive==false or not b then return false end
                 if self.visible and not self.choiceToken and b.generation==self.generation then
-                    return self:showDetails(b.definition,b.upgraded)
+                    return self:showCardDetails(b.instance)
                 end
                 if not self.visible or not self.choiceToken or b.generation~=self.generation
                     or not self.run or self.run.combat~=self.battle
@@ -199,7 +241,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
             end,10)
         end
         self.bindings[control].generation,self.bindings[control].uid=self.generation,instance.uid
-        self.bindings[control].definition,self.bindings[control].upgraded=definition,instance.upgraded
+        self.bindings[control].instance=Combat.copy(instance)
         control:SetVisible(true)
     end
     -- Pure presentation projection. The permanent deck and the three combat
@@ -300,7 +342,8 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.browseEnabled=choice==nil
         self.typeFilter,self.sortMode='all','original'
         self.controllerPage=1
-        self.detailOnly,self.detailPages=nil,nil
+        self.detailOnly,self.detailPages,self.cardDetail=nil,nil,nil
+        upgradePreview:SetVisible(false)
         grid:SetVisible(true);details:SetVisible(false);detailHit:SetVisible(false)
         self.indexBase, self.pending, self.calibrating = nil, false, true
         root:SetVisible(true)
@@ -375,13 +418,21 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.choiceToken,self.onPick,self.battle=nil,nil,nil
         self.pileKind,self.listTitle=nil,nil
         self.multiple,self.choiceSelected,self.optional=nil,nil,nil
-        self.detailPages,self.detailOnly=nil,nil
+        self.detailPages,self.detailOnly,self.cardDetail=nil,nil,nil
+        upgradePreview:SetVisible(false)
         if self.relicView then self.relicView:close();self.relicView=nil end
         details:SetVisible(false);detailHit:SetVisible(false)
         root:SetVisible(false);liveFaces(CardDisplay.clearNativeArt)
         grid:RefreshItems(0, function() end)
         return true
     end
+    local previewHit=upgradePreview:GetChild('hit')
+    previewHit:AddCursorEventListener(clickEvent,function()
+        if Controller.pointerBlocked(platform.controller)then return false end
+        return self:toggleUpgradePreview()
+    end)
+    Controller.bind(platform.controller,previewHit,'deck',function()return self:toggleUpgradePreview()end,
+        function()return self.visible and self.cardDetail~=nil and Combat.canUpgrade(self.cardDetail.state,self.cardDetail.instance)==true end,80)
     root.disableCursorEventPassthrough = true
     root:GetChild("blocker"):AddCursorEventListener(clickEvent, function() return true end)
     local function nextPage()
@@ -396,7 +447,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
     function self.back(_)
         if not self.visible then return false end
         if self.detailPages and not self.detailOnly then
-            self.detailPages=nil;details:SetVisible(false);detailHit:SetVisible(false);grid:SetVisible(true)
+            self.detailPages,self.cardDetail=nil,nil;upgradePreview:SetVisible(false);details:SetVisible(false);detailHit:SetVisible(false);grid:SetVisible(true)
             root:GetChild('title').text=self.listTitle;closeLabel('关闭');self.pending=true;paintBrowse();return true
         end
         if self.multiple or self.optional then
