@@ -2324,7 +2324,9 @@
         "neow": {
           "source": "aeubanks/sts@319009d NeowEvent(ROOM)+LargeDialogOptionButton+InfiniteSpeechBubble, 1920x1080 -> 1280x720 (x*2/3-640, y*2/3-360)",
           "figure": [0, -36, 1280, 648],
-          "npc": [383, -173],
+          "npc": [400, -40, 300, 300],
+          "npcImage": 112019,
+          "npcNote": "Official library bust stand-in for Neow (unused by enemies); STS npc x=1534 -> 383, raised so feet clear floorY",
           "bubble": [110, 0, 260, 130],
           "bubbleText": [110, 0, 220, 100],
           "options": {"x": -227, "bottom": -300, "spacing": 55, "size": [593, 51], "note": "LargeDialogOptionButton ROOM: x=620, y=OPTION_Y-500+82*(n-slot), 890x77, all *2/3"}
