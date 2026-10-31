@@ -66,7 +66,7 @@ test('node and edge pools match controller contract, with type meanings and with
     const node = index.get(`node${i}`);
     assert.equal(node.visible, false);
     assert.deepEqual(node.children.filter(child => child.kind === 'image').map(child => child.name),
-      ['halo', 'plate', 'ring', 'icon', 'positionToken'], 'STS room layers: halo, knockout plate, taken ring, icon, token');
+      ['ring', 'icon', 'positionToken'], 'only the STS current-room circle; no per-node discs');
     const hit = node.children.find(child => child.name === 'hit');
     assert.deepEqual(hit.size, node.size);
     assert.equal(hit.focusable, true);
