@@ -124,7 +124,11 @@ function M.install(owner, _ownership, host, dependencies)
         frame.player = frame.battle and frame.battle.player
         dependencies.label("player", playerHealthText(frame))
         local player, run = frame.player, frame.run
-        dependencies.label("piles", number(player and player.gold or run and run.gold or 0))
+        -- Render the current rule owner directly: a render-only counter cannot
+        -- finish during idle frames and must not leak a balance across runs.
+        local gold = player and player.gold or run and run.gold or 0
+        dependencies.label("piles", number(gold))
+        dependencies.ink(dependencies.child("piles"), C.topPanelGold)
     end
     local function stanceHeading(frame)
         local player, run = frame.player, frame.run
@@ -158,8 +162,9 @@ function M.install(owner, _ownership, host, dependencies)
     local function renderSceneHeading(frame)
         local flow = frame.run and frame.run.nodeFlow
         local kind = flow and ({elite = "精英战斗", boss = "首领战斗"})[flow.type] or "战斗"
-        local heading = flow and flow.floor and ("第 " .. flow.floor .. " 层 · " .. kind) or kind
-        dependencies.label("title", heading .. stanceHeading(frame) .. orbHeading(frame) .. discardHeading(frame) .. originalHeading(frame))
+        -- STS TopPanel.renderDungeonInfo: the floor number is its own chip, not title text.
+        dependencies.label("floor", flow and flow.floor and tostring(flow.floor) or "")
+        dependencies.label("title", kind .. stanceHeading(frame) .. orbHeading(frame) .. discardHeading(frame) .. originalHeading(frame))
     end
     local function renderEnergy(frame)
         local battle = frame.battle
