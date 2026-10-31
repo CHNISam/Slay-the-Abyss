@@ -1,0 +1,2270 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sourceFiles": {
+    "cards/CardGroup.java": {
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8",
+      "gitBlob": "546405eea9d7dcbd855fe47471c55c92d086987c"
+    },
+    "cards/Soul.java": {
+      "sha256": "8e4105a9df83d93ad4f66d35c54b63720e90f71b80c7594a6faa454d19b545c0",
+      "gitBlob": "1a8dd9aef1fff6140524b45063b89ea7bb69fcc8"
+    },
+    "cards/SoulGroup.java": {
+      "sha256": "c3b44b69f2ebcff77b8a1d49c492973900cc42d597d66c651c4f41399af031cb",
+      "gitBlob": "6cb6517e2fda3af6590cddd3053a6cc0bc12f78f"
+    },
+    "cards/colorless/DeepBreath.java": {
+      "sha256": "53a9ccecf580f8b984f28689ae7eb8709e3cbb25dcfe044e567c67bce83fe4e3",
+      "gitBlob": "64681afcae64888129663a2e8749602cd167121f"
+    },
+    "actions/common/EmptyDeckShuffleAction.java": {
+      "sha256": "b4fc6be1df7caa1906705469500c40e81135a41614b54448346ddb0fec0bb2b2",
+      "gitBlob": "14cb880060af4f609ab3887048c4e02518bc5671"
+    },
+    "actions/common/ShuffleAction.java": {
+      "sha256": "778652e6f1d1db01ceb83b906d0c15548a14aa4464244f5e82198524fb5405c3",
+      "gitBlob": "8def85d739f5124557cb652b9328c86658760b13"
+    },
+    "relics/Sundial.java": {
+      "sha256": "98fc50fbc8a0f3baaa161f858d6de3d1efd89b29762785d9e65efbec10f8eda1",
+      "gitBlob": "4fba8af973b3338ecea8a480edc5ba57e59b3481"
+    },
+    "relics/Abacus.java": {
+      "sha256": "5274d6820601725bb16b93154a3bd934c4e13a31b1b6f2889fa456c08991ef8d",
+      "gitBlob": "7dcf3160a1deabe5a9c97ffce8a610a8b2831814"
+    }
+  },
+  "generatorSha256": "ab2b0f4173837991d439aeb5df45f1c6d5390c81bb82b5233bac246b99d7a106",
+  "inputSha256": {
+    "tools/oracles/sts1_combat_shuffle.py": "840420950e9ecd5c2e2b81863c0ae05e16591541225e1a317a03fa8906b855a5"
+  },
+  "boundary": "Controlled real Combat.play and Inventory opening, not natural acquisition or PC frame timing.",
+  "cases": [
+    {
+      "seed": "7",
+      "upgraded": false,
+      "shape": "draw-only",
+      "drawBefore": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [],
+      "initial": {
+        "words": [
+          "5226c30177216e75",
+          "c3d3964c7aa8fa81"
+        ],
+        "counter": 1
+      },
+      "trace": [],
+      "hand": [
+        7
+      ],
+      "draw": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "5226c30177216e75",
+          "c3d3964c7aa8fa81"
+        ],
+        "counter": 1
+      },
+      "hooks": 0,
+      "sundial": 2,
+      "energy": 5,
+      "block": 0
+    },
+    {
+      "seed": "7",
+      "upgraded": false,
+      "shape": "mixed",
+      "drawBefore": [
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [
+        2,
+        3,
+        4
+      ],
+      "initial": {
+        "words": [
+          "5226c30177216e75",
+          "c3d3964c7aa8fa81"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "5226c30177216e75",
+              "c3d3964c7aa8fa81"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2,
+            3,
+            4
+          ],
+          "cards": [
+            2,
+            4,
+            3
+          ],
+          "rawHex": "d52242d0e4e01bbb",
+          "after": {
+            "words": [
+              "c3d3964c7aa8fa81",
+              "114eac846a37213a"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "c3d3964c7aa8fa81",
+              "114eac846a37213a"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            5,
+            6,
+            7,
+            2,
+            4,
+            3
+          ],
+          "cards": [
+            6,
+            5,
+            4,
+            2,
+            7,
+            3
+          ],
+          "rawHex": "05eec8cacce388ef",
+          "after": {
+            "words": [
+              "114eac846a37213a",
+              "f4a01c4662ac67b5"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        3
+      ],
+      "draw": [
+        6,
+        5,
+        4,
+        2,
+        7
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "114eac846a37213a",
+          "f4a01c4662ac67b5"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    },
+    {
+      "seed": "7",
+      "upgraded": false,
+      "shape": "discard-only",
+      "drawBefore": [],
+      "discardBefore": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "initial": {
+        "words": [
+          "5226c30177216e75",
+          "c3d3964c7aa8fa81"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "5226c30177216e75",
+              "c3d3964c7aa8fa81"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "cards": [
+            4,
+            6,
+            5,
+            7,
+            2,
+            3
+          ],
+          "rawHex": "d52242d0e4e01bbb",
+          "after": {
+            "words": [
+              "c3d3964c7aa8fa81",
+              "114eac846a37213a"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "c3d3964c7aa8fa81",
+              "114eac846a37213a"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            4,
+            6,
+            5,
+            7,
+            2,
+            3
+          ],
+          "cards": [
+            6,
+            4,
+            2,
+            7,
+            5,
+            3
+          ],
+          "rawHex": "05eec8cacce388ef",
+          "after": {
+            "words": [
+              "114eac846a37213a",
+              "f4a01c4662ac67b5"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        3
+      ],
+      "draw": [
+        6,
+        4,
+        2,
+        7,
+        5
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "114eac846a37213a",
+          "f4a01c4662ac67b5"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    },
+    {
+      "seed": "7",
+      "upgraded": false,
+      "shape": "singleton",
+      "drawBefore": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [
+        2
+      ],
+      "initial": {
+        "words": [
+          "5226c30177216e75",
+          "c3d3964c7aa8fa81"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "5226c30177216e75",
+              "c3d3964c7aa8fa81"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2
+          ],
+          "cards": [
+            2
+          ],
+          "rawHex": "d52242d0e4e01bbb",
+          "after": {
+            "words": [
+              "c3d3964c7aa8fa81",
+              "114eac846a37213a"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "c3d3964c7aa8fa81",
+              "114eac846a37213a"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            2
+          ],
+          "cards": [
+            4,
+            3,
+            7,
+            6,
+            5,
+            2
+          ],
+          "rawHex": "05eec8cacce388ef",
+          "after": {
+            "words": [
+              "114eac846a37213a",
+              "f4a01c4662ac67b5"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        2
+      ],
+      "draw": [
+        4,
+        3,
+        7,
+        6,
+        5
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "114eac846a37213a",
+          "f4a01c4662ac67b5"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    },
+    {
+      "seed": "7",
+      "upgraded": true,
+      "shape": "draw-only",
+      "drawBefore": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [],
+      "initial": {
+        "words": [
+          "5226c30177216e75",
+          "c3d3964c7aa8fa81"
+        ],
+        "counter": 1
+      },
+      "trace": [],
+      "hand": [
+        7,
+        6
+      ],
+      "draw": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "5226c30177216e75",
+          "c3d3964c7aa8fa81"
+        ],
+        "counter": 1
+      },
+      "hooks": 0,
+      "sundial": 2,
+      "energy": 5,
+      "block": 0
+    },
+    {
+      "seed": "7",
+      "upgraded": true,
+      "shape": "mixed",
+      "drawBefore": [
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [
+        2,
+        3,
+        4
+      ],
+      "initial": {
+        "words": [
+          "5226c30177216e75",
+          "c3d3964c7aa8fa81"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "5226c30177216e75",
+              "c3d3964c7aa8fa81"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2,
+            3,
+            4
+          ],
+          "cards": [
+            2,
+            4,
+            3
+          ],
+          "rawHex": "d52242d0e4e01bbb",
+          "after": {
+            "words": [
+              "c3d3964c7aa8fa81",
+              "114eac846a37213a"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "c3d3964c7aa8fa81",
+              "114eac846a37213a"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            5,
+            6,
+            7,
+            2,
+            4,
+            3
+          ],
+          "cards": [
+            6,
+            5,
+            4,
+            2,
+            7,
+            3
+          ],
+          "rawHex": "05eec8cacce388ef",
+          "after": {
+            "words": [
+              "114eac846a37213a",
+              "f4a01c4662ac67b5"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        3,
+        7
+      ],
+      "draw": [
+        6,
+        5,
+        4,
+        2
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "114eac846a37213a",
+          "f4a01c4662ac67b5"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    },
+    {
+      "seed": "7",
+      "upgraded": true,
+      "shape": "discard-only",
+      "drawBefore": [],
+      "discardBefore": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "initial": {
+        "words": [
+          "5226c30177216e75",
+          "c3d3964c7aa8fa81"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "5226c30177216e75",
+              "c3d3964c7aa8fa81"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "cards": [
+            4,
+            6,
+            5,
+            7,
+            2,
+            3
+          ],
+          "rawHex": "d52242d0e4e01bbb",
+          "after": {
+            "words": [
+              "c3d3964c7aa8fa81",
+              "114eac846a37213a"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "c3d3964c7aa8fa81",
+              "114eac846a37213a"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            4,
+            6,
+            5,
+            7,
+            2,
+            3
+          ],
+          "cards": [
+            6,
+            4,
+            2,
+            7,
+            5,
+            3
+          ],
+          "rawHex": "05eec8cacce388ef",
+          "after": {
+            "words": [
+              "114eac846a37213a",
+              "f4a01c4662ac67b5"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        3,
+        5
+      ],
+      "draw": [
+        6,
+        4,
+        2,
+        7
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "114eac846a37213a",
+          "f4a01c4662ac67b5"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    },
+    {
+      "seed": "7",
+      "upgraded": true,
+      "shape": "singleton",
+      "drawBefore": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [
+        2
+      ],
+      "initial": {
+        "words": [
+          "5226c30177216e75",
+          "c3d3964c7aa8fa81"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "5226c30177216e75",
+              "c3d3964c7aa8fa81"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2
+          ],
+          "cards": [
+            2
+          ],
+          "rawHex": "d52242d0e4e01bbb",
+          "after": {
+            "words": [
+              "c3d3964c7aa8fa81",
+              "114eac846a37213a"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "c3d3964c7aa8fa81",
+              "114eac846a37213a"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            2
+          ],
+          "cards": [
+            4,
+            3,
+            7,
+            6,
+            5,
+            2
+          ],
+          "rawHex": "05eec8cacce388ef",
+          "after": {
+            "words": [
+              "114eac846a37213a",
+              "f4a01c4662ac67b5"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        2,
+        5
+      ],
+      "draw": [
+        4,
+        3,
+        7,
+        6
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "114eac846a37213a",
+          "f4a01c4662ac67b5"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    },
+    {
+      "seed": "42",
+      "upgraded": false,
+      "shape": "draw-only",
+      "drawBefore": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [],
+      "initial": {
+        "words": [
+          "310dcdae81f2889b",
+          "00428d4906e58ed6"
+        ],
+        "counter": 1
+      },
+      "trace": [],
+      "hand": [
+        7
+      ],
+      "draw": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "310dcdae81f2889b",
+          "00428d4906e58ed6"
+        ],
+        "counter": 1
+      },
+      "hooks": 0,
+      "sundial": 2,
+      "energy": 5,
+      "block": 0
+    },
+    {
+      "seed": "42",
+      "upgraded": false,
+      "shape": "mixed",
+      "drawBefore": [
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [
+        2,
+        3,
+        4
+      ],
+      "initial": {
+        "words": [
+          "310dcdae81f2889b",
+          "00428d4906e58ed6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "310dcdae81f2889b",
+              "00428d4906e58ed6"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2,
+            3,
+            4
+          ],
+          "cards": [
+            3,
+            2,
+            4
+          ],
+          "rawHex": "e65257ce4726c10b",
+          "after": {
+            "words": [
+              "00428d4906e58ed6",
+              "e60fca8540413235"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "00428d4906e58ed6",
+              "e60fca8540413235"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            5,
+            6,
+            7,
+            3,
+            2,
+            4
+          ],
+          "cards": [
+            4,
+            7,
+            2,
+            5,
+            3,
+            6
+          ],
+          "rawHex": "28de31d791d25d76",
+          "after": {
+            "words": [
+              "e60fca8540413235",
+              "42ce675251912b41"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        6
+      ],
+      "draw": [
+        4,
+        7,
+        2,
+        5,
+        3
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "e60fca8540413235",
+          "42ce675251912b41"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    },
+    {
+      "seed": "42",
+      "upgraded": false,
+      "shape": "discard-only",
+      "drawBefore": [],
+      "discardBefore": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "initial": {
+        "words": [
+          "310dcdae81f2889b",
+          "00428d4906e58ed6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "310dcdae81f2889b",
+              "00428d4906e58ed6"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "cards": [
+            6,
+            5,
+            7,
+            2,
+            3,
+            4
+          ],
+          "rawHex": "e65257ce4726c10b",
+          "after": {
+            "words": [
+              "00428d4906e58ed6",
+              "e60fca8540413235"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "00428d4906e58ed6",
+              "e60fca8540413235"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            6,
+            5,
+            7,
+            2,
+            3,
+            4
+          ],
+          "cards": [
+            4,
+            7,
+            3,
+            6,
+            2,
+            5
+          ],
+          "rawHex": "28de31d791d25d76",
+          "after": {
+            "words": [
+              "e60fca8540413235",
+              "42ce675251912b41"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        5
+      ],
+      "draw": [
+        4,
+        7,
+        3,
+        6,
+        2
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "e60fca8540413235",
+          "42ce675251912b41"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    },
+    {
+      "seed": "42",
+      "upgraded": false,
+      "shape": "singleton",
+      "drawBefore": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [
+        2
+      ],
+      "initial": {
+        "words": [
+          "310dcdae81f2889b",
+          "00428d4906e58ed6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "310dcdae81f2889b",
+              "00428d4906e58ed6"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2
+          ],
+          "cards": [
+            2
+          ],
+          "rawHex": "e65257ce4726c10b",
+          "after": {
+            "words": [
+              "00428d4906e58ed6",
+              "e60fca8540413235"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "00428d4906e58ed6",
+              "e60fca8540413235"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            2
+          ],
+          "cards": [
+            2,
+            5,
+            7,
+            3,
+            6,
+            4
+          ],
+          "rawHex": "28de31d791d25d76",
+          "after": {
+            "words": [
+              "e60fca8540413235",
+              "42ce675251912b41"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        4
+      ],
+      "draw": [
+        2,
+        5,
+        7,
+        3,
+        6
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "e60fca8540413235",
+          "42ce675251912b41"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    },
+    {
+      "seed": "42",
+      "upgraded": true,
+      "shape": "draw-only",
+      "drawBefore": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [],
+      "initial": {
+        "words": [
+          "310dcdae81f2889b",
+          "00428d4906e58ed6"
+        ],
+        "counter": 1
+      },
+      "trace": [],
+      "hand": [
+        7,
+        6
+      ],
+      "draw": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "310dcdae81f2889b",
+          "00428d4906e58ed6"
+        ],
+        "counter": 1
+      },
+      "hooks": 0,
+      "sundial": 2,
+      "energy": 5,
+      "block": 0
+    },
+    {
+      "seed": "42",
+      "upgraded": true,
+      "shape": "mixed",
+      "drawBefore": [
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [
+        2,
+        3,
+        4
+      ],
+      "initial": {
+        "words": [
+          "310dcdae81f2889b",
+          "00428d4906e58ed6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "310dcdae81f2889b",
+              "00428d4906e58ed6"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2,
+            3,
+            4
+          ],
+          "cards": [
+            3,
+            2,
+            4
+          ],
+          "rawHex": "e65257ce4726c10b",
+          "after": {
+            "words": [
+              "00428d4906e58ed6",
+              "e60fca8540413235"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "00428d4906e58ed6",
+              "e60fca8540413235"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            5,
+            6,
+            7,
+            3,
+            2,
+            4
+          ],
+          "cards": [
+            4,
+            7,
+            2,
+            5,
+            3,
+            6
+          ],
+          "rawHex": "28de31d791d25d76",
+          "after": {
+            "words": [
+              "e60fca8540413235",
+              "42ce675251912b41"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        6,
+        3
+      ],
+      "draw": [
+        4,
+        7,
+        2,
+        5
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "e60fca8540413235",
+          "42ce675251912b41"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    },
+    {
+      "seed": "42",
+      "upgraded": true,
+      "shape": "discard-only",
+      "drawBefore": [],
+      "discardBefore": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "initial": {
+        "words": [
+          "310dcdae81f2889b",
+          "00428d4906e58ed6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "310dcdae81f2889b",
+              "00428d4906e58ed6"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "cards": [
+            6,
+            5,
+            7,
+            2,
+            3,
+            4
+          ],
+          "rawHex": "e65257ce4726c10b",
+          "after": {
+            "words": [
+              "00428d4906e58ed6",
+              "e60fca8540413235"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "00428d4906e58ed6",
+              "e60fca8540413235"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            6,
+            5,
+            7,
+            2,
+            3,
+            4
+          ],
+          "cards": [
+            4,
+            7,
+            3,
+            6,
+            2,
+            5
+          ],
+          "rawHex": "28de31d791d25d76",
+          "after": {
+            "words": [
+              "e60fca8540413235",
+              "42ce675251912b41"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        5,
+        2
+      ],
+      "draw": [
+        4,
+        7,
+        3,
+        6
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "e60fca8540413235",
+          "42ce675251912b41"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    },
+    {
+      "seed": "42",
+      "upgraded": true,
+      "shape": "singleton",
+      "drawBefore": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [
+        2
+      ],
+      "initial": {
+        "words": [
+          "310dcdae81f2889b",
+          "00428d4906e58ed6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "310dcdae81f2889b",
+              "00428d4906e58ed6"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2
+          ],
+          "cards": [
+            2
+          ],
+          "rawHex": "e65257ce4726c10b",
+          "after": {
+            "words": [
+              "00428d4906e58ed6",
+              "e60fca8540413235"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "00428d4906e58ed6",
+              "e60fca8540413235"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            2
+          ],
+          "cards": [
+            2,
+            5,
+            7,
+            3,
+            6,
+            4
+          ],
+          "rawHex": "28de31d791d25d76",
+          "after": {
+            "words": [
+              "e60fca8540413235",
+              "42ce675251912b41"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        4,
+        6
+      ],
+      "draw": [
+        2,
+        5,
+        7,
+        3
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "e60fca8540413235",
+          "42ce675251912b41"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    },
+    {
+      "seed": "-1",
+      "upgraded": false,
+      "shape": "draw-only",
+      "drawBefore": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [],
+      "initial": {
+        "words": [
+          "fa605f44aea3667d",
+          "9b70dcd6b42485f6"
+        ],
+        "counter": 1
+      },
+      "trace": [],
+      "hand": [
+        7
+      ],
+      "draw": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "fa605f44aea3667d",
+          "9b70dcd6b42485f6"
+        ],
+        "counter": 1
+      },
+      "hooks": 0,
+      "sundial": 2,
+      "energy": 5,
+      "block": 0
+    },
+    {
+      "seed": "-1",
+      "upgraded": false,
+      "shape": "mixed",
+      "drawBefore": [
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [
+        2,
+        3,
+        4
+      ],
+      "initial": {
+        "words": [
+          "fa605f44aea3667d",
+          "9b70dcd6b42485f6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "fa605f44aea3667d",
+              "9b70dcd6b42485f6"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2,
+            3,
+            4
+          ],
+          "cards": [
+            2,
+            3,
+            4
+          ],
+          "rawHex": "5eb8daf3336fa42d",
+          "after": {
+            "words": [
+              "9b70dcd6b42485f6",
+              "c347fe1c7f4b1e37"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "9b70dcd6b42485f6",
+              "c347fe1c7f4b1e37"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            5,
+            6,
+            7,
+            2,
+            3,
+            4
+          ],
+          "cards": [
+            5,
+            3,
+            2,
+            7,
+            4,
+            6
+          ],
+          "rawHex": "f6b546ca06255983",
+          "after": {
+            "words": [
+              "c347fe1c7f4b1e37",
+              "336d48ad86da3b4c"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        6
+      ],
+      "draw": [
+        5,
+        3,
+        2,
+        7,
+        4
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "c347fe1c7f4b1e37",
+          "336d48ad86da3b4c"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    },
+    {
+      "seed": "-1",
+      "upgraded": false,
+      "shape": "discard-only",
+      "drawBefore": [],
+      "discardBefore": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "initial": {
+        "words": [
+          "fa605f44aea3667d",
+          "9b70dcd6b42485f6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "fa605f44aea3667d",
+              "9b70dcd6b42485f6"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "cards": [
+            7,
+            2,
+            5,
+            3,
+            6,
+            4
+          ],
+          "rawHex": "5eb8daf3336fa42d",
+          "after": {
+            "words": [
+              "9b70dcd6b42485f6",
+              "c347fe1c7f4b1e37"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "9b70dcd6b42485f6",
+              "c347fe1c7f4b1e37"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            7,
+            2,
+            5,
+            3,
+            6,
+            4
+          ],
+          "cards": [
+            7,
+            6,
+            3,
+            5,
+            4,
+            2
+          ],
+          "rawHex": "f6b546ca06255983",
+          "after": {
+            "words": [
+              "c347fe1c7f4b1e37",
+              "336d48ad86da3b4c"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        2
+      ],
+      "draw": [
+        7,
+        6,
+        3,
+        5,
+        4
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "c347fe1c7f4b1e37",
+          "336d48ad86da3b4c"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    },
+    {
+      "seed": "-1",
+      "upgraded": false,
+      "shape": "singleton",
+      "drawBefore": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [
+        2
+      ],
+      "initial": {
+        "words": [
+          "fa605f44aea3667d",
+          "9b70dcd6b42485f6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "fa605f44aea3667d",
+              "9b70dcd6b42485f6"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2
+          ],
+          "cards": [
+            2
+          ],
+          "rawHex": "5eb8daf3336fa42d",
+          "after": {
+            "words": [
+              "9b70dcd6b42485f6",
+              "c347fe1c7f4b1e37"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "9b70dcd6b42485f6",
+              "c347fe1c7f4b1e37"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            2
+          ],
+          "cards": [
+            3,
+            7,
+            6,
+            5,
+            2,
+            4
+          ],
+          "rawHex": "f6b546ca06255983",
+          "after": {
+            "words": [
+              "c347fe1c7f4b1e37",
+              "336d48ad86da3b4c"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        4
+      ],
+      "draw": [
+        3,
+        7,
+        6,
+        5,
+        2
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "c347fe1c7f4b1e37",
+          "336d48ad86da3b4c"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    },
+    {
+      "seed": "-1",
+      "upgraded": true,
+      "shape": "draw-only",
+      "drawBefore": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [],
+      "initial": {
+        "words": [
+          "fa605f44aea3667d",
+          "9b70dcd6b42485f6"
+        ],
+        "counter": 1
+      },
+      "trace": [],
+      "hand": [
+        7,
+        6
+      ],
+      "draw": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "fa605f44aea3667d",
+          "9b70dcd6b42485f6"
+        ],
+        "counter": 1
+      },
+      "hooks": 0,
+      "sundial": 2,
+      "energy": 5,
+      "block": 0
+    },
+    {
+      "seed": "-1",
+      "upgraded": true,
+      "shape": "mixed",
+      "drawBefore": [
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [
+        2,
+        3,
+        4
+      ],
+      "initial": {
+        "words": [
+          "fa605f44aea3667d",
+          "9b70dcd6b42485f6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "fa605f44aea3667d",
+              "9b70dcd6b42485f6"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2,
+            3,
+            4
+          ],
+          "cards": [
+            2,
+            3,
+            4
+          ],
+          "rawHex": "5eb8daf3336fa42d",
+          "after": {
+            "words": [
+              "9b70dcd6b42485f6",
+              "c347fe1c7f4b1e37"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "9b70dcd6b42485f6",
+              "c347fe1c7f4b1e37"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            5,
+            6,
+            7,
+            2,
+            3,
+            4
+          ],
+          "cards": [
+            5,
+            3,
+            2,
+            7,
+            4,
+            6
+          ],
+          "rawHex": "f6b546ca06255983",
+          "after": {
+            "words": [
+              "c347fe1c7f4b1e37",
+              "336d48ad86da3b4c"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        6,
+        4
+      ],
+      "draw": [
+        5,
+        3,
+        2,
+        7
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "c347fe1c7f4b1e37",
+          "336d48ad86da3b4c"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    },
+    {
+      "seed": "-1",
+      "upgraded": true,
+      "shape": "discard-only",
+      "drawBefore": [],
+      "discardBefore": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "initial": {
+        "words": [
+          "fa605f44aea3667d",
+          "9b70dcd6b42485f6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "fa605f44aea3667d",
+              "9b70dcd6b42485f6"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "cards": [
+            7,
+            2,
+            5,
+            3,
+            6,
+            4
+          ],
+          "rawHex": "5eb8daf3336fa42d",
+          "after": {
+            "words": [
+              "9b70dcd6b42485f6",
+              "c347fe1c7f4b1e37"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "9b70dcd6b42485f6",
+              "c347fe1c7f4b1e37"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            7,
+            2,
+            5,
+            3,
+            6,
+            4
+          ],
+          "cards": [
+            7,
+            6,
+            3,
+            5,
+            4,
+            2
+          ],
+          "rawHex": "f6b546ca06255983",
+          "after": {
+            "words": [
+              "c347fe1c7f4b1e37",
+              "336d48ad86da3b4c"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        2,
+        4
+      ],
+      "draw": [
+        7,
+        6,
+        3,
+        5
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "c347fe1c7f4b1e37",
+          "336d48ad86da3b4c"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    },
+    {
+      "seed": "-1",
+      "upgraded": true,
+      "shape": "singleton",
+      "drawBefore": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "discardBefore": [
+        2
+      ],
+      "initial": {
+        "words": [
+          "fa605f44aea3667d",
+          "9b70dcd6b42485f6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "before": {
+            "words": [
+              "fa605f44aea3667d",
+              "9b70dcd6b42485f6"
+            ],
+            "counter": 1
+          },
+          "beforeCards": [
+            2
+          ],
+          "cards": [
+            2
+          ],
+          "rawHex": "5eb8daf3336fa42d",
+          "after": {
+            "words": [
+              "9b70dcd6b42485f6",
+              "c347fe1c7f4b1e37"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "before": {
+            "words": [
+              "9b70dcd6b42485f6",
+              "c347fe1c7f4b1e37"
+            ],
+            "counter": 2
+          },
+          "beforeCards": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            2
+          ],
+          "cards": [
+            3,
+            7,
+            6,
+            5,
+            2,
+            4
+          ],
+          "rawHex": "f6b546ca06255983",
+          "after": {
+            "words": [
+              "c347fe1c7f4b1e37",
+              "336d48ad86da3b4c"
+            ],
+            "counter": 3
+          }
+        }
+      ],
+      "hand": [
+        4,
+        2
+      ],
+      "draw": [
+        3,
+        7,
+        6,
+        5
+      ],
+      "discard": [
+        1
+      ],
+      "after": {
+        "words": [
+          "c347fe1c7f4b1e37",
+          "336d48ad86da3b4c"
+        ],
+        "counter": 3
+      },
+      "hooks": 1,
+      "sundial": 0,
+      "energy": 7,
+      "block": 6
+    }
+  ]
+}

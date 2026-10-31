@@ -29,7 +29,7 @@ function M.deep_breath()
   local counter=s.shuffleRng.counter
   assert(C.play(s,card.uid));eq(#s.hand,up and 2 or 1,'Deep Breath draw')
   eq(#s.draw,up and 4 or 5,'Deep Breath merged draw pile');eq(#s.discard,1);eq(s.discard[1],card)
-  eq(s.shuffleRng.counter,counter+(discarded and 1 or 0),'conditional shuffle')
+  eq(s.shuffleRng.counter,counter+(discarded and 2 or 0),'conditional two-stage shuffle')
   sameObjects(s,expected);drained(s)
  end end
 end

@@ -318,3 +318,7 @@ tests/fixtures/sts1-relic-pool-vectors.json text eol=lf
 docs/rules/evidence/sts1-relic-pool-catalog.json text eol=lf
 tools/oracles/sts1_potion_pool.py text eol=lf
 tests/fixtures/economy-relic-seeds.json text eol=lf
+
+# Deep Breath independent shuffle oracle authenticates exact model bytes.
+tools/oracles/sts1_deep_breath.py text eol=lf
+tools/oracles/sts1_combat_shuffle.py text eol=lf

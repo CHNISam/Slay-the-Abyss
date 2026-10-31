@@ -375,7 +375,13 @@ function M.apply(combat,state,item)
         generate(combat,state,'colorless',n,'hand',a.value==1,false,true)
     elseif kind=='deepBreath'then
         if #state.discard>0 then
+            -- EmptyDeckShuffleAction constructor fires relic callbacks once;
+            -- Soul.shuffle appends each shuffled discard card to the old draw.
+            for _,effect in ipairs(require('abyss_uncommon_relics').onShuffle(state))do actions().enqueueReaction(state,effect,false)end
+            require('abyss_shop_relics').onShuffle(state)
+            Random.shuffle(assert(state.shuffleRng,'Deep Breath needs shuffle stream'),state.discard)
             for _,c in ipairs(state.discard)do state.draw[#state.draw+1]=c end;state.discard={}
+            -- ShuffleAction(draw,false) spends a second long, without hooks.
             Random.shuffle(assert(state.shuffleRng,'Deep Breath needs shuffle stream'),state.draw)
         end
     elseif kind=='violence'then
