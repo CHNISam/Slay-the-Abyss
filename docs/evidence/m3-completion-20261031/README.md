@@ -2,6 +2,14 @@
 
 任务范围是Backlog m-4的18项。生产范围仅岩系旅行者第一、二幕，背景策略保持；未发布、未创建版本Tag。本目录保存对应真实日志和独立复审，不替代任务AC或官方设备验收。
 
+## PR436 当前整合边界
+
+PR435于17:26关闭且未合并，后续以PR436为唯一集成目标。保留其生成战斗牌缺deckUid时不借永久来源、仅战斗肖像显式失败重建及更严格视觉/缓存合同。`m3-review-pr436-source.json`记录这两个生产文件的独立增量审查。
+
+PR436已有统一`card-origin-source-inverse`及新鲜owner检查，完整覆盖营地和架构新增注册。本目录先前8db/647独立逆层报告与[原始架构证明](../../reviews/M3-ARCHITECTURE-ORIGIN-INVERSE-20261031.md)仅保留为e248阶段历史；当前代码不叠加这两层，避免营地先逆回后绕过统一层owner检查。兼容证据见`m3-pr436-inverse-compatibility.json`。
+
+帮助入口退休按旧TASK4.8执行有误，较新的PR388/395/396及Owner两句文案决定明确保留。当前恢复既有公开菜单/退出三栏说明、输入屏障及焦点恢复，保留新退出警告和关键词。TASK4.8旧AC3仅相冲突条款经CLI依后续决定校正；旧退休测试/报告是已纠正历史，不代表当前要求。精确时间与链接见`m3-help-decision-audit.json`。
+
 | 证据 | 实际结果与边界 |
 | --- | --- |
 | `combined-acceptance.log.gz` | 初始完整M3组合27/27：55事件四片、真实Host历史、33药水商店/普通奖励、独立同局药水链、UI来源等；为整合PR435前的源版本，最终CI另验 |
@@ -41,3 +49,7 @@ PR435精确a7666ca的第一次完整CI发现八张PNG缺来源登记、原型五
 `final-ruby-source.log.gz`：仅对已审营地来源两行作whole SHA256+Git blob双向精确逆变换，再进入原mobile/PR323链；原三营地命令冻结块hash仍由原断言核对。旧hash/archive与预算不改，未知/部分/额外漂移仍拒，标准原失败1/1与作者外独审通过，见`m3-review-camp-inverse-final.json`。
 
 `final-architecture-inverse.log.gz`与`final-architecture-origin-negative.log.gz`：恰两新增origin/core和origin_view/ui注册按完整源及Git blob逆回，真实源码根的两个linked owner逐次新鲜验证，历史CWD不要求新增文件。原架构2/2、新严格负控3/3与作者外独审通过，旧冻结proof、baseline和JSON token/顺序/重复键防护保持，见`m3-review-architecture-inverse-final.json`及[具体证明](../../reviews/M3-ARCHITECTURE-ORIGIN-INVERSE-20261031.md)。
+
+`final-help-restored.log.gz`为新436组合的实际公开帮助路径回归7/7；`m3-review-help-restore-final.json`独审两项均过并确认原输入隔离、层级和结算保护保留。`pr436-combined-inverse.log.gz`为统一逆层与原架构合同4/4，未知字节及owner漂移保持拒绝。新436组合最终HEAD仍须独立绑定和完整CI，不沿用旧e248批准。
+
+`pr436-final-engineering.log.gz`是保留436身份/缓存修复并恢复公开帮助后的完整工程门禁通过，四变异杀死、原生合同4/4；`pr436-final-formal.log.gz`正式OnStart真实帮助和双幕流程1/1，`pr436-final-presentation.log.gz`Python66/66。当前代码保留统一436 source inverse，且与旧e248层不叠加。

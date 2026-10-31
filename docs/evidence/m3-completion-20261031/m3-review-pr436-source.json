@@ -1,0 +1,37 @@
+{
+  "reviewedHead": "0fa98950081f54b257218641a04ffa35a949fc10",
+  "base": "a7666ca0ff63eba43f2c54e5add00b5972661f8a",
+  "reviewWorktree": "/workspace/m3-pr436-review",
+  "verdict": "PASS_PRODUCTION_WITH_INTEGRATION_REQUIREMENT",
+  "findings": [],
+  "productionReview": {
+    "cardOrigin": "Explicit combat uid=instance.deckUid eliminates Lua and/or fallback to transient instance.uid when deckUid absent. Generated clones cannot borrow a permanent same-card UID source; true deckUid and permanent deck UID paths retain source. Existing matches full identity/after check retained.",
+    "portraitRetry": "retryFailedOnPause defaults false and only battle constructor explicitly opts in. pause release/reset of failed state occurs only when an active battle row leaves scope; same-scene refresh cannot call begin again and step rejects failed/release_failed. Cached selection and background callers pass no retry option and remain failed on reopen; explicit release policy remains. No per-frame allocation/retry introduced."
+  },
+  "independentValidation": [
+    {
+      "command": "node scripts/test-lua.mjs tests/lua/card_origin_identity.lua",
+      "result": "PASS12/12,273ms; new real fresh() generated UID collision negative, unupgraded negative and true permanent/combat positive plus original identity cases retained"
+    },
+    {
+      "command": "node --test --test-concurrency=1 --test-name-pattern='cached selection avatar|a formal cached portrait that fails after ready' tests/official-portraits-lifecycle.test.mjs",
+      "result": "PASS2/2 zero skip,2078ms; cached selection never reopens failure, battle ready failure no same-scene retry and next-battle recovery"
+    },
+    {
+      "command": "git diff a7666ca..0fa9895 --check",
+      "result": "PASS"
+    }
+  ],
+  "integrationRequirement": {
+    "severity": "Required strict adapter extension, not a production rejection",
+    "laterLockedModule": "/workspace/m3-architecture-final/tests/helpers/m3-card-origin-architecture-inverse.mjs",
+    "lockedOwnerSha": "a3e0d0421827c3382e9579729b3dde66412360337734be690a12eaf9913ca9b1",
+    "newOwnerSha": "10ffbb328bf0660568f0e79bf439c93a61a44f739c5f1078ffc82a89ee96a285",
+    "details": "Later full architecture proof pins old origin-view whole source/Git blob575bb3ec. PR436 intentionally changes it to new source/blobc2fefc1. That old proof must continue rejecting the new bytes until a new exact outer source layer validates both complete after/before identities and restores old view for linked-owner validation. Do not rewrite old fixture/hash/archive. Keep fresh linked-owner reads, drift/partial/moved/foreign rejection. PR436 generic preCardOriginSource also overlaps architecture/camp projections, so final composition order needs strict source tests once integrated."
+  },
+  "limits": [
+    "No full portrait/background/campaign suite rerun. Background non-retry checked through actual caller/options and phase/source paths plus upstream test diff, not an independently rerun official client.",
+    "No root or remote modifications; only independent detached worktree used.",
+    "No physical device or publishing approval implied."
+  ]
+}

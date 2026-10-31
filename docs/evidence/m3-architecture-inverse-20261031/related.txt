@@ -1,0 +1,18 @@
+✔ cold and warm formatting exactly matches uncached values/errors without conflating token drift (4.532756ms)
+✔ only exact architecture inputs are cached and bounded eviction changes no result (0.196179ms)
+✔ [historical 98fef source contract] warming exact architecture formatting never hides changed linked module input (299.041157ms)
+ARCHITECTURE_TOKEN_FS_READS {"foreign":1,"equivalent":152,"fresh-owner":43}
+✔ foreign tokens avoid owner reads while equivalent sources freshly reject actual linked-owner drift (2064.131506ms)
+✔ [historical 98fef source contract] combined PR323 sources recover both complete accepted20a and original323 witnesses (8891.01033ms)
+✔ [historical 98fef source contract] partial, appended, missing and cross-path sources never acquire composition permission (4559.625578ms)
+✔ [historical 98fef source contract] config-only historical adapters never project away unrelated current production modules (171.396273ms)
+✔ [historical 98fef source contract] round-two UI inverse recovers exact prior hosts and config without replacing frozen witnesses (706.478269ms)
+✔ [historical 98fef source contract] round-two UI historical permission binds both extracted modules and rejects missing or drifting responsibilities (579.747837ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15351.307902
