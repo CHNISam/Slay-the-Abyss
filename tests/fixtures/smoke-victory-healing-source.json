@@ -1,0 +1,50 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sources": {
+    "relics/MeatOnTheBone.java": {
+      "sha256": "7f4f808bc1898ee41a2e79982bb45a1cca5a0e8d284d73b07175fc2de97083b5",
+      "gitBlob": "7a152348b2fd675cfa7c25e910757bc898aba5ab"
+    },
+    "relics/BurningBlood.java": {
+      "sha256": "8217a4a05a80474158ade3f7d77e51f802c9701512bbf1ab90321d7f74d5d65d",
+      "gitBlob": "3b262d9830955000488efc98bcc5c9b56e77fea4"
+    },
+    "relics/BlackBlood.java": {
+      "sha256": "4edfd4e0939b94846c7705c07e38b18d3be2d8a3be07caea71bb1a36725a213f",
+      "gitBlob": "2b090b3fc12ffbcc18160a00d37a8d3fc0a2d9d2"
+    },
+    "relics/FaceOfCleric.java": {
+      "sha256": "a9b6ad33e655ec200adc897ce8cd2186fe1c9bfeccadbadf2fc8aefbca0c454e",
+      "gitBlob": "2abfab8230bf3a0bd17498ce12918808fada3339"
+    },
+    "relics/MagicFlower.java": {
+      "sha256": "e3940116e47e36eb3eea9f048a1808ffe2f8b6654db9e30cab9cce8496054eaf",
+      "gitBlob": "735a49a5424c867a26d4d2b62c461424d39aa0d7"
+    },
+    "relics/MarkOfTheBloom.java": {
+      "sha256": "bf653a5008278992d62d8fa57a4ed1333a274e7b79395ee09c0f9d6979653434",
+      "gitBlob": "4e0567e0376a2a68107b6664a76533db2c4bddfd"
+    },
+    "rooms/AbstractRoom.java": {
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05",
+      "gitBlob": "c2a1a029a9f59b1b94026dff46d4155824b85f86"
+    },
+    "characters/AbstractPlayer.java": {
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+      "gitBlob": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7"
+    },
+    "potions/SmokeBomb.java": {
+      "sha256": "41b2bc615d341a2a4bd29451dfd6546639a3d69e0d5c49d5a781cd5f03807ec2",
+      "gitBlob": "4374b611b154cee6fad4e1e42947c08e5b9bfc9d"
+    }
+  },
+  "contracts": {
+    "roomEndBattle": "Meat trigger, then living player onVictory in held relic order; Smoke does not exclude healing",
+    "meatAtOrBelowHalf": 12,
+    "burningBlood": 6,
+    "blackBlood": 12,
+    "faceOfClericMaximum": 1,
+    "magicFlowerInCombatMultiplier": 1.5,
+    "markOfBloomBlocksHealing": true
+  }
+}

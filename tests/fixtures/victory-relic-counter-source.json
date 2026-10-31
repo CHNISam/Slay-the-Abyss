@@ -1,0 +1,74 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sources": {
+    "relics/LetterOpener.java": {
+      "sha256": "bd0b62e40b2064af6f7415be77c575990b608a2d3ebbf4f2ae2fdf794bdceba6",
+      "gitBlob": "6943a71986368a7fe40b2cfdc8bc2dabfb0e24ed"
+    },
+    "relics/Kunai.java": {
+      "sha256": "342a886bb5af0e8b80ba692306b12b161a229566bf395ed7b960cd11616412a2",
+      "gitBlob": "18b6ba80c9f31cc83544b462933bb3bba57f0fd6"
+    },
+    "relics/Shuriken.java": {
+      "sha256": "31a3c71bdde5647c21ac7769728a347f776e35803863d08c57a1e5533fcd465d",
+      "gitBlob": "d0c15396a36da5775c948250e5250fafde82683b"
+    },
+    "relics/OrnamentalFan.java": {
+      "sha256": "eefffc4c7de0ff85910884dd367773436038bdad965929078b5185f1ea2bc58a",
+      "gitBlob": "3012c5d4738677d912392870194a32226c1123ce"
+    },
+    "relics/StoneCalendar.java": {
+      "sha256": "1ac0672030735a48fe2cba22443416122785e8b9dd754d2e30f1618c6d40174a",
+      "gitBlob": "1a368c2ac774df0ad69227da82a1288eb69176a8"
+    },
+    "relics/CaptainsWheel.java": {
+      "sha256": "855d616e28d280084fe0da4680c14af97dd2f7945300a3b13db2b4dc04341aa9",
+      "gitBlob": "50d74c39cdd57421809680eeedd0e6050bb865f8"
+    },
+    "relics/Pocketwatch.java": {
+      "sha256": "6b45c2c90c9310645797b0711dd25c8a276098868ec333d41be208c472c3a840",
+      "gitBlob": "8a3373a9f572fa27983f878240705d241928ced7"
+    },
+    "characters/AbstractPlayer.java": {
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+      "gitBlob": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7"
+    },
+    "relics/AbstractRelic.java": {
+      "sha256": "e4b5a8e6dda41cb9b25f75c5777f03e84da245247d1dac5d3070727fc8d24167",
+      "gitBlob": "a0664295b13cea89638ab4737b7ef83a2e7da5ac"
+    },
+    "rooms/AbstractRoom.java": {
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05",
+      "gitBlob": "c2a1a029a9f59b1b94026dff46d4155824b85f86"
+    },
+    "monsters/AbstractMonster.java": {
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f",
+      "gitBlob": "4784e38e7afff5980736e2b5c718e62a0c838c47"
+    },
+    "monsters/MonsterGroup.java": {
+      "sha256": "535770201b8aa8de01b52b185979af537f11ad0862e7d3e71ebb20cc64234221",
+      "gitBlob": "7096970a151840489a3fba89806e6391e0d82d76"
+    },
+    "potions/SmokeBomb.java": {
+      "sha256": "41b2bc615d341a2a4bd29451dfd6546639a3d69e0d5c49d5a781cd5f03807ec2",
+      "gitBlob": "4374b611b154cee6fad4e1e42947c08e5b9bfc9d"
+    }
+  },
+  "counterAfterVictory": -1,
+  "visibleWhenCounterGreaterThan": -1,
+  "battleIds": [
+    "letter_opener",
+    "kunai",
+    "shuriken",
+    "ornamental_fan",
+    "stone_calendar",
+    "captains_wheel",
+    "pocketwatch"
+  ],
+  "sourceEligibility": [
+    "living player after enemy defeat",
+    "living player after all enemies escape",
+    "living player after Smoke Bomb escape"
+  ],
+  "boundary": "Only counter lifecycle; normal Smoke healing is separately confirmed F2 and not certified by F1."
+}

@@ -1,0 +1,176 @@
+{
+  "review-item-f1-f2.json": {
+    "originalPath": "m3-review-item-victory-f1-f2.json",
+    "originalSha256": "82458580b3e211248c16be49c0114fe9a0941278c89b8fc98078faa4e8841e1d",
+    "originalBytes": 4141,
+    "encoding": "exact original bytes"
+  },
+  "review-prismatic.json": {
+    "originalPath": "m3-review-prismatic-proof.json",
+    "originalSha256": "9f566aa856e6e3d215feafef26c14e05aaa624b70f2fc0f82f5bbdaa32183d2d",
+    "originalBytes": 6339,
+    "encoding": "exact original bytes"
+  },
+  "ac-closed-via-cli.json": {
+    "originalPath": "m3-final-offline-criteria-closed.json",
+    "originalSha256": "995d26ae4ff1359eda62fa261c747d56562459ce0da119dd89d51886b1e7c441",
+    "originalBytes": 2407,
+    "encoding": "exact original bytes"
+  },
+  "ac4.8-owner-reconciliation.json": {
+    "originalPath": "m3-task48-ac4-reconciliation.json",
+    "originalSha256": "2761adebb6e70616994017306c7bc8946ac1071f3c0753243f3a2d2fa3e5e305",
+    "originalBytes": 2399,
+    "encoding": "exact original bytes"
+  },
+  "wide-item-current.json.gz": {
+    "originalPath": "m3-item-wide-acceptance-audit.json",
+    "originalSha256": "8b4bc27fe9e292c5f6edbcf48e4c9fe7a741ada71286f49f36cb25a58a996424",
+    "originalBytes": 29110,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "wide-item-before-f1.json.gz": {
+    "originalPath": "m3-item-wide-acceptance-audit-7a07734-NO_CHECK-historical.json",
+    "originalSha256": "512535c038c5b60504b2bb532a93b96b79f0be1edd2accc5456f3ce126b5f573",
+    "originalBytes": 17205,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "wide-item-before-f1-f2.json.gz": {
+    "originalPath": "m3-item-wide-acceptance-audit-7a07734-F1-F2-NO_CHECK-historical.json",
+    "originalSha256": "91e7e62d1d4f41c00c5f7acd058c504bed6820dc68d8e499b3183d5c14c1425d",
+    "originalBytes": 24052,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "wide-rng-current.json.gz": {
+    "originalPath": "m3-rng-wide-acceptance-audit.json",
+    "originalSha256": "5b3d342801c809b89aeb49943e9f3e769f64809f28b1c19e5d0adc3cdabff241",
+    "originalBytes": 19168,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "wide-rng-before-prism.json.gz": {
+    "originalPath": "m3-rng-wide-acceptance-audit-pre-prismatic-9abedf7.json",
+    "originalSha256": "91f7936dec62be16f44de20313ba5d8e0980e4a66c46b4e12c76226441ed5325",
+    "originalBytes": 18400,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "wide-other-current.json.gz": {
+    "originalPath": "m3-remaining-offline-ac-audit.json",
+    "originalSha256": "ece1d59624b353969f85785ddd00c8314e7c9f3730cf3df3734ebc1d429e9fc9",
+    "originalBytes": 72653,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "author-item-f1-f2.json.gz": {
+    "originalPath": "m3-victory-relic-lifecycle-author.json",
+    "originalSha256": "6592290ec28590e317ea96f4a8ed23a49d3b444c2cc4c281ad57ce500a87463c",
+    "originalBytes": 8536,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "author-prismatic.json.gz": {
+    "originalPath": "m3-prismatic-proof/report.json",
+    "originalSha256": "218b20927414dc12381fba53889a578966a9dc1be4c66eff7825f873713b4cba",
+    "originalBytes": 4205,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "author-prismatic-file-results.json.gz": {
+    "originalPath": "m3-prismatic-proof/file-results.json",
+    "originalSha256": "5a92608af740686ae84887493a77d605d1287062671743a80cf33e5889166575",
+    "originalBytes": 1505,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "probe/counters-red.lua.gz": {
+    "originalPath": "m3-item-postvictory-probe.lua",
+    "originalSha256": "6398f5d957862022979569d0cdb63923bf361207aef0b43ba51c25696f897cb4",
+    "originalBytes": 1428,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "probe/counters-red.log.gz": {
+    "originalPath": "m3-item-postvictory-probe.log",
+    "originalSha256": "eb15ed6678c0e49c47be9d68f0f9df7f5c78e52d94a8896d6df3706b7385fe1f",
+    "originalBytes": 1113,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "probe/smoke-healing-red.lua.gz": {
+    "originalPath": "m3-item-smoke-victory-healing-probe.lua",
+    "originalSha256": "cab14cb88b778b8bc198c61e35b6208a12e8df358a824cd0b8fadade88d65304",
+    "originalBytes": 967,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "probe/smoke-healing-red.log.gz": {
+    "originalPath": "m3-item-smoke-victory-healing-probe.log",
+    "originalSha256": "a5efcc405728a56e3e66e5f75da675df00992bbe7a0289137d0b9abf35628227",
+    "originalBytes": 522,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "logs/root-combined.log.gz": {
+    "originalPath": "m3-full-closeout/victory-acceptance-combined.log",
+    "originalSha256": "8bbab47979fab48f7825aba503db4341f5772059f483bc2d65fb012d77bde87a",
+    "originalBytes": 3793,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "logs/root-old-smoke.log.gz": {
+    "originalPath": "m3-full-closeout/victory-acceptance-old-smoke.log",
+    "originalSha256": "ae33c0e87e7dd12a59d15b1a2c746d473d205fcf85d6126de68b45f17b0d8bbf",
+    "originalBytes": 24,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "logs/root-engineering.log.gz": {
+    "originalPath": "m3-full-closeout/victory-acceptance-engineering.log",
+    "originalSha256": "4c897e1f27a6dbd9ad476528b6807c93a9b7c00bfa8bfd9915561302aa5596e6",
+    "originalBytes": 1502,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "logs/root-guidance.log.gz": {
+    "originalPath": "m3-full-closeout/victory-acceptance-guidance.log",
+    "originalSha256": "f92b518669b619889cdbf136d3fec58804ff0826e3f1e2696a7dffcd1dec9789",
+    "originalBytes": 383,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "logs/root-syntax.log.gz": {
+    "originalPath": "m3-full-closeout/victory-acceptance-syntax.log",
+    "originalSha256": "133a449591a5368d4bfde79adea8947932f4918233f7fa45d5fbd6e5734dc32d",
+    "originalBytes": 103,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "logs/root-backlog-before-checks.log.gz": {
+    "originalPath": "m3-full-closeout/victory-acceptance-backlog.log",
+    "originalSha256": "81286e3625ae638c0b2e1e5d82da994cd2f0b7b50780c324ea29d6d99af71e07",
+    "originalBytes": 283,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "logs/independent-item-f1-f2.log.gz": {
+    "originalPath": "m3-item-f1-f2-independent-tests.log",
+    "originalSha256": "2fd17bf98fecaa10ff9a93714efd629ba19cfacffebfa4f8dd4e55e48f873068",
+    "originalBytes": 1558,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "main-integration/pr437-preflight.json.gz": {
+    "originalPath": "m3-full-closeout/pr437-preflight.json",
+    "originalSha256": "0388488681cc20776a6c1d524bf513ce7a54b250878e0bc162afb4f0bfb2bfa0",
+    "originalBytes": 1177734,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "main-integration/pr437-merged-passed.json.gz": {
+    "originalPath": "m3-full-closeout/pr437-merged-passed.json",
+    "originalSha256": "e86782b3303f44d2fd1b307efb9aa11b4484cf9340d62a5ed009b2bd8c54718d",
+    "originalBytes": 2409142,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "main-integration/pr437-merge-verified.json.gz": {
+    "originalPath": "m3-full-closeout/pr437-merge-verified.json",
+    "originalSha256": "a98fd6ee835a267f5a8410c59283e72f04e4b2e12d54cc5dbd197576858ef023",
+    "originalBytes": 422,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "main-integration/pr437-pre-ci-result.json.gz": {
+    "originalPath": "m3-full-closeout/aux4-ci-result.json",
+    "originalSha256": "aefa2d0a2d47f67197d4587dcc67a72fcce160b91984d1fd15e037af3e394a5b",
+    "originalBytes": 3938,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "main-integration/pr437-post-ci-result.json.gz": {
+    "originalPath": "m3-full-closeout/aux4-merged-ci-result.json",
+    "originalSha256": "b205a6cb0318383faa5b776b61b8ac4d32aba98c81d79e23376c4230047259ea",
+    "originalBytes": 3288,
+    "encoding": "gzip, exact original on decompression"
+  }
+}

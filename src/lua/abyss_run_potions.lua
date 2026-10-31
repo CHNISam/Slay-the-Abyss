@@ -97,6 +97,13 @@ function M.install(Run, shared)
 
     local function escapePotionBattle(run, candidate, battle)
         if battle.smoked then
+            if battle.player.hp>0 then
+                require('abyss_relic_hooks').onVictory(battle)
+                candidate.relicCounters=Combat.copy(battle.relicCounters)
+                local healed=pcall(combatEndHealing,candidate)
+                if not healed then return false,'potion_effect_failed'end
+                battle.player.hp,battle.player.maxHp=candidate.hp,candidate.maxHp
+            end
             require('abyss_run_scoring').finishBattle(candidate,battle,'escaped',Combat.allEnemiesEscaped(battle))
             candidate.emeraldCombat=nil
             battle.phase='escaped'
@@ -106,7 +113,6 @@ function M.install(Run, shared)
                 if battle.cardRng then candidate.cardRng=EventRandom.cloneState(battle.cardRng)end
                 candidate.shopRng=candidate.shopRng and Combat.copy(candidate.shopRng)
                 local called,accepted,status=pcall(function()
-                    combatEndHealing(candidate)
                     return EventCombat.escape(candidate)
                 end)
                 if not called or not accepted then return false,'potion_effect_failed'end

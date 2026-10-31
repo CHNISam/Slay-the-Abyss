@@ -281,6 +281,10 @@ art/monster-benchmarks/genshin-v2/hydro-samachurl/source-generation.json text eo
 tools/oracles/sts1_card_random_chain.py text eol=lf
 data/reference/sts1-card-pools/pools.json text eol=lf
 data/reference/sts1-card-pools/registration.json text eol=lf
+
+# Byte-authenticated victory lifecycle source identity manifest.
+tests/fixtures/victory-relic-counter-source.json text eol=lf
+tests/fixtures/smoke-victory-healing-source.json text eol=lf
 # ColorlessPotion oracle source identity and reproducible evidence bytes.
 tools/oracles/sts1_colorless_potion.py text eol=lf
 tests/fixtures/sts1-colorless-potion-vectors.json text eol=lf
@@ -332,3 +336,7 @@ tests/secret-candidate-attack-base-large.test.mjs text eol=lf
 tests/secret-candidate-attack-upgraded-small.test.mjs text eol=lf
 tests/secret-candidate-attack-upgraded-large.test.mjs text eol=lf
 tests/helpers/secret-candidate-insertion.mjs text eol=lf
+
+# Prismatic source-only full consumer oracle authenticates exact raw bytes.
+tools/oracles/sts1_prismatic_rewards.py text eol=lf
+tests/fixtures/sts1-prismatic-rewards.json text eol=lf
