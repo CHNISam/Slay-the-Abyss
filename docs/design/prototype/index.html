@@ -1012,7 +1012,7 @@ function cardEl(c,{up=false,cant=false}={}){
     <div class="tl">${TYPE[c.type]}${c.strikeTag?' · 打击类':''}</div>
     <div class="tx"><span>${hl(text)}</span></div>
     <div class="cost num${ann('disc 106025')}">${cost}</div></div>`);
-  if(c.strikeTag)tip(el,'<b>打击类</b><br>带有打击标签，计入剑势如虹等效果。',520,80);
+  if(c.strikeTag)tip(el,'<b>打击类</b><br>带有打击标签，计入剑势如虹等效果。',520,80,240,true);
   return el;
 }
 function hpBar(x,y,w,hp,max,block){
@@ -1056,10 +1056,39 @@ function topBar(title){
   map.onclick=()=>go('map');cv.append(map);
 }
 let tipEl=null;
-function tip(el,html,x,y,w=240){
-  const show=()=>{hideTip();tipEl=$(`<div class="tip" style="left:${Math.min(x,1240-w)}px;top:${y}px;width:${w}px">${html}</div>`);cv.append(tipEl)};
+function tip(el,html,x,y,w=240,consumeHold=false){
+  const show=()=>{hideTip();tipEl=$(`<div class="tip" style="left:${Math.min(x,1240-w)}px;top:${y}px;width:${w}px">${html}</div>`);cv.append(tipEl);return tipEl};
   el.addEventListener('mouseenter',show);el.addEventListener('mouseleave',hideTip);
-  let t;el.addEventListener('touchstart',()=>{t=setTimeout(show,350)},{passive:true});el.addEventListener('touchend',()=>{clearTimeout(t);setTimeout(hideTip,1200)});
+  if(!consumeHold){
+    let t;el.addEventListener('touchstart',()=>{t=setTimeout(show,350)},{passive:true});el.addEventListener('touchend',()=>{clearTimeout(t);setTimeout(hideTip,1200)});
+    return;
+  }
+  let held=null,released=null,pointerId;
+  const point=(e,id)=>Array.from(e?.changedTouches||[]).find(t=>id===undefined||t.identifier===id);
+  const cancel=()=>{if(held){clearTimeout(held.timer);if(held.shown===tipEl)hideTip()}held=released=null};
+  el.addEventListener('pointerdown',e=>{released=null;if(!held)pointerId=e.pointerId},{passive:true});
+  el.addEventListener('touchstart',e=>{
+    if(held)return;released=null;const p=point(e);
+    const token={id:p?.identifier,x:p?.clientX,y:p?.clientY,pointerId};held=token;
+    token.timer=setTimeout(()=>{if(held===token)token.shown=show()},350);
+  },{passive:true});
+  el.addEventListener('touchmove',e=>{
+    const p=held&&point(e,held.id);
+    if(p&&Math.hypot(p.clientX-held.x,p.clientY-held.y)>=8)cancel();
+  },{passive:true});
+  el.addEventListener('touchcancel',e=>{if(!e||!held||point(e,held.id))cancel()},{passive:true});
+  el.addEventListener('touchend',e=>{
+    if(!held||e&&!point(e,held.id))return;
+    const token=held;clearTimeout(token.timer);held=null;released=token.shown?token:null;
+    if(token.shown)setTimeout(()=>{if(tipEl===token.shown)hideTip()},1200);
+  });
+  // A shown hold owns only its release click. A new pointer/touch retires the
+  // grant, so a missing synthetic click cannot suppress the next real action.
+  el.addEventListener('click',e=>{
+    if(!released||e.detail===0||e.pointerType&&e.pointerType!=='touch'
+      ||released.pointerId!==undefined&&e.pointerId!==undefined&&released.pointerId!==e.pointerId)return;
+    released=null;e.preventDefault();e.stopImmediatePropagation();
+  },true);
 }
 function hideTip(){if(tipEl){tipEl.remove();tipEl=null}}
 function pop(x,y,s,color){
