@@ -83,7 +83,7 @@ test('menu hero, select busts and Neow figure are wired without sharing one trav
   const event = nodeLayout().controls[0].children.find(control => control.name === 'eventView');
   const figure = event.children.find(control => control.name === 'neowFigure');
   assert.equal(figure.visible, false);
-  assert.deepEqual(figure.children.map(child => child.name), ['pedestal', 'body', 'hood', 'orb']);
+  assert.deepEqual(figure.children.map(child => child.name), ['scene', 'shade']);
   const heroUnit = battleLayout().controls.find(control => control.name === 'stage').children
     .find(control => control.name === 'hero');
   assert.equal(heroUnit.children.find(control => control.name === 'portrait').image, theme.icon.player.id);
