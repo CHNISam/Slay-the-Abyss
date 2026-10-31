@@ -293,7 +293,8 @@ test("displayed edges match real topology and chosen path colours after scrollin
             local dx = (target.lane - node.lane) * Theme.layout.map.columnGap
             local len = math.sqrt(dx * dx + (y2 - y1) ^ 2)
             y1, y2 = y1 + (y2 - y1) / len * r1, y2 - (y2 - y1) / len * r2
-            local expected = y2 > Layout.viewport.bottom + Layout.lineWidth / 2 and y1 < Layout.viewport.top - Layout.lineWidth / 2
+            local w = taken[node.id .. ":" .. id] and Theme.layout.map.presentation.takenPathWidth or Layout.lineWidth
+            local expected = y2 > Layout.viewport.bottom + w / 2 and y1 < Layout.viewport.top - w / 2
             assert(edge.visible == expected)
             if expected then
                 local reachable = node.id == map.currentNodeId and index[id].available
@@ -320,7 +321,7 @@ test("reachable node breath is bounded, reduced motion stops it and stale view c
     local t0 = fx.oscillateTimer
     assert(ui:update(.1) and math.abs(fx.oscillateTimer - t0 - .5) < 1e-9)
     assert(math.abs(fx.scale - (.25 + .66 + (math.cos(t0 + .5) + 1) / 6)) < 1e-9)
-    assert(math.abs(box:GetChild("icon").w - box.w * Layout.sts.iconPerScale * fx.scale) < 1e-6)
+    assert(math.abs(box:GetChild("icon").w - box.w * Layout.sts.iconPerScale * MapUI.drawScale(fx)) < 1e-6)
     assert(box.localScaleX == 1, "oscillation scales only the glyph, not the hit target")
     ui:setReducedMotion(true); ui:update(.1); assert(fx.scale == .91 and fx.alpha == 1)
     ui:setReducedMotion(false); ui:update(.1); assert(fx.scale ~= .91 or fx.alpha ~= 1)

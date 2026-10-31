@@ -8,9 +8,18 @@ local Acts = require("abyss_acts")
 local Controller = require("abyss_controller")
 local M = {}
 -- MapRoomNode.render sizes: glyph 128*scale, MAP_CIRCLE_5 192*(scale*.95+.2).
+-- TASK-4.13: STS breathes reachable glyphs .91..1.25 (up to 2.5x rest), which on
+-- this 76px floor gap overlaps the current ring. Keep the STS rhythm but remap the
+-- reachable glyph into [rest*1.1, rest*availableScaleCap] so pulses never collide.
+function M.drawScale(fx)
+    if fx.state ~= "available" then return fx.scale end
+    local base, cap = Layout.sts.baseScale, Theme.layout.map.presentation.availableScaleCap
+    local t = math.max(0, math.min(1, (fx.scale - .91) / (1.25 - .91)))
+    return base * (1.1 + (cap - 1.1) * t)
+end
 function M.paintRoom(fx)
     local icon, ring = fx.box:GetChild("icon"), fx.box:GetChild("ring")
-    local iconSize = fx.size * Layout.sts.iconPerScale * fx.scale
+    local iconSize = fx.size * Layout.sts.iconPerScale * M.drawScale(fx)
     icon:SetSizeDelta(iconSize, iconSize)
     -- oscillateColor drives color.a for reachable rooms.
     local ink = fx.ink
@@ -99,7 +108,7 @@ end
 -- Native clipping is not assumed: include the full animated glyph and rotated
 -- ring, while preserving the original unpainted hit target.
 function M.roomRadius(fx)
-    local scale = fx.state == 'available' and (.25 + .66 + 1/3) or math.max(Sts.baseScale,fx.scale)
+    local scale = fx.state == 'available' and Sts.baseScale * Theme.layout.map.presentation.availableScaleCap or math.max(Sts.baseScale,fx.scale)
     local iconRadius=fx.size*Sts.iconPerScale*scale/2
     local radius = math.max(fx.size/2,iconRadius+(fx.emerald and math.abs(Theme.layout.map.emeraldIconY)or 0))
     if fx.state == 'current' or fx.state == 'visited' then
@@ -273,7 +282,8 @@ function M.new(root, map, onChoose, clickEvent, options)
             x1, y1, x2, y2 = x1 + ux * r1, y1 + uy * r1, x2 - ux * r2, y2 - uy * r2
         end
         -- Clip real graph segments to viewport, with half-stroke padding.
-        local low, high = Layout.viewport.bottom + Layout.lineWidth / 2, Layout.viewport.top - Layout.lineWidth / 2
+        local width = taken and Theme.layout.map.presentation.takenPathWidth or Layout.lineWidth
+        local low, high = Layout.viewport.bottom + width / 2, Layout.viewport.top - width / 2
         if y2 < low or y1 > high then control:SetVisible(false) return end
         local a, b = clamp((low - y1) / (y2 - y1), 0, 1), clamp((high - y1) / (y2 - y1), 0, 1)
         local ax, ay = x1 + (x2 - x1) * a, y1 + (y2 - y1) * a
@@ -282,7 +292,8 @@ function M.new(root, map, onChoose, clickEvent, options)
         if dy <= 0 then control:SetVisible(false) return end
         control:SetVisible(true)
         control:SetAnchoredPosition((ax + bx) / 2, (ay + by) / 2)
-        control:SetSizeDelta(math.sqrt(dx * dx + dy * dy), Layout.lineWidth)
+        -- TASK-4.13: walked routes are heavier than reachable ones (STS taken edges read first).
+        control:SetSizeDelta(math.sqrt(dx * dx + dy * dy), width)
         control.localRotationZ = math.atan(dy, dx) * 180 / math.pi
         control.imageColor = taken and pathColours.taken or reachable and pathColours.next or far and pathColours.far or pathColours.future
     end

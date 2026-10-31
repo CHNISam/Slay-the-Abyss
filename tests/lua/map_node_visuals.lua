@@ -56,7 +56,8 @@ local function verify()
             assert(b:GetChild('ring').visible==(state=='current' or state=='visited'),'STS MAP_CIRCLE_5 on current and taken rooms')
             -- STS MapRoomNode: glyph 128*scale, MAP_CIRCLE_5 192*(scale*.95+.2), rotated by room angle.
             local fx=ui.roomFx[node.id]
-            assert(math.abs(icon.size[1]-size*Layout.sts.iconPerScale*fx.scale)<1e-6,'STS glyph scale')
+            assert(math.abs(icon.size[1]-size*Layout.sts.iconPerScale*UI.drawScale(fx))<1e-6,'STS glyph scale')
+            if state=='available' then assert(UI.drawScale(fx)<=Layout.sts.baseScale*Theme.layout.map.presentation.availableScaleCap+1e-9,'TASK-4.13 reachable pulse capped') end
             assert(math.abs(b:GetChild('ring').size[1]-size*Layout.sts.circlePerScale*(fx.scale*.95+.2))<1e-6,'STS circle scale')
             assert(b:GetChild('ring').localRotationZ==fx.angle,'STS circle angle')
             assert(fx.scale>=.5 and fx.scale<=1.25,'STS scale bounds')
