@@ -15,6 +15,8 @@ local function open(host,root,kind)
 end
 local function scrollAndInspect(host,root,grid)
     local hit=grid.items[0]:GetChild('hit')
+    local uid=host.deckUI.bindings[grid.items[0]].uid
+    local order={};for i,card in ipairs(host.deckUI.cards)do order[i]=card.uid end
     assert(hit.visible,'read-only pile card must allow detail inspection')
     assert(not hit.listeners.drag and not hit.listeners.endDrag,'pile details must leave native scrolling unclaimed')
     grid.scrollProgress=.4
@@ -24,9 +26,12 @@ local function scrollAndInspect(host,root,grid)
     assert(grid.visible and not host.deckUI.cardDetail and grid.scrollProgress==.4)
     assert(hit.click({touchId=12,dragging=false}),'ordinary tap must inspect a pile card')
     assert(root:GetChild('deckPanel'):GetChild('details').visible and not grid.visible)
+    assert(host.deckUI.cardDetail.instance.uid==uid and host.deckUI.cardDetail.combat,'pile detail must retain the selected combat instance')
     assert(not host.deckUI.choiceToken and not host.deckUI.onPick,'pile inspection cannot dispatch a choice')
-    assert(host.deckUI:back());host.deckUI:update()
+    assert(root:GetChild('deckPanel'):GetChild('close'):GetChild('hit').click());host.deckUI:update()
     assert(grid.visible and grid.scrollProgress==.4,'returning from pile detail must retain native scroll')
+    assert(host.deckUI.bindings[grid.items[0]].uid==uid and #host.deckUI.cards==#order)
+    for i,card in ipairs(host.deckUI.cards)do assert(card.uid==order[i],'detail return reordered the pile view')end
 end
 
 test('draw and exhaust views sort copies by source rarity and status last without revealing draw order',function()

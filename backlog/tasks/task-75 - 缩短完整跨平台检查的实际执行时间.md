@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 03:47'
-updated_date: '2026-10-30 06:22'
+updated_date: '2026-10-31 09:37'
 labels: []
 dependencies: []
 priority: medium
@@ -79,4 +79,6 @@ unknown路由修复：原110种子独占在Node22复现原30s超时；简单55�
 PR370首头5d66abfc的run41009713098 impact 05:40:13创建、05:52:29开始、05:52:46完成UTC。追加入口迁移的Node24原八文件59/59通过87.768秒；新hosted排队结果待。
 
 资源收敛：CI已审两提交线性整合进PR371，实验PR370关闭保留；只验一个最终完整组合再核验develop，不复用取消/旧SHA的绿灯。slim impact已真实成功：job123920658929 runner排队346秒、执行28秒；另419秒旧run级concurrency阻塞单列，不能据runner队列单项宣称端到端提速。
+
+2026-10-31本轮CI补验保留本机性能缺口：复用PR420精确560dd865的完整状态比较器标量内联后，24个旧新正负对照通过，失败/替换边界24416ms通过，但六条current_game_ui_trace_parity在本机原30秒均超时，不能宣告已闭环或通过。不提高超时、不删命令、不跳catalog；来源Linux证据与本机结果分别记录，后续仍需按本轮最终源码核对托管Windows/Linux与本机成本。本版优先稳定发版，最终CI必须真绿；本条不改变现有状态或验收。
 <!-- SECTION:NOTES:END -->
