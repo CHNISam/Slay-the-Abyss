@@ -1,10 +1,10 @@
 import {materializeBeforeDelivery} from './delivery-source-composition.mjs';
 import {pathToFileURL} from 'node:url';
 import {fileURLToPath} from 'node:url';
-import {withHistoricalBaseline} from './historical-baseline-inputs.mjs';
+import {withHistoricalBaseline, loadHistoricalBaselineInputs} from './historical-baseline-inputs.mjs';
 import { after } from 'node:test';
-import { readFileSync, cpSync, mkdtempSync, rmSync, symlinkSync, existsSync, writeFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { readFileSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, existsSync, writeFileSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { relicCompletionInverse, requireRelicCompletionSource, preRelicCompletionSource } from './relic-completion-inverse.mjs';
 
@@ -17,8 +17,17 @@ export function launchBaselineFixture() {
   // The launch ledger is a frozen replay. Execute today's inverse helpers on
   // the registered original inputs, while current launch acceptance stays live.
   return withHistoricalBaseline(()=>{
-  for (const directory of ['data', 'src', 'scripts', 'config', 'tools', 'tests/lua'])
-    cpSync(directory, join(root, directory), { recursive: true });
+  // These are the exact original bytes already mounted in the source root.
+  // Materialize them directly: recursive cp performs stat/chmod work for each
+  // of 1,779 files on Windows before the unchanged Sapphire deadline can run.
+  // Every invocation still validates the full archive and writes private files.
+  const directories = new Set();
+  for (const [path, bytes] of Object.entries(loadHistoricalBaselineInputs())) {
+    if (!/^(?:data|src|scripts|config|tools|tests\/lua)\//.test(path)) continue;
+    const target = join(root, path), directory = dirname(target);
+    if (!directories.has(directory)) { mkdirSync(directory, { recursive: true }); directories.add(directory); }
+    writeFileSync(target, bytes);
+  }
   for (const directory of ['tests/helpers', 'tests/fixtures', 'docs', 'node_modules'])
     symlinkSync(resolve(implementationRoot,directory), join(root, directory), 'junction');
   materializeBeforeDelivery(root);
