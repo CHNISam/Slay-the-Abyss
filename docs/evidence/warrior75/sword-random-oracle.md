@@ -31,6 +31,6 @@
 
 三个负控在临时 Lua 环境中分别固定首敌、跳过单敌抽数、清场后额外抽一次；都必须失败，生产源码不改。
 
-执行：`node --test --test-concurrency=1 tests/sword-random-oracle.test.mjs`，使用原 runner 默认每片 30 秒预算。
+执行：`node --test --test-concurrency=1 tests/sword-random-*.test.mjs`，使用原 runner 默认每片 30 秒预算。24 个重案例按 seed×基础/升级分为 8 个薄 Node 入口，每个入口注册 3 个独立 Lua 案例；共享 register helper，不更改案例或向量。主入口保留 regenerate/UI/3 负控，并严格核对八个非空入口和完整 24 ID 的无漏重分配。6683450 的原 29 项完整运行记录对应相同案例实现，拆入口后只复验主入口及代表短片，不宣称另有完整 Windows 实测权重。
 
 不覆盖：有 powers/block/反伤/复活/逃跑的伤害重算、自然取得并打出基础/升级牌、自然房间 seed 生命周期、官方候选/PC/手机/手柄。完整 75 证据边界另见 `/workspace/cloud-reports/m3-card-75-evidence/{matrix.json,report.md}`，不能用本补丁关闭其余设备或自然证据缺项。

@@ -294,3 +294,7 @@ tools/oracles/sts1_combat_shuffle.py text eol=lf
 tools/oracles/sts1_sword_random.py text eol=lf
 tests/fixtures/sts1-sword-random-sources.json text eol=lf
 tests/fixtures/sts1-sword-random.json text eol=lf
+
+# Thin Sword entry contracts compare exact LF source across checkout platforms.
+tests/sword-random-*.test.mjs text eol=lf
+tests/helpers/sword-random-cases.mjs text eol=lf

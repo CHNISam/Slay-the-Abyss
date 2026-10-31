@@ -1,17 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync,mkdtempSync,writeFileSync,rmSync} from 'node:fs';
+import {readFileSync,readdirSync,mkdtempSync,writeFileSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {toLua} from '../scripts/build-lua-data.mjs';
 import {runLua} from '../scripts/test-lua.mjs';
-const fixture=JSON.parse(readFileSync('tests/fixtures/sts1-sword-random.json'));
-function execute(cases,prelude=''){
- const dir=mkdtempSync(join(tmpdir(),'sword-random-'));
- try{const path=join(dir,'case.lua');writeFileSync(path,`${prelude}\ndofile('tests/lua/support/sword_random_oracle.lua')(${toLua(cases)})`);return runLua(path);}
- finally{rmSync(dir,{recursive:true,force:true});}
-}
+import {fixture,execute,casesFor,registerSwordCases} from './helpers/sword-random-cases.mjs';
 test('independent Sword random-target fixture regenerates with exact LF source hashes',()=>{
  execFileSync('python',['tools/oracles/sts1_sword_random.py','--check']);
  assert.equal(fixture.cases.length,24);
@@ -19,11 +14,6 @@ test('independent Sword random-target fixture regenerates with exact LF source h
  assert.deepEqual(fixture.cases.map(c=>c.caseId),expected);
  assert.equal(new Set(fixture.cases.map(c=>c.caseId)).size,24);
  for(const c of fixture.cases)assert.equal(c.caseId,`${c.seed}/${c.upgraded?'upgraded':'base'}/${c.scenario}`);
-});
-for(const sample of fixture.cases)test(`Sword case ${sample.caseId}`,()=>{
- const r=execute([sample]);assert.equal(r.status,0,r.stdout+r.stderr);
- assert.ok(r.stdout.includes(`SWORD_CASE_PASS ${sample.caseId}`),r.stdout);
- assert.match(r.stdout,/SWORD_RANDOM_ORACLE_PASS 1/);
 });
 test('real random-attack UI drag and stale release cannot play the next card',()=>{
  const dir=mkdtempSync(join(tmpdir(),'sword-ui-'));
@@ -39,4 +29,17 @@ for(const [label,prelude,pattern] of [
 ])test(`independent oracle rejects ${label}`,()=>{
  const sample=fixture.cases.find(c=>c.seed==='0'&&!c.upgraded&&c.scenario==='kill_reselect');
  const r=execute([sample],prelude);assert.notEqual(r.status,0,r.stdout+r.stderr);assert.match(r.stderr,pattern);
+});
+test('eight nonempty thin Sword entries partition all 24 exact case IDs without overlap',()=>{
+ const entries=['0','1','42','-1'].flatMap(seed=>[false,true].map(upgraded=>({seed,upgraded,file:`sword-random-${seed==='-1'?'negative-one':seed}-${upgraded?'upgraded':'base'}.test.mjs`})));
+ assert.deepEqual(readdirSync('tests').filter(f=>/^sword-random-.*\.test\.mjs$/.test(f)&&f!=='sword-random-oracle.test.mjs').sort(),entries.map(e=>e.file).sort());
+ const ids=[];
+ for(const {seed,upgraded,file} of entries){
+  assert.equal(readFileSync(`tests/${file}`,'utf8'),`import {registerSwordCases} from './helpers/sword-random-cases.mjs';\nregisterSwordCases('${seed}',${upgraded});\n`,'thin wrapper must call the actual shared registration');
+  const registered=[];registerSwordCases(seed,upgraded,(name,fn)=>registered.push({name,fn}));
+  assert.deepEqual(registered.map(r=>r.name),casesFor(seed,upgraded).map(c=>`Sword case ${c.caseId}`));
+  for(const r of registered)assert.equal(typeof r.fn,'function','case must register an executable callback');
+  ids.push(...registered.map(r=>r.name.slice('Sword case '.length)));
+ }
+ assert.equal(new Set(ids).size,24);assert.deepEqual(ids,fixture.cases.map(c=>c.caseId));
 });
