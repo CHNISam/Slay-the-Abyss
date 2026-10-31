@@ -1,10 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtempSync,readFileSync,rmSync} from 'node:fs';
+import {mkdtempSync,readFileSync,writeFileSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {createRequire} from 'node:module';
-import {writePortraitModule,bindPortraitTemplates} from '../scripts/official-portraits.mjs';
+import {writePortraitModule,bindPortraitTemplates,portraitRuntimeInventory,portraitModule} from '../scripts/official-portraits.mjs';
 const {lua,lauxlib,lualib,to_luastring,to_jsstring}=createRequire(import.meta.url)('fengari');
 const off={selectionAvatar:false,battlePortrait:false,cards:false};
 const moduleFor=flags=>{const dir=mkdtempSync(join(tmpdir(),'lowpoly-'));try{return writePortraitModule(dir,{...off,...flags});}finally{rmSync(dir,{recursive:true,force:true});}};
@@ -81,6 +81,25 @@ test('menu-only bound module creates scenes without unrelated ready-card templat
   const source=bindPortraitTemplates(dir,{image:{templateIndex:11},container:{templateIndex:22}},{...off,menuBackground:true});
   const [kind,,created]=run(source,'{menuBackground=true,cards=false,selectionAvatar=false,battlePortrait=false}','nil').split('|');
   assert.equal(kind,'owner');assert.ok(Number(created)>=362,'bound portrait templates instantiate the menu-only land');
+ }finally{rmSync(dir,{recursive:true,force:true});}
+});
+
+test('runtime inventory counts every cached scene and fan host, and refuses mismatched literal rows',()=>{
+ const dir=mkdtempSync(join(tmpdir(),'lowpoly-inventory-'));
+ try {
+  writePortraitModule(dir,{...off,cards:true});
+  assert.equal(portraitRuntimeInventory(dir).peakDynamicControls,1614,'fan images, groups, page and its dynamic host');
+  writePortraitModule(dir,{...off,selectionAvatar:true});
+  const hero=portraitRuntimeInventory(dir);
+  assert.equal(hero.selectionUses,'lowpolyHero');
+  assert.equal(hero.assets.some(a=>a.asset.endsWith('/selection133')),false,'unused selection data is not instantiated');
+  const source=writePortraitModule(dir,{...off,menuBackground:true});
+  const land=portraitRuntimeInventory(dir);
+  assert.equal(land.instances,3);assert.equal(land.peakDynamicControls,1110);
+  assert.deepEqual(land.assets.map(a=>[a.asset,a.images,a.instances]),[['lowpolyLand',362,3]]);
+  const broken=source.replace('["count"]=362','["count"]=363');assert.notEqual(broken,source);
+  writeFileSync(join(dir,portraitModule+'.lua'),broken);
+  assert.throws(()=>portraitRuntimeInventory(dir),/Invalid low-poly inventory count/);
  }finally{rmSync(dir,{recursive:true,force:true});}
 });
 test('layout attaches scene slots only with the flag, as first drawn children',async()=>{

@@ -108,7 +108,7 @@ export async function auditNativeCandidate(options) {
     const template = save('template.json', getClientUi({ mapPath, template: 'AbyssDeckCard' }));
     const background = flags.menuBackground
       ? save('background-template.json', getClientUi({mapPath,template:backgroundTemplate})) : undefined;
-    const runtimeNames=[...(dynamicCards||portraits||flags.menuBackground?[readyArtImageTemplate]:[]),readyArtGroupTemplate,monsterActorTemplateName,monsterPowerTemplateName];
+    const runtimeNames=[...(flags.cards||portraits||flags.menuBackground?[readyArtImageTemplate]:[]),readyArtGroupTemplate,monsterActorTemplateName,monsterPowerTemplateName];
     const runtimeTemplates=runtimeNames.map(name=>save(name+'.json',getClientUi({mapPath,template:name})));
     const inspected = save('inspect.json', inspectFile(mapPath));
     const checked = save('static-check.json', checkClientScripts({ mapPath }));
@@ -136,8 +136,8 @@ export async function auditNativeCandidate(options) {
       const {bindBackgroundTemplate}=await import(pathToFileURL(join(snapshot,'scripts/official-background.mjs')));
       bindBackgroundTemplate(join(snapshot,'build/lua'),background,{root:snapshot,containerTemplateIndex:runtimeTemplates?.[1]?.templateIndex});
     }
-    const sharedReceipt=dynamicCards?buildReceipt?.readyCardArt:portraits?buildReceipt?.officialPortraits:buildReceipt?.officialBackground;
-    if((dynamicCards||portraits||flags.menuBackground)&&(runtimeTemplates[0]?.templateIndex!==sharedReceipt?.imageTemplateIndex||runtimeTemplates[1]?.templateIndex!==sharedReceipt?.containerTemplateIndex))throw Error('Artwork requires matching shared template binding');
+    const sharedReceipt=dynamicCards?buildReceipt?.readyCardArt:flags.cards||portraits?buildReceipt?.officialPortraits:buildReceipt?.officialBackground;
+    if((flags.cards||portraits||flags.menuBackground)&&(runtimeTemplates[0]?.templateIndex!==sharedReceipt?.imageTemplateIndex||runtimeTemplates[1]?.templateIndex!==sharedReceipt?.containerTemplateIndex))throw Error('Artwork requires matching shared template binding');
     if(dynamicCards) {
       if(buildReceipt?.sourceCommit!==sourceSha||buildReceipt?.candidate?.sha256!==before
         ||runtimeTemplates?.[0]?.templateIndex!==buildReceipt?.readyCardArt?.imageTemplateIndex

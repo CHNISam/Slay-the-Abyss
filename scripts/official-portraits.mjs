@@ -13,7 +13,7 @@ const assets=[
 const licensePath=`${base}/avatar96/LICENSE-runtime-MIT.txt`;
 const selectionBudgetPath='art/performance/selection-budget-v1.json';
 export const portraitInputs=[...assets.flatMap(a=>['runtime-no-snapshot.lua','native-art.json'].map(f=>`${base}/${a.kind}/${f}`)),licensePath,selectionBudgetPath,
- `${base}/avatar96/preview-native-1x.png`,`${base}/battle133/preview-native-1x.png`];
+ `${base}/avatar96/preview-native-1x.png`,`${base}/battle133/preview-native-1x.png`,'art/lowpoly-select/select-lowpoly.json'];
 const hash=b=>createHash('sha256').update(b).digest('hex');
 export function selectionBudget(root=process.cwd()) {
  const bytes=readFileSync(join(root,selectionBudgetPath));

@@ -134,7 +134,7 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
       .map(({name,sourceFile})=>[name,sourceFile]));
     if(!modules.has('abyss_ui'))throw new Error('Missing entry module abyss_ui');
     const dynamicCards=flags.cards&&!art,portraits=flags.selectionAvatar||flags.battlePortrait;
-    const sharedTemplates=dynamicCards||portraits||flags.menuBackground;
+    const sharedTemplates=flags.cards||portraits||flags.menuBackground;
     const blockedTemplates=[...(!flags.menuBackground?[backgroundTemplate]:[]),...(!sharedTemplates?[readyArtImageTemplate]:[])];
     if(templates.some(template=>blockedTemplates.includes(template.name)))throw Error('Disabled artwork must not register templates');
     const blockedHosts=[...(!flags.monsters?['monsterArt','monsterSamples']:[]),...(!flags.cards?['artSamples']:[]),...(!flags.menuBackground?['officialBackground','lowpolyScene']:[]),...(!flags.selectionAvatar?['officialAvatar']:[]),...(!flags.battlePortrait?['officialFigure']:[])];

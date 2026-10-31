@@ -111,7 +111,7 @@ export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYS
   if(flags.menuBackground)attachOfficialBackground(layout, templates);
   attachOfficialPortraits(layout,flags);attachLowpolyScenes(layout,flags);
   const genericTemplates=readyArtTemplates();
-  templates.push(...(readyArt||flags.menuBackground||flags.selectionAvatar||flags.battlePortrait?genericTemplates:genericTemplates.filter(t=>t.name===readyArtGroupTemplate)),
+  templates.push(...(flags.cards||flags.menuBackground||flags.selectionAvatar||flags.battlePortrait?genericTemplates:genericTemplates.filter(t=>t.name===readyArtGroupTemplate)),
     monsterActorTemplate(monsterArt),enemyPowerTemplate());
   if(readyArt){attachReadyCardHosts(battle);attachReadyCardHosts(layout);attachReadyCardHosts(templates[0]);}
   if (art) { attachNativeCardArt(battle,art,{battleOnly:true}); attachNativeCardArt(layout,art); }
