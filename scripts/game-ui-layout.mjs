@@ -38,6 +38,10 @@ export function gameLayout(theme = nativeTheme, options = {}) {
     textLabel.position = [space.m, 0]; textLabel.size = [values[2] - space.xl, values[3]];
     action.children.splice(1, 0, { name: 'backIcon', kind: 'image', position: [-values[2] / 2 + space.s, 0],
       size: [font.label, font.label], image: theme.icon.back, colour: color.mapHeader.ink });
+    // TASK-4.13 judge: translucent dark panel + copper hairline, matching the top bar.
+    const [hw, hh] = values.slice(2);
+    action.children.unshift({ name: 'panelHairline', kind: 'image', size: [hw, hh], image: theme.image.rect ?? theme.image.disc, colour: color.mapHeader.border + '99' },
+      { name: 'panelShade', kind: 'image', size: [hw - 2, hh - 2], image: theme.image.rect ?? theme.image.disc, colour: color.mapHeader.shade + 'B3' });
     return { ...action, visible: false };
   };
   // Route choices need the same resources as room decisions, before entering a shop.

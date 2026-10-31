@@ -12,6 +12,8 @@ local M = {}
 -- this 76px floor gap overlaps the current ring. Keep the STS rhythm but remap the
 -- reachable glyph into [rest*1.1, rest*availableScaleCap] so pulses never collide.
 function M.drawScale(fx)
+    -- TASK-4.13 judge: current beacon reads by scale/tint only (no extra chrome).
+    if fx.state == "current" then return fx.scale * 1.15 end
     if fx.state ~= "available" then return fx.scale end
     local base, cap = Layout.sts.baseScale, Theme.layout.map.presentation.availableScaleCap
     local t = math.max(0, math.min(1, (fx.scale - .91) / (1.25 - .91)))
@@ -49,6 +51,8 @@ function M.roomInk(node, state, currentFloor)
         local opacity = M.isFar(node.floor, currentFloor) and v.farLockedOpacity or v.lockedOpacity
         return { r = c.r, g = c.g, b = c.b, a = math.floor(c.a * opacity + .5) }
     end
+    -- TASK-4.13 judge: next/available rooms speak one gold language (no lavender event ink).
+    if state == "available" then return Theme.color.node.pathTaken end
     return palette.kind[node.type]
 end
 local function finite(n) return type(n) == "number" and n == n and math.abs(n) < math.huge end

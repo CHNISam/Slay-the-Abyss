@@ -41,8 +41,8 @@ export function mapLayout(theme = loadMapTheme()) {
       ...[['combat', '普通战斗'], ['elite', '精英'], ['event', '事件'], ['shop', '商店'],
         ['camp', '营地'], ['treasure', '宝箱'], ['boss', '首领']].flatMap(([kind, label], i) => {
         const y = legend.firstY - i * legend.rowGap;
-        return [image(`${kind}Icon`, legend.iconX, y, legend.iconSize, legend.iconSize, c.mapHeader.ink, theme.icon.node[kind]),
-          text(`${kind}Label`, legend.labelX, y, legend.labelWidth, legend.textHeight, label, f.label, c.mapHeader.ink, 'left')];
+        return [image(`${kind}Icon`, legend.iconX, y, legend.iconSize, legend.iconSize, c.mapHeader.legendInk, theme.icon.node[kind]),
+          text(`${kind}Label`, legend.labelX, y, legend.labelWidth, legend.textHeight, label, f.label, c.mapHeader.legendInk, 'left')];
       })] };
   const button = (name, y, label) => ({ name, kind: 'container', position: [visual.navigationX, y], size: [nav, nav], visible: false, children: [
     image('frame', 0, 0, nav, nav, c.goldDim, im.disc), image('body', 0, 0, nav - 4, nav - 4, c.panel, im.disc),

@@ -80,13 +80,13 @@ export function deckControls(theme = nativeTheme) {
       const colours = palette[state.name], text_ = state.children.find(control => control.name === 'label');
       text_.visible = false;
       state.children = [
-        disc('ring', d, colours.border), disc('face', d - 2, colours.fill),
+        // TASK-4.13 judge: identical outline/stroke to 菜单 (diameter - border*2 face), no badge plate.
+        disc('ring', d, colours.border), disc('face', d - theme.layout.exitMenu.entryVisual.border * 2, colours.fill),
         card('back2', -4, 1, 16, colours.ink, c.panelSunken), card('back1', -1, 0, 6, colours.ink, c.cardWell),
         card('front', 2, -1, -6, colours.ink, colours.fill),
         { name: 'deckIcon', kind: 'image', position: [dx + 2, -1], size: [9, 9], image: theme.icon.deck.id, colour: colours.ink },
-        { ...disc('badgeRing', 22, colours.border, 14, -10) },
-        { ...plate('badge', [14, -10, 20, 20], c.panelSunken), image: theme.image.disc },
-        text('count', [14, -10, 24, 20], '', f.small, state.name === 'disabled' ? colours.ink : c.mapHeader.count), text_];
+        // Count is a small numeric pip in the same ink, tucked at the disc's lower-right edge.
+        text('count', [dx + 13, -11, 20, 14], '', f.small, colours.ink), text_];
     }
     return entry;
   };

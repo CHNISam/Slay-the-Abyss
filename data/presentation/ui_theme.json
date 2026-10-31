@@ -88,11 +88,11 @@
     },
     "node": {
       "visited": "#8E7448",
-      "current": "#FFF4DC",
+      "current": "#FFFAEE",
       "reachable": "#ECE6DA",
       "locked": "#4A4F63",
       "path": "#77707A",
-      "pathTaken": "#F2CC7E"
+      "pathTaken": "#FFD88A"
     },
     "geo": "#F0B850",
     "geoDeep": "#A8732A",
@@ -132,8 +132,9 @@
     "mapHeader": {
       "shade": "#070303",
       "border": "#6E5A42",
-      "title": "#E6D3A8",
+      "title": "#E9C77B",
       "ink": "#C9BDA4",
+      "legendInk": "#D9CBB0",
       "count": "#F3ECDD",
       "menuNormal": {
         "fill": "#241B19",
@@ -1447,7 +1448,7 @@
         "lockedOpacity": 0.82,
         "farLockedOpacity": 0.5,
         "availableScaleCap": 1.3,
-        "takenPathWidth": 8,
+        "takenPathWidth": 10.5,
         "farFutureOpacity": 0.2,
         "takenOpacity": 1,
         "nextOpacity": 1,
