@@ -64,3 +64,11 @@ Owner 2026-10-30 06:57 UTC 明确开关由开发/发布人员控制，不给玩�
 - `--art-cards=true` 同时把战斗手牌、奖励、商店、牌库共用的 `abyss_card_skin` 原生卡框改为突破实验金框调色（`ui_theme.json` → `cardSkin.premium`），只重新着色既有控件，名称/费用/描述文字不变；插画仍走已有 75 张自制卡图运行时。关闭时 `configure(nil)` 回到官方配色。角花/宝石等额外装饰精灵需新增布局宿主，暂缓。
 - Owner 要求本次交付候选默认看到新美术：`npm run build:native` 与 `build-native-candidate.mjs` CLI 未指定时默认 `cards=true`、`selectionAvatar=true`；`--art-cards=false --art-selection-avatar=false` 立即回到官方素材。`build:ui`/API 默认仍全关；旧 `--no-ready-card-art` / `--native-card-art-*` 继续决定 cards。
 - 未做：战斗/选角自定义低多边形场景背景（需在 battlePanel/characterPanel 底层新增宿主，与候选宿主屏蔽审计及并行 HUD/层级切片相关）；选角卡扇文字（无文字模板）。
+
+### 2026-10-31 low-poly scene backgrounds (`--art-menu-background`)
+
+- Source: breakthrough `land` group (362 triangles, 1587×1026) extracted into `art/lowpoly-select/select-lowpoly.json` → generated `lowpolyLand`.
+- Layout: `attachLowpolyScenes` adds a hidden `lowpolyScene` container (1280×720) as the first drawn child of `battlePanel` and just under `characterPanel.border` (above veils). Not created when the flag is off; candidate audit blocks the host name then.
+- Runtime: `abyss_traveler_portraits` builds `selectScene`/`battleScene` controllers (cached, budgeted); select hides official `border`/`face` only once the land is ready; battle draws behind every hand/monster/HUD control (no z-order change).
+- Candidate default: ON (with `cards`, `selectionAvatar`); `--art-menu-background=false` returns to official. Scenes need bound image/container templates (portrait module binding, also bound for cards/menuBackground-only builds).
+- Deferred: corner ornaments/gems on card faces (need new card-face layout hosts), select fan rank text.

@@ -1,5 +1,5 @@
 import {resolveArtFeatures,artFeatureArgs,writeArtFeatures,artFeatureModule} from './art-features.mjs';
-import {portraitSourceInputs,portraitSources,attachOfficialPortraits,writePortraitModule} from './official-portraits.mjs';
+import {portraitSourceInputs,portraitSources,attachOfficialPortraits,attachLowpolyScenes,writePortraitModule} from './official-portraits.mjs';
 import {attachReadyCardHosts,readyArtTemplates,writeReadyCardAssets,prepareReadyCardAssets,readyArtGroupTemplate,writeReadyArtBinding,readyArtSourceInputs} from './art/ready-card-runtime.mjs';
 import { backgroundInputs, backgroundSources, backgroundModule, attachOfficialBackground, writeBackgroundModule } from './official-background.mjs';
 import {prepareMonsterArt,attachMonsterArt,monsterActorTemplate,writeMonsterActorBinding} from './monster-art.mjs';
@@ -109,7 +109,7 @@ export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYS
   const battle = battleLayout(), layout = withViewport(gameLayout(undefined, options), theme);
   const templates = [deckCardTemplate()];
   if(flags.menuBackground)attachOfficialBackground(layout, templates);
-  attachOfficialPortraits(layout,flags);
+  attachOfficialPortraits(layout,flags);attachLowpolyScenes(layout,flags);
   const genericTemplates=readyArtTemplates();
   templates.push(...(readyArt||flags.menuBackground||flags.selectionAvatar||flags.battlePortrait?genericTemplates:genericTemplates.filter(t=>t.name===readyArtGroupTemplate)),
     monsterActorTemplate(monsterArt),enemyPowerTemplate());

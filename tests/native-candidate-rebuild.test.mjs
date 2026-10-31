@@ -82,7 +82,7 @@ function run(scenario, check) {
     put('build/lua/game-ui-templates.json',JSON.stringify(templates));
     put('scenario.json',JSON.stringify(scenario));
     put('calls.jsonl',''); put('base.gil',fixtureMapBytes(scenario.malformedTool==='scene_list_client_scripts'?[{file:'malformed.lua',source:'return {}'}]:scenario.scripts??[]));
-    const result=spawnSync(process.execPath,[builder,join(dir,'base.gil'),join(dir,'out')],{cwd:dir,encoding:'utf8',env:{...process.env,MILIASTRA_MCP_ROOT:join(dir,'tool'),REBUILD_SCENARIO:join(dir,'scenario.json'),REBUILD_CALLS:join(dir,'calls.jsonl')}});
+    const result=spawnSync(process.execPath,[builder,join(dir,'base.gil'),join(dir,'out'),'--art-cards=false','--art-menu-background=false','--art-selection-avatar=false'],{cwd:dir,encoding:'utf8',env:{...process.env,MILIASTRA_MCP_ROOT:join(dir,'tool'),REBUILD_SCENARIO:join(dir,'scenario.json'),REBUILD_CALLS:join(dir,'calls.jsonl')}});
     if(result.error)throw result.error;
     const calls=readFileSync(join(dir,'calls.jsonl'),'utf8').trim().split('\n').filter(Boolean).map(JSON.parse);
     check(result,calls);

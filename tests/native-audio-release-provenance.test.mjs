@@ -82,7 +82,7 @@ test('normal build CLI defaults the owner-chosen custom select/card art on and p
   assert.deepEqual(ordinary.paths, ['base.gil']);
   assert.equal(ordinary.options.nativeCardArt,undefined);
   assert.notEqual(ordinary.options.readyCardArt,false);
-  assert.deepEqual(ordinary.options.artFeatures,{cards:true,menuBackground:false,selectionAvatar:true,battlePortrait:false,monsters:false});
+  assert.deepEqual(ordinary.options.artFeatures,{cards:true,menuBackground:true,selectionAvatar:true,battlePortrait:false,monsters:false});
   const disabled = nativeAudioBuildArgs(['base.gil', '--native-card-art-count=0']);
   assert.deepEqual(disabled.options.nativeCardArt, { count: 0 });
   assert.equal(disabled.options.readyCardArt,false);
