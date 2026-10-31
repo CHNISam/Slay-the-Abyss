@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
+import { createHash } from 'node:crypto';
 import { auditGuidance } from '../scripts/check-agent-guidance.mjs';
 import { preRetirementSource } from './helpers/presentation-announcement-retirement.mjs';
 
@@ -39,12 +40,22 @@ test('local full check and the common CI impact job enforce guidance before rout
   assert.ok(impact.indexOf('run: npm run check:guidance\n') < impact.indexOf('      - id: plan\n'));
 });
 test('historical package replay accepts only the exact guidance additions', () => {
-  const current = readFileSync('package.json', 'utf8');
+  // Replay the complete package that owned this historical contract. The live
+  // package/commands remain checked independently by the two tests above.
+  const archived = JSON.parse(readFileSync('tests/fixtures/guidance-package-1057.json', 'utf8'));
+  assert.equal(archived.sourceCommit, '1057b009fbb9f3748a69ffe68a2cf8a3410fa30a');
+  assert.equal(archived.path, 'package.json');
+  assert.equal(archived.blobSha, 'd300a838ddfae396438ca323ca92b0a3adbd2ab4');
+  assert.equal(archived.sha256, '9736ee15b4d42e9703663ec92a7c1cf4a53001e2e24df951022cc5940e57e378');
+  const current = archived.source;
+  assert.equal(createHash('sha256').update(current).digest('hex'), archived.sha256);
+  assert.equal(createHash('sha1').update(`blob ${Buffer.byteLength(current)}\0`).update(current).digest('hex'), archived.blobSha);
   assert.doesNotThrow(() => preRetirementSource('package.json', current));
   for (const changed of [
     current.replace('node scripts/check-agent-guidance.mjs', 'node scripts/other.mjs'),
     current.replace('npm run check:guidance && ', 'npm run unknown && '),
     current.replace('npm run check:syntax', 'npm run unknown'),
+    current.replace('"version": "0.11.0"', '"version": "1.0.0"'),
   ]) {
     assert.notEqual(changed, current);
     assert.throws(() => preRetirementSource('package.json', changed), /drift/);

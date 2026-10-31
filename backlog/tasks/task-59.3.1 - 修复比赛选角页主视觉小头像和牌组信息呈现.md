@@ -1,11 +1,11 @@
 ---
 id: TASK-59.3.1
 title: 修复比赛选角页主视觉小头像和牌组信息呈现
-status: To Do
+status: In Progress
 assignee:
-  - '@Furinya'
+  - Furinya
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 21:58'
+updated_date: '2026-10-30 23:37'
 labels:
   - playtest-20261030
   - p1
@@ -32,3 +32,23 @@ Owner截图：选角页圆形大底叠黑色矩形包裹立绘，底部小头像
 - [ ] #2 首发角色初始生命、金币、遗物、牌组信息一眼可读，主次符合选角任务；保留 Production 仅旅行者入口。
 - [ ] #3 交付可与批准设计/原版交互对照的界面证据，平台约束和自设计取舍如实注明。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. 以最新develop隔离接续PR389选角成果。2. 用完整身份绑定外层inverse恢复旧源码，保持历史门禁。3. 定向验证并交独立复审，实机保持未验。
+
+补充本轮Simulator实测窄修：原生头像控制器从真实normal/bust宽度取得display，验证72px与旧32px，不改资产或布局。
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+接续PR389原选角改动，补充完整身份外层inverse，旧历史fixture与hash不变；完整文件/漂移负例通过，选角/头像/比赛入口组合定向验证进行中。尚无官方导入或实机验收。
+
+进一步按391实际历史隔离设计复核：competition-roster旧合同在98fef固定历史输入回放，未改develop直接调用旧public inverse也拒绝当前源码；无需额外迁移旧inverse。已移除新投影层以避免无效耦合，保留391完整历史层与保护。当前真实Lua deck_browse_filters四组、hero_visual_slots、competition_roster_ui通过，prepared UI两片33用例通过。
+
+2026-10-31：原389选角有效成果由394接续并进入396；最终去掉多余inverse层，保留391历史隔离。已修真实GIL颜色编码并补来源登记；本轮仅源码及候选读回证据，尚未合入develop或完成同候选设备验收，所有AC保持未勾。
+
+本轮Simulator实际发现：attach host使用72/96，但runtime avatar controller仍硬编码32/96并覆盖。新增真实宽度72断言在未修源码失败，32对照通过；修为读取normal/bust.sizeDeltaX后完整肖像生命周期16/16通过，包含72/32释放重建及原失败/取消/销毁边界。素材、布局和原始fixture不改；尚待重建候选与同候选设备验收。
+<!-- SECTION:NOTES:END -->

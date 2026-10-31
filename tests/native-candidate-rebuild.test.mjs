@@ -184,7 +184,7 @@ test('malformed script inventory cannot be interpreted as clean',()=>run({malfor
   assert.ok(!calls.some(c=>c.name==='scene_remove_client'||c.name==='write_graphs'||c.name==='scene_check_client'));
 }));
 
-test('final complete source readback refuses corruption after the static check',()=>run({corruptFinalModule:'abyss_ui'},(result,calls)=>{
- assert.notEqual(result.status,0);assert.match(result.stderr,/Candidate content digest mismatch: abyss_ui/);
+test('static check refuses map mutation before final complete source readback',()=>run({corruptFinalModule:'abyss_ui'},(result,calls)=>{
+ assert.notEqual(result.status,0);assert.match(result.stderr,/client check input changed during validation/);
  assert(calls.some(c=>c.name==='scene_check_client'));
 }));

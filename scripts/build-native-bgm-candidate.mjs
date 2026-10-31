@@ -8,6 +8,7 @@ import { nativeBgmGraphSource, nativeBgmSignals } from './native-bgm-graph.mjs';
 import { fileRecord } from './evidence-files.mjs';
 import { nativeUiVariables } from './native-candidate-scripts.mjs';
 import {embeddedScripts} from './native-script-inventory.mjs';
+import {runNativeClientCheck} from './native-client-check.mjs';
 import {writeScriptBatch} from './native-script-batch.mjs';
 
 const [base, directory = '.artifacts/native-bgm-candidate', sourceReceiptFile] = process.argv.slice(2);
@@ -47,6 +48,7 @@ const wire=existsSync(wirePath)?await import(pathToFileURL(wirePath)):null;
 async function call(name, args) {
   const result = name==='scene_list_client_scripts'&&wire
     ? {structuredContent:embeddedScripts(args,wire)}
+    : name==='scene_check_client'&&wire ? {structuredContent:runNativeClientCheck(args,toolRoot)}
     : await client.callTool({ name, arguments: args }, undefined, { timeout: 120000 });
   writeFileSync(join(workspace, `${name}-${args.name || 'result'}.json`), JSON.stringify(result, null, 2));
   if (result.isError) throw new Error(JSON.stringify(result));

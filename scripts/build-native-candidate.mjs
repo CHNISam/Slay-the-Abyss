@@ -17,6 +17,7 @@ import { toLua } from './build-lua-data.mjs';
 import { nativeCardArtArgs, prepareNativeCardArt, nativeCardArtBuildReceipt, verifyNativeCardArtReceipt } from './card-art-samples.mjs';
 import {reusableUi} from './native-candidate-ui-cache.mjs';
 import {embeddedScripts} from './native-script-inventory.mjs';
+import {runNativeClientCheck} from './native-client-check.mjs';
 import {writeScriptBatch} from './native-script-batch.mjs';
 
 export const generatedRuntimeModules = {
@@ -45,7 +46,7 @@ export function sourceInputs(root,{artFeatures,nativeCardArt,readyCardArt}={}) {
     try { fileRecord(join(root,file)); files.push(file); } catch(error) { if(error.code!=='ENOENT')throw error; }
   }
   if(flags.monsters){
-    const registry=JSON.parse(readFileSync(join(root,'data/presentation/native-monster-art.json'),'utf8'));
+    const registry=prepareMonsterArt(JSON.parse(readFileSync(join(root,'data/presentation/native-monster-art.json'),'utf8')));
     files.push(...monsterSourceInputs,...Object.values(registry.additionalAssets??{}).flatMap(asset=>asset.sourceInputs.map(record=>record.path)));
   }
   return files.sort().map(path=>{const {sha256,bytes}=fileRecord(join(root,path),root);return {path,sha256,bytes};});
@@ -154,7 +155,7 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
         if(!monster)throw Error('Enabled monster artwork requires its registry');
         for(const [index,path] of monsterSourceInputs.entries())if(registry.sourceInputs?.[index]?.path!==path
           ||registry.sourceInputs[index].sha256!==registry.asset[index===0?'luaSha256':'jsonSha256'])throw Error('Monster base source provenance differs');
-        const records=[...registry.sourceInputs.slice(0,2),...Object.values(registry.additionalAssets??{}).flatMap(asset=>asset.sourceInputs)];
+        const records=[...monster.sourceInputs.slice(0,2),...Object.values(monster.additionalAssets??{}).flatMap(asset=>asset.sourceInputs)];
         for(const record of records)if(fileRecord(join(root,record.path),root).sha256!==record.sha256)throw Error('Monster native source hash mismatch');
         monster.inputPaths=records.map(record=>record.path);monster.hostOrigin=[0,0];
         receipt.nativeMonsterArt={enabled:true,assetCount:Object.keys(monster.assets).length,bindingCount:Object.keys(monster.bindings).length,
@@ -332,6 +333,7 @@ export async function buildNativeCandidateFromToolchain(options) {
         await client.connect(new StdioClientTransport({command:process.execPath,args:[join(toolRoot,'src/server.mjs')],env:{...process.env,MILIASTRA_WORKSPACE:workspace,MILIASTRA_ALLOW_LIVE_WRITE:'0'}}));
         const remoteCall=client.callTool.bind(client);
         client.callTool=(request,...args)=>{
+          if(request.name==='scene_check_client')return Promise.resolve({structuredContent:runNativeClientCheck(request.arguments,toolRoot)});
           if(request.name==='scene_list_client_scripts'){
             return Promise.resolve({structuredContent:embeddedScripts(request.arguments,{container,fields,one})});
           }

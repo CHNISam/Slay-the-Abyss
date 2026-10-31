@@ -5,9 +5,16 @@ import { gameLayout } from '../scripts/game-ui-layout.mjs';
 import { nativeTheme as theme } from '../scripts/native-ui-theme.mjs';
 import { runLua } from '../scripts/test-lua.mjs';
 
-test('six native instruction tiles fit the approved modal and do not promise unbound keyboard shortcuts', () => {
-  const guide = controlsGuide(), tiles = guide.children.filter(c => c.name.startsWith('tip'));
-  assert.equal(tiles.length, 6);
+test('three scene-based instruction sections fit the approved modal and do not promise unbound keyboard shortcuts', () => {
+  const guide = controlsGuide();
+  const sections = guide.children.filter(c => ['battle', 'map', 'resources'].includes(c.name));
+  assert.equal(sections.length, 3);
+  assert.equal(sections.find(c => c.name === 'battle').children.find(c => c.name === 'how4').text.content, '点击右下角「结束回合」');
+  assert.equal(sections.find(c => c.name === 'map').children.find(c => c.name === 'how4').text.content, '先点商品查看详情，再确认购买');
+  for (const section of sections) {
+    assert.equal(section.children.filter(c => c.name.startsWith('action')).length, 4);
+    assert.equal(section.children.filter(c => c.name.startsWith('how')).length, 4);
+  }
   const visit = (c, x=0, y=0) => {
     x += c.position?.[0] ?? 0; y += c.position?.[1] ?? 0;
     assert(Math.abs(x) + c.size[0]/2 <= 640, c.name);
@@ -21,7 +28,7 @@ test('six native instruction tiles fit the approved modal and do not promise unb
   const exit = gameLayout().controls.find(c=>c.name==='exitPanel');
   const help = exit.children.find(c=>c.name==='help'), title = exit.children.find(c=>c.name==='title');
   assert(Math.abs(help.position[0]-title.position[0]) >= (help.size[0]+title.size[0])/2);
-  assert.deepEqual(help.position,theme.layout.nativeGuide.entry.slice(0,2));
+  assert.deepEqual(help.position,theme.layout.exitMenu.help.slice(0,2));
 });
 
 test('real host isolates guide input, returns controller focus, and retains map navigation after input switching', () => {

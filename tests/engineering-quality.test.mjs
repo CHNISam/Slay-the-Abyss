@@ -1,3 +1,4 @@
+import {createHash} from 'node:crypto';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
@@ -195,7 +196,16 @@ test('quality reports are collected by the existing gate and uploaded on failed 
 });
 
 test('historical package replay inverts only the exact quality entry and gate wiring without changing its old hash',()=>{
-  const live=readFileSync('package.json','utf8').replaceAll('\r\n','\n');
+  // This historical replay uses the same complete, fixed package as guidance.
+  // The current package and gate commands remain checked independently above.
+  const archived=JSON.parse(readFileSync('tests/fixtures/guidance-package-1057.json','utf8'));
+  assert.equal(archived.sourceCommit,'1057b009fbb9f3748a69ffe68a2cf8a3410fa30a');
+  assert.equal(archived.path,'package.json');
+  assert.equal(archived.blobSha,'d300a838ddfae396438ca323ca92b0a3adbd2ab4');
+  assert.equal(archived.sha256,'9736ee15b4d42e9703663ec92a7c1cf4a53001e2e24df951022cc5940e57e378');
+  const live=archived.source;
+  assert.equal(createHash('sha256').update(live).digest('hex'),archived.sha256);
+  assert.equal(createHash('sha1').update(`blob ${Buffer.byteLength(live)}\0`).update(live).digest('hex'),archived.blobSha);
   const entry='    "check:quality": "node scripts/check-engineering-quality.mjs",\n';
   const before=retirementSources.beforeSources['package.json'];
   assert.equal(preRetirementSource('package.json',live),before);

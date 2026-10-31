@@ -194,8 +194,12 @@ export function battleLayout() {
       Math.max(x + l.drawPile.size[0] / 2, bx + b.disc / 2, x + b.label[0] + b.label[2] / 2));
     const bottom = Math.max(-height / 2 + theme.canvas.safe.y,
       Math.min(py - l.drawPile.size[1] / 2, by - b.disc / 2, py + b.label[1] - b.label[3] / 2));
-    const top = Math.min(height / 2 - theme.canvas.safe.y,
+    let top = Math.min(height / 2 - theme.canvas.safe.y,
       Math.max(py + l.drawPile.size[1] / 2, by + b.disc / 2, py + b.label[1] + b.label[3] / 2));
+    // TASK-38.2: a pile hit never reaches into the irreversible end-turn target.
+    const turn = l.endTurn;
+    if (right > turn.position[0] - turn.size[0] / 2 && left < turn.position[0] + turn.size[0] / 2)
+      top = Math.min(top, turn.position[1] - turn.size[1] / 2 - turn.touchGap);
     return [
       clickableImage(picture(`${name}Icon`, x, py, ...l.drawPile.size, icon, c.textDim),
         { ...hit(right - left, top - bottom), position: [(left + right) / 2 - x, (bottom + top) / 2 - py] },

@@ -41,7 +41,7 @@ function tree(children)
 end
 avatar=tree();figure=tree();fallback=control('image');fallback:SetVisible(true)
 local states={}
-for _,name in ipairs({'normal','hover','pressed','disabled'})do local bust=control('image');bust:SetVisible(true);states[name]=tree({bust=bust})end
+for _,name in ipairs({'normal','hover','pressed','disabled'})do local bust=control('image');rawset(bust,'sizeDeltaX',32);bust:SetVisible(true);states[name]=tree({bust=bust})end
 traveler=tree({officialAvatar=avatar,hit=tree(states)});hero=tree({officialFigure=figure,portrait=fallback})
 stage=tree({characterPanel=tree({traveler=traveler}),battlePanel=tree({hero=hero})})
 function LiveCount()local n=0;for _,c in ipairs(controls)do if c.alive then n=n+1 end end;return n end

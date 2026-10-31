@@ -9,7 +9,9 @@ import {battleLayout} from '../scripts/ui-layout.mjs';
 import {gameLayout} from '../scripts/game-ui-layout.mjs';
 import {buildUI,assertNativeUiCapacity} from '../scripts/build-ui.mjs';
 import {toLua} from '../scripts/build-lua-data.mjs';
+import {monsterEnabledLua,fullMonsterArtFixture} from './helpers/monster-enabled-ui.mjs';
 import {runLua as rawRunLua} from '../scripts/test-lua.mjs';
+const runFullCatalogLua=monsterEnabledLua({fullCatalog:true});
 const monsterBuild=mkdtempSync(join(tmpdir(),'abyss-monster-only-'));
 buildUI(monsterBuild,undefined,{artFeatures:{monsters:true}});
 after(()=>rmSync(monsterBuild,{recursive:true,force:true}));
@@ -106,7 +108,7 @@ test('actual r02 exported literal equals every primitive API write; tiny XYZ mut
  }finally{rmSync(folder,{recursive:true,force:true});}
 });
 test('explicit monster-only generated GameUI binds actual new r02 into real combat and feedback lifecycle',()=>{
- const result=runLua('tests/lua/support/native_monster_art_host.lua');
+ const result=runFullCatalogLua('tests/lua/support/native_monster_art_host.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/NATIVE_MONSTER_HOST_PASS/);
 });
 test('real host regression rejects missing reset cleanup instead of accepting visible ghosts',()=>{
@@ -114,7 +116,7 @@ test('real host regression rejects missing reset cleanup instead of accepting vi
  try {
   const path=join(directory,'mutant.lua');
   writeFileSync(path,"require('abyss_monster_art').clearBox=function()end\ndofile('tests/lua/support/native_monster_art_host.lua')\n");
-  const result=runLua(path);assert.notEqual(result.status,0);assert.match(result.stderr,/explicit reset must clear the pool/);
+  const result=runFullCatalogLua(path);assert.notEqual(result.status,0);assert.match(result.stderr,/explicit reset must clear the pool/);
  }finally{rmSync(directory,{recursive:true,force:true});}
 });
 
@@ -127,7 +129,7 @@ test('real native entry draws grass with monsters ON and other four categories O
 test('explicit four-category ON build retains the same actual grass drawing lifecycle',()=>{
  const directory=mkdtempSync(join(tmpdir(),'abyss-monster-all-on-'));
  try {
-  buildUI(directory,undefined,{artFeatures:{cards:true,menuBackground:true,selectionAvatar:true,battlePortrait:true,monsters:true}});
+  buildUI(directory,undefined,{artFeatures:{cards:true,menuBackground:true,selectionAvatar:true,battlePortrait:true,monsters:true},monsterArt:fullMonsterArtFixture()});
   const path=join(directory,'host.lua');
   writeFileSync(path,`package.path=${toLua(directory+'/?.lua;')}..package.path
 dofile('tests/lua/support/native_monster_art_host.lua')
@@ -141,4 +143,9 @@ test('new grass drawing preserves merged Runic Dome intent suppression in the ac
  const result=runLua('tests/lua/support/native_monster_relic_dome.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/NATIVE_MONSTER_RELIC_DOME_PASS/);
+});
+
+test('default production whitelist falls back for unselected definitions and clears same-id prior art',()=>{
+ const result=runLua('tests/lua/support/monster_candidate_fallback.lua');
+ assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/MONSTER_CANDIDATE_FALLBACK_PASS/);
 });

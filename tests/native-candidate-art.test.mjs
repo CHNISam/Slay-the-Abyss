@@ -1,3 +1,4 @@
+import {prepareMonsterArt} from '../scripts/monster-art.mjs';
 import {portraitInputs} from '../scripts/official-portraits.mjs';
 import {readyArtInputs,readyArtSourceInputs} from '../scripts/art/ready-card-runtime.mjs';
 import {backgroundInputs} from '../scripts/official-background.mjs';
@@ -276,16 +277,16 @@ test('MCP mock: all three reviewed drawings reach the formal candidate with inde
   assert.equal(receipt.statuses.officialImport,'not_run');
 });
 
-test('MCP mock: explicit monster-only CLI packages multiple drawings while four categories remain OFF',t=>{
+test('MCP mock: explicit monster-only CLI packages approved candidate drawing while four categories remain OFF',t=>{
  const f=fixture(t,{monsterOnly:true}),run=f.cli(['--art-monsters=true']);success(run);
  const receipt=run.receipt();
  assert.deepEqual(receipt.artFeatures.flags,{cards:false,menuBackground:false,selectionAvatar:false,battlePortrait:false,monsters:true});
  assert.equal(receipt.nativeMonsterArt.enabled,true);assert.equal(receipt.nativeMonsterArt.capacity,600);
- assert.equal(receipt.nativeMonsterArt.assetCount,18);assert.equal(receipt.nativeMonsterArt.bindingCount,19);
+ assert.equal(receipt.nativeMonsterArt.assetCount,1);assert.equal(receipt.nativeMonsterArt.bindingCount,1);
  assert.equal(receipt.nativeMonsterArt.allocation,'per-drawable-actor-instance');
- const registry=JSON.parse(readFileSync(join(f.root,'data/presentation/native-monster-art.json'),'utf8'));
+ const registry=prepareMonsterArt(JSON.parse(readFileSync(join(f.root,'data/presentation/native-monster-art.json'),'utf8')));
  const expectedInputs=[...registry.sourceInputs.slice(0,2),...Object.values(registry.additionalAssets).flatMap(asset=>asset.sourceInputs)];
- assert.equal(expectedInputs.length,36);assert.deepEqual(receipt.nativeMonsterArt.inputs.map(row=>row.path),expectedInputs.map(row=>row.path));
+ assert.equal(expectedInputs.length,2);assert.deepEqual(receipt.nativeMonsterArt.inputs.map(row=>row.path),expectedInputs.map(row=>row.path));
  for(const [index,row]of receipt.nativeMonsterArt.inputs.entries()){assert.equal(row.sha256,expectedInputs[index].sha256);assert.equal(row.bytes,fileRecord(join(f.root,row.path)).bytes);}
  assert(!receipt.nativeCardArt&&!receipt.readyCardArt&&!receipt.officialBackground&&!receipt.officialPortraits);
  const ui=run.calls.find(c=>c.name==='scene_add_client_ui').args;
@@ -300,6 +301,7 @@ test('MCP mock: explicit monster-only CLI packages multiple drawings while four 
  assert(!nodes.some(n=>['artSamples','officialBackground','officialAvatar','officialFigure'].includes(n.name)));
  const source=run.calls.find(c=>c.name==='native_batch_script'&&c.args.name==='abyss_monster_art_data').args.source;
  assert.match(source,/\["capacity"\]=600/);
+ assert(!/pyro-abyss-mage|hydro-samachurl/.test(source),'unselected artwork must not reach the written runtime module');
  const binding=run.calls.find(c=>c.name==='native_batch_script'&&c.args.name==='abyss_monster_actor_binding').args.source;
  assert.match(binding,/templateIndex=1073741849,containerTemplateIndex=1073741848,powerTemplateIndex=1073741850,enabled=true/);
  const {flags}=receipt.artFeatures;

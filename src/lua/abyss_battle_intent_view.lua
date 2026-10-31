@@ -129,32 +129,32 @@ local function attackHits(v, effect)
     return hits, total, unequal, times, calculation, cuts
 end
 
-local formulaNames={vigor='活力',double_damage='双倍伤害',pen_nib='钢笔尖',weak='虚弱',
-    vulnerable='易伤',stance='姿态',flight='飞行',slow='迟缓',back_attack='背击',truncate='向零取整',binary32='单精度'}
+local modifierNames={vigor='活力',double_damage='双倍伤害',pen_nib='钢笔尖',weak='虚弱',
+    vulnerable='易伤',stance='姿态',flight='飞行',slow='迟缓',back_attack='背击',intangible='无实体'}
 local function decimal(value)return string.format('%.9g',value) end
-local function formulaStep(step)
-    local value=decimal(step.value)
-    if step.kind=='base' then return '基础 '..value end
+local function modifierText(step)
     if step.kind=='strength' or step.kind=='vigor' then
-        return (step.kind=='strength' and '力量' or '活力')..' '..(step.operand>=0 and '+' or '')..decimal(step.operand)..' = '..value
+        if not step.operand or step.operand==0 then return nil end
+        return (step.kind=='strength' and '力量' or '活力')..(step.operand>0 and '+' or '')..decimal(step.operand)
     end
-    if step.kind=='round' then return '向下取整且不低于0 = '..value end
-    if step.kind=='intangible' then return '无实体 min(当前值, 1) = '..value end
-    local operator=step.operand and (' ×'..decimal(step.operand)..' = ') or ' = '
-    return (formulaNames[step.kind] or step.kind)..operator..value
+    if step.kind=='intangible' then return '无实体（每段至多 1）' end
+    local name=modifierNames[step.kind]
+    if not name then return nil end -- base / rounding / binary32 are internal
+    if step.operand==1 then return nil end
+    return name..(step.operand and ('×'..decimal(step.operand)) or '')
 end
-local function attackFormula(calculation,hits,cuts,times)
-    local parts,chunks={},{}
+local function attackNote(calculation,cuts)
+    local parts,seen={},{}
     for _,step in ipairs(calculation.steps)do
-        parts[#parts+1]=formulaStep(step)
-        if #parts==5 then chunks[#chunks+1]=table.concat(parts,' → ');parts={} end
+        local t=modifierText(step)
+        if t and not seen[t] then seen[t]=true;parts[#parts+1]=t end
     end
-    if #parts>0 then chunks[#chunks+1]=table.concat(parts,' → ') end
-    if times>1 then chunks[1]='每段：'..chunks[1] end
-    for i,cut in ipairs(cuts)do if cut>0 then
-        chunks[#chunks+1]='第'..i..'段削减：'..number(calculation.amount)..' − '..number(cut)..' = '..number(hits[i])
-    end end
-    return chunks
+    local lines={}
+    if #parts>0 then lines[#lines+1]='已计入：'..table.concat(parts,'、') end
+    local cutParts={}
+    for i,cut in ipairs(cuts)do if cut>0 then cutParts[#cutParts+1]='第'..i..'段 −'..number(cut) end end
+    if #cutParts>0 then lines[#lines+1]='削减：'..table.concat(cutParts,'、') end
+    return #lines>0 and table.concat(lines,'；') or nil
 end
 
 local function attackFace(hits, times, unequal)
@@ -176,15 +176,13 @@ local function attackEffect(v, effect)
     local hits, total, unequal, times, calculation, cuts = attackHits(v, effect)
     local each = number(hits[1])
     local face = attackFace(hits, times, unequal)
-    local formula=attackFormula(calculation,hits,cuts,times)
     if not v.attack then v.worldDamage,v.worldTimes,v.worldBaseDamage=hits[1],times,effect.value end
     v.attack = v.attack or face
     v.result[#v.result + 1] = attackSentence(face, times, each, unequal, "攻击造成 ")
     v.rows[#v.rows + 1] = { icon = "attack", colour = C.danger, name = "攻击 " .. face,
         tag = times > 1 and "共 " .. number(total) or nil,
         text = attackSentence(face, times, each, unequal, "造成 "),
-        note = formula[1] }
-    for i=2,#formula do v.rows[#v.rows+1]={icon='attack',colour=C.danger,name='伤害算式（续）',text=formula[i]} end
+        note = attackNote(calculation, cuts) }
 end
 
 local function blockEffect(v, effect)

@@ -57,7 +57,7 @@ export function attachOfficialPortraits(layout,{selectionAvatar=true,battlePortr
   const selection=child(stage,'characterPanel'),traveler=child(selection,'traveler');
   if(traveler.children.some(c=>c.name==='officialAvatar'))throw Error('Portrait hosts already attached');
   const bust=child(child(child(traveler,'hit'),'normal'),'bust');
-  traveler.children.push({name:'officialAvatar',kind:'container',position:[...bust.position],size:[96,96],scale:[1/3,1/3],visible:false,children:[]});
+  traveler.children.push({name:'officialAvatar',kind:'container',position:[...bust.position],size:[96,96],scale:[bust.size[0]/96,bust.size[0]/96],visible:false,children:[]});
   const details=child(selection,'details'),frame=child(details,'portraitFrame');
   const position=[frame.position[0],frame.position[1]-(frame.size[1]-frame.size[0])/2];
   details.children.splice(details.children.findIndex(c=>c.name==='portraits')+1,0,

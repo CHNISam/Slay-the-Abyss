@@ -85,27 +85,32 @@ test('combat pile filters preserve the existing hidden-order semantics and never
     host.deckUI:close();assert(same(before,host.run))
 end)
 
-test('character preview type filter is detached from run creation and resets on role changes',function()
+test('character preview lists the starter deck by type without filters and never starts a run',function()
     local host,root=F.fixture()
     assert(host:start());assert(host:selectCharacter('traveler'))
-    local panel,detail=root:GetChild('characterPanel'),root:GetChild('characterPanel'):GetChild('details')
+    local detail=root:GetChild('characterPanel'):GetChild('details')
     local info=host.characterSelection.info
     assert(info.deckSize>0 and #info.deck>0 and not host.run)
-    local attack=0
-    for _,card in ipairs(info.deck)do
-        assert(type(card.type)=='string')
-        if card.type=='attack' then attack=attack+card.count end
+    -- TASK-59.3.1：选角页不再堆筛选按钮，牌组一次性按类型排好。
+    for _,name in ipairs({'All','Attack','Skill','Power','Status','Curse'})do assert(detail:GetChild('deckFilter'..name)==nil)end
+    assert(host.characterSelection.setDeckFilter==nil and host.filterCharacterDeck==nil)
+    assert(detail:GetChild('deckTitle').text=='初始牌组 · '..info.deckSize..' 张')
+    local rank={attack=1,skill=2,power=3,status=4,curse=5}
+    local byName={};for _,card in ipairs(info.deck)do byName[card.name..'  × '..card.count]=card end
+    local last,listed=0,0
+    for i=1,6 do
+        local text=detail:GetChild('card'..i).text
+        if text~='' then
+            local card=assert(byName[text],'unexpected deck row '..text)
+            assert((rank[card.type] or 9)>=last,'deck rows are not grouped by type');last=rank[card.type] or 9
+            listed=listed+card.count
+        end
     end
-    assert(click(detail,'deckFilterAttack'))
-    assert(host.characterSelection.deckFilter=='attack')
-    assert(detail:GetChild('deckTitle').text:find(tostring(attack)..'/'..info.deckSize,1,true))
-    assert(detail:GetChild('deckFilterAttack'):GetChild('selected').visible)
-    assert(click(detail,'deckFilterCurse'))
-    assert(detail:GetChild('deckTitle').text:find('0/'..info.deckSize,1,true))
-    assert(not host.run,'card browsing cannot start the run')
-    assert(host:selectCharacter('traveler'))
-    assert(host.characterSelection.deckFilter=='all')
-    assert(detail:GetChild('deckFilterAll'):GetChild('selected').visible)
+    if #info.deck<=6 then assert(listed==info.deckSize,'every starter card is visible') end
+    assert(detail:GetChild('stats').text:find(tostring(info.maxHp),1,true))
+    assert(detail:GetChild('gold').text:find(tostring(info.gold),1,true))
+    assert(detail:GetChild('relic').text==info.relics[1].name and detail:GetChild('relicText').text~='')
+    assert(not host.run,'previewing cannot start the run')
     assert(host:closeCharacters())
 end)
 print('DECK_BROWSE_FILTER_PASS '..passed)

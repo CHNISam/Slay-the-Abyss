@@ -20,7 +20,7 @@ export function scenario(){return process.env.REBUILD_SCENARIO?JSON.parse(readFi
 export function record(name,args){const file=process.env.REBUILD_CALLS||process.env.ART_CALLS;if(file)appendFileSync(file,JSON.stringify({name,args,transport:'local-sdk'})+'\n');}
 const text=(data,id)=>fields(data).find(f=>f.id===id&&f.wire===2)?.data.toString();
 export function readScripts(mapPath){return fields(one(readFileSync(mapPath),50)).map(f=>({name:text(f.data,2),file:text(f.data,3),source:text(f.data,5),on:[]}));}
-export function scriptRecord({id=1073741826,name,file,source='',variables=[]},log=true){if(log)record('native_batch_script',{id,name,file,source,variables});return Buffer.concat([field(1,0,id),...(name===undefined?[]:[field(2,2,Buffer.from(name))]),field(3,2,Buffer.from(file)),field(5,2,Buffer.from(source)),field(7,2,Buffer.from(JSON.stringify(variables)))]);}
+export function scriptRecord({id=1073741826,name,file,source='',variables=[]},log=true){if(log)record('native_batch_script',{id,name,file,source,variables});return Buffer.concat([field(1,0,id),...(name===undefined?[]:[field(2,2,Buffer.from(name))]),field(3,2,Buffer.from(file)),field(5,2,Buffer.from(source)),...variables.map(v=>field(7,2,field(2,2,Buffer.from(v.name))))]);}
 export function writeScripts(mapPath,scripts){const root=readFileSync(mapPath),rows=scripts.map((s,i)=>field(1,2,scriptRecord({...s,id:1073741826+i},false)));writeFileSync(mapPath,replace(root,50,2,Buffer.concat(rows)));}
 `;
 
@@ -39,6 +39,11 @@ export function installNativeToolchainFixture(tool,sdk) {
  put('src/scene-save.mjs',String.raw`
 import {record,scenario,scriptRecord} from './fixture-store.mjs';
 export function clientScriptRecord(spec){return scriptRecord(spec);}
+export function listInterface(){return {clientTemplates:[],clientInterfaces:[]};}
+export function getClientUi(){throw Error('fixture has no template');}
+export function listComponents(){return {found:[]};}
+export function listSignals(){return {parameters:{}};}
+export function signalWords(){return null;}
 export function addClientUi(args){
  record('scene_add_client_ui',args);const state=scenario();
  if(state.failTool==='scene_add_client_ui')throw Error('FIXTURE_FAILURE scene_add_client_ui');
@@ -48,7 +53,12 @@ export function addClientUi(args){
 }
 `);
  const parser=pathToFileURL(createRequire(import.meta.url).resolve('luaparse')).href;
- put('src/client-check.mjs',`import parser from ${JSON.stringify(parser)};export function luaSyntaxError(source){try{parser.parse(source,{luaVersion:'5.3'});return null;}catch(error){return error;}}`);
+ put('src/client-check.mjs',`import parser from ${JSON.stringify(parser)};
+import {record,scenario,readScripts,writeScripts} from './fixture-store.mjs';
+export function checkClient(args,read){record('scene_check_client',args);const scripts=read.listClientScripts({...args,includeSource:true}).scripts;
+ if(scenario().corruptFinalModule)writeScripts(args.mapPath,readScripts(args.mapPath).map(s=>s.name===scenario().corruptFinalModule?{...s,source:s.source+' -- stale'}:s));
+ return {mapPath:args.mapPath,ok:true,errors:0,warnings:0,checked:scripts.map(s=>s.name)};}
+export function luaSyntaxError(source){try{parser.parse(source,{luaVersion:'5.3'});return null;}catch(error){return error;}}`);
  put('node_modules/@modelcontextprotocol/sdk/dist/esm/client/index.js',sdk.replaceAll('__NATIVE_FIXTURE_STORE__',JSON.stringify(pathToFileURL(join(tool,'src/fixture-store.mjs')).href)));
 }
 

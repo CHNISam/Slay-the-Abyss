@@ -273,7 +273,7 @@ end
 function M.paint(ctx,id, dt, shakes)
     local unit, box = ctx.actor(id)
     if not box then retireUnboundFeedback(ctx,id);return end
-    local base = id == "player" and C.geo or C.text
+    local base = id == "player" and C.buttonPressedText or C.text
     local ink, flash, alpha = base, 0, 1
     local posed = ctx.state.poses[id]
     local motionState=ActorMotion.state(unit,posed,ctx.state.effects[id],ctx.state.dying[id],ctx.state.escaping[id])

@@ -199,7 +199,7 @@ function M.new(stage, platform, present, complete)
         for _, part in ipairs({"portrait", "impact", "shield", "blockEdge", "blockIcon", "block"}) do
             pcall(function() local c = box:GetChild(part) c:SetLocalScale(1, 1, 1) if not part:find("^block") then c:SetAnchoredPosition(0, 0) end end)
         end
-        tint(box:GetChild("portrait"), name == "hero" and C.geo or C.text)
+        tint(box:GetChild("portrait"), name == "hero" and C.buttonPressedText or C.text)
         if name == "hero" and platform.portraits then platform.portraits:battlePose(0,0,1,1) end
     end
     function self.bindEnemySlot(slot,id)

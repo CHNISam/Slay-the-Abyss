@@ -47,7 +47,17 @@ export function prepareMonsterArt(input) {
   if(!Object.keys(assets).every(id=>Object.values(bindings).includes(id)))throw new Error('Unbound monster art asset');
   const poolCapacity=Math.max(...Object.values(assets).map(a=>a.capacity));
   for(const entry of Object.values(assets))entry.capacity=poolCapacity;
-  return {...structuredClone(registry),inputPaths,assets,bindings,poolCapacity,asset:assets[asset.enemyId]};
+  // Validate the complete retained catalog above before selecting candidate payloads.
+  const allow=registry.candidateAssets;
+  if(allow!==undefined&&(!Array.isArray(allow)||allow.length===0||new Set(allow).size!==allow.length
+    ||allow.some(id=>typeof id!=='string'||!Object.hasOwn(assets,id))||!allow.includes(asset.enemyId)))throw Error('Invalid monster candidate asset whitelist');
+  const selected=allow?new Set(allow):null;
+  const selectedAssets=Object.fromEntries(Object.entries(assets).filter(([id])=>!selected||selected.has(id)));
+  const additionalAssets=Object.fromEntries(Object.entries(registry.additionalAssets??{}).filter(([id])=>!selected||selected.has(id)));
+  const selectedBindings=Object.fromEntries(Object.entries(bindings).filter(([,id])=>!selected||selected.has(id)));
+  const selectedPaths=new Set(Object.values(additionalAssets).flatMap(entry=>entry.sourceInputs.map(record=>record.path)));
+  return {...structuredClone(registry),additionalAssets,inputPaths:inputPaths.filter(path=>monsterSourceInputs.includes(path)||selectedPaths.has(path)),
+    assets:selectedAssets,bindings:selectedBindings,poolCapacity,asset:selectedAssets[asset.enemyId]};
 }
 export const monsterPowerTemplateName='AbyssMonsterPower';
 export const monsterActorTemplateName='AbyssMonsterActor';

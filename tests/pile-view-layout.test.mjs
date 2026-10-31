@@ -53,3 +53,14 @@ test('pile entries coexist with the dynamic actor host and keep scene and templa
     assert.ok(stage.children.find(c => c.name === name), name);
   }
 });
+
+
+test('discard pile touch area stays at least 16 units below end turn', () => {
+  const stage = battleLayout().controls.find(c => c.name === 'stage');
+  const icon = stage.children.find(c => c.name === 'discardIcon');
+  const hit = icon.children.find(c => c.name === 'hit');
+  const top = icon.position[1] + hit.position[1] + hit.size[1] / 2;
+  const turn = theme.layout.endTurn;
+  assert.equal(turn.touchGap, 16);
+  assert.ok(turn.position[1] - turn.size[1] / 2 - top >= 16 - 1e-10);
+});
