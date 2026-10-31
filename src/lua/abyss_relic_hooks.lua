@@ -292,7 +292,7 @@ function M.preBattle(state,context)
  end
  if M.owns(state,'preserved_insect') and (context.eliteTrigger==true or (context.tier=='elite' and context.eliteTrigger~=false))then
   for _,enemy in ipairs(state.enemies)do
-   local maximum=math.floor(S.float32(enemy.maxHp*S.float32(.75)))
+   local maximum=math.floor(S.float32(S.float32(enemy.maxHp)*S.float32(.75)))
    if enemy.hp>maximum then
     enemy.hp=maximum;E.emit(state,'relic_hp_set',{relic='preserved_insect',target=enemy.id,hp=enemy.hp})
    end
