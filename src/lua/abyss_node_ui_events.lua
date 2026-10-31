@@ -89,13 +89,22 @@ local function placeOptions(event, neow, count)
     for i = 1, OPTIONS do
         local box = event:GetChild('option' .. i)
         if box then
+            local w, h = o.size[1], o.size[2]
             if neow then
                 local n = NEOW.options
-                place(box, { n.x, n.bottom + (count - i) * n.spacing })
+                w, h = n.size[1], n.size[2]
+                box:SetAnchoredPosition(n.x, n.bottom + (count - i) * n.spacing)
                 box:GetChild('title'):SetAnchoredPosition(0, 0)
             elseif o.rows[i] then
-                place(box, { o.x, o.rows[i] })
+                box:SetAnchoredPosition(o.x, o.rows[i])
                 box:GetChild('title'):SetAnchoredPosition(o.title[1], o.title[2])
+            end
+            box:SetSizeDelta(w, h)
+            for _, part in ipairs({ 'border', 'hit' }) do
+                local c = box:GetChild(part); if c then c:SetSizeDelta(w, h) end
+            end
+            for _, part in ipairs({ 'normal', 'disabled', 'hover', 'pressed', 'selected' }) do
+                local c = box:GetChild(part); if c then c:SetSizeDelta(w - 4, h - 4) end
             end
             box:GetChild('description'):SetVisible(not neow)
         end
