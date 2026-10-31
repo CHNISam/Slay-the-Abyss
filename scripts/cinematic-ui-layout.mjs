@@ -101,7 +101,7 @@ export function merchantControl(theme = nativeTheme) {
     { ...plate('rug', rug, tone.robe), opacity: 0.9 },
     plate('rugTrim', [rug[0], rug[1] + rug[3] / 2, rug[2], 2], c.goldDim),
     portrait,
-    // 名牌压在立像胸前、毯面之上：避开下方药水价签与右侧货架。
+    // 名牌置于立像右侧空地（毯外、价签下方），不压身体、货架与价签；STS 原版无名牌。
     { ...plate('nameplate', [at(m.name)[0], at(m.name)[1], 80, 22], tone.hood), opacity: 0.85 },
     text('name', at(m.name), '旧路商人', theme.font.small, c.goldBright),
     bubble,
