@@ -1,1 +1,1 @@
-assert(loadfile("tests/lua/jaw_worm_ai.lua"))(12,13)
+assert(loadfile("tests/lua/jaw_worm_ai.lua"))(12,12,0,3)

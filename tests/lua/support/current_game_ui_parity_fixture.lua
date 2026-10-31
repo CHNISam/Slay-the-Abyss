@@ -4,20 +4,24 @@ local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run=require('abyss_run')
 local M={F=F,Run=Run}
 local function difference(a,b,seen)
- if type(a)~=type(b)then return ' type mismatch' end
- if type(a)~='table'then
-  if a~=b then return ': '..tostring(a)..' ~= '..tostring(b)end
-  return
- end
  if seen[a]==b then return end;seen[a]=b
  for k,v in pairs(a)do
-  local mismatch=difference(v,b[k],seen)
+  -- Scalar fields dominate full-state traces. Compare each directly instead
+  -- of paying a recursive Lua call; tables still traverse every field.
+  local other=b[k];local kind=type(v)
+  local mismatch
+  if kind~=type(other)then mismatch=' type mismatch'
+  elseif kind=='table'then mismatch=difference(v,other,seen)
+  elseif v~=other then mismatch=': '..tostring(v)..' ~= '..tostring(other)end
   if mismatch then return '.'..tostring(k)..mismatch end
  end
  for k in pairs(b)do if a[k]==nil then return '.'..tostring(k)..' missing' end end
 end
 function M.same(a,b,path)
- local mismatch=difference(a,b,{})
+ local kind=type(a);local mismatch
+ if kind~=type(b)then mismatch=' type mismatch'
+ elseif kind=='table'then mismatch=difference(a,b,{})
+ elseif a~=b then mismatch=': '..tostring(a)..' ~= '..tostring(b)end
  if mismatch then error((path or 'state')..mismatch)end
 end
 -- Initial independent-graph guard: even RNG limb tables and nested actor state

@@ -1,0 +1,11 @@
+{
+  "base": "96411b6c74349f25e3434509dd922e423b47c45f",
+  "originalSha256LF": "06cf6450738fd6744e9eadd8309b5108c906d966cd149206522147e12b3cb11c",
+  "originalGitBlob": "645e09522a9eb9069aa5d4d6bc764cd865466ead",
+  "slices": [
+    {"path":"tests/lua/card_detail_preview.lua","first":1,"last":3},
+    {"path":"tests/lua/card_detail_preview_slice_2.lua","first":4,"last":6},
+    {"path":"tests/lua/card_detail_preview_slice_3.lua","first":7,"last":9},
+    {"path":"tests/lua/card_detail_preview_slice_4.lua","first":10,"last":11}
+  ]
+}

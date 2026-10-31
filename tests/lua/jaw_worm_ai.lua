@@ -1,5 +1,7 @@
-local sliceFirst,sliceLast=...
+local sliceFirst,sliceLast,seedFirst,seedLast=...
 sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 1
+seedFirst,seedLast=seedFirst or 0,seedLast or 15
+assert(seedFirst>=0 and seedLast<=15 and seedFirst<=seedLast,"valid original seed partition")
 local sliceRegistered=0
 -- Independent STS1 A0 expectations: developer-posted getMove and pinned method bodies.
 -- The controlled rolls below are input values, never claims about original seeds.
@@ -144,7 +146,7 @@ test("lethal Thorns cancels Thrash Block but keeps its queued roll while a teamm
 end)
 
 test("separate enemies own their history and obey all repeat limits over live rounds",function()
-    for seed=0,15 do
+    for seed=seedFirst,seedLast do
         local s=battle({"jaw_worm","jaw_worm"},seed)
         for _=1,24 do
             s.player.hp=80; s.player.block=999; Combat.addStatus(s.player,"barricade",1)
