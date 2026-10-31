@@ -19,7 +19,8 @@ local function click(panel,name)
 end
 
 test('permanent card views filter and sort copies, retaining stable UIDs and run state',function()
-    local host,root=F.fixture()
+    local controller=false
+    local host,root=F.fixture(nil,nil,nil,nil,nil,nil,nil,{isController=function()return controller end})
     assert(F.start(host))
     host.run.deck={{uid=11,cardId='defend',upgraded=false},
         {uid=12,cardId='bash',upgraded=false},{uid=13,cardId='barricade',upgraded=false},
@@ -30,6 +31,8 @@ test('permanent card views filter and sort copies, retaining stable UIDs and run
     local grid=panel:GetChild('grid')
     assert(grid.itemCount==5)
     assert(panel:GetChild('browseTitle').visible)
+    assert(panel:GetChild('sort'):GetChild('hit'):GetChild('normal'):GetChild('label').text=='排序·初始顺序')
+    assert(panel:GetChild('pageHint').visible and panel:GetChild('pageHint').text:find('本局牌组顺序',1,true))
     assert(click(panel,'filterAttack'));host:update(0)
     assert(ids(host.deckUI.cards)=='12,14,15')
     assert(grid.itemCount==3 and panel:GetChild('filterAttack'):GetChild('selected').visible)
@@ -40,14 +43,22 @@ test('permanent card views filter and sort copies, retaining stable UIDs and run
     assert(host.deckUI.sortMode=='rarity')
     assert(click(panel,'sort'));host:update(0)
     assert(host.deckUI.sortMode=='cost')
+    assert(panel:GetChild('sort'):GetChild('hit'):GetChild('normal'):GetChild('label').text=='排序·费用↑')
+    assert(panel:GetChild('pageHint').text:find('低到高→X费→不可打出',1,true))
     assert(ids(host.deckUI.cards)=='14,12,15','cost must use the actual printed definitions')
     assert(click(panel,'filterAll'));host:update(0)
     assert(ids(host.deckUI.cards)=='14,11,12,15,13')
+    assert(click(panel,'sort'));host:update(0)
+    assert(ids(host.deckUI.cards)=='12,14,15,11,13','type order preserves initial order within each type')
+    assert(panel:GetChild('pageHint').text:find('攻击→技能→能力→状态→诅咒',1,true))
     assert(same(before,host.run),'browse mutated the run or random state')
     assert(host:closeDeck())
     assert(host:openDeck());host:update(0)
     assert(ids(host.deckUI.cards)=='11,12,13,14,15','reopen restores acquisition order')
     assert(host.deckUI.typeFilter=='all' and host.deckUI.sortMode=='original')
+    controller=true;host:update(0)
+    assert(panel:GetChild('pageHint').text=='摇杆导航 · 确认选择 · 返回关闭 · 1/1')
+    assert(not panel:GetChild('pageHint').visible,'single controller page keeps the original hidden hint')
     assert(host:closeDeck());assert(same(before,host.run))
 end)
 
@@ -67,6 +78,8 @@ test('empty categories, stale callbacks and text detail pages cannot leak intera
     assert(not panel:GetChild('filterAttack').visible)
     assert(not host.deckUI:setFilter('attack'),'detail page rejects browse changes')
     assert(host.deckUI:back() and panel:GetChild('filterAttack').visible)
+    host:update(0)
+    assert(panel:GetChild('pageHint').visible and panel:GetChild('pageHint').text:find('本局牌组顺序',1,true))
     assert(host:closeDeck())
 end)
 
@@ -78,6 +91,7 @@ test('combat pile filters preserve the existing hidden-order semantics and never
     local before=Combat.copy(host.run)
     assert(host.deckUI:openPile(host.run,'draw'));host.deckUI:update(0)
     local panel=root:GetChild('deckPanel')
+    assert(panel:GetChild('pageHint').text=='保留打开牌堆时的展示顺序。')
     assert(click(panel,'filterSkill'));host.deckUI:update(0)
     assert(ids(host.deckUI.cards)=='102')
     assert(click(panel,'filterAll'));host.deckUI:update(0)

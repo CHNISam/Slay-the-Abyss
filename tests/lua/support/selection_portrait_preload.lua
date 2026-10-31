@@ -11,6 +11,7 @@ panel:SetVisible(false)
 local selection=panel:GetChild('details'):GetChild('officialSelectionFigure')
 local avatar=panel:GetChild('traveler'):GetChild('officialAvatar')
 local battle=root:GetChild('battlePanel'):GetChild('hero'):GetChild('officialFigure')
+local battleFallback=root:GetChild('battlePanel'):GetChild('hero'):GetChild('portrait')
 local created,destroyed=0,0
 local counts={selection=0,avatar=0,battle=0}
 local foreground=false
@@ -101,16 +102,20 @@ portraits:sync('menu',false,true,'ironclad',true);tick()
 assert(created==readyTotal and destroyed==0 and not selection.visible and not avatar.visible,'stopped preload kept active hosts')
 record('stopped-ready')
 foreground=true;portraits:sync('battle',false,false,'ironclad',true)
+if battleEnabled then assert(not battleFallback.visible,'building generated portrait restored the yellow placeholder')end
 for _=1,500 do tick();if not battleEnabled or portraits:status().battle.phase=='ready'then break end end
 assert(counts.selection+counts.avatar==expected,'foreground battle rebuilt cached selection')
 assert((battleEnabled and counts.battle==4389 and portraits:status().battle.phase=='ready')or
  (not battleEnabled and counts.battle==0 and portraits:status().battle.phase=='disabled'),'foreground portrait source inventory mismatch')
 record('battle-ready')
+if battleEnabled then assert(battle.visible and battle.active and not battleFallback.visible,'ready generated portrait visibility mismatch')end
 local complete=created
 portraits:sync('map',false,false,'ironclad',true);foreground=false;tick()
 assert(created==complete and destroyed==0,'leaving completed battle rebuilt or destroyed cached art')
+if battleEnabled then assert(not battle.visible and not battle.active and not battleFallback.visible,'paused generated portrait restored placeholder')end
 foreground=true;portraits:sync('battle',false,false,'ironclad',true);tick()
 assert(created==complete and destroyed==0,'returning to battle rebuilt cached art')
+if battleEnabled then assert(battle.visible and battle.active and not battleFallback.visible,'returning generated portrait stayed hidden or restored placeholder')end
 portraits:onEngineDestroy();tick()
 assert(destroyed==0 and created==complete,'engine teardown called native destruction')
 end

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 23:16'
+updated_date: '2026-10-31 15:06'
 labels:
   - playtest-20261030
   - p1
@@ -37,10 +37,14 @@ Owner截图：肌肉药水描述末尾在「人工」附近截断；两种不同
 
 <!-- SECTION:PLAN:BEGIN -->
 本轮仅针对截图HP裁剪增加map/node数值框横向余量，保留字号/autoSize/数值规则与战斗框；先核对真实GIL旗标，再验证最终布局邻距及真实宿主字符串，实机待复测不Done。
+
+2026-10-31：从7adc71b6独立短修，先以实际生成字号/换行容量和药水重复视觉证红；仅修药水弹层与区分语义，不改HP、药水规则或美术开关；定向回归并交主线程独审，设备验收保持未完成。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
 原生截图80/8裁剪继续按真实问题处理；Simulator同源码80/80完整不能冒充设备通过。已只读回读ba2c实际GIL：battle/player、map/resources/hp、node/hp均autoSize=true、font18/min14，重复启用无效。本轮仅nativeNode.topBar.hp由[-540,316,64,40]改[-536,316,80,40]，供map/node同源复用，保留原生autoSize/字号/HP规则和战斗68宽。最终布局左右与生命/金币图标留4/5间隔，真实宿主80/80及88/88字符串不变。2项定向通过；此为截图裁剪针对性余量修复，未宣称官方原生已修或药水其它项完成，AC不勾。
+
+2026-10-31 独立药水切片：真实Host红例确认肌肉药水弹层40高标题框侵入仅20高标题区。按实际文字框预留标题/操作高度，正文增加一行末尾余量；恢复现有Theme.icon.potionTint读取，不更改主题配色、HP或药水规则。新增全部药水说明、5物理槽边界、人工制品末尾完整性和同形strength/fire配色断言。定向药水8/8通过；扩展全部药水边界1/1通过。初次两项测试错误（主题颜色已为table、换行分隔文本）已修，保留红例事实。PC/手机真实文字渲染和同形同色flex/strength等仍未验，AC1/2/3保持未勾，不宣称设备裁切彻底解决。
 <!-- SECTION:NOTES:END -->

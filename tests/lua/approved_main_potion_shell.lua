@@ -28,7 +28,8 @@ local function shell(slot,kind,selected)
   if kind~='empty'then
    assert(bottle.imageId==Theme.icon.potion[host.run.potions[slot]],'official bottle ID must remain real')
    local tone=kind=='fire' and Theme.color.potionShell.fire or Theme.color.potionShell.normal
-   sameColour(bottle.imageColor,tone.ink,'bottle source ink')
+   local tint=Theme.icon.potionTint[host.run.potions[slot]]
+   sameColour(bottle.imageColor,tint or tone.ink,'configured bottle ink')
   end
   sameColour(ordinary:GetChild('rim').imageColor,selected and Theme.color.potionShell.selected.border or Theme.color.potionShell.normal.border,'ordinary rim')
   sameColour(fire:GetChild('rim').imageColor,selected and Theme.color.potionShell.selected.border or Theme.color.potionShell.fire.border,'fire rim')
