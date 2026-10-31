@@ -33,7 +33,7 @@ local function control(definition)
     return c
 end
 
-local function setup()
+local function setup(settleDeal)
     local root = control({name="root",size={1280,720},children=Layout})
     local panel = root:GetChild("stage"):GetChild("battlePanel")
     local ui = UI.new(panel,Data,Presentation,"click",F.withMonsterActors({
@@ -44,6 +44,9 @@ local function setup()
     assert(Run.startCombat(ui.run,"cultist_solo"))
     ui.run.combat = Combat.new(Data,{deck={"defend","defend"},enemies={"cultist"}})
     ui:resize(1280,720) ui:render()
+    -- Cancellation points below describe a settled hand, not a card still
+    -- travelling from the draw pile. Keep the actual initial-deal path testable.
+    if settleDeal ~= false then ui:update(1);ui:render() end
     local function event(name,kind,x,y,touch)
         local box = assert(F.actorControl(panel,name))
         local hit = box.listeners and box or box:GetChild("hit")
@@ -136,6 +139,23 @@ test("cancelled drags back in the hand never click through and accept the next t
         tap("card1") tap("playArea")
         assert(#battle.hand == 1 and battle.player.block == 5)
     end
+end)
+
+test("the same coordinate is a legal source drop when grabbed during the initial deal",function()
+    local ui,panel,event = setup(false)
+    local battle = ui.run.combat
+    local x,y = panel:GetChild("card1").x,panel:GetChild("card1").y
+    local pile=require('abyss_theme').layout.drawPile.position
+    assert(x==pile[1] and y==pile[2],'this case must grab the actual in-flight draw-pile card')
+    event("card1","down",x,y)
+    assert(-200>ui.gesture.hoverStartLine and -200>ui.gesture.handCancelY,
+        'the old fixed point is above the source lift line and visible-hand cancellation line')
+    event("card1","drag",-560,-200);ui:update(0.45)
+    event("dragLayer","up",-560,-200)
+    event("card1","endDrag",-560,-200);event("endTurn","click",0,0)
+    event("card1","click",x,y)
+    assert(#battle.hand==1 and battle.energy==2 and battle.turn==1 and battle.player.block==5,
+        'valid initial-deal drop plays once; trailing clicks cannot end turn or play twice')
 end)
 
 test("targeted drag pulled back to the hand cancels and commits only the aimed living enemy",function()
