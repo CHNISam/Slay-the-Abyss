@@ -11,28 +11,14 @@ local Warrior=require("abyss_warrior_cards")
 local count=0
 local function eq(a,b) assert(a==b,tostring(a).." ~= "..tostring(b)) end
 local function test(name,fn) fn();count=count+1;print("ok choice_ui "..count.." - "..name) end
-local function control(name)
-    local c={name=name,children={},listeners={},visible=true,interactable=true,text=""}
-    function c:GetChild(key) return self.children[key] end
-    function c:SetVisible(value) self.visible=value end
-    function c:SetAsLastSibling() self.raised=true end
-    function c:AddCursorEventListener(event,fn) NativeContract.listener(event,fn); assert(not self.listeners[event]);self.listeners[event]=fn end
-    return c
-end
-local function button(name)
-    local c=control(name);local hit=control("hit");c.children.hit=hit
-    for _,state in ipairs({"normal","hover","pressed","disabled"}) do
-        local face=control(state);face.children.label=control("label");face.children.border=control("border");hit.children[state]=face
+local F=dofile('tests/lua/support/game_ui_fixture.lua')
+local choiceLayout
+for _,layer in ipairs(F.Layout)do
+    if layer.name=='stage'then
+        for _,panel in ipairs(layer.children)do if panel.name=='choicePanel'then choiceLayout=panel end end
     end
-    return c
 end
-local function root()
-    local c=control("choices")
-    for _,name in ipairs({"blocker","title","hint","status"}) do c.children[name]=control(name) end
-    for i=1,10 do c.children["card"..i]=button("card"..i) end
-    for _,name in ipairs({"confirm","before","after"}) do c.children[name]=button(name) end
-    return c
-end
+local function root()return F.control(assert(choiceLayout))end
 local function uid(s,id)
     for _,card in ipairs(s.hand) do if card.cardId==id then return card.uid end end
     error("missing opening card "..id)
@@ -55,7 +41,7 @@ end
 local cursor={CursorDown="down",CursorUp="up",CursorExit="exit",CursorEndDrag="endDrag"}
 local function ui(run,fn,pointers)
     local r=root()
-    local u=ChoiceUI.new(r,Presentation,"click",{cursorEvents=pointers and cursor,
+    local u=ChoiceUI.new(r,Presentation,"click",{imageSource='static',cursorEvents=pointers and cursor,
         color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end},fn or callback(run))
     assert(u:refresh(run,true));return u,r
 end
@@ -94,7 +80,7 @@ test("Survivor displays a real pending discard and confirmation moves only chose
     local u,r=ui(run);local p=s.pendingDiscard;local chosen=p.handUids[2]
     eq(r:GetChild("title").text,"选择弃牌");eq(hit(r,"confirm").interactable,false)
     local unchanged=freeze(run);assert(click(r,"card2"));unchanged()
-    assert(hit(r,"card2"):GetChild("normal"):GetChild("label").text:find("费用 1",1,true))
+    eq(r:GetChild("card2"):GetChild("face"):GetChild("cost").text,"1")
     assert(click(r,"confirm"));eq(s.pendingDiscard,nil)
     eq(s.discard[1].uid,chosen);eq(s.discard[#s.discard].cardId,'survivor');eq(u.visible,false)
 end)
@@ -158,22 +144,22 @@ end)
 test("synchronous host refresh during a rejected command retains local selection",function()
     local run=scry();local u
     local r=root()
-    u=ChoiceUI.new(r,Presentation,"click",{color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end},function()
+    u=ChoiceUI.new(r,Presentation,"click",{imageSource="static",color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end},function()
         assert(u:refresh(run,true));return false,"host_rejected"
     end)
     assert(u:refresh(run,true));assert(click(r,"card2"));local chosen=u.selected[1]
     local ok,why=click(r,"confirm");eq(ok,false);eq(why,"host_rejected");eq(u.selected[1],chosen)
 end)
-test("upgraded card shows its own upgraded name, cost, type and complete text in every button state",function()
+test("upgraded card shows its own upgraded name, cost, type and complete text in the shared face",function()
     local run=scry();local top=run.combat.draw[#run.combat.draw];top.upgraded=true
     run.combat.catalog.cards.defend.upgrade.cost=0
     local u,r=ui(run)
-    for _,state in ipairs({"normal","hover","pressed","disabled"}) do
-        local text=hit(r,"card1"):GetChild(state):GetChild("label").text
-        assert(text:find(Presentation.defend.name.."＋",1,true),text)
-        assert(text:find("技能 · 费用 0",1,true),text)
-        assert(text:find("8",1,true),text)
-    end
+    local face=r:GetChild('card1'):GetChild('face')
+    assert(face:GetChild('name').text:find(Presentation.defend.name,1,true))
+    assert(face:GetChild('name').text:find('＋',1,true))
+    eq(face:GetChild('cost').text,'0')
+    assert(face:GetChild('type').text:find('技能',1,true))
+    assert(face:GetChild('label').text:find('8',1,true))
     eq(u:select("1"),false);eq(u:select(11),false)
 end)
 test("changing selection invalidates a previously released confirm",function()

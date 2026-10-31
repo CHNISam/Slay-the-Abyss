@@ -58,3 +58,25 @@ test('choice controls preserve the theme, four button states, and touch safe are
   }
   assert.equal(panels[1].children.filter(c => /^card\d+$/.test(c.name)).length, 10);
 });
+
+test('combat choices reuse one standard face per slot without clipping or stealing touch input', () => {
+  const panel = experimentalCharacterControls()[1];
+  const cards = panel.children.filter(c => /^card\d+$/.test(c.name));
+  for (const card of cards) {
+    const face = card.children.find(c => c.name === 'face');
+    assert.ok(face, 'plain text choice regressed');
+    assert.deepEqual(face.size, nativeTheme.layout.card.size);
+    assert.deepEqual(card.size, face.size);
+    assert.equal(face.children.filter(c => c.name === 'name').length, 1);
+    assert.equal(face.children.filter(c => c.name === 'art').length, 1);
+    assert.ok(!face.children.some(c => c.kind === 'cursorArea' || c.kind === 'presetButton'));
+    assert.ok(card.children.findIndex(c => c.name === 'hit') > card.children.indexOf(face));
+    const top = card.position[1] + card.size[1] / 2;
+    const bottom = card.position[1] - card.size[1] / 2;
+    const hint = panel.children.find(c => c.name === 'hint');
+    const status = panel.children.find(c => c.name === 'status');
+    assert.ok(top <= hint.position[1] - hint.size[1] / 2);
+    assert.ok(bottom >= status.position[1] + status.size[1] / 2);
+  }
+  assert.ok(cards[0].position[1] - cards[0].size[1] / 2 > cards[5].position[1] + cards[5].size[1] / 2);
+});

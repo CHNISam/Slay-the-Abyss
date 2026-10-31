@@ -15,12 +15,13 @@ function M.new(platform,picture,tint,ink,onCreate,onRetire)
   local mobile=platform.touchScreen and platform.touchScreen()
   local s=g.sourceScale;local pitch=(mobile and 55 or 48)*s
   local x=g.healthX-g.hitWidth/2+(10+(index-1)*(mobile and 55 or 48))*s
-  local bottom=g.healthY+18*s
-  local y=bottom-(mobile and 53 or 48)*s
+  local iconSize=48*s*(mobile and 1.17 or 1)
+  -- Native icons have no transparent atlas padding: keep their full rectangle below HP.
+  local y=g.healthY-math.max(g.healthHeight,Theme.font.small)/2-Theme.space.s-iconSize/2
   native(box,'SetAnchoredPosition',x,y)
   for _,name in ipairs({'edge','body','badge'})do native(box,'GetChild',name):SetVisible(false)end
   local icon=native(box,'GetChild','icon');native(icon,'SetVisible',true)
-  native(icon,'SetAnchoredPosition',0,0);native(icon,'SetSizeDelta',48*s*(mobile and 1.17 or 1),48*s*(mobile and 1.17 or 1))
+  native(icon,'SetAnchoredPosition',0,0);native(icon,'SetSizeDelta',iconSize,iconSize)
   local image=Theme.icon.status[entry.icon or entry.id]
   if (not image or Theme.icon.statusReplacementNotes and Theme.icon.statusReplacementNotes[entry.id])and not self.missingIcons[entry.id]then
    self.missingIcons[entry.id]=true;print('ABYSS_POWER_ICON_MISSING '..entry.id..' using labelled unknown placeholder')

@@ -2,6 +2,7 @@
 local Combat=require("abyss_combat")
 local Theme=require("abyss_theme")
 local CardDisplay=require("abyss_card_display")
+local CardSkin=require("abyss_card_skin")
 local M={}
 local Controller=require('abyss_controller')
 local types={attack="攻击",skill="技能",power="能力",status="状态",curse="诅咒"}
@@ -98,22 +99,21 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
     local function selected(uid)
         for i,value in ipairs(self.selected) do if value==uid then return i end end
     end
-    local function cardText(instance)
-        if self.context.kind=='potion'then
-            local order=selected(instance.id)
-            return (order and '已选 '..order..' · 'or '')..instance.name..'\n'..instance.text
-        end
+    local function paintCard(face,instance,picked)
         local battle=self.context.battle
         local definition=Combat.cardDefinition(battle,instance)
         local display=assert(presentation[instance.cardId],"missing choice presentation "..instance.cardId)
-        local text=instance.upgraded and display.upgradeText or display.text
-        local live=instance.upgraded and display.upgradeCombatText or not instance.upgraded and display.combatText
-        if live then text=CardDisplay.format(live,definition,Combat.cardPreview(battle,instance),Theme.color) end
-        assert(type(text)=="string" and #text>0,"empty choice presentation "..instance.cardId)
-        local cost=definition.cost==-2 and "不可打出" or definition.costMode=="all_energy" and "X" or tostring(definition.cost)
-        local order=selected(instance.uid)
-        return (order and "已选 "..order.." · " or "")..display.name..(instance.upgraded and "＋" or "")
-            .."\n"..(types[definition.type] or definition.type).." · 费用 "..cost.."\n"..text
+        CardDisplay.writeTitle(face:GetChild('name'),display.name,instance.upgraded,
+            definition.repeatable and (instance.upgrades or 1) or nil,face:GetChild('type'),types[definition.type] or definition.type)
+        face:GetChild('name').fontColor=colour(Theme.cardSkin.text.title)
+        CardDisplay.writeBody(face:GetChild('label'),CardDisplay.combatText(display,definition,instance,
+            Combat.cardPreview(battle,instance),battle),face)
+        face:GetChild('cost').text=definition.cost==-2 and '' or definition.costMode=='all_energy' and 'X' or tostring(definition.cost)
+        CardDisplay.writeArt(face:GetChild('art'),definition,function(control,id)control:SetImage(platform.imageSource,id)end)
+        CardDisplay.writeNativeArt(face,definition,display.nativeArt,platform,face:GetChild('art'),instance.uid)
+        local printed=battle.catalog.cards[instance.cardId]
+        local base=instance.upgraded and printed.upgrade and printed.upgrade.cost or printed.cost
+        CardSkin.apply(face,definition,platform,{cost=definition.cost,baseCost=base,selected=picked})
     end
     local function render()
         if not self.visible then return end
@@ -133,10 +133,26 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
             box:SetVisible(card~=nil)
             local hit=box:GetChild("hit");hit.interactable=card~=nil and not self.confirming;hit.raycastTarget=hit.interactable
             if card then
-                caption(box,cardText(card))
-                local picked=selected(kind=='potion'and card.id or card.uid)~=nil
+                local order=selected(kind=='potion'and card.id or card.uid)
+                local picked=order~=nil
+                local face=assert(box:GetChild('face'),'missing choice card face')
+                face:SetVisible(kind~='potion')
+                box:GetChild('orderPlate'):SetVisible(kind~='potion' and picked)
+                box:GetChild('order'):SetVisible(kind~='potion' and picked)
+                box:GetChild('order').text=order and '已选 '..order or ''
+                if kind=='potion' then
+                    caption(box,(order and '已选 '..order..' · ' or '')..card.name..'\n'..card.text)
+                else
+                    paintCard(face,card,picked)
+                    -- Keep the native button's semantic caption; only the shared face is visible.
+                    caption(box,face:GetChild('name').text..'\n'..face:GetChild('type').text
+                        ..' · 费用 '..face:GetChild('cost').text..'\n'..face:GetChild('label').text)
+                end
                 for _,state in ipairs(states) do
                     local face=box:GetChild("hit"):GetChild(state)
+                    for _,name in ipairs({'border','plate','label'})do
+                        face:GetChild(name):SetVisible(kind=='potion')
+                    end
                     local border=face:GetChild("border")
                     if border then border.imageColor=colour(picked and Theme.color.goldBright or Theme.color.goldDim) end
                 end
