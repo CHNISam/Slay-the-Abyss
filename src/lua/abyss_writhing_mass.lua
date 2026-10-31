@@ -89,7 +89,7 @@ function M.obtainParasite(s,source)
  local Relics=require('abyss_relic_hooks')
  local definition=assert(s.catalog.cards.parasite,'missing permanent Parasite')
  assert(definition.type=='curse'and definition.onRemoveMaxHpLoss==3,'invalid Parasite definition')
- local context={phase='combat',combat=s,relics=s.relics,relicCounters=s.relicCounters,gold=s.player.gold}
+ local context={phase='combat',combat=s,relics=s.relics,relicCounters=s.relicCounters,gold=s.player.gold,scoreStats=s.scoreStats}
  if not Relics.beforeObtainCard(context,definition)then
   Events.emit(s,'permanent_card_blocked',{cardId='parasite',relic='omamori'});return
  end

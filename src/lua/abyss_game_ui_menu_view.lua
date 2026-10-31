@@ -2,6 +2,7 @@
 local Theme=require("abyss_theme")
 local Narrative=require("abyss_narrative")
 local Acts=require("abyss_acts")
+local Run=require("abyss_run")
 local number=require("abyss_numbers").integer
 local M={}
 local L,C,T=Theme.layout.nativeMenu,Theme.color,Theme.motion
@@ -112,7 +113,9 @@ local function presentStats(ctx,victory,mode,available)
     end
     cards[1]:GetChild('value').fontColor=colour(ctx,victory and C.goldBright or C.text)
     local hp=run.phase=='defeat' and 0 or run.hp
-    result:GetChild('detail').text='生命 '..number(hp)..' / '..number(run.maxHp)..' · 金币 '..number(run.gold)..' · 遗物 '..#run.relics..' 件'
+    local score=Run.resultScore(run)
+    local total=score and '总分 '..number(score.total) or '总分暂不可用'
+    result:GetChild('detail').text=total..' · 生命 '..number(hp)..' / '..number(run.maxHp)..' · 金币 '..number(run.gold)..' · 遗物 '..#run.relics..' 件'
     local status,ink=settlementStatus(ctx,available)
     result:GetChild('status').text,result:GetChild('status').fontColor=status,colour(ctx,ink)
 end

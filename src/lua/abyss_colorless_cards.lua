@@ -403,6 +403,7 @@ function M.apply(combat,state,item)
             if kind=='greed'then
                 if not require('abyss_relic_hooks').owns(state,'ectoplasm')then
                     state.player.gold=state.player.gold+a.value
+                    if state.scoreStats then state.scoreStats.goldGained=state.scoreStats.goldGained+a.value end
                     require('abyss_act2_event_relics').gainGold(state,a.value,function(n)
                         return actions().apply(combat,state,{effect={op='heal',value=n},source=state.player})
                     end)

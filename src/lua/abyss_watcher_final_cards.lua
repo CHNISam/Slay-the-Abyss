@@ -228,7 +228,7 @@ function M.choose(combat,state,token,index)
  local up=p.upgraded
  if index==1 then require('abyss_actor').applyPower(state,state.player,'strength',up and 4 or 3,state.player)
  elseif index==2 then
-  local owner={gold=state.player.gold,relics=state.relics}
+  local owner={gold=state.player.gold,relics=state.relics,scoreStats=state.scoreStats}
   local gained=require('abyss_relic_hooks').gainGold(owner,up and 30 or 25)
   state.player.gold=owner.gold
   require('abyss_events').emit(state,'gold',{amount=gained,source='wish'})

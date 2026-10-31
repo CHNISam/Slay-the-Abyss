@@ -463,6 +463,7 @@ local function directDamage(state, source, target, amount, status, blocked, reac
     Act3Powers.attacked(state,target,amount,reactions)
     if target==state.player then amount=require('abyss_relic_hooks').onLoseHpLast(state,amount)end
     local before = target.hp
+    require('abyss_run_scoring').damage(state,target,amount,status=='hp_loss')
     local lost = math.min(target.hp, amount)
     target.hp = target.hp - lost
     local damageOwner=source
@@ -657,6 +658,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
     local playerAttackedQueued=queuePlayerAttackedReactions(state,source,target,unblocked,fixed)
     if target==state.player then unblocked=require('abyss_rare_relics').onAttacked(state,source,fixed and 'thorns'or 'normal',unblocked)end
     if target==state.player then unblocked=require('abyss_relic_hooks').onLoseHpLast(state,unblocked)end
+    require('abyss_run_scoring').damage(state,target,unblocked,false)
     local lost = math.min(target.hp, unblocked)
     -- Monster wasHPLost precedes onAttacked; the player uses the opposite
     -- order. In particular Book's onInflictDamage follows player Plated.

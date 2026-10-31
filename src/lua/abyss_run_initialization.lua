@@ -111,6 +111,7 @@ function M.install(Run, shared)
             unknown = { chances = Unknown.newPc(), pools = EventPool.new(data.rules.events.poolMode or 'restricted-six') },
             phase = "map", floor = 1, hp = data.rules.player.maxHp, maxHp = data.rules.player.maxHp,
             elapsedSeconds = 0, victories = 0,
+            scoreStats = require("abyss_run_score").newStats(data.rules.player.maxHp),
             gold = data.rules.player.startingGold, deck = {}, nextDeckUid = 1,
             relics = Combat.copy(data.rules.player.startingRelics), potions = {} }
         finishCatalog(run, ownsCatalog)

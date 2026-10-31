@@ -13,6 +13,9 @@ local RelicHooks = require('abyss_relic_hooks')
 local M = {}
 
 function M.install(Run, shared)
+    function Run.resultScore(run)
+        return require('abyss_run_scoring').result(run,RelicHooks.scoreAdjustment(run))
+    end
     local find,amount=shared.find,shared.amount
     local endingQualified,endingRoom=shared.endingQualified,shared.endingRoom
     local function combatEndHealing(run)
@@ -140,6 +143,7 @@ function M.install(Run, shared)
         run.maxHp=run.combat.player.maxHp
         run.relicCounters=Combat.copy(run.combat.relicCounters or {})
         local allEscaped = Combat.allEnemiesEscaped(run.combat)
+        require('abyss_run_scoring').finishBattle(run,run.combat,result,allEscaped)
         run.lastResult = { outcome = result, turn = run.combat.turn, encounterId = run.encounterId, allEnemiesEscaped = allEscaped, mugged = run.combat.mugged }
         return allEscaped
     end
