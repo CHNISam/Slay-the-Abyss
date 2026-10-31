@@ -291,8 +291,9 @@ function M.new(view, controls)
     local function placeDraggedCard(box, g, aiming)
         local x, y = dragPose(g)
         local h = L.card.size[2] * D.scale
-        -- An aiming card parks under the line so it never hides the enemy row.
-        if aiming then
+        -- Mouse carry parks under the line. A held finger keeps its continuous
+        -- pickup pose; the reticle remains the authoritative pointer/target.
+        if aiming and not g.touchScreen then
             local floor = -Theme.canvas.base[2]/2 + Theme.canvas.safe.y + h/2
             -- Preserve the grabbed column; centring here looks like the held
             -- card has snapped onto an unrelated card in the middle of the hand.

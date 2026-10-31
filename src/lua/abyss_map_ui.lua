@@ -593,12 +593,13 @@ function M.new(root, map, onChoose, clickEvent, options)
             and selection.floor == self.map.floor and selection.currentNodeId == self.map.currentNodeId
             and selection.nodeId == self.slots[slot] and self.visible and self.navigationEnabled
     end
-    local function pointY(event)
+    local function point(event)
         if not event or type(event.GetUIPos) ~= "function" then return end
-        local _, y = event:GetUIPos()
+        local x, y = event:GetUIPos()
         if type(y) ~= "number" or not finite(y) then return end
         local width, height = self.canvasWidth or Theme.canvas.base[1], self.canvasHeight or Theme.canvas.base[2]
-        return y / math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
+        local scale = math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
+        return finite(x) and x / scale or nil, y / scale
     end
     local function press(event, slot)
         pointerObserved = true
@@ -616,21 +617,22 @@ function M.new(root, map, onChoose, clickEvent, options)
         end
         cancelSelection()
         self.dragged = false
-        local y = pointY(event)
+        local x, y = point(event)
         local wasAnimating = scrollAnimation ~= nil
         scrollAnimation = nil
         -- Position is optional for a tap. Ownership must still work on hosts
         -- that supply Down/Up but omit drag events or pointer coordinates.
-        drag = {touch=touch(event), startY=y, y=y,
+        drag = {touch=touch(event), startX=x, startY=y, y=y,
             selection=not wasAnimating and selectionFor(slot,event) or nil, slot=slot}
         if wasAnimating then self:render() end
     end
     local function move(event, slot)
         if not self.visible then cancelDrag() return end
         if not drag or touch(event) ~= drag.touch or slot ~= drag.slot then return end
-        local y = pointY(event)
+        local x, y = point(event)
         if not y or not drag.startY then return end
-        if not drag.moving and math.abs(y - drag.startY) < Layout.dragThreshold then return end
+        local dx = x and drag.startX and x - drag.startX or 0
+        if not drag.moving and dx^2 + (y - drag.startY)^2 < Layout.dragThreshold^2 then return end
         drag.moving, self.dragged = true, true
         -- UI y grows upward; content follows the finger, so scroll moves the other way.
         local delta = y - drag.y
