@@ -1,0 +1,39 @@
+{
+  "reviewedCommit": "a4514cced72419c43ef9d5af44537545c41e9ac3",
+  "worktree": "/workspace/m3-formal-final",
+  "scope": "Independent narrow review of tests/lua/formal_campaign_entry.lua, 8 additions/1 deletion",
+  "verdict": "approved",
+  "findings": [],
+  "sourceReview": {
+    "productionChanges": false,
+    "actualCurrentCopy": "Exact full message matches current production abyss_game_ui.lua refreshExitDialog: in-memory run ends, progress cannot be recovered, platform settlement then exit.",
+    "whyText": "Asserts both visibility and exact current Lv.4 persistence-unavailable reason for active run.",
+    "hiddenHelp": "Existing hidden_menu_help.rejected reused in both live runMenu layer and exit-confirm layer. Each invocation checks runMenu and exitPanel hidden help reject direct/stale clicks, controller refusal when present, same Run/Map object identity, complete Run/Map deep state including RNG, UI flags and guide visibility unchanged.",
+    "retainedAssertions": [
+      "Real abyss_ui.lua OnStart and update initialization",
+      "Competition candidate character and resource constraints",
+      "Two-act endpoint through real public claim and skip commands",
+      "Stale claim rejection",
+      "Victory and defeat result honesty",
+      "New-run restart creates a distinct ephemeral Run",
+      "One-shot settlement signals",
+      "No persisted ending history or saved continuation",
+      "Resume keeps same in-memory active Run"
+    ],
+    "budget": "No test runner, timeout, fixture budget or historical source contract changes in this commit."
+  },
+  "verification": {
+    "command": "node --test --test-name-pattern='^formal OnStart reaches the two-act endpoint through claim/skip, honest results and new-run restart$' tests/formal-campaign-entry.test.mjs",
+    "status": "passed",
+    "tests": 1,
+    "caseDurationMs": 10176.598022,
+    "totalDurationMs": 10939.374088,
+    "assertedOutput": "FORMAL_CAMPAIGN_ENTRY_PASS 4; controlled room completions; native/natural NOT_RUN",
+    "worktreeClean": true
+  },
+  "limitations": [
+    "Controlled room completions and engine doubles; not a natural playthrough or official client execution",
+    "Only the exact changed formal OnStart case independently rerun; three historical source contracts and full suite intentionally not repeated",
+    "Authors reported pre-fix RED independently of this review; reviewer verified current GREEN and source diff, not a new production defect RED"
+  ]
+}

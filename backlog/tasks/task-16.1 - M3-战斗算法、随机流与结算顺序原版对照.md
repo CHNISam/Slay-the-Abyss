@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-31 17:02'
+updated_date: '2026-10-31 17:22'
 due_date: '2026-10-28'
 labels:
   - required
@@ -129,4 +129,6 @@ ordinal: 43000
 2026-10-29 范围与手机诊断承接：附件的High分工属于7a87de3诊断时快照，不覆盖本任务当前High或较新的PR303同局事务/回滚证据。全量规则与随机消费验收不因任务首页精简而降低；比赛仅岩系旅行者及现有冻结V4雷电两幕，其他职业研发证据保留但不恢复旧比赛门禁。
 
 2026-10-31 M3最终事实核对：combined-acceptance.log27/27：seed0/42/-1的Courier→奖励→Entropic→逃离→商店→精英连续potion流以及丢提交负变异通过；未改规则、池或预算。#5仍需完整职业/遗物/药水逐项新增与跨域数值顺序覆盖矩阵，#6仍需所有来源流完整消费链及对应实际游戏记录，不能用单条potion流代替全部随机源。
+
+2026-10-31 补共享cardRandomRng独立连续组合：每次bound/value/双words/counter、完整70/28池顺序、拒绝全状态原子及无关流守恒，标准7/7；真实Git CRLF clone另1/1证明认证字节固定LF，原公式/预期/hash未改。逐AC剩余来源见docs/reviews/M3-CARD-RANDOM-CONSUMER-CHAIN-20261031.md，不能据此称全部消费流或全效果完成。
 <!-- SECTION:NOTES:END -->

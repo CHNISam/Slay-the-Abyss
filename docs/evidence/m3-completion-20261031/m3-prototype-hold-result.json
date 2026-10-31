@@ -1,0 +1,45 @@
+{
+  "base": "73823f7fdb78060865cbea5577cfa2422bc2aaac",
+  "commit": "e9bf368e40fee4664aa52bca6af4d407d55ae356",
+  "finding": "P-HOLD-1 Important",
+  "status": "IMPLEMENTED_PENDING_INDEPENDENT_REVIEW",
+  "rootCause": "New cardEl reused passive tooltip hold; successful hold release fell through browser synthetic click to real combat select/shop buy handler. Existing tip had no capture consumption.",
+  "red": [
+    "Independent prototype-hold-repro.mjs reproduced B.sel -1 -> 0 and renderBattleCalls1 after hold.",
+    "New permanent real cardEl/tip/capture/battle or shop-handler regression failed before fix: completed hold must prevent synthetic click."
+  ],
+  "repair": [
+    "Only cardEl opts into consumeHold=true; existing tip callers retain their previous default path.",
+    "Touch token with identifier, pointerId and coordinates guards350ms show; movement>=8px/cancel invalidates hold and stale timeout cannot show.",
+    "Successful owner release grants one capture-click consumption; preventDefault+stopImmediatePropagation blocks downstream onclick.",
+    "Foreign pointer/keyboard/hover do not consume grant; next pointerdown/touchstart resets stale grant; next normal tap executes normally.",
+    "Tooltip timeout hides only its own shown tooltip, avoiding old timer hiding a newer tip."
+  ],
+  "verification": [
+    {
+      "command": "node --test tests/prototype-card-keywords.test.mjs tests/prototype-card-play.test.mjs tests/prototype-regret.test.mjs",
+      "result": "10/10 PASS",
+      "log": "/workspace/cloud-reports/m3-prototype-hold-js-after.log"
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p 'test_*.py'",
+      "result": "66 PASS",
+      "log": "/workspace/cloud-reports/m3-prototype-hold-python-after.log"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --exit-code -- src data tests/fixtures tests/test_prototype_cards.py",
+      "result": "PASS unchanged"
+    }
+  ],
+  "testBoundaries": [
+    "Regression uses actual prototype cardEl,tip,combat onclick/shop buy code and DOM capture-before-onclick dispatch with stopImmediatePropagation; DOM/timers simulated in VM.",
+    "Original reviewer repro direct el.onclick invocation bypasses DOM capture and must be dispatched through capture listener to validate repaired browser event chain.",
+    "No browser/native/device verification claimed; no full suite per controller scope."
+  ],
+  "htmlSha256": "8d11740a691e51e52d4394c1c183002451ceac70b96bf4fa0666913654a082ef",
+  "inventory": "Root notified of updated HTML SHA; no parallel inventory writes by implementer."
+}

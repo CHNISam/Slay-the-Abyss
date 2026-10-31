@@ -25,6 +25,6 @@
 |63|无|#4同一官方候选自然双幕结局、日志截图；同局/非法重复/回滚已有生产7组与离线seed2胜利。|
 |76.1|1|#2/#3同候选实体手机和PC分别中断恢复、设备版本/事件/截图。#1功能允许明确Focus完整操作恢复，不放开任意新Down抢占。|
 
-验证：CLI逐任务JSON读回核对标题、描述、负责人、优先级、标签、里程碑、依赖、原AC文本/旧勾选及DoD均保留；仅预期16项从未勾变勾。`npm run verify:backlog`通过，`git diff --check`通过。无自定义DoD。
+验证：CLI逐任务JSON读回核对标题、描述、负责人、优先级、标签、里程碑、依赖、原AC文本/旧勾选及DoD均保留；首轮仅预期16项从未勾变勾。`npm run verify:backlog`通过，`git diff --check`通过。无自定义DoD。
 
 最终补充：公开营地休息来源专项及作者外独审均通过后，主控另勾4.7#5，共新增17项AC。证据docs/reviews/M3-REST-UPGRADE-ORIGINS.md与final-rest-corrected.log.gz；用户当局异常原因、自然取得和设备验收仍不追认。

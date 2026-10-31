@@ -1,0 +1,64 @@
+{
+  "reviewedCommit": "647fbac435a018a1f7dba6c314cddd1d71f1e9c3",
+  "baseCommit": "8a5a4ad6b105e493db7b6f4d30e031c591216173",
+  "worktree": "/workspace/m3-architecture-final",
+  "reviewer": "independent final aggregate reviewer /root/review_m3_delivery_exact; no implementation involvement",
+  "verdict": "PASS",
+  "blockingFindings": [],
+  "scope": "14-file test-only architecture historical composition adapter and preserved RED/GREEN evidence; no runtime changes or old historical proof modifications.",
+  "assessment": [
+    "Whole new proof file SHA pinned; complete before/after source SHA256 and Git blob checked at import for all three exact paths. Independently compared every non-null source against recorded git commits, and verified null prior sources are actually absent.",
+    "Architecture parsed delta is exactly abyss_card_origin=core and abyss_card_origin_view=ui; all other fields and ordering unchanged. Complete pre-origin bytes are returned, preserving old scoring and PR323 chain hashes. No generic key removal or source hash refresh.",
+    "architectureSourceFormat permits layout whitespace only and compares exact token spelling. Extra/missing/duplicate/changed/escaped keys, layer changes, array reordering, garbage syntax and unknown modules retain original source without linked reads.",
+    "Every recognized projection freshly reads both exact complete owners through import.meta URL at real helper source root; historical CWD need not contain later modules. No owner permission cache. Injected reader is only an explicit test seam; default always reads real source files. Missing or drifted owner throws before projection; scoring helper catches failures by retaining unmatched source, which old exact guard rejects.",
+    "New layer is applied before scoring normalization and to the scoring live witness. It is idempotent on old architecture; source remains subject to original complete-source PR323 checks. Original proof/baseline, production sources, source catalog and budgets are unchanged.",
+    "Four archived raw outputs pass SHA256 and gzip verification; readable logs exactly expand-tabs/trailing-whitespace normalization, with actual failing RED retained."
+  ],
+  "freshVerification": [
+    {
+      "command": "node --test --test-concurrency=1 tests/m3-card-origin-architecture-inverse.test.mjs tests/architecture-composition-format.test.mjs",
+      "result": "5/5 PASS; zero skip; 7685.84ms. Original historical CWD/complete frozen bytes and tokens, new owner fresh/missing/drift checks exercised."
+    },
+    {
+      "check": "Independent Python git show/cat-file comparisons, two-registration-only parsed delta, four raw/archive/readable log hash and normalization checks",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --check HEAD^ HEAD; git diff --quiet HEAD^ HEAD -- src scripts data config tests/fixtures/pr323-accepted-source-inverse.json",
+      "result": "Both exit0; worktree clean at exact reviewed head"
+    }
+  ],
+  "authorEvidenceRead": [
+    "docs/evidence/m3-architecture-inverse-20261031/green.txt",
+    "docs/evidence/m3-architecture-inverse-20261031/new-negative-controls.txt",
+    "docs/evidence/m3-architecture-inverse-20261031/red.txt",
+    "docs/evidence/m3-architecture-inverse-20261031/related.txt"
+  ],
+  "limits": [
+    "Did not repeat full 9-case related set, real-FS trace or Lua suites; author results remain separately attributed.",
+    "Historical architecture projection is not current natural campaign/device evidence.",
+    "No source, tests, Backlog, branch or push modifications by reviewer; only external JSON written."
+  ],
+  "provenance": [
+    {
+      "path": "tests/helpers/m3-card-origin-architecture-inverse.mjs",
+      "sha256": "0cb89a4c46ba72438a239c0888664c58f0212cc36ff64c7dfb62e3c74d72dfa1"
+    },
+    {
+      "path": "tests/fixtures/m3-card-origin-architecture-inverse.json",
+      "sha256": "04432c6e1e31b2a76bb9e49969f6a9ba0adc1fc5f157d0c4d64db98e80f4ed86"
+    },
+    {
+      "path": "tests/helpers/pr323-accepted-source-inverse.mjs",
+      "sha256": "c8591803d58f9035cfa4d737b3042767a97c5757ed2a429f9373ec34b8ffbd74"
+    },
+    {
+      "path": "tests/m3-card-origin-architecture-inverse.test.mjs",
+      "sha256": "2d80efe3d731fba2cbf9a9d619521f6469b6b968b78c6d6be6f83b52780a1faa"
+    },
+    {
+      "path": "docs/evidence/m3-architecture-inverse-20261031/metadata.json",
+      "sha256": "11e08c964a534fc365fc92491624f01d47f845f030de1130bb357b763c5c6c79"
+    }
+  ]
+}

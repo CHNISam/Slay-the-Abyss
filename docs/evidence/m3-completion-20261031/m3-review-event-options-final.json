@@ -1,0 +1,96 @@
+{
+  "reviewedCommit": "b89325acf3bbbf53eea6aec2d3f6ae53973de945",
+  "reviewedParent": "e1ae599e17e5470c1fa4b5e4963477489a5c92df",
+  "verdict": "PASS",
+  "blockingFindings": [],
+  "sourceContractAssessment": [
+    "7新增文件只有测试、文档、变异记录；src/scripts/config/data无差异，未修改门禁、预算、算法、池或生产事件。",
+    "fixture使用真实Run.new比赛profile、第二幕Map.generate、Nodes.enter和Nodes.chooseEvent；明确受控act/gold及已存在地图节点type/eventId，constructor boolean由真实seed1/2产生并断言，不改handler或event boolean。",
+    "覆盖selected/random adjustment、transform/remove cleanup、full_remove后random upgrade与Punch；40/60/90金币和3HP采用独立字面预期，不从cost实现回读。付款后非法UID、强制阶段离开、重复购买/完成均拒绝。",
+    "拒绝检查深拷贝完整Run（仅共享只读data），双向递归字段比较，并额外检查nodeFlow/deck/relicPool owner identity；无用当前可变Run别名冒充before快照。",
+    "空组/全瓶装/真实定义necronomicurse/39金币不可行服务均拒绝且view禁用；仍保留原Punch。paid mandatory grid缩小后的source_undersized边界没有声称本轮解决，也未修改为自由退出退款。",
+    "真实onObtainCard hook先执行原hook再抛错，通过公开Nodes命令拒绝并比较全Run；pcall后可靠恢复hook。60金币先前已支付保留，恢复后同UID成功一次，重复拒绝。",
+    "有transform点击顺序removedUids、deck cardinality、新UID数量和公开leave->map出口断言；这仍非所有42事件选项/结果/RNG/永久hook笛卡尔积，报告明确保留这些缺口。",
+    "变异price日志显示161 ~=160，infeasible-grid日志显示拒绝预期false却true；summary记录两个exit1与恢复exit0。属于作者变异证据，本reviewer未重跑变异，也不声称独立验证未归档的精确mutation patch。"
+  ],
+  "freshVerification": [
+    {
+      "command": "node --test tests/designer-public-option-matrix.test.mjs",
+      "result": "1/1 PASS; 1899.904ms case; 0 skip; standard wrapper and default budget unchanged"
+    },
+    {
+      "command": "git diff b89325a^ b89325a -- src scripts config data",
+      "result": "empty"
+    },
+    {
+      "command": "git diff --check b89325a^ b89325a",
+      "result": "FAIL; raw captured log formatting only, see blocking finding"
+    },
+    {
+      "check": "65c1004 raw evidence bytes, provenance hashes, exact declared normalization and combined diff-check",
+      "result": "PASS; no unresolved findings in reviewed event slice"
+    }
+  ],
+  "provenance": [
+    {
+      "path": "tests/designer-public-option-matrix.test.mjs",
+      "sha256": "16a06f8d07839c858a4f5c4408abb002797cd3fd9972664563e2017c8e1014a1"
+    },
+    {
+      "path": "tests/lua/designer_public_option_matrix.lua",
+      "sha256": "9b4cbe5b8a731542f393e018e0206b6d723f1b3886367fa9cb0fac36db1eff2d"
+    },
+    {
+      "path": "docs/reviews/M3-EVENT-OPTIONS-AUDIT-20261031.md",
+      "sha256": "6d311fc6727333e9715c0a459b8c260a71e3987cf5c6c40e1aa455ce6253434f"
+    },
+    {
+      "path": "docs/evidence/m3-event-options-20261031/green.txt",
+      "sha256": "4f90d44e1d94a24cce41d3b19b8320a722dbd0f9f15039f56f4b3b6e881a4013"
+    },
+    {
+      "path": "docs/evidence/m3-event-options-20261031/infeasible-grid-red.txt",
+      "sha256": "4353706d6b1910917571e9d993bda5b8369f55e6865ba7cee701976f3d892f5a"
+    },
+    {
+      "path": "docs/evidence/m3-event-options-20261031/infeasible-grid-red.txt.raw.gz",
+      "sha256": "5f668e8b1baae3a01d368c92b3aef3acc910f4513db1331b5e05671477949401"
+    },
+    {
+      "path": "docs/evidence/m3-event-options-20261031/log-provenance.json",
+      "sha256": "f70b54b01930f2e60b29c992d9c4cad4a00ab78061b56c35e7aaa889dbb6bb6c"
+    },
+    {
+      "path": "docs/evidence/m3-event-options-20261031/mutation-summary.json",
+      "sha256": "ac8c6f0c2545798b6c36f843dcc988cfa25b33a087f229387345942917a6f8a0"
+    },
+    {
+      "path": "docs/evidence/m3-event-options-20261031/price-red.txt",
+      "sha256": "e27ce928332dce75bd4377d03e556c41f732ec879dedddb3b64fba771725c7e5"
+    },
+    {
+      "path": "docs/evidence/m3-event-options-20261031/price-red.txt.raw.gz",
+      "sha256": "f277e146e331b9cb08694ba8c1da59440ab4809be019ab1ee11bc2e7cf8854d1"
+    }
+  ],
+  "boundaries": [
+    "此前a7666ca交付审查不能自动复用到新增head；须完成本format修复及其他待审增量后重新绑定。",
+    "当前CI确实失败，未把它判断为基础设施问题或绕过门禁；本PASS_SOURCE并非CI通过。",
+    "未运行长套、全事件/商店/掉落矩阵或官方/设备验收；未改变Backlog、源码或共享final。"
+  ],
+  "resolvedFindings": [
+    {
+      "id": "EVENT-EVIDENCE-WHITESPACE",
+      "severity": "Medium",
+      "files": [
+        "docs/evidence/m3-event-options-20261031/price-red.txt",
+        "docs/evidence/m3-event-options-20261031/infeasible-grid-red.txt"
+      ],
+      "finding": "git diff --check b89325a^ b89325a fails on space-before-tab stack indentation and trailing whitespace on blank log lines. This breaks the required clean-diff gate; no production behavior defect found.",
+      "requiredFix": "Preserve original log bytes as raw.gz with SHA256 or retain gzip-only full logs, then normalize readable text whitespace and update any references/hashes. Recheck full PR diff. Do not silently discard failing evidence.",
+      "status": "CLOSED_BY_65c1004f2fc75bc286052da59897f9a42fdb6855",
+      "resolution": "Independently verified both gzip payloads equal original b893 logs byte for byte, all raw/archive/readable SHA256 values match, and readable files equal expandtabs(4)+rstrip normalization only. Combined b893 parent..65c1004 diff-check is clean."
+    }
+  ],
+  "followupCommit": "65c1004f2fc75bc286052da59897f9a42fdb6855"
+}

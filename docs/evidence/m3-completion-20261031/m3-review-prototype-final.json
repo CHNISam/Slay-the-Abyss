@@ -1,0 +1,79 @@
+{
+  "reviewedCommit": "e9bf368e40fee4664aa52bca6af4d407d55ae356",
+  "worktree": "/workspace/m3-prototype-copy",
+  "verdict": "PASS",
+  "findings": [],
+  "passedChecks": [
+    {
+      "check": "Machine compare original/current CARDS JSON",
+      "result": "91 arrays of8 strings retained; exactly10 fields changed, only body indices5/7 remove terminal 打击类牌。; all718 other fields unchanged. Exact five source strike-tag IDs retained."
+    },
+    {
+      "check": "Diff file scope",
+      "result": "Only prototype HTML and new JS test; source data, old eight-field expected equality test, frozen fixtures/hash files unchanged."
+    },
+    {
+      "command": "node --test tests/prototype-card-keywords.test.mjs tests/prototype-regret.test.mjs",
+      "result": "2/2 PASS, zero skip; keywords and Regret current baseline intact. These passing tests do not cover the finding."
+    },
+    {
+      "command": "git diff 73823f7^ 73823f7 --check",
+      "result": "PASS"
+    }
+  ],
+  "authorEvidenceRead": "/workspace/cloud-reports/m3-prototype-result.json records Python66 pass, prototypeJS7 pass, tooltip removed negative RED; reviewer did not repeat the broad Python suite.",
+  "limits": [
+    "Source/VM independent verification; not real browser/device evidence.",
+    "Python66 author GREEN read; no broad Python suite repeated.",
+    "No source or license inventory edits made by reviewer; root owns actual final license audit."
+  ],
+  "initialReviewedCommit": "73823f7fdb78060865cbea5577cfa2422bc2aaac",
+  "initialVerdict": "CHANGES_REQUESTED",
+  "htmlSha256": "8d11740a691e51e52d4394c1c183002451ceac70b96bf4fa0666913654a082ef",
+  "resolvedImportant": [
+    {
+      "id": "P-HOLD-1",
+      "severity": "Important",
+      "file": "docs/design/prototype/index.html",
+      "lines": [
+        1015,
+        1059,
+        1062,
+        1160,
+        1207,
+        1389
+      ],
+      "title": "New card keyword long-press leaves the subsequent card action enabled",
+      "details": "cardEl now attaches tip to actionable strike cards. tip uses passive touchstart and an uncancelled touchend followed by no click capture/consumption. A stationary battle pointer release also returns from dragEnd before setting dragJustEnded. Consequently the synthetic click after 350ms help executes the existing battle selection callback; actionable shop cards likewise retain their immediate buy onclick. This violates the requested read-only long-press/no click-through boundary. The new test checks that the tooltip appears but never emits or rejects the ensuing click.",
+      "reproduction": "node /workspace/cloud-reports/prototype-hold-repro.mjs",
+      "observed": "Exit1. Real cardEl and real tip callback, then real renderBattle card onclick: selectedSlot becomes0 and renderBattleCalls1 after longpress+release, expected -1/0. No tip click guard registered.",
+      "requestedFix": "Consume the click associated with a completed keyword hold without breaking ordinary tap/hover or existing card pointer ownership; cancel pending help on relevant touch/pointer cancellation or movement. Add a short meaningful regression that executes hold->release->click and verifies no selection/buy/play, plus normal tap remains functional. Do not change CARDS schema or expected canonical body fields.",
+      "status": "RESOLVED",
+      "fixedCommit": "e9bf368e40fee4664aa52bca6af4d407d55ae356",
+      "resolution": "Only the newly attached card keyword tip explicitly enables consumeHold. Existing tip callers retain their original default branch. Successful owned 350ms hold creates a one-release grant; target capture click preventsDefault and stopImmediatePropagation before real card onclick. Owner touch identity, movement cancel, stale timeout identity and foreign end preserve lifecycle boundaries. A fresh pointer/touch retires an unreceived grant, so the next legitimate short tap is not swallowed.",
+      "independentVerification": "Reviewer ran actual-source DOM callback ordering in the new permanent VM tests: capture click first, onclick only if not stopped. Original direct-el.onclick repro intentionally bypasses capture and is no longer a valid DOM dispatch sequence after this fix."
+    }
+  ],
+  "followupChecks": [
+    {
+      "item": "Scope and defaults",
+      "result": "Only same two files changed since73823. No new production data, card rules, source identity, canonical expected equality, frozen hashes or license inventory changes. All preexisting tip callsites preserve their default passive behavior; only new cardEl strike tooltip opts in."
+    },
+    {
+      "item": "Ownership and next action",
+      "result": "held token is matched by changedTouch identifier; timeout checks held identity; foreign touchend cannot release owner; >=8px move and owner cancel clear held/released; pointerdown and new valid touch clear stale grant. Click guard ignores non-touch and keyboard detail0, checks available pointer identity, consumes once, and prevents card target onclick."
+    },
+    {
+      "command": "node --test --test-concurrency=1 tests/prototype-card-keywords.test.mjs tests/prototype-card-play.test.mjs tests/prototype-regret.test.mjs",
+      "result": "Independent10/10 PASS, zero skip,250ms. Covers hold release no battle selection/shop purchase, next shorttap, hover/move/cancel/stale timer/foreign end, pointer grant, original drag/field and Regret."
+    },
+    {
+      "command": "git diff 73823f7 e9bf368 --check",
+      "result": "PASS"
+    },
+    {
+      "command": "sha256sum docs/design/prototype/index.html",
+      "result": "8d11740a691e51e52d4394c1c183002451ceac70b96bf4fa0666913654a082ef"
+    }
+  ]
+}

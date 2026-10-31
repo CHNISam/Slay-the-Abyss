@@ -1,0 +1,61 @@
+{
+  "reviewedCommit": "60cfeeaa056fe7133862b827250ce82aea8e857a",
+  "worktree": "/workspace/m3-evidence-license",
+  "verdict": "PASS",
+  "blockingFindings": [],
+  "scope": "只读8张已存在Simulator证据PNG的来源/权利边界登记与原license gate；不是法律清权或最终设备验收。",
+  "assessment": [
+    "该提交只改docs/legal/assets.json及新增docs/legal/M3_SIMULATOR_EVIDENCE.md。无PNG、生产代码、依赖、许可检查器或CI配置变化。",
+    "独立解析父/新inventory：schemaVersion、baseCommit、hashRule及全部24类逐字段相同；1306条旧files记录逐字段不变，只增加8条platform-evidence。沿用分类原说明platform-project evidence; no separate asset sublicense。",
+    "8PNG逐一按真实binary计算SHA256/bytes，均等新row与既有metadata；为实际PNG而非LFS指针，无重新编码。原始before与owned-relic-detail、after与isolated副本按各自路径登记且同hash，未混淆不同版本。",
+    "每条row明确指向legal来源文档、对应tree及receipt；8份tree/save/receipt的真实文件hash全部匹配其既有metadata，8份receipt均为1600x900离线Simulator Host。登记无虚构capture或遗漏已知fetch failed/403边界。",
+    "来源文档绑定生产e8eb723、最初证据af81787d、autoSize诊断93b9及beyond-simulator-mcp@0.5.2；与既有capture/README/metadata链一致。",
+    "文字延续LICENSE-SCOPE/THIRD_PARTY_NOTICES/既有审计：PolyForm只涉及可许可原创代码，不外推全部截图/名称/文案；HoYoverse/Mega Crit及其他IP不由仓库转授；截图作为平台项目开发证据，不授平台外素材复用或商用清权。",
+    "GPL模拟器被正确记为生成工具，未把工具GPL泛化为全部图像或游戏许可，也未把项目原创适配代码误记为无条件清权；工具嵌入runtime与实际内容权利仍按既有独立边界处理。",
+    "实际check-license仍检查tracked sensitive路径、原字节与来源记录；没有扩宽排除目录、关闭新增/变更/删除检测或自动批准所有未来截图。"
+  ],
+  "freshVerification": [
+    {
+      "command": "node --test scripts/check-license.test.mjs",
+      "result": "7/7 PASS, 0 skip；新增/字节漂移/缺来源/删row/LFS边界等负例保持"
+    },
+    {
+      "command": "node scripts/check-license.mjs",
+      "result": "exit0; License inventory unchanged. Known GPL/IP/unknown risks remain open; this is not commercial clearance."
+    },
+    {
+      "check": "old rows/schema/categories equality; 8PNG bytes/hash; all related tree/save/receipt metadata hashes and evidence paths",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --check 60cfeea^ 60cfeea",
+      "result": "PASS"
+    },
+    {
+      "command": "git status --porcelain",
+      "result": "clean"
+    }
+  ],
+  "provenance": [
+    {
+      "path": "docs/legal/assets.json",
+      "sha256": "a48bbe8b89f2514abbc17c5d20f29ca1591d153bc0dabf5a0cfaad0615d8285a"
+    },
+    {
+      "path": "docs/legal/M3_SIMULATOR_EVIDENCE.md",
+      "sha256": "1709bcbaacb87712992a117127d6504a4dbba3069368b78072740ff930ac2a84"
+    }
+  ],
+  "eventEvidenceFollowup": {
+    "fixCommit": "65c1004f2fc75bc286052da59897f9a42fdb6855",
+    "finding": "EVENT-EVIDENCE-WHITESPACE",
+    "status": "CLOSED",
+    "checks": "Both raw.gz decompress exactly to b893 original logs; all6 raw/archive/readable SHA256 values verified; readable text exact expandtabs(4)+rstrip; b893 parent..65c1004 combined diff-check clean. Updated /workspace/cloud-reports/m3-review-event-options-final.json to PASS, blockingFindings empty; retained original finding under resolvedFindings."
+  },
+  "boundaries": [
+    "许可证清单检查是来源漂移门禁，不是自动法律鉴定；未知素材/IP/工具权利限制继续存在。",
+    "Simulator PNG并非官方import/ready、交互或PC/手机验收；fetch failed/403仍未解决。",
+    "本切片可并入，但旧a766交付绑定仍待prototype/RNG等所有增量完成后重新精确绑定；不声称当前CI已绿。",
+    "无源码/任务/分支/push修改，未运行整套或重Lua。"
+  ]
+}

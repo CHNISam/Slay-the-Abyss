@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-31 17:02'
+updated_date: '2026-10-31 17:22'
 due_date: '2026-10-28'
 labels:
   - required
@@ -268,4 +268,6 @@ PR #304：普通与Boss遗物不可领由手机试玩发现；离线源链路确
 2026-10-31 M3小切片已实现：宝箱两展示依据真实缺定义原因提示不可领，仅有其他实际可领取项时提示其他奖励。原源码红例保留，新增8/Boss7/Sapphire17/来源14组直接Fengari通过；组合重建后提示8+Boss7再次通过。标准Node包装EPERM、完整npm test未通过、Luacheck缺失分别保留；独审和精确头托管CI待验，AC10暂不勾，整任务及平台证据保持未完成。见docs/reviews/M3-BACKLOG-CLOSEOUT-20261031.md。
 
 2026-10-31 M3最终事实核对：AC6：combined-acceptance.log标准27/27包含33瓶真实起始牌战后领取/跨房间使用六片和33商店购买六片；独立固定oracle与连续流/拒绝不重抽共同证明来源与概率未靠门禁放行。AC10：m3-combined-review.json独立复验两套宝箱UI8组及Boss7组，单项/全不可领/其他项领取后提示正确，完整Run/Map拒绝快照不变。新增勾选仅此两条。仍缺#5逐件剩余效果全属性核对、#7全池跨域组合证明、#8同候选逐件自然使用平台证据、#9普通/Boss自然获取与实机；130定义或153运行定义不能当逐件效果/自然全通过。
+
+2026-10-31 扩展离线合证：独立cardRandom源oracle覆盖Spoon/DeadBranch/MummifiedHand/Discovery/Elixir/Snecko同流连续消费与身份，5seed及精确少消费变异标准7/7通过；原完整33药水链和普通来源保留。见docs/reviews/M3-CARD-RANDOM-CONSUMER-CHAIN-20261031.md。不是全153遗物所有效果矩阵，广义AC5/7及自然/设备仍不勾。
 <!-- SECTION:NOTES:END -->

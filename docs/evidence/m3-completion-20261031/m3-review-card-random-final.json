@@ -1,0 +1,88 @@
+{
+  "reviewedCommit": "1c69a03a6e9e76d51ed27120928a31d01a709a71",
+  "worktree": "/workspace/m3-rules-final",
+  "reviewType": "independent narrow source and standard test review",
+  "verdict": "approved",
+  "verification": {
+    "command": "node --test --test-concurrency=1 tests/card-random-chain.test.mjs",
+    "status": "passed",
+    "tests": 7,
+    "durationMs": 28061.563348,
+    "perLuaDefaultTimeoutMs": 30000,
+    "luaDurationsMs": [
+      4375.689362,
+      4957.403861,
+      5558.272674,
+      5350.074746,
+      4674.001115,
+      2919.20322
+    ]
+  },
+  "sourceReview": {
+    "productionChanges": false,
+    "existingSourcePoolOrHashRelaxed": false,
+    "independentExpectedModel": "Python XS128 Stream imported only from independent oracle; frozen source pool and registration inputs, no production Lua or local runtime card catalog imported",
+    "fullPoolCount": 70,
+    "attackPoolCount": 28,
+    "poolOrder": "Entire ordered source common/uncommon/rare traversal compared to runtime arrays",
+    "seeds": [
+      "0",
+      "1",
+      "42",
+      "-1",
+      "505"
+    ],
+    "spoonBranches": "Seed 1 exhausts and generates a Branch card; other four seeds discard; both destinations asserted",
+    "drawAssertions": "Every wrapper call includes bound or boolean shape, returned value, both complete 64-bit words and counter before/after; phase snapshots and full final hand identities/costs independently checked",
+    "consumerChain": [
+      "Mummified Hand",
+      "Strange Spoon",
+      "Dead Branch",
+      "Discovery open",
+      "Discovery retrieval unused group",
+      "Elixir exhaust and Dead Branch",
+      "Snecko Oil"
+    ],
+    "rejection": "Invalid and stale Discovery selections compare complete combat snapshots and consume no wrapper draws; unrelated permanent and combat random streams are also asserted unchanged",
+    "mutation": "Temporary module replaces exactly one occurrence of generate(combat,state,p.effect) in Discovery choose; production source is untouched and mutant must fail at discovery_resolve complete stream"
+  },
+  "limitations": [
+    "Controlled combat hand/energy/HP/noDraw inputs; not natural acquisition or full PC frame execution",
+    "Not all 153 relics or all combinations; broader AC remain outside scope",
+    "The existing independent Stream implementation itself is reused, not rewritten or newly authenticated in this review",
+    "Source-file SHA literals were checked for preservation and independence, not refetched from the external upstream mirror"
+  ],
+  "worktreeMutated": false,
+  "initialReviewedCommit": "22efba6c6f7e435692ff6e18e30cc2243f1d3549",
+  "resolvedFindings": [
+    {
+      "id": "CRLF_RAW_HASH_DRIFT",
+      "priority": "P2",
+      "path": "tools/oracles/sts1_card_random_chain.py",
+      "line": 60,
+      "title": "Canonicalize oracle and input hashes or pin their checkout bytes",
+      "detail": "generatorSha256 and inputSha256 hash read_bytes(), while the new oracle and both frozen input JSON files have text/eol attributes unspecified. A Windows core.autocrlf checkout changes these bytes to CRLF. The checked-in fixture retains LF digests, so the standard --check fails oracle fixture drift without any semantic changes. Existing same-project provenance uses explicit LF attributes or normalized UTF-8 text hashes.",
+      "reproduction": "Copied only oracle, Stream dependency, two frozen input files and fixture into an isolated temporary directory, converted LF to CRLF, then ran python3 tools/oracles/sts1_card_random_chain.py --check. Exit 1 with AssertionError: oracle fixture drift. The source worktree was not modified.",
+      "requestedFix": "Normalize all three hashes to canonical LF UTF-8 and regenerate the fixture, or pin all three files with text eol=lf. Add a narrow portability regression or equivalent checkout verification.",
+      "status": "resolved",
+      "resolvedBy": "1c69a03a6e9e76d51ed27120928a31d01a709a71",
+      "resolution": "All three raw-byte authenticated paths explicitly use text eol=lf. A real Git clone with core.autocrlf=true and core.eol=crlf independently passes strict original oracle regeneration. Unpinned control contains CRLF, all authenticated paths remain LF and byte-equal. No oracle formula, source hash, input, or fixture changes."
+    }
+  ],
+  "findings": [],
+  "portabilityReverification": {
+    "command": "node --test tests/card-random-chain-checkout.test.mjs",
+    "tests": 1,
+    "status": "passed",
+    "durationMs": 167.712805,
+    "checks": [
+      "Git-created CRLF checkout proved by unpinned control",
+      "Original oracle --check succeeds without changed hashes or fixtures",
+      "All three pinned paths remain LF and exact-byte-equal",
+      "git check-attr confirms text set and eol lf for each path",
+      "Reviewed follow-up diff contains only .gitattributes and new checkout regression; no production or oracle/input/fixture changes",
+      "Worktree remains clean"
+    ],
+    "boundary": "Real Git checkout portability exercised on Linux with Windows CRLF settings; not a native Windows runtime execution. No full suite repeated."
+  }
+}
