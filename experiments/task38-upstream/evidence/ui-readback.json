@@ -1,0 +1,564 @@
+{
+  "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255/UPSTREAM-Pairs-eb05fd35.gil",
+  "containerId": 1073741851,
+  "rootId": 1073741852,
+  "interface": {
+    "name": "PR_ui",
+    "scripts": [
+      "PR_game"
+    ],
+    "controls": [
+      {
+        "name": "dim",
+        "kind": "image",
+        "position": [
+          0,
+          0
+        ],
+        "size": [
+          0,
+          0
+        ],
+        "anchor": {
+          "min": [
+            0,
+            0
+          ],
+          "max": [
+            1,
+            1
+          ]
+        },
+        "image": 100001,
+        "colour": "#0b1020",
+        "opacity": 0.7215686274509804
+      },
+      {
+        "name": "title",
+        "kind": "text",
+        "position": [
+          0,
+          315
+        ],
+        "size": [
+          600,
+          60
+        ],
+        "text": {
+          "content": "翻牌配对",
+          "fontSize": 40,
+          "colour": "#ffd040",
+          "opacity": 1,
+          "align": "centre",
+          "valign": "middle"
+        }
+      },
+      {
+        "name": "cardRef",
+        "kind": "reference",
+        "position": [
+          0,
+          0
+        ],
+        "size": [
+          80,
+          80
+        ],
+        "template": "PR_card"
+      },
+      {
+        "name": "board",
+        "kind": "container",
+        "position": [
+          0,
+          -10
+        ],
+        "size": [
+          600,
+          520
+        ]
+      },
+      {
+        "name": "hud",
+        "kind": "container",
+        "position": [
+          0,
+          0
+        ],
+        "size": [
+          1200,
+          700
+        ],
+        "children": [
+          {
+            "name": "barBack",
+            "kind": "image",
+            "position": [
+              0,
+              -300
+            ],
+            "size": [
+              608,
+              26
+            ],
+            "image": 100001,
+            "colour": "#000000",
+            "opacity": 0.5019607843137255
+          },
+          {
+            "name": "bar",
+            "kind": "image",
+            "position": [
+              0,
+              -300
+            ],
+            "size": [
+              600,
+              18
+            ],
+            "image": 100001,
+            "colour": "#40c060",
+            "opacity": 1,
+            "mask": true
+          },
+          {
+            "name": "moves",
+            "kind": "text",
+            "position": [
+              0,
+              -336
+            ],
+            "size": [
+              600,
+              36
+            ],
+            "text": {
+              "content": "步数 0    已配 0 / 6",
+              "fontSize": 22,
+              "align": "centre",
+              "valign": "middle"
+            }
+          },
+          {
+            "name": "pause",
+            "kind": "presetButton",
+            "position": [
+              500,
+              315
+            ],
+            "size": [
+              120,
+              50
+            ],
+            "states": {
+              "normal": "up",
+              "hover": "over",
+              "pressed": "down"
+            },
+            "children": [
+              {
+                "name": "up",
+                "kind": "image",
+                "position": [
+                  0,
+                  0
+                ],
+                "size": [
+                  120,
+                  50
+                ],
+                "image": 100001,
+                "colour": "#3a7bd5",
+                "opacity": 1
+              },
+              {
+                "name": "over",
+                "kind": "image",
+                "position": [
+                  0,
+                  0
+                ],
+                "size": [
+                  120,
+                  50
+                ],
+                "image": 100001,
+                "colour": "#5a9bf5",
+                "opacity": 1
+              },
+              {
+                "name": "down",
+                "kind": "image",
+                "position": [
+                  0,
+                  0
+                ],
+                "size": [
+                  120,
+                  50
+                ],
+                "image": 100001,
+                "colour": "#ffd040",
+                "opacity": 1
+              },
+              {
+                "name": "label",
+                "kind": "text",
+                "position": [
+                  0,
+                  0
+                ],
+                "size": [
+                  120,
+                  50
+                ],
+                "text": {
+                  "content": "暂停",
+                  "fontSize": 28,
+                  "align": "centre",
+                  "valign": "middle"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "menu",
+        "kind": "container",
+        "position": [
+          0,
+          0
+        ],
+        "size": [
+          700,
+          360
+        ],
+        "children": [
+          {
+            "name": "panel",
+            "kind": "image",
+            "position": [
+              0,
+              0
+            ],
+            "size": [
+              700,
+              360
+            ],
+            "image": 100001,
+            "colour": "#101830",
+            "opacity": 0.9019607843137255
+          },
+          {
+            "name": "tip",
+            "kind": "text",
+            "position": [
+              0,
+              70
+            ],
+            "size": [
+              640,
+              120
+            ],
+            "text": {
+              "content": "点开两张一样的牌就配成一对\\n在时间走完之前配完六对",
+              "fontSize": 28,
+              "align": "centre",
+              "valign": "middle"
+            }
+          },
+          {
+            "name": "go",
+            "kind": "presetButton",
+            "position": [
+              0,
+              -70
+            ],
+            "size": [
+              220,
+              70
+            ],
+            "states": {
+              "normal": "up",
+              "hover": "over",
+              "pressed": "down"
+            },
+            "children": [
+              {
+                "name": "up",
+                "kind": "image",
+                "position": [
+                  0,
+                  0
+                ],
+                "size": [
+                  220,
+                  70
+                ],
+                "image": 100001,
+                "colour": "#3a7bd5",
+                "opacity": 1
+              },
+              {
+                "name": "over",
+                "kind": "image",
+                "position": [
+                  0,
+                  0
+                ],
+                "size": [
+                  220,
+                  70
+                ],
+                "image": 100001,
+                "colour": "#5a9bf5",
+                "opacity": 1
+              },
+              {
+                "name": "down",
+                "kind": "image",
+                "position": [
+                  0,
+                  0
+                ],
+                "size": [
+                  220,
+                  70
+                ],
+                "image": 100001,
+                "colour": "#ffd040",
+                "opacity": 1
+              },
+              {
+                "name": "label",
+                "kind": "text",
+                "position": [
+                  0,
+                  0
+                ],
+                "size": [
+                  220,
+                  70
+                ],
+                "text": {
+                  "content": "开始",
+                  "fontSize": 28,
+                  "align": "centre",
+                  "valign": "middle"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "result",
+        "kind": "text",
+        "position": [
+          0,
+          0
+        ],
+        "size": [
+          700,
+          120
+        ],
+        "text": {
+          "fontSize": 60,
+          "colour": "#ffd040",
+          "opacity": 1,
+          "background": "#101830",
+          "backgroundOpacity": 0.9019607843137255,
+          "align": "centre",
+          "valign": "middle"
+        }
+      },
+      {
+        "name": "pauseMask",
+        "kind": "container",
+        "position": [
+          0,
+          0
+        ],
+        "size": [
+          0,
+          0
+        ],
+        "anchor": {
+          "min": [
+            0,
+            0
+          ],
+          "max": [
+            1,
+            1
+          ]
+        },
+        "children": [
+          {
+            "name": "shade",
+            "kind": "image",
+            "position": [
+              0,
+              0
+            ],
+            "size": [
+              0,
+              0
+            ],
+            "anchor": {
+              "min": [
+                0,
+                0
+              ],
+              "max": [
+                1,
+                1
+              ]
+            },
+            "image": 100001,
+            "colour": "#000000",
+            "opacity": 0.6
+          },
+          {
+            "name": "paused",
+            "kind": "text",
+            "position": [
+              0,
+              80
+            ],
+            "size": [
+              500,
+              90
+            ],
+            "text": {
+              "content": "已暂停",
+              "fontSize": 54,
+              "align": "centre",
+              "valign": "middle"
+            }
+          },
+          {
+            "name": "resume",
+            "kind": "presetButton",
+            "position": [
+              0,
+              -60
+            ],
+            "size": [
+              220,
+              70
+            ],
+            "states": {
+              "normal": "up",
+              "hover": "over",
+              "pressed": "down"
+            },
+            "children": [
+              {
+                "name": "up",
+                "kind": "image",
+                "position": [
+                  0,
+                  0
+                ],
+                "size": [
+                  220,
+                  70
+                ],
+                "image": 100001,
+                "colour": "#3a7bd5",
+                "opacity": 1
+              },
+              {
+                "name": "over",
+                "kind": "image",
+                "position": [
+                  0,
+                  0
+                ],
+                "size": [
+                  220,
+                  70
+                ],
+                "image": 100001,
+                "colour": "#5a9bf5",
+                "opacity": 1
+              },
+              {
+                "name": "down",
+                "kind": "image",
+                "position": [
+                  0,
+                  0
+                ],
+                "size": [
+                  220,
+                  70
+                ],
+                "image": 100001,
+                "colour": "#ffd040",
+                "opacity": 1
+              },
+              {
+                "name": "label",
+                "kind": "text",
+                "position": [
+                  0,
+                  0
+                ],
+                "size": [
+                  220,
+                  70
+                ],
+                "text": {
+                  "content": "继续",
+                  "fontSize": 28,
+                  "align": "centre",
+                  "valign": "middle"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "showCursor": true,
+    "blockKeys": true
+  },
+  "ids": {
+    "PR_ui": 1073741851,
+    "/": 1073741852,
+    "dim": 1073741853,
+    "title": 1073741854,
+    "cardRef": 1073741855,
+    "board": 1073741856,
+    "hud": 1073741857,
+    "hud/barBack": 1073741858,
+    "hud/bar": 1073741859,
+    "hud/moves": 1073741860,
+    "hud/pause": 1073741861,
+    "hud/pause/up": 1073741862,
+    "hud/pause/over": 1073741863,
+    "hud/pause/down": 1073741864,
+    "hud/pause/label": 1073741865,
+    "menu": 1073741866,
+    "menu/panel": 1073741867,
+    "menu/tip": 1073741868,
+    "menu/go": 1073741869,
+    "menu/go/up": 1073741870,
+    "menu/go/over": 1073741871,
+    "menu/go/down": 1073741872,
+    "menu/go/label": 1073741873,
+    "result": 1073741874,
+    "pauseMask": 1073741875,
+    "pauseMask/shade": 1073741876,
+    "pauseMask/paused": 1073741877,
+    "pauseMask/resume": 1073741878,
+    "pauseMask/resume/up": 1073741879,
+    "pauseMask/resume/over": 1073741880,
+    "pauseMask/resume/down": 1073741881,
+    "pauseMask/resume/label": 1073741882
+  },
+  "note": "interface is what scene_add_client_ui takes (name, scripts, controls and the switches of the root). To change the interface: scene_add_client_ui {...this with your changes, replace: true} puts the new one in its place; the container and every control that keeps its name keep their ids, so graphs that switch the container and scripts need no change."
+}

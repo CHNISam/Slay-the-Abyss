@@ -1,0 +1,2570 @@
+{
+  "stage": "UPSTREAM",
+  "upstreamCommit": "eb05fd35075b2635e851a2f58b202ac2eadd187b",
+  "baseSha256": "6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432",
+  "toolCommit": "7091060417fe9bd1231e812db4f798c97a5c63d1",
+  "calls": [
+    {
+      "name": "inspect_map",
+      "arguments": {
+        "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255/base.gil"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"path\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255\\\\base.gil\",\"modifiedAt\":\"2026-10-22T21:01:21.132Z\",\"bytes\":22101,\"sha256\":\"6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432\",\"schema\":1,\"graphs\":[],\"signals\":[],\"prefabTemplates\":[],\"battleConfigurations\":[{\"gameId\":1090519041,\"name\":\"自定义职业\",\"recordKind\":4,\"inspection\":\"observed-cn-7.0-config-paths\",\"gameplay\":\"not_run\",\"resourceType\":\"profession\",\"activeSkillConfigurations\":[{\"activeSkillCount\":null,\"slots\":[]}]}],\"uiConfigurations\":[],\"signalInspection\":{\"scope\":\"Pinned backend signal definition node IDs and matching graph references; parameter schema and runtime not verified\"},\"entities\":[{\"id\":1094713345,\"name\":\"关卡实体\",\"templateId\":10003004,\"graphMounts\":[],\"transform\":{\"position\":[0,0,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324737,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1090519041,\"name\":\"默认模版(角色编辑)\",\"templateId\":1000001,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324738,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324739,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324740,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324741,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324742,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324743,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324744,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324745,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}}],\"warnings\":[{\"code\":\"MISSING_GRAPH\",\"message\":\"Create and save a server entity node graph named _GSTS_MCP_Test in the editor, and attach it to the stage entity.\"}]}"
+          }
+        ],
+        "structuredContent": {
+          "path": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\base.gil",
+          "modifiedAt": "2026-10-22T21:01:21.132Z",
+          "bytes": 22101,
+          "sha256": "6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432",
+          "schema": 1,
+          "graphs": [],
+          "signals": [],
+          "prefabTemplates": [],
+          "battleConfigurations": [
+            {
+              "gameId": 1090519041,
+              "name": "自定义职业",
+              "recordKind": 4,
+              "inspection": "observed-cn-7.0-config-paths",
+              "gameplay": "not_run",
+              "resourceType": "profession",
+              "activeSkillConfigurations": [
+                {
+                  "activeSkillCount": null,
+                  "slots": []
+                }
+              ]
+            }
+          ],
+          "uiConfigurations": [],
+          "signalInspection": {
+            "scope": "Pinned backend signal definition node IDs and matching graph references; parameter schema and runtime not verified"
+          },
+          "entities": [
+            {
+              "id": 1094713345,
+              "name": "关卡实体",
+              "templateId": 10003004,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324737,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1090519041,
+              "name": "默认模版(角色编辑)",
+              "templateId": 1000001,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324738,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324739,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324740,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324741,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324742,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324743,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324744,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324745,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            }
+          ],
+          "warnings": [
+            {
+              "code": "MISSING_GRAPH",
+              "message": "Create and save a server entity node graph named _GSTS_MCP_Test in the editor, and attach it to the stage entity."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "scene_list_entities",
+      "arguments": {
+        "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255/base.gil",
+        "namePrefix": "PR_"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"mapPath\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255/base.gil\",\"total\":0,\"entities\":[],\"note\":\"In a node graph: f.queryEntityByGuid(new guid(GUID)), and f.createEntity(new guid(GUID), [] as bigint[]) for pieces with createdAtStart false. Use this file (or a patched copy) as mapPath for write_graphs so the graph is built on the save that holds these entities.\"}"
+          }
+        ],
+        "structuredContent": {
+          "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255/base.gil",
+          "total": 0,
+          "entities": [],
+          "note": "In a node graph: f.queryEntityByGuid(new guid(GUID)), and f.createEntity(new guid(GUID), [] as bigint[]) for pieces with createdAtStart false. Use this file (or a patched copy) as mapPath for write_graphs so the graph is built on the save that holds these entities."
+        }
+      }
+    },
+    {
+      "name": "scene_add_signal",
+      "arguments": {
+        "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255/base.gil",
+        "name": "PR_win",
+        "outputName": "pairs-signal-PR_win"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"mapPath\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255\\\\scenes\\\\saves\\\\pairs-signal-PR_win.gil\",\"source\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255/base.gil\",\"name\":\"PR_win\",\"definitionIds\":[1610612737,1610612738,1610612739,1610612740],\"next\":\"Use mapPath in later calls. A graph sends it with f.sendSignal('PR_win') and any graph hears it with .onSignal('PR_win', (evt, f) => {...}). This is how one thing tells many: the sender does not know who listens. To the client scripts (Lua) of one player a graph sends it with f.sendSignal('client:PR_win', player), and a script hears it with script:RegisterServerSignalHandler(\\\"PR_win\\\", function(name, params) ... end).\"}"
+          }
+        ],
+        "structuredContent": {
+          "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-signal-PR_win.gil",
+          "source": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255/base.gil",
+          "name": "PR_win",
+          "definitionIds": [
+            1610612737,
+            1610612738,
+            1610612739,
+            1610612740
+          ],
+          "next": "Use mapPath in later calls. A graph sends it with f.sendSignal('PR_win') and any graph hears it with .onSignal('PR_win', (evt, f) => {...}). This is how one thing tells many: the sender does not know who listens. To the client scripts (Lua) of one player a graph sends it with f.sendSignal('client:PR_win', player), and a script hears it with script:RegisterServerSignalHandler(\"PR_win\", function(name, params) ... end)."
+        }
+      }
+    },
+    {
+      "name": "scene_add_signal",
+      "arguments": {
+        "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-signal-PR_win.gil",
+        "name": "PR_lose",
+        "outputName": "pairs-signal-PR_lose"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"mapPath\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255\\\\scenes\\\\saves\\\\pairs-signal-PR_lose.gil\",\"source\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255\\\\scenes\\\\saves\\\\pairs-signal-PR_win.gil\",\"name\":\"PR_lose\",\"definitionIds\":[1610612741,1610612742,1610612743,1610612744],\"next\":\"Use mapPath in later calls. A graph sends it with f.sendSignal('PR_lose') and any graph hears it with .onSignal('PR_lose', (evt, f) => {...}). This is how one thing tells many: the sender does not know who listens. To the client scripts (Lua) of one player a graph sends it with f.sendSignal('client:PR_lose', player), and a script hears it with script:RegisterServerSignalHandler(\\\"PR_lose\\\", function(name, params) ... end).\"}"
+          }
+        ],
+        "structuredContent": {
+          "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-signal-PR_lose.gil",
+          "source": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-signal-PR_win.gil",
+          "name": "PR_lose",
+          "definitionIds": [
+            1610612741,
+            1610612742,
+            1610612743,
+            1610612744
+          ],
+          "next": "Use mapPath in later calls. A graph sends it with f.sendSignal('PR_lose') and any graph hears it with .onSignal('PR_lose', (evt, f) => {...}). This is how one thing tells many: the sender does not know who listens. To the client scripts (Lua) of one player a graph sends it with f.sendSignal('client:PR_lose', player), and a script hears it with script:RegisterServerSignalHandler(\"PR_lose\", function(name, params) ... end)."
+        }
+      }
+    },
+    {
+      "name": "scene_add_graph",
+      "arguments": {
+        "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-signal-PR_lose.gil",
+        "name": "PrStage",
+        "outputName": "pairs-graph"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"mapPath\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255\\\\scenes\\\\saves\\\\pairs-graph.gil\",\"source\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255\\\\scenes\\\\saves\\\\pairs-signal-PR_lose.gil\",\"graphId\":1073741825,\"name\":\"_GSTS_PrStage\",\"attachedTo\":\"关卡实体\",\"next\":\"write_graphs {mapPath: this mapPath, graphs: [{graphId: 1073741825, code}]}; the graph source starts with g.server({id:1073741825, name:'_GSTS_PrStage', ...}). Add every graph the level needs first, then write all their sources in one write_graphs call. In the graph, events are those of the entity it is attached to (evt.eventSourceEntity is that entity; on a prefab, each created copy runs its own instance), and whenEntityIsCreated fires when that entity appears (for the stage entity: when the level starts).\"}"
+          }
+        ],
+        "structuredContent": {
+          "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-graph.gil",
+          "source": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-signal-PR_lose.gil",
+          "graphId": 1073741825,
+          "name": "_GSTS_PrStage",
+          "attachedTo": "关卡实体",
+          "next": "write_graphs {mapPath: this mapPath, graphs: [{graphId: 1073741825, code}]}; the graph source starts with g.server({id:1073741825, name:'_GSTS_PrStage', ...}). Add every graph the level needs first, then write all their sources in one write_graphs call. In the graph, events are those of the entity it is attached to (evt.eventSourceEntity is that entity; on a prefab, each created copy runs its own instance), and whenEntityIsCreated fires when that entity appears (for the stage entity: when the level starts)."
+        }
+      }
+    },
+    {
+      "name": "scene_set_client_script",
+      "arguments": {
+        "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-graph.gil",
+        "name": "PR_game",
+        "sourceFile": "F:\\New folder\\.worktrees\\task38-upstream\\experiments\\task38-upstream\\upstream\\examples\\pairs/pr_game.lua",
+        "variables": [
+          {
+            "name": "seconds",
+            "type": "integer",
+            "value": 60,
+            "public": true
+          }
+        ],
+        "outputName": "pairs-script"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"mapPath\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255\\\\scenes\\\\saves\\\\pairs-script.gil\",\"source\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255\\\\scenes\\\\saves\\\\pairs-graph.gil\",\"scriptId\":1073741826,\"name\":\"PR_game\",\"file\":\"PR_game.lua\",\"replaced\":false,\"lines\":150,\"callbacks\":[\"OnStart\",\"OnUpdate\"],\"variables\":[\"seconds\"],\"fillNeedsMask\":\"The script fills an image (SetFill..., fillAmount) and never mentions enableMask: the fill shows only on an image whose mask is on. Give the image mask: true in scene_add_client_ui (or fill: {shape, amount}, which draws it filled from the start), or set control.enableMask = true before filling it.\",\"next\":\"Use mapPath in later calls. A script runs only on a client control: scene_add_client_ui {script: \\\"PR_game\\\"} puts the controls on the screen with this script on their root.\"}"
+          }
+        ],
+        "structuredContent": {
+          "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-script.gil",
+          "source": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-graph.gil",
+          "scriptId": 1073741826,
+          "name": "PR_game",
+          "file": "PR_game.lua",
+          "replaced": false,
+          "lines": 150,
+          "callbacks": [
+            "OnStart",
+            "OnUpdate"
+          ],
+          "variables": [
+            "seconds"
+          ],
+          "fillNeedsMask": "The script fills an image (SetFill..., fillAmount) and never mentions enableMask: the fill shows only on an image whose mask is on. Give the image mask: true in scene_add_client_ui (or fill: {shape, amount}, which draws it filled from the start), or set control.enableMask = true before filling it.",
+          "next": "Use mapPath in later calls. A script runs only on a client control: scene_add_client_ui {script: \"PR_game\"} puts the controls on the screen with this script on their root."
+        }
+      }
+    },
+    {
+      "name": "scene_add_client_template",
+      "arguments": {
+        "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-script.gil",
+        "template": {
+          "name": "PR_card",
+          "kind": "container",
+          "size": [
+            120,
+            150
+          ],
+          "children": [
+            {
+              "name": "back",
+              "kind": "image",
+              "image": 100001,
+              "colour": "#2a3f6a",
+              "size": [
+                120,
+                150
+              ]
+            },
+            {
+              "name": "edge",
+              "kind": "image",
+              "image": 100001,
+              "colour": "#5a7fc0",
+              "size": [
+                108,
+                138
+              ]
+            },
+            {
+              "name": "mark",
+              "kind": "image",
+              "image": 100001,
+              "colour": "#2a3f6a",
+              "size": [
+                96,
+                126
+              ]
+            },
+            {
+              "name": "face",
+              "kind": "image",
+              "image": 100005,
+              "size": [
+                84,
+                84
+              ]
+            },
+            {
+              "name": "hit",
+              "kind": "cursorArea",
+              "size": [
+                120,
+                150
+              ]
+            }
+          ]
+        },
+        "outputName": "pairs-template"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"mapPath\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255\\\\scenes\\\\saves\\\\pairs-template.gil\",\"source\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255\\\\scenes\\\\saves\\\\pairs-script.gil\",\"templateIndex\":1073741845,\"name\":\"PR_card\",\"controls\":[{\"name\":\"PR_card\",\"kind\":\"container\",\"path\":\"PR_card\",\"controlId\":1073741845,\"size\":[120,150]},{\"name\":\"back\",\"kind\":\"image\",\"path\":\"PR_card/back\",\"controlId\":1073741846,\"size\":[120,150]},{\"name\":\"edge\",\"kind\":\"image\",\"path\":\"PR_card/edge\",\"controlId\":1073741847,\"size\":[108,138]},{\"name\":\"mark\",\"kind\":\"image\",\"path\":\"PR_card/mark\",\"controlId\":1073741848,\"size\":[96,126]},{\"name\":\"face\",\"kind\":\"image\",\"path\":\"PR_card/face\",\"controlId\":1073741849,\"size\":[84,84]},{\"name\":\"hit\",\"kind\":\"cursorArea\",\"path\":\"PR_card/hit\",\"controlId\":1073741850,\"size\":[120,150]}],\"next\":\"Use mapPath in later calls. A script makes a copy with game.InstantiateClientUIControl(1073741845, parent) and removes one with game.DestroyClientUIControl(control); a grid of scene_add_client_ui takes it as itemTemplate: \\\"PR_card\\\", a reference as template: \\\"PR_card\\\".\"}"
+          }
+        ],
+        "structuredContent": {
+          "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-template.gil",
+          "source": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-script.gil",
+          "templateIndex": 1073741845,
+          "name": "PR_card",
+          "controls": [
+            {
+              "name": "PR_card",
+              "kind": "container",
+              "path": "PR_card",
+              "controlId": 1073741845,
+              "size": [
+                120,
+                150
+              ]
+            },
+            {
+              "name": "back",
+              "kind": "image",
+              "path": "PR_card/back",
+              "controlId": 1073741846,
+              "size": [
+                120,
+                150
+              ]
+            },
+            {
+              "name": "edge",
+              "kind": "image",
+              "path": "PR_card/edge",
+              "controlId": 1073741847,
+              "size": [
+                108,
+                138
+              ]
+            },
+            {
+              "name": "mark",
+              "kind": "image",
+              "path": "PR_card/mark",
+              "controlId": 1073741848,
+              "size": [
+                96,
+                126
+              ]
+            },
+            {
+              "name": "face",
+              "kind": "image",
+              "path": "PR_card/face",
+              "controlId": 1073741849,
+              "size": [
+                84,
+                84
+              ]
+            },
+            {
+              "name": "hit",
+              "kind": "cursorArea",
+              "path": "PR_card/hit",
+              "controlId": 1073741850,
+              "size": [
+                120,
+                150
+              ]
+            }
+          ],
+          "next": "Use mapPath in later calls. A script makes a copy with game.InstantiateClientUIControl(1073741845, parent) and removes one with game.DestroyClientUIControl(control); a grid of scene_add_client_ui takes it as itemTemplate: \"PR_card\", a reference as template: \"PR_card\"."
+        }
+      }
+    },
+    {
+      "name": "scene_add_client_ui",
+      "arguments": {
+        "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-template.gil",
+        "name": "PR_ui",
+        "showCursor": true,
+        "blockKeys": true,
+        "controls": [
+          {
+            "name": "dim",
+            "kind": "image",
+            "image": 100001,
+            "colour": "#0b1020",
+            "size": [
+              0,
+              0
+            ],
+            "opacity": 0.72,
+            "anchor": {
+              "min": [
+                0,
+                0
+              ],
+              "max": [
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "name": "title",
+            "kind": "text",
+            "position": [
+              0,
+              315
+            ],
+            "size": [
+              600,
+              60
+            ],
+            "text": {
+              "content": "翻牌配对",
+              "fontSize": 40,
+              "colour": "#ffd040"
+            }
+          },
+          {
+            "name": "cardRef",
+            "kind": "reference",
+            "template": "PR_card",
+            "position": [
+              0,
+              0
+            ]
+          },
+          {
+            "name": "board",
+            "kind": "container",
+            "position": [
+              0,
+              -10
+            ],
+            "size": [
+              600,
+              520
+            ]
+          },
+          {
+            "name": "hud",
+            "kind": "container",
+            "position": [
+              0,
+              0
+            ],
+            "size": [
+              1200,
+              700
+            ],
+            "children": [
+              {
+                "name": "barBack",
+                "kind": "image",
+                "image": 100001,
+                "colour": "#000000",
+                "size": [
+                  608,
+                  26
+                ],
+                "opacity": 0.5,
+                "position": [
+                  0,
+                  -300
+                ]
+              },
+              {
+                "name": "bar",
+                "kind": "image",
+                "image": 100001,
+                "colour": "#40c060",
+                "size": [
+                  600,
+                  18
+                ],
+                "mask": true,
+                "position": [
+                  0,
+                  -300
+                ]
+              },
+              {
+                "name": "moves",
+                "kind": "text",
+                "position": [
+                  0,
+                  -336
+                ],
+                "size": [
+                  600,
+                  36
+                ],
+                "text": {
+                  "content": "步数 0    已配 0 / 6",
+                  "fontSize": 22
+                }
+              },
+              {
+                "name": "pause",
+                "kind": "presetButton",
+                "position": [
+                  500,
+                  315
+                ],
+                "size": [
+                  120,
+                  50
+                ],
+                "states": {
+                  "normal": "up",
+                  "hover": "over",
+                  "pressed": "down"
+                },
+                "children": [
+                  {
+                    "name": "up",
+                    "kind": "image",
+                    "image": 100001,
+                    "colour": "#3a7bd5",
+                    "size": [
+                      120,
+                      50
+                    ]
+                  },
+                  {
+                    "name": "over",
+                    "kind": "image",
+                    "image": 100001,
+                    "colour": "#5a9bf5",
+                    "size": [
+                      120,
+                      50
+                    ]
+                  },
+                  {
+                    "name": "down",
+                    "kind": "image",
+                    "image": 100001,
+                    "colour": "#ffd040",
+                    "size": [
+                      120,
+                      50
+                    ]
+                  },
+                  {
+                    "name": "label",
+                    "kind": "text",
+                    "size": [
+                      120,
+                      50
+                    ],
+                    "text": {
+                      "content": "暂停",
+                      "fontSize": 28
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "menu",
+            "kind": "container",
+            "position": [
+              0,
+              0
+            ],
+            "size": [
+              700,
+              360
+            ],
+            "children": [
+              {
+                "name": "panel",
+                "kind": "image",
+                "image": 100001,
+                "colour": "#101830",
+                "size": [
+                  700,
+                  360
+                ],
+                "opacity": 0.9
+              },
+              {
+                "name": "tip",
+                "kind": "text",
+                "position": [
+                  0,
+                  70
+                ],
+                "size": [
+                  640,
+                  120
+                ],
+                "text": {
+                  "content": "点开两张一样的牌就配成一对\\n在时间走完之前配完六对",
+                  "fontSize": 28
+                }
+              },
+              {
+                "name": "go",
+                "kind": "presetButton",
+                "position": [
+                  0,
+                  -70
+                ],
+                "size": [
+                  220,
+                  70
+                ],
+                "states": {
+                  "normal": "up",
+                  "hover": "over",
+                  "pressed": "down"
+                },
+                "children": [
+                  {
+                    "name": "up",
+                    "kind": "image",
+                    "image": 100001,
+                    "colour": "#3a7bd5",
+                    "size": [
+                      220,
+                      70
+                    ]
+                  },
+                  {
+                    "name": "over",
+                    "kind": "image",
+                    "image": 100001,
+                    "colour": "#5a9bf5",
+                    "size": [
+                      220,
+                      70
+                    ]
+                  },
+                  {
+                    "name": "down",
+                    "kind": "image",
+                    "image": 100001,
+                    "colour": "#ffd040",
+                    "size": [
+                      220,
+                      70
+                    ]
+                  },
+                  {
+                    "name": "label",
+                    "kind": "text",
+                    "size": [
+                      220,
+                      70
+                    ],
+                    "text": {
+                      "content": "开始",
+                      "fontSize": 28
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "result",
+            "kind": "text",
+            "position": [
+              0,
+              0
+            ],
+            "size": [
+              700,
+              120
+            ],
+            "text": {
+              "content": "",
+              "fontSize": 60,
+              "colour": "#ffd040",
+              "background": "#101830",
+              "backgroundOpacity": 0.9
+            }
+          },
+          {
+            "name": "pauseMask",
+            "kind": "container",
+            "anchor": {
+              "min": [
+                0,
+                0
+              ],
+              "max": [
+                1,
+                1
+              ]
+            },
+            "size": [
+              0,
+              0
+            ],
+            "children": [
+              {
+                "name": "shade",
+                "kind": "image",
+                "image": 100001,
+                "colour": "#000000",
+                "size": [
+                  0,
+                  0
+                ],
+                "opacity": 0.6,
+                "anchor": {
+                  "min": [
+                    0,
+                    0
+                  ],
+                  "max": [
+                    1,
+                    1
+                  ]
+                }
+              },
+              {
+                "name": "paused",
+                "kind": "text",
+                "position": [
+                  0,
+                  80
+                ],
+                "size": [
+                  500,
+                  90
+                ],
+                "text": {
+                  "content": "已暂停",
+                  "fontSize": 54
+                }
+              },
+              {
+                "name": "resume",
+                "kind": "presetButton",
+                "position": [
+                  0,
+                  -60
+                ],
+                "size": [
+                  220,
+                  70
+                ],
+                "states": {
+                  "normal": "up",
+                  "hover": "over",
+                  "pressed": "down"
+                },
+                "children": [
+                  {
+                    "name": "up",
+                    "kind": "image",
+                    "image": 100001,
+                    "colour": "#3a7bd5",
+                    "size": [
+                      220,
+                      70
+                    ]
+                  },
+                  {
+                    "name": "over",
+                    "kind": "image",
+                    "image": 100001,
+                    "colour": "#5a9bf5",
+                    "size": [
+                      220,
+                      70
+                    ]
+                  },
+                  {
+                    "name": "down",
+                    "kind": "image",
+                    "image": 100001,
+                    "colour": "#ffd040",
+                    "size": [
+                      220,
+                      70
+                    ]
+                  },
+                  {
+                    "name": "label",
+                    "kind": "text",
+                    "size": [
+                      220,
+                      70
+                    ],
+                    "text": {
+                      "content": "继续",
+                      "fontSize": 28
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "script": "PR_game",
+        "outputName": "pairs-ui"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"mapPath\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255\\\\scenes\\\\saves\\\\pairs-ui.gil\",\"source\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255\\\\scenes\\\\saves\\\\pairs-template.gil\",\"containerId\":1073741851,\"rootId\":1073741852,\"name\":\"PR_ui\",\"scripts\":[{\"name\":\"PR_game\",\"scriptId\":1073741826}],\"controls\":[{\"name\":\"dim\",\"kind\":\"image\",\"path\":\"dim\",\"controlId\":1073741853,\"position\":[0,0],\"size\":[0,0]},{\"name\":\"title\",\"kind\":\"text\",\"path\":\"title\",\"controlId\":1073741854,\"position\":[0,315],\"size\":[600,60]},{\"name\":\"cardRef\",\"kind\":\"reference\",\"path\":\"cardRef\",\"controlId\":1073741855,\"position\":[0,0],\"size\":[80,80]},{\"name\":\"board\",\"kind\":\"container\",\"path\":\"board\",\"controlId\":1073741856,\"position\":[0,-10],\"size\":[600,520]},{\"name\":\"hud\",\"kind\":\"container\",\"path\":\"hud\",\"controlId\":1073741857,\"position\":[0,0],\"size\":[1200,700]},{\"name\":\"barBack\",\"kind\":\"image\",\"path\":\"hud/barBack\",\"controlId\":1073741858,\"position\":[0,-300],\"size\":[608,26]},{\"name\":\"bar\",\"kind\":\"image\",\"path\":\"hud/bar\",\"controlId\":1073741859,\"position\":[0,-300],\"size\":[600,18]},{\"name\":\"moves\",\"kind\":\"text\",\"path\":\"hud/moves\",\"controlId\":1073741860,\"position\":[0,-336],\"size\":[600,36]},{\"name\":\"pause\",\"kind\":\"presetButton\",\"path\":\"hud/pause\",\"controlId\":1073741861,\"position\":[500,315],\"size\":[120,50]},{\"name\":\"up\",\"kind\":\"image\",\"path\":\"hud/pause/up\",\"controlId\":1073741862,\"position\":[0,0],\"size\":[120,50]},{\"name\":\"over\",\"kind\":\"image\",\"path\":\"hud/pause/over\",\"controlId\":1073741863,\"position\":[0,0],\"size\":[120,50]},{\"name\":\"down\",\"kind\":\"image\",\"path\":\"hud/pause/down\",\"controlId\":1073741864,\"position\":[0,0],\"size\":[120,50]},{\"name\":\"label\",\"kind\":\"text\",\"path\":\"hud/pause/label\",\"controlId\":1073741865,\"position\":[0,0],\"size\":[120,50]},{\"name\":\"menu\",\"kind\":\"container\",\"path\":\"menu\",\"controlId\":1073741866,\"position\":[0,0],\"size\":[700,360]},{\"name\":\"panel\",\"kind\":\"image\",\"path\":\"menu/panel\",\"controlId\":1073741867,\"position\":[0,0],\"size\":[700,360]},{\"name\":\"tip\",\"kind\":\"text\",\"path\":\"menu/tip\",\"controlId\":1073741868,\"position\":[0,70],\"size\":[640,120]},{\"name\":\"go\",\"kind\":\"presetButton\",\"path\":\"menu/go\",\"controlId\":1073741869,\"position\":[0,-70],\"size\":[220,70]},{\"name\":\"up\",\"kind\":\"image\",\"path\":\"menu/go/up\",\"controlId\":1073741870,\"position\":[0,0],\"size\":[220,70]},{\"name\":\"over\",\"kind\":\"image\",\"path\":\"menu/go/over\",\"controlId\":1073741871,\"position\":[0,0],\"size\":[220,70]},{\"name\":\"down\",\"kind\":\"image\",\"path\":\"menu/go/down\",\"controlId\":1073741872,\"position\":[0,0],\"size\":[220,70]},{\"name\":\"label\",\"kind\":\"text\",\"path\":\"menu/go/label\",\"controlId\":1073741873,\"position\":[0,0],\"size\":[220,70]},{\"name\":\"result\",\"kind\":\"text\",\"path\":\"result\",\"controlId\":1073741874,\"position\":[0,0],\"size\":[700,120]},{\"name\":\"pauseMask\",\"kind\":\"container\",\"path\":\"pauseMask\",\"controlId\":1073741875,\"position\":[0,0],\"size\":[0,0]},{\"name\":\"shade\",\"kind\":\"image\",\"path\":\"pauseMask/shade\",\"controlId\":1073741876,\"position\":[0,0],\"size\":[0,0]},{\"name\":\"paused\",\"kind\":\"text\",\"path\":\"pauseMask/paused\",\"controlId\":1073741877,\"position\":[0,80],\"size\":[500,90]},{\"name\":\"resume\",\"kind\":\"presetButton\",\"path\":\"pauseMask/resume\",\"controlId\":1073741878,\"position\":[0,-60],\"size\":[220,70]},{\"name\":\"up\",\"kind\":\"image\",\"path\":\"pauseMask/resume/up\",\"controlId\":1073741879,\"position\":[0,0],\"size\":[220,70]},{\"name\":\"over\",\"kind\":\"image\",\"path\":\"pauseMask/resume/over\",\"controlId\":1073741880,\"position\":[0,0],\"size\":[220,70]},{\"name\":\"down\",\"kind\":\"image\",\"path\":\"pauseMask/resume/down\",\"controlId\":1073741881,\"position\":[0,0],\"size\":[220,70]},{\"name\":\"label\",\"kind\":\"text\",\"path\":\"pauseMask/resume/label\",\"controlId\":1073741882,\"position\":[0,0],\"size\":[220,70]}],\"templates\":[{\"templateIndex\":1073741845,\"name\":\"PR_card\"}],\"next\":\"Use mapPath in later calls. In the script, script.object is the root (a container that fills the screen) and script.object:GetChild(\\\"dim\\\") finds a control under it by name (a child of a child through its own GetChild). The controls are written as the editor makes them, empty: an image shows nothing until the script gives it a picture (control:SetImage(Enum.ImageSource.StaticReference, id), ids from image_catalog) and a colour (control.imageColor = Color(r, g, b)). Controls stand in the order given, later ones over earlier ones. On an account of 奇匠 level 1 a client text box shows nothing either (seen in play, 2026-10-13): say it with pictures.\"}"
+          }
+        ],
+        "structuredContent": {
+          "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-ui.gil",
+          "source": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-template.gil",
+          "containerId": 1073741851,
+          "rootId": 1073741852,
+          "name": "PR_ui",
+          "scripts": [
+            {
+              "name": "PR_game",
+              "scriptId": 1073741826
+            }
+          ],
+          "controls": [
+            {
+              "name": "dim",
+              "kind": "image",
+              "path": "dim",
+              "controlId": 1073741853,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                0,
+                0
+              ]
+            },
+            {
+              "name": "title",
+              "kind": "text",
+              "path": "title",
+              "controlId": 1073741854,
+              "position": [
+                0,
+                315
+              ],
+              "size": [
+                600,
+                60
+              ]
+            },
+            {
+              "name": "cardRef",
+              "kind": "reference",
+              "path": "cardRef",
+              "controlId": 1073741855,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                80,
+                80
+              ]
+            },
+            {
+              "name": "board",
+              "kind": "container",
+              "path": "board",
+              "controlId": 1073741856,
+              "position": [
+                0,
+                -10
+              ],
+              "size": [
+                600,
+                520
+              ]
+            },
+            {
+              "name": "hud",
+              "kind": "container",
+              "path": "hud",
+              "controlId": 1073741857,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                1200,
+                700
+              ]
+            },
+            {
+              "name": "barBack",
+              "kind": "image",
+              "path": "hud/barBack",
+              "controlId": 1073741858,
+              "position": [
+                0,
+                -300
+              ],
+              "size": [
+                608,
+                26
+              ]
+            },
+            {
+              "name": "bar",
+              "kind": "image",
+              "path": "hud/bar",
+              "controlId": 1073741859,
+              "position": [
+                0,
+                -300
+              ],
+              "size": [
+                600,
+                18
+              ]
+            },
+            {
+              "name": "moves",
+              "kind": "text",
+              "path": "hud/moves",
+              "controlId": 1073741860,
+              "position": [
+                0,
+                -336
+              ],
+              "size": [
+                600,
+                36
+              ]
+            },
+            {
+              "name": "pause",
+              "kind": "presetButton",
+              "path": "hud/pause",
+              "controlId": 1073741861,
+              "position": [
+                500,
+                315
+              ],
+              "size": [
+                120,
+                50
+              ]
+            },
+            {
+              "name": "up",
+              "kind": "image",
+              "path": "hud/pause/up",
+              "controlId": 1073741862,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                120,
+                50
+              ]
+            },
+            {
+              "name": "over",
+              "kind": "image",
+              "path": "hud/pause/over",
+              "controlId": 1073741863,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                120,
+                50
+              ]
+            },
+            {
+              "name": "down",
+              "kind": "image",
+              "path": "hud/pause/down",
+              "controlId": 1073741864,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                120,
+                50
+              ]
+            },
+            {
+              "name": "label",
+              "kind": "text",
+              "path": "hud/pause/label",
+              "controlId": 1073741865,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                120,
+                50
+              ]
+            },
+            {
+              "name": "menu",
+              "kind": "container",
+              "path": "menu",
+              "controlId": 1073741866,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                700,
+                360
+              ]
+            },
+            {
+              "name": "panel",
+              "kind": "image",
+              "path": "menu/panel",
+              "controlId": 1073741867,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                700,
+                360
+              ]
+            },
+            {
+              "name": "tip",
+              "kind": "text",
+              "path": "menu/tip",
+              "controlId": 1073741868,
+              "position": [
+                0,
+                70
+              ],
+              "size": [
+                640,
+                120
+              ]
+            },
+            {
+              "name": "go",
+              "kind": "presetButton",
+              "path": "menu/go",
+              "controlId": 1073741869,
+              "position": [
+                0,
+                -70
+              ],
+              "size": [
+                220,
+                70
+              ]
+            },
+            {
+              "name": "up",
+              "kind": "image",
+              "path": "menu/go/up",
+              "controlId": 1073741870,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                220,
+                70
+              ]
+            },
+            {
+              "name": "over",
+              "kind": "image",
+              "path": "menu/go/over",
+              "controlId": 1073741871,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                220,
+                70
+              ]
+            },
+            {
+              "name": "down",
+              "kind": "image",
+              "path": "menu/go/down",
+              "controlId": 1073741872,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                220,
+                70
+              ]
+            },
+            {
+              "name": "label",
+              "kind": "text",
+              "path": "menu/go/label",
+              "controlId": 1073741873,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                220,
+                70
+              ]
+            },
+            {
+              "name": "result",
+              "kind": "text",
+              "path": "result",
+              "controlId": 1073741874,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                700,
+                120
+              ]
+            },
+            {
+              "name": "pauseMask",
+              "kind": "container",
+              "path": "pauseMask",
+              "controlId": 1073741875,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                0,
+                0
+              ]
+            },
+            {
+              "name": "shade",
+              "kind": "image",
+              "path": "pauseMask/shade",
+              "controlId": 1073741876,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                0,
+                0
+              ]
+            },
+            {
+              "name": "paused",
+              "kind": "text",
+              "path": "pauseMask/paused",
+              "controlId": 1073741877,
+              "position": [
+                0,
+                80
+              ],
+              "size": [
+                500,
+                90
+              ]
+            },
+            {
+              "name": "resume",
+              "kind": "presetButton",
+              "path": "pauseMask/resume",
+              "controlId": 1073741878,
+              "position": [
+                0,
+                -60
+              ],
+              "size": [
+                220,
+                70
+              ]
+            },
+            {
+              "name": "up",
+              "kind": "image",
+              "path": "pauseMask/resume/up",
+              "controlId": 1073741879,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                220,
+                70
+              ]
+            },
+            {
+              "name": "over",
+              "kind": "image",
+              "path": "pauseMask/resume/over",
+              "controlId": 1073741880,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                220,
+                70
+              ]
+            },
+            {
+              "name": "down",
+              "kind": "image",
+              "path": "pauseMask/resume/down",
+              "controlId": 1073741881,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                220,
+                70
+              ]
+            },
+            {
+              "name": "label",
+              "kind": "text",
+              "path": "pauseMask/resume/label",
+              "controlId": 1073741882,
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                220,
+                70
+              ]
+            }
+          ],
+          "templates": [
+            {
+              "templateIndex": 1073741845,
+              "name": "PR_card"
+            }
+          ],
+          "next": "Use mapPath in later calls. In the script, script.object is the root (a container that fills the screen) and script.object:GetChild(\"dim\") finds a control under it by name (a child of a child through its own GetChild). The controls are written as the editor makes them, empty: an image shows nothing until the script gives it a picture (control:SetImage(Enum.ImageSource.StaticReference, id), ids from image_catalog) and a colour (control.imageColor = Color(r, g, b)). Controls stand in the order given, later ones over earlier ones. On an account of 奇匠 level 1 a client text box shows nothing either (seen in play, 2026-10-13): say it with pictures."
+        }
+      }
+    },
+    {
+      "name": "scene_list_prefabs",
+      "arguments": {
+        "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-ui.gil"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"mapPath\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255\\\\scenes\\\\saves\\\\pairs-ui.gil\",\"prefabs\":[],\"note\":\"A node graph creates one anywhere with f.createPrefab(prefabId, position, rotation, ownerEntity, false, 1, [] as bigint[]) and finds them with f.getEntitiesWithSpecifiedPrefabOnTheField(prefabId). The entity has the prefab's scale. scene_add_prefab makes an object prefab of any asset at any scale.\"}"
+          }
+        ],
+        "structuredContent": {
+          "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-ui.gil",
+          "prefabs": [],
+          "note": "A node graph creates one anywhere with f.createPrefab(prefabId, position, rotation, ownerEntity, false, 1, [] as bigint[]) and finds them with f.getEntitiesWithSpecifiedPrefabOnTheField(prefabId). The entity has the prefab's scale. scene_add_prefab makes an object prefab of any asset at any scale."
+        }
+      }
+    },
+    {
+      "name": "write_graphs",
+      "arguments": {
+        "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\scenes\\saves\\pairs-ui.gil",
+        "graphs": [
+          {
+            "graphId": 1073741825,
+            "code": "/// <reference types=\"genshin-ts\" />\nimport { g } from 'genshin-ts/runtime/core'\nimport { SettlementStatus } from 'genshin-ts/definitions/enum'\n\n// Pairs, graph \"stage\": see examples/pairs/gen_pairs.py.\ng.server({id:1073741825,name:'_GSTS_PrStage'})\n.on('whenEntityIsCreated',(evt,f)=>{\n  f.printString('PR_READY');\n})\n.onSignal('PR_win',(evt,f)=>{\n  f.printString('PR_VICTORY');\n  for(const player of f.getListOfPlayerEntitiesOnTheField())f.setPlayerSettlementSuccessStatus(player,SettlementStatus.Victory);\n  f.settleStage();\n})\n.onSignal('PR_lose',(evt,f)=>{\n  f.printString('PR_DEFEAT');\n  for(const player of f.getListOfPlayerEntitiesOnTheField())f.setPlayerSettlementSuccessStatus(player,SettlementStatus.Defeat);\n  f.settleStage();\n})\n"
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"mapPath\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255\\\\wmvvugmys-0\\\\working.gil\",\"written\":[{\"graphId\":1073741825,\"projectId\":\"wmvvugmys-0\",\"limits\":{\"nodeCount\":14,\"editorCount\":52,\"maxNodes\":3000,\"counting\":\"The editor refuses a graph when nodeCount or editorCount is above maxNodes. editorCount counts each read or write of a graph variable as 4, each loop over a list as 20, each counting loop (finiteLoop) as 15, everything else as 1 (measured; local variables count 1).\",\"runtime\":\"The server ends a level when, each second, nodes run plus about 20 for every round of a loop go above roughly 1400 (measured; aim for under 1000; see miliastra://platform-rules). playtest_status reports it as serverMessage.\"},\"warnings\":[]}],\"next\":\"All written. Play it: playtest_start {mapPath: this mapPath, graphNames: the graphs whose prints you want}.\"}"
+          }
+        ],
+        "structuredContent": {
+          "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\wmvvugmys-0\\working.gil",
+          "written": [
+            {
+              "graphId": 1073741825,
+              "projectId": "wmvvugmys-0",
+              "limits": {
+                "nodeCount": 14,
+                "editorCount": 52,
+                "maxNodes": 3000,
+                "counting": "The editor refuses a graph when nodeCount or editorCount is above maxNodes. editorCount counts each read or write of a graph variable as 4, each loop over a list as 20, each counting loop (finiteLoop) as 15, everything else as 1 (measured; local variables count 1).",
+                "runtime": "The server ends a level when, each second, nodes run plus about 20 for every round of a loop go above roughly 1400 (measured; aim for under 1000; see miliastra://platform-rules). playtest_status reports it as serverMessage."
+              },
+              "warnings": []
+            }
+          ],
+          "next": "All written. Play it: playtest_start {mapPath: this mapPath, graphNames: the graphs whose prints you want}."
+        }
+      }
+    },
+    {
+      "name": "scene_list_components",
+      "arguments": {
+        "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\wmvvugmys-0\\working.gil",
+        "prefab": "player"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"mapPath\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255\\\\wmvvugmys-0\\\\working.gil\",\"found\":[{\"where\":\"prefab\",\"prefabId\":1086324737,\"collisionTriggers\":0,\"options\":[],\"variables\":[],\"motions\":[],\"follow\":false,\"minimapMarker\":false,\"hurtBox\":false,\"launcher\":false,\"extraCollision\":false,\"abilityUnits\":[],\"graphs\":[]},{\"where\":\"placed\",\"guid\":1086324737,\"name\":\"默认模版\",\"collisionTriggers\":0,\"options\":[],\"variables\":[],\"motions\":[],\"follow\":false,\"minimapMarker\":false,\"hurtBox\":false,\"launcher\":false,\"extraCollision\":false,\"abilityUnits\":[],\"graphs\":[]},{\"where\":\"placed\",\"guid\":1086324738,\"name\":\"默认模版\",\"collisionTriggers\":0,\"options\":[],\"variables\":[],\"motions\":[],\"follow\":false,\"minimapMarker\":false,\"hurtBox\":false,\"launcher\":false,\"extraCollision\":false,\"abilityUnits\":[],\"graphs\":[]},{\"where\":\"placed\",\"guid\":1086324739,\"name\":\"默认模版\",\"collisionTriggers\":0,\"options\":[],\"variables\":[],\"motions\":[],\"follow\":false,\"minimapMarker\":false,\"hurtBox\":false,\"launcher\":false,\"extraCollision\":false,\"abilityUnits\":[],\"graphs\":[]},{\"where\":\"placed\",\"guid\":1086324740,\"name\":\"默认模版\",\"collisionTriggers\":0,\"options\":[],\"variables\":[],\"motions\":[],\"follow\":false,\"minimapMarker\":false,\"hurtBox\":false,\"launcher\":false,\"extraCollision\":false,\"abilityUnits\":[],\"graphs\":[]},{\"where\":\"placed\",\"guid\":1086324741,\"name\":\"默认模版\",\"collisionTriggers\":0,\"options\":[],\"variables\":[],\"motions\":[],\"follow\":false,\"minimapMarker\":false,\"hurtBox\":false,\"launcher\":false,\"extraCollision\":false,\"abilityUnits\":[],\"graphs\":[]},{\"where\":\"placed\",\"guid\":1086324742,\"name\":\"默认模版\",\"collisionTriggers\":0,\"options\":[],\"variables\":[],\"motions\":[],\"follow\":false,\"minimapMarker\":false,\"hurtBox\":false,\"launcher\":false,\"extraCollision\":false,\"abilityUnits\":[],\"graphs\":[]},{\"where\":\"placed\",\"guid\":1086324743,\"name\":\"默认模版\",\"collisionTriggers\":0,\"options\":[],\"variables\":[],\"motions\":[],\"follow\":false,\"minimapMarker\":false,\"hurtBox\":false,\"launcher\":false,\"extraCollision\":false,\"abilityUnits\":[],\"graphs\":[]},{\"where\":\"placed\",\"guid\":1086324744,\"name\":\"默认模版\",\"collisionTriggers\":0,\"options\":[],\"variables\":[],\"motions\":[],\"follow\":false,\"minimapMarker\":false,\"hurtBox\":false,\"launcher\":false,\"extraCollision\":false,\"abilityUnits\":[],\"graphs\":[]},{\"where\":\"placed\",\"guid\":1086324745,\"name\":\"默认模版\",\"collisionTriggers\":0,\"options\":[],\"variables\":[],\"motions\":[],\"follow\":false,\"minimapMarker\":false,\"hurtBox\":false,\"launcher\":false,\"extraCollision\":false,\"abilityUnits\":[],\"graphs\":[]}]}"
+          }
+        ],
+        "structuredContent": {
+          "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\wmvvugmys-0\\working.gil",
+          "found": [
+            {
+              "where": "prefab",
+              "prefabId": 1086324737,
+              "collisionTriggers": 0,
+              "options": [],
+              "variables": [],
+              "motions": [],
+              "follow": false,
+              "minimapMarker": false,
+              "hurtBox": false,
+              "launcher": false,
+              "extraCollision": false,
+              "abilityUnits": [],
+              "graphs": []
+            },
+            {
+              "where": "placed",
+              "guid": 1086324737,
+              "name": "默认模版",
+              "collisionTriggers": 0,
+              "options": [],
+              "variables": [],
+              "motions": [],
+              "follow": false,
+              "minimapMarker": false,
+              "hurtBox": false,
+              "launcher": false,
+              "extraCollision": false,
+              "abilityUnits": [],
+              "graphs": []
+            },
+            {
+              "where": "placed",
+              "guid": 1086324738,
+              "name": "默认模版",
+              "collisionTriggers": 0,
+              "options": [],
+              "variables": [],
+              "motions": [],
+              "follow": false,
+              "minimapMarker": false,
+              "hurtBox": false,
+              "launcher": false,
+              "extraCollision": false,
+              "abilityUnits": [],
+              "graphs": []
+            },
+            {
+              "where": "placed",
+              "guid": 1086324739,
+              "name": "默认模版",
+              "collisionTriggers": 0,
+              "options": [],
+              "variables": [],
+              "motions": [],
+              "follow": false,
+              "minimapMarker": false,
+              "hurtBox": false,
+              "launcher": false,
+              "extraCollision": false,
+              "abilityUnits": [],
+              "graphs": []
+            },
+            {
+              "where": "placed",
+              "guid": 1086324740,
+              "name": "默认模版",
+              "collisionTriggers": 0,
+              "options": [],
+              "variables": [],
+              "motions": [],
+              "follow": false,
+              "minimapMarker": false,
+              "hurtBox": false,
+              "launcher": false,
+              "extraCollision": false,
+              "abilityUnits": [],
+              "graphs": []
+            },
+            {
+              "where": "placed",
+              "guid": 1086324741,
+              "name": "默认模版",
+              "collisionTriggers": 0,
+              "options": [],
+              "variables": [],
+              "motions": [],
+              "follow": false,
+              "minimapMarker": false,
+              "hurtBox": false,
+              "launcher": false,
+              "extraCollision": false,
+              "abilityUnits": [],
+              "graphs": []
+            },
+            {
+              "where": "placed",
+              "guid": 1086324742,
+              "name": "默认模版",
+              "collisionTriggers": 0,
+              "options": [],
+              "variables": [],
+              "motions": [],
+              "follow": false,
+              "minimapMarker": false,
+              "hurtBox": false,
+              "launcher": false,
+              "extraCollision": false,
+              "abilityUnits": [],
+              "graphs": []
+            },
+            {
+              "where": "placed",
+              "guid": 1086324743,
+              "name": "默认模版",
+              "collisionTriggers": 0,
+              "options": [],
+              "variables": [],
+              "motions": [],
+              "follow": false,
+              "minimapMarker": false,
+              "hurtBox": false,
+              "launcher": false,
+              "extraCollision": false,
+              "abilityUnits": [],
+              "graphs": []
+            },
+            {
+              "where": "placed",
+              "guid": 1086324744,
+              "name": "默认模版",
+              "collisionTriggers": 0,
+              "options": [],
+              "variables": [],
+              "motions": [],
+              "follow": false,
+              "minimapMarker": false,
+              "hurtBox": false,
+              "launcher": false,
+              "extraCollision": false,
+              "abilityUnits": [],
+              "graphs": []
+            },
+            {
+              "where": "placed",
+              "guid": 1086324745,
+              "name": "默认模版",
+              "collisionTriggers": 0,
+              "options": [],
+              "variables": [],
+              "motions": [],
+              "follow": false,
+              "minimapMarker": false,
+              "hurtBox": false,
+              "launcher": false,
+              "extraCollision": false,
+              "abilityUnits": [],
+              "graphs": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "inspect_map",
+      "arguments": {
+        "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\wmvvugmys-0\\working.gil"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"path\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255\\\\wmvvugmys-0\\\\working.gil\",\"modifiedAt\":\"2026-10-31T03:31:23.331Z\",\"bytes\":59323,\"sha256\":\"6f7380d097ca33884fed10ef633ff86882ad7295d73142c2c7ade851c7b05923\",\"schema\":1,\"graphs\":[{\"id\":1073741825,\"name\":\"_GSTS_PrStage\",\"type\":20000,\"nodeCount\":14,\"editorCount\":52,\"nodePayloadHash\":\"3c22e9fc2be89ecc098ea801e63d1c47706044a5ccb2bd0ac52ac7aadeed8c9f\",\"topology\":{\"version\":1,\"nodeCount\":14,\"connectionCount\":13,\"hash\":\"36e0759e2d28ecc934eb830bb069e45a2455ad69b52556c25105275df8f57234\",\"scope\":\"Node indices, generic/concrete IDs and directed pin connections only; excludes layout, literal values, pin types, graph variables, bindings and runtime\"},\"signalReferences\":[{\"name\":\"PR_win\",\"role\":\"monitor\",\"nodeIndex\":3,\"nodeId\":1610612738,\"signalVersion\":null,\"resolution\":\"observed-definition-id-match\",\"gameplay\":\"not_run\"},{\"name\":\"PR_lose\",\"role\":\"monitor\",\"nodeIndex\":9,\"nodeId\":1610612742,\"signalVersion\":null,\"resolution\":\"observed-definition-id-match\",\"gameplay\":\"not_run\"}],\"writable\":true}],\"signals\":[{\"name\":\"PR_win\",\"nodeIds\":{\"send\":{\"class\":10001,\"type\":20000,\"kind\":22001,\"nodeId\":1610612737},\"monitor\":{\"class\":10001,\"type\":20000,\"kind\":22001,\"nodeId\":1610612738},\"sendServer\":{\"class\":10001,\"type\":20002,\"kind\":22001,\"nodeId\":1610612739}},\"definitionFingerprints\":{\"send\":{\"status\":\"observed\",\"sha256\":\"dd73ce60590b755abdd8fd9f913c2cda7ff48b21daea121a7a356c3c66e9f99a\",\"bytes\":195,\"scope\":\"opaque composite definition bytes; full parameter schema not decoded\",\"descriptor\":{\"status\":\"partial\",\"displayName\":\"发送信号\",\"inputs\":[],\"outputs\":[],\"inflows\":[{\"visible\":true,\"index\":{\"kind\":\"InFlow\"},\"description\":\"\",\"pinIndex\":1}],\"outflows\":[{\"visible\":true,\"index\":{\"kind\":\"OutFlow\"},\"description\":\"\",\"pinIndex\":2}],\"opaqueFieldNumbers\":[106,107,204],\"source\":\"pinned genshin-ts 0.2.2 CompositeDef protocol\",\"limitations\":[\"Fields are saved pin descriptors, not inferred user parameters.\",\"Listener outputs include engine event metadata.\",\"Signal metadata and nested unknown fields remain opaque; generation and runtime are not certified.\"]}},\"monitor\":{\"status\":\"observed\",\"sha256\":\"dfc787f8d03546324c18c72c754f9bccde5eddfef37e296b3b9c1d9d288a4b3e\",\"bytes\":291,\"scope\":\"opaque composite definition bytes; full parameter schema not decoded\",\"descriptor\":{\"status\":\"partial\",\"displayName\":\"监听信号\",\"inputs\":[],\"outputs\":[{\"name\":\"事件源实体\",\"visible\":true,\"index\":{\"kind\":\"OutParam\"},\"type\":{\"type1\":\"Entity\",\"type2\":\"Entity\"},\"pinIndex\":6},{\"name\":\"事件源GUID\",\"visible\":true,\"index\":{\"kind\":\"OutParam\",\"index\":1},\"type\":{\"class\":\"IdBase\",\"type1\":\"GUID\",\"type2\":\"GUID\"},\"pinIndex\":7},{\"name\":\"信号来源实体\",\"visible\":true,\"index\":{\"kind\":\"OutParam\",\"index\":2},\"type\":{\"type1\":\"Entity\",\"type2\":\"Entity\"},\"pinIndex\":8}],\"inflows\":[],\"outflows\":[{\"visible\":true,\"index\":{\"kind\":\"OutFlow\"},\"description\":\"\",\"pinIndex\":4}],\"opaqueFieldNumbers\":[106,107,204],\"source\":\"pinned genshin-ts 0.2.2 CompositeDef protocol\",\"limitations\":[\"Fields are saved pin descriptors, not inferred user parameters.\",\"Listener outputs include engine event metadata.\",\"Signal metadata and nested unknown fields remain opaque; generation and runtime are not certified.\"]}},\"sendServer\":{\"status\":\"observed\",\"sha256\":\"7869b7d583c828a78d901a75dfd3afedef4ad63b5019da035068e6c8c20e90dc\",\"bytes\":253,\"scope\":\"opaque composite definition bytes; full parameter schema not decoded\",\"descriptor\":{\"status\":\"partial\",\"displayName\":\"向服务器节点图发送信号\",\"inputs\":[],\"outputs\":[],\"inflows\":[{\"visible\":true,\"index\":{\"kind\":\"InFlow\"},\"description\":\"\",\"pinIndex\":9}],\"outflows\":[{\"visible\":true,\"index\":{\"kind\":\"OutFlow\"},\"description\":\"\",\"pinIndex\":10}],\"opaqueFieldNumbers\":[106,107,204],\"source\":\"pinned genshin-ts 0.2.2 CompositeDef protocol\",\"limitations\":[\"Fields are saved pin descriptors, not inferred user parameters.\",\"Listener outputs include engine event metadata.\",\"Signal metadata and nested unknown fields remain opaque; generation and runtime are not certified.\"]}}},\"parameterContract\":{\"version\":1,\"scope\":\"Saved parameter descriptors cross-checked across all three roles; unknown fields and runtime semantics are not certified\",\"generation\":\"not_verified\",\"gameplay\":\"not_run\",\"status\":\"observed-consistent\",\"parameters\":[],\"eventMetadata\":[{\"name\":\"事件源实体\",\"visible\":true,\"index\":{\"kind\":\"OutParam\"},\"type\":{\"type1\":\"Entity\",\"type2\":\"Entity\"},\"pinIndex\":6},{\"name\":\"事件源GUID\",\"visible\":true,\"index\":{\"kind\":\"OutParam\",\"index\":1},\"type\":{\"class\":\"IdBase\",\"type1\":\"GUID\",\"type2\":\"GUID\"},\"pinIndex\":7},{\"name\":\"信号来源实体\",\"visible\":true,\"index\":{\"kind\":\"OutParam\",\"index\":2},\"type\":{\"type1\":\"Entity\",\"type2\":\"Entity\"},\"pinIndex\":8}],\"definitionHashes\":{\"send\":\"dd73ce60590b755abdd8fd9f913c2cda7ff48b21daea121a7a356c3c66e9f99a\",\"monitor\":\"dfc787f8d03546324c18c72c754f9bccde5eddfef37e296b3b9c1d9d288a4b3e\",\"sendServer\":\"7869b7d583c828a78d901a75dfd3afedef4ad63b5019da035068e6c8c20e90dc\"},\"issues\":[]}},{\"name\":\"PR_lose\",\"nodeIds\":{\"send\":{\"class\":10001,\"type\":20000,\"kind\":22001,\"nodeId\":1610612741},\"monitor\":{\"class\":10001,\"type\":20000,\"kind\":22001,\"nodeId\":1610612742},\"sendServer\":{\"class\":10001,\"type\":20002,\"kind\":22001,\"nodeId\":1610612743}},\"definitionFingerprints\":{\"send\":{\"status\":\"observed\",\"sha256\":\"6fb7d777e25d83d18c47c11642ebf40e881a100923057582043732bb512e94a3\",\"bytes\":196,\"scope\":\"opaque composite definition bytes; full parameter schema not decoded\",\"descriptor\":{\"status\":\"partial\",\"displayName\":\"发送信号\",\"inputs\":[],\"outputs\":[],\"inflows\":[{\"visible\":true,\"index\":{\"kind\":\"InFlow\"},\"description\":\"\",\"pinIndex\":18}],\"outflows\":[{\"visible\":true,\"index\":{\"kind\":\"OutFlow\"},\"description\":\"\",\"pinIndex\":19}],\"opaqueFieldNumbers\":[106,107,204],\"source\":\"pinned genshin-ts 0.2.2 CompositeDef protocol\",\"limitations\":[\"Fields are saved pin descriptors, not inferred user parameters.\",\"Listener outputs include engine event metadata.\",\"Signal metadata and nested unknown fields remain opaque; generation and runtime are not certified.\"]}},\"monitor\":{\"status\":\"observed\",\"sha256\":\"1ca07b441b80f9f891c11bb004eeaa8d9a6c3747dfdcf100420e94f6bf15fcbb\",\"bytes\":292,\"scope\":\"opaque composite definition bytes; full parameter schema not decoded\",\"descriptor\":{\"status\":\"partial\",\"displayName\":\"监听信号\",\"inputs\":[],\"outputs\":[{\"name\":\"事件源实体\",\"visible\":true,\"index\":{\"kind\":\"OutParam\"},\"type\":{\"type1\":\"Entity\",\"type2\":\"Entity\"},\"pinIndex\":23},{\"name\":\"事件源GUID\",\"visible\":true,\"index\":{\"kind\":\"OutParam\",\"index\":1},\"type\":{\"class\":\"IdBase\",\"type1\":\"GUID\",\"type2\":\"GUID\"},\"pinIndex\":24},{\"name\":\"信号来源实体\",\"visible\":true,\"index\":{\"kind\":\"OutParam\",\"index\":2},\"type\":{\"type1\":\"Entity\",\"type2\":\"Entity\"},\"pinIndex\":25}],\"inflows\":[],\"outflows\":[{\"visible\":true,\"index\":{\"kind\":\"OutFlow\"},\"description\":\"\",\"pinIndex\":21}],\"opaqueFieldNumbers\":[106,107,204],\"source\":\"pinned genshin-ts 0.2.2 CompositeDef protocol\",\"limitations\":[\"Fields are saved pin descriptors, not inferred user parameters.\",\"Listener outputs include engine event metadata.\",\"Signal metadata and nested unknown fields remain opaque; generation and runtime are not certified.\"]}},\"sendServer\":{\"status\":\"observed\",\"sha256\":\"8aa1077ff7c321b7d6c77da97c0f0a5ecd9359cede38a94fd9c247c8d740096e\",\"bytes\":254,\"scope\":\"opaque composite definition bytes; full parameter schema not decoded\",\"descriptor\":{\"status\":\"partial\",\"displayName\":\"向服务器节点图发送信号\",\"inputs\":[],\"outputs\":[],\"inflows\":[{\"visible\":true,\"index\":{\"kind\":\"InFlow\"},\"description\":\"\",\"pinIndex\":26}],\"outflows\":[{\"visible\":true,\"index\":{\"kind\":\"OutFlow\"},\"description\":\"\",\"pinIndex\":27}],\"opaqueFieldNumbers\":[106,107,204],\"source\":\"pinned genshin-ts 0.2.2 CompositeDef protocol\",\"limitations\":[\"Fields are saved pin descriptors, not inferred user parameters.\",\"Listener outputs include engine event metadata.\",\"Signal metadata and nested unknown fields remain opaque; generation and runtime are not certified.\"]}}},\"parameterContract\":{\"version\":1,\"scope\":\"Saved parameter descriptors cross-checked across all three roles; unknown fields and runtime semantics are not certified\",\"generation\":\"not_verified\",\"gameplay\":\"not_run\",\"status\":\"observed-consistent\",\"parameters\":[],\"eventMetadata\":[{\"name\":\"事件源实体\",\"visible\":true,\"index\":{\"kind\":\"OutParam\"},\"type\":{\"type1\":\"Entity\",\"type2\":\"Entity\"},\"pinIndex\":23},{\"name\":\"事件源GUID\",\"visible\":true,\"index\":{\"kind\":\"OutParam\",\"index\":1},\"type\":{\"class\":\"IdBase\",\"type1\":\"GUID\",\"type2\":\"GUID\"},\"pinIndex\":24},{\"name\":\"信号来源实体\",\"visible\":true,\"index\":{\"kind\":\"OutParam\",\"index\":2},\"type\":{\"type1\":\"Entity\",\"type2\":\"Entity\"},\"pinIndex\":25}],\"definitionHashes\":{\"send\":\"6fb7d777e25d83d18c47c11642ebf40e881a100923057582043732bb512e94a3\",\"monitor\":\"1ca07b441b80f9f891c11bb004eeaa8d9a6c3747dfdcf100420e94f6bf15fcbb\",\"sendServer\":\"8aa1077ff7c321b7d6c77da97c0f0a5ecd9359cede38a94fd9c247c8d740096e\"},\"issues\":[]}}],\"prefabTemplates\":[],\"battleConfigurations\":[{\"gameId\":1090519041,\"name\":\"自定义职业\",\"recordKind\":4,\"inspection\":\"observed-cn-7.0-config-paths\",\"gameplay\":\"not_run\",\"resourceType\":\"profession\",\"activeSkillConfigurations\":[{\"activeSkillCount\":null,\"slots\":[]}]}],\"uiConfigurations\":[],\"signalInspection\":{\"scope\":\"Pinned backend signal definition node IDs and matching graph references; parameter schema and runtime not verified\"},\"entities\":[{\"id\":1094713345,\"name\":\"关卡实体\",\"templateId\":10003004,\"graphMounts\":[{\"graphId\":1073741825,\"category\":20000,\"enabled\":1}],\"transform\":{\"position\":[0,0,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324737,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1090519041,\"name\":\"默认模版(角色编辑)\",\"templateId\":1000001,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324738,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324739,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324740,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324741,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324742,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324743,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324744,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}},{\"id\":1086324745,\"name\":\"默认模版\",\"templateId\":1000000,\"graphMounts\":[],\"transform\":{\"position\":[0,2000,0],\"rotation\":[0,0,0],\"scale\":[1,1,1]}}],\"warnings\":[]}"
+          }
+        ],
+        "structuredContent": {
+          "path": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\wmvvugmys-0\\working.gil",
+          "modifiedAt": "2026-10-31T03:31:23.331Z",
+          "bytes": 59323,
+          "sha256": "6f7380d097ca33884fed10ef633ff86882ad7295d73142c2c7ade851c7b05923",
+          "schema": 1,
+          "graphs": [
+            {
+              "id": 1073741825,
+              "name": "_GSTS_PrStage",
+              "type": 20000,
+              "nodeCount": 14,
+              "editorCount": 52,
+              "nodePayloadHash": "3c22e9fc2be89ecc098ea801e63d1c47706044a5ccb2bd0ac52ac7aadeed8c9f",
+              "topology": {
+                "version": 1,
+                "nodeCount": 14,
+                "connectionCount": 13,
+                "hash": "36e0759e2d28ecc934eb830bb069e45a2455ad69b52556c25105275df8f57234",
+                "scope": "Node indices, generic/concrete IDs and directed pin connections only; excludes layout, literal values, pin types, graph variables, bindings and runtime"
+              },
+              "signalReferences": [
+                {
+                  "name": "PR_win",
+                  "role": "monitor",
+                  "nodeIndex": 3,
+                  "nodeId": 1610612738,
+                  "signalVersion": null,
+                  "resolution": "observed-definition-id-match",
+                  "gameplay": "not_run"
+                },
+                {
+                  "name": "PR_lose",
+                  "role": "monitor",
+                  "nodeIndex": 9,
+                  "nodeId": 1610612742,
+                  "signalVersion": null,
+                  "resolution": "observed-definition-id-match",
+                  "gameplay": "not_run"
+                }
+              ],
+              "writable": true
+            }
+          ],
+          "signals": [
+            {
+              "name": "PR_win",
+              "nodeIds": {
+                "send": {
+                  "class": 10001,
+                  "type": 20000,
+                  "kind": 22001,
+                  "nodeId": 1610612737
+                },
+                "monitor": {
+                  "class": 10001,
+                  "type": 20000,
+                  "kind": 22001,
+                  "nodeId": 1610612738
+                },
+                "sendServer": {
+                  "class": 10001,
+                  "type": 20002,
+                  "kind": 22001,
+                  "nodeId": 1610612739
+                }
+              },
+              "definitionFingerprints": {
+                "send": {
+                  "status": "observed",
+                  "sha256": "dd73ce60590b755abdd8fd9f913c2cda7ff48b21daea121a7a356c3c66e9f99a",
+                  "bytes": 195,
+                  "scope": "opaque composite definition bytes; full parameter schema not decoded",
+                  "descriptor": {
+                    "status": "partial",
+                    "displayName": "发送信号",
+                    "inputs": [],
+                    "outputs": [],
+                    "inflows": [
+                      {
+                        "visible": true,
+                        "index": {
+                          "kind": "InFlow"
+                        },
+                        "description": "",
+                        "pinIndex": 1
+                      }
+                    ],
+                    "outflows": [
+                      {
+                        "visible": true,
+                        "index": {
+                          "kind": "OutFlow"
+                        },
+                        "description": "",
+                        "pinIndex": 2
+                      }
+                    ],
+                    "opaqueFieldNumbers": [
+                      106,
+                      107,
+                      204
+                    ],
+                    "source": "pinned genshin-ts 0.2.2 CompositeDef protocol",
+                    "limitations": [
+                      "Fields are saved pin descriptors, not inferred user parameters.",
+                      "Listener outputs include engine event metadata.",
+                      "Signal metadata and nested unknown fields remain opaque; generation and runtime are not certified."
+                    ]
+                  }
+                },
+                "monitor": {
+                  "status": "observed",
+                  "sha256": "dfc787f8d03546324c18c72c754f9bccde5eddfef37e296b3b9c1d9d288a4b3e",
+                  "bytes": 291,
+                  "scope": "opaque composite definition bytes; full parameter schema not decoded",
+                  "descriptor": {
+                    "status": "partial",
+                    "displayName": "监听信号",
+                    "inputs": [],
+                    "outputs": [
+                      {
+                        "name": "事件源实体",
+                        "visible": true,
+                        "index": {
+                          "kind": "OutParam"
+                        },
+                        "type": {
+                          "type1": "Entity",
+                          "type2": "Entity"
+                        },
+                        "pinIndex": 6
+                      },
+                      {
+                        "name": "事件源GUID",
+                        "visible": true,
+                        "index": {
+                          "kind": "OutParam",
+                          "index": 1
+                        },
+                        "type": {
+                          "class": "IdBase",
+                          "type1": "GUID",
+                          "type2": "GUID"
+                        },
+                        "pinIndex": 7
+                      },
+                      {
+                        "name": "信号来源实体",
+                        "visible": true,
+                        "index": {
+                          "kind": "OutParam",
+                          "index": 2
+                        },
+                        "type": {
+                          "type1": "Entity",
+                          "type2": "Entity"
+                        },
+                        "pinIndex": 8
+                      }
+                    ],
+                    "inflows": [],
+                    "outflows": [
+                      {
+                        "visible": true,
+                        "index": {
+                          "kind": "OutFlow"
+                        },
+                        "description": "",
+                        "pinIndex": 4
+                      }
+                    ],
+                    "opaqueFieldNumbers": [
+                      106,
+                      107,
+                      204
+                    ],
+                    "source": "pinned genshin-ts 0.2.2 CompositeDef protocol",
+                    "limitations": [
+                      "Fields are saved pin descriptors, not inferred user parameters.",
+                      "Listener outputs include engine event metadata.",
+                      "Signal metadata and nested unknown fields remain opaque; generation and runtime are not certified."
+                    ]
+                  }
+                },
+                "sendServer": {
+                  "status": "observed",
+                  "sha256": "7869b7d583c828a78d901a75dfd3afedef4ad63b5019da035068e6c8c20e90dc",
+                  "bytes": 253,
+                  "scope": "opaque composite definition bytes; full parameter schema not decoded",
+                  "descriptor": {
+                    "status": "partial",
+                    "displayName": "向服务器节点图发送信号",
+                    "inputs": [],
+                    "outputs": [],
+                    "inflows": [
+                      {
+                        "visible": true,
+                        "index": {
+                          "kind": "InFlow"
+                        },
+                        "description": "",
+                        "pinIndex": 9
+                      }
+                    ],
+                    "outflows": [
+                      {
+                        "visible": true,
+                        "index": {
+                          "kind": "OutFlow"
+                        },
+                        "description": "",
+                        "pinIndex": 10
+                      }
+                    ],
+                    "opaqueFieldNumbers": [
+                      106,
+                      107,
+                      204
+                    ],
+                    "source": "pinned genshin-ts 0.2.2 CompositeDef protocol",
+                    "limitations": [
+                      "Fields are saved pin descriptors, not inferred user parameters.",
+                      "Listener outputs include engine event metadata.",
+                      "Signal metadata and nested unknown fields remain opaque; generation and runtime are not certified."
+                    ]
+                  }
+                }
+              },
+              "parameterContract": {
+                "version": 1,
+                "scope": "Saved parameter descriptors cross-checked across all three roles; unknown fields and runtime semantics are not certified",
+                "generation": "not_verified",
+                "gameplay": "not_run",
+                "status": "observed-consistent",
+                "parameters": [],
+                "eventMetadata": [
+                  {
+                    "name": "事件源实体",
+                    "visible": true,
+                    "index": {
+                      "kind": "OutParam"
+                    },
+                    "type": {
+                      "type1": "Entity",
+                      "type2": "Entity"
+                    },
+                    "pinIndex": 6
+                  },
+                  {
+                    "name": "事件源GUID",
+                    "visible": true,
+                    "index": {
+                      "kind": "OutParam",
+                      "index": 1
+                    },
+                    "type": {
+                      "class": "IdBase",
+                      "type1": "GUID",
+                      "type2": "GUID"
+                    },
+                    "pinIndex": 7
+                  },
+                  {
+                    "name": "信号来源实体",
+                    "visible": true,
+                    "index": {
+                      "kind": "OutParam",
+                      "index": 2
+                    },
+                    "type": {
+                      "type1": "Entity",
+                      "type2": "Entity"
+                    },
+                    "pinIndex": 8
+                  }
+                ],
+                "definitionHashes": {
+                  "send": "dd73ce60590b755abdd8fd9f913c2cda7ff48b21daea121a7a356c3c66e9f99a",
+                  "monitor": "dfc787f8d03546324c18c72c754f9bccde5eddfef37e296b3b9c1d9d288a4b3e",
+                  "sendServer": "7869b7d583c828a78d901a75dfd3afedef4ad63b5019da035068e6c8c20e90dc"
+                },
+                "issues": []
+              }
+            },
+            {
+              "name": "PR_lose",
+              "nodeIds": {
+                "send": {
+                  "class": 10001,
+                  "type": 20000,
+                  "kind": 22001,
+                  "nodeId": 1610612741
+                },
+                "monitor": {
+                  "class": 10001,
+                  "type": 20000,
+                  "kind": 22001,
+                  "nodeId": 1610612742
+                },
+                "sendServer": {
+                  "class": 10001,
+                  "type": 20002,
+                  "kind": 22001,
+                  "nodeId": 1610612743
+                }
+              },
+              "definitionFingerprints": {
+                "send": {
+                  "status": "observed",
+                  "sha256": "6fb7d777e25d83d18c47c11642ebf40e881a100923057582043732bb512e94a3",
+                  "bytes": 196,
+                  "scope": "opaque composite definition bytes; full parameter schema not decoded",
+                  "descriptor": {
+                    "status": "partial",
+                    "displayName": "发送信号",
+                    "inputs": [],
+                    "outputs": [],
+                    "inflows": [
+                      {
+                        "visible": true,
+                        "index": {
+                          "kind": "InFlow"
+                        },
+                        "description": "",
+                        "pinIndex": 18
+                      }
+                    ],
+                    "outflows": [
+                      {
+                        "visible": true,
+                        "index": {
+                          "kind": "OutFlow"
+                        },
+                        "description": "",
+                        "pinIndex": 19
+                      }
+                    ],
+                    "opaqueFieldNumbers": [
+                      106,
+                      107,
+                      204
+                    ],
+                    "source": "pinned genshin-ts 0.2.2 CompositeDef protocol",
+                    "limitations": [
+                      "Fields are saved pin descriptors, not inferred user parameters.",
+                      "Listener outputs include engine event metadata.",
+                      "Signal metadata and nested unknown fields remain opaque; generation and runtime are not certified."
+                    ]
+                  }
+                },
+                "monitor": {
+                  "status": "observed",
+                  "sha256": "1ca07b441b80f9f891c11bb004eeaa8d9a6c3747dfdcf100420e94f6bf15fcbb",
+                  "bytes": 292,
+                  "scope": "opaque composite definition bytes; full parameter schema not decoded",
+                  "descriptor": {
+                    "status": "partial",
+                    "displayName": "监听信号",
+                    "inputs": [],
+                    "outputs": [
+                      {
+                        "name": "事件源实体",
+                        "visible": true,
+                        "index": {
+                          "kind": "OutParam"
+                        },
+                        "type": {
+                          "type1": "Entity",
+                          "type2": "Entity"
+                        },
+                        "pinIndex": 23
+                      },
+                      {
+                        "name": "事件源GUID",
+                        "visible": true,
+                        "index": {
+                          "kind": "OutParam",
+                          "index": 1
+                        },
+                        "type": {
+                          "class": "IdBase",
+                          "type1": "GUID",
+                          "type2": "GUID"
+                        },
+                        "pinIndex": 24
+                      },
+                      {
+                        "name": "信号来源实体",
+                        "visible": true,
+                        "index": {
+                          "kind": "OutParam",
+                          "index": 2
+                        },
+                        "type": {
+                          "type1": "Entity",
+                          "type2": "Entity"
+                        },
+                        "pinIndex": 25
+                      }
+                    ],
+                    "inflows": [],
+                    "outflows": [
+                      {
+                        "visible": true,
+                        "index": {
+                          "kind": "OutFlow"
+                        },
+                        "description": "",
+                        "pinIndex": 21
+                      }
+                    ],
+                    "opaqueFieldNumbers": [
+                      106,
+                      107,
+                      204
+                    ],
+                    "source": "pinned genshin-ts 0.2.2 CompositeDef protocol",
+                    "limitations": [
+                      "Fields are saved pin descriptors, not inferred user parameters.",
+                      "Listener outputs include engine event metadata.",
+                      "Signal metadata and nested unknown fields remain opaque; generation and runtime are not certified."
+                    ]
+                  }
+                },
+                "sendServer": {
+                  "status": "observed",
+                  "sha256": "8aa1077ff7c321b7d6c77da97c0f0a5ecd9359cede38a94fd9c247c8d740096e",
+                  "bytes": 254,
+                  "scope": "opaque composite definition bytes; full parameter schema not decoded",
+                  "descriptor": {
+                    "status": "partial",
+                    "displayName": "向服务器节点图发送信号",
+                    "inputs": [],
+                    "outputs": [],
+                    "inflows": [
+                      {
+                        "visible": true,
+                        "index": {
+                          "kind": "InFlow"
+                        },
+                        "description": "",
+                        "pinIndex": 26
+                      }
+                    ],
+                    "outflows": [
+                      {
+                        "visible": true,
+                        "index": {
+                          "kind": "OutFlow"
+                        },
+                        "description": "",
+                        "pinIndex": 27
+                      }
+                    ],
+                    "opaqueFieldNumbers": [
+                      106,
+                      107,
+                      204
+                    ],
+                    "source": "pinned genshin-ts 0.2.2 CompositeDef protocol",
+                    "limitations": [
+                      "Fields are saved pin descriptors, not inferred user parameters.",
+                      "Listener outputs include engine event metadata.",
+                      "Signal metadata and nested unknown fields remain opaque; generation and runtime are not certified."
+                    ]
+                  }
+                }
+              },
+              "parameterContract": {
+                "version": 1,
+                "scope": "Saved parameter descriptors cross-checked across all three roles; unknown fields and runtime semantics are not certified",
+                "generation": "not_verified",
+                "gameplay": "not_run",
+                "status": "observed-consistent",
+                "parameters": [],
+                "eventMetadata": [
+                  {
+                    "name": "事件源实体",
+                    "visible": true,
+                    "index": {
+                      "kind": "OutParam"
+                    },
+                    "type": {
+                      "type1": "Entity",
+                      "type2": "Entity"
+                    },
+                    "pinIndex": 23
+                  },
+                  {
+                    "name": "事件源GUID",
+                    "visible": true,
+                    "index": {
+                      "kind": "OutParam",
+                      "index": 1
+                    },
+                    "type": {
+                      "class": "IdBase",
+                      "type1": "GUID",
+                      "type2": "GUID"
+                    },
+                    "pinIndex": 24
+                  },
+                  {
+                    "name": "信号来源实体",
+                    "visible": true,
+                    "index": {
+                      "kind": "OutParam",
+                      "index": 2
+                    },
+                    "type": {
+                      "type1": "Entity",
+                      "type2": "Entity"
+                    },
+                    "pinIndex": 25
+                  }
+                ],
+                "definitionHashes": {
+                  "send": "6fb7d777e25d83d18c47c11642ebf40e881a100923057582043732bb512e94a3",
+                  "monitor": "1ca07b441b80f9f891c11bb004eeaa8d9a6c3747dfdcf100420e94f6bf15fcbb",
+                  "sendServer": "8aa1077ff7c321b7d6c77da97c0f0a5ecd9359cede38a94fd9c247c8d740096e"
+                },
+                "issues": []
+              }
+            }
+          ],
+          "prefabTemplates": [],
+          "battleConfigurations": [
+            {
+              "gameId": 1090519041,
+              "name": "自定义职业",
+              "recordKind": 4,
+              "inspection": "observed-cn-7.0-config-paths",
+              "gameplay": "not_run",
+              "resourceType": "profession",
+              "activeSkillConfigurations": [
+                {
+                  "activeSkillCount": null,
+                  "slots": []
+                }
+              ]
+            }
+          ],
+          "uiConfigurations": [],
+          "signalInspection": {
+            "scope": "Pinned backend signal definition node IDs and matching graph references; parameter schema and runtime not verified"
+          },
+          "entities": [
+            {
+              "id": 1094713345,
+              "name": "关卡实体",
+              "templateId": 10003004,
+              "graphMounts": [
+                {
+                  "graphId": 1073741825,
+                  "category": 20000,
+                  "enabled": 1
+                }
+              ],
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324737,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1090519041,
+              "name": "默认模版(角色编辑)",
+              "templateId": 1000001,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324738,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324739,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324740,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324741,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324742,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324743,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324744,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "id": 1086324745,
+              "name": "默认模版",
+              "templateId": 1000000,
+              "graphMounts": [],
+              "transform": {
+                "position": [
+                  0,
+                  2000,
+                  0
+                ],
+                "rotation": [
+                  0,
+                  0,
+                  0
+                ],
+                "scale": [
+                  1,
+                  1,
+                  1
+                ]
+              }
+            }
+          ],
+          "warnings": []
+        }
+      }
+    },
+    {
+      "name": "scene_check_client",
+      "arguments": {
+        "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\wmvvugmys-0\\working.gil"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"mapPath\":\"F:\\\\New folder\\\\.worktrees\\\\task38-upstream\\\\.artifacts\\\\task38-upstream\\\\build-1793417476255\\\\wmvvugmys-0\\\\working.gil\",\"checked\":[\"PR_game\"],\"ok\":true,\"errors\":0,\"warnings\":0,\"problems\":[],\"note\":\"Every name the scripts write down was found. Names put together while a script runs are not checked, and neither is what the script does.\"}"
+          }
+        ],
+        "structuredContent": {
+          "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255\\wmvvugmys-0\\working.gil",
+          "checked": [
+            "PR_game"
+          ],
+          "ok": true,
+          "errors": 0,
+          "warnings": 0,
+          "problems": [],
+          "note": "Every name the scripts write down was found. Names put together while a script runs are not checked, and neither is what the script does."
+        }
+      }
+    }
+  ],
+  "officialImport": "not_run",
+  "ready": "not_run",
+  "phone": "NOT_TESTED",
+  "candidate": "F:\\New folder\\.worktrees\\task38-upstream\\.artifacts\\task38-upstream\\build-1793417476255/UPSTREAM-Pairs-eb05fd35.gil",
+  "sha256": "6f7380d097ca33884fed10ef633ff86882ad7295d73142c2c7ade851c7b05923"
+}

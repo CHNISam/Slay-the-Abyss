@@ -1,0 +1,30 @@
+[
+  {
+    "file": "LICENSE",
+    "sha256": "b926533422d874117ca32f991c3164d589e0cd3e14a9c878e761eb6e6c913ee5"
+  },
+  {
+    "file": "examples/pairs/gen_pairs.py",
+    "sha256": "96d11acf956ecc9a9f8f9d917ba89a83cb95f1b4f2d20142f39ac4aae527de30"
+  },
+  {
+    "file": "examples/pairs/pairs_win.json",
+    "sha256": "6d8f3cb0481ca47b66fc22a695940f882846f8b26a90300a619453c6bd28a0b5"
+  },
+  {
+    "file": "examples/pairs/pairs_lose.json",
+    "sha256": "3def1eefd0f96dffab2b7f42370308b78a7230e6a97ef555bc6048733fbd01a1"
+  },
+  {
+    "file": "examples/pairs/pr_game.lua",
+    "sha256": "3bddb1b0af4efa59caa2584cf46a573259021b9361073baaf514b7a641ac1d43"
+  },
+  {
+    "file": "examples/pairs/WALKTHROUGH.md",
+    "sha256": "a1fb6462a804d30136d4a80c3aaaa4ab51c74cd44966a6ed434bcc0ef0bacd99"
+  },
+  {
+    "file": "scripts/dev/mcp_round.mjs",
+    "sha256": "37cf19b5ccbcde65605c165ec7ebdafccae518b62c58f9a5f8d22bccec76bc14"
+  }
+]
