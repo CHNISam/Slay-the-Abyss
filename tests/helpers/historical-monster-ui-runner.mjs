@@ -6,14 +6,14 @@ export const historicalMonsterUiFixtures=Object.freeze([
  'tests/lua/battle_ui_card_play.lua','tests/lua/battle_ui_card_play_slice_2.lua','tests/lua/battle_ui_card_play_slice_3.lua',
  'tests/lua/battle_ui_drag_click_compatibility.lua','tests/lua/battle_ui_drag_click_compatibility_slice_2.lua',
 ]);
-export function runHistoricalMonsterUi(script,{timeout,cwd=process.cwd(),caseName}={}){
+export function runHistoricalMonsterUi(script,{timeout,cwd=process.cwd(),caseName,maxBuffer}={}){
  script=script.replaceAll('\\','/');
  assert.ok(historicalMonsterUiFixtures.includes(script)||script==='battle-refactor-render','only exact historical monster UI fixtures');
  assert.equal(caseName,undefined,'complete frozen cases and seeds must execute');
  timeout??=script==='battle-refactor-render'?120000:(script.includes('battle_ui_card_play')||script.includes('drag_click_compatibility'))?30000:60000;
  assert.ok(Number.isFinite(timeout)&&timeout>0,'positive original total deadline');
  const result=spawnSync(process.execPath,[fileURLToPath(new URL('./historical-monster-ui-entry.mjs',import.meta.url)),script,String(timeout)],{
-  cwd,encoding:'utf8',timeout,maxBuffer:script==='battle-refactor-render'?64*1024*1024:1024*1024,windowsHide:true,
+  cwd,encoding:'utf8',timeout,maxBuffer:maxBuffer??(script==='battle-refactor-render'?64*1024*1024:1024*1024),windowsHide:true,
  });
  if(result.error){
   const output=[result.stdout?`\n--- Lua stdout ---\n${result.stdout}`:'',result.stderr?`\n--- Lua stderr ---\n${result.stderr}`:''].join('');

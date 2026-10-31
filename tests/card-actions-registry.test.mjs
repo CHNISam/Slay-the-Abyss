@@ -18,7 +18,9 @@ function execute(module, fixture, flag = '') {
   try {
     const driver = join(dir, 'driver.lua');
     writeFileSync(driver, `${flag};package.loaded.abyss_card_actions=dofile(${luaString(resolve(module).replaceAll('\\', '/'))});dofile(${luaString(resolve(fixture).replaceAll('\\', '/'))})`);
-    const result = runLua(driver);
+    // Full queue/state snapshots now include scoreStats: 1,063,471 bytes at #414.
+    // Keep every byte and assertion; only this exhaustive trace needs 2 MiB.
+    const result = runLua(driver, flag === 'ABYSS_EXHAUST_TRACE=true' ? { maxBuffer: 2 * 1024 * 1024 } : {});
     assert.equal(result.status, 0, result.stderr || result.stdout.slice(-1500));
     return result.stdout;
   } finally { rmSync(dir, { recursive: true, force: true }); }
