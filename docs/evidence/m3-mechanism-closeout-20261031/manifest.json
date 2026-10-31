@@ -3,8 +3,8 @@
   "scope": "Source-identified audit/test/review evidence. Static indexes, historical CI and controlled tests are not native or full M3 pass claims.",
   "files": {
     "README.md": {
-      "sha256": "3e7d28b0f6bfaa97dce873e5a311dc00951fcd2171866c77080c3c5b717e8e1c",
-      "bytes": 7236
+      "sha256": "ee774dbded63039439982a59720b8a42ce5f929e1d2a176fb1fd8c7894af609d",
+      "bytes": 8228
     },
     "aux-combined-focused.log.gz": {
       "sha256": "48dce0b7021a0786074e95f2a0e23c7dadc085521492a316bbbc97df389f933c",
@@ -58,6 +58,14 @@
       "sha256": "8c7b93ddd3395def36b5633230412d5a584a16a4d945965ee4597e5e884a72e2",
       "bytes": 151
     },
+    "final-logs/secret-registration-crlf-red.log.gz": {
+      "sha256": "7b015311e0d879c6fb738bf00c7ba5df29e4320e78fea3b9e21cc1f8d0ef463d",
+      "bytes": 719
+    },
+    "final-logs/secret-registration-crlf-root.log.gz": {
+      "sha256": "ca9ec9200081efe446432a993b81235913d29b9d5e6d0caaaa83a0ac105d3a8e",
+      "bytes": 236
+    },
     "final-logs/secret-source-red.log.gz": {
       "sha256": "53dbbb879a565ee40c52513e526a6480d14517f60f35dbe917491bae160e4317",
       "bytes": 632
@@ -86,9 +94,17 @@
       "sha256": "cc5dc317b7d46e19ce8e7b7deb361d5452bd792c13693a4e85ceecfdb95ba39e",
       "bytes": 2669
     },
+    "final-slices/author-secret-registration-crlf.json.gz": {
+      "sha256": "5af76efcd9cc4e67577182fa6985ab3bb165239d2299eecf0645c636857dac91",
+      "bytes": 1848
+    },
     "final-slices/author-secret.json.gz": {
       "sha256": "49098453f5bb8716d116147cb948f5f1943acac6c19406341aec28fec531874e",
       "bytes": 3727
+    },
+    "final-slices/registration-archive-provenance.json": {
+      "sha256": "c04ccf239a52373ccb15feefd8c549d55e359e335c71a7272b8ac5ff56188b92",
+      "bytes": 1456
     },
     "final-slices/review-card-consumers.json": {
       "sha256": "1b293369a43100dc8c3a503645761c71d1d8937a91eb817c44413908c1ba57bb",
@@ -117,6 +133,10 @@
     "final-slices/review-merchant.json": {
       "sha256": "66a59b57775dd4a42ca92ac3c2fb9f118a4e5527c74778c92493963318756fa6",
       "bytes": 7126
+    },
+    "final-slices/review-secret-registration-crlf.json": {
+      "sha256": "c6e69e58dc0a9e0dae8763ae2f28bb0ee73d2460f2c146db438435656103fd7f",
+      "bytes": 3736
     },
     "final-slices/review-secret.json": {
       "sha256": "ecfbdc1d488b778ef5b0b43cb146292dac7c5c6eaff2cefc5db1331fbf00f37c",
@@ -293,6 +313,10 @@
     "normal-runs/ca838ef/source-identity.json": {
       "sha256": "ff85b3f3b4be889d8363c14b6aa2c5d310c6bb3ca67746682c7bd411b1aa7290",
       "bytes": 970
+    },
+    "prior-ci-16c/failure-rules6.json": {
+      "sha256": "3bd978e058cf09c7f6a9033269b5fb37938c29c7c98d00dd85ad287e49b41c87",
+      "bytes": 2317
     },
     "prior-ci-d3/result.json": {
       "sha256": "c67ca6ebc16775584e23ab052ae0e6c0d7426dac0455b147113cf53f2a788fb6",

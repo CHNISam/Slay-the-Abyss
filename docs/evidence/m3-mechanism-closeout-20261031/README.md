@@ -37,6 +37,12 @@
 
 `prior-ci-d3/`是先前`d3c148d`完整27项真实成功，说明Windows路径修复已实际验证；它明确不包含最终追加修复。最终HEAD独审、完整CI、正常合并和合后验证须重新绑定，不能拿旧绿色代替。
 
+## Windows严格注册签出修正
+
+后续`16c6636`完整CI实际在Windows rules6失败：719项中718通过，唯一失败是Secret薄JS入口签出为CRLF，而注册合同严格要求原LF两行；该片原CRLF用例只复制Python认证输入，遗漏了薄入口。`prior-ci-16c/`保留真实job身份、断言及原日志SHA，不把它记作数值漂移、基础设施故障或成功。
+
+只为八个实际入口及helper补九个精确LF属性，原注册期望与严格相等不变；同一个validator也在真实Git CRLF clone执行，control确为CRLF、九个认证文件保持原字节、原oracle再生通过。新回归先RED，修后作者外独审及根集成2/2通过（239毫秒），见`final-slices/review-secret-registration-crlf.json`和对应原始红绿日志。生产Lua、策略、数值向量及旧hash完全未改，其余测试入口逐字一致；原66项结果保留原始版本身份，本次对签出用例定向复验，最终新HEAD仍重跑全部CI。
+
 ## 完整索引与范围
 
 `indexes/{relic-153,card-75,potion-rng}/matrix.json.gz`逐字保留只读索引，来源为主候选c3d2654；75牌/153遗物/33药水及16类RNG owner分别分列实现、具体断言、公共/受控入口、独立期望及自然/设备证据。它们是可检查的静态索引，不能把ID数、source inverse或断言引用数当作动态通过。人读报告保留原始`report.md.raw.gz`，可读版本只规范行尾空白。后续补测和Insect修复以本目录独审及新测试为准，不倒改c3d旧索引为当前结果。

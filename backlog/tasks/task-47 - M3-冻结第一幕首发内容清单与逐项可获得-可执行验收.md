@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-31 20:02'
+updated_date: '2026-10-31 20:25'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -275,4 +275,6 @@ PR323原39dab5e9历史实施记录承接（不认证本组合，当前公开范�
 2026-10-31 合法依赖五项补证：基b4f88a1，深呼吸/急切/蜕变/秘技/猛袭新增28受控效果场景（含2个原版canUse拒绝），11/11标准测试与五个精准负变异通过；11份319固定Java原字节SHA及Git blob实核。只补具体消费合同，不改生产/池/预算，独立复核与最终CI待绑定；自然和平台AC不提前勾选。见docs/reviews/M3-COLORLESS-FIVE-EFFECTS-20261031.md。
 
 2026-10-31 最终依赖合证：75基础/升级150例及49边界、39共享依赖逐效映射与标准生成实例合同可组合；新五项28场景补证11/11，后续独审纠正深呼吸旧+1假设，真实双洗与遗物先结算、Secret两卡候选插入均有独立完整流RED到GREEN。商店76次、卡奖93次及Chaos共享流补证和精准负控全部独审通过；最终本地组合66/66零skip，原78依赖执行及工程门禁通过。按独立逐字复核只勾纯离线AC8，获准原池与合法生成依赖不缩减。历史d2原11/11不代表其错误Deep期望正确，拒绝及修复记录保留。其他自然、官方与设备AC不勾。见docs/evidence/m3-mechanism-closeout-20261031/及新独审/来源报告；最终精确HEAD CI和合并另核。
+
+2026-10-31 Windows最终签出修正：16c完整CI中rules6的719项仅严格Secret入口注册1项失败（实际CRLF、期望LF）；旧CRLF用例只含Python输入而漏8薄入口。已只补9个精确LF属性，并让同一严格validator覆盖真实GitCRLFclone，原期望及全部生产/数值/策略/旧hash不变。真实RED至作者外独审及根2/2 GREEN，错误原日志SHA与修复记录归档；纯离线AC8代码合同不变，最终新HEAD完整CI重核后再正常合并。
 <!-- SECTION:NOTES:END -->
