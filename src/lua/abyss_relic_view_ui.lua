@@ -89,7 +89,7 @@ function M.new(root,bar,clickEvent,platform,describe,onClose,onSlot,barScope)
     function self.refreshBar(_,run,visible)
         local relics=run and run.relics or {}
         bar:SetVisible(visible and run~=nil)
-        bar:GetChild('tray'):SetVisible(#relics>0)
+        bar:GetChild('tray'):SetVisible(false) -- STS: discs float under the HP row, no tray capsule
         for i,cell in ipairs(M.barCells(#relics,Theme.layout.relicView.bar.count))do
             local slot=bar:GetChild('slot'..i)
             slot:SetVisible(cell~=false)

@@ -11,24 +11,25 @@ const child=(c,n)=>c.children.find(v=>v.name===n);
 const entry=n=>child(gameLayout().controls.find(c=>c.name===n),'open');
 const states=['normal','hover','pressed','disabled'];
 
-test('deck entry matches the source capsule and keeps the existing single native button',()=>{
+test('deck entry is an STS-style fanned card stack with a count badge on the single native button',()=>{
   const open=entry('deckEntry'),hit=child(open,'hit');
   assert.equal(hit.kind,'presetButton');assert.equal(hit.focusable,true);
   assert.deepEqual(open.size,[80,48]);
   for(const name of states){
-    const state=child(hit,name),border=child(state,'border'),face=child(state,'plate');
-    assert.equal(border.kind,'container','deck border must be a capsule, not a rectangle');
-    assert.equal(face.kind,'container');
-    assert.deepEqual(border.size,[66.667,34.667]);
-    for(const layer of [border,face]){
-      assert.equal(layer.children.length,3);
-      assert.deepEqual(layer.children.map(c=>c.image),[theme.image.disc,theme.image.rect,theme.image.disc]);
-      const [left,middle,right]=layer.children;
-      assert.equal(left.size[0],left.size[1]);assert.deepEqual(right.size,left.size);
-      assert.equal(middle.size[1],left.size[1]);
-      assert.equal(left.position[0],-right.position[0]);
+    const state=child(hit,name);
+    const cards=['back2','back1','front'].map(n=>child(state,n));
+    for(const card of cards){
+      assert.equal(card.kind,'container');
+      assert.ok(card.size[1]>card.size[0],'card silhouettes are portrait rectangles');
+      assert.deepEqual(card.children.map(c=>c.name),['border','plate']);
+    }
+    assert.ok(cards[0].rotation>cards[1].rotation&&cards[1].rotation>cards[2].rotation,'stack fans out behind the front card');
+    for(const c of [...cards,child(state,'badge'),child(state,'count')]){
+      const [x,y]=c.position,[w,h]=c.size;
+      assert.ok(Math.abs(x)+w/2<=40&&Math.abs(y)+h/2<=24,c.name+' stays inside the 80x48 hit');
     }
     assert.equal(child(state,'deckIcon').image,theme.icon.deck.id);
+    assert.equal(child(state,'badge').image,theme.image.disc);
     assert.equal(child(state,'label').visible,false,'retain only a hidden compatibility caption');
     assert.equal(child(state,'count').kind,'text');
   }

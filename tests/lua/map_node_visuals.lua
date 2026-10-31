@@ -41,14 +41,18 @@ local function verify()
             local state=node.id==view.currentNodeId and 'current' or node.visited and 'visited' or node.available and 'available' or 'locked'
             seen[state]=true
             for _,child in pairs(b.children) do
-                assert(not child.visible or child.spec.kind~='image' or child.spec.name=='icon' or child.spec.name=='positionToken',
-                    'route nodes must not repaint rings or background discs: '..child.spec.name)
+                assert(not child.visible or child.spec.kind~='image' or child.spec.name=='icon' or child.spec.name=='positionToken'
+                    or child.spec.name=='plate' or child.spec.name=='ring' or child.spec.name=='halo',
+                    'unexpected painted route-node layer: '..child.spec.name)
             end
             local icon,hit=b:GetChild('icon'),b:GetChild('hit')
             assert(icon.image==Theme.icon.node[node.type],'existing official node icon ID retained')
             local palette=Theme.color.mapCanvas
             equalColor(icon.imageColor,state=='locked' and palette.far or state=='visited' and palette.visited or palette.kind[node.type])
             assert(b:GetChild('positionToken').visible==(state=='current'),'existing token identifies only current node')
+            -- STS MapRoomNode: taken rooms are circled, legal destinations glow.
+            assert(b:GetChild('ring').visible==(state=='current' or state=='visited'),'ring marks only current and visited rooms')
+            assert(b:GetChild('halo').visible==(state=='available'),'halo marks only legal destinations')
             local size=node.type=='boss' and Theme.layout.map.bossNode or Theme.layout.map.node
             assert(hit.size[1]==size and hit.size[2]==size,'unpainted hit target stays full sized')
             local enabled=state=='available' and ui.navigationEnabled

@@ -178,6 +178,15 @@ function M.new(root, map, onChoose, clickEvent, options)
     local function line(control, source, target, taken, reachable)
         local x1, y1 = position(source)
         local x2, y2 = position(target)
+        -- STS MapEdge leaves a gap at both rooms; trim by each room's knockout radius.
+        do
+            local len = math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
+            local r1 = (source.type == "boss" and Theme.layout.map.bossNode or Theme.layout.map.node) * Layout.edgeGap
+            local r2 = (target.type == "boss" and Theme.layout.map.bossNode or Theme.layout.map.node) * Layout.edgeGap
+            if len <= r1 + r2 then control:SetVisible(false) return end
+            local ux, uy = (x2 - x1) / len, (y2 - y1) / len
+            x1, y1, x2, y2 = x1 + ux * r1, y1 + uy * r1, x2 - ux * r2, y2 - uy * r2
+        end
         -- Clip real graph segments to viewport, with half-stroke padding.
         local low, high = Layout.viewport.bottom + Layout.lineWidth / 2, Layout.viewport.top - Layout.lineWidth / 2
         if y2 < low or y1 > high then control:SetVisible(false) return end
@@ -270,6 +279,14 @@ function M.new(root, map, onChoose, clickEvent, options)
                 local iconId = assert(Theme.icon.node[node.type], "missing node icon")
                 icon:SetImage(imageSource, iconId)
                 local palette = Theme.color.mapCanvas
+                local ring, halo, plate = child(box, "ring"), child(box, "halo"), child(box, "plate")
+                plate:SetSizeDelta(size * .82, size * .82)
+                ring:SetSizeDelta(size * .92, size * .92)
+                halo:SetSizeDelta(size * 1.5, size * 1.5)
+                ring:SetVisible(state == "current" or state == "visited")
+                if state == "current" then tint(ring, Theme.color.goldBright)
+                elseif state == "visited" then tint(ring, Theme.color.goldDim) end
+                halo:SetVisible(state == "available")
                 tint(icon, state == 'locked' and palette.far or state == 'visited' and palette.visited or palette.kind[node.type])
                 icon:SetAnchoredPosition(0,node.hasEmeraldKey and Theme.layout.map.emeraldIconY or 0)
                 if node.hasEmeraldKey then tint(icon,Theme.color.positive)end
