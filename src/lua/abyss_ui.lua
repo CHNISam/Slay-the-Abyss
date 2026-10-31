@@ -97,6 +97,8 @@ function OnStart()
         -- prior ownership even when off; nil cannot create or load asset data.
         -- Use native require, not the desktop-only package.loaded assumption.
         require("abyss_card_art_runtime").configure(nil)
+        -- cards flag also swaps shared card chrome to the breakthrough gold-frame palette; off resets to official.
+        optionalArt('cardChrome', function()require("abyss_card_skin").configure(flags.cards and 'premium' or nil)end)
         if flags.menuBackground then
             createEasterEggArt=function()
                 local factory=require('abyss_traveler_portraits').createController
