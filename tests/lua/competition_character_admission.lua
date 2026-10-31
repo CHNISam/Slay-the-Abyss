@@ -35,7 +35,7 @@ local function host(profile)
 end
 local candidate,panel=host('competition-candidate')
 for i=1,4 do assert(not panel:GetChild('character'..i).visible)end
-assert(panel:GetChild('traveler').visible)
+assert(not panel:GetChild('traveler').visible and candidate.characterSelection.info.id=='ironclad')
 assert(candidate:selectCharacter('traveler'))
 for i=2,4 do assert(not panel:GetChild('elements'):GetChild('element'..i).visible)end
 assert(not candidate:selectCharacter('furina'))

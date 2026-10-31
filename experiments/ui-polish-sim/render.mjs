@@ -9,7 +9,7 @@ import { runLua } from '../../scripts/test-lua.mjs';
 import { page } from '../../scripts/node-ui-preview.mjs';
 const out = resolve(process.argv[2] || '.artifacts/ui-polish-sim/after');
 mkdirSync(out, { recursive: true });
-const host = runLua('experiments/ui-polish-sim/capture.lua', { timeout: 120000 });
+const host = runLua(process.env.CAPTURE || 'experiments/ui-polish-sim/capture.lua', { timeout: 120000 });
 if (host.status !== 0) throw new Error(host.stdout.slice(-2000) + host.stderr);
 const scenes = JSON.parse(host.stdout.split('PARITY_SCENES ')[1]);
 const fix = n => { if (n.children && !Array.isArray(n.children)) n.children = Object.values(n.children); (n.children ?? []).forEach(fix); return n; };

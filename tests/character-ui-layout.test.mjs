@@ -15,7 +15,7 @@ test('formal character and card choices are present with either legacy flag', ()
   // TASK-59.3.1：选角页不提供牌组筛选按钮；信息层级为 名字→生命/金币→遗物→牌组。
   assert.equal(details.children.filter(c => /^deckFilter/.test(c.name)).length, 0);
   const at = name => { const c = details.children.find(x => x.name === name); assert.ok(c, name); return c; };
-  const ys = ['name', 'stats', 'relic', 'relicText', 'deckTitle', 'card1'].map(n => at(n).position[1]);
+  const ys = ['name', 'stats', 'relic', 'relicText', 'deckTitle', 'deckSummary'].map(n => at(n).position[1]);
   for (let i = 1; i < ys.length; i++) assert.ok(ys[i] < ys[i - 1], 'information hierarchy runs top-down');
   assert.equal(at('stats').position[1], at('gold').position[1], 'HP and gold share one scannable row');
   const frame = at('portraitFrame');

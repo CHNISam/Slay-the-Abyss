@@ -18,14 +18,28 @@ for i=1,4 do
  assert(not panel:GetChild('character'..i).visible and not control.canControllerFocus)
  assert(not control.click()and not control.navigationListeners.confirm())
 end
-assert(not panel:GetChild('character4').visible and panel:GetChild('traveler').visible)
-assert(not hit('character4').canControllerFocus and hit('traveler').canControllerFocus)
-assert(hit('traveler').navigation.right.target==hit('traveler'))
+-- Single-character release: no fake picker tile; the only role is preselected.
+assert(not panel:GetChild('character4').visible and not panel:GetChild('traveler').visible)
+assert(not hit('character4').canControllerFocus and not hit('traveler').canControllerFocus)
+assert(ui.characterSelection.info and ui.characterSelection.info.id=='ironclad')
+assert(not panel:GetChild('elements').visible)
+local beforeSelection,beforeSeed=ui.characterSelection.info,ui.seed
+local deckOpen=panel:GetChild('details'):GetChild('deckOpen'):GetChild('hit')
+assert(deckOpen.click()and ui.characterSelection.deckOpen and panel:GetChild('deckView').visible)
+assert(panel:GetChild('deckView'):GetChild('deckCard10').visible and not panel:GetChild('deckView'):GetChild('deckCard11').visible)
+-- 复用局内卡面：名字/费用/正文都由 CardDisplay 填好，不是空白卡框。
+for i=1,10 do local face=panel:GetChild('deckView'):GetChild('deckCard'..i):GetChild('face')
+ assert(face:GetChild('name').text~='' and face:GetChild('cost').text~='' and face:GetChild('label').text~='','empty deck face '..i)end
+assert(not hit('confirm').click() and seeds==0 and not ui.run and not ui.map,'deck modal cannot start a Run')
+assert(ui.characterSelection.info==beforeSelection and ui.seed==beforeSeed,'deck preview cannot replace loadout or sample seed')
+assert(panel:GetChild('deckView'):GetChild('close'):GetChild('hit').click() and not ui.characterSelection.deckOpen and ui.characterOpen)
+assert(deckOpen.click() and ui:closeCharacters() and not ui.characterSelection.deckOpen and ui.characterOpen)
+assert(ui.characterSelection.info==beforeSelection and ui.seed==beforeSeed and seeds==0 and not ui.run and not ui.map,'close/cancel cannot commit gameplay state')
 for _,id in ipairs({'hutao','arlecchino','furina','raiden'})do assert(not ui:selectCharacter(id))end
 assert(ui:selectCharacter('traveler')and ui.characterSelection.info.id=='ironclad')
 for i,id in ipairs(Select.elements)do
  local box=panel:GetChild('elements'):GetChild('element'..i)
- if i==1 then assert(box.visible)else
+ if i==1 then assert(not panel:GetChild('elements').visible)else
   assert(not box.visible and not box:GetChild('hit').canControllerFocus)
   assert(not box:GetChild('hit').click()and not ui:selectElement(id))
  end
