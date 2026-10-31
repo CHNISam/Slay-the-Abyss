@@ -1,0 +1,106 @@
+{
+  "reviewId": "m3-prismatic-proof-independent-nonauthor-20261031",
+  "reviewer": "/root/audit_remaining_rng_contracts",
+  "verdict": "PASS",
+  "findings": [],
+  "reviewedCommit": "9abedf7d5f738c84b87e159903e5ed00cdbabe04",
+  "base": "06366f7821dd91eb089ff8139056132981fa039c",
+  "worktree": "/workspace/m3-prismatic-proof",
+  "scope": "Narrow independent Prismatic complete consumer proof; no source or Backlog edits, no remote actions, no repeated full suite.",
+  "sourceReceipts": [
+    {
+      "path": "helpers/CardLibrary.java",
+      "sha256": "ac123d5376862fb1d1d382284e14a9dc0e955395f415265ae29f9aa8a2b6237a",
+      "gitBlob": "0775b5df368e428a7d919ce80cf8df7f1d06b2af",
+      "bytes": 54244
+    },
+    {
+      "path": "cards/CardGroup.java",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8",
+      "gitBlob": "546405eea9d7dcbd855fe47471c55c92d086987c",
+      "bytes": 45485
+    },
+    {
+      "path": "dungeons/AbstractDungeon.java",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+      "gitBlob": "9059f4da5c8002e9645bf38f200e5527d1212ac0",
+      "bytes": 115023
+    },
+    {
+      "path": "random/Random.java",
+      "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172",
+      "gitBlob": "c4b71d5645688f6e764c46c593223eb91a5249bc",
+      "bytes": 2596
+    },
+    {
+      "path": "dungeons/TheCity.java",
+      "sha256": "16a79d6922e3f2eaeb72c09beb177682319fda6b85302470c8d955b673260e3b",
+      "gitBlob": "f4681bc8c8a242d26bfc64564cca959d7cffd956",
+      "bytes": 8194
+    },
+    {
+      "path": "relics/PrismaticShard.java",
+      "sha256": "e9813b8cbf06ca83e9e81a4c7896c93f26f36afe3b25c6bdd38645091e00c809",
+      "gitBlob": "c7d4d394457b23529eaeae7417546cdc981391a1",
+      "bytes": 930
+    }
+  ],
+  "staticFindings": [
+    "Independently refetched all six pinned upstream raw files and verified eachSHA256; sourceBlob receipts captured independently. CardLibrary reward overload retainsHEALING, filtersCURSE/STATUS, shufflescardRng; CardGroup shuffle consumes1long then getRandomCard sourceIDsort erases permutation beforeboundedidentity. Duplicate retry repeats wholeoperation.",
+    "Python oracle imports only existing independent XS128model; full76/160/84sourceIDs derived directly from370registration, crosschecked with frozenallColorRewardByRarity. No productionLua/localruntimecatalog/productionRNGclone contributes expectedidentity/state.",
+    "Scenarioseed7 total275wrappers: Boss9 then241actualpaddingBoolean tocounter250 thenAct2normal14 andelite11. Everywrapper method/bound/chance/value/longhex andbefore/after2wordscounter asserted; allidentityattempts beforeupgradefloats. NormalBane duplicate retry draws newlong thenFlurryOfBlows.",
+    "A0Act2upgradechance is0.25 inTheCity;0.125isA12. Earlier author interimmessage said0.125 but finalfixture/source/report correctlyuse0.25. No productionchange necessary.",
+    "Lua observer only delegates and records actualreturns/ownerlineage; realRun.obtainRelicPrism grantsmasterMaxOrbs1, full320actualpool checked. PublicNodesBoss->bosschestskip->advanceAct->realAct2normal then publiceliteRun tier; terminalHP/pathprefix are explicitcontrolledinputs. No testsetsowner/counter or replacesgeneration/transition.",
+    "ActualCards.open/Pending.resolve claim createspermanentUID/upgradeinstance. Oldtoken refusal comparescompleteRun pluscurrentdeck/rewards/modalreferences andtracecount. Actualgold/potionleave preservecardstream.",
+    "Two tempmodulemutants preciselyomit allPrismaticlongs oronlyduplicate-retrylong; bothrejected at exactstage drawcount, not coincidentalcardprice/outcome. No productionfilemutated.",
+    "CRLFtest performsrealGitcheckout, convertedunrelatedcontrol, exactLFbytesforallfivegenerator/rawinputs/fixture andPOSIXsource/inputkeys. Allhashedinputs arePython/JSON, noJSrawhashinput omitted. Existingattributesprotectold3inputs; new2attributesprotectnewgenerator/fixture. SourceJS/helper are executablerunners, notrawhashedoracleinputs.",
+    "Commitdiff hasonlytest/oracle/report/.gitattributes; production/data/old93fixture unchanged; cleanworktree afterfocusedrun."
+  ],
+  "verification": {
+    "command": "node --test --test-concurrency=1 tests/prismatic-rewards-source.test.mjs tests/prismatic-rewards-mutation.test.mjs tests/prismatic-rewards-checkout.test.mjs",
+    "exitCode": 0,
+    "tests": 4,
+    "pass": 4,
+    "fail": 0,
+    "skip": 0,
+    "durationMs": 8897.814763,
+    "cases": [
+      {
+        "name": "realCRLFcheckout",
+        "durationMs": 73.938009
+      },
+      {
+        "name": "omitalllongmutant",
+        "durationMs": 1491.005523,
+        "rejection": "boss exact long/identity/retry draw count"
+      },
+      {
+        "name": "omitretrylongmutant",
+        "durationMs": 2177.774098,
+        "rejection": "normal_act2 exact long/identity/retry draw count"
+      },
+      {
+        "name": "positive275wrapperfullchain",
+        "durationMs": 4828.969189
+      }
+    ],
+    "limits": "No fullCI rerun; originalLua30s andJSfilebudget unchanged. Positiveincludesindependentfixturebyte-regeneration. Allsixupstreamrawhashesverifiedseparately."
+  },
+  "acceptanceImpact": {
+    "TASK13.1#6": "CHECK: sole concretePrismaticofflineconsumptiondifference closed; priorcompletepool/drop/rarity/claimorderandtransactionevidencecompounds.",
+    "TASK16.1#6": "NO_CHECK: allcurrentlyidentifiedofflineproofdeltasclosed, actualcurrentcandidateofficialgame-recordconditionremainsunverified.",
+    "TASK47#8": "CHECKretained;expandedGeoPrism320foreigndependencyexecutionexplanationretainedinwideauditscopeappendix."
+  },
+  "history": {
+    "path": "/workspace/cloud-reports/m3-rng-wide-acceptance-audit-pre-prismatic-9abedf7.json",
+    "sha256": "91f7936dec62be16f44de20313ba5d8e0980e4a66c46b4e12c76226441ed5325",
+    "bytes": 18400,
+    "preservedOriginal": "ExactoriginalwideauditbyteswithTASK13.1#6NO_CHECKpreservedbeforeupdate."
+  },
+  "boundaries": [
+    "FixedcommunitydecompiledsourceisnotofficialPCbinaryauthentication.",
+    "Controlledpublicchainisnotnatural320acquisition/realdevice/gameplayproof.",
+    "Noallseeds/cartesianexhaustionclaim; nofutureclassselectionorAct3/4scopeexpansion.",
+    "IntegrationCIandreviewablefollowupPRareseparategates; sourcecommit063andPR437validationarenotretroactivelychanged."
+  ]
+}

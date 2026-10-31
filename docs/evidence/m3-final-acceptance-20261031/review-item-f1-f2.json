@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/audit_remaining_item_contracts; non-author independent read-only reviewer",
+  "reviewedHead": "6b3263e7c4e15a7f2a09bae134402df2f4ccf730",
+  "reviewedTree": "f0bf6e2824358cb3615d221945cba06acaea8163",
+  "reviewedBase": "06366f7821dd91eb089ff8139056132981fa039c",
+  "reviewedCommits": [
+    "c07f1791308952016ad03ed1161ccd525464c1c4",
+    "6b3263e7c4e15a7f2a09bae134402df2f4ccf730"
+  ],
+  "verdict": "PASS",
+  "findings": [],
+  "unresolved": [],
+  "sourceVerification": "Fresh fixed aeubanks/sts@319009d5 contents API original bytes independently decoded; recomputed Git blob equals API.sha before storing; exact all13 F1 and all9 F2 source SHA256/Gitblob values match committed manifests. Complete room/player/monster escape/endBattle/individual relic qualification blocks read, not method-name inference.",
+  "productionAssessment": [
+    "Only7 battle-scoped counters clear via existing rare3 and new uncommon4 hook. Real successful victory settlement invokes cleanup before publishing counters; all-enemies escape result uses same path. Smoke invokes on staged battle and publishes candidate counters; defeat retains prior behavior.",
+    "Existing persistent counter owner and new-battle binding remain unchanged. Source-qualified healing occurs for any alive Smoke before candidate.phase changes, preserving MagicFlower combat qualification and Meat then acquired-relic heal order. Event-only former call removed, so no duplicate event healing.",
+    "Smoke treatment mutates detached candidate scalars. Escaped combat.actor HP/maxHP explicitly synchronizes before transaction commit, so actual HUD/retained snapshot/next battle agree. Healing exceptions refuse without consuming live bottle or changing graph. Source normal/all-enemy-escape resource healing already shared correct settlement path; no unrelated resource/probability changes."
+  ],
+  "verification": {
+    "command": "node --test --test-concurrency=1 tests/victory-relic-counter-source.test.mjs tests/victory-relic-counter-lifecycle.test.mjs tests/victory-relic-counter-rollback.test.mjs tests/victory-relic-counter-outcomes.test.mjs tests/victory-relic-counter-enemy-escape.test.mjs tests/smoke-victory-healing-source.test.mjs tests/smoke-victory-healing.test.mjs tests/smoke-victory-healing-event.test.mjs tests/smoke-victory-healing-hud.test.mjs tests/smoke-victory-healing-rollback.test.mjs",
+    "passed": 14,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 32691.713188,
+    "log": "/workspace/cloud-reports/m3-item-f1-f2-independent-tests.log",
+    "logSha256": "2fd17bf98fecaa10ff9a93714efd629ba19cfacffebfa4f8dd4e55e48f873068",
+    "targetedWitnesses": [
+      "All7 public reward/map counters -1 and no status chip; actual next combat counts resume",
+      "Sundial1/Ink3/Happy1/Incense1/Neow2 and Omamori2/Greaves3/Matryoshka2 preserved, next-combat persistent values update normally",
+      "Real Looter all-enemy escape clears7; real Smoke clears7 and heals source values; defeat0HP no heal/Cleric",
+      "Source-room reward sampler late failure restores original Run object graph and references; retry commits once and repeated finish refuses",
+      "Six ordinary Smoke source result rows include Burning/Black/Meat/Cleric/Flower/Bloom; actual event Smoke20→39/max81 only once with ordered12/6/1 heals",
+      "Late second-heal injected failure retains original whole graph and bottle; retry source result39/81",
+      "Actual GameUI map HP27/81, retained escaped actor27/81, next public combat27/81",
+      "Four precise temp-module mutants killed by designated counter/normal-heal/event-double-heal assertions, not arbitrary exceptions"
+    ],
+    "gitDiffCheck": "git diff --check 06366f78..HEAD succeeded",
+    "workingTree": "clean exact6b3263e7",
+    "fullSuite": "NOT_RERUN; integrated exactHEAD CI belongs root"
+  },
+  "boundaries": [
+    "No official/native import, ready, PC/phone or full natural-pool claim.",
+    "No source/task/remote edits or implementation by reviewer.",
+    "This review applies exact6b source; final follow-up integration must bind required CI to its exactHEAD."
+  ]
+}

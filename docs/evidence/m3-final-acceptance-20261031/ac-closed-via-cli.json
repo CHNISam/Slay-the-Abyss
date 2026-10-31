@@ -1,0 +1,118 @@
+{
+  "newChecksWithoutTextAlignment": 16,
+  "textAlignmentAdditionalCheck": "TASK-4.8#4",
+  "records": [
+    {
+      "task": "TASK-14.1",
+      "newChecked": [
+        5,
+        7
+      ],
+      "oldStatus": "In Progress",
+      "newStatus": "In Progress",
+      "assignees": [
+        "@Furinya"
+      ],
+      "allOldNotesPreserved": true,
+      "acceptanceTextOrderUnchanged": true
+    },
+    {
+      "task": "TASK-16.1",
+      "newChecked": [
+        5
+      ],
+      "oldStatus": "In Progress",
+      "newStatus": "In Progress",
+      "assignees": [
+        "@Furinya"
+      ],
+      "allOldNotesPreserved": true,
+      "acceptanceTextOrderUnchanged": true
+    },
+    {
+      "task": "TASK-13.1",
+      "newChecked": [
+        5,
+        6
+      ],
+      "oldStatus": "In Progress",
+      "newStatus": "In Progress",
+      "assignees": [
+        "@Furinya"
+      ],
+      "allOldNotesPreserved": true,
+      "acceptanceTextOrderUnchanged": true
+    },
+    {
+      "task": "TASK-4.7",
+      "newChecked": [
+        7
+      ],
+      "oldStatus": "In Progress",
+      "newStatus": "In Progress",
+      "assignees": [
+        "@Furinya"
+      ],
+      "allOldNotesPreserved": true,
+      "acceptanceTextOrderUnchanged": true
+    },
+    {
+      "task": "TASK-30",
+      "newChecked": [
+        13
+      ],
+      "oldStatus": "In Progress",
+      "newStatus": "In Progress",
+      "assignees": [
+        "@Furinya"
+      ],
+      "allOldNotesPreserved": true,
+      "acceptanceTextOrderUnchanged": true
+    },
+    {
+      "task": "TASK-47",
+      "newChecked": [
+        3,
+        5,
+        12,
+        13,
+        14
+      ],
+      "oldStatus": "In Progress",
+      "newStatus": "In Progress",
+      "assignees": [
+        "@Furinya"
+      ],
+      "allOldNotesPreserved": true,
+      "acceptanceTextOrderUnchanged": true
+    },
+    {
+      "task": "TASK-59",
+      "newChecked": [
+        3,
+        4
+      ],
+      "oldStatus": "In Progress",
+      "newStatus": "In Progress",
+      "assignees": [
+        "@Furinya"
+      ],
+      "allOldNotesPreserved": true,
+      "acceptanceTextOrderUnchanged": true
+    },
+    {
+      "task": "TASK-61",
+      "newChecked": [
+        1,
+        2
+      ],
+      "oldStatus": "In Progress",
+      "newStatus": "In Progress",
+      "assignees": [
+        "Furinya"
+      ],
+      "allOldNotesPreserved": true,
+      "acceptanceTextOrderUnchanged": true
+    }
+  ]
+}
