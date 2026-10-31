@@ -1,0 +1,61 @@
+name: One-shot M4 motion-studio Backlog CLI task
+on:
+  push:
+    branches: [feat/m4-motion-studio-spike-20261031]
+    paths: [.github/workflows/m4-motion-studio-once.yml]
+permissions:
+  contents: write
+jobs:
+  create-backlog-task:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.18.0'
+      - name: Install repository-standard Backlog CLI
+        run: npm install --global backlog.md@1.55.3 --no-audit --no-fund
+      - name: Create the single M4 technical spike with Backlog CLI
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git branch --show-current)" = "feat/m4-motion-studio-spike-20261031"
+          backlog instructions overview
+          backlog instructions task-creation
+          backlog task list --search '动效' --plain || true
+          if find backlog/tasks -type f -name '*验证AI动效工作室流程*' -print -quit | grep -q .; then
+            echo 'Equivalent motion spike already exists; do not duplicate.'
+            exit 1
+          fi
+          backlog task create '验证AI动效工作室流程与千星原生交互标杆' \
+            -p 4 -m m-5 -s 'To Do' -a Furinya --priority medium \
+            -l art,motion,technical-spike \
+            --ref 'https://github.com/CHNISam/agent-skills/blob/master/ui-animation/SKILL.md' \
+            --ref 'https://github.com/CHNISam/agent-skills/blob/master/review-animations/SKILL.md' \
+            --ref 'docs/TOOLCHAIN.md' \
+            --ref 'docs/design/UI_DESIGN.md' \
+            --ref 'experiments/art-tech-lab/README.md' \
+            -d 'M4 非紧急前置技术实验：用视觉设计能力强的 Agent，结合既有 frontend-design、ui-animation、emil-design-eng、improve-animations、review-animations 等 Skills，以及千星原生 Lua、MCP、BeyondSimulator，做一条真实可运行、可反复评审的动态交互标杆。重点验证设计→实现→连续观察→批评→精修的生产方式，不承诺一次达到专业工作室级整体品质。与 TASK-4、TASK-29.1 及美术实验分工明确；不修改玩法、正式发版候选或默认美术开关，不阻塞当前发版。' \
+            --ac '先核实视觉 Agent 实际加载了哪些专业动效 Skills、能否直接调用现有 MCP/CLI/模拟器/图像采集接口；只补真实缺项，不默认使用 Computer Use，不重复造工具。' \
+            --ac '从现有高频战斗交互中选一个小样（例如选卡、拖动/选敌、出牌、命中与取消），对照成熟参考与当前实现，在独立实验环境复用现有原生控件和动作代码；不以纯 HTML 演示冒充千星可导入成果。' \
+            --ac '同源 A/B 演示当前效果与改进候选，保留动态回放或动图、关键帧、交互输入及可复现脚本；至少两轮独立视觉批评/精修，评价跟手性、节奏、缓动、连续性、音画配合与取消回位，不只看静态截图。' \
+            --ac '用现有模拟器回放、控件及输入回归核对功能无倒退，记录原生 API、素材与实际性能边界；可选官方 PC/实体安卓验证必须独立注明候选与证据，未实机不宣称平台通过。' \
+            --ac '交付一份可运行标杆、前后对照、复现与有效 Skills/MCP 清单、可迁移点与 Go/No-Go；只把结论交给 TASK-4、TASK-29.1 等既有 M4 品质任务，未经批准不扩大成全 UI 重构或直接进入发版。'
+          npm run verify:backlog
+          git diff --check
+      - name: Keep only native Backlog output (remove one-shot workflow)
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -- .github/workflows/m4-motion-studio-once.yml
+          git add backlog/
+          git diff --cached --name-only | grep -q '^backlog/tasks/'
+          git diff --cached --check
+          git commit -m "docs(backlog): add M4 AI motion design technical spike"
+          git push origin HEAD:refs/heads/feat/m4-motion-studio-spike-20261031
