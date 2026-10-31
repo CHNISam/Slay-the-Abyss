@@ -31,7 +31,7 @@ test('three scene-based instruction sections fit the approved modal and do not p
   assert.deepEqual(help.position,theme.layout.exitMenu.help.slice(0,2));
 });
 
-test('real host isolates guide input, returns controller focus, and retains map navigation after input switching', () => {
+test('real host rejects retired help and isolates controlled internal guide input, returns controller focus, and retains map navigation after input switching', () => {
   const result=runLua('tests/lua/native_ui_parity.lua');
   assert.equal(result.status,0,result.stdout+result.stderr);
   assert.match(result.stdout,/NATIVE_UI_PARITY_PASS/);

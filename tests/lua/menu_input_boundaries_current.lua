@@ -1,6 +1,7 @@
 -- Current host tree: unlike frozen historical fixtures, these exercise today's
 -- native menu admission, layered pointer routing and controller ownership.
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
+local Help=dofile('tests/lua/support/hidden_menu_help.lua')
 local function hit(box,name)return box:GetChild(name):GetChild('hit')end
 local function panels(root)
  return root:GetChild('runMenu'),root:GetChild('exitPanel'):GetChild('guide')
@@ -16,7 +17,9 @@ test('pointer catches preserve modal; outside consumes and returns one layer onl
  assert(menu.disableCursorEventPassthrough and root:GetChild('exitPanel').disableCursorEventPassthrough)
  assert(ui:openMenu());assert(menu:GetChild('catch').click()==true and ui.menuOpen)
  assert(not ui.mapUI:choose(F.Nodes.available(run,map)[1].id),'background route must stay blocked')
- assert(hit(menu,'help').click() and ui.controlsOpen and guide.visible)
+ Help.rejected(ui,root)
+ Help.internalGuideFixture(ui,root)
+ assert(ui.controlsOpen and guide.visible)
  assert(guide:GetChild('catch').click()==true and ui.controlsOpen)
  assert(menu:GetChild('blocker').click()==true and ui.controlsOpen,'hidden menu blocker must not dismiss guide')
  assert(guide:GetChild('blocker').click()==true and not ui.controlsOpen and ui.menuOpen and ui.exitOpen)
@@ -44,8 +47,12 @@ test('controller owns same-frame pointer echoes and hidden map never receives fo
  assert(press(focus,'cancel') and ui.menuOpen)
  assert(not menu:GetChild('map').visible and not hit(menu,'map').canControllerFocus)
  assert(menu:GetChild('blocker').click()==true and ui.menuOpen,'controller-open pointer echo must not close menu')
- assert(press(hit(menu,'help')) and ui.controlsOpen)
- assert(guide:GetChild('blocker').click()==true and ui.controlsOpen,'controller-confirm pointer echo must not close guide')
+ Help.rejected(ui,root)
+ Help.internalGuideFixture(ui,root)
+ assert(ui.controlsOpen)
+ assert(press(focus) and not ui.controlsOpen and ui.menuOpen)
+ Help.internalGuideFixture(ui,root)
+ assert(guide:GetChild('blocker').click()==true and ui.controlsOpen,'controller-confirm pointer echo must not close controlled guide')
  assert(press(focus,'cancel') and not ui.controlsOpen and ui.menuOpen)
  assert(menu:GetChild('blocker').click()==true and ui.menuOpen,'controller-back pointer echo must not close parent')
  assert(press(focus,'cancel') and not ui.exitOpen)
@@ -67,7 +74,8 @@ test('settlement busy and requested states swallow stale outside and controller 
   return true
  end,nil,nil,false,nil,nil,api)
  local menu,guide=panels(root)
- assert(ui:openMenu());assert(hit(menu,'help').click())
+ assert(ui:openMenu());Help.rejected(ui,root)
+ Help.internalGuideFixture(ui,root)
  ui.settlementBusy=true
  assert(guide:GetChild('blocker').click()==true and ui.controlsOpen)
  ui.settlementBusy=false;assert(ui:closeExit())
