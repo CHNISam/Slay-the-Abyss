@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-30 13:18'
+updated_date: '2026-10-31 01:23'
 due_date: '2026-10-28'
 labels:
   - required
@@ -255,4 +255,6 @@ PR #304：普通与Boss遗物不可领由手机试玩发现；离线源链路确
 合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
 
 2026-10-30主线复核：PR #357（acb09e46）补77件遗物定义和选择流程，战士五档130个身份已有运行绑定；21项联合离线回归及独立复审后9项见 docs/rules/RELIC_POOL_COMPLETION.md。此前缺78项为历史快照；全效果逐件、自然取得及同候选平台和手机证据仍待验，不勾广义验收。
+
+2026-10-31 旧v13实际Lua仅65遗物定义，五个代表遗物均relic_content_unavailable；PR357/377后的最新候选153定义、五项取得成功且96相关模块实际GIL读回一致。新增130来源身份与11复杂遗物后续选择广域回归。详见 docs/reviews/TWO-ACT-SELECTION-AUDIT-20261031.md；本轮无官方导入/ready/手机证据，不提升整体验收。
 <!-- SECTION:NOTES:END -->
