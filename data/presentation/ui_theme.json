@@ -2336,30 +2336,12 @@
           ]
         },
         "neow": {
-          "pedestal": [
-            0,
-            -70,
-            120,
-            18
-          ],
-          "body": [
-            0,
-            -8,
-            64,
-            118
-          ],
-          "hood": [
-            0,
-            46,
-            52,
-            52
-          ],
-          "orb": [
-            46,
-            8,
-            36,
-            36
-          ]
+          "source": "aeubanks/sts@319009d NeowEvent(ROOM)+LargeDialogOptionButton+InfiniteSpeechBubble, 1920x1080 -> 1280x720 (x*2/3-640, y*2/3-360)",
+          "figure": [0, -36, 1280, 648],
+          "npc": [383, -173],
+          "bubble": [150, -20, 240, 140],
+          "bubbleText": [150, -20, 200, 110],
+          "options": {"x": -280, "bottom": -290, "spacing": 84, "note": "STS spacing 82/77 kept as ratio against the shared 80px option frame"}
         }
       },
       "treasure": {
