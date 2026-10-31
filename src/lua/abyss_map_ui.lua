@@ -178,7 +178,7 @@ function M.new(root, map, onChoose, clickEvent, options)
     local function line(control, source, target, taken, reachable)
         local x1, y1 = position(source)
         local x2, y2 = position(target)
-        -- STS MapEdge leaves a gap at both rooms; trim by each room's knockout radius.
+        -- STS MapEdge leaves a gap at both rooms; trim by each room's icon radius.
         do
             local len = math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
             local r1 = (source.type == "boss" and Theme.layout.map.bossNode or Theme.layout.map.node) * Layout.edgeGap
@@ -275,18 +275,15 @@ function M.new(root, map, onChoose, clickEvent, options)
                 local token = child(box, "positionToken")
                 token:SetVisible(state == "current")
                 local icon = child(box, "icon")
-                icon:SetSizeDelta(size * .6, size * .6)
+                -- Only the official icon carries state: scale + tint, no added chrome.
+                local iconScale = (state == "current" or state == "available") and .74 or (state == "visited" and .6 or .5)
+                icon:SetSizeDelta(size * iconScale, size * iconScale)
+                local ring = child(box, "ring")
+                ring:SetSizeDelta(size * .95, size * .95)
+                ring:SetVisible(state == "current")
                 local iconId = assert(Theme.icon.node[node.type], "missing node icon")
                 icon:SetImage(imageSource, iconId)
                 local palette = Theme.color.mapCanvas
-                local ring, halo, plate = child(box, "ring"), child(box, "halo"), child(box, "plate")
-                plate:SetSizeDelta(size * .82, size * .82)
-                ring:SetSizeDelta(size * .92, size * .92)
-                halo:SetSizeDelta(size * 1.5, size * 1.5)
-                ring:SetVisible(state == "current" or state == "visited")
-                if state == "current" then tint(ring, Theme.color.goldBright)
-                elseif state == "visited" then tint(ring, Theme.color.goldDim) end
-                halo:SetVisible(state == "available")
                 tint(icon, state == 'locked' and palette.far or state == 'visited' and palette.visited or palette.kind[node.type])
                 icon:SetAnchoredPosition(0,node.hasEmeraldKey and Theme.layout.map.emeraldIconY or 0)
                 if node.hasEmeraldKey then tint(icon,Theme.color.positive)end

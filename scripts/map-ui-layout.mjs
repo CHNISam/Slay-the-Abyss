@@ -74,13 +74,10 @@ export function mapLayout(theme = loadMapTheme()) {
     const s = theme.layout.map.node;
     // State is carried by the official icon tint and the existing current token,
     // never an enclosing disc. Keep the full invisible pointer/focus target.
-    // STS MapRoomNode port: an outline circle marks visited/current rooms, available
-    // rooms carry a warm halo (static frame) plus the breathing scale, and a field-coloured
-    // knockout plate stops MapEdge strokes short of the icon so lines never fuse with glyphs.
+    // STS MapRoomNode.render: MAP_CIRCLE_5 is drawn only around the current room
+    // (taken path rooms keep plain official icons here per owner direction).
     const children = [
-      { ...image('halo', 0, 0, s * 1.5, s * 1.5, c.gold, im.glow), visible: false, opacity: .55 },
-      image('plate', 0, 0, s * .82, s * .82, c.mapCanvas.field, im.disc),
-      { ...image('ring', 0, 0, s * .92, s * .92, c.goldBright, im.ring), visible: false },
+      { ...image('ring', 0, 0, s * .95, s * .95, c.goldBright, im.ring), visible: false },
       image('icon', 0, 0, s * .6, s * .6, c.node.locked, theme.icon.node.combat), hit(s, s)];
     children.push({ ...text('emeraldLabel', ...theme.layout.map.emeraldLabel, '绿钥匙', f.label, c.positive), visible: false });
     children.push({ ...image('positionToken', ...visual.tokenOffset, visual.tokenSize, visual.tokenSize, c.goldBright, im.diamond), visible: false });
