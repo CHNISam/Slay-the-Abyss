@@ -32,7 +32,7 @@
 - 空组、全瓶装、真正已有定义的不可净化Necronomicurse、39金币不足组均拒绝不可行cleanup/full而保留资源、owner及随机；源Punch仍可执行。
 - 已付60后真实onObtain晚异常：公开命令完整回滚，保留先前已提交费用；恢复后相同UID有且仅有一次成功。
 
-不是新事件功能，不修改生产实现。新增测试先正常执行，再对真实生产源码作两次临时变异来验证灵敏度：40费用错为39，以及删除受保护组可行性检查，两者均明确RED；还原逐字源码后GREEN。记录见 `docs/evidence/m3-event-options-20261031/`。初稿曾引用当前data不存在的AscendersBane作为保护牌导致内容错误，已改为当前真实定义Necronomicurse；该夹具错误不记作生产缺陷或RED证据。
+不是新事件功能，不修改生产实现。新增测试先正常执行，再对真实生产源码作两次临时变异来验证灵敏度：40费用错为39，以及删除受保护组可行性检查，两者均明确RED；还原逐字源码后GREEN。记录见 `docs/evidence/m3-event-options-20261031/`。其中失败原文逐字保存在 `*.txt.raw.gz`；可读txt仅展开tab并移除行尾空白，原文/压缩档/可读档SHA-256及规范化说明见 `log-provenance.json`，错误及堆栈未删除。初稿曾引用当前data不存在的AscendersBane作为保护牌导致内容错误，已改为当前真实定义Necronomicurse；该夹具错误不记作生产缺陷或RED证据。
 
 本轮标准新测试1/1通过（约2.1秒）；相关 `m3-relic-choice-events`、`act2-choice-events`、`m3-event-completion-routes` 共9/9通过（约10.1秒），未调大30秒预算。没有重复全量测试；最终CI由主控统一执行。
 

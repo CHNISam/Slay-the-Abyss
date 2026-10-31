@@ -14,17 +14,17 @@ test at tests/designer-public-option-matrix.test.mjs:4:1
 ✖ Designer source options and negative transactions execute through public Nodes commands (1416.964269ms)
   AssertionError [ERR_ASSERTION]: ...events-final/tests/lua/designer_public_option_matrix.lua:7: 161 ~= 160
   stack traceback:
-  	[JS]: in function 'assert'
-  	...events-final/tests/lua/designer_public_option_matrix.lua:7: in upvalue 'eq'
-  	...events-final/tests/lua/designer_public_option_matrix.lua:36: in local 'fn'
-  	...events-final/tests/lua/designer_public_option_matrix.lua:30: in local 'test'
-  	...events-final/tests/lua/designer_public_option_matrix.lua:35: in main chunk
-  	[JS]: in function 'dofile'
-  	(command line):1: in main chunk
-  
-  
+    [JS]: in function 'assert'
+    ...events-final/tests/lua/designer_public_option_matrix.lua:7: in upvalue 'eq'
+    ...events-final/tests/lua/designer_public_option_matrix.lua:36: in local 'fn'
+    ...events-final/tests/lua/designer_public_option_matrix.lua:30: in local 'test'
+    ...events-final/tests/lua/designer_public_option_matrix.lua:35: in main chunk
+    [JS]: in function 'dofile'
+    (command line):1: in main chunk
+
+
   1 !== 0
-  
+
       at TestContext.<anonymous> (file:///workspace/m3-events-final/tests/designer-public-option-matrix.test.mjs:6:9)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
