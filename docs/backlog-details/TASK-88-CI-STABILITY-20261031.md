@@ -1,0 +1,29 @@
+# 近期集成补验
+
+Owner要求补上近期跳过CI的集成验证，不能把未经验证的组合当作稳定版本。
+
+最近已确认完整Quality成功：`9cfb250bffa495c5cf76d76f9452368a25de9788`，run `41155215527`。
+本轮初始审查范围为该提交到`dd295847d8485f53ee078ced125f7be85e284e74`，随后纳入仅修改测试合同的`96411b6c74349f25e3434509dd922e423b47c45f`。
+独立只读复审`/root/integration_review`覆盖全部运行时差异，重点检查评分、失败回滚、药水逃跑、卡牌只读预览、地图输入、Beggar和Neow，未确认运行时缺陷；PR417三个测试合同修订也独立复审通过。
+
+## 已复现的阻塞及修复
+
+- 原始官方失败：`af178273`的Quality `41159968538`，`rules (3/13)`，job `124416598131`，`jaw_worm_ai_slice_3.lua`原30000ms超时。
+- `96411b6c`本机Node24.18.0独立复现相同失败，30086ms。不是把排队、取消或未执行算作成功。
+- 该入口将原组12的16个独立种子、每种子24回合与组13放在一个进程。最初两半实际26888/28366ms，虽通过仍接近上限，因此最终改成四组各4个种子；组13独立。
+- 保留原13组全部断言、全部种子和回合，未改生产Lua、runner或30000ms预算。唯一种子循环与原selector逆转后仍核对原始完整SHA256及GitBlob，没有刷新历史oracle。
+- 完整raw入口清单与精确wrapper内容相互核对；缺片、漏种子、重复种子和越界负例必须失败。新增入口按现有自动发现进入完整CI；未测新入口沿用现有独占调度。
+- 独立复审`/root/integration_review`已检查全部拆片差异，确认未删有效断言、未改历史hash、未放宽预算；组12末尾独立owner检查反而在四片分别执行。
+
+## 本轮验证与边界
+
+`node --test --test-concurrency=1 tests/architecture-composition-format.test.mjs tests/run-governance.test.mjs tests/card-actions-registry.test.mjs tests/lua-runner-output-buffer.test.mjs`：14/14通过，含完整exhaust新旧状态/队列/RNG与超缓冲失败保护。
+
+`node --test tests/jaw-worm-ai-partitions.test.mjs`：2/2通过，包括完整历史字节还原和覆盖负例。
+七个raw入口逐项使用`node scripts/test-lua.mjs <入口>`：组1/2–11分别6376/1821ms通过，最终四片组12分别15876/16980/18343/15229ms，组13为1652ms，均在原预算内通过。
+`node --test --test-concurrency=1 tests/jaw-worm-data.test.mjs tests/lua-workers.test.mjs`：21/21通过，含未知/长夹具独占、失败不丢与原数据约束。
+完整托管CI另由TASK-88续记，不以专项通过预先宣告整体验收。
+
+日志保存在本轮隔离树`ci-stability-*.log`；旧完整本地运行在主线合入PR417后主动停止，不能认证最终提交。旧主线取消记录保留。首次冻结的手动Quality `41184511839`在确定超时后主动取消，不作为通过证据。
+
+卡组滚动事件字段已核对官方离线指南`mhtakr07vej4`的CursorEventData声明，接口存在；手机实际滚动后的点击派发仍须最终候选实测。本轮未生成GIL、官方导入、ready、PC/手机实机或官方容量证据，不提升这些验收状态，不发布。
