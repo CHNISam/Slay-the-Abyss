@@ -202,6 +202,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     function ctx.bindFooter(back,confirm,backLabel,confirmLabel,confirmOk,skipRestReward)
         local position = ctx.shopSelection.selected and layout.shop.cancel or layout.back
         back:SetAnchoredPosition(position[1],position[2])
+        local purchase = ctx.shopSelection.selected and layout.shop.confirm or layout.confirm
+        confirm:SetAnchoredPosition(purchase[1],purchase[2])
         ctx.show(back, backLabel ~= nil) ctx.show(confirm, confirmLabel ~= nil)
         if backLabel then back:GetChild("label").text = backLabel ctx.state(back, true) end
         if confirmLabel then confirm:GetChild("label").text = confirmLabel ctx.state(confirm, confirmOk, false, true) end

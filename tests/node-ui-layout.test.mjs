@@ -228,3 +228,18 @@ test('source reward rows and the twelve-card smithing grid fit without hiding ne
   assert.ok(a.left>=b.left && a.right<=b.right && a.bottom>=b.bottom && a.top<=b.top,'merchant text must remain inside panel');
  }
 });
+
+test('shop purchase and cancel form one adjacent action group outside merchant dialogue',()=>{
+ const back=find(panel.children,'back'),confirm=find(panel.children,'confirm');
+ const cancel={...back,position:nativeTheme.layout.nativeNode.shop.cancel.slice(0,2)};
+ const purchase={...confirm,position:nativeTheme.layout.nativeNode.shop.confirm.slice(0,2)};
+ const a=bounds(cancel),b=bounds(purchase),dialogue=bounds(find(panel.children,'merchant'));
+ assert.equal(cancel.position[1],purchase.position[1],'purchase actions share one row');
+ assert.ok(b.left-a.right>=12 && b.left-a.right<=32,'cancel sits next to purchase with one small gap');
+ assert.ok(!overlaps(a,dialogue) && !overlaps(b,dialogue),'dialogue does not occupy either action');
+ assert.ok(dialogue.right<=a.left-8,'dialogue stays outside the grouped action span');
+ const safe=nativeTheme.canvas.safe, [w,h]=nativeTheme.canvas.base;
+ for(const box of [a,b,dialogue]) assert.ok(box.left>=-w/2+safe.x && box.right<=w/2-safe.x && box.bottom>=-h/2+safe.y && box.top<=h/2-safe.y,'selected shop footer respects canvas safe area');
+ assert.deepEqual(find(back.children,'hit').size,back.size);
+ assert.deepEqual(find(confirm.children,'hit').size,confirm.size);
+});
