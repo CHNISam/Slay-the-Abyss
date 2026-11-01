@@ -523,7 +523,7 @@ test("controller hints stay hidden for pointer input and preserve scroll boundar
     assert(sameColor(previous:GetChild("label").fontColor, Theme.color.textMuted))
     assert(not click(root,"previous") and ui.scroll == 0)
     ui:setScroll(Layout.maxScroll)
-    assert(not previous.visible and not nextButton.visible and previous:GetChild("hit").visible)
+    assert(not previous.visible and not nextButton.visible and not previous:GetChild("hit").visible and not previous:GetChild("hit").canControllerFocus)
     assert(not nextButton:GetChild("hit").visible and not nextButton:GetChild("hit").canControllerFocus)
     assert(not click(root,"next") and ui.scroll == Layout.maxScroll)
 end)
