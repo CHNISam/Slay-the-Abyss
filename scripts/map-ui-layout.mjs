@@ -68,7 +68,7 @@ export function mapLayout(theme = loadMapTheme()) {
     // TASK-4.13: one parchment hierarchy — act title is the only heading-size ink in the bar.
     text('title', 0, 316, 380, 40, '', f.number, c.mapHeader.title),
     { ...text('notice', 0, -324, 1160, visual.noticeHeight, '', f.small, c.textDim), visible: false },
-    button('next', visual.navigationY[0], '↑'), button('focus', visual.navigationY[1], '◆'), button('previous', visual.navigationY[2], '↓'),
+    button('next', visual.navigationY[0], '↑'), button('previous', visual.navigationY[1], '↓'),
     typeLegend,
   ];
   // Runtime clips these line segments geometrically to the themed viewport.
