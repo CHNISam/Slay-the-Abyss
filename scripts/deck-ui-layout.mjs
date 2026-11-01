@@ -123,7 +123,12 @@ export function deckControls(theme = nativeTheme) {
       text('title', l.deckView.title, '', f.heading, c.goldBright),
       { ...text('browseTitle', l.deckView.browseTitle, '', f.heading, c.goldBright), visible: false },
       ...browseButtons,
-      { ...button('sort', l.deckView.sort, '初始'), visible: false },
+      ...['original', 'type', 'cost'].map((mode, i) => {
+        const control = button('sort' + mode, l.deckView.sort[i], ['获得顺序 ↑', '类型', '耗能'][i]);
+        control.visible = false;
+        control.children.push({ ...plate('selected', [0, -20, control.size[0] - 16, 4], c.goldBright), visible: false });
+        return control;
+      }),
       { ...text('details', l.deckView.viewport, '', f.reading, c.text), visible: false },
       { name: 'detailHit', kind: 'cursorArea', position: l.deckView.viewport.slice(0, 2),
         size: l.deckView.viewport.slice(2), focusable: true, visible: false },

@@ -5,8 +5,12 @@ local specs={{'attack_potion','攻击','0'},{'skill_potion','技能','0'},{'powe
 for _,spec in ipairs(specs)do
  local host,ui,panel,event=H.setup({'defend'},{'cultist'})
  assert(Run.obtainPotion(host.run,spec[1]));ui:render()
- local label=panel:GetChild('potion1'):GetChild('normal'):GetChild('label')
- assert(label.visible and utf8.len(label.text)==1)
+ local group=panel:GetChild('potionHelp')
+ local label=group:GetChild('potionCaption1')
+ assert(group.visible~=false and label.visible and utf8.len(label.text)==1)
+ assert(not panel:GetChild('potion1'):GetChild('normal'):GetChild('label').visible,'legacy in-button caption stays hidden')
+ local identity=label.text;ui:render()
+ assert(label.visible and label.text==identity,'repeated rendering preserves identity')
  local face=require('abyss_battle_potion_view').potionText(Run.potionView(host.run)[1],host.run.combat)
  -- Keep the full compact-copy contract and the real visible help surface.
  assert(face:find(spec[2],1,true),spec[1]..' compact: '..face)

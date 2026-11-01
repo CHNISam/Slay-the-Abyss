@@ -13,9 +13,8 @@ local rarityOrder = {basic=1,special=2,common=3,uncommon=4,rare=5,curse=6}
 local browseFilters={{id='all',control='All'},{id='attack',control='Attack'},
     {id='skill',control='Skill'},{id='power',control='Power'},
     {id='status',control='Status'},{id='curse',control='Curse'}}
-local browseSorts={'original','name','rarity','cost','type'}
-local sortNames={original='初始',name='名称',rarity='稀有度',cost='费用',type='类型'}
-local typeOrder={attack=1,skill=2,power=3,status=4,curse=5}
+local browseSorts={'original','type','cost'}
+local sortNames={original='获得顺序',cost='耗能',type='类型'}
 
 -- Observe native click metadata only; leave drag handlers and scroll offsets
 -- to the native Grid rather than synthesizing scrolling. Click-only C-mode works.
@@ -85,12 +84,16 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         root:GetChild('title'):SetVisible(not active)
         local heading=root:GetChild('browseTitle')
         heading:SetVisible(active)
-        root:GetChild('sort'):SetVisible(active)
-        if active then
-            heading.text=self.listTitle
-            local label=sortNames[self.sortMode]
+        if active then heading.text=self.listTitle end
+        for _,mode in ipairs(browseSorts)do
+            local control=root:GetChild('sort'..mode)
+            control:SetVisible(active and not self.pileKind)
+            local selected=active and self.sortMode==mode
+            control:GetChild('selected'):SetVisible(selected)
+            local direction=self.sortAscending
+            local label=sortNames[mode]..(selected and (direction and ' ↑' or ' ↓') or '')
             for _,state in ipairs({'normal','hover','pressed','disabled'})do
-                root:GetChild('sort'):GetChild('hit'):GetChild(state):GetChild('label').text=label
+                control:GetChild('hit'):GetChild(state):GetChild('label').text=label
             end
         end
         for _,filter in ipairs(browseFilters)do
@@ -263,10 +266,16 @@ function M.new(root, presentation, clickEvent, platform, onClose)
     end
     -- Pure presentation projection. The permanent deck and the three combat
     -- piles retain their UIDs, acquisition order and RNG state unchanged.
-    local function costRank(definition)
-        if definition.costMode=='all_energy' or definition.cost==-1 then return 1000 end
-        if type(definition.cost)~='number' or definition.cost<0 then return 1001 end
-        return definition.cost
+    local function sortKey(entry)
+        local suffix=entry.card.upgraded and ('+'..(entry.definition.repeatable and tostring(entry.card.upgrades or 1) or '')) or ''
+        local name=assert(presentation[entry.card.cardId],'missing deck name').name..suffix
+        if self.sortMode=='type' then return string.upper(entry.definition.type)..name end
+        -- MasterDeck compares printed cost, not the transient costForTurn adapter.
+        local base=self.catalog.cards[entry.card.cardId]
+        local cost=entry.card.upgraded and (base.upgrade or {}).cost or base.cost
+        if entry.card.costOverride~=nil then cost=entry.card.costOverride end
+        if entry.definition.costMode=='all_energy' then cost=-1 end
+        return tostring(cost)..name
     end
     local function projectCards()
         local entries={}
@@ -276,21 +285,13 @@ function M.new(root, presentation, clickEvent, platform, onClose)
                 entries[#entries+1]={card=card,index=i,definition=definition}
             end
         end
-        if self.sortMode~='original' then
+        if not self.pileKind then
             table.sort(entries,function(a,b)
-                local x,y
-                if self.sortMode=='type' then
-                    x,y=typeOrder[a.definition.type] or 99,typeOrder[b.definition.type] or 99
-                elseif self.sortMode=='rarity' then
-                    x,y=rarityOrder[a.definition.rarity] or 99,rarityOrder[b.definition.rarity] or 99
-                elseif self.sortMode=='cost' then
-                    x,y=costRank(a.definition),costRank(b.definition)
-                else
-                    x=assert(presentation[a.card.cardId],'missing deck name').name
-                    y=assert(presentation[b.card.cardId],'missing deck name').name
-                end
-                if x~=y then return x<y end
-                return a.index<b.index -- stable acquisition/pile display order
+                local x,y=a.index,b.index
+                if self.sortMode~='original' then x,y=sortKey(a),sortKey(b) end
+                if x==y then return a.index<b.index end
+                if self.sortAscending then return x<y end
+                return x>y
             end)
         end
         self.cards={}
@@ -329,12 +330,22 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.typeFilter=kind
         return changeBrowse()
     end
-    function self.nextSort(_)
-        if not canBrowse() then return false end
-        for i,mode in ipairs(browseSorts)do
-            if mode==self.sortMode then self.sortMode=browseSorts[i%#browseSorts+1];break end
-        end
+    function self.setSort(_,mode)
+        if not canBrowse() or self.pileKind or not sortNames[mode] then return false end
+        self.sortMode=mode
+        self.sortDirections[mode]=not self.sortDirections[mode]
+        self.sortAscending=self.sortDirections[mode]
+        self.masterSort={run=self.run,mode=mode,directions=self.sortDirections,ascending=self.sortAscending}
         return changeBrowse()
+    end
+    local function restoreSort(run)
+        self.sortMode,self.sortAscending='original',true
+        self.sortDirections={original=false,type=false,cost=false}
+        local saved=self.masterSort
+        if saved and saved.run~=run then self.masterSort=nil;saved=nil end
+        if saved and not self.pileKind and not self.choiceToken then
+            self.sortMode,self.sortAscending,self.sortDirections=saved.mode,saved.ascending,saved.directions
+        end
     end
     function self.open(_, run, choice, onPick, pileKind)
         if self.visible then return false end
@@ -357,7 +368,8 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         end
         self.visible,self.run,self.allCards,self.cards,self.catalog=true,run,cards,cards,catalog
         self.browseEnabled=choice==nil
-        self.typeFilter,self.sortMode='all','original'
+        self.typeFilter='all'
+        restoreSort(run)
         self.controllerPage=1
         self.detailOnly,self.detailPages,self.cardDetail=nil,nil,nil
         upgradePreview:SetVisible(false)
@@ -527,14 +539,14 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         end)
         Controller.bind(platform.controller,hit,'deck',action,canBrowse,65)
     end
-    do
-        local hit=root:GetChild('sort'):GetChild('hit')
-        local action=function()return self:nextSort()end
+    for _,mode in ipairs(browseSorts)do
+        local hit=root:GetChild('sort'..mode):GetChild('hit')
+        local action=function()return self:setSort(mode)end
         hit:AddCursorEventListener(clickEvent,function()
             if Controller.pointerBlocked(platform.controller)then return false end
             return action()
         end)
-        Controller.bind(platform.controller,hit,'deck',action,canBrowse,65)
+        Controller.bind(platform.controller,hit,'deck',action,function()return canBrowse() and not self.pileKind end,65)
     end
     root:SetVisible(false)
     return self
