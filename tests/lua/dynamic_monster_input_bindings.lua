@@ -140,7 +140,7 @@ end
 failAt=100000;registrations=0
 local probe=bind(9,battle.enemies[2],2);local registrationCount=registrations
 failAt=nil;retireProbe(probe)
-assert(registrationCount==15,'expected seven target and eight intent registration sites')
+assert(registrationCount==16,'expected eight target and eight intent registration sites')
 for fail=1,registrationCount do
  local box=control('failed'..fail);control('hit',box);control('intentHit',box)
  registrations=0;failAt=fail

@@ -6,8 +6,8 @@ test('dynamic monster controls retain actor ownership and precisely retire stale
   const result=runLua('tests/lua/dynamic_monster_input_bindings.lua');
   assert.equal(result.status,0,result.stdout+result.stderr);
   assert.match(result.stdout,/DYNAMIC_MONSTER_INPUT_BINDINGS_PASS/);
-  assert.match(result.stdout,/REENTRANT_RETIRE_SITES=15/);
-  assert.match(result.stdout,/PARTIAL_BIND_FAILURE_SITES=15/);
+  assert.match(result.stdout,/REENTRANT_RETIRE_SITES=16/);
+  assert.match(result.stdout,/PARTIAL_BIND_FAILURE_SITES=16/);
 });
 
 test('retired controller callback regression rejects a replaced record without its generation fence', async () => {
@@ -46,7 +46,7 @@ test('partial-bind injection rejects late ownership of the intent controller rec
     writeFileSync(script,`package.preload.abyss_battle_detail_bindings=function()return assert(load(${luaString(mutation)},'@detail-mutation'))()end\ndofile('tests/lua/dynamic_monster_input_bindings.lua')\n`);
     const result=runLua(script);
     assert.notEqual(result.status,0);
-    assert.match(result.stderr,/partial bind leaked controller records at registration 10/);
+    assert.match(result.stderr,/partial bind leaked controller records at registration 11/);
   } finally {rmSync(directory,{recursive:true,force:true});}
 });
 
@@ -67,6 +67,6 @@ test('reentrant retirement regression rejects continuation after intent cursor r
     writeFileSync(script,`package.preload.abyss_battle_detail_bindings=function()return assert(load(${luaString(mutation)},'@detail-mutation'))()end\ndofile('tests/lua/dynamic_monster_input_bindings.lua')\n`);
     const result=runLua(script);
     assert.notEqual(result.status,0);
-    assert.match(result.stderr,/registration continued after retirement at 8/);
+    assert.match(result.stderr,/registration continued after retirement at 9/);
   } finally {rmSync(directory,{recursive:true,force:true});}
 });

@@ -159,6 +159,11 @@ function M.new(view, controls)
         return {entry.current.x,entry.current.y}
     end
     local function currentAim()
+        local explicit=view.cardAim
+        if explicit then
+            if explicit.previewReady() then return explicit.uid,explicit.slot end
+            view.cardAim=nil
+        end
         local held = view.gesture or view.carry
         if held and held.moving then
             local _, target = dragTarget(held)

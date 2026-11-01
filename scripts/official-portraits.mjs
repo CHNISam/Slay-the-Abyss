@@ -62,7 +62,14 @@ export function attachLowpolyScenes(layout,{menuBackground=false}={}) {
  // Pan 2026-10-31：首页铺我们自己的低多边形几何地景（同一份 lowpolyLand），盖在纯色底之上、标题之下。
  if(menu&&!menu.children.some(c=>c.name===lowpolySceneHost)){
   const at=menu.children.findIndex(c=>c.name==='lowpolyVeil');
-  menu.children.splice(at<0?1:at,0,host());
+  // Low-poly triangles can project a few units past the menu veil. Trim only
+  // the exterior: opaque background-colour strips hide those unshaded slivers
+  // without changing the landscape, content scale, or shared full-screen bleed.
+  const backdrop=menu.children.find(c=>c.name==='backdrop');
+  const [w,h]=menu.size,bleed=400;
+  const edges=[-1,1].map((side,i)=>({name:i?'sceneEdgeRight':'sceneEdgeLeft',kind:'image',
+   position:[side*(w/2+bleed/2),0],size:[bleed,h],image:backdrop.image,colour:backdrop.colour}));
+  menu.children.splice(at<0?1:at,0,host(),...edges);
  }
  if([select,battle].some(p=>p.children.some(c=>c.name===lowpolySceneHost)))throw Error('Scene hosts already attached');
  select.children.splice(select.children.findIndex(c=>c.name==='border'),0,host());
