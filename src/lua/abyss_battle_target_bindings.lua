@@ -36,6 +36,24 @@ function M.install(owner, ownership, host, dependencies)
             input.control=control
             bound[box]=input
             ownership.enemyInputs[screenSlot] = input
+            -- Preview ownership is separate from owner.target (which defaults to 1).
+            -- Reuse the same selection/turn/actor checks as the eventual command.
+            local function previewEnemy(token, controller)
+                local entry=entryAt()
+                if not entry or not token.uid or token.aim or not dependencies.enemyReady(token) then return end
+                local selected
+                for _,card in ipairs(token.battle.hand)do if card.uid==token.uid then selected=card end end
+                if not selected or not needsTarget(token.battle,selected) then return end
+                token.previewReady=function()
+                    if owner.gesture or not entryAt() or not dependencies.enemyReady(token) then return false end
+                    if controller then
+                        return Controller.isController(host.controller) and host.controller.api.getFocus()==control
+                    end
+                    return input.held==token or input.released==token
+                end
+                owner.cardAim=token
+                if not controller then owner:render() end
+            end
             local function chooseEnemy()
             local entry=entryAt()
             if not entry then return false end
@@ -70,7 +88,14 @@ function M.install(owner, ownership, host, dependencies)
                 return dependencies.controllerReady() and owner.run.phase=="combat" and entry and Actors.isActive(entry.actor)
             end,screenSlot,"enemies",function()
                 local entry=entryAt()
-                if entry then owner.target=entry.index;owner:render()end
+                if entry then
+                    owner.target=entry.index
+                    local battle=owner.run and owner.run.combat
+                    previewEnemy({slot=entry.index,screenSlot=screenSlot,actor=entry.actor,run=owner.run,
+                        battle=battle,turn=battle and battle.turn,uid=owner.selected,
+                        selectionEpoch=owner.selectionEpoch,aim=owner.potionAim},true)
+                    owner:render()
+                end
             end)
             if not entryAt() then return end
             control:AddCursorEventListener(host.clickEvent, function(event)
@@ -106,9 +131,15 @@ function M.install(owner, ownership, host, dependencies)
                     local g = {slot=entry.index,screenSlot=screenSlot, actor=actor, run=run, battle=battle,
                         uid=owner.selected, selectionEpoch=owner.selectionEpoch,aim=owner.potionAim,
                         turn=battle.turn, touch=event and event.touchId}
-                    if dependencies.enemyReady(g) then input.held = g end
+                    if dependencies.enemyReady(g) then
+                        input.held = g
+                        previewEnemy(g,false)
+                    end
                 end)
                 if not entryAt() then return end
+                local function clearCardAim(token)
+                    if owner.cardAim==token then owner.cardAim=nil;owner:render() end
+                end
                 local function releaseEnemy(event, ended)
                     if not entryAt() then return false end
                     ownership.enemyPointerObserved = true
@@ -116,11 +147,23 @@ function M.install(owner, ownership, host, dependencies)
                     if held and held.touch == touch then
                         input.held = nil
                         input.released = not ended and dependencies.enemyReady(held) and held or nil
-                        if ended and dependencies.cancelPotionAim("已取消药水瞄准。") then owner:render() end
+                        if ended then
+                            clearCardAim(held)
+                            if dependencies.cancelPotionAim("已取消药水瞄准。") then owner:render() end
+                        end
                     elseif ended and input.released and input.released.touch == touch then
+                        clearCardAim(input.released)
                         input.released = nil
                         if dependencies.cancelPotionAim("已取消药水瞄准。") then owner:render() end
                     end
+                end
+                if host.cursor.CursorExit then
+                    control:AddCursorEventListener(host.cursor.CursorExit,function(event)
+                        local aim=owner.cardAim
+                        if aim and aim.touch==(event and event.touchId) and (aim==input.held or aim==input.released) then
+                            owner.cardAim=nil;owner:render()
+                        end
+                    end)
                 end
                 control:AddCursorEventListener(host.cursor.CursorUp, releaseEnemy)
                 if not entryAt() then return end

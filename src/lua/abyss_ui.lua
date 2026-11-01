@@ -142,6 +142,10 @@ function OnStart()
         local alpha = type(build)=='table' and build.workKey=='alpha-test'
         view = GameUI.new(stage, Data, Presentation, Enum.CursorEventType.CursorClick,
             { background = background, portraits = portraits, cardArt = cardArt, music = music, campaign = true, campaignProfile = "competition-two-act",
+              -- Native OnUpdate timing has not been verified across mobile
+              -- foreground/background transitions. Do not publish it as accurate
+              -- elapsed time; retain the internal Host counter unchanged.
+              runTimeUnavailable = true,
               createEasterEggArt=createEasterEggArt,
               characterProfile = (alpha or isTest and testPlay == true) and "competition-candidate" or "production",
               controllerApi = {events=Enum.ControllerNavigationEventType,directions=Enum.ControllerNavigationDir,

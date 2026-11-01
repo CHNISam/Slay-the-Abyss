@@ -11,9 +11,15 @@ local function colour(ctx,c) return ctx.platform.color(c.r,c.g,c.b,c.a) end
 local function clamp(value) return math.max(0, math.min(1, value)) end
 local function easeOut(p) return 1 - (1 - p) ^ 3 end
 local function overshoot(p) return 1 + 2.7 * (p - 1) ^ 3 + 1.7 * (p - 1) ^ 2 end
-local function clock(seconds)
+local function clock(seconds, unavailable)
+    if unavailable or type(seconds)~='number' or seconds~=seconds or seconds<0 or seconds==math.huge then
+        return '暂不可用'
+    end
     seconds = math.floor(seconds)
-    return string.format("%02d:%02d", math.floor(seconds / 60), seconds % 60)
+    -- Integer format ranges differ between Lua hosts. Fail closed rather than
+    -- throwing (or replacing an unknown duration with a fabricated zero).
+    local ok, text=pcall(string.format,"%02d:%02d",math.floor(seconds/60),seconds%60)
+    return ok and text or '暂不可用'
 end
 local function paintVeil(ctx)
     local m,menu,platform=ctx.owner.motion,ctx.menu,ctx.platform
@@ -107,7 +113,7 @@ local function presentStats(ctx,victory,mode,available)
     local self,result,cards=ctx.owner,ctx.result,ctx.cards
     local run=ctx.owner.run
     result:GetChild('subtitle').text=resultSubtitle(run,mode,victory)
-    local values={self.map.floor..' / '..finalFloor(ctx,victory),tostring(run.victories),clock(run.elapsedSeconds),tostring(#run.deck)}
+    local values={self.map.floor..' / '..finalFloor(ctx,victory),tostring(run.victories),clock(run.elapsedSeconds,ctx.platform.runTimeUnavailable),tostring(#run.deck)}
     for i,name in ipairs({'抵达层数','战斗胜场','用时','卡组张数'})do
         cards[i]:GetChild('label').text,cards[i]:GetChild('value').text=name,values[i]
     end
