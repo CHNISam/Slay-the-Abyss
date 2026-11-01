@@ -287,7 +287,7 @@ test("same-run result records active time and victories, freezes on results and 
     ui:refresh() ui:update(1)
     assert(ui.run.elapsedSeconds == 63.25)
     ui.run.phase = "defeat" ui:refresh()
-    assert(statValue(root, "time") == "01:03" and statValue(root, "victories") == "1")
+    assert(statValue(root, "time") == "暂不可用" and statValue(root, "victories") == "1")
     ui:update(100)
     assert(ui.run.elapsedSeconds == 63.25)
     assert(testStart(ui) and ui.run.elapsedSeconds == 0 and ui.run.victories == 0)
@@ -296,7 +296,7 @@ test("same-run result records active time and victories, freezes on results and 
     ui.run.nodeFlow = {complete=true, result="boss_treasure_complete"}
     ui:refresh() ui:update(100)
     assert(ui.run.elapsedSeconds == 3)
-    assert(statValue(root, "time") == "00:03")
+    assert(statValue(root, "time") == "暂不可用")
 end)
 
 test("result settlement sends each outcome once and cannot restart while official settlement is pending", function()
@@ -375,7 +375,7 @@ test("result page shows only the recorded run stats in the approved four cells",
     assert(menu:GetChild("title").text == "旅途在此中断")
     assert(resultText(root, "subtitle") == "封印仍在崩解，遗迹深处的回廊再一次归于黑暗。")
     assert(statValue(root, "floor") == ui.map.floor .. " / " .. Data.rules.map.floors)
-    assert(statValue(root, "victories") == "7" and statValue(root, "time") == "62:05")
+    assert(statValue(root, "victories") == "7" and statValue(root, "time") == "暂不可用")
     assert(statValue(root, "deck") == tostring(#ui.run.deck))
     local labels = {}
     for _, key in ipairs({"floor", "victories", "time", "deck"}) do

@@ -11,10 +11,6 @@ local function colour(ctx,c) return ctx.platform.color(c.r,c.g,c.b,c.a) end
 local function clamp(value) return math.max(0, math.min(1, value)) end
 local function easeOut(p) return 1 - (1 - p) ^ 3 end
 local function overshoot(p) return 1 + 2.7 * (p - 1) ^ 3 + 1.7 * (p - 1) ^ 2 end
-local function clock(seconds)
-    seconds = math.floor(seconds)
-    return string.format("%02d:%02d", math.floor(seconds / 60), seconds % 60)
-end
 local function paintVeil(ctx)
     local m,menu,platform=ctx.owner.motion,ctx.menu,ctx.platform
     if m.deathReveal or not m.shadeHidden then
@@ -107,7 +103,8 @@ local function presentStats(ctx,victory,mode,available)
     local self,result,cards=ctx.owner,ctx.result,ctx.cards
     local run=ctx.owner.run
     result:GetChild('subtitle').text=resultSubtitle(run,mode,victory)
-    local values={self.map.floor..' / '..finalFloor(ctx,victory),tostring(run.victories),clock(run.elapsedSeconds),tostring(#run.deck)}
+    -- Native update timing is not verified for this candidate; do not present it as measured duration.
+    local values={self.map.floor..' / '..finalFloor(ctx,victory),tostring(run.victories),'暂不可用',tostring(#run.deck)}
     for i,name in ipairs({'抵达层数','战斗胜场','用时','卡组张数'})do
         cards[i]:GetChild('label').text,cards[i]:GetChild('value').text=name,values[i]
     end
