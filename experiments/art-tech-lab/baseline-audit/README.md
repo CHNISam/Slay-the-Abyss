@@ -51,3 +51,11 @@ LFS指针拒绝及独立已知值误差校验。继承配方的Pillow getdata弃
 - 只有离线质量有依据后才进入官方GIA、同候选PC/实体安卓、1/5/10卡有界缓存验证；
   正式启用仍需Owner批准，不能由本报告推断。
 - 原图沿用仓库既有素材及其权利边界；本切片未下载或复制新的第三方拟合器代码。
+
+## 衍生图来源与权利记录
+
+[provenance.json](provenance.json) 逐项映射四张输出PNG的SHA256及三张既有输入图SHA256，
+关联各卡 `generation-provenance.json` / `asset.json`。这三张输入在法律清单原属
+`card-illustration-source-candidate`，输出沿用既有 `performance-art-derivative` 分类，
+不是新许可。原神IP仍归原权利人；项目委托AI候选的既有使用限制不变，不转授游戏IP、
+商业许可或暗示用户视觉/平台验收。对照图标签使用Pillow默认字体，不分发字体文件。
