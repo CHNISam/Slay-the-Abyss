@@ -199,7 +199,7 @@ test("scroll follows Boss16 and exposes the independent legal treasure17 entry",
     assert(ui.scroll == Layout.maxScroll)
     assert(click(root, "previous")); ui:update(Theme.motion.base)
     assert(ui.scroll < Layout.maxScroll)
-    click(root, "focus"); ui:update(Theme.motion.base); assert(ui.scroll == Layout.maxScroll)
+    ui:setVisible(false); ui:setVisible(true); assert(ui.scroll == Layout.maxScroll)
     assert(clickNode(root, map, "f17_l4") and callbacks == 17 and #map.path == 17)
     assert(not ui:choose("f17_l4") and callbacks == 17)
 end)
@@ -523,7 +523,7 @@ test("controller hints stay hidden for pointer input and preserve scroll boundar
     assert(sameColor(previous:GetChild("label").fontColor, Theme.color.textMuted))
     assert(not click(root,"previous") and ui.scroll == 0)
     ui:setScroll(Layout.maxScroll)
-    assert(not previous.visible and not nextButton.visible and previous:GetChild("hit").visible)
+    assert(not previous.visible and not nextButton.visible and not previous:GetChild("hit").visible and not previous:GetChild("hit").canControllerFocus)
     assert(not nextButton:GetChild("hit").visible and not nextButton:GetChild("hit").canControllerFocus)
     assert(not click(root,"next") and ui.scroll == Layout.maxScroll)
 end)
@@ -567,15 +567,14 @@ test("rapid clicks accumulate bounded targets and reversing retargets without sn
     assert(ui.scroll == 0 and not click(root,"previous"))
 end)
 
-test("current progress button animates to the exact floor while automatic focus stays immediate", function()
+test("reopening the map focuses the exact current floor without a recenter button", function()
     local root, map, ui = fixture()
     for _ = 1, 5 do assert(Map.choose(map,Map.available(map)[1].id)) end
     ui:render(); ui:setScroll(0)
     local target = math.max(0, math.min(Layout.maxScroll,
         Layout.firstY + (map.floor - 1) * Theme.layout.map.floorGap - Layout.focusY))
-    assert(click(root,"focus") and ui.scroll == 0)
-    ui:update(Theme.motion.base / 2); assert(ui.scroll > 0 and ui.scroll < target)
-    ui:update(Theme.motion.base / 2); assert(ui.scroll == target)
+    assert(ui.scroll == 0)
+    ui:setVisible(false); ui:setVisible(true); assert(ui.scroll == target)
     ui:setScroll(0); ui:focusCurrent(); assert(ui.scroll == target)
 end)
 

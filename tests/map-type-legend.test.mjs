@@ -36,5 +36,6 @@ test('legend follows shared map tokens and node icons without reviving navigatio
  const panel=legend(altered);assert.deepEqual(panel.position,[520,-130]);
  assert.equal(panel.children.find(c=>c.name==='eliteIcon').image,100128);
  const controls=mapLayout(altered).controls[1].children[0].children.flatMap(g=>g.children);
- for(const name of ['previous','focus','next'])assert.equal(controls.find(c=>c.name===name).visible,false);
+ for(const name of ['previous','next'])assert.equal(controls.find(c=>c.name===name).visible,false);
+ assert.equal(controls.some(c=>c.name==='focus'),false,'no non-original recenter button');
 });

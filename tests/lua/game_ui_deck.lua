@@ -63,7 +63,8 @@ test("deck overlay reads permanent UID and upgraded text and never changes the r
     local scroll = ui.mapUI.scroll
     assert(root:GetChild("mapPanel").visible and not ui.mapUI.visible)
     assert(not ui.mapUI:scrollBy(100) and ui.mapUI.scroll == scroll)
-    mapControl(root:GetChild("mapPanel"),"focus"):GetChild("hit").click()
+    assert(not mapControl(root:GetChild("mapPanel"),"next"):GetChild("hit").click())
+    assert(not mapControl(root:GetChild("mapPanel"),"previous"):GetChild("hit").click())
     assert(ui.mapUI.scroll == scroll)
     assert(not testStart(ui) and not ui:settle())
     assert(same(beforeRun,ui.run) and same(beforeMap,ui.map), "view changed rules or RNG")

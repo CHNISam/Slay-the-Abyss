@@ -30,6 +30,12 @@ test('chapter-local map geometry, real same-table transitions and stale gestures
   // Reverse only the exact registration/selection instrumentation. Every
   // original loop, input matrix, helper and assertion remains byte-identical.
   let original=read(parts.entry);assert(original.startsWith(prefix));assert(original.endsWith(footer));
+  // The removed recenter control has no hit area; both remaining paging hits
+  // must fail closed. Reverse only these three reviewed assertion migrations.
+  const pagingHidden="assert(not box(1).visible and not box('next'):GetChild('hit').visible\n            and not box('previous'):GetChild('hit').visible)";
+  const focusHidden="assert(not box(1).visible and not box('focus'):GetChild('hit').visible)";
+  assert.equal(original.split(pagingHidden).length,4,'three exact retired-focus assertions');
+  original=original.replaceAll(pagingHidden,focusHidden);
   const visibleGeometry=[
     '                if b.visible then',
     '                    assert(b.x==(node.lane-(Layout.lanes+1)/2)*Theme.layout.map.columnGap)',
