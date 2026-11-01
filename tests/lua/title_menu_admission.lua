@@ -12,11 +12,13 @@ do
  local h,r=F.fixture();assert(not h.fastMode)
  assert(h:openMenu());state(r,false);assert(not route(r).click() and not h.routeOpen);assert(h:closeExit())
  assert(h:start());assert(h:openMenu());state(r,false);assert(not route(r).click());assert(h:closeExit());assert(h:closeCharacters())
- assert(F.start(h));assert(h:openMenu());state(r,true);assert(route(r).click() and h.routeOpen)
- assert(h:closeExit() and h.menuOpen and not h.routeOpen);assert(h:closeExit())
+ assert(F.start(h));assert(h:openMenu());state(r,false);assert(not route(r).click() and not h.routeOpen);assert(h:closeExit())
+ assert(require('abyss_run').startCombat(h.run,'cultist_solo'));h:refresh()
+ assert(h:openMenu());state(r,true);assert(route(r).click() and h.routeOpen)
+ assert(h:closeExit() and not h.menuOpen and not h.exitOpen and not h.routeOpen)
 end
 do
  local h,r=F.fixture(nil,nil,nil,nil,true);assert(F.start(h));assert(not h.prologue and h.mode=='map')
- assert(h:openMenu());state(r,true);assert(route(r).click() and h.routeOpen)
+ assert(h:openMenu());state(r,false);assert(not route(r).click() and not h.routeOpen)
 end
 print('TITLE_MENU_ADMISSION_PASS 4')

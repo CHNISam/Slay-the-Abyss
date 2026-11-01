@@ -56,7 +56,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     local ready = false
     local function openingCovered()return self.prologue and self.prologue:covering() or false end
     local function canViewRoute()
-        return self.run~=nil and self.map~=nil and not self.characterOpen and not openingCovered()
+        return self.run~=nil and self.map~=nil and self.mode~='map' and not self.characterOpen and not openingCovered()
             and not self.disabled and not self.settlementRequested and not self.settlementBusy
     end
     local function changed(_, reason)
@@ -154,8 +154,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         exitGeneration = exitGeneration + 1
         if self.routeOpen then
             self.routeOpen = false
-            self:refresh()
-            return true
+            -- Route preview returns directly to its caller, not a hidden parent menu.
         end
         if self.controlsOpen then
             self.controlsOpen = false
