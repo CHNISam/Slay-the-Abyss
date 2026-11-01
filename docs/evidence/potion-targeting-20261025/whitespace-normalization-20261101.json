@@ -1,0 +1,23 @@
+{
+  "purpose": "仅移除两行尾空白以通过 git diff --check；原始失败/成功文字、行序和LF换行不变。不是重跑证据或结果更正。",
+  "originalCommit": "e970eb2a71e44d352850af148a8f696c5ecaed8e",
+  "restore": "git show <originalCommit>:docs/evidence/potion-targeting-20261025/<file> 可恢复原始完整字节；originalBlob 是同一原始 Git 对象。",
+  "files": [
+    {
+      "file": "full-check.log",
+      "line": 9804,
+      "removedTrailingByteHex": "09",
+      "originalBlob": "6e29c8078edabd28abc4a09343f50dbc07cd8c00",
+      "originalSha256": "d88d32f8f231982d1077176df2bbd99b2c0ab208bff941b00ac57c7168961b66",
+      "normalizedSha256": "9432c690b68c83c67348324a737641143a1dc163d143661c2fe6d522f8cad6fb"
+    },
+    {
+      "file": "presentation-red.log",
+      "line": 9,
+      "removedTrailingByteHex": "20",
+      "originalBlob": "d8c564fb63376b8d2d2203b9439db5e3d95332c7",
+      "originalSha256": "335368bab0f682be6c129bec73c4dfb7414b8dff1009a74e9e9a9c74fe130a7a",
+      "normalizedSha256": "df590d7f69ddf150d9773a3f3f9f9d5737e249c6760b70c1859ecfbc0307b6db"
+    }
+  ]
+}

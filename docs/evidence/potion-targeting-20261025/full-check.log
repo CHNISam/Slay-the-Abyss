@@ -9801,7 +9801,7 @@ ABYSS_RUN seed=1 source=explicit
 ABYSS_FEEDBACK play source=- target=1 amount=0
 ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
 ok game UI 1 - new encounter resets stale target before the first attack-card tap
-LORE_PREVIEW	menu	
+LORE_PREVIEW	menu
 ABYSS_RUN seed=1 source=explicit
 ABYSS_FEEDBACK play source=- target=- amount=0
 ABYSS_FEEDBACK block source=player target=player amount=5
