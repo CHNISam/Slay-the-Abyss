@@ -375,9 +375,15 @@ function M.new(root, data, presentation, clickEvent, platform)
             resources:GetChild("gold").text = number(run.gold)
         end
     end
+    local function suspendBattle(run,deckOpen,potionOpen)
+        return self.mode=='battle' and run and run.phase=='combat'
+            and (deckOpen or potionOpen or self.exitOpen) and not self.disabled
+            and not self.settlementRequested and not self.settlementBusy and not openingCovered()
+    end
     local function refreshPageVisibility(run,inMenu,deckOpen,potionOpen,blocked)
         menu:SetVisible(inMenu and not self.characterOpen and not self.easterEggOpen)
-        self.battleUI:setActive(self.mode == "battle" and not deckOpen and not potionOpen and not blocked)
+        self.battleUI:setActive(self.mode == "battle" and not deckOpen and not potionOpen and not blocked,
+            suspendBattle(run,deckOpen,potionOpen))
         child("battlePanel"):SetVisible(self.mode == "battle")
         self.mapUI:setVisible(self.mode == "map" and not deckOpen and not potionOpen and not blocked)
         child("mapPanel"):SetVisible(self.mode == "map")

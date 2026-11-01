@@ -135,9 +135,11 @@ function M.install(owner, _ownership, host, dependencies)
         updateRewardCards(dt)
         host.cardView.update(dt)
     end
-    function owner:setActive(active)
+    function owner:setActive(active, suspend)
         assert(type(active) == "boolean", "active must be boolean")
         self.active = active
+        -- Only the host may request a temporary same-battle cover. Plain false still unmounts.
+        self.suspendedBattle = not active and suspend == true and self.run and self.run.combat or nil
         if not active then self.help=nil;dependencies.cancelPotionAim("已取消药水瞄准。") end
         host.root:SetVisible(active)
         self:render()

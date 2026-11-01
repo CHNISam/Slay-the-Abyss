@@ -1,0 +1,10 @@
+ABYSS_RUN seed=1 source=explicit
+tests/lua/battle_overlay_surface_retention.lua:34: temporary overlay must retain actor identity
+stack traceback:
+	[JS]: in function 'assert'
+	tests/lua/battle_overlay_surface_retention.lua:34: in main chunk
+	[JS]: in function 'dofile'
+	/tmp/m4-overlay-negative/replay.lua:2: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk
+Lua fixture /tmp/m4-overlay-negative/replay.lua: 2740 ms
