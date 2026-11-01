@@ -107,6 +107,10 @@
       "status": "Project UI diagnostic screenshots rendered by Chromium using system Noto fonts and stand-in glyphs from the project prototype. No font binaries or official textures redistributed. Referenced game identities remain their owners IP; no sublicense or commercial clearance. Offline evidence only, not official import, device or performance acceptance.",
       "evidence": "docs/evidence/mobile-readability-20261101/README.md; raw-diagnostics.tar.gz contains exact external Host capture driver and browser renderer; baseline2d06741, final code04e3a75e."
     },
+    "merchant-action-browser-evidence": {
+      "status": "Project UI diagnostic screenshots rendered from real GameUI resolved controls by Chromium with system fonts and existing stand-in glyphs. No official textures or font binaries redistributed; referenced game identities retain their owners rights. Offline layout evidence only, not official device, animation, import or performance acceptance.",
+      "evidence": "docs/evidence/merchant-action-group-20261101/README.md; capture.lua; baseline b0f64d49."
+    },
     "hud-r2-browser-evidence": {
       "status": "Project UI diagnostic screenshots rendered by Chromium using system font fallbacks and stand-in glyphs from the project prototype. No font binaries or official textures redistributed. Referenced game identities remain their owners IP; no asset/IP sublicense or commercial clearance. Offline Host projection only, not official import/ready, final artwork, interaction, device or performance acceptance.",
       "evidence": "docs/evidence/hud-r2-20261101/README.md; experiments/ui-polish-sim/hud-r2-capture.lua and hud-r2-render.mjs; production Lua on native-contract fixture with actual sibling-call order recorded for projection. Baseline b0f64d49; reviewed runtime/evidence revision 487a46ef92d25421fa941e5ee85f1152034a647b. 1280x720 Host trees projected at recorded owner widths; system fonts and original atlas appearance remain device-unverified."
@@ -5653,6 +5657,14 @@
     "docs/evidence/mobile-readability-20261101/render/final/map-current-landscape.png": {
       "sha256": "15ecfda8e6dd4a556d5ca1d7d28d58ee2f7b756b78ebfb8bea883d995f272d57",
       "category": "mobile-readability-browser-evidence"
+    },
+    "docs/evidence/merchant-action-group-20261101/before.png": {
+      "sha256": "469b08d8f1944ba9eff6fab108380a1935bf15534e2311805bcc0a703d320b75",
+      "category": "merchant-action-browser-evidence"
+    },
+    "docs/evidence/merchant-action-group-20261101/after.png": {
+      "sha256": "a235be91305a9a75973b5a24ff6b034cb8102806e690143701c22bba42d7c910",
+      "category": "merchant-action-browser-evidence"
     },
     "docs/evidence/hud-r2-20261101/after/battle-hover-1-1280x720.png": {
       "sha256": "77d4a074a0b8c83791a6836bc0d9f5c74677b08e4e05da22e503fc80c3e056e8",
