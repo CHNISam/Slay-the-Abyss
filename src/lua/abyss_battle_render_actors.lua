@@ -225,10 +225,31 @@ function M.install(owner, ownership, host, dependencies)
             box:GetChild(name):SetVisible(false)
         end
     end
+    local function suspendEnemies(rows)
+        local ok,why=pcall(function()
+            host.monsterSurfaces:select(rows,owner.run.combat)
+            host.monsterArt:select(rows)
+            host.monsterSurfaces:each(function(box)
+                assert(box:SetVisible(false)~=false,'suspended monster visibility rejected')
+                host.monsterIntentParticles:release(box)
+            end)
+        end)
+        if not ok then
+            local cleaned,reason=pcall(owner.releaseMonsterSurfaces,owner)
+            error(tostring(why)..(cleaned and '' or '; cleanup: '..tostring(reason)))
+        end
+    end
+    local function canSuspendEnemies(frame)
+        return not owner.active and frame.fighting and owner.run and owner.run.phase=='combat'
+            and owner.suspendedBattle==owner.run.combat and host.monsterSurfaces.battle==owner.run.combat
+    end
     local function renderEnemies(frame)
         local rows = frame.fighting and EnemyView.slots(frame.battle, owner.feedback) or {}
+        local suspended=canSuspendEnemies(frame)
+        local retained=rows
         if not owner.active then rows={}end
         host.monsterIntentParticles:sync(rows,owner.run and owner.run.combat,owner.feedback.current,owner.active and frame.fighting)
+        if suspended then owner.feedback.enemyRows={};suspendEnemies(retained);return end
         host.monsterSurfaces:select(rows,owner.run and owner.run.combat)
         owner.feedback.enemyRows = rows
         local aim = enemyAimProjection(frame)

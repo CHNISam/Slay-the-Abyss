@@ -1,0 +1,54 @@
+TIME fixture_module_ms 823.010776
+SAMPLE construct_ui ms=1345.871745 SetAnchoredPosition=27 SetAnchoredPosition_same=6 SetAsLastSibling=1 SetLocalScale=9 SetSizeDelta=15 SetSizeDelta_same=6 SetVisible=580 SetVisible_same=190 construct=14043 require=184 require_cached=136 require_cold=48 text=218 text_same=176
+PATH construct_ui text:<root>/stage/battlePanel/start/normal/label=2
+PATH construct_ui text:<root>/stage/battlePanel/potion2/hover/label=2
+PATH construct_ui text:<root>/stage/battlePanel/potion2/normal/label=2
+PATH construct_ui text:<root>/stage/battlePanel/potionHelp/potionHelp1/disabled/label=2
+PATH construct_ui text:<root>/stage/battlePanel/potionHelp/potionHelp1/pressed/label=2
+PATH construct_ui text:<root>/stage/battlePanel/potion2/pressed/label=2
+PATH construct_ui text:<root>/stage/battlePanel/potionHelp/potionHelp2/normal/label=2
+PATH construct_ui text:<root>/stage/battlePanel/potion2/disabled/label=2
+SAMPLE menu_idle_300 ms=86.496611 SetAnchoredPosition=252 SetAnchoredPosition_same=101 SetLocalScale=480 SetLocalScale_same=92
+ABYSS_RUN seed=1 source=explicit
+SAMPLE start_geo ms=924.07956 SetAnchoredPosition=314 SetAnchoredPosition_same=221 SetAsLastSibling=7 SetAsLastSibling_same=6 SetImage=138 SetImage_same=91 SetLocalScale=19 SetLocalScale_same=11 SetSizeDelta=345 SetSizeDelta_same=206 SetVisible=2733 SetVisible_same=2276 refresh=4 render=7 require=479 require_cached=448 require_cold=31 text=529 text_same=483
+PATH start_geo text:<root>/stage/relicBar/slot1/more=4
+PATH start_geo text:<root>/stage/battlePanel/continue/disabled/label=4
+PATH start_geo text:<root>/stage/battlePanel/potion1/normal/label=4
+PATH start_geo text:<root>/stage/battlePanel/potion1/hover/label=4
+PATH start_geo text:<root>/stage/battlePanel/continue/pressed/label=4
+PATH start_geo text:<root>/stage/battlePanel/continue/normal/label=4
+PATH start_geo text:<root>/stage/battlePanel/continue/hover/label=4
+PATH start_geo text:<root>/stage/battlePanel/stolenGold/disabled/label=4
+SAMPLE map_idle_300 ms=553.35217 SetSizeDelta=1200
+PATH map_idle_300 SetSizeDelta:<root>/stage/mapPanel/mapGroup3/node1/icon=300
+PATH map_idle_300 SetSizeDelta:<root>/stage/mapPanel/mapGroup3/node2/icon=300
+PATH map_idle_300 SetSizeDelta:<root>/stage/mapPanel/mapGroup3/node1/ring=300
+PATH map_idle_300 SetSizeDelta:<root>/stage/mapPanel/mapGroup3/node2/ring=300
+SAMPLE enter_battle ms=247.196941 SetAnchoredPosition=159 SetAnchoredPosition_same=59 SetAsLastSibling=13 SetAsLastSibling_same=7 SetImage=16 SetImage_same=8 SetLocalScale=46 SetLocalScale_same=15 SetSizeDelta=131 SetSizeDelta_same=61 SetVisible=916 SetVisible_same=678 actor_instantiate=1 construct=35 fontSize=20 fontSize_same=10 refresh=1 render=2 require=687 require_cached=675 require_cold=12 text=284 text_same=251
+PATH enter_battle SetSizeDelta:<root>/stage/battlePanel/card1/hit=4
+PATH enter_battle SetSizeDelta:<root>/stage/battlePanel/card2/hit=4
+PATH enter_battle SetSizeDelta:<root>/stage/battlePanel/card3/hit=4
+PATH enter_battle SetSizeDelta:<root>/stage/battlePanel/card4/hit=4
+PATH enter_battle SetSizeDelta:<root>/stage/battlePanel/actorLayer/AbyssMonsterActor/hit=4
+PATH enter_battle SetSizeDelta:<root>/stage/battlePanel/card5/hit=4
+PATH enter_battle fontSize:<root>/stage/battlePanel/card2/name=2
+PATH enter_battle text:<root>/stage/battlePanel/card2/name=2
+SAMPLE battle_idle_300 ms=803.041925 SetAnchoredPosition=4800 SetAnchoredPosition_same=3365 SetLocalScale=3600 SetLocalScale_same=2785 SetSizeDelta=2400 SetSizeDelta_same=2185 SetVisible=2100 SetVisible_same=2100 require=900 require_cached=900
+PATH battle_idle_300 SetSizeDelta:<root>/stage/battlePanel/actorLayer/AbyssMonsterActor/intentIcon=300
+PATH battle_idle_300 SetSizeDelta:<root>/stage/battlePanel/card2/hit=300
+PATH battle_idle_300 SetSizeDelta:<root>/stage/battlePanel/card3/hit=300
+PATH battle_idle_300 SetSizeDelta:<root>/stage/battlePanel/card4/hit=300
+PATH battle_idle_300 SetSizeDelta:<root>/stage/battlePanel/card1/hit=300
+PATH battle_idle_300 SetSizeDelta:<root>/stage/battlePanel/actorLayer/AbyssMonsterActor/intent=300
+PATH battle_idle_300 SetSizeDelta:<root>/stage/battlePanel/actorLayer/AbyssMonsterActor/intentHit=300
+PATH battle_idle_300 SetSizeDelta:<root>/stage/battlePanel/card5/hit=300
+SAMPLE battle_map_preview_10 ms=3585.528189 SetAnchoredPosition=5540 SetAnchoredPosition_same=5498 SetAsLastSibling=410 SetAsLastSibling_same=408 SetImage=910 SetImage_same=910 SetLocalScale=1440 SetLocalScale_same=1438 SetSizeDelta=4792 SetSizeDelta_same=4790 SetVisible=32480 SetVisible_same=32298 fontSize=600 fontSize_same=600 refresh=30 render=80 require=14490 require_cached=14490 text=8340 text_same=8340
+PATH battle_map_preview_10 SetSizeDelta:<root>/stage/battlePanel/card1/hit=120
+PATH battle_map_preview_10 SetSizeDelta:<root>/stage/battlePanel/card2/hit=120
+PATH battle_map_preview_10 SetSizeDelta:<root>/stage/battlePanel/card3/hit=120
+PATH battle_map_preview_10 SetSizeDelta:<root>/stage/battlePanel/card5/hit=120
+PATH battle_map_preview_10 SetSizeDelta:<root>/stage/battlePanel/card4/hit=120
+PATH battle_map_preview_10 text:<root>/stage/battlePanel/card2/blockedReason=60
+PATH battle_map_preview_10 fontSize:<root>/stage/battlePanel/card3/name=60
+PATH battle_map_preview_10 text:<root>/stage/battlePanel/continue/pressed/label=60
+Lua fixture /tmp/m4-loading-diagnostic.lua: 8604 ms
