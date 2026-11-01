@@ -192,7 +192,9 @@ export function battleLayout() {
   const glyph = (name, [x, w], image, colour) => picture(name, x, y, w, w, iconId(image), colour);
   // Pile counts sit on a dark badge at the icon's inner corner, with a caption below.
   const pile = (name, icon, [x, py], caption, side) => {
+    // Legacy envelope remains the touch target; visual badge size never changes input.
     const b = l.pileBadge, [bx, by] = [x + side * b.offset[0], py + b.offset[1]];
+    const v=b.visual, vx=x+side*v.offset[0], vy=py+v.offset[1];
     const left = Math.max(-width / 2 + theme.canvas.safe.x,
       Math.min(x - l.drawPile.size[0] / 2, bx - b.disc / 2, x + b.label[0] - b.label[2] / 2));
     const right = Math.min(width / 2 - theme.canvas.safe.x,
@@ -221,9 +223,9 @@ export function battleLayout() {
     entry.children.splice(-1, 0, panel('captionPlate', ...b.label, c.panelSunken));
     return [
       entry,
-      picture(`${name}BadgeRing`, bx, by, b.disc, b.height, im.disc, l.pileVisual.rim),
-      picture(`${name}Badge`, bx, by, b.disc - s.border * 2, b.height - s.border * 2, im.disc, c.panelSunken),
-      text(name, bx, by, b.disc, l.nativeText.lineHeight, '', f.hud, c.goldBright),
+      picture(`${name}BadgeRing`, vx, vy, v.diameter, v.diameter, im.disc, l.pileVisual.rim),
+      picture(`${name}Badge`, vx, vy, v.diameter - s.border * 2, v.diameter - s.border * 2, im.disc, c.panelSunken),
+      text(name, vx, vy, v.diameter, l.nativeText.lineHeight, '', v.font, c.goldBright),
       text(`${name}Label`, x + b.label[0], py + b.label[1], b.label[2], b.label[3], caption, f.small, c.textDim),
     ];
   };

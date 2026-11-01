@@ -1076,6 +1076,7 @@
       "disc": 56,
       "height": 40,
       "offset": [24, -20],
+      "visual": {"diameter": 36, "offset": [20, -14], "font": 20},
       "label": [0, 22, 88, 40]
     },
     "pileVisual": {

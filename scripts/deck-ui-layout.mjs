@@ -123,7 +123,7 @@ export function deckControls(theme = nativeTheme) {
       text('title', l.deckView.title, '', f.heading, c.goldBright),
       { ...text('browseTitle', l.deckView.browseTitle, '', f.heading, c.goldBright), visible: false },
       ...browseButtons,
-      { ...button('sort', l.deckView.sort, '排序·默认'), visible: false },
+      { ...button('sort', l.deckView.sort, '初始'), visible: false },
       { ...text('details', l.deckView.viewport, '', f.reading, c.text), visible: false },
       { name: 'detailHit', kind: 'cursorArea', position: l.deckView.viewport.slice(0, 2),
         size: l.deckView.viewport.slice(2), focusable: true, visible: false },
