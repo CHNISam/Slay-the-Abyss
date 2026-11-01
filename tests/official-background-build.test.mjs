@@ -9,6 +9,20 @@ import {sourceInputs} from '../scripts/build-native-candidate.mjs';
 import {writeBackgroundModule} from '../scripts/official-background.mjs';
 import {createOptInArtFixture} from './helpers/opt-in-art-fixture.mjs';
 
+// Accept only the two approved menu-exterior plates, not arbitrary artwork drift.
+function removeMenuEdgePlates(controls) {
+ const visit=node=>[node,...(node.children??[]).flatMap(visit)];
+ const edges=controls.flatMap(visit).filter(n=>/^sceneEdge/.test(n.name));
+ const menu=controls.find(n=>n.name==='menuPanel');assert(menu);
+ const scene=menu.children.findIndex(n=>n.name==='lowpolyScene');assert(scene>=0);
+ const expected=['sceneEdgeLeft','sceneEdgeRight'].map((name,i)=>({name,kind:'image',
+  position:[i?840:-840,0],size:[400,720],image:100001,colour:'#0F1117'}));
+ assert.deepEqual(edges,expected,'exact edge identity, geometry, colour and no input fields');
+ assert.deepEqual(menu.children.slice(scene+1,scene+3),expected,'edges belong immediately after menu scene');
+ assert.equal(menu.children[scene+3]?.name,'lowpolyVeil','edges must remain below veil and content');
+ menu.children.splice(scene+1,2);
+}
+
 test('real UI build registers one shared hidden background host and one native image template without moving controls',t=>{
  const dir=mkdtempSync(join(tmpdir(),'abyss-background-build-'));t.after(()=>rmSync(dir,{recursive:true,force:true}));
  buildUI(dir,undefined,{artFeatures:{menuBackground:true,monsters:true}});
@@ -28,8 +42,27 @@ test('real UI build registers one shared hidden background host and one native i
  assert.equal(actor.visible,false);assert.equal(actor.children[0].visible,false);
  const original=structuredClone(stage.children.slice(1));
  const strip=nodes=>{for(const node of nodes){if(node.children){node.children=node.children.filter(c=>!['artSamples','officialAvatar','officialFigure','officialSelectionFigure','monsterArt','lowpolyScene'].includes(c.name));strip(node.children);}}};
+ removeMenuEdgePlates(original);
  strip(original);
  assert.deepEqual(original,JSON.parse(JSON.stringify(gameLayout().controls)),'approved controls/input remain byte-equivalent apart from explicit empty artwork hosts');
+ // Every negative starts from the same actual generated tree, never a hand-built mock.
+ const changed=(mutate)=>{const c=structuredClone(stage.children.slice(1));mutate(c);return c;};
+ const menuOf=c=>c.find(n=>n.name==='menuPanel');
+ const edgeOf=c=>menuOf(c).children.find(n=>n.name==='sceneEdgeLeft');
+ for(const mutate of [
+  c=>{edgeOf(c).size[0]++;}, c=>{edgeOf(c).colour='#FFFFFF';},
+  c=>{edgeOf(c).position[0]++;}, c=>{edgeOf(c).image=100002;},
+  c=>{edgeOf(c).raycastTarget=true;}, c=>{edgeOf(c).children=[{name:'hit',kind:'cursorArea'}];},
+  c=>{menuOf(c).children.push(structuredClone(edgeOf(c)));},
+  c=>{menuOf(c).children=menuOf(c).children.filter(n=>n.name!=='sceneEdgeLeft');},
+  c=>{const m=menuOf(c),e=edgeOf(c);m.children=m.children.filter(n=>n!==e);c[0].children.push(e);},
+  c=>{const m=menuOf(c),e=edgeOf(c);m.children=m.children.filter(n=>n!==e);m.children.push(e);},
+ ])assert.throws(()=>removeMenuEdgePlates(changed(mutate)),assert.AssertionError);
+ for(const mutate of [c=>{menuOf(c).size[0]++;},c=>{menuOf(c).raycastTarget=true;}]){
+  const drift=changed(mutate);removeMenuEdgePlates(drift);strip(drift);
+  assert.throws(()=>assert.deepEqual(drift,JSON.parse(JSON.stringify(gameLayout().controls))),assert.AssertionError,
+   'the original full controls/input oracle must still reject unrelated drift');
+ }
  const source=readFileSync(join(dir,'abyss_menu_background_asset.lua'),'utf8');
  assert(source.includes("renderProfile='background-budget-v1'"),'experiment must use adaptive original-resolution background');
  assert(source.includes('imagePrefabId=0'),'ordinary UI must not invent template index');
