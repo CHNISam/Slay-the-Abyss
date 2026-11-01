@@ -567,15 +567,14 @@ test("rapid clicks accumulate bounded targets and reversing retargets without sn
     assert(ui.scroll == 0 and not click(root,"previous"))
 end)
 
-test("current progress button animates to the exact floor while automatic focus stays immediate", function()
+test("reopening the map focuses the exact current floor without a recenter button", function()
     local root, map, ui = fixture()
     for _ = 1, 5 do assert(Map.choose(map,Map.available(map)[1].id)) end
     ui:render(); ui:setScroll(0)
     local target = math.max(0, math.min(Layout.maxScroll,
         Layout.firstY + (map.floor - 1) * Theme.layout.map.floorGap - Layout.focusY))
-    assert(click(root,"focus") and ui.scroll == 0)
-    ui:update(Theme.motion.base / 2); assert(ui.scroll > 0 and ui.scroll < target)
-    ui:update(Theme.motion.base / 2); assert(ui.scroll == target)
+    assert(ui.scroll == 0)
+    ui:setVisible(false); ui:setVisible(true); assert(ui.scroll == target)
     ui:setScroll(0); ui:focusCurrent(); assert(ui.scroll == target)
 end)
 
