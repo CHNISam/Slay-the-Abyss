@@ -224,8 +224,8 @@ export function battleLayout() {
     return [
       entry,
       picture(`${name}BadgeRing`, vx, vy, v.diameter, v.diameter, im.disc, l.pileVisual.rim),
-      picture(`${name}Badge`, vx, vy, v.diameter - s.border * 2, v.diameter - s.border * 2, im.disc, c.panelSunken),
-      text(name, vx, vy, v.diameter, l.nativeText.lineHeight, '', v.font, c.goldBright),
+      picture(`${name}Badge`, vx, vy, v.diameter - v.stroke * 2, v.diameter - v.stroke * 2, im.disc, c.panelSunken),
+      text(name, vx, vy, v.textWidth, l.nativeText.lineHeight, '', v.font, c.goldBright),
       text(`${name}Label`, x + b.label[0], py + b.label[1], b.label[2], b.label[3], caption, f.small, c.textDim),
     ];
   };
