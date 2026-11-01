@@ -1,3 +1,4 @@
+import {preReadableUnitTypography} from './helpers/readable-unit-typography-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -18,7 +19,7 @@ test('enemy powers use empty unmasked origin and independent seven-control templ
  assert.deepEqual(power.children.map(n=>n.name),['edge','body','icon','badge','count','hit']);
  assert.equal(power.visible,false);assert(power.children.every(n=>n.visible===false));assertNativeUiCapacity(power);
  const hero=all(battleLayout()).find(n=>n.name==='hero');
- assert.equal(createHash('sha256').update(JSON.stringify(hero)).digest('hex'),'ee457437376d90ded5fe29ce2018ed9266eda755a59779022c9571b8439a3d97');
+ assert.equal(createHash('sha256').update(JSON.stringify(preReadableUnitTypography(hero,{hero:true}))).digest('hex'),'ee457437376d90ded5fe29ce2018ed9266eda755a59779022c9571b8439a3d97');
  // Physical page limit remains 60, never a logical power visibility limit.
  assertNativeUiCapacity({children:Array.from({length:60},()=>enemyPowerTemplate())});
  assert.throws(()=>assertNativeUiCapacity({children:Array.from({length:61},()=>enemyPowerTemplate())}),/60/);

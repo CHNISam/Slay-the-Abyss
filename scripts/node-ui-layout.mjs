@@ -23,8 +23,8 @@ export function nodeLayout(theme = nativeTheme) {
     return { name, kind: 'container', position: values.slice(0, 2), size: [...size], children: [
       plate('border', frame(centre, size), primary ? color.goldBright : color.gold),
       face('normal', primary ? color.geo : color.panelRaised), face('disabled', color.panelSunken),
-      hidden(face('hover', primary ? color.goldBright : color.buttonHover)), hidden(face('pressed', color.goldDim)),
-      face('selected', color.goldDim),
+      hidden(face('hover', primary ? color.goldBright : color.buttonHover)), hidden(face('pressed', color.buttonPressedFill)),
+      face('selected', color.buttonPressedFill),
       ...children,
       ...(label === null ? [] : [text('label', frame(centre, size.map((value, i) => value - layout.buttonInset[i])), label, fontSize,
         primary ? color.textOnLight : color.goldBright)]),
@@ -59,10 +59,10 @@ export function nodeLayout(theme = nativeTheme) {
         line('headerDivider', h.divider, color.mapHeader.border),
         line('titleLineLeft', h.titleLineLeft, color.mapHeader.title), line('titleLineRight', h.titleLineRight, color.mapHeader.title)]; })(),
     text('title', bar.title, '', font.body, color.mapHeader.title),
-    picture('hpIcon', bar.hpIcon, icon.hp, color.hp), text('hp', bar.hp, '', font.body),
-    picture('goldIcon', bar.goldIcon, icon.gold, color.text), text('gold', bar.gold, '', font.body, color.goldBright),
-    text('potions', bar.potions, '', font.label, color.textDim), text('relics', bar.relics, '', font.label, color.textDim),
-    picture('deckIcon', bar.deckIcon, icon.deck, color.text), text('deck', bar.deck, '', font.body),
+    picture('hpIcon', bar.hpIcon, icon.hp, color.hp), text('hp', bar.hp, '', font.hud),
+    picture('goldIcon', bar.goldIcon, icon.gold, color.text), text('gold', bar.gold, '', font.hud, color.goldBright),
+    hidden(text('potions', bar.potions, '', font.label, color.textDim)), hidden(text('relics', bar.relics, '', font.label, color.textDim)),
+    picture('deckIcon', bar.deckIcon, icon.deck, color.text), text('deck', bar.deck, '', font.hud),
     text('notice', layout.notice, '', font.body, color.text),
   ];
 

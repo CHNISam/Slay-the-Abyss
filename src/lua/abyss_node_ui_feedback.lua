@@ -25,13 +25,13 @@ function M.install(ctx)
         showButtonState()
         local function paintButtonFrame()
             ctx.tint(box:GetChild("hover"), look.primary and C.goldBright or C.buttonHover)
-            ctx.tint(box:GetChild("pressed"), C.goldDim)
+            ctx.tint(box:GetChild("pressed"), C.buttonPressedFill)
             ctx.tint(box:GetChild("border"), look.selected and C.goldBright or not look.enabled and C.line
                 or (pressed or hover or look.primary) and C.goldBright or C.gold)
             local function paintButtonLabel()
                 local label = box:GetChild("label")
                 if label then ctx.ink(label, not look.enabled and C.textMuted or pressed and C.buttonPressedText
-                        or look.primary and C.textOnLight or C.goldBright) end
+                        or look.selected and C.goldBright or look.primary and C.textOnLight or C.goldBright) end
             end
             paintButtonLabel()
 

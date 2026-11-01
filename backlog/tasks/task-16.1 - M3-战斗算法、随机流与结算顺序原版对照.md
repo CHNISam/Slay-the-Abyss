@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-31 21:40'
+updated_date: '2026-10-31 23:38'
 due_date: '2026-10-28'
 labels:
   - required
@@ -26,7 +26,7 @@ references:
   - docs/reviews/M3-RULES-CONSUMER-CHAIN-20261031.md
   - docs/evidence/m3-completion-20261031/
 parent_task_id: TASK-16
-priority: high
+priority: medium
 type: enhancement
 ordinal: 43000
 ---
@@ -139,4 +139,6 @@ ordinal: 43000
 2026-10-31 本次明确消费者差集已补：商店四链76次与卡奖含身份/重复的93次独立完整trace、Chaos三预排目标到Hand/Spoon/Branch；Deep Breath两次shuffle与constructor遗物effects先结算，Secret两牌候选只初构造random插入。全部bound/value及words/counter、UID顺序和精准负控已独审及最终本地组合66/66；工程318模块5003测量1835边零新增静态诊断。不是完整PC全帧/全部随机owner或实际游戏认证，宽AC5/6继续保留；未确认其它缺实现，不能将未整体认证写成新增缺陷。
 
 2026-10-31 最后纯离线验收收口：完整新增跨域数值、顺序和同一共享入口由原独立向量与公开消费者合证，merchant76/card93/Prism275/Chaos及Deep/Secret、F1/F2资格分支补齐已全部非作者复核，根组合31/31和工程318/5005/1838通过。只勾纯离线5；6的实际游戏记录仍未验，不把离线或生产clone升为原版PC全帧认证。 依据及原始运行/源身份见docs/evidence/m3-final-acceptance-20261031/，最终精确HEAD CI及正常PR合并另核，不代替官方或设备。
+
+2026-10-31 用户新增手机文字难读的高优先级缺陷。当前随机链代码及离线组合已完成并随PR436/437/438合入、实际develop检查通过，仅AC6实际游戏记录待验。本次将其移出当前High执行队列以优先处理可读性反馈；保留全部验收、状态、期限与实机责任，不代表取消要求。
 <!-- SECTION:NOTES:END -->

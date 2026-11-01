@@ -38,13 +38,17 @@ test('deck entry is an STS-style fanned card stack with a same-ink count pip ins
   assert.match(readFileSync('src/lua/abyss_game_ui.lua','utf8'),/GetChild\('count'\)\.text=run and number\(#run\.deck\)/);
 });
 
-test('nonbattle potion entry uses physical circular silhouettes without creating new actions',()=>{
+test('nonbattle potion entry shows readable count and retains passive compatibility silhouettes without new actions',()=>{
   const open=entry('potionEntry'),hit=child(open,'hit');
   assert.equal(open.children.length,1);assert.equal(hit.kind,'presetButton');assert.equal(hit.focusable,true);
   for(const name of states){
-    const state=child(hit,name);assert.equal(child(state,'label').visible,false);
+    const state=child(hit,name);assert.equal(child(state,'label').visible,true);
+    const face=child(state,'entryFace');assert.equal(face.kind,'image');assert.deepEqual(face.size,open.size);
+    assert.equal(face.image,theme.image.rect);
+    assert.equal(child(state,'label').text.fontSize,theme.font.label);
+    assert.equal(child(state,'label').text.minFontSize,theme.font.label);
     assert.equal(state.children.filter(c=>/^slot[1-5]$/.test(c.name)).length,5);
-    assert.ok(state.children.every(c=>c.kind==='container'||c.name==='label'),'no rectangular background on the entire strip');
+    assert.ok(state.children.every(c=>c.kind==='container'||c.name==='label'||c.name==='entryFace'),'only approved count plate, caption and passive slots');
     for(let i=1;i<=5;i++){
       const slot=child(state,`slot${i}`);
       assert.deepEqual(slot.size,[34.667,34.667]);

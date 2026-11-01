@@ -19,15 +19,25 @@ function M.drawScale(fx)
     local t = math.max(0, math.min(1, (fx.scale - .91) / (1.25 - .91)))
     return base * (1.1 + (cap - 1.1) * t)
 end
+-- Track the last native writer, including pooled handles reused by another map/view.
+-- Tokens have no control back-reference; weak keys do not retain retired handles.
+local roomSizes=setmetatable({},{__mode='k'})
+local function roomSize(fx,control,size)
+    fx.sizeOwner=fx.sizeOwner or {}
+    local painted=roomSizes[control]
+    if painted and painted.owner==fx.sizeOwner and painted.size==size and control.alive~=false then return end
+    roomSizes[control]=nil
+    if control:SetSizeDelta(size,size)~=false then roomSizes[control]={owner=fx.sizeOwner,size=size} end
+end
 function M.paintRoom(fx)
     local icon, ring = fx.box:GetChild("icon"), fx.box:GetChild("ring")
     local iconSize = fx.size * Layout.sts.iconPerScale * M.drawScale(fx)
-    icon:SetSizeDelta(iconSize, iconSize)
+    roomSize(fx,icon,iconSize)
     -- oscillateColor drives color.a for reachable rooms.
     local ink = fx.ink
     if ink then icon.imageColor = fx.colour(ink.r, ink.g, ink.b, math.floor(ink.a * fx.alpha + .5)) end
     local ringSize = fx.size * Layout.sts.circlePerScale * (fx.scale * .95 + .2)
-    ring:SetSizeDelta(ringSize, ringSize)
+    roomSize(fx,ring,ringSize)
 end
 -- Room ink by state: emerald > visited gold > locked faded > official type colour.
 -- Rooms beyond the next row (and routes leaving the next row) are inactive decoration:
@@ -254,7 +264,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         child(box,"hit").canControllerFocus = enabled
         tint(child(box,"frame"), not enabled and Theme.color.line
             or (pressed or hover) and Theme.color.goldBright or Theme.color.goldDim)
-        tint(child(box,"body"), pressed and Theme.color.goldDim
+        tint(child(box,"body"), pressed and Theme.color.buttonPressedFill
             or hover and Theme.color.buttonHover or Theme.color.panel)
         local ink = not enabled and Theme.color.textMuted
             or pressed and Theme.color.buttonPressedText or Theme.color.text

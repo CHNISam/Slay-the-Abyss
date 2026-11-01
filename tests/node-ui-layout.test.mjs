@@ -51,7 +51,8 @@ test('framed node buttons preserve direct paths and have hidden hover and presse
     }
     const primary = find(control.children,'normal').colour === nativeTheme.color.geo;
     assert.equal(find(control.children,'hover').colour,primary ? nativeTheme.color.goldBright : nativeTheme.color.buttonHover);
-    assert.equal(find(control.children,'pressed').colour,nativeTheme.color.goldDim);
+    assert.equal(find(control.children,'pressed').colour,nativeTheme.color.buttonPressedFill,
+      'pressed text uses the high-contrast fill rather than the decorative gold');
   });
   assert.ok(count >= 15);
   assert.equal(nativeTheme.layout.nativeNode.buttonStates.pressedScale,0.96);
@@ -126,7 +127,8 @@ test('native text boxes use the verified 40-unit line height and the readable mi
     if (control.kind !== 'text') return;
     assert.ok(control.size[1] >= line, `${control.name} height ${control.size[1]}`);
     assert.ok(control.text.fontSize >= nativeTheme.font.minimum, control.name);
-    assert.equal(control.text.minFontSize, nativeTheme.font.minimum);
+    assert.equal(control.text.minFontSize, control.text.fontSize,
+      `${control.name}: keep the selected readable size`);
   });
 });
 

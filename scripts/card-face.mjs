@@ -74,7 +74,7 @@ export function cardFaceChildren(theme, context, interactive = true) {
     hidden(plate('typeEdge', frame([0,typeY],[trim.typeTag[0]+trim.keyline*2,trim.typeTag[1]+trim.keyline*2]), c.gold)),
     hidden(plate('typeTag', frame([0,typeY],trim.typeTag), c.cardWell)),
     ...[['tagEdge',trim.typeTag[0]+trim.keyline*2,trim.typeTag[1]+trim.keyline*2,c.gold],['tagBody',...trim.typeTag,c.cardWell]].map(([name,width,height,colour])=>({name,kind:'container',position:[0,typeY],size:[width,height],children:roundedParts(width,height,height/2,colour,picture,plate,frame)})),
-    text('type', frame([0,typeY],[w-s.s,l.nativeText.lineHeight]), '', f.small, c.gold),
+    text('type', frame([0,typeY],[w-s.s,l.nativeText.lineHeight]), '', f.minimum, c.gold),
     text(node?'description':'label', frame([0,-top+card.textBox[1]/2+s.border],card.textBox), '', f.card),
     orb('roleRing',frame([0,-h/2],[16,16]),c.cardWell),
     {name:'roleMark',kind:'container',position:[0,-h/2],size:[11,11],children:Object.keys(theme.cardSkin.roles).map(role=>({name:role,kind:'container',size:[11,11],children:emblem(role,picture,c.energy,c.cardWell)}))},
@@ -91,7 +91,7 @@ export function cardFaceChildren(theme, context, interactive = true) {
     orb('costCore', frame(disc,[d+trim.costRing,d+trim.costRing]), c.cardWell),
     orb('costDisc', frame(disc,[d,d]), c.energy, image.ring),
     text('cost',frame(disc,[d,l.nativeText.lineHeight]),'',f.cost,c.energy),
-    hidden(text('costDirection',frame([disc[0]+d/2-2,disc[1]-d/2+2],[20,l.nativeText.lineHeight]),'',f.small,c.positive)),
+    hidden(text('costDirection',frame([disc[0]+d/2-2,disc[1]-d/2+2],[20,l.nativeText.lineHeight]),'',f.minimum,c.positive)),
     ...(node ? [
       hidden(plate('veil',frame([0,0],[w,h]),c.backdropVeil)),
       hidden(plate('stampPlate',frame([0,0],[w-b*2,l.nativeText.lineHeight+s.s]),c.panelSunken)),

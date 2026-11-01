@@ -628,7 +628,7 @@ test("hover down up and exit paint the real framed button without executing a co
     hit:emit("down",7)
     assert(box.children.pressed.visible and not box.children.hover.visible)
     assert(box.scale[1] == 0.96 and box.scale[2] == 0.96)
-    assert(is(box.children.pressed.imageColor,C.goldDim))
+    assert(is(box.children.pressed.imageColor,C.buttonPressedFill))
     hit:emit("up",7)
     assert(box.scale[1] == 1 and box.children.hover.visible)
     hit:emit("exit",7)

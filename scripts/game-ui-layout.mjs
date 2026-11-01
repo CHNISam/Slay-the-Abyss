@@ -52,9 +52,9 @@ export function gameLayout(theme = nativeTheme, options = {}) {
     image: typeof entry === 'object' ? entry.id : entry, colour });
   mapPanel.children.push({ name: 'resources', kind: 'container', size: [...theme.canvas.base], children: [
     resourceIcon('hpIcon', bar.hpIcon, theme.icon.hp, color.hp),
-    text('hp', bar.hp, '', font.body, color.text),
+    text('hp', bar.hp, '', font.hud, color.text),
     resourceIcon('goldIcon', bar.goldIcon, theme.icon.gold, color.text),
-    text('gold', bar.gold, '', font.body, color.goldBright),
+    text('gold', bar.gold, '', font.hud, color.goldBright),
   ] });
   const resourceBox = (icon, value) => {
     const left = Math.min(icon[0] - icon[2] / 2, value[0] - value[2] / 2);
@@ -87,7 +87,7 @@ export function gameLayout(theme = nativeTheme, options = {}) {
     position: [stats.origin[0] + i * stats.step, stats.origin[1]], size: [cw, ch], children: [
       plate('border', centred([cw + space.border, ch + space.border]), color.line),
       plate('face', centred([cw, ch]), color.panel),
-      text('label', frame([0, stats.label], [cw - space.l, font.label + space.l]), '', font.label, color.textDim),
+      text('label', frame([0, stats.label], [cw - space.l, Math.max(theme.layout.nativeText.lineHeight, font.label + space.l)]), '', font.label, color.textDim),
       text('value', frame([0, stats.value], [cw - space.l, font.numberLarge + space.l]), '', font.numberLarge, color.text),
     ] });
   const layoutTree = {
@@ -97,7 +97,7 @@ export function gameLayout(theme = nativeTheme, options = {}) {
       mapPanel,
       mapReturn('combatRewards', theme.layout.battleRewards.return, '返回战利品'),
       ...nodeLayout(theme).controls.map(control => ({ ...control, visible: false, children: control.children.map(child =>
-        child.name === 'title' ? { ...child, size: [theme.layout.nativeNode.topBar.title[2], child.size[1]] }
+        ['deckIcon', 'deck', 'potions', 'relics'].includes(child.name) ? { ...child, visible: false } : child.name === 'title' ? { ...child, size: [theme.layout.nativeNode.topBar.title[2], child.size[1]] }
           : child.name === 'notice' ? { ...child, position: theme.layout.exitMenu.nodeNotice.slice(0, 2),
             size: theme.layout.exitMenu.nodeNotice.slice(2) } : child) })),
       { name: 'menuPanel', kind: 'container', size: [...theme.canvas.base], children: [
@@ -113,7 +113,7 @@ export function gameLayout(theme = nativeTheme, options = {}) {
         { name: 'taglineRuleR', kind: 'image', position: [150, layout.tagline[1]], size: [120, 1], image: image.rect, colour: color.goldDim },
         emblem,
         text('title', layout.title, '杀戮原塔2', font.display, color.gold),
-        text('tagline', layout.tagline, '', font.heading, color.goldDim),
+        text('tagline', layout.tagline, '', font.heading, color.goldBright),
         text('summary', layout.summary, '', font.body, color.textDim),
         { name: 'result', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
           text('subtitle', layout.subtitle, '', font.body, color.textDim),

@@ -24,10 +24,10 @@ local function check(capacity,count)
     for _,name in ipairs(states)do
         local variant=hit:GetChild(name)
         assert(variant:GetChild('label').text=='药水 '..count..'/'..capacity)
-        assert(not variant:GetChild('label').visible,'legacy count is hidden, not removed from contract')
+        assert(variant:GetChild('label').visible,'approved large management count remains visible')
         for i=1,5 do
             local slot=variant:GetChild('slot'..i);local id=run.potions[i]
-            assert(slot.visible==(i<=capacity),'actual capacity, not potion count, decides physical slots')
+            assert(not slot.visible,'compatibility miniature slots stay hidden under count-only entry')
             assert(slot:GetChild('bottle').visible==(i<=capacity and id~=nil),'empty slots never keep stale bottles')
             local shown=i<=capacity and id or nil
             assert(slot:GetChild('emptyShell').visible==(shown==nil),'only empty physical slots use dashed shell')
