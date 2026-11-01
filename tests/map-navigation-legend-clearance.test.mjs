@@ -17,12 +17,12 @@ const bounds = control => ({
 });
 const intersects = (a, b) => a.left < b.right && a.right > b.left && a.bottom < b.top && a.top > b.bottom;
 
-test('recovery focus and controller paging avoid all seven legend entries and its title', () => {
+test('controller paging avoids node-type legend without adding a recenter button', () => {
   const legend = get('typeLegend');
   const lb = bounds(legend);
-  for (const name of ['next', 'focus', 'previous']) {
+  for (const name of ['next', 'previous']) {
     const button = get(name);
-    assert.equal(button.visible, false, 'only the runtime may reveal the recovery control');
+    assert.equal(button.visible, false, 'paging is controller-only at runtime');
     const bb = bounds(button);
     assert.equal(intersects(bb, lb), false, `${name} overlaps node-type legend`);
     assert.ok(bb.bottom >= lb.top + 8, `${name} needs a readable gap above the legend`);
@@ -35,13 +35,14 @@ test('recovery focus and controller paging avoid all seven legend entries and it
 });
 
 test('navigation hit areas are disjoint without moving the shared type legend', () => {
-  const buttons = ['next', 'focus', 'previous'].map(get);
+  const buttons = ['next', 'previous'].map(get);
   for (let i = 0; i < buttons.length; i++) {
     for (let j = i + 1; j < buttons.length; j++) {
       assert.equal(intersects(bounds(buttons[i]), bounds(buttons[j])), false,
         `${buttons[i].name} and ${buttons[j].name} overlap`);
     }
   }
+  assert.equal(controls.some(c => c.name === 'focus'), false, 'the non-original recenter button must not exist');
   assert.deepEqual(get('typeLegend').position, theme.layout.map.presentation.typeLegend.position);
   assert.deepEqual(get('typeLegend').size, theme.layout.map.presentation.typeLegend.size);
 });
