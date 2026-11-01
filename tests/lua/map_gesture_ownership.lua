@@ -296,53 +296,57 @@ for _,boundary in ipairs({'replacement','advance'}) do
     end
 end
 
-test('explicit focus recovers lost node release for same, new and mouse pointers without moving state',function()
+test('existing exit overlay restores abandoned node input without a recenter button',function()
     for _,spec in ipairs({{old=11,new=11},{old=11,new=22},{}})do
-        local ui,map,calls,emit,tap,hit=setup()
-        local before=Map.snapshot(map)
-        assert(F.mapControl(ui.panel,'focus').visible,'focus recovery must be reachable without a controller')
-        emit(1,'down',spec.old)
-        assert(tap('focus',spec.new),'complete focus tap must be accepted')
-        unchanged(ui,before,calls)
-        emit(1,'up',spec.old);assert(not emit(1,'click',spec.old),'old node release survived focus')
-        assert(tap(2,spec.new) and #calls==1 and map.currentNodeId==map.nodes[2].id)
-        assert(not emit(2,'click',spec.new) and #calls==1,'duplicate node click committed twice')
+        local ui,root=F.fixture(nil,function() return true end,nil,cursor)
+        assert(testStart(ui))
+        local function hit(slot) return F.mapControl(root:GetChild('mapPanel'),'node'..slot):GetChild('hit') end
+        local beforeRun,beforeMap=F.Combat.copy(ui.run),Map.snapshot(ui.map)
+        hit(1).listeners.down(pointer(spec.old)) -- intentionally omit Up
+        assert(ui:openExit() and not ui.mapUI.visible)
+        assert(ui:closeExit() and ui.mapUI.visible)
+        hit(1).listeners.up(pointer(spec.old))
+        assert(not hit(1).listeners.click(pointer(spec.old)),'old tap survived menu recovery')
+        assert(same(ui.run,beforeRun) and same(ui.map,beforeMap))
+        hit(2).listeners.down(pointer(spec.new))
+        hit(2).listeners.up(pointer(spec.new))
+        assert(hit(2).listeners.click(pointer(spec.new)) and ui.mode=='battle')
+        assert(ui.map.currentNodeId==ui.map.nodes[2].id)
     end
 end)
 
-test('incomplete focus click cannot steal a held node owner',function()
+test('existing visibility boundary safely cancels abandoned background scroll ownership',function()
     local ui,map,calls,emit,tap=setup()
     local before=Map.snapshot(map)
-    emit(1,'down',11);emit('focus','down',22)
-    assert(not emit('focus','click',22),'focus requires a complete tap')
-    unchanged(ui,before,calls)
-    emit(1,'up',11);assert(emit(1,'click',11) and #calls==1)
-end)
-
-test('old focus release after a visibility boundary cannot cancel a fresh node',function()
-    local ui,map,calls,emit,tap=setup()
-    emit('focus','down',11);emit('focus','up',11)
+    emit('dragArea','down',11)
     ui:setVisible(false);ui:setVisible(true)
-    emit(2,'down',22)
-    assert(not emit('focus','click',11),'stale focus click must be rejected')
-    emit(2,'up',22);assert(emit(2,'click',22) and #calls==1)
+    emit('dragArea','up',11)
+    unchanged(ui,before,calls)
+    assert(tap(2,22) and #calls==1 and map.currentNodeId==map.nodes[2].id)
 end)
 
-test('controller focus confirmation remains available after pointer observation',function()
+test('repeated node down without a boundary does not secretly reclaim another owner',function()
+    local ui,map,calls,emit=setup()
+    local before=Map.snapshot(map)
+    emit(1,'down',11);emit(1,'down',11);emit(2,'down',22)
+    assert(not emit(2,'click',22));unchanged(ui,before,calls)
+    emit(1,'up',11)
+    assert(emit(1,'click',11) and #calls==1 and map.currentNodeId==map.nodes[1].id)
+end)
+
+test('controller can choose a legal node after input reset without a focus button',function()
     local focus,device=nil,false
     local api={events={Confirm='confirm',Cancel='cancel'},directions={Left='left',Right='right'},modes={Specified='specified'},
         getFocus=function()return focus end,setFocus=function(c)focus=c end,isController=function()return device end}
     local manager=require('abyss_controller').new(api)
     local ui,map,calls,emit,tap,hit=setup(nil,nil,manager)
-    emit('focus','down',11);emit('focus','up',11)
+    emit(1,'down',11) -- intentionally omit Up
     ui:setVisible(false);ui:setVisible(true)
-    emit(1,'down',11)
     device=true;ui:update(0);manager:sync('map')
-    focus=hit('focus');assert(focus.canControllerFocus)
-    assert(focus.navigationListeners.confirm(),'controller confirm borrowed stale pointer requirements')
-    device=false;manager:sync('map')
+    focus=hit(2);assert(focus.canControllerFocus)
+    assert(focus.navigationListeners.confirm(),'controller confirm must select the intended room')
     emit(1,'up',11);assert(not emit(1,'click',11))
-    assert(tap(2,22) and #calls==1)
+    assert(#calls==1 and map.currentNodeId==map.nodes[2].id)
 end)
 
 print('LUA_MAP_GESTURE_OWNERSHIP '..passed..' passed; '..failed..' failed')
