@@ -17,7 +17,7 @@ test('approved deck uses a six-column vertical native scroller and a read-only r
     assert.equal(control.children.find(c => c.name === 'hit').kind, 'presetButton');
     assert.equal(control.children.find(c => c.name === 'selected').visible, false);
   }
-  assert.equal(panel.children.find(c => c.name === 'sort').children[0].kind, 'presetButton');
+  assert.equal(panel.children.find(c => c.name === 'sortoriginal').children[0].kind, 'presetButton');
   assert.equal(panel.children.find(c => c.name === 'browseTitle').visible, false);
   assert.equal(panel.visible, false);
   const veil = panel.children.find(c => c.name === 'veil');
@@ -69,7 +69,7 @@ test('deck overlay and close remain inside approved canvas safe areas at every d
   for (const device of Object.values(theme.canvas.devices)) {
     const k = Math.min(device[0] / theme.canvas.base[0], device[1] / theme.canvas.base[1]);
     const panel = layout.controls.find(c => c.name === 'deckPanel');
-    for (const c of ['close','grid','browseTitle','sort',
+    for (const c of ['close','grid','browseTitle','sortoriginal','sorttype','sortcost',
       'filterAll','filterAttack','filterSkill','filterPower','filterStatus','filterCurse',
       'previous','next','pageHint','upgradePreview'].map(name => panel.children.find(c => c.name === name)).concat([
       layout.controls.find(c => c.name === 'deckEntry').children.find(c => c.name === 'open')])) {
@@ -83,10 +83,10 @@ test('deck filters fit beside the normal title without covering the native grid 
   const panel = gameLayout().controls.find(c => c.name === 'deckPanel');
   const grid = panel.children.find(c => c.name === 'grid');
   const browseTitle = panel.children.find(c => c.name === 'browseTitle');
-  const sort = panel.children.find(c => c.name === 'sort');
+  const sorts = ['sortoriginal','sorttype','sortcost'].map(name => panel.children.find(c => c.name === name));
   const buttons = ['filterAll','filterAttack','filterSkill','filterPower','filterStatus','filterCurse']
     .map(name => panel.children.find(c => c.name === name));
-  const controls = [browseTitle, ...buttons, sort, panel.children.find(c => c.name === 'close')];
+  const controls = [browseTitle, ...buttons, ...sorts, panel.children.find(c => c.name === 'close')];
   for (let i = 1; i < controls.length; i++) {
     const a = controls[i - 1], b = controls[i];
     assert.ok(a.position[0] + a.size[0] / 2 <= b.position[0] - b.size[0] / 2, a.name + ' overlaps ' + b.name);
@@ -118,4 +118,19 @@ test('controller overlays isolate nearest-control navigation and deck pages leav
  assert.ok(toggle.size[1]>=48);
  assert.ok(toggle.position[1]+toggle.size[1]/2<textHit.position[1]-textHit.size[1]/2);
  for(const state of toggle.children[0].children)assert.equal(state.children.find(c=>c.name==='label').text.content,'升级预览');
+ });
+
+ test('original Chinese sort labels fit in every state without truncation at all reported sizes', () => {
+  const panel=gameLayout().controls.find(c=>c.name==='deckPanel');
+  for(const [name,label] of [['sortoriginal','获得顺序 ↓'],['sorttype','类型 ↓'],['sortcost','耗能 ↓']]) {
+    const control=panel.children.find(c=>c.name===name);
+    for(const state of control.children[0].children) {
+      const text=state.children.find(c=>c.name==='label');
+      for(const [w,h] of [[1280,720],[2048,1150],[2048,1171],[2048,1152]]) {
+        const scale=Math.min(w/1280,h/720)*state.scale[0];
+        assert.ok([...label].length*theme.font.label*scale <= text.size[0]*scale, name+' full label');
+        assert.ok(theme.font.label*scale <= text.size[1]*scale);
+      }
+    }
+  }
  });
