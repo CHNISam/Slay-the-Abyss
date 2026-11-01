@@ -156,10 +156,15 @@ function M.install(owner, _ownership, host, dependencies)
             if (open.pages or 1) > 1 then open.page = open.page % open.pages + 1 owner:render()
             elseif dependencies.closeInfo() then owner:render() end
         end
-        info:GetChild("page"):AddCursorEventListener(host.clickEvent,function()
+        info:GetChild("page"):AddCursorEventListener(host.clickEvent,function(event)
             if Controller.pointerBlocked(host.controller)then return false end
+            local swallow=owner.swallow
+            if swallow and swallow.touch==(event and event.touchId) then owner.swallow=nil;return end
             return infoPage()
         end)
+        if host.cursor and host.cursor.CursorDown then
+            info:GetChild("page"):AddCursorEventListener(host.cursor.CursorDown,function() owner.swallow=nil end)
+        end
         Controller.bind(host.controller,info:GetChild("page"),"battleInfo",infoPage,nil,1)
         bindActorHelp(0,dependencies.child("hero"),function()end)
         if not host.monsterSurfaces then

@@ -1014,7 +1014,7 @@
         44,
         44
       ],
-      "bottleSize": 24
+      "bottleSize": 32
     },
     "potionDiscard": {
       "columns": [
@@ -3203,7 +3203,7 @@
     },
     "potionPopup": {
       "width": 400,
-      "top": 240,
+      "top": 198,
       "padding": 16,
       "header": 40,
       "line": 40,

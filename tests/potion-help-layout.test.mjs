@@ -14,9 +14,9 @@ test('five source bottle slots share an explicit effect card and retain hidden c
   assert.ok(emerald, 'independent Emerald key reward must be discoverable');
   assert.equal(emerald.kind, 'presetButton');
   assert.equal(emerald.focusable, true);
-  const original = help.children.filter(c => !/^relicReward[12]$|^emeraldKeyReward$/.test(c.name));
+  const original = help.children.filter(c => !/^relicReward[12]$|^emeraldKeyReward$|^potionCaption[1-5]$/.test(c.name));
   assert.equal(original.length, 9);
-  assert.equal(help.children.length, 12);
+  assert.equal(help.children.length, 17);
   assert.deepEqual(original.map(c => c.name), ['potionHelp1', 'potionHelp2', 'potionHelp3', 'potion4', 'potionHelp4', 'potion5', 'potionHelp5', 'potionPopup', 'potionReward']);
   for (const relic of [...relics, emerald]) {
     assert.equal(relic.visible, false, 'elite rewards start hidden during combat');

@@ -21,7 +21,7 @@ function M.install(owner, ownership, host, _dependencies)
     local function child(name)
         local slot=name:match("^enemy(%d+)$")
         if slot and host.monsterSurfaces then return assert(host.monsterSurfaces:control(tonumber(slot)),"missing monster surface "..name)end
-        local nested=name:match('^potion[45]$') or name:match('^potionHelp%d$') or name=='potionReward' or name=='emeraldKeyReward' or name:match('^relicReward%d$')
+        local nested=name:match('^potion[45]$') or name:match('^potionHelp%d$') or name:match('^potionCaption%d$') or name=='potionReward' or name=='emeraldKeyReward' or name:match('^relicReward%d$')
         local found=(nested and host.stage:GetChild('potionHelp') or host.stage):GetChild(name)
         return assert(found, "missing UI control " .. name)
     end

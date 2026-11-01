@@ -102,13 +102,22 @@ function M.new(self, describe, lines)
     end
 
     local function fullEffectRows(definition, instance, battle, rows,reward)
-        if not definition.originalV4 then return end
-        local original=require('abyss_original_v4_display')
-        local full = original.describe(definition, instance.upgraded)
-        local keywords=original.keywordDefinitions(definition,instance.upgraded)
-        if keywords~='' then full=full..'\n'..keywords end
+        local full
         local preview = not reward and Combat.cardPreview(battle, instance, self.target) or {}
-        if preview.text and preview.text ~= "" then full = full .. "\n" .. preview.text end
+        if definition.originalV4 then
+            local original=require('abyss_original_v4_display')
+            full=original.describe(definition,instance.upgraded)
+            local keywords=original.keywordDefinitions(definition,instance.upgraded)
+            if keywords~='' then full=full..'\n'..keywords end
+            if preview.text and preview.text~='' then full=full..'\n'..preview.text end
+        else
+            local display=self.presentation[instance.cardId]
+            local cardDisplay=require('abyss_card_display')
+            full=reward and cardDisplay.permanentText(display,definition,instance)
+                or cardDisplay.combatText(display,definition,instance,preview,battle,self.target)
+        end
+        -- Detail rows use their own colour; never split inline markup across pages.
+        full=full:gsub('<color=[^>]+>',''):gsub('</color>','')
         local chunk, index = "", 0
         local function flush()
             if chunk ~= "" then
@@ -138,6 +147,9 @@ function M.new(self, describe, lines)
         local origin=require('abyss_card_origin_view').describe(self.run,instance,true)
         if origin~=''then rows[#rows+1]={intent='unknown',colour=C.goldBright,name='升级来源',text=origin}end
     end
+    local function standardCardEffectRows(kind,definition,instance,battle,rows,reward)
+        if kind~='potion' and not definition.originalV4 then fullEffectRows(definition,instance,battle,rows,reward)end
+    end
     local function keywordCard(card, data, presentation, battle, info, actor)
         local reward=info.reward
         if reward and not require('abyss_battle_reward_owner').ready(self,reward) then return end
@@ -150,10 +162,11 @@ function M.new(self, describe, lines)
             if not instance then return end
             definition, rows = Combat.cardDefinition(battle, instance), {}
         end
-        fullEffectRows(definition, instance, battle, rows,reward)
+        if definition.originalV4 then fullEffectRows(definition,instance,battle,rows,reward)end
         keywordRows(definition.effects, battle, actor, rows)
         cardTraits(definition, rows)
         originRow(info,instance,rows)
+        standardCardEffectRows(info.kind,definition,instance,battle,rows,reward)
         if #rows == 0 then return end
         card.title, card.tag, card.hp = info.kind == "potion" and definition.name or presentation[instance.cardId].name, "关键词", nil
         card.subtitle = info.kind == "potion" and "药水说明，尚未使用 · 查看不消耗" or "卡牌效果说明，尚未生效"

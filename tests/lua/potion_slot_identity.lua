@@ -35,8 +35,10 @@ for first=1,#data.potions.potions,5 do
   local id=host.run.potions[slot]
   for _,state in ipairs({'normal','hover','pressed','disabled'})do
    local face=box(slot):GetChild(state);local label=face:GetChild('label')
-   assert(label.visible==(id~=nil),'caption visibility follows physical inventory')
-   assert(label.text==(id and View.slotLabel(definitions[id])or ''),'caption follows exact slot identity')
+   assert(not label.visible,'compatibility state caption remains hidden')
+   local caption=group:GetChild('potionCaption'..slot)
+   assert(caption.visible==(id~=nil),'caption visibility follows physical inventory')
+   assert(caption.text==(id and View.slotLabel(definitions[id])or ''),'caption follows exact slot identity')
   end
  end
  local before=host.run.potions[1]
@@ -52,4 +54,18 @@ host.run.potions={'flex_potion'};host:refresh();event('potion1','up',700);event(
 assert(host.run.potions[1]=='flex_potion' and not ui.potionMenu,'old pointer cannot open a replacement')
 host.run.potions={};host:refresh()
 assert(not box(1):GetChild('normal'):GetChild('label').visible,'empty slot retires its caption')
+for slot=1,5 do
+ local caption=group:GetChild('potionCaption'..slot)
+ assert(not caption.visible and caption.text=='','empty slot retires sibling identity')
+end
+host.run.potions={'strength_potion'};host:refresh()
+assert(group:GetChild('potionCaption1').visible,'refilled identity returns')
+host.run.potions={'strength_potion','fire_potion','speed_potion','energy_potion','flex_potion'};host:refresh()
+host.run.potionSlots=3;host:refresh()
+for slot=1,5 do assert(group:GetChild('potionCaption'..slot).visible==(slot<=3),'capacity decrease hides unavailable identities') end
+host.run.potionSlots=5;host:refresh()
+for slot=1,5 do assert(group:GetChild('potionCaption'..slot).visible,'capacity restoration restores identities') end
+for _,enemy in ipairs(host.run.combat.enemies)do enemy.hp=0 end
+assert(H.Run.finishCombat(host.run));assert(host.run.phase=='reward');host:refresh()
+for slot=1,5 do assert(not group:GetChild('potionCaption'..slot).visible,'noncombat identity retired') end
 print('POTION_SLOT_IDENTITY_PASS '..#data.potions.potions..' definitions, five pools, all physical states')

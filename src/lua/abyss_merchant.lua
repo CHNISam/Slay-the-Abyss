@@ -18,7 +18,7 @@ local function pageEnd(current)return math.min(#current.chars,(current.page or 1
 -- options.color, options.sound. box is the merchant container from merchantControl().
 function M.new(box, options)
     options = options or {}
-    local self = { visible = false, queue = {}, met = setmetatable({}, { __mode = "k" }) }
+    local merchant = { visible = false, queue = {}, met = setmetatable({}, { __mode = "k" }) }
     local portrait, line = box:GetChild("portrait"), box:GetChild("line")
     local function colour(c, alpha)
         return options.color(c.r, c.g, c.b, math.floor((c.a or 255) * clamp(alpha or 1) + 0.5))
@@ -29,13 +29,14 @@ function M.new(box, options)
     local function begin(kind)
         local narration = kind == "encounter"
         local text = narration and lines[kind] or "「" .. lines[kind] .. "」"
-        self.current = { kind = kind, narration = narration, chars = Prologue.chars(text), shown = 0, hold = 0, page=1 }
-        self.idle = 0
+        merchant.current = { kind = kind, narration = narration, chars = Prologue.chars(text), shown = 0, hold = 0, page=1 }
+        merchant.idle = 0
+        merchant.nod, merchant.shake = nil, nil
         if cues[kind] and options.sound then pcall(options.sound, cues[kind]) end
-        if kind == "buy" then self.nod = 0 elseif kind == "poor" then self.shake = 0 end
+        if kind == "buy" then merchant.nod = 0 elseif kind == "poor" then merchant.shake = 0 end
     end
     -- First visit in a run opens with the scene narration; later shops start at the greeting.
-    function self:enter(run)
+    function merchant:enter(run)
         local first = not self.met[run]
         self.met[run], self.idleUsed = true, false
         self.queue = first and { "greet" } or {}
@@ -43,14 +44,14 @@ function M.new(box, options)
         self:pose()
     end
     -- A reaction interrupts whatever is being said so repeated buying always gets instant feedback.
-    function self:react(kind)
+    function merchant:react(kind)
         if not lines[kind] then return false end
         self.queue = {}
         begin(kind)
         self:pose()
         return true
     end
-    function self:tap()
+    function merchant:tap()
         local current = self.current
         if not self.visible or not current then return false end
         if current.shown < pageEnd(current) then current.shown = pageEnd(current)
@@ -60,13 +61,13 @@ function M.new(box, options)
         self:pose()
         return true
     end
-    function self:setVisible(value)
+    function merchant:setVisible(value)
         self.visible = value == true
         box:SetVisible(self.visible)
         if self.visible then self:pose() end
     end
 
-    function self:pose()
+    function merchant:pose()
         local current = self.current
         if not self.visible or not current then return end
         local count = math.min(pageEnd(current), math.floor(current.shown))
@@ -93,7 +94,7 @@ function M.new(box, options)
         tint(portrait:GetChild("lanternGlow"), C.merchant.lantern, flicker)
     end
 
-    function self:update(dt)
+    function merchant:update(dt)
         if not self.visible or not self.current then return end
         self.clock = (self.clock or 0) + dt
         local current = self.current
@@ -115,6 +116,6 @@ function M.new(box, options)
         self:pose()
     end
     box:SetVisible(false)
-    return self
+    return merchant
 end
 return M

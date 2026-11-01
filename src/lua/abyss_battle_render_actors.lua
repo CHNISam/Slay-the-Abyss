@@ -22,6 +22,7 @@ function M.install(owner, ownership, host, dependencies)
     -- A new view binding starts fresh; weak native keys cannot retain retired actors.
     local intentImages=setmetatable({},{__mode='k'})
     local intentTexts=setmetatable({},{__mode='k'})
+    local potionCaptions=setmetatable({},{__mode='k'})
     local function intentPicture(control,id)
         local image=type(id)=='table' and id.id or id
         local source=host.platform.imageSource
@@ -279,8 +280,7 @@ function M.install(owner, ownership, host, dependencies)
     end
     local function paintPotionContents(face,item,tones)
         local bottle=face:GetChild('bottle');bottle:SetVisible(item~=nil)
-        local label=face:GetChild('label');label:SetVisible(item~=nil)
-        label.text=item and PotionView.slotLabel(item)or ''
+        face:GetChild('label'):SetVisible(false)
         if item then
             dependencies.picture(bottle,Theme.icon.potion[item.id] or Theme.icon.intent.unknown)
             dependencies.tint(bottle,(Theme.icon.potionTint or {})[item.id]
@@ -301,6 +301,19 @@ function M.install(owner, ownership, host, dependencies)
             paintPotionContents(face,item,tones)
         end
     end
+    local function paintPotionCaption(slot,item,visible)
+        local caption=dependencies.child('potionCaption'..slot)
+        local shown=visible==true and item~=nil
+        local text=item and PotionView.slotLabel(item)or ''
+        local prior=potionCaptions[caption]
+        if not prior or prior.shown~=shown or prior.text~=text then
+            potionCaptions[caption]=nil
+            local accepted=true
+            if not prior or prior.shown~=shown then accepted=caption:SetVisible(shown)~=false end
+            if not prior or prior.text~=text then caption.text=text end
+            if accepted then potionCaptions[caption]={shown=shown,text=text} end
+        end
+    end
     local function renderPotions(frame)
         -- Fixed physical slots prevent a queued second click moving to another item.
         bindPotionSlots(frame)
@@ -312,6 +325,7 @@ function M.install(owner, ownership, host, dependencies)
                 item and potionText(item, frame.battle) or "空药水槽")
             dependencies.show("potionHelp" .. i, false)
             dependencies.button("potionHelp" .. i, visible and frame.active and item ~= nil, false, "")
+            paintPotionCaption(i,item,visible)
             paintPotionShell(i,item)
         end
     end

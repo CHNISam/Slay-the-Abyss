@@ -17,8 +17,8 @@ test('Readable potion row preserves all five physical circular potion slots with
 test('Main potion popup is a compact anchored effect card with explicit use and discard actions',()=>{
  const s=stage(),group=s.children.find(c=>c.name==='potionHelp'),p=group.children.find(c=>c.name==='potionPopup');assert(p,'reuse existing parent capacity');
  assert.equal(p.visible,false);for(const name of ['title','target','effect','use','discard','hit'])assert(p.children.find(c=>c.name===name),name);
- assert.deepEqual(p.size,[400,180]);assert.deepEqual(p.position,[-100,150]);
- assert.equal(p.position[1]+p.size[1]/2,240);
+ assert.deepEqual(p.size,[400,180]);assert.deepEqual(p.position,[-100,108]);
+ assert.equal(p.position[1]+p.size[1]/2,198);
  assert.ok(potion(s,1).position[1]-potion(s,1).size[1]/2-(p.position[1]+p.size[1]/2)>=2,'popup remains below the bottle row');
  assert.ok(Math.abs(p.position[0])+p.size[0]/2<=640&&Math.abs(p.position[1])+p.size[1]/2<=360,'initial popup stays inside base canvas');
 });

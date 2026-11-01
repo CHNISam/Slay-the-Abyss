@@ -85,7 +85,10 @@ function M.install(owner, _ownership, host, dependencies)
                 dependencies.cancelCardInputs()
                 owner.suppressClick = true
             end
-            owner:openHelp(help.spec, help.source, true)
+            -- A deliberate card hold opens a pageable reader; hover stays transient.
+            local heldCard=help.held and (help.spec.kind=='card' or help.spec.kind=='rewardCard')
+            if heldCard then owner.swallow={touch=help.touch}end
+            owner:openHelp(help.spec, help.source, not heldCard)
         end
     end
     local function updateHelp(dt)

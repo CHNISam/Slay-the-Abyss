@@ -1,4 +1,5 @@
--- Exact pre-extraction renderer from 690a4a5797a6973985f04bf2c4e8f2136b848f8e.
+-- Pre-extraction shell renderer from 690a4a5797a6973985f04bf2c4e8f2136b848f8e.
+-- QA-R2-02 moves identity captions to full-canvas siblings; compatibility labels now only hide.
 -- Mock only native controls: compare ordered paths/writes, not just final visibility.
 local Theme=require('abyss_theme')
 local PotionView=require('abyss_battle_potion_view')
@@ -21,8 +22,7 @@ local function before(owner,dependencies)
             dependencies.tint(face:GetChild('filledShell'):GetChild('rim'),selected and tones.selected.border or tones.normal.border)
             dependencies.tint(face:GetChild('fireShell'):GetChild('rim'),selected and tones.selected.border or tones.fire.border)
             local bottle=face:GetChild('bottle');bottle:SetVisible(item~=nil)
-            local label=face:GetChild('label');label:SetVisible(item~=nil)
-            label.text=item and PotionView.slotLabel(item)or ''
+            face:GetChild('label'):SetVisible(false)
             if item then
                 dependencies.picture(bottle,Theme.icon.potion[item.id] or Theme.icon.intent.unknown)
                 dependencies.tint(bottle,(Theme.icon.potionTint or {})[item.id]
