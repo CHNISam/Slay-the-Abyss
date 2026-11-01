@@ -10,7 +10,7 @@ test('existing potion captions and bottles have separate native rectangles withi
  assert.equal(slots.length,5);assertNativeUiCapacity(layout);
  for(const slot of slots)for(const state of slot.children){
   const text=state.children.find(c=>c.name==='label'),bottle=state.children.find(c=>c.name==='bottle');
-  assert.equal(text.text.fontSize,14);assert.equal(text.size[1],theme.layout.nativeText.lineHeight);
+  assert.equal(text.text.fontSize,20);assert.equal(text.text.minFontSize,20);assert.equal(text.size[1],theme.layout.nativeText.lineHeight);
   assert(bottle.position[0]+bottle.size[0]/2<=text.position[0]-text.size[0]/2,'bottle and caption overlap');
   assert(Math.abs(text.position[0])+text.size[0]/2<=slot.size[0]/2,'caption exceeds physical slot width');
   for(let axis=0;axis<2;axis++)assert(Math.abs(slot.position[axis]+text.position[axis])+text.size[axis]/2<=theme.canvas.base[axis]/2,'caption outside viewport');

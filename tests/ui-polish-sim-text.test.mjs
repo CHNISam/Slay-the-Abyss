@@ -3,14 +3,14 @@ import assert from 'node:assert/strict';
 import {simTextProperties} from '../experiments/ui-polish-sim/sim-text.mjs';
 import {relicViewControls} from '../scripts/relic-view-layout.mjs';
 import {nativeTheme} from '../scripts/native-ui-theme.mjs';
-test('simulator preserves production auto-size for the 32-high owned-relic name',()=>{
+test('simulator preserves production auto-size for the 40-high owned-relic name',()=>{
  const panel=relicViewControls(nativeTheme).find(c=>c.name==='relicPanel');
  const row=panel.children.find(c=>c.name==='row1');
  const name=row.children.find(c=>c.name==='name');
- assert.deepEqual(name.size,[290,32]);assert.equal(name.text.autoSize,true);
+ assert.deepEqual(name.size,[290,40]);assert.equal(name.text.autoSize,true);
  const style=simTextProperties({...name.text,content:'余烬之心'},()=>0);
  assert.equal(style.adaptiveFontSize,true,'simulator must retain production autoSize, rather than the seed false');
- assert.equal(style.fontSize,24);assert.equal(style.minimumFontSize,14);
+ assert.equal(style.fontSize,28);assert.equal(style.minimumFontSize,28);
 });
 test('simulator retains explicitly fixed-size runtime card text',()=>{
  const style=simTextProperties({content:'普通攻击',fontSize:18,minFontSize:14,autoSize:false},()=>0);

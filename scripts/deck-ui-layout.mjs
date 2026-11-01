@@ -86,7 +86,7 @@ export function deckControls(theme = nativeTheme) {
         card('front', 2, -1, -6, colours.ink, colours.fill),
         { name: 'deckIcon', kind: 'image', position: [dx + 2, -1], size: [9, 9], image: theme.icon.deck.id, colour: colours.ink },
         // Count is a small numeric pip in the same ink, tucked at the disc's lower-right edge.
-        text('count', [18, 0, 48, 40], '', f.label, colours.ink), text_];
+        text('count', [16, 0, 48, 40], '', f.label, colours.ink), text_];
     }
     return entry;
   };
