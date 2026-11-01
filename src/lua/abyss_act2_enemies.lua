@@ -73,7 +73,7 @@ M.statuses={
  {id='painful_stabs',name='痛苦穿刺',kind='buff',stack='none',decay='none',description='攻击使目标损失生命时，将一张伤口放入弃牌堆。'},
  {id='malleable',name='韧性',kind='buff',stack='intensity',decay='none',description='受到非致命普通攻击生命伤害后获得格挡；每次递增1，行动结束重置为3。'},
  {id='hex',name='蚀咒',kind='debuff',stack='intensity',decay='none',description='使用非攻击牌后，将相应数量的晕眩随机放入抽牌堆。'},
- {id='flight',name='飞行',kind='buff',stack='intensity',decay='none',priority=50,description='普通攻击伤害减半；受到3次未被完全格挡的攻击后坠地。行动前补满次数。'},
+ {id='flight',name='飞行',kind='buff',stack='intensity',decay='none',priority=50,description='受到的攻击伤害减半；受到3次未被完全格挡的攻击后坠地。行动前补满次数。'},
  {id='confusion',name='混乱',kind='debuff',stack='none',decay='none',priority=0,description='抽牌时，将非负费用牌的费用随机改为0至3；X费与不可打出的牌不受影响。'},
  {id='minion',name='随从',kind='buff',stack='none',decay='none',description='随首领登场的仆从，不提供独立击杀成长。'},
  {id='stasis',name='扣押',kind='buff',stack='none',decay='none',description='扣押一张抽牌堆或弃牌堆的牌；击败浮核后归还，满手牌时放入弃牌堆。'},
