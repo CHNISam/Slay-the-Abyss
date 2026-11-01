@@ -5,15 +5,14 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 07:34'
-updated_date: '2026-10-27 15:04'
+updated_date: '2026-11-01 14:58'
 due_date: '2026-10-28'
 labels:
   - P1
   - bgm
   - awaiting-live
 milestone: m-5
-dependencies:
-  - TASK-29
+dependencies: []
 references:
   - 'https://act.mihoyo.com/ys/ugc/tutorial/detail/mhq9b601kh9k'
   - >-
@@ -27,6 +26,7 @@ references:
   - docs/AUDIO_RICHNESS.md
   - docs/evidence/audio-richness-integrated-20261025.json
   - docs/BACKLOG-AUDIT-20261026.md
+  - TASK-29
 priority: medium
 type: enhancement
 ordinal: 46000
@@ -52,6 +52,8 @@ ordinal: 46000
 
 <!-- SECTION:PLAN:BEGIN -->
 2026-10-24用户要求地图和每场战斗有音乐：保留已认可战斗曲，新增默认带BGM的完整构建入口，沿用原生分场景切歌；实际选曲听感和混音继续留待同候选实测。
+
+2026-11-01依赖复核：场景音乐配置与候选读回已交付，与TASK-29/29.1并行复验；最终仍须在同一候选联合听验混音、切歌与演出。TASK-29保留为关联参考，不再以其整体Done作为本任务开工前置。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

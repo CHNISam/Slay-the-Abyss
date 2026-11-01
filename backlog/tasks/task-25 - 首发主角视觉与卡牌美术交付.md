@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 15:58'
-updated_date: '2026-10-30 03:38'
+updated_date: '2026-11-01 14:58'
 due_date: '2026-10-28'
 labels:
   - art
@@ -58,6 +58,8 @@ ordinal: 27000
 2026-10-30用户要求立即接通两幕42种敌人：仅补齐主题原生图库绑定并纠正五种小魔为深渊法师；复用现有UIImage与SetImage路径，不改玩法、名字、布局、控件或动画。依据SDK固定照片目录记录资源与角色适配，增加42项查表及实际战斗渲染回归，未知敌人继续安全回退。离线源码与CI验收，官方导入及设备验收保持待用户本地打包测试。
 
 新增单池可用原型：复用CardDisplay与nativeArtPool，独立registry绑定首个可见acid_slime_m任意屏幕槽，其他重复实例保留图库；接入布局、命中反馈、死亡与隐藏清理，不改核心或交互。r02未获最终批准前保持disabled，先通过fixture与生命周期回归。
+
+2026-11-01依赖复核：TASK-25.2样品与TASK-10.1.2容量验证是正式启用、量产和收口门槛，不阻塞独立单资产离线研究。TASK-94离线算法可并行，不作为本任务或其他M4任务的硬前置；正式接入仍须原有质量、负载与设备证据，不放宽默认开关。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
