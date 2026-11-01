@@ -17,7 +17,7 @@ export function nativeControls(theme = nativeTheme) {
   const centred = size => frame(origin, size);
   const text = (name, values, content = '', fontSize = theme.font.body, colour = theme.color.text) => ({
     name, kind: 'text', ...box(values), text: {
-      content, fontSize: nativeFontSize(fontSize, theme.font.minimum), colour, align: 'centre', valign: 'middle', autoSize: true, minFontSize: nativeFontSize(theme.font.minimum),
+      content, fontSize: nativeFontSize(fontSize, theme.font.minimum), colour, align: 'centre', valign: 'middle', autoSize: true, minFontSize: nativeFontSize(fontSize, theme.font.minimum),
     },
   });
   const plate = (name, values, colour = theme.color.panelRaised) => ({
@@ -35,7 +35,7 @@ export function nativeControls(theme = nativeTheme) {
     const edge = border ? [plate('border', centred(size.map(value => value + theme.space.border * 2)), border)] : [];
     return { name, kind: 'container', ...box(values), children: [...edge,
       ...(states ? [plate('normal', centred(size), fill), plate('disabled', centred(size), theme.color.panel),
-        plate('selected', centred(size), theme.color.goldDim)] : [plate('plate', centred(size), fill)]),
+        plate('selected', centred(size), theme.color.buttonPressedFill)] : [plate('plate', centred(size), fill)]),
       text('label', centred(size.map((value, index) => value - inset[index])), label, fontSize, colour), hit(size),
     ] };
   };

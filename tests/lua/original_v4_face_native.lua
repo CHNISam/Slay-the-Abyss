@@ -6,6 +6,7 @@ local Run=require('abyss_run')
 local Card=require('abyss_original_v4_data')
 local function located(spec)
  local function position(control,source)
+  if source.text then control.fontSize=source.text.fontSize end
   control.x,control.y=(source.position or {0,0})[1],(source.position or {0,0})[2]
   for _,child in ipairs(source.children or {})do position(control:GetChild(child.name),child)end
  end

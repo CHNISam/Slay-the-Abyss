@@ -28,7 +28,8 @@ test('shared menu entry matches the canvas round copper button while keeping fou
 
 test('map header and necessary return controls follow the canvas hierarchy rather than large boxed prose',()=>{
   const tree=root(),map=find(tree,'mapPanel');
-  assert.equal(find(map,'title').text.fontSize,22);
+  assert.equal(find(map,'title').text.fontSize,theme.font.number);
+  assert.ok(find(map,'title').text.fontSize>=28,'mobile map heading retains the enlarged readable size');
   assert.equal(find(map,'title').text.colour,'#E9C77B');
   assert.equal(find(map,'headerDivider').image,theme.image.fadeLine);
   assert.equal(find(map,'headerDivider').size[1],1);

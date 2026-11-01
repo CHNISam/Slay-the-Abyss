@@ -1,0 +1,290 @@
+{
+  "schemaVersion": 1,
+  "scope": "只读调查；生产岩旅两幕；不改背景、美术算法、任务、门槛或整套测试；无键鼠输入",
+  "source_sha": "2d06741de47f2a65eb2772705e33064c16ccdce3",
+  "source_worktree": "/workspace/mobile-readability",
+  "diagnostic_worktree": "/workspace/mobile-loading-audit",
+  "status": "OFFLINE_INVESTIGATION_COMPLETE_DEVICE_CAUSE_UNKNOWN",
+  "method": {
+    "runtime": "Node v24.19.0 + Fengari (Linux cloud)",
+    "fixture": "tests/lua/support/game_ui_fixture.lua",
+    "instrumentation": "包装fixture控件的text/fontSize属性及Set*方法；只数执行路径，不模拟原生布局/GPU。包装monsterActors instantiate/destroy；require按package.loaded命中统计。",
+    "scenario": "1280x720，seed1，ironclad/岩旅；普通build:data/build:ui；构造→菜单300update→开始→地图300update→Run.startCombat(cultist_solo)→战斗300update→开菜单/地图预览/返回10轮。战斗使用仓库已有生命周期用例的直接Run.startCombat路径，不是自然整局。",
+    "frames": "300次dt=1/60输入；这是离线循环，不是实际采样300帧。",
+    "build_flags": "普通构建生成art features全false；没有构造可选自定义头像/角色图/卡面/彩蛋图。不能据此声称已测生产候选中这些资源的成本。",
+    "time_boundary": "所有ms为带计数开销的单次离线调用耗时，不是手机启动/加载时间、FPS或P95，不可外推。"
+  },
+  "confirmed": [
+    {
+      "id": "map_redundant_size_writes",
+      "finding": "地图idle每update遍历visible activeFx并写icon/ring尺寸，即使非available节点已稳定；300次共15000 SetSizeDelta，13800参数与上次完全一致（92%）。",
+      "paths": [
+        "src/lua/abyss_game_ui.lua:767",
+        "src/lua/abyss_map_ui.lua:440",
+        "src/lua/abyss_map_ui.lua:469",
+        "src/lua/abyss_map_ui.lua:22"
+      ],
+      "implication": "已证实可消除的原生API调用冗余，手机耗时影响未测。"
+    },
+    {
+      "id": "battle_repeated_intent",
+      "finding": "idle单cultist战斗每update重写意图：text300次全相同、SetImage300次全相同；fontSize写0。手牌静止后仍applyHandPose；SetSizeDelta2400次其中2185相同。",
+      "paths": [
+        "src/lua/abyss_battle_actions.lua:119",
+        "src/lua/abyss_battle_render_actors.lua:153",
+        "src/lua/abyss_battle_render_actors.lua:71",
+        "src/lua/abyss_battle_render_actors.lua:84",
+        "src/lua/abyss_battle_card_view.lua:407",
+        "src/lua/abyss_battle_card_view.lua:41"
+      ],
+      "implication": "无需假设每帧SetFontSize；实际是相同意图文本/图片/几何重复提交。"
+    },
+    {
+      "id": "overlay_recreates_actor",
+      "finding": "同一战斗开菜单/地图预览/返回10轮：actor_destroy10、actor_instantiate10（每个actor克隆35 mock控件，共350）。不是整张地图/所有背景重建。菜单遮挡使battleUI.setActive(false)→renderEnemies rows={}→surfaces.select retire；返回再创建。",
+      "paths": [
+        "src/lua/abyss_game_ui.lua:379",
+        "src/lua/abyss_battle_actions.lua:137",
+        "src/lua/abyss_battle_render_actors.lua:211",
+        "src/lua/abyss_monster_surfaces.lua:105",
+        "src/lua/abyss_monster_surfaces.lua:26"
+      ],
+      "implication": "有真实小范围重建；若生产native monster art启用，其Art.clearBox/重新select成本需同候选验证，当前fixture未覆盖。"
+    },
+    {
+      "id": "no_global_per_frame_refresh",
+      "finding": "GameUI.update不无条件refresh，菜单/地图idle300次均无refresh/render、text/fontSize写0；战斗idle无全页render，仅意图等局部逐帧写。startGeo命令链refresh4/render7；覆盖页10轮refresh40/render100且fontSize写800次全相同。",
+      "paths": [
+        "src/lua/abyss_game_ui.lua:737",
+        "src/lua/abyss_game_ui.lua:542",
+        "src/lua/abyss_battle_actions.lua:137",
+        "src/lua/abyss_card_display.lua:259"
+      ]
+    },
+    {
+      "id": "backdrop_cached_visibility",
+      "finding": "官方战斗背景8张整图在静态布局中，GameUI按章节/楼层缓存key/visible，仅切SetVisible；OnStart.background为nil；旧4500图元背景只在createEasterEggArt回调被请求时才require/new。不能把历史V9约10秒背景ready归因到本轮手机。",
+      "paths": [
+        "scripts/official-backdrop-layout.mjs:16",
+        "src/lua/abyss_game_ui.lua:526",
+        "src/lua/abyss_ui.lua:100",
+        "src/lua/abyss_menu_background.lua:5"
+      ]
+    },
+    {
+      "id": "data_loading",
+      "finding": "Data/Presentation/Theme在OnStart require并传给GameUI；OnStart attempted防重复启动，失败禁用update并提示退出重进，没有自动网络重试风暴。Fengari战斗idle900次require全部cache命中，覆盖页19300全部命中。原生require缓存/执行开销仍需客户端证据；没有发现这条加载路径发HTTP下载。",
+      "paths": [
+        "src/lua/abyss_ui.lua:65",
+        "src/lua/abyss_ui.lua:71",
+        "src/lua/abyss_ui.lua:1",
+        "src/lua/abyss_battle_render_actors.lua:106",
+        "src/lua/abyss_battle_intent_view.lua:359"
+      ]
+    },
+    {
+      "id": "optional_art_cache_retry",
+      "finding": "portrait controller对cache/runtimeV2暂停时隐藏并保留，begin延续building/revealing/ready；battle controller仅failed/release_failed时在pause触发release以允许下一场重试；正常引擎销毁仅忘记引用。不是正常每次切页清全图元。64次step与8ms检查是每tick创建预算，非真实1秒达标证据。",
+      "paths": [
+        "src/lua/abyss_traveler_portraits.lua:120",
+        "src/lua/abyss_traveler_portraits.lua:187",
+        "src/lua/abyss_traveler_portraits.lua:332",
+        "scripts/official-portraits.mjs:142"
+      ]
+    }
+  ],
+  "offline_samples": [
+    {
+      "name": "construct_ui",
+      "counts": {
+        "SetAnchoredPosition": 27,
+        "SetAnchoredPosition_same": 6,
+        "SetAsLastSibling": 1,
+        "SetLocalScale": 10,
+        "SetSizeDelta": 15,
+        "SetSizeDelta_same": 6,
+        "SetVisible": 577,
+        "SetVisible_same": 190,
+        "construct": 13969,
+        "require": 185,
+        "require_cached": 137,
+        "require_cold": 48,
+        "text": 253,
+        "text_same": 151
+      },
+      "offline_elapsed_ms": 977.807852
+    },
+    {
+      "name": "menu_idle_300",
+      "counts": {
+        "SetAnchoredPosition": 252,
+        "SetAnchoredPosition_same": 101,
+        "SetLocalScale": 480,
+        "SetLocalScale_same": 92
+      },
+      "offline_elapsed_ms": 81.629589
+    },
+    {
+      "name": "start_geo",
+      "counts": {
+        "SetAnchoredPosition": 313,
+        "SetAnchoredPosition_same": 215,
+        "SetAsLastSibling": 7,
+        "SetAsLastSibling_same": 6,
+        "SetImage": 138,
+        "SetImage_same": 91,
+        "SetLocalScale": 23,
+        "SetLocalScale_same": 15,
+        "SetSizeDelta": 591,
+        "SetSizeDelta_same": 449,
+        "SetVisible": 2741,
+        "SetVisible_same": 2269,
+        "refresh": 4,
+        "render": 7,
+        "require": 479,
+        "require_cached": 448,
+        "require_cold": 31,
+        "text": 609,
+        "text_same": 403
+      },
+      "offline_elapsed_ms": 710.810195
+    },
+    {
+      "name": "map_idle_300",
+      "counts": {
+        "SetSizeDelta": 15000,
+        "SetSizeDelta_same": 13800
+      },
+      "offline_elapsed_ms": 707.697206
+    },
+    {
+      "name": "enter_battle",
+      "counts": {
+        "SetAnchoredPosition": 159,
+        "SetAnchoredPosition_same": 65,
+        "SetAsLastSibling": 13,
+        "SetAsLastSibling_same": 7,
+        "SetImage": 17,
+        "SetImage_same": 9,
+        "SetLocalScale": 46,
+        "SetLocalScale_same": 15,
+        "SetSizeDelta": 131,
+        "SetSizeDelta_same": 64,
+        "SetVisible": 916,
+        "SetVisible_same": 679,
+        "actor_instantiate": 1,
+        "construct": 35,
+        "fontSize": 20,
+        "fontSize_same": 10,
+        "refresh": 1,
+        "render": 2,
+        "require": 687,
+        "require_cached": 675,
+        "require_cold": 12,
+        "text": 325,
+        "text_same": 212
+      },
+      "offline_elapsed_ms": 177.085211
+    },
+    {
+      "name": "battle_idle_300",
+      "counts": {
+        "SetAnchoredPosition": 4800,
+        "SetAnchoredPosition_same": 3365,
+        "SetImage": 300,
+        "SetImage_same": 300,
+        "SetLocalScale": 3600,
+        "SetLocalScale_same": 2785,
+        "SetSizeDelta": 2400,
+        "SetSizeDelta_same": 2185,
+        "SetVisible": 2100,
+        "SetVisible_same": 2100,
+        "require": 900,
+        "require_cached": 900,
+        "text": 300,
+        "text_same": 300
+      },
+      "offline_elapsed_ms": 544.043217
+    },
+    {
+      "name": "battle_map_preview_10",
+      "counts": {
+        "SetAnchoredPosition": 6620,
+        "SetAnchoredPosition_same": 6328,
+        "SetAsLastSibling": 490,
+        "SetAsLastSibling_same": 478,
+        "SetImage": 1060,
+        "SetImage_same": 1040,
+        "SetLocalScale": 1860,
+        "SetLocalScale_same": 1798,
+        "SetSizeDelta": 7680,
+        "SetSizeDelta_same": 7478,
+        "SetVisible": 40530,
+        "SetVisible_same": 40048,
+        "actor_destroy": 10,
+        "actor_instantiate": 10,
+        "construct": 350,
+        "fontSize": 800,
+        "fontSize_same": 800,
+        "refresh": 40,
+        "render": 100,
+        "require": 19300,
+        "require_cached": 19300,
+        "text": 12700,
+        "text_same": 9470
+      },
+      "offline_elapsed_ms": 3071.14647
+    }
+  ],
+  "module_sizes_bytes": {
+    "abyss_theme.lua": 105630,
+    "abyss_presentation.lua": 74514,
+    "abyss_ui_layout.lua": 1833305,
+    "abyss_data.lua": 212620
+  },
+  "unknown": [
+    "用户卡顿发生在首次进关、启程、选角、地图拖动、战斗动画、点击响应还是换页；没有本轮手机候选SHA/日志/设备/网络/热状态。",
+    "当前生产候选实际art flags、官方图片驻留/上传下载/纹理解码、native文字布局缓存、LuaHost require缓存和每个Set*调用CPU/GPU成本。",
+    "静态布局13969 mock控件是本次fixture构造量；官方引擎载入/渲染该布局的真实时间未知。",
+    "本次只跑定向诊断，没有性能改动、没有整套测试/官方导入/ready/手机实测；不能声称卡顿已修复或设备差。"
+  ],
+  "minimal_next_steps": [
+    {
+      "priority": 1,
+      "action": "先以独立最小代码切片验证地图paintRoom按iconSize/ringSize是否改变再SetSizeDelta（按控件身份缓存，重建时失效）。",
+      "expected_offline_check": "保持地图呼吸/拖动/滚动效果和几何不变；seed1 idle300应减少13800冗余尺寸提交；保留既有地图合同。"
+    },
+    {
+      "priority": 2,
+      "action": "意图文本/图片/静态几何按值去重，保留透明度/粒子逐帧动画；手牌pose稳定时不重复hit尺寸。",
+      "expected_offline_check": "同一cultist idle300 text/SetImage重复写接近0；状态变化/死亡/意图变更立即显示，原有动作合同保留。"
+    },
+    {
+      "priority": 3,
+      "action": "评估覆盖页暂时隐藏battle时保留同battle actor，而真正battle改变/死亡/结算才retire。此项生命周期风险高于setter去重，应独立小PR与既有actor生命周期合同复审。",
+      "expected_offline_check": "同battle开菜单/地图10轮actor新增/销毁0，真实战斗更换和死亡仍正确retire；native monster art开启时另测图元复用。"
+    },
+    {
+      "priority": 4,
+      "action": "取得同候选手机的最小场景定位与时间段证据（已有日志优先；任何键鼠仍需本轮窗口）。分别记录首次ready、菜单→地图、地图idle、单战斗idle/结束回合。",
+      "expected_offline_check": "不可由本报告离线ms替代，完成前保持手机原因未确认。"
+    }
+  ],
+  "art_boundary": "已批准延期的背景优化保持原状；不替换官方原生整图、不关闭背景、不重做背景算法、不扩大为美术项目。",
+  "artifacts": {
+    "mobile-loading-diagnostic.lua": {
+      "path": "/workspace/cloud-reports/mobile-loading-diagnostic.lua",
+      "sha256": "033c478c38a3a53fa921ee07cd97b1fd7be53657e2bd73a5ae21ad7d0ee2686c"
+    },
+    "mobile-loading-diagnostic.log": {
+      "path": "/workspace/cloud-reports/mobile-loading-diagnostic.log",
+      "sha256": "2fe85898196ddf716a01d40d0dc66eb0f93d6f0971c45f93dad8f1dbe6915b46"
+    }
+  },
+  "reproduce": [
+    "cd /workspace/mobile-loading-audit",
+    "npm run build:data",
+    "npm run build:ui",
+    "node scripts/test-lua.mjs /workspace/cloud-reports/mobile-loading-diagnostic.lua"
+  ]
+}

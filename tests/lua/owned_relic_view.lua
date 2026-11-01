@@ -41,13 +41,16 @@ assert(row1.visible==true and row1:GetChild('name').text=='石锚',row1:GetChild
 assert(row1:GetChild('description').text:find('获得 10 点格挡',1,true))
 assert(row1:GetChild('slot'):GetChild('icon'))
 assert(h.relicUI.rows[1].icon==iconOf('anchor'))
-assert(h.relicUI:pages()==6)
-assert(panel:GetChild('pageHint').text=='第 1/6 页')
+local perPage=#Theme.layout.relicView.rows*#Theme.layout.relicView.columns
+assert(perPage==4,'larger complete descriptions need four entries per page')
+local expectedPages=math.ceil(#run.relics/perPage)
+assert(expectedPages==11 and h.relicUI:pages()==expectedPages)
+assert(panel:GetChild('pageHint').text=='第 1/'..expectedPages..' 页')
 assert(panel:GetChild('next'):GetChild('hit').click())
 assert(h.relicUI.page==2 and panel:GetChild('row1'):GetChild('name').text=='余烬之心')
 assert(panel:GetChild('row1'):GetChild('description').text:find('回复 6 点生命',1,true))
 -- No English placeholders anywhere in the visible panel.
-for slot=1,8 do
+for slot=1,perPage do
   local row=panel:GetChild('row'..slot)
   if row.visible then for _,n in ipairs({'name','description'}) do
     assert(not row:GetChild(n).text:find('%a%a%a'),'English text in relic panel: '..row:GetChild(n).text)

@@ -102,6 +102,10 @@
     "m3-static-simulator-evidence": {
       "status": "Project UI capture rendered as static Simulator Host evidence with beyond-simulator-mcp 0.5.2; references official platform picture IDs and game identities. Project and third-party content rights remain separate from the simulator software license. No asset/IP sublicense, commercial clearance, final art, official import/ready, interaction, device or performance acceptance. Receipts retain failed texture fetches and missing-asset placeholders.",
       "evidence": "docs/evidence/m3-visual-20261031/README.md and metadata.json (source e8eb72360d1a1e9eef015948e3b63bf09661f372); capture.lua and capture.mjs; experiments/ui-polish-sim/sim.mjs and sim-text.mjs; per-scene .tree.json, .sim.save.json and .sim.receipt.json; docs/evidence/m3-relic-name-20261031/README.md, metadata.json and isolated-save-diff.json. Relic before PNG is the identical original owned-relic-detail capture; after and isolated diagnose capture/adapter autoSize only, without a production UI change."
+    },
+    "mobile-readability-browser-evidence": {
+      "status": "Project UI diagnostic screenshots rendered by Chromium using system Noto fonts and stand-in glyphs from the project prototype. No font binaries or official textures redistributed. Referenced game identities remain their owners IP; no sublicense or commercial clearance. Offline evidence only, not official import, device or performance acceptance.",
+      "evidence": "docs/evidence/mobile-readability-20261101/README.md; raw-diagnostics.tar.gz contains exact external Host capture driver and browser renderer; baseline2d06741, final code04e3a75e."
     }
   },
   "files": {
@@ -5605,6 +5609,46 @@
     "docs/evidence/m3-visual-20261031/select.sim.png": {
       "sha256": "ab9a74902486fc4eab0c9aae01141d113e16988b379314a985e9039a748f970e",
       "category": "m3-static-simulator-evidence"
+    },
+    "docs/evidence/mobile-readability-20261101/map-before-after.png": {
+      "sha256": "3d5b5c69e0efdb4498fd35f2b1a4418811af2ade71f868161d55883bfc0dc68d",
+      "category": "mobile-readability-browser-evidence"
+    },
+    "docs/evidence/mobile-readability-20261101/render/final/card-pick-landscape.png": {
+      "sha256": "f6524cd700e8bad8514504f226f8c9cf23fe3550d5e85e165be75ad77eec8890",
+      "category": "mobile-readability-browser-evidence"
+    },
+    "docs/evidence/mobile-readability-20261101/render/final/exit-landscape.png": {
+      "sha256": "7a4b95f4d971c62c91f356dae77edf7ce8cb59b28deeedd68cda46afea1185dd",
+      "category": "mobile-readability-browser-evidence"
+    },
+    "docs/evidence/mobile-readability-20261101/render/final/rewards-landscape.png": {
+      "sha256": "8fd5a922b4b12a31bb3ea6b7cc5de126cb15ac48d656d4bd239cbf42ffaaf0d6",
+      "category": "mobile-readability-browser-evidence"
+    },
+    "docs/evidence/mobile-readability-20261101/render/final/controls-landscape.png": {
+      "sha256": "aa7f59480ddcc4f9e43ac01a474c923141bfdde9b02d417ac6caf92cdf960eed",
+      "category": "mobile-readability-browser-evidence"
+    },
+    "docs/evidence/mobile-readability-20261101/render/final/deck-landscape.png": {
+      "sha256": "e6b07ea9c8bbfb9bbe45f611fa7a35498151401efb5bd5853ef4ff16386124e3",
+      "category": "mobile-readability-browser-evidence"
+    },
+    "docs/evidence/mobile-readability-20261101/render/final/card-pick-hover-landscape.png": {
+      "sha256": "148ac671495dc6d566cc0d0de9e0b8d63a2345a383a773a9941add7606b8b471",
+      "category": "mobile-readability-browser-evidence"
+    },
+    "docs/evidence/mobile-readability-20261101/render/final/menu-landscape.png": {
+      "sha256": "84f71dd089abc589c94ac89647303fd15b847e22162bce0da7357109f251e415",
+      "category": "mobile-readability-browser-evidence"
+    },
+    "docs/evidence/mobile-readability-20261101/render/final/map-start-landscape.png": {
+      "sha256": "ea3596abeff72e02dcdd32017cac5d3db9c84ae07a34dbc4a20ca894f342252a",
+      "category": "mobile-readability-browser-evidence"
+    },
+    "docs/evidence/mobile-readability-20261101/render/final/map-current-landscape.png": {
+      "sha256": "15ecfda8e6dd4a556d5ca1d7d28d58ee2f7b756b78ebfb8bea883d995f272d57",
+      "category": "mobile-readability-browser-evidence"
     }
   }
 }

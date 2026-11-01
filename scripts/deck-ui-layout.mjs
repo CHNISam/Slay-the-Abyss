@@ -24,7 +24,7 @@ export function deckControls(theme = nativeTheme) {
   const button = (name, frame, label) => {
     const size = frame.slice(2);
     const variants = { normal: [c.panelRaised, c.goldBright, c.goldDim], hover: [c.panelRaised, c.goldBright, c.goldBright],
-      pressed: [c.goldDim, c.text, c.goldBright], disabled: [c.panelSunken, c.textMuted, c.line] };
+      pressed: [c.buttonPressedFill, c.text, c.goldBright], disabled: [c.panelSunken, c.textMuted, c.line] };
     return { name, kind: 'container', position: frame.slice(0, 2), size, children: [
       { name: 'hit', kind: 'presetButton', size, focusable: true,
         states: Object.fromEntries(Object.keys(variants).map(state => [state, state])),
@@ -86,7 +86,7 @@ export function deckControls(theme = nativeTheme) {
         card('front', 2, -1, -6, colours.ink, colours.fill),
         { name: 'deckIcon', kind: 'image', position: [dx + 2, -1], size: [9, 9], image: theme.icon.deck.id, colour: colours.ink },
         // Count is a small numeric pip in the same ink, tucked at the disc's lower-right edge.
-        text('count', [dx + 13, -11, 20, 14], '', f.small, colours.ink), text_];
+        text('count', [16, 0, 48, 40], '', f.label, colours.ink), text_];
     }
     return entry;
   };
@@ -124,7 +124,7 @@ export function deckControls(theme = nativeTheme) {
       { ...text('browseTitle', l.deckView.browseTitle, '', f.heading, c.goldBright), visible: false },
       ...browseButtons,
       { ...button('sort', l.deckView.sort, '排序·默认'), visible: false },
-      { ...text('details', l.deckView.viewport, '', f.body, c.text), visible: false },
+      { ...text('details', l.deckView.viewport, '', f.reading, c.text), visible: false },
       { name: 'detailHit', kind: 'cursorArea', position: l.deckView.viewport.slice(0, 2),
         size: l.deckView.viewport.slice(2), focusable: true, visible: false },
       { ...button('upgradePreview', l.deckView.upgradePreview, '升级预览'), visible: false },

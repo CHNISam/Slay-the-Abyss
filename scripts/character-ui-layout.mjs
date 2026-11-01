@@ -13,7 +13,7 @@ export function experimentalCharacterControls(theme = nativeTheme) {
     const variants = {
       normal: primary ? [c.gold, c.textOnLight, c.goldBright] : [c.panelRaised, c.goldBright, c.goldDim],
       hover: primary ? [c.goldBright, c.textOnLight, c.goldBright] : [c.buttonHover, c.goldBright, c.goldBright],
-      pressed: [c.goldDim, c.buttonPressedText, c.goldBright],
+      pressed: [c.buttonPressedFill, c.buttonPressedText, c.goldBright],
       disabled: [c.panelSunken, c.textMuted, c.line],
     };
     const labelFrame = bust

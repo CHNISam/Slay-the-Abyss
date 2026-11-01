@@ -224,7 +224,8 @@ for i,corrupt in ipairs(corruptions) do
         corrupt(map)
         local before=Map.snapshot(map)
         ui:render();assert(not ui.navigationEnabled and next(ui.slots)==nil)
-        assert(not box(1).visible and not box('focus'):GetChild('hit').visible)
+        assert(not box(1).visible and not box('next'):GetChild('hit').visible
+            and not box('previous'):GetChild('hit').visible)
         assert(not ui:setNavigationEnabled(true));assert(not ui:focusCurrent())
         local ok,reason=ui:choose(map.nodes[1].id)
         assert(not ok and reason=='invalid_map_context')
@@ -329,7 +330,8 @@ test('invalid context arriving during an animation shuts down all stale navigati
     map.version=3
     local before=Map.snapshot(map)
     assert(ui:update(.04));assert(not ui.navigationEnabled and next(ui.slots)==nil)
-    assert(not box(1).visible and not box('focus'):GetChild('hit').visible)
+    assert(not box(1).visible and not box('next'):GetChild('hit').visible
+            and not box('previous'):GetChild('hit').visible)
     emit(1,'down',11);emit(1,'up',11);assert(not emit(1,'click',11))
     assert(not box('next'):GetChild('hit').click())
     assert(ui:update(1));same(map,before);assert(#calls==0)
@@ -377,7 +379,8 @@ test('non-table map nodes fail closed without rendering or mutating owners',func
         map.nodes[1]=invalid
         local before=Map.snapshot(map)
         ui:render();assert(not ui.navigationEnabled and next(ui.slots)==nil)
-        assert(not box(1).visible and not box('focus'):GetChild('hit').visible)
+        assert(not box(1).visible and not box('next'):GetChild('hit').visible
+            and not box('previous'):GetChild('hit').visible)
         assert(ui:update(.05));assert(not ui:setNavigationEnabled(true));assert(not ui:focusCurrent())
         local ok,reason=ui:choose('f18_l1');assert(ok==false and reason=='invalid_map_context')
         assert(not emit(1,'click',11));assert(not pcall(setup,map))

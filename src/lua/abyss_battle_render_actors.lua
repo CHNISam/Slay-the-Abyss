@@ -19,6 +19,17 @@ local function needsTarget(state, instance)
 end
 -- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, ownership, host, dependencies)
+    -- A new view binding starts fresh; weak native keys cannot retain retired actors.
+    local intentImages=setmetatable({},{__mode='k'})
+    local intentTexts=setmetatable({},{__mode='k'})
+    local function intentPicture(control,id)
+        local image=type(id)=='table' and id.id or id
+        local source=host.platform.imageSource
+        local painted=intentImages[control]
+        if painted and painted.image==image and painted.source==source and control.alive~=false then return end
+        intentImages[control]=nil
+        if dependencies.picture(control,id)~=false then intentImages[control]={image=image,source=source} end
+    end
     local function pendingCardTarget(frame)
         if not frame.fighting or not owner.selected then return false end
         for _, instance in ipairs(frame.battle.hand) do
@@ -77,7 +88,7 @@ function M.install(owner, ownership, host, dependencies)
         local glyph=math.min(size,L.intent.size)
         icon:SetSizeDelta(glyph,glyph);icon:SetAnchoredPosition(x,y)
         if visible then
-            dependencies.picture(icon,Theme.icon.intent[kind] or Theme.icon.intent.unknown)
+            intentPicture(icon,Theme.icon.intent[kind] or Theme.icon.intent.unknown)
             dependencies.tint(icon,intentTone(alpha,kind))
         end
     end
@@ -86,8 +97,13 @@ function M.install(owner, ownership, host, dependencies)
         local value=box:GetChild('intent')
         local attack=face.sourceEnum and face.sourceEnum:sub(1,6)=='ATTACK' or not face.sourceEnum and kind=='attack'
         value:SetVisible(allowed~=false and attack and face.value~='')
-        value.text=face.value and face.value:gsub('×','x') or ''
-        local width=math.max(L.intent.valueWidth,utf8.len(value.text)*L.intent.numberSize)
+        local text=face.value and face.value:gsub('×','x') or ''
+        if intentTexts[value]~=text or value.alive==false then
+            intentTexts[value]=nil
+            value.text=text
+            intentTexts[value]=text
+        end
+        local width=math.max(L.intent.valueWidth,utf8.len(text)*L.intent.numberSize)
         value:SetSizeDelta(width,L.nativeText.lineHeight)
         value:SetAnchoredPosition(x+L.intent.size/2+S.xs+width/2,y)
         dependencies.ink(value,intentTone(alpha))

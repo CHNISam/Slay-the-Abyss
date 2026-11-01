@@ -44,7 +44,7 @@ test('five source bottle slots share an explicit effect card and retain hidden c
   for(const name of ['effect','use','discard','dismiss'])assert(popup.children.some(c=>c.name===name));
   const notice = battle.children.find(c => c.name === 'notice');
   for (const [i, c] of controls.entries()) {
-    assert.deepEqual(c.size,[52/1.5,52/1.5],c.name);
+    assert.deepEqual(c.size,[44,44],c.name+' readable touch target');
     for (const [axis, n] of c.position.entries()) assert.ok(Math.abs(n) + c.size[axis] / 2 <= theme.canvas.base[axis] / 2, c.name);
     assert.ok(!overlaps(c, notice), `${c.name} overlaps aiming instructions`);
     for (const other of controls.slice(i + 1)) assert.ok(!overlaps(c, other), `${c.name} overlaps ${other.name}`);

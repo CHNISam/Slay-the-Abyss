@@ -176,7 +176,7 @@ test('one through ten hand cards, including selection, fit the 40/20 safe area o
     }
   }
 });
-test('native buttons retain four states, general safe targets and exact Main source edge controls', () => {
+test('native buttons retain four states, readable targets and Main source edge insets', () => {
   const controls = stage().children;
   const drag = controls.find(c => c.name === 'dragLayer');
   const capture = drag.children.find(c => c.name === 'hit');
@@ -193,7 +193,7 @@ test('native buttons retain four states, general safe targets and exact Main sou
   const help=controls.find(c=>c.name==='potionHelp'),popup=help.children.find(c=>c.name==='potionPopup');
   const retired=new Set(help.children.filter(c=>/^potionHelp\d$/.test(c.name)));
   const bottles=new Set([...controls,...help.children].filter(c=>/^potion\d$/.test(c.name)));
-  const compact=new Set([...bottles,...popup.children.filter(c=>['use','discard'].includes(c.name))]);
+  const popupActions=new Set(popup.children.filter(c=>['use','discard'].includes(c.name)));
   const popupDismiss=popup.children.find(c=>c.name==='dismiss');
   const parts = cardParts(controls);
   walk(controls, (c, x, y) => {
@@ -205,12 +205,8 @@ test('native buttons retain four states, general safe targets and exact Main sou
     }
     if (c.kind === 'cursorArea' || c.kind === 'presetButton') {
       if(retired.has(c)){assert.equal(c.visible,false,'legacy explanation target remains inert');return;}
-      if(compact.has(c)){
-        if(bottles.has(c))assert.deepEqual(c.size,[52/1.5,52/1.5]);
-        else assert.equal(c.size[1],40/1.5,'Main compact action keeps source visual height');
-        assert(Math.abs(x)+c.size[0]/2<=640&&Math.abs(y)+c.size[1]/2<=360,'source compact control stays in canvas');
-        return;
-      }
+      if(bottles.has(c))assert.deepEqual(c.size,[44,44],'readable bottle target has a 44-unit minimum');
+      if(popupActions.has(c))assert.equal(c.size[1],48,'readable popup actions reserve a complete native text line');
       assert(Math.min(...c.size) >= 44,`${c.name} ${c.size}`);
       if(c.name==='endTurn'){
         assert.deepEqual(c.position,theme.layout.endTurn.position);

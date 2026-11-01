@@ -15,15 +15,16 @@ test('Main runtime preserves source slots and portrait silhouettes without chang
  assert.equal(r.status,0,r.stdout+r.stderr);
  assert.match(r.stdout,/APPROVED_MAIN_UNIT_PASS/);
 });
-test('Main end-turn is the original long bronze hexagon, not an invented sword button',()=>{
+test('Readable end-turn preserves the long bronze hexagon and uses the reviewed raised position',()=>{
  const end=battleLayout().controls.find(c=>c.name==='stage').children.find(c=>c.name==='endTurn');
- const expected=[(1920-56-280/2)/1.5-640,360-(850+76/2)/1.5];
+ const expected=[(1920-56-280/2)/1.5-640,-216];
  end.position.forEach((n,i)=>assert(Math.abs(n-expected[i])<1e-9));
  assert.deepEqual(end.size,[280/1.5,76/1.5]);
  for(const state of end.children){
   assert(!state.children.some(c=>c.name==='blade'||c.name==='hilt'));
   for(const name of ['borderLeft','borderRight','plateLeft','plateRight'])assert(state.children.some(c=>c.name===name));
-  assert.equal(state.children.find(c=>c.name==='label').text.fontSize,27/1.5);
+  assert.equal(state.children.find(c=>c.name==='label').text.fontSize,24);
+  assert.equal(state.children.find(c=>c.name==='label').text.minFontSize,24);
  }
 });
 test('original Boss constructor position preserves core order, IDs and real target commands',()=>{

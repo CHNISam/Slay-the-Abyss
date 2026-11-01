@@ -1,0 +1,99 @@
+{
+  "baseline": "2d06741de47f2a65eb2772705e33064c16ccdce3",
+  "scope": "只读源码审计；生产仅岩旅两幕；未触碰背景、代码、任务或桌面",
+  "root_causes": [
+    {
+      "finding": "把1280x720手机设计画布当作可读性保证；字体14/16/18设计单位，缺设备物理阅读尺度校准。",
+      "source": [
+        "data/presentation/ui_theme.json:3",
+        "data/presentation/ui_theme.json:182",
+        "scripts/build-ui-theme.mjs:36",
+        "scripts/build-ui-theme.mjs:49"
+      ],
+      "detail": "validateTheme只检查font>=theme.font.minimum和设备画布不小于base；两条都不能证明手机字号可读。"
+    },
+    {
+      "finding": "所有通用JS文本autoSize=true且minFontSize=14；加大fontSize却不提高对应min、加宽和重排，长数字仍会缩回14。",
+      "source": [
+        "scripts/native-ui-theme.mjs:18",
+        "scripts/ui-layout.mjs:9",
+        "scripts/map-ui-layout.mjs:28"
+      ],
+      "examples": "战斗player18/68宽，piles18/36宽，floor18/32宽，exhaust18/24宽；地图hp18/104宽、gold18/44宽；node资源与标题18，药水/遗物16。"
+    },
+    {
+      "finding": "顶栏卡组count回退到20x14文字框、14字号，低于项目已实机证明的40设计单位单行框策略。",
+      "source": [
+        "scripts/deck-ui-layout.mjs:89",
+        "data/presentation/ui_theme.json:1342",
+        "docs/P0-SMOKE.md:169"
+      ],
+      "detail": "现有UI测试只覆盖部分关键数字，遗漏deckEntry/count；需修全部四种状态。"
+    },
+    {
+      "finding": "退出/暂停菜单动作16、正文18、提示14；次要提示textMuted低对比度。",
+      "source": [
+        "scripts/exit-ui-layout.mjs:24",
+        "scripts/exit-ui-layout.mjs:59",
+        "scripts/exit-ui-layout.mjs:83"
+      ],
+      "detail": "exit状态框28高、message两行72高，比40/80单行合同更小；目前布局测试通过不证明原生可读。"
+    }
+  ],
+  "unit_chain": {
+    "design": "canvas.base=[1280,720], mobile同尺寸；这是设计坐标。",
+    "native_serialization": "nativeFontSize仅Math.round并夹到>=14，注释称native varint；没有pt/dp换算。scripts/native-ui-theme.mjs:7-10",
+    "runtime": "abyss_ui.lua:76/182读取game.GetUICanvasSize；abyss_viewport.lua:7/12执行min(w/1280,h/720)并SetLocalScale；内嵌battle/map不再二次缩放。",
+    "font_api": "没有SetFontSize调用或已证实接口。已有control.adaptiveFontSize=false与control.fontSize赋值见src/lua/abyss_card_display.lua:258-259及304。可复用此属性模式，须原生验证新目标路径。",
+    "smallest_proven_logical_mobile": "tests/lua/viewport.lua:21明确1280x720 API canvas对应2556x1179或2268x1179实际host；这些是历史合同不是本轮实机。1280x720为目前明确建模的最窄手机API画布，不能推断所有支持手机的最小值。",
+    "relative_size": "14/720=1.94%、18/720=2.50%设计画布高度；缩放后占比不变。若手机实际内容高度等价360 CSS px，分别仅7/9 CSS px，但这个换算是假设，不能据此断言真实dp或pt。",
+    "detection_warning": "只按canvasWidth或stageScale判断手机会漏掉API仍返回1280x720的真手机；需要已有touchScreen平台标志或默认改善。"
+  },
+  "minimal_fix": [
+    "优先默认改善关键HUD与菜单；不要先做可选大字开关来保留默认小字。新语义token例如hudValue/hudLabel/menuBody/menuAction，先取28-32/24/28/24设计单位作为候选，min与目标相同或关闭adaptive，须实机校准。避免直接全局提高font.minimum破坏卡面紧凑拟合。",
+    "同步扩大HP/金币/层数/消耗与卡组数字框，按真实最大值和原生字体测量。例7位HP 999/999在28字体、ASCII .6em预算约117.6宽+padding，现68/104均不够；金币99999约84宽+padding，现36/44不够。未知数值上限须从规则/测试选真实边界，不能自行截断。",
+    "顶栏容量不足时两行或将次要药水/遗物摘要放详情入口；维持核心生命/金币/楼层/卡组常驻完整数值。标题与右端入口要一同重排；node notice位于y262，新增第二行不能直接放y268而不迁移notice及相关内容。保留原路径/事件及C档点选。",
+    "卡组count至少恢复40高原生整行框，并扩至足够3位数或实际上限；菜单/卡组入口恢复可见文字可提高发现性，需同步扩大命中框并保证互不重叠。",
+    "退出message两行框至少按两条完整native行预算（当前18字体历史基线为80），status至少40；大字号行高须在原生字体实测后设，不可假设40能承载所有28/32字号。扩大模态框并移动按钮/提示保持阅读顺序。",
+    "关键文本用现有text/textDim/goldBright等高对比前景；textMuted只用于非必要装饰或改用textDim。背景不改。"
+  ],
+  "accessibility_constraints": {
+    "font": "WCAG没有统一16px最小字号条款；14设计单位不是14pt/dp。建议手机正文16-18sp或iOS约17pt仅作平台设计目标；需UI canvas到实际屏幕/系统字体缩放换算与用户实机阅读验证。当前不能声明无障碍达标。",
+    "contrast": "普通文字>=4.5:1；只有确认真实字号达到WCAG大字条件（18pt regular或14pt bold）才可用3:1。必要图标/控件边界>=3:1。半透明覆层按最终合成颜色计算，不能以色表单色取代截图。",
+    "calculated_opaque_panelSunken_contrast": {
+      "text": 14.78,
+      "textDim": 7.44,
+      "textMuted": 3.5,
+      "goldDim": 4.15,
+      "goldBright": 13.18,
+      "topPanelHp": 7.34,
+      "topPanelGold": 11.41
+    },
+    "reflow": "至少以200%文字放大仍内容/操作不丢失为目标，允许菜单/详情分页或垂直滚动；不可缩回14、截断核心数字、横纵同时滚动来掩盖。游戏整体2D布局可有WCAG reflow例外，文本对话框/菜单仍应适配；无原生证据时只报未验证。",
+    "touch": "48设计单位不等于48dp；保留现有命中框下限与不重叠合同，再用实际手机UI映射验证触点尺寸。"
+  },
+  "verification": {
+    "existing_targeted_run": "node --test tests/hud-topbar-composition.test.mjs tests/exit-ui-layout.test.mjs tests/viewport-layout.test.mjs",
+    "result": "8/8 PASS；仅原有布局合同，未覆盖阅读字号，未跑整套。",
+    "real_red_probes": [
+      {
+        "name": "deckEntry/open/hit/normal/count.size[1]>=40",
+        "result": "RED，actual=14；直接针对现有原生行框合同，非实现镜像。"
+      },
+      {
+        "name": "battlePanel/player.text.minFontSize>=28",
+        "result": "RED，actual=14；28为建议本轮候选产品门槛，不是外部无障碍标准。"
+      }
+    ],
+    "add_tests": [
+      "全部battle/map/node当前可见关键资源在默认与大字情况下min=目标，禁止autoshrink回14；读取真实Lua运行态fontSize，而非只看JS声明。",
+      "使用现有ui_readability_snapshot.lua和helpers/ui-readability.mjs，按目标字号而非minimum计算容量；覆盖999/999、至少5位金币、最大合法卡组/消耗数量、第一/二幕长中文标题。",
+      "deckEntry四状态count单行native框；exit两行警告与status整行框；固定字号加宽后所有数字完整、不重叠、按钮触点无冲突。",
+      "真实RED负例：仅把fontSize增大但min留14应失败；仅抬高min却不加宽应容量失败；两行栏压住notice应重叠失败。",
+      "手机返回1280x720但actual host为2268x1179时仍启用阅读策略；resize重复不累积缩放、关/开overlay与run替换不恢复旧小字体。",
+      "最终候选官方导入+fresh ready+真实最窄手机截图/文字可读体验，记录机型、分辨率、GetUICanvasSize、系统字体设置、UI缩放、原生实际fontSize/autoSize、页面与本轮候选SHA。"
+    ],
+    "limitations": "没有桌面操作、模拟器截图、官方客户端/真机验证；未校准实际屏幕dp/pt。"
+  },
+  "repo_status": "审计时git status干净；只写外部报告。Backlog在PATH不可用已告知root，由root统一维护。"
+}

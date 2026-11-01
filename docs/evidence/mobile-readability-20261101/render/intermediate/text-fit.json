@@ -1,0 +1,32 @@
+[
+  {
+    "scene": "controls",
+    "clipped": []
+  },
+  {
+    "scene": "deck",
+    "clipped": []
+  },
+  {
+    "scene": "exit",
+    "clipped": []
+  },
+  {
+    "scene": "map-current",
+    "clipped": []
+  },
+  {
+    "scene": "map-start",
+    "clipped": []
+  },
+  {
+    "scene": "menu",
+    "clipped": []
+  },
+  {
+    "scene": "rewards",
+    "clipped": [
+      "战斗奖励"
+    ]
+  }
+]

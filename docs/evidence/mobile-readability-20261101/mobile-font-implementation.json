@@ -1,0 +1,157 @@
+{
+  "task": "TASK-4.20",
+  "branch": "feat/mobile-font-fix",
+  "worktree": "/workspace/mobile-font-fix",
+  "baseline": "2d06741de47f2a65eb2772705e33064c16ccdce3",
+  "implementation_commit": "3c1979f6127221d5bab2d938d927252df69cbfee",
+  "status": "字体/布局实现已冻结提交；待root整合兼容活体测试、独立复审、截图、官方候选/手机验收。未push。",
+  "policy": "默认易读（GAG方向），普通文字按WCAG4.5对比阈值。设计单位未换算pt/dp，不宣称完整AA或所有无障碍要求完成。保持生产岩旅两幕，不新增设置/玩法/背景优化。",
+  "changes": {
+    "tokens": {
+      "display": 44,
+      "title": 34,
+      "heading": 28,
+      "body": 24,
+      "label": 22,
+      "small": 20,
+      "hud": 28,
+      "reading": 28,
+      "number": 28,
+      "cost": 20,
+      "preserved": {
+        "card": 15,
+        "cardName": 14,
+        "minimum": 14
+      }
+    },
+    "fixed_floor": "通用nativeControls/ui-layout/map-layout minFontSize跟随实际fontSize；关键默认值不再自动缩回14。原卡面type/costDirection显式保留14，卡面body与标题由原拟合器负责，全文另有原有阅读入口。",
+    "hud": "HP164宽、金币120宽、消耗68宽、卡组数字48x40；默认HUD28、卡组/遗物count22。战斗title改56,328,360x44；隐藏的兼容floor/icon也几何不重叠。全量999/999、99999、999是压力样本，不是自然两幕可达最大值证明。",
+    "potions": "战斗5瓶44x44触点第二排位置[-100,-52,-4,44,92],y264，避开所有已验大怪。非战斗复用原同一management action显示现有药水n/m文本，仍保留原5物理槽和全部使用/丢弃/长按/手柄路径；旧装饰槽隐藏，未丢容量。",
+    "reading": "卡牌/资源全文reading28；deck按reading字号分页，逐字完整保留、逐页点击可达、末页回首与手柄confirm可达。statusInfo560宽、36行距、每页3项；原长按/点选全文入口保留。",
+    "relic_details": "两列两行4项/页，548x232每项；name与chip40高，description440x160支持80CJK四完整native行，未缩字/改文案。",
+    "potion_details": "modal760x680；slot164x96文本92高支持两native行；detail688x232覆盖全部真实药水管理文案（含持有神圣树皮）；战斗popup400宽、font20、每行预算40。",
+    "menus": "退出框760x440，原两行警告96高、status40高；暂停动作22字/56高；操作说明how预留两行，原文本未变。商人对话页12字→9字防正文24挤出原250宽框。",
+    "piles": "原14/16小字改caption20/计数28、caption40高、数值56x40；局部深色文字well、ring保持原图库。energy从y-216到-200，endTurn从-232到-216，均仅上移16；新增native框间隙断言分别>=2及>=16，保持pile触点覆盖与16不可逆动作间隙。endTurn字号18→24。",
+    "contrast": "textMuted改为现有textDim色#A9A595；普通tagline/chapter改goldBright；独立buttonPressedFill #51412B，dangerText #FF8A80。装饰goldDim及HP/场景背景调色板未改。"
+  },
+  "sources": [
+    "data/presentation/ui_theme.json:184",
+    "scripts/native-ui-theme.mjs:18",
+    "scripts/ui-layout.mjs:195",
+    "scripts/deck-ui-layout.mjs:89",
+    "scripts/game-ui-layout.mjs:56",
+    "scripts/node-ui-layout.mjs:67",
+    "scripts/potion-discard-layout.mjs:34",
+    "scripts/relic-view-layout.mjs:58",
+    "src/lua/abyss_deck_ui.lua:172",
+    "src/lua/abyss_battle_info_content.lua:21",
+    "src/lua/abyss_node_ui_feedback.lua:28",
+    "src/lua/abyss_map_ui.lua:257",
+    "src/lua/abyss_potion_discard_ui.lua:18"
+  ],
+  "contrast_results": {
+    "muted_on_panel": 6.72506169569496,
+    "muted_on_panelRaised": 5.781546186157224,
+    "muted_on_panelSunken": 7.435470862221446,
+    "text_on_pressed": 7.892914095545646,
+    "white_on_pressed": 9.80910369250386,
+    "goldBright_on_pressed": 7.038867890517621,
+    "dangerText_on_panelRaised": 6.25481894909583,
+    "boundary": "只证明这些不透明控件表面组合；半透明/艺术层最终合成和真机字体仍待验。"
+  },
+  "tests": [
+    {
+      "command": "node --test --test-concurrency=1 tests/mobile-typography.test.mjs",
+      "result": "最后冻结source新增14/14 PASS；静态RED→GREEN记录及真实Lua host。",
+      "log": "/workspace/cloud-reports/mobile-font-new-final.log"
+    },
+    {
+      "command": "node --test --test-concurrency=1 tests/mobile-typography.test.mjs tests/pile-view-layout.test.mjs tests/potion-discard-layout.test.mjs tests/potion-popup-readability.test.mjs tests/reward-readability.test.mjs tests/card-detail-preview.test.mjs",
+      "result": "最终details扩容后26/26 PASS；之后仅增强新Lua测试真实文案扫描并单跑14/14。",
+      "log": "/workspace/cloud-reports/mobile-font-final-targeted.log"
+    },
+    {
+      "command": "node --test --test-concurrency=1 tests/potion-discard-layout.test.mjs tests/relic-view-layout.test.mjs",
+      "result": "最终source6/6 PASS",
+      "log": "/workspace/cloud-reports/mobile-font-detail-layout-compat.log"
+    },
+    {
+      "command": "node scripts/test-lua.mjs tests/lua/game_ui_potion_discard.lua",
+      "result": "10/10 PASS（最后details配置扩容前；行为模块相同）",
+      "log": "/workspace/cloud-reports/mobile-font-potion-runtime.log"
+    },
+    {
+      "command": "14文件targeted suite（详log）",
+      "result": "55/55 PASS（最后relic/potion详情框扩容前，之后相关26项已重跑）",
+      "log": "/workspace/cloud-reports/mobile-font-verification.log"
+    },
+    {
+      "command": "npm run build:data; npm run build:ui; npm run check:syntax; git diff --check",
+      "result": "PASS；没有整套check/测试、没有桌面/官方客户端操作。"
+    },
+    {
+      "command": "独立比较基线Theme.image/icon/canvas与场景backdrop/veil/tint字段",
+      "result": "全部deepEqual/PASS；不改背景资产、画布比例或场景背景色。"
+    },
+    {
+      "command": "node --test --test-concurrency=1 tests/owned-relic-view.test.mjs",
+      "result": "旧固定6页真实RED→仅live页数/格数适配→1/1 GREEN，所有原英文/重复/图标/模态/点击断言保留",
+      "red_log": "/workspace/cloud-reports/mobile-font-owned-relic-red.log",
+      "green_log": "/workspace/cloud-reports/mobile-font-owned-relic-green.log"
+    }
+  ],
+  "real_runtime_coverage": [
+    "岩旅fixture默认入局；999/999 HP和99999金币在map/battle原值完整",
+    "五药水槽在modal均实际click可达、不消耗；管理文字全4状态为药水5/5",
+    "全部真实药水在持有神圣树皮下的管理文案native行预算；神圣树皮/蜥蜴尾巴原全文预算",
+    "Guardian/Hexaghost/SlimeBoss/Collector/Automaton/Champ/GremlinLeader真实Host portrait+intent与新5瓶几何无交集；leader需真实三成员初始化",
+    "1000字全文每一页实际点击可达、逐字拼回未丢，末页循环第一页，手柄确认进入第2页"
+  ],
+  "live_compatibility_migration_for_root": [
+    {
+      "test": "map-page-polish.test.mjs:31",
+      "old": "map title font22",
+      "new": "theme.font.number28"
+    },
+    {
+      "test": "native-ui-theme.test.mjs:62/119",
+      "old": "resources use body token",
+      "new": "resources use hud token（custom theme需单独变hud并断言hud）"
+    },
+    {
+      "test": "native-ui-theme.test.mjs:173; node-ui-layout.test.mjs:129",
+      "old": "every minFontSize==font.minimum14",
+      "new": "every minFontSize==fontSize（更强不缩字合同）；compact card保持独立role"
+    },
+    {
+      "test": "node-ui-layout.test.mjs:54",
+      "old": "pressed fill==goldDim",
+      "new": "buttonPressedFill；保留所有border/hover路径及对比度断言"
+    },
+    {
+      "test": "ui-layout.test.mjs:209",
+      "old": "potion target34.6667",
+      "new": "44x44且原safe target/全4状态断言保持"
+    },
+    {
+      "test": "approved-energy-orb.test.mjs",
+      "old": "live centerexactMain and min14",
+      "new": "live reference center+明确[0,16]必要offset；min40，历史Main HTML正则保留"
+    },
+    {
+      "test": "tests/lua/owned_relic_view.lua:44/45/50",
+      "old": "42件6页、每页8项",
+      "new": "已在d0f9982d修复：perPage明确4，expectedPages明确11；动态遍历4格，保留全部原语义断言。"
+    }
+  ],
+  "preview_plan": "复用scripts/native-ui-parity-preview.lua或node-ui-preview.lua生成真实Lua树，再由现有node-ui-preview.mjs.page生成1280x720离线HTML并用无桌面headless浏览器截图；历史battle-ui-preview缺monster binding失败需保留原log。root负责after截图/844x390缩放观感与独立critique。离线HTML/CSS px≠真实native尺寸。",
+  "unverified": [
+    "官方候选写入/读回/导入/fresh ready未执行",
+    "当前最窄真实手机阅读与图中文字/触点单位标定未执行",
+    "系统字体缩放/200%用户调整不在本轮已实现要求，不能宣称AA",
+    "场景透明覆层/艺术背景最终合成对比度未完整实测",
+    "普通全部自然两幕极端资源最大值未推导，仅覆盖压力样本；不静默截断数值",
+    "完整native-font布局与真实设备截图仍需root验收"
+  ],
+  "live_test_adaptation_commit": "d0f9982d6c5a3c6432df3ac05c495137b4135674"
+}

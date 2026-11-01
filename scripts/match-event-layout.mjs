@@ -22,8 +22,8 @@ export function augmentMatchEventPicker(picker,theme=nativeTheme){
     plate('normal',frame([0,0],faceSize),c.panelRaised),
     hidden(plate('disabled',frame([0,0],faceSize),c.panelSunken)),
     hidden(plate('hover',frame([0,0],faceSize),c.buttonHover)),
-    hidden(plate('pressed',frame([0,0],faceSize),c.goldDim)),
-    hidden(plate('selected',frame([0,0],faceSize),c.goldDim)),
+    hidden(plate('pressed',frame([0,0],faceSize),c.buttonPressedFill)),
+    hidden(plate('selected',frame([0,0],faceSize),c.buttonPressedFill)),
     text('label',frame([0,0],[size[0]-s.l,size[1]]),'重新结算',f.body,c.goldBright),hit(size)]});
   return picker;
 }

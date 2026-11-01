@@ -303,8 +303,8 @@ test('existing exit overlay restores abandoned node input without a recenter but
         local function hit(slot) return F.mapControl(root:GetChild('mapPanel'),'node'..slot):GetChild('hit') end
         local beforeRun,beforeMap=F.Combat.copy(ui.run),Map.snapshot(ui.map)
         hit(1).listeners.down(pointer(spec.old)) -- intentionally omit Up
-        assert(ui:openExit() and not ui.mapUI.visible)
-        assert(ui:closeExit() and ui.mapUI.visible)
+        assert(root:GetChild('exitEntry'):GetChild('open'):GetChild('hit').click() and not ui.mapUI.visible)
+        assert(root:GetChild('runMenu'):GetChild('resume'):GetChild('hit').click() and ui.mapUI.visible)
         hit(1).listeners.up(pointer(spec.old))
         assert(not hit(1).listeners.click(pointer(spec.old)),'old tap survived menu recovery')
         assert(same(ui.run,beforeRun) and same(ui.map,beforeMap))

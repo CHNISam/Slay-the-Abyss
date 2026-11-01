@@ -15,7 +15,7 @@ function M.refreshEntry(hit,run,platform)
         for i=1,Theme.layout.battlePotions.count do
             local slot=variant:GetChild('slot'..i)
             local id=i<=capacity and run.potions[i] or nil
-            slot:SetVisible(i<=capacity)
+            slot:SetVisible(false) -- Large management caption owns the shared entry; all five slots remain in its modal.
             slot:GetChild('emptyShell'):SetVisible(id==nil)
             slot:GetChild('filledShell'):SetVisible(id~=nil and id~='fire_potion')
             slot:GetChild('fireShell'):SetVisible(id=='fire_potion')
