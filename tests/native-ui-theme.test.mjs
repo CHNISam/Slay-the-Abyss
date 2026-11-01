@@ -52,14 +52,14 @@ test('node and menu layouts resolve semantic colour, font, minimum font and pict
   const theme = structuredClone(nativeTheme);
   theme.color.gold = '#123456'; theme.color.text = '#ABCDEF'; theme.color.panelRaised = '#654321';
   theme.color.node.current = '#AABBCC'; theme.font.title = 32; theme.font.heading = 26; theme.font.body = 20;
-  theme.font.minimum = 16; theme.image.rect = 100004; theme.icon.lock = 999999;
+  theme.font.minimum = 16; theme.font.hud = 29; theme.image.rect = 100004; theme.icon.lock = 999999;
   theme.image.officialBackdrops.act1_1 = 999998;
   theme.image.vignette = 999997; theme.image.discSoft = 999996;
   const node = nodeLayout(theme).controls[0].children;
   // Node title reuses the map header (TopPanel) ink and size.
   assert.equal(find(node, 'title').text.colour, theme.color.mapHeader.title);
   assert.equal(find(node, 'title').text.fontSize, theme.font.body);
-  assert.equal(find(node, 'hp').text.fontSize, theme.font.body);
+  assert.equal(find(node, 'hp').text.fontSize, theme.font.hud);
   assert.equal(find(node, 'hp').text.colour, theme.color.text);
   assert.equal(find(find(node, 'back').children, 'normal').colour, theme.color.panelRaised);
   const event = find(node, 'eventView'), figure = find(event.children, 'neowFigure');
@@ -79,7 +79,8 @@ test('node and menu layouts resolve semantic colour, font, minimum font and pict
   walk(nodeLayout(theme).controls, control => {
     if (control.kind === 'image') assert.ok(allowed.includes(control.image), `unexpected node image ${control.image}`);
     if (control.name === 'blockedLock') assert.equal(control.image,theme.icon.lock,'existing semantic lock token must propagate');
-    if (control.kind === 'text') assert.equal(control.text.minFontSize, theme.font.minimum);
+    if (control.kind === 'text') assert.equal(control.text.minFontSize, control.text.fontSize,
+      `${control.name}: auto fitting must preserve the selected readable size`);
   });
 });
 
@@ -116,7 +117,7 @@ test('host preserves the approved battle and scrollable map while composing node
   assert.equal(find(resources.children,'hpIcon').image,theme.icon.hp);
   assert.equal(find(resources.children,'hpIcon').colour,theme.color.hp);
   assert.equal(find(resources.children,'hp').text.colour,theme.color.text);
-  assert.equal(find(resources.children,'hp').text.fontSize,theme.font.body);
+  assert.equal(find(resources.children,'hp').text.fontSize,theme.font.hud);
   assert.deepEqual([...find(resources.children,'hp').position,...find(resources.children,'hp').size],theme.layout.nativeNode.topBar.hp);
   assert.deepEqual([...find(resources.children,'gold').position,...find(resources.children,'gold').size],theme.layout.nativeNode.topBar.gold);
   const previewBack=find(map,'previewBack');
@@ -167,10 +168,11 @@ test('building and mutating output trees cannot mutate the source theme', () => 
   assert.equal(JSON.stringify(theme), before);
 });
 
-test('all native text respects the approved readable minimum', () => {
+test('all native text preserves its readable size when auto fitting', () => {
   walk(gameLayout().controls, control => {
     if (control.kind !== 'text') return;
-    assert.equal(control.text.minFontSize, nativeTheme.font.minimum);
+    assert.equal(control.text.minFontSize, control.text.fontSize,
+      `${control.name}: auto fitting must not shrink a readable label`);
     assert.ok(control.text.fontSize >= nativeTheme.font.minimum);
   });
 });
