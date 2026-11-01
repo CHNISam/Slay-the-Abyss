@@ -165,6 +165,7 @@ function M.install(owner, ownership, host, dependencies)
                         end
                     end)
                 end
+                if not entryAt() then return end
                 control:AddCursorEventListener(host.cursor.CursorUp, releaseEnemy)
                 if not entryAt() then return end
                 control:AddCursorEventListener(host.cursor.CursorEndDrag, function(event) releaseEnemy(event, true) end)
