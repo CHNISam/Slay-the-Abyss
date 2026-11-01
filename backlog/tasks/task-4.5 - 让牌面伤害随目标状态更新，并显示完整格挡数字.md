@@ -5,10 +5,12 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 12:17'
-updated_date: '2026-10-29 00:13'
+updated_date: '2026-11-01 02:05'
 due_date: '2026-10-24'
 labels:
   - awaiting-live
+  - release-qa-20261101
+  - release-blocker
 milestone: m-5
 dependencies: []
 references:
@@ -16,6 +18,7 @@ references:
   - docs/M3-NUMERIC-LIVE-20261024.md
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/backlog-details/MOBILE-QA-20261028.md
+  - docs/backlog-details/MOBILE-RELEASE-QA-20261101.md
 parent_task_id: TASK-4
 priority: medium
 type: bug
@@ -35,6 +38,8 @@ ordinal: 86000
 - [x] #3 保留旧数字裁切和预览问题的自动红绿回归，现有布局与预览专项通过。
 - [ ] #4 以当前统一格挡位置版本的同源候选实机截图确认格挡与预览两项修复。
 - [ ] #5 分别实测点选和拖动瞄准目标的预览及结算，记录实际差异。
+- [ ] #6 无其他修正的基础6普通攻击进入明确待出牌目标状态后，易伤敌人的当前牌面在出牌提交前显示9，切至普通敌人显示6、切回显示9；不能只在结算时正确，也不能把同一目标修正套到整手牌。
+- [ ] #7 同候选分别记录手机点选与实际拖动、PC点击携牌／拖放、已支持手柄选牌切目标的预览和确认顺序；按固定源核实映射，保留取消、移出目标、切牌和状态变化后的数值恢复，预览不扣能量、不移牌、不造成伤害。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -63,4 +68,6 @@ ordinal: 86000
 PR #304：手机反馈瞄准易伤目标时伤害未更新；离线拖动对照预览及结算均为9，用户实玩时实际瞄准状态未确认；PC和手机分别复验，勿先断言公式错误。
 
 2026-10-29 详细验收承接附件§6：触屏点选、明确目标、实际拖动瞄准、目标变化与取消分别核验。普通整手牌仅有玩家修正，当前待出目标牌在明确瞄准时才显示目标修正并与结算一致，取消恢复；不把一个默认target套整手牌、不先改伤害公式。调查中的Strike6→拖瞄9→结算9只证明该受控链路，不等于用户那次状态或新候选实机已通过。
+
+2026-11-01 Bug3：用户要求直接按固定STS1源码完成选牌／选目标／出牌前数值预览，重点是手机点选与拖动。已复核aeubanks/sts@319009d5：鼠标有携牌后确认及拖放，手柄切换hoveredMonster后renderHand会先计算目标伤害再绘制；源码含触屏分支。当前2d06741卡面currentAim只接moving gesture/carry，手柄目标Focus仅更新owner.target，存在明确非拖动目标接线缺口；不将其冒认为本次手机现场完整根因。源位置与对照见新附件；本镜像renderHand准确行号1730–1766（核心1761–1764），旧排版行号保留历史。原离线AC与尚未完成实机AC保持。
 <!-- SECTION:NOTES:END -->
