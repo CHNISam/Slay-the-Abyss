@@ -106,6 +106,10 @@
     "mobile-readability-browser-evidence": {
       "status": "Project UI diagnostic screenshots rendered by Chromium using system Noto fonts and stand-in glyphs from the project prototype. No font binaries or official textures redistributed. Referenced game identities remain their owners IP; no sublicense or commercial clearance. Offline evidence only, not official import, device or performance acceptance.",
       "evidence": "docs/evidence/mobile-readability-20261101/README.md; raw-diagnostics.tar.gz contains exact external Host capture driver and browser renderer; baseline2d06741, final code04e3a75e."
+    },
+    "merchant-action-browser-evidence": {
+      "status": "Project UI diagnostic screenshots rendered from real GameUI resolved controls by Chromium with system fonts and existing stand-in glyphs. No official textures or font binaries redistributed; referenced game identities retain their owners rights. Offline layout evidence only, not official device, animation, import or performance acceptance.",
+      "evidence": "docs/evidence/merchant-action-group-20261101/README.md; capture.lua; baseline b0f64d49."
     }
   },
   "files": {
@@ -5649,6 +5653,14 @@
     "docs/evidence/mobile-readability-20261101/render/final/map-current-landscape.png": {
       "sha256": "15ecfda8e6dd4a556d5ca1d7d28d58ee2f7b756b78ebfb8bea883d995f272d57",
       "category": "mobile-readability-browser-evidence"
+    },
+    "docs/evidence/merchant-action-group-20261101/before.png": {
+      "sha256": "469b08d8f1944ba9eff6fab108380a1935bf15534e2311805bcc0a703d320b75",
+      "category": "merchant-action-browser-evidence"
+    },
+    "docs/evidence/merchant-action-group-20261101/after.png": {
+      "sha256": "a235be91305a9a75973b5a24ff6b034cb8102806e690143701c22bba42d7c910",
+      "category": "merchant-action-browser-evidence"
     }
   }
 }
