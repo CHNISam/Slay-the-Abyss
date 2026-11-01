@@ -7,7 +7,7 @@ local M = {}
 function M.install(ctx)
     ctx.merchant = Merchant.new(ctx.child("merchant"), { color = ctx.options.color, sound = ctx.options.sound })
 
-    ctx.child("merchant"):GetChild("talk"):GetChild("hit"):AddCursorEventListener(ctx.clickEvent, function() return ctx.merchant:tap() end)
+    ctx.child("merchant"):GetChild("talk"):GetChild("hit"):AddCursorEventListener(ctx.clickEvent, function() return ctx.self.visible and ctx.merchant:tap() or false end)
 
     ctx.self.merchant = ctx.merchant
 

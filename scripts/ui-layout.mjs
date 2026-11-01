@@ -256,7 +256,7 @@ export function battleLayout() {
         ...l.battleRewards[name].slice(2), name === 'title' ? '战斗奖励' : '', name === 'title' ? f.title : f.body,
         name === 'title' ? c.goldBright : c.textDim)),
     ] },
-    text('title', 56, y, 360, bar.height, '战斗', f.heading, c.gold),
+    text('title', 0, y, 360, bar.height, '战斗', f.heading, c.gold),
     // STS TopPanel.renderHP: SALMON cur/max; renderDungeonInfo: floor icon + CREAM floor number.
     glyph('hpIcon', bar.hpIcon, theme.icon.hp, c.hp), chip('player', bar.hp, c.topPanelHp),
     glyph('goldIcon', bar.goldIcon, theme.icon.gold, c.text), chip('piles', bar.gold, c.topPanelGold),
@@ -288,16 +288,19 @@ export function battleLayout() {
   for (let i = 0; i < l.battlePotions.count; i++) {
     const potion = button(`potion${i + 1}`, l.battlePotions.origin.map((n, axis) => n + l.battlePotions.step[axis] * i),
       l.battlePotions.size, '空药水槽', false, f.small);
-    // Reuse each state label for a unique single-glyph caption beside the
-    // official bottle. Same atlas/tint bottles remain identifiable without color.
+    // Keep official bottles centered. Compatibility state labels stay hidden;
+    // the identity line lives in the full-canvas group, never outside a button.
     for (const state of potion.children) {
       const label=state.children.find(c=>c.name==='label');label.visible=false;
-      label.position=[12,0];label.size=[20,l.nativeText.lineHeight];
+      label.position=[0,0];
+      label.size=[20,l.nativeText.lineHeight];
       label.text.fontSize=f.small;label.text.colour=c.goldBright;
       state.children=[...potionSlotVisual(theme,{border:state.children[0],plate:state.children[1],
         bottleSize:l.battlePotions.bottleSize,ink:c.goldBright}),label];
-      state.children.find(c=>c.name==='bottle').position=[-10,0];
     }
+    potionHelp.push({...text(`potionCaption${i+1}`,potion.position[0],
+      potion.position[1]-(l.battlePotions.size[1]+l.nativeText.lineHeight)/2-2,
+      20,l.nativeText.lineHeight,'',f.small,c.goldBright),visible:false});
     // Keep the original three direct paths. Extra bottles share the existing
     // full-canvas help group so the battle parent stays at 60 direct children.
     if (i < 3) controls.push(potion);

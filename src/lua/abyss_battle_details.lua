@@ -1,5 +1,4 @@
 -- Read state, issue Run commands. No damage/energy/outcome rules live in this view.
-local Combat = require("abyss_combat")
 local Actors = require("abyss_actor")
 local Run = require("abyss_run")
 local RewardOwner = require("abyss_battle_reward_owner")
@@ -99,16 +98,8 @@ function M.install(owner, ownership, host, dependencies)
         local battle=owner.run and owner.run.phase=="combat" and owner.run.combat
         local instance=battle and battle.hand[slot]
         if not instance then return end
-        local card=Combat.cardDefinition(battle,instance)
-        local function hasKeyword(effects)
-            for _,effect in ipairs(effects) do
-                if effect.status or effect.op=="gainTemporaryStrength" or effect["then"] and hasKeyword(effect["then"]) then return true end
-            end
-        end
-        local function annotated()
-            return card.originalV4 or card.strikeTag or instance.upgraded or card.exhaust or card.ethereal
-        end
-        if annotated() or hasKeyword(card.effects) then return {kind="card",index=0,uid=instance.uid} end
+        -- Every live hand card needs a read-only detail route, even without keywords.
+        return {kind="card",index=0,uid=instance.uid}
     end
     function owner:potionHelpSpec(slot)
         local run = self.run
