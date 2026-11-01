@@ -5,14 +5,14 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-25 03:46'
-updated_date: '2026-10-31 21:40'
+updated_date: '2026-11-01 12:07'
 labels:
   - required
   - sts1
   - builds
   - implementation-gap
   - partially-implemented
-milestone: m-4
+milestone: m-6
 dependencies:
   - TASK-16
 references:
@@ -177,4 +177,6 @@ PR323原39dab5e9历史实施记录承接（不认证本组合，当前公开范�
 2026-10-31 补75/153/33逐项证据索引和公共机制/独立原版向量，正常额外5seed原c3d为4战败+LivingWall producer阶段错误，修后ca838同seed17公共两步通过并正常战败16层。该工具修复不冒充玩家平台故障，所有旧失败/新结果按源码身份完整保留，尚无新候选官方双幕/不同构筑设备证据，AC3/4/5保持未勾。
 
 2026-10-31 最后纯离线验收收口：当前Geo卡池/完整合法生成依赖、机制及道具交互按首发清单由独立全域合证闭合；最新F1/F2胜利资格源差已修且窄审14/14，Prism275及跨色公共操作/矩阵核准。保留原7a三局正常规则逐动作：不同合法获取与构筑、连续战斗、seed2两幕34层HP30，另两局正常败；不把freshRun隔离当Host重开。按无平台前置字面勾3/4，5同候选官方通关仍未验，7雷电future非本次比赛必做。 依据及原始运行/源身份见docs/evidence/m3-final-acceptance-20261031/，最终精确HEAD CI及正常PR合并另核，不代替官方或设备。
+
+2026-11-01阶段收尾：用户明确确认本轮已打Tag并进入master，发版阶段到此结束。已交付的M3核心实现不重做；本任务仅将剩余未验要求转由M5遗留严格验收承接，保留原状态、范围、全部AC及历史证据，不把发版确认等同逐条严格验收通过，也不重新阻塞已接受的v1.0.0。本次不打包、不追发布回执、不创建新门禁或新期限。 原AC7雷电要求仍由既有TASK-85承接未来版本，不计本次M4/M5强制范围。
 <!-- SECTION:NOTES:END -->

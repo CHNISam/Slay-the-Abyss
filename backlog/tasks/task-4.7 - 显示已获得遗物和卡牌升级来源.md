@@ -5,9 +5,9 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 14:39'
-updated_date: '2026-10-31 21:40'
+updated_date: '2026-11-01 12:06'
 labels: []
-milestone: m-4
+milestone: m-5
 dependencies: []
 references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/304'
@@ -73,4 +73,6 @@ PR336收口复审：原CI40871514608仅game_ui_result_gestures.lua在30秒超时
 2026-10-31 AC5补齐：公开Nodes.enter与campView/rest路径实际记录逐卡UID及升级前后，毒素蛋/小屋/战纹/磨刀石真实取得来源分别保持；无相关升级效果的休息不改牌/来源/收据，战纹与磨刀石各自类型仅真实取得一次，重复取得整Run不变。主控标准camp-rest-upgrade-origins 1/1通过（5.8秒，原30秒），独审另1/1通过；误升级旧牌及覆盖来源两变异均被拒。见docs/reviews/M3-REST-UPGRADE-ORIGINS.md。该AC运行时合同可勾，受控合法地图前置不是自然长跑，不追认用户历史异常；官方PC/手机要求仍未验。
 
 2026-10-31 最后纯离线验收收口：原生成UI图标/中文/42件分页/状态绑定、map/battle同HUD入口和不覆盖6项通过；此前7a七遗物战后残计数F1确影响真实次数，现c07+6b公共victory/全敌逃/Smoke→reward/map源-1隐藏及下战重置已非作者窄审通过，方可勾7。不是只拿给定counter夹具当真实值；2/3/6手机与同候选设备仍未验。 依据及原始运行/源身份见docs/evidence/m3-final-acceptance-20261031/，最终精确HEAD CI及正常PR合并另核，不代替官方或设备。
+
+2026-11-01阶段收尾：用户明确确认本轮已打Tag并进入master，发版阶段到此结束。已交付的M3核心实现不重做；本任务仅将剩余未验要求转由M4体验与设备改进承接，保留原状态、范围、全部AC及历史证据，不把发版确认等同逐条严格验收通过，也不重新阻塞已接受的v1.0.0。本次不打包、不追发布回执、不创建新门禁或新期限。
 <!-- SECTION:NOTES:END -->

@@ -5,9 +5,9 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 14:39'
-updated_date: '2026-10-31 17:02'
+updated_date: '2026-11-01 12:07'
 labels: []
-milestone: m-4
+milestone: m-5
 dependencies: []
 references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/304'
@@ -56,4 +56,6 @@ PR323原39dab5e9历史实施记录承接（不认证本组合，当前公开范�
 c695隔离实现现有◆回当前位置显式恢复：鼠标触屏可见，完整Focus点击/手柄确认取消旧owner；不按超时或新Down抢占。新3条先红，最终原35+新4=39条通过，地图布局6/6通过；焦点动作完整地图快照不变，旧节点/Focus事件拒绝。详docs/backlog-details/TASK-76.1-focus-recovery.md，实体手机/PC设备仍待，不勾AC。
 
 2026-10-31 M3最终事实核对：AC1：现有map-gesture-ownership标准回归涵盖背景/node漏Up、同/新touchId及匿名mouse的完整Focus恢复，原39组保护与新8组明确EndDrag/hide-show恢复通过；combined-focused.log含XY移动四矩阵和终止恢复项，旧Up/Click不误入、完整Map/RNG不变且下一合法tap只提交一次。恢复依可见“回当前位置”完整点击或明确终止，不以任意新Down抢占活跃owner。#2/#3仍缺同候选实体手机和PC各自的中断恢复、事件链、设备版本与截图，离线mouse/touch矩阵不当设备实测。
+
+2026-11-01阶段收尾：用户明确确认本轮已打Tag并进入master，发版阶段到此结束。已交付的M3核心实现不重做；本任务仅将剩余未验要求转由M4体验与设备改进承接，保留原状态、范围、全部AC及历史证据，不把发版确认等同逐条严格验收通过，也不重新阻塞已接受的v1.0.0。本次不打包、不追发布回执、不创建新门禁或新期限。
 <!-- SECTION:NOTES:END -->

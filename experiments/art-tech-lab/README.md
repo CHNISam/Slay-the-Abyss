@@ -1,6 +1,6 @@
 # 美术技术实验：首轮可运行探针（未达最终美术验收）
 
-基线 origin/develop a5cb4bb6，独立分支 feat/art-tech-lab。没有修改生产 Lua、战斗规则或 Grok UI。TASK-93 保持进行中。
+基线 origin/develop a5cb4bb6，独立分支 feat/art-tech-lab。没有修改生产 Lua、战斗规则或 Grok UI。首轮成果已保全到 develop；TASK-93 延期为 To Do，不占比赛 M3/M4，原验收项保持未勾。后续研究由 TASK-94 统筹，须 Owner 另行授权后才重启。
 
 ## 交付
 

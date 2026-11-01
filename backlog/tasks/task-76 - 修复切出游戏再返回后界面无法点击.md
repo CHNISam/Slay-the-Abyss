@@ -5,9 +5,9 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 09:38'
-updated_date: '2026-10-31 19:07'
+updated_date: '2026-11-01 12:07'
 labels: []
-milestone: m-4
+milestone: m-5
 dependencies: []
 references:
   - docs/backlog-details/TASK-76.md
@@ -113,4 +113,6 @@ PR323原39dab5e9历史实施记录承接（不认证本组合，当前公开范�
 2026-10-31 M3最终事实核对：combined-focused.log中最终输入7项及mobile-card-release全部通过：XY地图阈值与touch跨瞄准边界修复、快慢各20有效/20取消；combined-engineering.log原生生命周期正负控4/4通过。#1手机原次偶发阻塞完整根因未确认；#2完整战斗/奖励/地图跨界面首操作矩阵待补齐；#3当前集成完整PR/CI合入未完成；#4–6真实拖牌、关卡组后首操作及PC/实体手机分端候选证据仍缺。离线矩阵不冒充原次事件根因或设备通过。
 
 2026-10-31 AC3已证实：PR436精确c3d2654完整Quality27项及inventory通过，原交付逻辑preflight为pr_passed；正常squash18:28:43Z合入develop b4f88a1，实际parent cd2与tree129836严格匹配；该develop push Quality41229605961完整27项及Licenses41229605996全通过，原merged验证为merged_passed。Actions ZIP在本地代理403，使用已独审GitHub连接器读取同artifact并核digest/大小/身份，原collect/receipt/verify及最终PR六守卫未改，原CLI网络失败原样保留，不宣称其下载成功。证据见docs/evidence/m3-mechanism-closeout-20261031/main-integration/；仅勾源回归及PR合入，不关闭根因/真实跨界面/手机与PC设备条款，任务仍In Progress。
+
+2026-11-01阶段收尾：用户明确确认本轮已打Tag并进入master，发版阶段到此结束。已交付的M3核心实现不重做；本任务仅将剩余未验要求转由M4体验与设备改进承接，保留原状态、范围、全部AC及历史证据，不把发版确认等同逐条严格验收通过，也不重新阻塞已接受的v1.0.0。本次不打包、不追发布回执、不创建新门禁或新期限。
 <!-- SECTION:NOTES:END -->
