@@ -1066,8 +1066,8 @@
       "hp": [-492, 164],
       "goldIcon": [-382, 22],
       "gold": [-302, 120],
-      "floorIcon": [-218, 24],
-      "floor": [-168, 60],
+      "floorIcon": [-230, 24],
+      "floor": [-199, 38],
       "exhaustIcon": [382, 24],
       "exhaust": [432, 68]
     },
@@ -1076,7 +1076,7 @@
       "disc": 56,
       "height": 40,
       "offset": [24, -20],
-      "visual": {"diameter": 36, "offset": [20, -14], "font": 20},
+      "visual": {"diameter": 36, "offset": [20, -14], "font": 20, "textWidth": 40, "stroke": 1},
       "label": [0, 22, 88, 40]
     },
     "pileVisual": {

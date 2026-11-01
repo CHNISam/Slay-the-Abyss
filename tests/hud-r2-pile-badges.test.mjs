@@ -12,7 +12,9 @@ test('pile badges attach small circles to icons while retaining original touch a
   assert.ok(Math.hypot(dx,dy)<icon.size[0]/2+ring.size[0]/2,'badge must meet icon rim');
   const hit=icon.children.find(c=>c.name==='hit');
   assert.deepEqual(hit.size,[84,82]);assert.deepEqual(hit.position,[side*10,1]);
-  assert.ok(value.text.fontSize*0.6*3<=value.size[0],'three-digit count fits without smaller text');
+  assert.ok(value.text.fontSize*0.6*3+4<=value.size[0],'three-digit count fits with native text inset and no smaller font');
+  assert.equal(value.text.fontSize,20);assert.equal(value.text.minFontSize,20);
+  assert.deepEqual(child(name+'Badge').size,[34,34],'thin rim leaves contrast backing for three-digit ink');
  }
 });
 
