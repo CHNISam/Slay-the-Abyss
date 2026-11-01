@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "scope": "Existing opaque card compact baseline only; no new algorithm or quality victory claim",
+  "performance_boundary": "Single offline Python generation observation, excludes decoding, validation and rendering; NOT FPS, official loading or device performance",
+  "quality_boundary": "RGB sRGB-code-value MAE/PSNR are descriptive, not perceptual or equal-quality acceptance",
+  "recipe_sha256": "9bec57e68225de1fb222d9a974377e953cc2d0367232a8aa8098964b7026fdb0",
+  "pack_sha256": "417cfb4f3d65c7f95f1ffcf54a091de49bf2c9d2e8b1fc90c27da2e841f7fba1",
+  "environment": {
+    "python": "3.12.14",
+    "pillow": "13.0.0"
+  },
+  "assets": {
+    "strike": {
+      "source": "art/cards/traveler-geo/strike/preview-contain-144x64.png",
+      "source_sha256": "5e3719be1b7063d07266c7dcdd1a5af5e864d6565fbfef88959bb24a7b723118",
+      "grid": [
+        48,
+        22
+      ],
+      "canvas": [
+        144,
+        64
+      ],
+      "rectangle_controls": 918,
+      "containers_included": false,
+      "encoding_bytes": 12852,
+      "encoding_sha256": "a008dada256dd75e445936c62209af84f666bd13288112311b46c4b65a9f17c4",
+      "rebuilt_rgb_sha256": "b6994be59be22e52f9e57290c7a8ddcc2995aa13500a3c93ba4a141c46732bd5",
+      "existing_encoding_matches": true,
+      "generation_ms_single_observation": 4.8057369999696675,
+      "rgb_mae": 15.408166956018519,
+      "rgb_mse": 661.2833839699074,
+      "rgb_psnr_db": 19.926927505196534,
+      "psnr_infinite": false
+    },
+    "defend": {
+      "source": "art/cards/traveler-geo/defend/preview-contain-144x64.png",
+      "source_sha256": "17fe7fb60350f06ce623dd4e4efb076c42f51ca0a601367e12b299f92d8b8dfe",
+      "grid": [
+        48,
+        22
+      ],
+      "canvas": [
+        144,
+        64
+      ],
+      "rectangle_controls": 835,
+      "containers_included": false,
+      "encoding_bytes": 11690,
+      "encoding_sha256": "476e03d096be932b85462d4a64f5e8a16c19c38b4a6e774d1d9aa8cf2b22618e",
+      "rebuilt_rgb_sha256": "ec04dd3b4b639c1aac0506757640183bc847ad5421d5a5d994da9a5038dfde2a",
+      "existing_encoding_matches": true,
+      "generation_ms_single_observation": 4.013505999978406,
+      "rgb_mae": 12.84718605324074,
+      "rgb_mse": 522.5914713541666,
+      "rgb_psnr_db": 20.94918043065672,
+      "psnr_infinite": false
+    },
+    "bash": {
+      "source": "art/cards/traveler-geo/bash/preview-source-144x64.png",
+      "source_sha256": "f5fd729de1601a4e5b0a45cbd74385c12479489618e6d93aa0a7f52b5ee1f9cb",
+      "grid": [
+        48,
+        22
+      ],
+      "canvas": [
+        144,
+        64
+      ],
+      "rectangle_controls": 916,
+      "containers_included": false,
+      "encoding_bytes": 12824,
+      "encoding_sha256": "2f398c483855d7635c31fa596984f776be63f1bf7bc9800756bbe69b4b82baa5",
+      "rebuilt_rgb_sha256": "d2d16209685668711a52b50bad0341a8d7d47317fa31948063c3615d5ee73942",
+      "existing_encoding_matches": true,
+      "generation_ms_single_observation": 4.005344000006517,
+      "rgb_mae": 14.07664207175926,
+      "rgb_mse": 559.4413700810185,
+      "rgb_psnr_db": 20.653257820401723,
+      "psnr_infinite": false
+    }
+  }
+}

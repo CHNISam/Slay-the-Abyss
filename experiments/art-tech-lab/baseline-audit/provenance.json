@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "rights": "Derivatives of existing user-commissioned AI Genshin illustration candidates, for this platform-project experiment only. Underlying game IP remains with its rightsholders. Existing source restrictions unchanged; no game-IP sublicense, commercial clearance, owner visual approval, official import or device acceptance. Project code license does not relicense these images. No new external fitter code copied.",
+  "inputs": {
+    "strike": {
+      "path": "art/cards/traveler-geo/strike/preview-contain-144x64.png",
+      "sha256": "5e3719be1b7063d07266c7dcdd1a5af5e864d6565fbfef88959bb24a7b723118",
+      "existing_category": "card-illustration-source-candidate",
+      "rights_evidence": "art/cards/traveler-geo/strike/generation-provenance.json",
+      "asset_manifest": "art/cards/traveler-geo/strike/asset.json"
+    },
+    "defend": {
+      "path": "art/cards/traveler-geo/defend/preview-contain-144x64.png",
+      "sha256": "17fe7fb60350f06ce623dd4e4efb076c42f51ca0a601367e12b299f92d8b8dfe",
+      "existing_category": "card-illustration-source-candidate",
+      "rights_evidence": "art/cards/traveler-geo/defend/generation-provenance.json",
+      "asset_manifest": "art/cards/traveler-geo/defend/asset.json"
+    },
+    "bash": {
+      "path": "art/cards/traveler-geo/bash/preview-source-144x64.png",
+      "sha256": "f5fd729de1601a4e5b0a45cbd74385c12479489618e6d93aa0a7f52b5ee1f9cb",
+      "existing_category": "card-illustration-source-candidate",
+      "rights_evidence": "art/cards/traveler-geo/bash/generation-provenance.json",
+      "asset_manifest": "art/cards/traveler-geo/bash/asset.json"
+    }
+  },
+  "outputs": {
+    "experiments/art-tech-lab/baseline-audit/results/bash-compact.png": {
+      "sha256": "3760dd527d27ad92fd477be1318632698966ce452ed29d5148ae5e882886b3cf",
+      "source_ids": [
+        "bash"
+      ],
+      "transformation": "Existing compact-v1 BOX 48x22 / RGB quantization step 8 / merged rectangles reconstructed on 144x64 RGB canvas"
+    },
+    "experiments/art-tech-lab/baseline-audit/results/comparison.png": {
+      "sha256": "b0366cd2eb2926c455e8e60797aaa3012896c7138bb20914f6b9ac5765870b4d",
+      "source_ids": [
+        "strike",
+        "defend",
+        "bash"
+      ],
+      "transformation": "Source and reconstructed RGB previews enlarged 3x with nearest-neighbor and labelled using Pillow default font; no font binary redistributed"
+    },
+    "experiments/art-tech-lab/baseline-audit/results/defend-compact.png": {
+      "sha256": "2777bbd9a2f55ab677a941031db0d2cfeb9ce6bce02d6747fcafed6f93cef83c",
+      "source_ids": [
+        "defend"
+      ],
+      "transformation": "Existing compact-v1 BOX 48x22 / RGB quantization step 8 / merged rectangles reconstructed on 144x64 RGB canvas"
+    },
+    "experiments/art-tech-lab/baseline-audit/results/strike-compact.png": {
+      "sha256": "74dec0a2d1fee69453f8262ca6f0783fe6f00cf461e983db96d897ac107907a8",
+      "source_ids": [
+        "strike"
+      ],
+      "transformation": "Existing compact-v1 BOX 48x22 / RGB quantization step 8 / merged rectangles reconstructed on 144x64 RGB canvas"
+    }
+  },
+  "recipe": "scripts/art/build-performance-pack.py",
+  "audit": "experiments/art-tech-lab/baseline-audit/audit.py",
+  "measurements": "experiments/art-tech-lab/baseline-audit/results/results.json"
+}

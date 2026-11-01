@@ -5741,6 +5741,22 @@
     "docs/evidence/merchant-action-group-20261101/after.png": {
       "sha256": "a235be91305a9a75973b5a24ff6b034cb8102806e690143701c22bba42d7c910",
       "category": "merchant-action-browser-evidence"
+    },
+    "experiments/art-tech-lab/baseline-audit/results/bash-compact.png": {
+      "sha256": "3760dd527d27ad92fd477be1318632698966ce452ed29d5148ae5e882886b3cf",
+      "category": "performance-art-derivative"
+    },
+    "experiments/art-tech-lab/baseline-audit/results/comparison.png": {
+      "sha256": "b0366cd2eb2926c455e8e60797aaa3012896c7138bb20914f6b9ac5765870b4d",
+      "category": "performance-art-derivative"
+    },
+    "experiments/art-tech-lab/baseline-audit/results/defend-compact.png": {
+      "sha256": "2777bbd9a2f55ab677a941031db0d2cfeb9ce6bce02d6747fcafed6f93cef83c",
+      "category": "performance-art-derivative"
+    },
+    "experiments/art-tech-lab/baseline-audit/results/strike-compact.png": {
+      "sha256": "74dec0a2d1fee69453f8262ca6f0783fe6f00cf461e983db96d897ac107907a8",
+      "category": "performance-art-derivative"
     }
   }
 }
