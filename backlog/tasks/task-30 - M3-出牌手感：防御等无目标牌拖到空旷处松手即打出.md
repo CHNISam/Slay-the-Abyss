@@ -5,13 +5,14 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 00:59'
-updated_date: '2026-10-31 21:40'
+updated_date: '2026-11-01 02:05'
 due_date: '2026-10-28'
 labels:
   - ui
   - combat
   - interaction
   - awaiting-live
+  - release-qa-20261101
 milestone: m-4
 dependencies:
   - TASK-10
@@ -32,6 +33,7 @@ references:
   - docs/backlog-details/MOBILE-QA-20261029.md
   - docs/backlog-details/MOBILE-QA-20261029-SOURCES.md
   - docs/evidence/m3-completion-20261031/
+  - docs/backlog-details/MOBILE-RELEASE-QA-20261101.md
 priority: medium
 type: enhancement
 ordinal: 36000
@@ -58,6 +60,7 @@ ordinal: 36000
 - [ ] #11 PC鼠标按既有交互规则验证有效释放、取消和目标选择；记录新候选结果，不把手机反馈当作PC复现。
 - [ ] #12 IMG_1168/1169/1175对应的手机拖动从按下到瞄准无突跳；视觉交互锚点、预览和松手命中一致，多敌人不得空地猜最近目标，记录同候选轨迹与事件。
 - [x] #13 保留点选后备、双击取消和长按关键词；去除贯穿战场的常驻阈值横线与冗余操作提示后，合法目标/取消仍清楚，旧触点不重复出牌。
+- [ ] #14 当前选牌、明确目标、牌面预览与最终提交使用一致的卡牌和目标身份；固定原版点击携牌、拖放、触屏和手柄映射有可追溯对照，移动端确认前可见目标伤害，旧触点不得误提交新牌；与原版的既有项目差异明确留档。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -136,4 +139,6 @@ PR327手机反馈来源增量（基于20a74da的历史观察；不认证6795160�
 2026-10-31 M3最终事实核对：AC1：combined-focused.log最终输入7项+mobile-card-release通过，无目标防御快慢各20次有效松手真实扣1费/加5格挡、迟到EndDrag/Click不重复，无需二次点选。二维地图移动与touch瞄准边界已先红后绿。保留旧已勾项；#3/#8–12均仍缺本轮实体手机/PC对应候选轨迹、快慢20×4设备矩阵；#13长按关键词完整运行时/去线后可发现性组合仍需同候选完整核验。不能将mock持续20次写为实体设备通过。
 
 2026-10-31 最后纯离线验收收口：全新独立复核当前原输入7/7及公开card_input_port6、350ms关键词两slice8套件：快慢有效/取消20次、同牌双击取消、点选后备、合法目标/预览/释放一致、旧触点不重打；card_view隐藏常驻line并清hint。13字面无实体设备条件，可合证勾选；3/8/9/10/11/12等明确手机PC轨迹及同候选要求继续未验。 依据及原始运行/源身份见docs/evidence/m3-final-acceptance-20261031/，最终精确HEAD CI及正常PR合并另核，不代替官方或设备。
+
+2026-11-01与TASK-4.5共同处理Bug3：沿固定原版实际点击携牌、按住拖放、触屏分支与手柄选目标／确认链迁移；当前2d06741非拖动目标未进入卡面currentAim，详见附件。用户关于原版可能只有甩牌／点击体验差只是待核实推测，不作为实现规范。既有点选保底、双击取消、手机无效释放及触点安全仍是项目合同；与原版不同处须显式记录，不擅加确认按钮、不凭空改成两次点敌，也不删除点选路径。
 <!-- SECTION:NOTES:END -->

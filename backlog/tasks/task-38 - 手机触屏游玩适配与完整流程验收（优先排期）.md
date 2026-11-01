@@ -5,10 +5,11 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-23 12:23'
-updated_date: '2026-10-29 12:33'
+updated_date: '2026-11-01 02:05'
 due_date: '2026-10-28'
 labels:
   - awaiting-live
+  - release-qa-20261101
 milestone: m-5
 dependencies: []
 references:
@@ -21,6 +22,7 @@ references:
   - docs/backlog-details/MOBILE-QA-20261028.md
   - docs/backlog-details/MOBILE-QA-20261029.md
   - docs/backlog-details/MOBILE-QA-20261029-SOURCES.md
+  - docs/backlog-details/MOBILE-RELEASE-QA-20261101.md
 priority: medium
 type: feature
 ordinal: 39000
@@ -45,6 +47,7 @@ ordinal: 39000
 - [ ] #9 地图当前/可走/已走状态静态可辨，能只读查看牌组、药水和遗物；菜单外点只关闭顶层且不穿透，放弃本局保留确认与真实进度风险。
 - [ ] #10 营地、商店、牌库和选牌优先复用原生GridScrollerControl与CardDisplay，实现连续滚动、清晰选中和UID绑定；药水管理复用图标/确认，滚动不误购或误出牌。
 - [ ] #11 演出与发牌的短暂busy锁不反复显示红色当前不可打；真实费用不足仍明确，0费/X费等回归保留，busy期间命令仍不可重复提交。
+- [ ] #12 进入页遮罩剩余细边、留缝和漏底色消除，边缘衔接完整；在实体手机横屏重新进入复验，保留用户已确认修复的屏幕两侧覆盖效果。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -93,4 +96,6 @@ PR327手机反馈来源增量（基于20a74da的历史观察；不认证6795160�
 2026-10-29本轮30附件/26不同图已逐图核对，完整映射见MOBILE-QA-20261029。按§4C/D承接全屏露底、HP截断、HUD遮挡、两侧牌堆误触、地图当前位置/库存入口、菜单外点关闭、共享滚动卡牌选择器、药水图形管理及演出红闪；不按截图猜pt/dp或真实延迟。保留奖励卡面、结束回合造型、药水确认、长按、点选和音效。范围按SCOPE 10/29改为公开岩系旅行者两幕；旧两职业描述和旧AC6保留在Git历史及此前备注，不再是当前必做。
 
 2026-10-29 战斗胸像槽已换成可替换的旅行者占位，手机上是否认得出仍要同一候选实机。没有本轮手机证据。
+
+2026-11-01用户明确确认：此前屏幕两侧大块露空／UI覆盖不全已修复，按用户验收记录，不再作为未修缺陷重开；此确认不等于复合AC8全部完成。IMG_1254.png仍有进入页遮罩边缘少量留边、左侧断续蓝绿色细边，单独按本轮Bug1处理。结算用时错误交新子任务，伤害预览交TASK-4.5/TASK-30；本轮源码与截图版本未绑定，完整手机与帧率验收不补勾。
 <!-- SECTION:NOTES:END -->
