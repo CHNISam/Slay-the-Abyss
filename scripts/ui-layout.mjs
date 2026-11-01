@@ -243,7 +243,7 @@ export function battleLayout() {
     { name: 'rewardStage', kind: 'container', position: l.rewardPick.stage.slice(0, 2), size: l.rewardPick.stage.slice(2), visible: false, children: [
       panel('border', 0, 0, ...l.rewardPick.stage.slice(2), c.goldDim),
       panel('plate', 0, 0, l.rewardPick.stage[2] - s.border * 2, l.rewardPick.stage[3] - s.border * 2, c.panelSunken),
-      text('title', l.rewardPick.title[0] - l.rewardPick.stage[0], l.rewardPick.title[1] - l.rewardPick.stage[1], l.rewardPick.title[2], l.rewardPick.title[3], '选择一张卡牌', f.display, c.goldBright),
+      text('title', l.rewardPick.title[0] - l.rewardPick.stage[0], l.rewardPick.title[1] - l.rewardPick.stage[1], l.rewardPick.title[2], l.rewardPick.title[3], '选择一张卡牌', f.title, c.goldBright),
       text('subtitle', l.rewardPick.subtitle[0] - l.rewardPick.stage[0], l.rewardPick.subtitle[1] - l.rewardPick.stage[1], l.rewardPick.subtitle[2], l.rewardPick.subtitle[3], '', f.body, c.textDim),
     ] },
     { name: 'rewardList', kind: 'container', position: l.battleRewards.stage.slice(0, 2), size: l.battleRewards.stage.slice(2), visible: false, children: [
@@ -251,7 +251,7 @@ export function battleLayout() {
       panel('plate', 0, 0, l.battleRewards.stage[2] - s.border * 2, l.battleRewards.stage[3] - s.border * 2, c.panelSunken),
       ...['title', 'subtitle'].map(name => text(name,
         l.battleRewards[name][0] - l.battleRewards.stage[0], l.battleRewards[name][1] - l.battleRewards.stage[1],
-        ...l.battleRewards[name].slice(2), name === 'title' ? '战斗奖励' : '', name === 'title' ? f.display : f.body,
+        ...l.battleRewards[name].slice(2), name === 'title' ? '战斗奖励' : '', name === 'title' ? f.title : f.body,
         name === 'title' ? c.goldBright : c.textDim)),
     ] },
     text('title', 56, y, 360, bar.height, '战斗', f.heading, c.gold),

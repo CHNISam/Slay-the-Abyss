@@ -72,6 +72,25 @@ test('pile totals, captions and library filter labels retain complete native lin
 test('full card reading uses 28-unit text and comfortable line pitch',()=>{
  const t=tree(),info=child(child(t,'battlePanel'),'statusInfo');assert.ok(child(child(t,'deckPanel'),'details').text.fontSize>=28);assert.ok(child(info,'text1').text.fontSize>=28);assert.ok(theme.layout.statusInfo.line>=34);
 });
+test('reward headings reserve a complete large-text line without displacing relics or hovering cards',()=>{
+ const layout=theme.layout,battle=child(tree(),'battlePanel');
+ for(const name of ['rewardStage','rewardList']){
+  const title=child(child(battle,name),'title');
+  assert.equal(title.text.fontSize,theme.font.title,'panel headings use the readable title role');
+  assert.equal(title.text.minFontSize,title.text.fontSize);
+ }
+ for(const panel of [layout.rewardPick,layout.battleRewards,layout.battleRewards.expanded]){
+  const title=panel.title,subtitle=panel.subtitle,stage=panel.stage;
+  assert.ok(title[3]>=theme.font.title*1.3,'large title must fit the preview font line instead of clipping');
+  assert.ok(title[1]-title[3]/2>=subtitle[1]+subtitle[3]/2,'title and subtitle remain separate');
+  assert.ok(title[1]+title[3]/2<=stage[1]+stage[3]/2,'heading remains inside its original panel');
+ }
+ const pick=layout.rewardPick;
+ assert.equal(pick.stage[1]+pick.stage[3]/2,254,'keep the frame below the existing relic bar');
+ const card=layout.card;
+ const costTop=pick.y+pick.hoverLift+(card.size[1]/2-card.costDisc/2+card.trim.costOverhang+layout.nativeText.lineHeight/2)*pick.hoverScale;
+ assert.ok(pick.subtitle[1]-pick.subtitle[3]/2>=costTop+1,'preserve the existing gap above the hovered cost text');
+});
 test('noncombat potion management keeps its count on the main row clear of notices',()=>{
  const t=tree(),open=child(child(t,'potionEntry'),'open');assert.equal(open.position[1],316);
  for(const s of states){const label=child(child(child(open,'hit'),s),'label');assert.notEqual(label.visible,false);budget(label,'药水 5/5');}
