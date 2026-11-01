@@ -199,7 +199,7 @@ test("scroll follows Boss16 and exposes the independent legal treasure17 entry",
     assert(ui.scroll == Layout.maxScroll)
     assert(click(root, "previous")); ui:update(Theme.motion.base)
     assert(ui.scroll < Layout.maxScroll)
-    click(root, "focus"); ui:update(Theme.motion.base); assert(ui.scroll == Layout.maxScroll)
+    ui:setVisible(false); ui:setVisible(true); assert(ui.scroll == Layout.maxScroll)
     assert(clickNode(root, map, "f17_l4") and callbacks == 17 and #map.path == 17)
     assert(not ui:choose("f17_l4") and callbacks == 17)
 end)
