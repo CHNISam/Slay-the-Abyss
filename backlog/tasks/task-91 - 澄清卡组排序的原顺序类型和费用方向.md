@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-31 15:04'
+updated_date: '2026-11-01 04:09'
 labels:
   - playtest-20261030
   - p2
@@ -34,10 +34,14 @@ Owner截图：卡组页显示「排序·原顺序」但没有解释原顺序是�
 
 <!-- SECTION:PLAN:BEGIN -->
 1. 核对原序与费用类型排序。2. 只澄清文案保留规则。3. 定向回归后交独立复审。
+
+2026-11-01 R2：保留五种已实现排序与稳定规则，仅改短标签并移除常驻长说明；定向Host回归、可比离线截图与独立复审，设备AC不勾。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
 本轮排序标签和现有底部说明已完成，算法与过滤零改。定向浏览、布局、历史合同7/7通过；证据见 docs/backlog-details/TASK-91.md。无候选和设备实测，保持进行中，待独立复审和主控集成。
+
+2026-11-01 R2：五种既有真实排序仅改初始/名称/稀有度/费用/类型短标签，普通浏览移除常驻规则页脚，手柄多页提示保留。红绿Host回归、稳定顺序/完整run不变与历史合同通过；证据见docs/evidence/hud-r2-20261101/README.md。未同候选官方导入/ready或设备，AC不勾。
 <!-- SECTION:NOTES:END -->

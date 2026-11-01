@@ -3,6 +3,10 @@
   "baseCommit": "4c75a31fafcd27c204b957cd7dbc75ac6d9f5ab0",
   "hashRule": "SHA256 raw binary bytes; Lua/JSON/SVG CRLF normalized to LF. Categories record provenance, not clearance. Update manually after rights review.",
   "categories": {
+    "hud-r2-browser-evidence": {
+      "status": "Project UI diagnostic screenshots rendered by Chromium using system font fallbacks and stand-in glyphs from the project prototype. No font binaries or official textures redistributed. Referenced game identities remain their owners IP; no asset/IP sublicense or commercial clearance. Offline Host projection only, not official import/ready, final artwork, interaction, device or performance acceptance.",
+      "evidence": "docs/evidence/hud-r2-20261101/README.md; experiments/ui-polish-sim/hud-r2-capture.lua and hud-r2-render.mjs; production Lua on native-contract fixture with actual sibling-call order recorded for projection. Baseline b0f64d49; reviewed runtime/evidence revision 487a46ef92d25421fa941e5ee85f1152034a647b. 1280x720 Host trees projected at recorded owner widths; system fonts and original atlas appearance remain device-unverified."
+    },
     "native-art-probe": {
       "status": "Project-authored geometry and Lua exported with beyond-simulator-mcp 0.5.2 (GPL-3.0), referencing official platform picture IDs; screenshots contain official game IP. Platform-project experiment only; no IP sublicense, commercial clearance or official import acceptance",
       "evidence": "experiments/art-tech-lab/README.md; sample.save.json; interaction.lua; export-receipt.json; verification.json; simulator https://github.com/1475505/miliastra-beyond-simulator at 3dff619528b1ad3689e2f96b6bcbb0c0c0e735f2"
@@ -113,6 +117,82 @@
     }
   },
   "files": {
+    "docs/evidence/hud-r2-20261101/after/battle-hover-1-1280x720.png": {
+      "sha256": "77d4a074a0b8c83791a6836bc0d9f5c74677b08e4e05da22e503fc80c3e056e8",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/after/battle-hover-1280x720.png": {
+      "sha256": "e03695b454f5e9c43ff2f8ea428023ddecb5683981328906b663de6f8680dd73",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/after/battle-hover-2048x1150.png": {
+      "sha256": "ad78787c5fdaf9242bfee7cf916e32d9de9c706c3da6607836af15279a840b1b",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/after/battle-hover-2048x1152.png": {
+      "sha256": "f0cd918bb08c2d838685ac49bf592062e0388f0923f80e61b49a1ecf33833fa4",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/after/battle-hover-2048x1171.png": {
+      "sha256": "984c543505d79a40f79fbf33780585875208dc8642e78bb57f4e39e9f8a27ec7",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/after/battle-hover-3-1280x720.png": {
+      "sha256": "72cc60685701ef61cf1b085a729cdc6928bfb9904ae9f6ec6018badb91a4fc9a",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/after/battle-hover-5-1280x720.png": {
+      "sha256": "33dd2b0b6effba543df97906d6f40ac23cdacbb03dc3e61bee314cd42bde8d7c",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/after/draw-1280x720.png": {
+      "sha256": "b73ef605e43096a9e870da4edd659f9dad0c7b63f6ba9c1bf43e753c002b9f8c",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/after/draw-2048x1150.png": {
+      "sha256": "d60c5419d987eff8e60d925828da68928f2306ea23af43374e00d8f4f41126b7",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/after/draw-2048x1152.png": {
+      "sha256": "ef0e681b3818a620ecf853f8a28bbbce23f39ed027851cda038f4e647e3cbfe6",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/after/draw-2048x1171.png": {
+      "sha256": "171f68fd2bf3c1f14e1ba590a85507b5f827730b1f574379c6ec9acc7aec399f",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/before/battle-hover-1280x720.png": {
+      "sha256": "c9b2254a75cd974b0f3764d9acf94104420ebbfe22e208ffe47228ea12b6ae19",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/before/battle-hover-2048x1150.png": {
+      "sha256": "a04b59a29eaec7fd6955efa40b27e56801ad2f821ff3c185ad62f6a601ab2ec8",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/before/battle-hover-2048x1152.png": {
+      "sha256": "d305a7e8fb749dc31b94f80baa7a6b9aae0645abfd6ab2a29686852913abd981",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/before/battle-hover-2048x1171.png": {
+      "sha256": "107634442407ca1fd5b89c09c834efaa5d38a30c5bbb123618e574bea4def4c6",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/before/draw-1280x720.png": {
+      "sha256": "1f7b336e32ca7944cb8ef0cf209a0f7d7e9c2fb0db93ecb1429fb16651d7785c",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/before/draw-2048x1150.png": {
+      "sha256": "93e85b05e37803c8bd0cd8297a02ebc4b7eeb6c980aa14d3ab9353b1ed090b57",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/before/draw-2048x1152.png": {
+      "sha256": "b2a41697cffeaf477ff86830b2d13a1b35c19889aa2e3bec1f9d6aaeed19935e",
+      "category": "hud-r2-browser-evidence"
+    },
+    "docs/evidence/hud-r2-20261101/before/draw-2048x1171.png": {
+      "sha256": "dfca5399a409471bb20406a7c0dadbdfd4ad4aa413aee52dc60efb086b867e1e",
+      "category": "hud-r2-browser-evidence"
+    },
     "experiments/art-tech-lab/mobile.png": {
       "sha256": "78941d0f3bacc48731a04e2cfdea7ccbdaf405b1cae5b7415d60c6217b8bc085",
       "category": "native-art-probe"
