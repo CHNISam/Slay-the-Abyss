@@ -1,0 +1,34 @@
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS orphan enemy up cannot enable click-only potion confirmation
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS orphan enemy endDrag cannot enable click-only potion confirmation
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS end-turn press predating aim cannot end turn
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS end-turn release predating aim cannot end turn
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK intent source=jaw_worm_2 target=- amount=0
+ABYSS_FEEDBACK damage source=jaw_worm_2 target=player amount=11
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+PASS new end-turn gesture after aiming is still a valid action
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS genuinely click-only enemy retains its independent fallback
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS enemy Down Click without Up keeps its supported ownership
+LUA_POTION_TARGET_INPUT_OWNERSHIP 7 passed; 0 failed

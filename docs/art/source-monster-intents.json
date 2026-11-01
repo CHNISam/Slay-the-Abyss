@@ -1,0 +1,3473 @@
+{
+  "act1": {
+    "scope": "Act1 25 species including shared gremlins/slime summons; current runtime catalog only",
+    "pinnedCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "runtimeInputs": {
+      "data/enemies.json": "a11cf7011f2e1ce356d3afa4812d0c1ffb58f6dfeab18660438616f431ab2c7e",
+      "src/lua/abyss_act1_bosses.lua": "9a3db2a6bb7e4625765cdb212172e940225a3b7c1a2f0bedae164acc3f7df1be",
+      "src/lua/abyss_gremlin_nob_ai.lua": "7dceb41181045423abcd752f664e56805ec0639f47f9f469b4f1b41dbc2f07cb"
+    },
+    "sources": {
+      "cultist": {
+        "filename": "exordium/Cultist.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/Cultist.java",
+        "gitBlobSha": "b2a203b035502dac149ced1d7dd48a8e577a61c6",
+        "sha256": "93e6404234a9c57f794c1f98f7943b60c62e66c464dd19d7579913fd75ad7f4f"
+      },
+      "jaw_worm": {
+        "filename": "exordium/JawWorm.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/JawWorm.java",
+        "gitBlobSha": "033b26ba08b7dea04d2cff62cd50da868ff887b9",
+        "sha256": "e0950443e76332942fe556687782e8e18d91ee683a6c22ca0eb2e5663d4a312e"
+      },
+      "red_louse": {
+        "filename": "exordium/LouseNormal.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/LouseNormal.java",
+        "gitBlobSha": "f56e24b37816f256bd058184c1b54a49584092a7",
+        "sha256": "b9a875b240236ac28e5c427584f56af1751604b7781bc6c1a5535fa888f9775f"
+      },
+      "green_louse": {
+        "filename": "exordium/LouseDefensive.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/LouseDefensive.java",
+        "gitBlobSha": "83dc2dad1247ef33c5ef76ec5ca5cdbc5ced8def",
+        "sha256": "48a0b5c54a745c1842d10f61754edf0ea28efeb676816efa5a131bce1a7a5bd0"
+      },
+      "acid_slime_s": {
+        "filename": "exordium/AcidSlime_S.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/AcidSlime_S.java",
+        "gitBlobSha": "25fffafc3b6d17ff6b85ed4cedad8f3c8ac6583b",
+        "sha256": "57cf3cb408a2dac4e96a30b01e4ee3860be173fb9157d0ae55ec7eb2d45c21df"
+      },
+      "acid_slime_m": {
+        "filename": "exordium/AcidSlime_M.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/AcidSlime_M.java",
+        "gitBlobSha": "b8d5ee4d71b7084624a19b73cf0c7b4df38a54d0",
+        "sha256": "34fe1c1000d351ffd3ee1e5902a0af14ebb10fe3885bd181feeb75c1942cb400"
+      },
+      "acid_slime_l": {
+        "filename": "exordium/AcidSlime_L.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/AcidSlime_L.java",
+        "gitBlobSha": "274b3d4be405c9aaedda6c2e3aaaa22abff0165d",
+        "sha256": "56eaec2de1c6344701613e5643f3161c5acf6591890b7859f062f420a692dd72"
+      },
+      "spike_slime_s": {
+        "filename": "exordium/SpikeSlime_S.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/SpikeSlime_S.java",
+        "gitBlobSha": "94863463c79aadf1339af658291f6e1ffd2033fe",
+        "sha256": "3ebda589dc277d9d0a5f0a59ab3fb03783cb4e74ee0f03a1a9f40ca9126302b5"
+      },
+      "spike_slime_m": {
+        "filename": "exordium/SpikeSlime_M.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/SpikeSlime_M.java",
+        "gitBlobSha": "d9ec26a2fa740ee4f1ccecb800b3a7f0b8e7984d",
+        "sha256": "6eb1991db8ac36b1037871537c8669b135a58705ab2b33ca74550dcf84cad707"
+      },
+      "spike_slime_l": {
+        "filename": "exordium/SpikeSlime_L.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/SpikeSlime_L.java",
+        "gitBlobSha": "a013282e75bde7d4a0088182558a016992a10650",
+        "sha256": "a6a6976050a4f16507e0bbda75d4946f5eee3bbfc3d9787bc4e7a99f1d22269c"
+      },
+      "looter": {
+        "filename": "exordium/Looter.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/Looter.java",
+        "gitBlobSha": "62180226216c6e8fa1739b46b81e60e62a9be457",
+        "sha256": "8e4a94a8f8404a3ed64f5fa12dd301d597bc86abc0d750d7b296daf5663ce0cc"
+      },
+      "blue_slaver": {
+        "filename": "exordium/SlaverBlue.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/SlaverBlue.java",
+        "gitBlobSha": "72e0f3ec8385fe4065abb359ab8b5a03d2c41b6d",
+        "sha256": "a523e2ae8a5b598ad19af3460a28f13b8bc47152501f9b4e61f46f732d869206"
+      },
+      "red_slaver": {
+        "filename": "exordium/SlaverRed.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/SlaverRed.java",
+        "gitBlobSha": "aeb3e81a6568c7cfacdbd437588f5f805911894f",
+        "sha256": "2e92dfad2ddee766d9f95b45c028b80b5abae3e966eb3dff1656d60c253da7c4"
+      },
+      "fungi_beast": {
+        "filename": "exordium/FungiBeast.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/FungiBeast.java",
+        "gitBlobSha": "3fcd45984ac1f78834d31642bbdf2542df6c231a",
+        "sha256": "cdec8d58bd0a0476c8dab7b9deb9846bdd9b6c07557c905487909f9aa9188e71"
+      },
+      "mad_gremlin": {
+        "filename": "exordium/GremlinWarrior.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/GremlinWarrior.java",
+        "gitBlobSha": "c21c6e7ff4159f74c158b6e5f23dbe425c6da6e9",
+        "sha256": "3b329caeee4d853c8a29e1fc83bb1786f176d439f984684d1cfadd9ce3aea034"
+      },
+      "sneaky_gremlin": {
+        "filename": "exordium/GremlinThief.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/GremlinThief.java",
+        "gitBlobSha": "90d7e7fbe683a08f1ae41b832d33b15d9cfbb2a2",
+        "sha256": "6f6e3eb24a8dcb6d8502336f34f4b79a9efcca708c1ef5d8cf99c0763aff8de6"
+      },
+      "fat_gremlin": {
+        "filename": "exordium/GremlinFat.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/GremlinFat.java",
+        "gitBlobSha": "55239a069de3b083eaedbb543a7a463a394c3e87",
+        "sha256": "6183151f7c05a3836bb679218bc2f27dce110e94ddce6c04a8947c1f3a07f051"
+      },
+      "wizard_gremlin": {
+        "filename": "exordium/GremlinWizard.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/GremlinWizard.java",
+        "gitBlobSha": "21c44b5f046fe73de8fdd8d0c2a8456d41b07ed2",
+        "sha256": "2ccdf025b6eb531596e6f1124ba0fadfbe9287de9640ec3410c77c22df186ffa"
+      },
+      "shield_gremlin": {
+        "filename": "exordium/GremlinTsundere.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/GremlinTsundere.java",
+        "gitBlobSha": "83a2e75ff02446a721e77c099f220ff38e6dcda9",
+        "sha256": "1ba7d0c1c1c0d12b38a41671382cb7e7fed9c7b3c8a5296bdf8c4c8f7179ce06"
+      },
+      "gremlin_nob": {
+        "filename": "exordium/GremlinNob.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/GremlinNob.java",
+        "gitBlobSha": "16d51d32d2b77f822cfb4cb47fd04735b0fce0c4",
+        "sha256": "acd8a81e3d185239951b2a7fe07a42c3782a764a52e403aae141c2bd321280bc"
+      },
+      "lagavulin": {
+        "filename": "exordium/Lagavulin.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/Lagavulin.java",
+        "gitBlobSha": "57e7a86b61d31b9fba03000ae31e9ae433e1122d",
+        "sha256": "818b6a5681e30ca6681b035a1dedca477b2f626c873d98f320a58e6d2ed09e87"
+      },
+      "sentry": {
+        "filename": "exordium/Sentry.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/Sentry.java",
+        "gitBlobSha": "3ad5bfa61e5c0731452401cd30fb0d64d84d8890",
+        "sha256": "5a3837cdf1b4ef4383fc7e1385c8c64a0c92bc04916c9c4f919d79080980acb2"
+      },
+      "guardian": {
+        "filename": "exordium/TheGuardian.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/TheGuardian.java",
+        "gitBlobSha": "fb8e25d4ba5b1c0c0bade62022c4ff6f6d995a99",
+        "sha256": "40571fa4c941d70c1814b0c0ff5cffa7d8933e24b49d95f2b531a3dc05598d56"
+      },
+      "hexaghost": {
+        "filename": "exordium/Hexaghost.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/Hexaghost.java",
+        "gitBlobSha": "8fc46aaf4e20cb1dac4f127bc281e427837c1217",
+        "sha256": "768a74579c61c740e049f5c1353e59406add5b5d4b14da986b72837e97354ac5"
+      },
+      "slime_boss": {
+        "filename": "exordium/SlimeBoss.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/SlimeBoss.java",
+        "gitBlobSha": "e9dd7e718b13fd8b8b2b233984666b2b8b8b136c",
+        "sha256": "bac1c11c710cf2d2cdd61ad5516f2eca2c932a0bc7f25d2593f0aba1afd89b21"
+      }
+    },
+    "visualAuthority": {
+      "file": "private-evidence/AbstractMonster.java",
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f",
+      "getIntentImgLines": [
+        479,
+        529
+      ],
+      "attackSelectorLines": [
+        561,
+        583
+      ],
+      "attackThresholdsExclusive": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30
+      ],
+      "attackTextureKeys": [
+        "ImageMaster.INTENT_ATK_1",
+        "ImageMaster.INTENT_ATK_2",
+        "ImageMaster.INTENT_ATK_3",
+        "ImageMaster.INTENT_ATK_4",
+        "ImageMaster.INTENT_ATK_5",
+        "ImageMaster.INTENT_ATK_6",
+        "ImageMaster.INTENT_ATK_7"
+      ],
+      "damageInput": "Existing effective intentDmg; multiply by intentMultiAmt iff isMultiDmg. Do not change combat/damage math.",
+      "renderIntentLines": [
+        808,
+        831
+      ],
+      "notes": [
+        "ATTACK_BUFF/ATTACK_DEBUFF/ATTACK_DEFEND use attack damage-tier base image, NOT tooltip composite image constants.",
+        "UNKNOWN has INTENT_UNKNOWN_L selector but base renderIntent explicitly skips UNKNOWN; preserve original VFX behavior separately.",
+        "STUN image selector null; original VFX is separate.",
+        "DEFEND_DEBUFF shares INTENT_DEFEND_L.",
+        "This map does not claim original texture resources or VFX are available in native runtime."
+      ],
+      "tooltipSelectors": {
+        "ATTACK": {
+          "selector": "this.getAttackIntentTip()",
+          "line": 268
+        },
+        "ATTACK_BUFF": {
+          "selector": "ImageMaster.INTENT_ATTACK_BUFF",
+          "line": 274
+        },
+        "ATTACK_DEBUFF": {
+          "selector": "ImageMaster.INTENT_ATTACK_DEBUFF",
+          "line": 280
+        },
+        "ATTACK_DEFEND": {
+          "selector": "ImageMaster.INTENT_ATTACK_DEFEND",
+          "line": 286
+        },
+        "BUFF": {
+          "selector": "ImageMaster.INTENT_BUFF",
+          "line": 292
+        },
+        "DEBUFF": {
+          "selector": "ImageMaster.INTENT_DEBUFF",
+          "line": 298
+        },
+        "STRONG_DEBUFF": {
+          "selector": "ImageMaster.INTENT_DEBUFF2",
+          "line": 304
+        },
+        "DEFEND": {
+          "selector": "ImageMaster.INTENT_DEFEND",
+          "line": 310
+        },
+        "DEFEND_DEBUFF": {
+          "selector": "ImageMaster.INTENT_DEFEND",
+          "line": 316
+        },
+        "DEFEND_BUFF": {
+          "selector": "ImageMaster.INTENT_DEFEND_BUFF",
+          "line": 322
+        },
+        "ESCAPE": {
+          "selector": "ImageMaster.INTENT_ESCAPE",
+          "line": 328
+        },
+        "MAGIC": {
+          "selector": "ImageMaster.INTENT_MAGIC",
+          "line": 334
+        },
+        "SLEEP": {
+          "selector": "ImageMaster.INTENT_SLEEP",
+          "line": 340
+        },
+        "STUN": {
+          "selector": "ImageMaster.INTENT_STUN",
+          "line": 346
+        },
+        "UNKNOWN": {
+          "selector": "ImageMaster.INTENT_UNKNOWN",
+          "line": 352
+        },
+        "NONE": {
+          "selector": "ImageMaster.INTENT_UNKNOWN",
+          "line": 364
+        }
+      },
+      "exampleAssertions": [
+        {
+          "enum": "ATTACK_BUFF",
+          "intentDmg": 8,
+          "isMultiDmg": true,
+          "intentMultiAmt": 2,
+          "worldTexture": "ImageMaster.INTENT_ATK_4",
+          "tooltipTexture": "ImageMaster.INTENT_ATTACK_BUFF",
+          "exampleMove": "guardian_7"
+        },
+        {
+          "enum": "ATTACK_DEBUFF",
+          "intentDmg": 7,
+          "isMultiDmg": false,
+          "intentMultiAmt": 0,
+          "worldTexture": "ImageMaster.INTENT_ATK_2",
+          "tooltipTexture": "ImageMaster.INTENT_ATTACK_DEBUFF",
+          "exampleMove": "acid_slime_m_1"
+        },
+        {
+          "enum": "ATTACK_DEFEND",
+          "intentDmg": 7,
+          "isMultiDmg": false,
+          "intentMultiAmt": 0,
+          "worldTexture": "ImageMaster.INTENT_ATK_2",
+          "tooltipTexture": "ImageMaster.INTENT_ATTACK_DEFEND",
+          "exampleMove": "jaw_worm_2"
+        },
+        {
+          "enum": "STUN",
+          "worldTexture": null,
+          "tooltipTexture": "ImageMaster.INTENT_STUN",
+          "baseSpriteDrawn": false,
+          "exampleMove": "lagavulin_stunned"
+        },
+        {
+          "enum": "UNKNOWN",
+          "worldTexture": "ImageMaster.INTENT_UNKNOWN_L",
+          "tooltipTexture": "ImageMaster.INTENT_UNKNOWN",
+          "baseSpriteDrawn": false,
+          "exampleMove": "wizard_gremlin_1"
+        }
+      ]
+    },
+    "rows": [
+      {
+        "enemyId": "cultist",
+        "runtimeMoveId": "cultist_1",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              147
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "cultist",
+        "runtimeMoveId": "cultist_2",
+        "sourceMoveByte": 3,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "BUFF",
+            "setMoveLines": [
+              144
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_BUFF_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_BUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "jaw_worm",
+        "runtimeMoveId": "jaw_worm_1",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              145,
+              156,
+              161,
+              170
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "jaw_worm",
+        "runtimeMoveId": "jaw_worm_2",
+        "sourceMoveByte": 3,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK_DEFEND",
+            "setMoveLines": [
+              153,
+              166,
+              172
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "ImageMaster.INTENT_ATTACK_DEFEND"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "jaw_worm",
+        "runtimeMoveId": "jaw_worm_3",
+        "sourceMoveByte": 2,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "DEFEND_BUFF",
+            "setMoveLines": [
+              151,
+              163,
+              175
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_DEFEND_BUFF_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_DEFEND_BUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "red_louse",
+        "runtimeMoveId": "red_louse_1",
+        "sourceMoveByte": 3,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              128,
+              135,
+              139,
+              146
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "red_louse",
+        "runtimeMoveId": "red_louse_2",
+        "sourceMoveByte": 4,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "BUFF",
+            "setMoveLines": [
+              130,
+              133,
+              141,
+              144
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_BUFF_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_BUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "green_louse",
+        "runtimeMoveId": "green_louse_1",
+        "sourceMoveByte": 3,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              131,
+              138,
+              142,
+              149
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "green_louse",
+        "runtimeMoveId": "green_louse_2",
+        "sourceMoveByte": 4,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "DEBUFF",
+            "setMoveLines": [
+              133,
+              136,
+              144,
+              147
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_DEBUFF_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_DEBUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "acid_slime_s",
+        "runtimeMoveId": "acid_slime_s_1",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              72,
+              81,
+              86
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "acid_slime_s",
+        "runtimeMoveId": "acid_slime_s_2",
+        "sourceMoveByte": 2,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "DEBUFF",
+            "setMoveLines": [
+              66,
+              83,
+              88
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_DEBUFF_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_DEBUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "acid_slime_m",
+        "runtimeMoveId": "acid_slime_m_1",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK_DEBUFF",
+            "setMoveLines": [
+              113,
+              118,
+              127,
+              142,
+              147,
+              156
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "ImageMaster.INTENT_ATTACK_DEBUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "acid_slime_m",
+        "runtimeMoveId": "acid_slime_m_2",
+        "sourceMoveByte": 4,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "DEBUFF",
+            "setMoveLines": [
+              110,
+              120,
+              132,
+              139,
+              149,
+              161
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_DEBUFF_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_DEBUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "acid_slime_m",
+        "runtimeMoveId": "acid_slime_m_3",
+        "sourceMoveByte": 2,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              108,
+              123,
+              129,
+              137,
+              152,
+              158
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "acid_slime_l",
+        "runtimeMoveId": "acid_slime_l_1",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK_DEBUFF",
+            "setMoveLines": [
+              159,
+              164,
+              173,
+              188,
+              193,
+              202
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "ImageMaster.INTENT_ATTACK_DEBUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "acid_slime_l",
+        "runtimeMoveId": "acid_slime_l_2",
+        "sourceMoveByte": 4,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "DEBUFF",
+            "setMoveLines": [
+              156,
+              166,
+              178,
+              185,
+              195,
+              207
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_DEBUFF_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_DEBUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "acid_slime_l",
+        "runtimeMoveId": "acid_slime_l_3",
+        "sourceMoveByte": 2,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              154,
+              169,
+              175,
+              183,
+              198,
+              204
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "acid_slime_l",
+        "runtimeMoveId": "acid_slime_l_split",
+        "sourceMoveByte": 3,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "UNKNOWN",
+            "setMoveLines": [
+              131,
+              140,
+              143
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_UNKNOWN_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_UNKNOWN"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "spike_slime_s",
+        "runtimeMoveId": "spike_slime_s_1",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              70
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "spike_slime_m",
+        "runtimeMoveId": "spike_slime_m_1",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK_DEBUFF",
+            "setMoveLines": [
+              94,
+              97,
+              105,
+              108
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "ImageMaster.INTENT_ATTACK_DEBUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "spike_slime_m",
+        "runtimeMoveId": "spike_slime_m_2",
+        "sourceMoveByte": 4,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "DEBUFF",
+            "setMoveLines": [
+              92,
+              99,
+              103,
+              110
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_DEBUFF_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_DEBUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "spike_slime_l",
+        "runtimeMoveId": "spike_slime_l_1",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK_DEBUFF",
+            "setMoveLines": [
+              143,
+              146,
+              154,
+              157
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "ImageMaster.INTENT_ATTACK_DEBUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "spike_slime_l",
+        "runtimeMoveId": "spike_slime_l_2",
+        "sourceMoveByte": 4,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "DEBUFF",
+            "setMoveLines": [
+              141,
+              148,
+              152,
+              159
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_DEBUFF_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_DEBUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "spike_slime_l",
+        "runtimeMoveId": "spike_slime_l_split",
+        "sourceMoveByte": 3,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "UNKNOWN",
+            "setMoveLines": [
+              118,
+              128,
+              131
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_UNKNOWN_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_UNKNOWN"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "looter",
+        "runtimeMoveId": "looter_1",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              111,
+              188
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "looter",
+        "runtimeMoveId": "looter_lunge",
+        "sourceMoveByte": 4,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              108
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "looter",
+        "runtimeMoveId": "looter_2",
+        "sourceMoveByte": 2,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "DEFEND",
+            "setMoveLines": [
+              105,
+              127
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_DEFEND_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_DEFEND"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "looter",
+        "runtimeMoveId": "looter_escape",
+        "sourceMoveByte": 3,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ESCAPE",
+            "setMoveLines": [
+              133,
+              141
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_ESCAPE_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_ESCAPE"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "blue_slaver",
+        "runtimeMoveId": "blue_slaver_1",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              108,
+              116,
+              123
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "blue_slaver",
+        "runtimeMoveId": "blue_slaver_2",
+        "sourceMoveByte": 4,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK_DEBUFF",
+            "setMoveLines": [
+              113,
+              120
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "ImageMaster.INTENT_ATTACK_DEBUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "red_slaver",
+        "runtimeMoveId": "red_slaver_1",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              137,
+              145,
+              153,
+              160
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "red_slaver",
+        "runtimeMoveId": "red_slaver_2",
+        "sourceMoveByte": 2,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "STRONG_DEBUFF",
+            "setMoveLines": [
+              141
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_DEBUFF2_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_DEBUFF2"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "red_slaver",
+        "runtimeMoveId": "red_slaver_3",
+        "sourceMoveByte": 3,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK_DEBUFF",
+            "setMoveLines": [
+              150,
+              157
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "ImageMaster.INTENT_ATTACK_DEBUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "fungi_beast",
+        "runtimeMoveId": "fungi_beast_1",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              100,
+              103
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "fungi_beast",
+        "runtimeMoveId": "fungi_beast_2",
+        "sourceMoveByte": 2,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "BUFF",
+            "setMoveLines": [
+              98,
+              105
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_BUFF_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_BUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "mad_gremlin",
+        "runtimeMoveId": "mad_gremlin_1",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              77,
+              126
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "sneaky_gremlin",
+        "runtimeMoveId": "sneaky_gremlin_1",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              61,
+              113
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "fat_gremlin",
+        "runtimeMoveId": "fat_gremlin_1",
+        "sourceMoveByte": 2,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK_DEBUFF",
+            "setMoveLines": [
+              126
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "ImageMaster.INTENT_ATTACK_DEBUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "wizard_gremlin",
+        "runtimeMoveId": "wizard_gremlin_1",
+        "sourceMoveByte": 2,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "UNKNOWN",
+            "setMoveLines": [
+              77,
+              91,
+              139
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_UNKNOWN_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_UNKNOWN"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "wizard_gremlin",
+        "runtimeMoveId": "wizard_gremlin_3",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              74,
+              88
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "shield_gremlin",
+        "runtimeMoveId": "shield_gremlin_1",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "DEFEND",
+            "setMoveLines": [
+              79,
+              119
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_DEFEND_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_DEFEND"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "shield_gremlin",
+        "runtimeMoveId": "shield_gremlin_2",
+        "sourceMoveByte": 2,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              82,
+              92
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "gremlin_nob",
+        "runtimeMoveId": "gremlin_nob_1",
+        "sourceMoveByte": 3,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "BUFF",
+            "setMoveLines": [
+              124
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_BUFF_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_BUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "gremlin_nob",
+        "runtimeMoveId": "gremlin_nob_2",
+        "sourceMoveByte": 2,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "canVuln == true",
+            "sourceIntent": "ATTACK_DEBUFF",
+            "setMoveLines": [
+              130,
+              138,
+              148,
+              156
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "ImageMaster.INTENT_ATTACK_DEBUFF"
+          },
+          {
+            "when": "canVuln == false",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              132,
+              140,
+              150,
+              158
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference.",
+        "currentRuntimeVariant": "canVuln=true (normal constructor lines50–60; runtime has only ordinary vulnerable Bash). Preserve false variant if event constructor is introduced."
+      },
+      {
+        "enemyId": "gremlin_nob",
+        "runtimeMoveId": "gremlin_nob_3",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              143,
+              161
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "lagavulin",
+        "runtimeMoveId": "lagavulin_1",
+        "sourceMoveByte": 5,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "SLEEP",
+            "setMoveLines": [
+              134,
+              215
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_SLEEP_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_SLEEP"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "lagavulin",
+        "runtimeMoveId": "lagavulin_2",
+        "sourceMoveByte": 3,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              132,
+              157,
+              209
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference.",
+        "note": "Two runtime cycle IDs share the same original attack byte3; do not assign byte2 from ID suffix."
+      },
+      {
+        "enemyId": "lagavulin",
+        "runtimeMoveId": "lagavulin_3",
+        "sourceMoveByte": 3,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              132,
+              157,
+              209
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference.",
+        "note": "Two runtime cycle IDs share the same original attack byte3; do not assign byte2 from ID suffix."
+      },
+      {
+        "enemyId": "lagavulin",
+        "runtimeMoveId": "lagavulin_4",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "STRONG_DEBUFF",
+            "setMoveLines": [
+              102,
+              207,
+              212
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_DEBUFF2_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_DEBUFF2"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "lagavulin",
+        "runtimeMoveId": "lagavulin_stunned",
+        "sourceMoveByte": 4,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "STUN",
+            "setMoveLines": [
+              192
+            ],
+            "sourceVisualSelector": null,
+            "sourceTooltipSelector": "ImageMaster.INTENT_STUN"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "sentry",
+        "runtimeMoveId": "sentry_1",
+        "sourceMoveByte": 4,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              132,
+              140
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "sentry",
+        "runtimeMoveId": "sentry_2",
+        "sourceMoveByte": 3,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "DEBUFF",
+            "setMoveLines": [
+              130,
+              138
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_DEBUFF_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_DEBUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "guardian",
+        "runtimeMoveId": "guardian_1",
+        "sourceMoveByte": 6,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "DEFEND",
+            "setMoveLines": [
+              208,
+              221
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_DEFEND_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_DEFEND"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "guardian",
+        "runtimeMoveId": "guardian_2",
+        "sourceMoveByte": 2,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              215
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "guardian",
+        "runtimeMoveId": "guardian_3",
+        "sourceMoveByte": 5,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              173,
+              191
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "guardian",
+        "runtimeMoveId": "guardian_4",
+        "sourceMoveByte": 7,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "STRONG_DEBUFF",
+            "setMoveLines": [
+              167
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_DEBUFF2_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_DEBUFF2"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "guardian",
+        "runtimeMoveId": "guardian_5",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "BUFF",
+            "setMoveLines": [
+              239
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_BUFF_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_BUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "guardian",
+        "runtimeMoveId": "guardian_6",
+        "sourceMoveByte": 3,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              183,
+              223
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "guardian",
+        "runtimeMoveId": "guardian_7",
+        "sourceMoveByte": 4,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK_BUFF",
+            "setMoveLines": [
+              197
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "ImageMaster.INTENT_ATTACK_BUFF"
+          }
+        ],
+        "runtimeSource": "data/enemies.json",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "hexaghost",
+        "runtimeMoveId": "activate",
+        "sourceMoveByte": 5,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "UNKNOWN",
+            "setMoveLines": [
+              215
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_UNKNOWN_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_UNKNOWN"
+          }
+        ],
+        "runtimeSource": "src/lua/abyss_act1_bosses.lua",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "hexaghost",
+        "runtimeMoveId": "divider",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              146
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "src/lua/abyss_act1_bosses.lua",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "hexaghost",
+        "runtimeMoveId": "sear",
+        "sourceMoveByte": 4,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK_DEBUFF",
+            "setMoveLines": [
+              219,
+              227,
+              239
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "ImageMaster.INTENT_ATTACK_DEBUFF"
+          }
+        ],
+        "runtimeSource": "src/lua/abyss_act1_bosses.lua",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "hexaghost",
+        "runtimeMoveId": "tackle",
+        "sourceMoveByte": 2,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              223,
+              235
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "src/lua/abyss_act1_bosses.lua",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "hexaghost",
+        "runtimeMoveId": "inflame",
+        "sourceMoveByte": 3,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "DEFEND_BUFF",
+            "setMoveLines": [
+              231
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_DEFEND_BUFF_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_DEFEND_BUFF"
+          }
+        ],
+        "runtimeSource": "src/lua/abyss_act1_bosses.lua",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "hexaghost",
+        "runtimeMoveId": "inferno",
+        "sourceMoveByte": 6,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK_DEBUFF",
+            "setMoveLines": [
+              243,
+              273
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "ImageMaster.INTENT_ATTACK_DEBUFF"
+          }
+        ],
+        "runtimeSource": "src/lua/abyss_act1_bosses.lua",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "slime_boss",
+        "runtimeMoveId": "sticky",
+        "sourceMoveByte": 4,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "STRONG_DEBUFF",
+            "setMoveLines": [
+              134,
+              177
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_DEBUFF2_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_DEBUFF2"
+          }
+        ],
+        "runtimeSource": "src/lua/abyss_act1_bosses.lua",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "slime_boss",
+        "runtimeMoveId": "prepare",
+        "sourceMoveByte": 2,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "UNKNOWN",
+            "setMoveLines": [
+              119
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_UNKNOWN_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_UNKNOWN"
+          }
+        ],
+        "runtimeSource": "src/lua/abyss_act1_bosses.lua",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "slime_boss",
+        "runtimeMoveId": "slam",
+        "sourceMoveByte": 1,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "ATTACK",
+            "setMoveLines": [
+              126
+            ],
+            "sourceVisualSelector": "getAttackIntent(intentDmg,isMultiDmg,intentMultiAmt)",
+            "sourceTooltipSelector": "this.getAttackIntentTip()"
+          }
+        ],
+        "runtimeSource": "src/lua/abyss_act1_bosses.lua",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      },
+      {
+        "enemyId": "slime_boss",
+        "runtimeMoveId": "split",
+        "sourceMoveByte": 3,
+        "status": "mapped",
+        "variants": [
+          {
+            "when": "always for this source byte",
+            "sourceIntent": "UNKNOWN",
+            "setMoveLines": [
+              147,
+              166,
+              169
+            ],
+            "sourceVisualSelector": "ImageMaster.INTENT_UNKNOWN_L",
+            "sourceTooltipSelector": "ImageMaster.INTENT_UNKNOWN"
+          }
+        ],
+        "runtimeSource": "src/lua/abyss_act1_bosses.lua",
+        "mappingBasis": "Explicit runtime AI move role/cycle matched to source takeTurn/getMove/setMove byte; not runtime kind/effect-to-icon inference."
+      }
+    ],
+    "sourceOnlyGaps": [
+      {
+        "enemyId": "mad_gremlin",
+        "sourceMoveByte": 99,
+        "runtimeMoveId": null,
+        "status": "source_move_not_in_current_runtime_catalog",
+        "variants": [
+          {
+            "sourceIntent": "ESCAPE",
+            "setMoveLines": [
+              74,
+              84,
+              133
+            ]
+          }
+        ],
+        "note": "Source escape reaction exists but current catalog has no move ID; do not invent mapping."
+      },
+      {
+        "enemyId": "sneaky_gremlin",
+        "sourceMoveByte": 99,
+        "runtimeMoveId": null,
+        "status": "source_move_not_in_current_runtime_catalog",
+        "variants": [
+          {
+            "sourceIntent": "ESCAPE",
+            "setMoveLines": [
+              64,
+              71,
+              120
+            ]
+          }
+        ],
+        "note": "Source escape reaction exists but current catalog has no move ID; do not invent mapping."
+      },
+      {
+        "enemyId": "fat_gremlin",
+        "sourceMoveByte": 99,
+        "runtimeMoveId": null,
+        "status": "source_move_not_in_current_runtime_catalog",
+        "variants": [
+          {
+            "sourceIntent": "ESCAPE",
+            "setMoveLines": [
+              72,
+              82,
+              133
+            ]
+          }
+        ],
+        "note": "Source escape reaction exists but current catalog has no move ID; do not invent mapping."
+      },
+      {
+        "enemyId": "wizard_gremlin",
+        "sourceMoveByte": 99,
+        "runtimeMoveId": null,
+        "status": "source_move_not_in_current_runtime_catalog",
+        "variants": [
+          {
+            "sourceIntent": "ESCAPE",
+            "setMoveLines": [
+              68,
+              84,
+              97,
+              146
+            ]
+          }
+        ],
+        "note": "Source escape reaction exists but current catalog has no move ID; do not invent mapping."
+      },
+      {
+        "enemyId": "shield_gremlin",
+        "sourceMoveByte": 99,
+        "runtimeMoveId": null,
+        "status": "source_move_not_in_current_runtime_catalog",
+        "variants": [
+          {
+            "sourceIntent": "ESCAPE",
+            "setMoveLines": [
+              75,
+              89,
+              98,
+              126
+            ]
+          }
+        ],
+        "note": "Source escape reaction exists but current catalog has no move ID; do not invent mapping."
+      }
+    ],
+    "coverage": {
+      "species": 25,
+      "runtimeMoves": 69,
+      "unmappedRuntimeMoves": 0,
+      "sourceOnlyMoves": 5
+    }
+  },
+  "act2": {
+    "schema_version": 1,
+    "scope": "All 17 current Act2 definitions including TorchHead/BronzeOrb; Exordium reused actors and GremlinLeader gremlin summons delegated to Act1 mapping. Presentation-only; no damage, move-selection, or AI changes.",
+    "source_commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "source_status": "Community CFR decompilation mirror aeubanks/sts; not authenticated original binary or licensing assertion.",
+    "runtime_file": "private-evidence/abyss_act2_enemies.lua",
+    "runtime_sha256": "ee02791e88b83a3bfd88912fd6ae9a11cd30c6b79eb235ac198d885cab3e9194",
+    "sources": {
+      "spheric_guardian": {
+        "path": "monsters/city/SphericGuardian.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/SphericGuardian.java",
+        "git_blob_sha1": "05d6a6cee4e265f7c5a803ee0023b1622c7f9178",
+        "sha256": "8f7c8e3ac1ac52b8f2d50dd83aaed6af96a7cf9e0fb125804611efcfcd31f6dc",
+        "line_count": 168
+      },
+      "centurion": {
+        "path": "monsters/city/Centurion.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/Centurion.java",
+        "git_blob_sha1": "3757a15bf40d7fafa69a2738aac72382bdbd0c45",
+        "sha256": "3093ca6b66acc588c619efa65039e7469c18222a8b797bae216b2d16db04746a",
+        "line_count": 173
+      },
+      "mystic": {
+        "path": "monsters/city/Healer.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/Healer.java",
+        "git_blob_sha1": "9da6af5f9abe32a6f3476006d277e3f79daaf619",
+        "sha256": "d449b5623dfaebc7e5c3bf6cd270d4c1584e8a962920f01daa2ee95448243f00",
+        "line_count": 194
+      },
+      "taskmaster": {
+        "path": "monsters/city/Taskmaster.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/Taskmaster.java",
+        "git_blob_sha1": "cdf9faca11fa358f4f1a71f527c7f7ef185a781e",
+        "sha256": "4edbd2f0e06d50bd0d1015a18f6b024ae0414c268154997e70a1859442401018",
+        "line_count": 104
+      },
+      "book_of_stabbing": {
+        "path": "monsters/city/BookOfStabbing.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/BookOfStabbing.java",
+        "git_blob_sha1": "3097ee30f399f318eab8ef867895aa256f87ca42",
+        "sha256": "67ec4c95b6f9d15d3af3c0c0193ec8af6a476bfaaf4709b2f147d0cb28dd5029",
+        "line_count": 151
+      },
+      "snake_plant": {
+        "path": "monsters/city/SnakePlant.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/SnakePlant.java",
+        "git_blob_sha1": "a2c5985fea9f992ce67048f74ccd9adb0d5fa425",
+        "sha256": "bde4d7cc2f541ab95c817a1e8230f3c309a3599c43f329fd50ac34d770b48186",
+        "line_count": 136
+      },
+      "chosen": {
+        "path": "monsters/city/Chosen.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/Chosen.java",
+        "git_blob_sha1": "419b0dc1e2a2be71d9df00539d4714ae2c828d4e",
+        "sha256": "6680d25dbce1f9a25832df72b75c4a14fbb02e891389d5ffcda7ffd1df54bc38",
+        "line_count": 209
+      },
+      "shelled_parasite": {
+        "path": "monsters/city/ShelledParasite.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/ShelledParasite.java",
+        "git_blob_sha1": "92accbb162706bd4227d81dae7e50c1355f3e6ea",
+        "sha256": "ef1aaa02f300ef6e3491d43f78a0a1b4a6227cb2fd0dcec70c1b19d6ef993697",
+        "line_count": 199
+      },
+      "byrd": {
+        "path": "monsters/city/Byrd.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/Byrd.java",
+        "git_blob_sha1": "040b35fc29b4d23de155b7fc027a1649793d09ef",
+        "sha256": "0265ad1ff9132de906247cfc05fc5439e62e28e1f9e7256d9edfe1ccb7b06545",
+        "line_count": 221
+      },
+      "snecko": {
+        "path": "monsters/city/Snecko.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/Snecko.java",
+        "git_blob_sha1": "4e9b1fb3c14c54481f0dbddd14a39ceb903c8f77",
+        "sha256": "48e55438adafc63ab9cd4a4115c7d761531226cb41fecb1f9162ce53f1e8ac28",
+        "line_count": 161
+      },
+      "mugger": {
+        "path": "monsters/city/Mugger.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/Mugger.java",
+        "git_blob_sha1": "bf3e91276b293fb948a9a832e4f94ec37975749a",
+        "sha256": "faa12ec70b872dd836633c47a6566d7e34cf2734de84642b99feacc58f564f34",
+        "line_count": 182
+      },
+      "gremlin_leader": {
+        "path": "monsters/city/GremlinLeader.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/GremlinLeader.java",
+        "git_blob_sha1": "c4a6976782517e02d7357e994bb37a5ef549a114",
+        "sha256": "48a52b505d1afed45a9d28d244aa9668944ddf04c73fbe03458c4af9ef93d128",
+        "line_count": 236
+      },
+      "torch_head": {
+        "path": "monsters/city/TorchHead.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/TorchHead.java",
+        "git_blob_sha1": "0d5ae08be098904390fb81e207986ac465f9aa03",
+        "sha256": "dfb4fbd8e10c9c089a2ec5734fca5014b430a3a13dd74cb87cbbedb80e2d6f19",
+        "line_count": 80
+      },
+      "collector": {
+        "path": "monsters/city/TheCollector.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/TheCollector.java",
+        "git_blob_sha1": "abdada63e5a902b3de5f23747fbf527ca36b578c",
+        "sha256": "c8a4a7e564cd1f0612758a546eb9bd703ec447f88c0f571ccd826a4a94123bfe",
+        "line_count": 236
+      },
+      "automaton": {
+        "path": "monsters/city/BronzeAutomaton.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/BronzeAutomaton.java",
+        "git_blob_sha1": "c43c77647e8484db521dd4cd4426ad947176a8a7",
+        "sha256": "e05adeb2dcbcf1259e83e9123daf193c7357360d9a502795feefd3a337ebc8ea",
+        "line_count": 185
+      },
+      "bronze_orb": {
+        "path": "monsters/city/BronzeOrb.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/BronzeOrb.java",
+        "git_blob_sha1": "455b240a8a2983e923a7f0665b7523f91e24817a",
+        "sha256": "d6ab700de970d15dbeb2d66451b414b745bcb7695b6d347554f4ddef5e3ff08b",
+        "line_count": 99
+      },
+      "champ": {
+        "path": "monsters/city/Champ.java",
+        "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/Champ.java",
+        "git_blob_sha1": "c3c3d333eb9e448fd35187ddac926318948d6731",
+        "sha256": "12e28e1409f0128b9ff1c58334382238b54fe3a7db6e989e0462113b62a42fd2",
+        "line_count": 313
+      }
+    },
+    "renderer_source": {
+      "path": "monsters/AbstractMonster.java",
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f",
+      "getIntentImg_lines": [
+        479,
+        528
+      ],
+      "getAttackIntent_lines": [
+        561,
+        582
+      ]
+    },
+    "attack_asset_rule": {
+      "input": "intentDmg * intentMultiAmt when isMultiDmg, else intentDmg; use current calculated preview, NOT base damage or inferred effect list",
+      "tiers": [
+        {
+          "less_than": 5,
+          "asset_key": "INTENT_ATK_1"
+        },
+        {
+          "less_than": 10,
+          "asset_key": "INTENT_ATK_2"
+        },
+        {
+          "less_than": 15,
+          "asset_key": "INTENT_ATK_3"
+        },
+        {
+          "less_than": 20,
+          "asset_key": "INTENT_ATK_4"
+        },
+        {
+          "less_than": 25,
+          "asset_key": "INTENT_ATK_5"
+        },
+        {
+          "less_than": 30,
+          "asset_key": "INTENT_ATK_6"
+        },
+        {
+          "otherwise": true,
+          "asset_key": "INTENT_ATK_7"
+        }
+      ],
+      "applies_to": [
+        "ATTACK",
+        "ATTACK_BUFF",
+        "ATTACK_DEBUFF",
+        "ATTACK_DEFEND"
+      ]
+    },
+    "mappings": [
+      {
+        "enemy_id": "spheric_guardian",
+        "runtime_move_id": "activate",
+        "runtime_definition_line": 8,
+        "source_move_byte": 2,
+        "source_constant": "INITIAL_BLOCK_GAIN",
+        "source_constant_line": 50,
+        "intent_enum": "DEFEND",
+        "combat_asset_key": "INTENT_DEFEND_L",
+        "set_move_evidence": [
+          {
+            "line": 143,
+            "enum": "DEFEND",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove: first INITIAL_BLOCK_GAIN, then FRAIL_ATTACK; then alternate BIG_ATTACK/BLOCK_ATTACK.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "spheric_guardian",
+        "runtime_move_id": "frail_attack",
+        "runtime_definition_line": 9,
+        "source_move_byte": 4,
+        "source_constant": "FRAIL_ATTACK",
+        "source_constant_line": 52,
+        "intent_enum": "ATTACK_DEBUFF",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 148,
+            "enum": "ATTACK_DEBUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove: first INITIAL_BLOCK_GAIN, then FRAIL_ATTACK; then alternate BIG_ATTACK/BLOCK_ATTACK.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "spheric_guardian",
+        "runtime_move_id": "slam",
+        "runtime_definition_line": 10,
+        "source_move_byte": 1,
+        "source_constant": "BIG_ATTACK",
+        "source_constant_line": 49,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 154,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove: first INITIAL_BLOCK_GAIN, then FRAIL_ATTACK; then alternate BIG_ATTACK/BLOCK_ATTACK.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "spheric_guardian",
+        "runtime_move_id": "harden",
+        "runtime_definition_line": 11,
+        "source_move_byte": 3,
+        "source_constant": "BLOCK_ATTACK",
+        "source_constant_line": 51,
+        "intent_enum": "ATTACK_DEFEND",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 152,
+            "enum": "ATTACK_DEFEND",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove: first INITIAL_BLOCK_GAIN, then FRAIL_ATTACK; then alternate BIG_ATTACK/BLOCK_ATTACK.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "centurion",
+        "runtime_move_id": "slash",
+        "runtime_definition_line": 13,
+        "source_move_byte": 1,
+        "source_constant": "SLASH",
+        "source_constant_line": 45,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 141,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove: PROTECT when ally exists, otherwise FURY in the same decision branch; SLASH otherwise. Never convert PROTECT to attack based on effects.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "centurion",
+        "runtime_move_id": "protect",
+        "runtime_definition_line": 14,
+        "source_move_byte": 2,
+        "source_constant": "PROTECT",
+        "source_constant_line": 46,
+        "intent_enum": "DEFEND",
+        "combat_asset_key": "INTENT_DEFEND_L",
+        "set_move_evidence": [
+          {
+            "line": 134,
+            "enum": "DEFEND",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 150,
+            "enum": "DEFEND",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove: PROTECT when ally exists, otherwise FURY in the same decision branch; SLASH otherwise. Never convert PROTECT to attack based on effects.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "centurion",
+        "runtime_move_id": "fury",
+        "runtime_definition_line": 15,
+        "source_move_byte": 3,
+        "source_constant": "FURY",
+        "source_constant_line": 47,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 137,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 153,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove: PROTECT when ally exists, otherwise FURY in the same decision branch; SLASH otherwise. Never convert PROTECT to attack based on effects.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "mystic",
+        "runtime_move_id": "attack",
+        "runtime_definition_line": 17,
+        "source_move_byte": 1,
+        "source_constant": "ATTACK",
+        "source_constant_line": 47,
+        "intent_enum": "ATTACK_DEBUFF",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 162,
+            "enum": "ATTACK_DEBUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 166,
+            "enum": "ATTACK_DEBUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 173,
+            "enum": "ATTACK_DEBUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove: healing threshold/repeat conditions choose HEAL; random/repeat conditions choose ATTACK or BUFF. HEAL and strength BUFF share BUFF enum.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "mystic",
+        "runtime_move_id": "heal",
+        "runtime_definition_line": 18,
+        "source_move_byte": 2,
+        "source_constant": "HEAL",
+        "source_constant_line": 48,
+        "intent_enum": "BUFF",
+        "combat_asset_key": "INTENT_BUFF_L",
+        "set_move_evidence": [
+          {
+            "line": 153,
+            "enum": "BUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 157,
+            "enum": "BUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove: healing threshold/repeat conditions choose HEAL; random/repeat conditions choose ATTACK or BUFF. HEAL and strength BUFF share BUFF enum.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "mystic",
+        "runtime_move_id": "buff",
+        "runtime_definition_line": 19,
+        "source_move_byte": 3,
+        "source_constant": "BUFF",
+        "source_constant_line": 49,
+        "intent_enum": "BUFF",
+        "combat_asset_key": "INTENT_BUFF_L",
+        "set_move_evidence": [
+          {
+            "line": 170,
+            "enum": "BUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove: healing threshold/repeat conditions choose HEAL; random/repeat conditions choose ATTACK or BUFF. HEAL and strength BUFF share BUFF enum.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "taskmaster",
+        "runtime_move_id": "whip",
+        "runtime_definition_line": 21,
+        "source_move_byte": 2,
+        "source_constant": "SCOURING_WHIP",
+        "source_constant_line": 41,
+        "intent_enum": "ATTACK_DEBUFF",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 77,
+            "enum": "ATTACK_DEBUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove selects this byte with this invariant Intent enum; existing runtime selection/effects unchanged.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "book_of_stabbing",
+        "runtime_move_id": "multi_stab",
+        "runtime_definition_line": 23,
+        "source_move_byte": 1,
+        "source_constant": "STAB",
+        "source_constant_line": 41,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 127,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 141,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove: STAB multi count changes with stabCount, but enum remains ATTACK; BIG_STAB is single.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "book_of_stabbing",
+        "runtime_move_id": "big_stab",
+        "runtime_definition_line": 23,
+        "source_move_byte": 2,
+        "source_constant": "BIG_STAB",
+        "source_constant_line": 42,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 129,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 135,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove: STAB multi count changes with stabCount, but enum remains ATTACK; BIG_STAB is single.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "snake_plant",
+        "runtime_move_id": "chomp",
+        "runtime_definition_line": 25,
+        "source_move_byte": 1,
+        "source_constant": "CHOMPY_CHOMPS",
+        "source_constant_line": 39,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 116,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 119,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 127,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 130,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove selects this byte with this invariant Intent enum; existing runtime selection/effects unchanged.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "snake_plant",
+        "runtime_move_id": "spores",
+        "runtime_definition_line": 25,
+        "source_move_byte": 2,
+        "source_constant": "SPORES",
+        "source_constant_line": 40,
+        "intent_enum": "STRONG_DEBUFF",
+        "combat_asset_key": "INTENT_DEBUFF2_L",
+        "set_move_evidence": [
+          {
+            "line": 114,
+            "enum": "STRONG_DEBUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 121,
+            "enum": "STRONG_DEBUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 125,
+            "enum": "STRONG_DEBUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 132,
+            "enum": "STRONG_DEBUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove selects this byte with this invariant Intent enum; existing runtime selection/effects unchanged.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "chosen",
+        "runtime_move_id": "poke",
+        "runtime_definition_line": 27,
+        "source_move_byte": 5,
+        "source_constant": "POKE",
+        "source_constant_line": 61,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 165,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 170,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 190,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove: ascension and usedHex/firstTurn change move selection, not byte-to-enum mapping.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "chosen",
+        "runtime_move_id": "hex",
+        "runtime_definition_line": 27,
+        "source_move_byte": 4,
+        "source_constant": "HEX",
+        "source_constant_line": 60,
+        "intent_enum": "STRONG_DEBUFF",
+        "combat_asset_key": "INTENT_DEBUFF2_L",
+        "set_move_evidence": [
+          {
+            "line": 150,
+            "enum": "STRONG_DEBUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 175,
+            "enum": "STRONG_DEBUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove: ascension and usedHex/firstTurn change move selection, not byte-to-enum mapping.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "chosen",
+        "runtime_move_id": "zap",
+        "runtime_definition_line": 28,
+        "source_move_byte": 1,
+        "source_constant": "ZAP",
+        "source_constant_line": 57,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 162,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 187,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove: ascension and usedHex/firstTurn change move selection, not byte-to-enum mapping.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "chosen",
+        "runtime_move_id": "debilitate",
+        "runtime_definition_line": 28,
+        "source_move_byte": 3,
+        "source_constant": "DEBILITATE",
+        "source_constant_line": 59,
+        "intent_enum": "ATTACK_DEBUFF",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 155,
+            "enum": "ATTACK_DEBUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 180,
+            "enum": "ATTACK_DEBUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove: ascension and usedHex/firstTurn change move selection, not byte-to-enum mapping.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "chosen",
+        "runtime_move_id": "drain",
+        "runtime_definition_line": 29,
+        "source_move_byte": 2,
+        "source_constant": "DRAIN",
+        "source_constant_line": 58,
+        "intent_enum": "DEBUFF",
+        "combat_asset_key": "INTENT_DEBUFF_L",
+        "set_move_evidence": [
+          {
+            "line": 158,
+            "enum": "DEBUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 183,
+            "enum": "DEBUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove: ascension and usedHex/firstTurn change move selection, not byte-to-enum mapping.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "shelled_parasite",
+        "runtime_move_id": "fell",
+        "runtime_definition_line": 31,
+        "source_move_byte": 1,
+        "source_constant": "FELL",
+        "source_constant_line": 59,
+        "intent_enum": "ATTACK_DEBUFF",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 129,
+            "enum": "ATTACK_DEBUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 170,
+            "enum": "ATTACK_DEBUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 182,
+            "enum": "ATTACK_DEBUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "ARMOR_BREAK sets STUNNED/STUN at line150; takeTurn STUNNED sets FELL/ATTACK_DEBUFF at129; higher ascension first turn may choose FELL. LIFE_SUCK is ATTACK_BUFF, not plain ATTACK.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "shelled_parasite",
+        "runtime_move_id": "double_strike",
+        "runtime_definition_line": 31,
+        "source_move_byte": 2,
+        "source_constant": "DOUBLE_STRIKE",
+        "source_constant_line": 60,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 174,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 188,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 195,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "ARMOR_BREAK sets STUNNED/STUN at line150; takeTurn STUNNED sets FELL/ATTACK_DEBUFF at129; higher ascension first turn may choose FELL. LIFE_SUCK is ATTACK_BUFF, not plain ATTACK.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "shelled_parasite",
+        "runtime_move_id": "life_suck",
+        "runtime_definition_line": 32,
+        "source_move_byte": 3,
+        "source_constant": "LIFE_SUCK",
+        "source_constant_line": 61,
+        "intent_enum": "ATTACK_BUFF",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 176,
+            "enum": "ATTACK_BUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 190,
+            "enum": "ATTACK_BUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 193,
+            "enum": "ATTACK_BUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "ARMOR_BREAK sets STUNNED/STUN at line150; takeTurn STUNNED sets FELL/ATTACK_DEBUFF at129; higher ascension first turn may choose FELL. LIFE_SUCK is ATTACK_BUFF, not plain ATTACK.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "shelled_parasite",
+        "runtime_move_id": "stunned",
+        "runtime_definition_line": 32,
+        "source_move_byte": 4,
+        "source_constant": "STUNNED",
+        "source_constant_line": 62,
+        "intent_enum": "STUN",
+        "combat_asset_key": null,
+        "set_move_evidence": [
+          {
+            "line": 150,
+            "enum": "STUN",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "ARMOR_BREAK sets STUNNED/STUN at line150; takeTurn STUNNED sets FELL/ATTACK_DEBUFF at129; higher ascension first turn may choose FELL. LIFE_SUCK is ATTACK_BUFF, not plain ATTACK.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "byrd",
+        "runtime_move_id": "peck",
+        "runtime_definition_line": 34,
+        "source_move_byte": 1,
+        "source_constant": "PECK",
+        "source_constant_line": 59,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 176,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 189,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 196,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 205,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "changeState GROUNDED sets STUNNED/STUN at157; takeTurn HEADBUTT sets GO_AIRBORNE/UNKNOWN at114; nonflying getMove chooses HEADBUTT. GO_AIRBORNE must not use BUFF despite runtime kind.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "byrd",
+        "runtime_move_id": "swoop",
+        "runtime_definition_line": 34,
+        "source_move_byte": 3,
+        "source_constant": "SWOOP",
+        "source_constant_line": 61,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 184,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 199,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 203,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "changeState GROUNDED sets STUNNED/STUN at157; takeTurn HEADBUTT sets GO_AIRBORNE/UNKNOWN at114; nonflying getMove chooses HEADBUTT. GO_AIRBORNE must not use BUFF despite runtime kind.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "byrd",
+        "runtime_move_id": "caw",
+        "runtime_definition_line": 35,
+        "source_move_byte": 6,
+        "source_constant": "CAW",
+        "source_constant_line": 64,
+        "intent_enum": "BUFF",
+        "combat_asset_key": "INTENT_BUFF_L",
+        "set_move_evidence": [
+          {
+            "line": 174,
+            "enum": "BUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 186,
+            "enum": "BUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 194,
+            "enum": "BUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 208,
+            "enum": "BUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "changeState GROUNDED sets STUNNED/STUN at157; takeTurn HEADBUTT sets GO_AIRBORNE/UNKNOWN at114; nonflying getMove chooses HEADBUTT. GO_AIRBORNE must not use BUFF despite runtime kind.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "byrd",
+        "runtime_move_id": "stunned",
+        "runtime_definition_line": 36,
+        "source_move_byte": 4,
+        "source_constant": "STUNNED",
+        "source_constant_line": 62,
+        "intent_enum": "STUN",
+        "combat_asset_key": null,
+        "set_move_evidence": [
+          {
+            "line": 157,
+            "enum": "STUN",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "changeState GROUNDED sets STUNNED/STUN at157; takeTurn HEADBUTT sets GO_AIRBORNE/UNKNOWN at114; nonflying getMove chooses HEADBUTT. GO_AIRBORNE must not use BUFF despite runtime kind.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "byrd",
+        "runtime_move_id": "headbutt",
+        "runtime_definition_line": 36,
+        "source_move_byte": 5,
+        "source_constant": "HEADBUTT",
+        "source_constant_line": 63,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 211,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "changeState GROUNDED sets STUNNED/STUN at157; takeTurn HEADBUTT sets GO_AIRBORNE/UNKNOWN at114; nonflying getMove chooses HEADBUTT. GO_AIRBORNE must not use BUFF despite runtime kind.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "byrd",
+        "runtime_move_id": "airborne",
+        "runtime_definition_line": 37,
+        "source_move_byte": 2,
+        "source_constant": "GO_AIRBORNE",
+        "source_constant_line": 60,
+        "intent_enum": "UNKNOWN",
+        "combat_asset_key": "INTENT_UNKNOWN_L",
+        "set_move_evidence": [
+          {
+            "line": 114,
+            "enum": "UNKNOWN",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "changeState GROUNDED sets STUNNED/STUN at157; takeTurn HEADBUTT sets GO_AIRBORNE/UNKNOWN at114; nonflying getMove chooses HEADBUTT. GO_AIRBORNE must not use BUFF despite runtime kind.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "snecko",
+        "runtime_move_id": "glare",
+        "runtime_definition_line": 39,
+        "source_move_byte": 1,
+        "source_constant": "GLARE",
+        "source_constant_line": 39,
+        "intent_enum": "STRONG_DEBUFF",
+        "combat_asset_key": "INTENT_DEBUFF2_L",
+        "set_move_evidence": [
+          {
+            "line": 141,
+            "enum": "STRONG_DEBUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove selects this byte with this invariant Intent enum; existing runtime selection/effects unchanged.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "snecko",
+        "runtime_move_id": "bite",
+        "runtime_definition_line": 39,
+        "source_move_byte": 2,
+        "source_constant": "BITE",
+        "source_constant_line": 40,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 151,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove selects this byte with this invariant Intent enum; existing runtime selection/effects unchanged.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "snecko",
+        "runtime_move_id": "tail",
+        "runtime_definition_line": 40,
+        "source_move_byte": 3,
+        "source_constant": "TAIL",
+        "source_constant_line": 41,
+        "intent_enum": "ATTACK_DEBUFF",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 145,
+            "enum": "ATTACK_DEBUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 149,
+            "enum": "ATTACK_DEBUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove selects this byte with this invariant Intent enum; existing runtime selection/effects unchanged.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "mugger",
+        "runtime_move_id": "mug",
+        "runtime_definition_line": 44,
+        "source_move_byte": 1,
+        "source_constant": "MUG",
+        "source_constant_line": 44,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 109,
+            "enum": "ATTACK",
+            "mechanism": "SetMoveAction"
+          },
+          {
+            "line": 179,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "MUG/BIGSWIPE/SMOKE_BOMB/ESCAPE transitions also use queued SetMoveAction in takeTurn; include those, not just direct setMove.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "mugger",
+        "runtime_move_id": "lunge",
+        "runtime_definition_line": 44,
+        "source_move_byte": 4,
+        "source_constant": "BIGSWIPE",
+        "source_constant_line": 47,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 106,
+            "enum": "ATTACK",
+            "mechanism": "SetMoveAction"
+          }
+        ],
+        "context": "MUG/BIGSWIPE/SMOKE_BOMB/ESCAPE transitions also use queued SetMoveAction in takeTurn; include those, not just direct setMove.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "mugger",
+        "runtime_move_id": "smoke",
+        "runtime_definition_line": 45,
+        "source_move_byte": 2,
+        "source_constant": "SMOKE_BOMB",
+        "source_constant_line": 45,
+        "intent_enum": "DEFEND",
+        "combat_asset_key": "INTENT_DEFEND_L",
+        "set_move_evidence": [
+          {
+            "line": 103,
+            "enum": "DEFEND",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 125,
+            "enum": "DEFEND",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "MUG/BIGSWIPE/SMOKE_BOMB/ESCAPE transitions also use queued SetMoveAction in takeTurn; include those, not just direct setMove.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "mugger",
+        "runtime_move_id": "escape",
+        "runtime_definition_line": 45,
+        "source_move_byte": 3,
+        "source_constant": "ESCAPE",
+        "source_constant_line": 46,
+        "intent_enum": "ESCAPE",
+        "combat_asset_key": "INTENT_ESCAPE_L",
+        "set_move_evidence": [
+          {
+            "line": 134,
+            "enum": "ESCAPE",
+            "mechanism": "SetMoveAction"
+          },
+          {
+            "line": 142,
+            "enum": "ESCAPE",
+            "mechanism": "SetMoveAction"
+          }
+        ],
+        "context": "MUG/BIGSWIPE/SMOKE_BOMB/ESCAPE transitions also use queued SetMoveAction in takeTurn; include those, not just direct setMove.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "gremlin_leader",
+        "runtime_move_id": "stab",
+        "runtime_definition_line": 47,
+        "source_move_byte": 4,
+        "source_constant": "STAB",
+        "source_constant_line": 54,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 144,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 147,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 162,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 165,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 174,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 177,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove considers active ally count and last move; RALLY is UNKNOWN; ENCOURAGE is DEFEND_BUFF. Five Exordium gremlin summons use Act1 mapping.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "gremlin_leader",
+        "runtime_move_id": "rally",
+        "runtime_definition_line": 47,
+        "source_move_byte": 2,
+        "source_constant": "RALLY",
+        "source_constant_line": 44,
+        "intent_enum": "UNKNOWN",
+        "combat_asset_key": "INTENT_UNKNOWN_L",
+        "set_move_evidence": [
+          {
+            "line": 142,
+            "enum": "UNKNOWN",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 149,
+            "enum": "UNKNOWN",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 154,
+            "enum": "UNKNOWN",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove considers active ally count and last move; RALLY is UNKNOWN; ENCOURAGE is DEFEND_BUFF. Five Exordium gremlin summons use Act1 mapping.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "gremlin_leader",
+        "runtime_move_id": "encourage",
+        "runtime_definition_line": 48,
+        "source_move_byte": 3,
+        "source_constant": "ENCOURAGE",
+        "source_constant_line": 46,
+        "intent_enum": "DEFEND_BUFF",
+        "combat_asset_key": "INTENT_DEFEND_BUFF_L",
+        "set_move_evidence": [
+          {
+            "line": 160,
+            "enum": "DEFEND_BUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 172,
+            "enum": "DEFEND_BUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 179,
+            "enum": "DEFEND_BUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove considers active ally count and last move; RALLY is UNKNOWN; ENCOURAGE is DEFEND_BUFF. Five Exordium gremlin summons use Act1 mapping.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "torch_head",
+        "runtime_move_id": "tackle",
+        "runtime_definition_line": 50,
+        "source_move_byte": 1,
+        "source_constant": "TACKLE",
+        "source_constant_line": 34,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 40,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 58,
+            "enum": "ATTACK",
+            "mechanism": "SetMoveAction"
+          },
+          {
+            "line": 77,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "getMove selects this byte with this invariant Intent enum; existing runtime selection/effects unchanged.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "collector",
+        "runtime_move_id": "spawn",
+        "runtime_definition_line": 52,
+        "source_move_byte": 1,
+        "source_constant": "SPAWN",
+        "source_constant_line": 70,
+        "intent_enum": "UNKNOWN",
+        "combat_asset_key": "INTENT_UNKNOWN_L",
+        "set_move_evidence": [
+          {
+            "line": 175,
+            "enum": "UNKNOWN",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "firstTurn SPAWN UNKNOWN; turn-count threshold MEGA_DEBUFF STRONG_DEBUFF; dead torch slot enables REVIVE UNKNOWN; BUFF DEFEND_BUFF.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "collector",
+        "runtime_move_id": "revive",
+        "runtime_definition_line": 52,
+        "source_move_byte": 5,
+        "source_constant": "REVIVE",
+        "source_constant_line": 74,
+        "intent_enum": "UNKNOWN",
+        "combat_asset_key": "INTENT_UNKNOWN_L",
+        "set_move_evidence": [
+          {
+            "line": 183,
+            "enum": "UNKNOWN",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "firstTurn SPAWN UNKNOWN; turn-count threshold MEGA_DEBUFF STRONG_DEBUFF; dead torch slot enables REVIVE UNKNOWN; BUFF DEFEND_BUFF.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "collector",
+        "runtime_move_id": "fireball",
+        "runtime_definition_line": 53,
+        "source_move_byte": 2,
+        "source_constant": "FIREBALL",
+        "source_constant_line": 71,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 187,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 193,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "firstTurn SPAWN UNKNOWN; turn-count threshold MEGA_DEBUFF STRONG_DEBUFF; dead torch slot enables REVIVE UNKNOWN; BUFF DEFEND_BUFF.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "collector",
+        "runtime_move_id": "buff",
+        "runtime_definition_line": 54,
+        "source_move_byte": 3,
+        "source_constant": "BUFF",
+        "source_constant_line": 72,
+        "intent_enum": "DEFEND_BUFF",
+        "combat_asset_key": "INTENT_DEFEND_BUFF_L",
+        "set_move_evidence": [
+          {
+            "line": 191,
+            "enum": "DEFEND_BUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "firstTurn SPAWN UNKNOWN; turn-count threshold MEGA_DEBUFF STRONG_DEBUFF; dead torch slot enables REVIVE UNKNOWN; BUFF DEFEND_BUFF.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "collector",
+        "runtime_move_id": "mega_debuff",
+        "runtime_definition_line": 55,
+        "source_move_byte": 4,
+        "source_constant": "MEGA_DEBUFF",
+        "source_constant_line": 73,
+        "intent_enum": "STRONG_DEBUFF",
+        "combat_asset_key": "INTENT_DEBUFF2_L",
+        "set_move_evidence": [
+          {
+            "line": 179,
+            "enum": "STRONG_DEBUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "firstTurn SPAWN UNKNOWN; turn-count threshold MEGA_DEBUFF STRONG_DEBUFF; dead torch slot enables REVIVE UNKNOWN; BUFF DEFEND_BUFF.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "automaton",
+        "runtime_move_id": "spawn_orbs",
+        "runtime_definition_line": 57,
+        "source_move_byte": 4,
+        "source_constant": "SPAWN_ORBS",
+        "source_constant_line": 45,
+        "intent_enum": "UNKNOWN",
+        "combat_asset_key": "INTENT_UNKNOWN_L",
+        "set_move_evidence": [
+          {
+            "line": 144,
+            "enum": "UNKNOWN",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "firstTurn SPAWN_ORBS UNKNOWN; HYPER_BEAM is ATTACK; post-beam A0 STUNNED STUN, high ascension can select BOOST DEFEND_BUFF instead. Do not alter runtime A0 AI.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "automaton",
+        "runtime_move_id": "flail",
+        "runtime_definition_line": 57,
+        "source_move_byte": 1,
+        "source_constant": "FLAIL",
+        "source_constant_line": 42,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 162,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "firstTurn SPAWN_ORBS UNKNOWN; HYPER_BEAM is ATTACK; post-beam A0 STUNNED STUN, high ascension can select BOOST DEFEND_BUFF instead. Do not alter runtime A0 AI.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "automaton",
+        "runtime_move_id": "boost",
+        "runtime_definition_line": 58,
+        "source_move_byte": 5,
+        "source_constant": "BOOST",
+        "source_constant_line": 46,
+        "intent_enum": "DEFEND_BUFF",
+        "combat_asset_key": "INTENT_DEFEND_BUFF_L",
+        "set_move_evidence": [
+          {
+            "line": 155,
+            "enum": "DEFEND_BUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 164,
+            "enum": "DEFEND_BUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "firstTurn SPAWN_ORBS UNKNOWN; HYPER_BEAM is ATTACK; post-beam A0 STUNNED STUN, high ascension can select BOOST DEFEND_BUFF instead. Do not alter runtime A0 AI.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "automaton",
+        "runtime_move_id": "hyper_beam",
+        "runtime_definition_line": 59,
+        "source_move_byte": 2,
+        "source_constant": "HYPER_BEAM",
+        "source_constant_line": 43,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 149,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "firstTurn SPAWN_ORBS UNKNOWN; HYPER_BEAM is ATTACK; post-beam A0 STUNNED STUN, high ascension can select BOOST DEFEND_BUFF instead. Do not alter runtime A0 AI.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "automaton",
+        "runtime_move_id": "stunned",
+        "runtime_definition_line": 59,
+        "source_move_byte": 3,
+        "source_constant": "STUNNED",
+        "source_constant_line": 44,
+        "intent_enum": "STUN",
+        "combat_asset_key": null,
+        "set_move_evidence": [
+          {
+            "line": 158,
+            "enum": "STUN",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "firstTurn SPAWN_ORBS UNKNOWN; HYPER_BEAM is ATTACK; post-beam A0 STUNNED STUN, high ascension can select BOOST DEFEND_BUFF instead. Do not alter runtime A0 AI.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "bronze_orb",
+        "runtime_move_id": "beam",
+        "runtime_definition_line": 61,
+        "source_move_byte": 1,
+        "source_constant": "BEAM",
+        "source_constant_line": 37,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 93,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "STASIS is STRONG_DEBUFF once; subsequent choices SUPPORT_BEAM DEFEND or BEAM ATTACK.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "bronze_orb",
+        "runtime_move_id": "support",
+        "runtime_definition_line": 61,
+        "source_move_byte": 2,
+        "source_constant": "SUPPORT_BEAM",
+        "source_constant_line": 38,
+        "intent_enum": "DEFEND",
+        "combat_asset_key": "INTENT_DEFEND_L",
+        "set_move_evidence": [
+          {
+            "line": 89,
+            "enum": "DEFEND",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 96,
+            "enum": "DEFEND",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "STASIS is STRONG_DEBUFF once; subsequent choices SUPPORT_BEAM DEFEND or BEAM ATTACK.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "bronze_orb",
+        "runtime_move_id": "stasis",
+        "runtime_definition_line": 62,
+        "source_move_byte": 3,
+        "source_constant": "STASIS",
+        "source_constant_line": 39,
+        "intent_enum": "STRONG_DEBUFF",
+        "combat_asset_key": "INTENT_DEBUFF2_L",
+        "set_move_evidence": [
+          {
+            "line": 84,
+            "enum": "STRONG_DEBUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "STASIS is STRONG_DEBUFF once; subsequent choices SUPPORT_BEAM DEFEND or BEAM ATTACK.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "champ",
+        "runtime_move_id": "heavy_slash",
+        "runtime_definition_line": 64,
+        "source_move_byte": 1,
+        "source_constant": "HEAVY_SLASH",
+        "source_constant_line": 49,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 291,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "HP/phase condition ANGER BUFF; EXECUTE ATTACK double; periodic TAUNT DEBUFF; stance count/random branches DEFENSIVE_STANCE DEFEND_BUFF. Selection rules unchanged.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "champ",
+        "runtime_move_id": "defensive_stance",
+        "runtime_definition_line": 65,
+        "source_move_byte": 2,
+        "source_constant": "DEFENSIVE_STANCE",
+        "source_constant_line": 50,
+        "intent_enum": "DEFEND_BUFF",
+        "combat_asset_key": "INTENT_DEFEND_BUFF_L",
+        "set_move_evidence": [
+          {
+            "line": 274,
+            "enum": "DEFEND_BUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 279,
+            "enum": "DEFEND_BUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "HP/phase condition ANGER BUFF; EXECUTE ATTACK double; periodic TAUNT DEBUFF; stance count/random branches DEFENSIVE_STANCE DEFEND_BUFF. Selection rules unchanged.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "champ",
+        "runtime_move_id": "execute",
+        "runtime_definition_line": 66,
+        "source_move_byte": 3,
+        "source_constant": "EXECUTE",
+        "source_constant_line": 51,
+        "intent_enum": "ATTACK",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 263,
+            "enum": "ATTACK",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "HP/phase condition ANGER BUFF; EXECUTE ATTACK double; periodic TAUNT DEBUFF; stance count/random branches DEFENSIVE_STANCE DEFEND_BUFF. Selection rules unchanged.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "champ",
+        "runtime_move_id": "face_slap",
+        "runtime_definition_line": 67,
+        "source_move_byte": 4,
+        "source_constant": "FACE_SLAP",
+        "source_constant_line": 52,
+        "intent_enum": "ATTACK_DEBUFF",
+        "combat_asset_key": "dynamic:getAttackIntent",
+        "set_move_evidence": [
+          {
+            "line": 287,
+            "enum": "ATTACK_DEBUFF",
+            "mechanism": "setMove"
+          },
+          {
+            "line": 293,
+            "enum": "ATTACK_DEBUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "HP/phase condition ANGER BUFF; EXECUTE ATTACK double; periodic TAUNT DEBUFF; stance count/random branches DEFENSIVE_STANCE DEFEND_BUFF. Selection rules unchanged.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "champ",
+        "runtime_move_id": "gloat",
+        "runtime_definition_line": 68,
+        "source_move_byte": 5,
+        "source_constant": "GLOAT",
+        "source_constant_line": 53,
+        "intent_enum": "BUFF",
+        "combat_asset_key": "INTENT_BUFF_L",
+        "set_move_evidence": [
+          {
+            "line": 283,
+            "enum": "BUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "HP/phase condition ANGER BUFF; EXECUTE ATTACK double; periodic TAUNT DEBUFF; stance count/random branches DEFENSIVE_STANCE DEFEND_BUFF. Selection rules unchanged.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "champ",
+        "runtime_move_id": "taunt",
+        "runtime_definition_line": 69,
+        "source_move_byte": 6,
+        "source_constant": "TAUNT",
+        "source_constant_line": 54,
+        "intent_enum": "DEBUFF",
+        "combat_asset_key": "INTENT_DEBUFF_L",
+        "set_move_evidence": [
+          {
+            "line": 267,
+            "enum": "DEBUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "HP/phase condition ANGER BUFF; EXECUTE ATTACK double; periodic TAUNT DEBUFF; stance count/random branches DEFENSIVE_STANCE DEFEND_BUFF. Selection rules unchanged.",
+        "status": "mapped"
+      },
+      {
+        "enemy_id": "champ",
+        "runtime_move_id": "anger",
+        "runtime_definition_line": 70,
+        "source_move_byte": 7,
+        "source_constant": "ANGER",
+        "source_constant_line": 55,
+        "intent_enum": "BUFF",
+        "combat_asset_key": "INTENT_BUFF_L",
+        "set_move_evidence": [
+          {
+            "line": 258,
+            "enum": "BUFF",
+            "mechanism": "setMove"
+          }
+        ],
+        "context": "HP/phase condition ANGER BUFF; EXECUTE ATTACK double; periodic TAUNT DEBUFF; stance count/random branches DEFENSIVE_STANCE DEFEND_BUFF. Selection rules unchanged.",
+        "status": "mapped"
+      }
+    ],
+    "gaps": [],
+    "delegated_act1_species": [
+      "sentry",
+      "cultist",
+      "blue_slaver",
+      "red_slaver",
+      "fungi_beast",
+      "looter",
+      "mad_gremlin",
+      "fat_gremlin",
+      "sneaky_gremlin",
+      "shield_gremlin",
+      "wizard_gremlin"
+    ],
+    "coverage": {
+      "species": 17,
+      "runtime_moves": 61,
+      "mapped_moves": 61,
+      "unmapped_moves": 0
+    }
+  }
+}

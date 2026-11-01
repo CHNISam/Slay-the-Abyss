@@ -1,0 +1,20 @@
+{
+  "acceptedBase": "1dc33fe790a5f82be4f1bf2f0d09e339dcb943dd",
+  "files": {
+    "src/lua/abyss_game_ui.lua": {
+      "beforeSha256": "400375891c34b7c52c06227570263f9f83d4cc177e8ca3d60f8e8f7bc5c55520",
+      "afterSha256": "6a4ea31117d9e23c1c7498859b965496d2b6672af837b220e91ad9fb874a1499",
+      "hunks": [
+        {
+          "at": 721,
+          "before": [
+            "        if self.motion.deathReveal then return false,\"result_revealing\" end"
+          ],
+          "after": [
+            "        if self.motion.deathReveal or self.run and self.run.phase == \"defeat\" and self.battleUI.busy then return false,\"result_revealing\" end"
+          ]
+        }
+      ]
+    }
+  }
+}

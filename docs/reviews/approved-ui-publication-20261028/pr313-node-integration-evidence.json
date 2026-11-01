@@ -1,0 +1,430 @@
+{
+  "recordedAt": "2026-10-28T18:24Z",
+  "preCommitHead": "a76c5814f4a854f31950850a0282b07e1c3c6ba7",
+  "developBase": "432eebb1d51a7ad37cfbc19f0e846bc00f1f4ba7",
+  "replacesPR313Head": "4211b4eaaac9e16f4f44a32fcbd8c98b50888a17",
+  "nodeOutputParity": [
+    {
+      "fixture": "node_ui.lua",
+      "old": "8949b6b8fbf1240196719246936c86a90f3d3212f47f0a9b148cedf76d6196df",
+      "new": "8949b6b8fbf1240196719246936c86a90f3d3212f47f0a9b148cedf76d6196df",
+      "equal": true
+    },
+    {
+      "fixture": "node_ui_slice_2.lua",
+      "old": "f6ef75e605e7f98fa777593fdf691105b061f10bbcb37db49b3d020fab3d65f5",
+      "new": "f6ef75e605e7f98fa777593fdf691105b061f10bbcb37db49b3d020fab3d65f5",
+      "equal": true
+    },
+    {
+      "fixture": "node_ui_slice_3.lua",
+      "old": "71e6e95159663f7f18a001a2eadd5ef9e37217685d6e52fb58ceaa418ad1a4db",
+      "new": "71e6e95159663f7f18a001a2eadd5ef9e37217685d6e52fb58ceaa418ad1a4db",
+      "equal": true
+    },
+    {
+      "fixture": "node_ui_slice_4.lua",
+      "old": "f1a1007fca77b180fc4eae66d5df81b02316a8b2f5f80ad5d5ebaef5cdc81ccc",
+      "new": "f1a1007fca77b180fc4eae66d5df81b02316a8b2f5f80ad5d5ebaef5cdc81ccc",
+      "equal": true
+    },
+    {
+      "fixture": "node_ui_slice_5.lua",
+      "old": "3131ab36879f6a41a39ff9def5a9a178368cd0d81fef69c774b692d11444c52a",
+      "new": "3131ab36879f6a41a39ff9def5a9a178368cd0d81fef69c774b692d11444c52a",
+      "equal": true
+    },
+    {
+      "fixture": "node_ui_slice_6.lua",
+      "old": "a49d5f5d091e594a31eeab207aadbeb90bba31665fd947075cb9b4691f3b613c",
+      "new": "a49d5f5d091e594a31eeab207aadbeb90bba31665fd947075cb9b4691f3b613c",
+      "equal": true
+    },
+    {
+      "fixture": "node_ui_slice_7.lua",
+      "old": "c8856f3d7ac1c98b31fb734097f6e93770816d0ad2303c8364ed4b967fa86677",
+      "new": "c8856f3d7ac1c98b31fb734097f6e93770816d0ad2303c8364ed4b967fa86677",
+      "equal": true
+    },
+    {
+      "fixture": "node_ui_slice_8.lua",
+      "old": "b398565d8041276a1ac8b7a62ad007fd4a6ac0751dc35242428829bb83a36a00",
+      "new": "b398565d8041276a1ac8b7a62ad007fd4a6ac0751dc35242428829bb83a36a00",
+      "equal": true
+    },
+    {
+      "fixture": "node_ui_gestures.lua",
+      "old": "420c1b8931a580fc7a82aeb9cfec52ea0c459f03b01b6380a0d2a7e9ffab264c",
+      "new": "420c1b8931a580fc7a82aeb9cfec52ea0c459f03b01b6380a0d2a7e9ffab264c",
+      "equal": true
+    }
+  ],
+  "sourceSha256": {
+    ".gitattributes": "71e636848cd43446cd38c6d594866548b673ab1a3006e45910b8e6aa0c9bb001",
+    "data/presentation/ui_theme.json": "77dcf24a1f1b128d069413feaa55e97c69e7c83272c49afe4ff72119a92da7bc",
+    "scripts/card-face.mjs": "02fb7ba9e7018bfe20af15a9b9b34ce50cb494216d77c4c5abdf2e50eb2e162e",
+    "scripts/deck-ui-layout.mjs": "0ced25b2c2e48fbbae63b295872a5a1ea14b0e98a6fd46fcf870cf27e9189ae1",
+    "scripts/potion-discard-layout.mjs": "67cd5646327d04591a077788a36975c6922f4a7ebe6d90f032324eb48afd38f5",
+    "src/lua/abyss_node_ui_faces.lua": "3b4021be9a1100e6ef1c6a8562a114a61981f6163bbf4507e5e5c5be4efac7cc",
+    "tests/approved-node-ui-refactor.test.mjs": "3e2480d28897ba259521654be706544054906eb8edd03a1f6ebb3e633a358240",
+    "tests/approved-ui-inverse.test.mjs": "51cb12bca7863c6ee8a77695950cdb747718493ee118203bf3762031f876d829",
+    "tests/card-blocked-source.test.mjs": "13b06330be307ae697e5d51021003fec891dabf86404ebcc53288f5b9c669a7b",
+    "tests/fixtures/approved-node-ui-faces-layer.json": "d1e253724b880a9b1779588eb222153675044806ae83a3dba1d63b1fb0b9331b",
+    "tests/fixtures/approved-ui-post-node-layer.json": "1dcc284d03101f157fe51a086a364c5843c0c906dfdadd9cc4731ba0659024af",
+    "tests/helpers/approved-node-ui-refactor.mjs": "d042c700a06c25aeb3133b735dcf7b0ba7517a435ab6ff57119d471f84a83b9c",
+    "tests/helpers/approved-ui-inverse.mjs": "0fbcb58ce7727ac9513cd5eb19ab6b83852cd5a10a9cbc81053ae14acc7d127c",
+    "tests/helpers/p0-presentation-inverse.mjs": "287a47db5681b00b9d6ce3106bfba4e76f00486243d900a09eaae77f9f3ba34d",
+    "tests/helpers/presentation-announcement-retirement.mjs": "b48238f8471d40ae3d4e77c7817d68e946953f9bf8f4abd5c09c0cbd0d62fe21",
+    "tests/helpers/presentation-m3-integration.mjs": "1c59f7b50437f435ce86f14e1ad3b7c5d76c34239c94543e3fe82f3d57c2a220",
+    "tests/helpers/task77-current-source-layers.mjs": "a36b0866ed75e05ef96b5d89d53625a6de2dd9e0197de713e3d094ae7e745d52",
+    "tests/lua/battle_ui_action_compatibility.lua": "8ec3d9762fa77cf0e7af5125de5ad644e266189f5417f9934f1fb8ad980a014a",
+    "tests/lua/battle_ui_potion_ownership.lua": "3db457e45512ddb7f2695ec5d48427f78500c30ebfa8030854bf70c60f48bfdf",
+    "tests/lua/curl_up_ui.lua": "912b0cfd0a7ed8906a17753198d3d2c3c0a97c3edb589f0e52177bdc8097e18a",
+    "tests/lua/potion_duplication_ui.lua": "adf891616cd3c9267b15f6a83e3252b698582fb36e17c97ea7db1d31262b5733",
+    "tests/lua/potion_status_rules.lua": "e2201bddd083f96af3453b4c6a246940b1c9ee7e3105efb31f3f77388426139c",
+    "tests/lua/potion_target_rejection.lua": "43ed77a9e9ea2c97a2e37cb09ec34f7087a709fbd44372713101a3497dca864f",
+    "tests/lua/support/card_blocked_display.lua": "c58ea8aa8d3f3f454bad2c995223e79eccb818fd35317229642de664040e0e68",
+    "tests/lua/ui_final_presentation.lua": "09c8b47f816e1536c637abb064f23d807cc902e5d13ca798900118dac348e173",
+    "tests/native-ui-theme.test.mjs": "ab5a39fb5dae4d4c2ee4501ca0a275238a0b6a668835b30b49f6a6b5bb1f346e",
+    "tools/card-value-feedback/fixture.lua": "d17264cc67c70ac89a6b7e399d85b814ce144f79b35af6c86cd6f28c3f60bc50"
+  },
+  "localLogs": {
+    "/tmp/sta-ui-final-live-owner-green.log": {
+      "bytes": 5241,
+      "sha256": "cb9273af7a914688c0f93b1a4671ce56392779ba501968bef8f633fb1641a583"
+    },
+    "/tmp/sta-ui-final-portable-gates-20261028.log": {
+      "bytes": 2431,
+      "sha256": "f73a969f3089992429c262f30188829dc12c0b5094ee3a98926d709261bd8da0"
+    },
+    "/tmp/sta-ui-node-frozen-witness-green.log": {
+      "bytes": 919,
+      "sha256": "c378b2b07a0c68b7d9c61a4b41c16bd539ca25106025a0ce220c5613de667649"
+    },
+    "/tmp/sta-ui-node-materializer-guard-green.log": {
+      "bytes": 1051,
+      "sha256": "092e798c1274d9c23fe3ad6804ffa10e65f04b203238005e3d302d6fc5e65a69"
+    },
+    "/tmp/sta-ui-native-output-green.log": {
+      "bytes": 2490,
+      "sha256": "335964a986c5a216bfa22a1e90c3de0cb226bc59c32f06df09c26d438fa9abb8"
+    },
+    "/tmp/sta-ui-node-full-historical-green.log": {
+      "bytes": 5271,
+      "sha256": "0fad836da18943c365644a03006ed03e09f8db337d08a8ca906f31d1472d9d71"
+    },
+    "/tmp/sta-ui-late-ci-fixtures-red-20261028.log": {
+      "bytes": 2923,
+      "sha256": "6322681ab33ac1de1fdbef8a55a6e1a90106f09ab91f3c481904247ab841dba6"
+    },
+    "/tmp/sta-ui-late-ci-fixtures-green-20261028.log": {
+      "bytes": 2503,
+      "sha256": "c138097b13a6388d10911a545adf83435f5dde6b1651030d49ae993bc954e2df"
+    },
+    "/tmp/sta-ui-precommit-targeted-green-20261028.log": {
+      "bytes": 1922,
+      "sha256": "3c4b2139ba7459518d45b075674143f3a3319f4eadbc24d42e1c2415af736ccf"
+    }
+  },
+  "limits": [
+    "Local logs remain in the isolated cloud workspace; they are not hosted CI evidence.",
+    "The historical full test command had 20 passes and one error-message regex mismatch; the corrected guard is separately rechecked before commit. Original three full write proofs passed.",
+    "No third full-local npm check; exact pushed-head hosted Quality and inventory remain mandatory.",
+    "Official import, current candidate ready, device pixels, touch usability and performance NOT_RUN."
+  ],
+  "ciHistoricalGlyphRepair": {
+    "observedHead": "7a4910b56cb35e5221faf4523410a9100085c4ea",
+    "runId": 40745192120,
+    "jobId": 123020465946,
+    "failure": "final-integration-source frozen formal/glyph witness rejected by the new exact outer layer",
+    "immutableMetadata": {
+      "tests/fixtures/task77-current-source-layers-20261028.json": "f5d61e2809daadc3a2d559d54e3de2b1846f4ad1001a44a12436a1f0d08bee3a",
+      "docs/reviews/formal-entry-source-inverses-20261028.json": "cb1c42674c3a4ca3e399e63ea61a4c919513a452e80d7fc95881dfa4262c9893"
+    },
+    "metadataReadback": "Both metadata files are byte-identical to their 4211b4e versions. HistoricalGlyphTheme is f88fac; applying only the immutable formal entry hunks at original at+10, with exact before/after lines, independently recovers992e. No identity was inferred only from a failed log.",
+    "path": "data/presentation/ui_theme.json",
+    "existingHistoricalIdentities": [
+      "f88fac509e27f23db8e7f65c50236377fd7c230356695987e51f93881f6ec128",
+      "992e36ac0923209eb0ae09eac564e2685b0768a5cbbe211762e6b62b723478cf"
+    ],
+    "callerAudit": "Read-only review of preCurrent/preFormal/preRetirement/preAccepted callers found these are the only missing direct frozen-theme branch. Earlier roomSnapshot/retirement outputs use their own existing dedicated projection and are not added.",
+    "testResults": [
+      "Regression was red at the real exact outer guard before correction.",
+      "14/14 exact source/frozen glyph/current-source/Node materialization tests;2/2 historical inputs/Node override negative tests.",
+      "8/8 existing native theme/glyph-position contracts;4/4 existing pure formal-entry/competition guards.",
+      "Explicit single-space drift and wrong card-face/formal-code paths reject. Live current root+faces pre-write materialization guards unchanged.",
+      "JavaScript syntax and diff whitespace passed; no production/runtime/runner/golden/budget changes."
+    ],
+    "modifiedSourceSha256": {
+      "tests/approved-node-ui-refactor.test.mjs": "4169a1631dc945196d9b635f0f29ebb907d986a5ef2f65cab4cc80431255377a",
+      "tests/fixtures/approved-ui-post-node-layer.json": "7d12b5b51d93795162ed4fa9869f5585db30d77fe99650de86ef3938caa737ee",
+      "tests/helpers/approved-node-ui-refactor.mjs": "ec4d45de2bd27a1b335171eb2f8adc7abd112c4d7d3cbb945f3593cbb2f70f5b"
+    },
+    "localLogs": {
+      "/tmp/sta-ui-final-integration-source-red-7a4910b.log": {
+        "bytes": 2165,
+        "sha256": "19189d2e2e7794308e4d8ec07fdb9f23b01a36fdc7dddea60902f018f632c1f4"
+      },
+      "/tmp/sta-ui-historical-glyph-theme-new-regression-red.log": {
+        "bytes": 1758,
+        "sha256": "671e0ea0f90434b3d2f50a74135f9af134497e92603a0e07800bf7af9cd1b121"
+      },
+      "/tmp/sta-ui-historical-glyph-theme-green-20261028.log": {
+        "bytes": 2103,
+        "sha256": "ea24f2c4030666d6a0da460516d835a94854dac3b40b490e522e5fbf92990797"
+      },
+      "/tmp/sta-ui-historical-glyph-related-green-20261028.log": {
+        "bytes": 1941,
+        "sha256": "bacac9ea78e9c408506b52dda63af5b77266e03c77089c080128bcf43d2aa445"
+      }
+    },
+    "hostedRetest": "PENDING exact follow-up head; no full pass claimed."
+  },
+  "ciOtherRepairs": {
+    "observedHead": "7a4910b56cb35e5221faf4523410a9100085c4ea",
+    "runId": 40745192120,
+    "dragSource": {
+      "jobId": 123020466100,
+      "failure": "Raw cursor and snapped enemy reticle have distinct exact floating point coordinates; stale input did not change either value.",
+      "probeBeforeAfter": "raw=(173.33333333333337,47.333333333333314);reticle=(173.33333333333334,47.333333333333336);target=1 before and after.",
+      "repair": "Strictly capture the actual reticle and target after a valid pointer, assert they belong to real enemy1, then require unchanged target/reticle and raw gesture; preserve old previews/energy/hand and add complete core graph identity/value freeze. No tolerance increase.",
+      "currentTest": "10/10,16746ms under original30000ms deadline.",
+      "rootReview": "Root independently read the full diff and approved the oracle migration; independent Main geometry formula remains separate.",
+      "logs": {
+        "/tmp/sta-ui-drag-source-current-red-20261028.log": "9b3afd60515f4eacf75fce90c515a2596464bdfb0004624baf8fb2f18bacb248",
+        "/tmp/sta-ui-drag-source-current-green-20261028.log": "2de6d020917878be5e83d75dabf5ef74487c63652001d0cd0f763858cb9d414d",
+        "/tmp/sta-ui-drag-source-oracle-probe.log": "876d9b135e330a530cef7e491643ec1e6e52834fe76473b96f72c85b1c0b21dc"
+      },
+      "currentSourceSha256": "7c85147b9676edc4ff05a348a7aaa03d8370287f679dddb68447d8145dee2edb"
+    },
+    "classChoices": {
+      "jobId": 123020466094,
+      "hostedFailure": "Original30000ms deadline timed out in original group10 after9 full cases; no business assertion failure. Existing19286ms weight already selects exclusive scheduling.",
+      "sameSourceLocal": "Original full10 cases pass26590ms under same30000ms deadline; no hosted margin.",
+      "repair": "Mechanical1–5/6–10 partition using the existing class_powers approach. Both slices completed five original cases; runtime markers1..10 verified exactly once.",
+      "originalSha256LF": "69060f92fe3cc24e7ace32c835621acae9874ee05390019ec78c72c6de69b04b",
+      "originalGitBlob": "295f6132b4a1167aac584dddda487340358f00f7",
+      "localLogSha256": "d93948d9dfd882e34cd45748c1dbb50b8eb8971fc505e79c0396fd46ea888c19",
+      "runtimeMilliseconds": [
+        11357,
+        13425
+      ],
+      "deadlineMillisecondsPerSlice": 30000,
+      "sourcePreservation": "PureJS contract red2/2 then green2/2; exact original body SHA256 and Gitblob restored; raw8-shard workers1/2, Node discovery, win8/linux4 JS plans cover each raw slice/contract once. Runner untouched and original whole runner SHA256 pinned.",
+      "rootReview": "Root independently read all4 files and accepted the exact mechanical diff and preservation/discovery contract.",
+      "newSourceSha256": {
+        "tests/lua/game_ui_class_choices.lua": "c5789e68fccb9583feb7cb31f6a41e6a6854eaca5a28361d93c9804f8e9382d9",
+        "tests/lua/game_ui_class_choices_slice_2.lua": "b73caa35784ecdc89b1f5f817aaff696102df561550ba8b1de312235c02dfb26",
+        "tests/game-ui-class-choices-partitions.test.mjs": "c7fd7dc830dbb10ec9f5e60d0d1ced0be9cc62716a5d73cde7018e39225bc15e",
+        "tests/fixtures/game-ui-class-choices-partitions.json": "45df30473b6b20da904bbf41d6ae773afb8b43d62dbc25f37f04c70c382d9762"
+      },
+      "logs": {
+        "/tmp/sta-ui-class-choices-partitions-red-20261028.log": "0811e97c83611100713257595ea15ec438967ad2e7fe33887e7a191a2bffaaa1",
+        "/tmp/sta-ui-class-choices-partitions-green-20261028.log": "3e911863d64c58a5447d4a4f64281e2967101a4a8a4ef662f9e6bce67ae4813e",
+        "/tmp/sta-ui-class-choices-partitions-runtime-green-20261028.log": "8c79b2cf4819c2323c74b734a4b33eb5fc737d7a265483a6bc3652a31f991e63"
+      }
+    }
+  },
+  "ciLivePotionHelpRepair": {
+    "observedHead": "7a4910b56cb35e5221faf4523410a9100085c4ea",
+    "runId": 40745192120,
+    "jobId": 123020466085,
+    "failure": "potion_belt_ui expected legacy potionHelp slot controls to be visible, despite the approved visible bottle long-press/detail plus popup Use design.",
+    "retained": "All original3/5 capacity, management discard/refill, bottle inventory/energy, independent4/5 help, energy+2/Strength2, shop admission and reward refill assertions remain. Added per-slot real info potionId/title and actual detail close assertions.",
+    "runtimeResults": {
+      "potion_belt_ui": {
+        "groups": 5,
+        "milliseconds": 13206
+      },
+      "potion_targeting_help": {
+        "groups": 3,
+        "milliseconds": 9867
+      }
+    },
+    "visibilityAudit": "Existing targeting_help was a false reachable positive: hidden legacy control still had synthetic listeners. New visible-entry assertion reproduced red; real visible bottle down/0.4/up/click is green, with original poison explanation, summary, full run/battle snapshots, target, longpress cancellation and all34 target policies unchanged. No other live potionHelp visibility assumptions, missing Use confirmations, or old enemyRow live pointer inputs were found. Historical delta oracles and reward controls are left alone.",
+    "sameRootVisibilityCoverage": {
+      "purpose": "Three additional existing tests still checked hidden label storage. Preserve those original strings and trusted Run.usePotion setup; additionally open actual visible bottle long-press details and assert visible effect text. No unrelated test refactor.",
+      "potion_remaining_ui": {
+        "cases": 6,
+        "milliseconds": 9799
+      },
+      "potion_flex_speed_ui": {
+        "cases": 2,
+        "milliseconds": 3899
+      },
+      "potion_sustained_ui": {
+        "cases": 3,
+        "milliseconds": 5034
+      }
+    },
+    "scopeStop": "Systematic scan complete; do not expand beyond these identified live visibility/input contracts.",
+    "rootReview": "Root independently read belt/targeting_help diff and accepted; additional3 visibility cases authorized within the same bounded root cause.",
+    "sourceSha256": {
+      "tests/lua/potion_belt_ui.lua": "20c84b3ba66e07e4a2fab7fed8691dd4a5635bb421a8327e0956902c0ce65803",
+      "tests/lua/potion_targeting_help.lua": "635e98fb2a1b0dedf3b0c9f28a096663e45f3dae04ea4d1b196a0ce2d6c3f91d",
+      "tests/lua/potion_remaining_ui.lua": "0dcd0ca024ec511aef0ac4ecf4926a0ff62d2efa48a4b3231d765433e1746606",
+      "tests/lua/potion_flex_speed_ui.lua": "d50cfa32c8cc3febae6cd5e6fba9851b1e671b609b1f286e766cd060d70369ec",
+      "tests/lua/potion_sustained_ui.lua": "1bca4692367cd11be862f8fd0a7827f50812852de34c5852778fd6d13701dae8"
+    },
+    "logs": {
+      "/tmp/sta-ui-potion-belt-current-red-20261028.log": "936fd523a9cac17214cf99db99f7808d656f01a83063c24d84e25edecbef42e6",
+      "/tmp/sta-ui-potion-help-live-entry-red-20261028.log": "296127180d0f4044218de7fff5a7cb4930016eb3f3a1666fcbb54a6dc383d34d",
+      "/tmp/sta-ui-potion-live-help-final-green-20261028.log": "c7eb916d0012f4c531d8d30cbaf18f52305867af21b050da8f4d438e67ca8144",
+      "/tmp/sta-ui-potion-visible-copy-audit-green-20261028.log": "a485642bb940baeb2d2dc942f3ee0086e0bd794416302c5257c725c788773fe8"
+    }
+  },
+  "ciObservedTerminalRun": {
+    "conclusion": "failure",
+    "headSha": "7a4910b56cb35e5221faf4523410a9100085c4ea",
+    "jobs": [
+      {
+        "completedAt": "2026-10-28T18:33:09Z",
+        "conclusion": "success",
+        "databaseId": 123016982306,
+        "name": "impact",
+        "startedAt": "2026-10-28T18:32:52Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T18:39:06Z",
+        "conclusion": "success",
+        "databaseId": 123016982935,
+        "name": "presentation",
+        "startedAt": "2026-10-28T18:38:19Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T18:55:05Z",
+        "conclusion": "success",
+        "databaseId": 123020465933,
+        "name": "engineering-posix (4/4)",
+        "startedAt": "2026-10-28T18:43:28Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T18:52:36Z",
+        "conclusion": "failure",
+        "databaseId": 123020465946,
+        "name": "engineering-posix (1/4)",
+        "startedAt": "2026-10-28T18:44:43Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T19:14:36Z",
+        "conclusion": "success",
+        "databaseId": 123020466012,
+        "name": "rules (3/8)",
+        "startedAt": "2026-10-28T19:01:34Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T19:06:18Z",
+        "conclusion": "failure",
+        "databaseId": 123020466062,
+        "name": "rules (6/8)",
+        "startedAt": "2026-10-28T18:59:34Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T19:11:45Z",
+        "conclusion": "failure",
+        "databaseId": 123020466085,
+        "name": "rules (4/8)",
+        "startedAt": "2026-10-28T18:55:09Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T19:04:17Z",
+        "conclusion": "failure",
+        "databaseId": 123020466094,
+        "name": "rules (1/8)",
+        "startedAt": "2026-10-28T18:45:21Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T19:18:46Z",
+        "conclusion": "success",
+        "databaseId": 123020466097,
+        "name": "engineering-posix (3/4)",
+        "startedAt": "2026-10-28T19:06:20Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T19:02:28Z",
+        "conclusion": "failure",
+        "databaseId": 123020466100,
+        "name": "rules (8/8)",
+        "startedAt": "2026-10-28T18:40:36Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T19:10:59Z",
+        "conclusion": "success",
+        "databaseId": 123020466106,
+        "name": "rules (2/8)",
+        "startedAt": "2026-10-28T18:57:26Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T19:26:41Z",
+        "conclusion": "success",
+        "databaseId": 123020466159,
+        "name": "rules (7/8)",
+        "startedAt": "2026-10-28T19:08:20Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T19:15:50Z",
+        "conclusion": "success",
+        "databaseId": 123020466296,
+        "name": "engineering-posix (2/4)",
+        "startedAt": "2026-10-28T19:08:24Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T19:28:11Z",
+        "conclusion": "success",
+        "databaseId": 123020466330,
+        "name": "rules (5/8)",
+        "startedAt": "2026-10-28T19:08:52Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T18:33:09Z",
+        "conclusion": "skipped",
+        "databaseId": 123020468896,
+        "name": "fast",
+        "startedAt": "2026-10-28T18:33:10Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T19:21:23Z",
+        "conclusion": "failure",
+        "databaseId": 123044926141,
+        "name": "engineering-posix",
+        "startedAt": "2026-10-28T19:21:20Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T19:29:50Z",
+        "conclusion": "failure",
+        "databaseId": 123049935878,
+        "name": "check",
+        "startedAt": "2026-10-28T19:29:47Z",
+        "status": "completed"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40745192120"
+  },
+  "ciRepairBatchPreCommit": {
+    "sourceContractTests": 30,
+    "javascriptSyntax": "passed",
+    "changedAndNewLuaSyntax": "passed",
+    "backlog": "passed",
+    "whitespace": "passed",
+    "productionAndRunnerDiffFrom7a4910b": "none",
+    "logSha256": "76befd930730a3ac66c840c3dd14a456b2f1566e8244eab8a0c8f25b29999012",
+    "hostedRetest": "Required on exact follow-up head; no full pass claimed."
+  }
+}

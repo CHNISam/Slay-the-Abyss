@@ -1,0 +1,86 @@
+{
+  "purpose": "source-backed first-act eligibility filters from AbstractDungeon.getEvent/getShrine",
+  "cases": [
+    {
+      "pool": "act",
+      "id": "The Cleric",
+      "floor": 3,
+      "gold": 34,
+      "eligible": false,
+      "basis": "gold>=35"
+    },
+    {
+      "pool": "act",
+      "id": "The Cleric",
+      "floor": 3,
+      "gold": 35,
+      "eligible": true,
+      "basis": "gold>=35"
+    },
+    {
+      "pool": "act",
+      "id": "Dead Adventurer",
+      "floor": 6,
+      "gold": 99,
+      "eligible": false,
+      "basis": "floorNum>6"
+    },
+    {
+      "pool": "act",
+      "id": "Dead Adventurer",
+      "floor": 7,
+      "gold": 99,
+      "eligible": true,
+      "basis": "floorNum>6"
+    },
+    {
+      "pool": "act",
+      "id": "Mushrooms",
+      "floor": 6,
+      "gold": 99,
+      "eligible": false,
+      "basis": "floorNum>6"
+    },
+    {
+      "pool": "act",
+      "id": "Mushrooms",
+      "floor": 7,
+      "gold": 0,
+      "eligible": true,
+      "basis": "floorNum>6"
+    },
+    {
+      "pool": "special",
+      "id": "The Woman in Blue",
+      "floor": 2,
+      "gold": 49,
+      "eligible": false,
+      "basis": "gold>=50"
+    },
+    {
+      "pool": "special",
+      "id": "The Woman in Blue",
+      "floor": 2,
+      "gold": 50,
+      "eligible": true,
+      "basis": "gold>=50"
+    },
+    {
+      "pool": "special",
+      "id": "Fountain of Cleansing",
+      "floor": 2,
+      "isCursed": false,
+      "eligible": false,
+      "basis": "player.isCursed()"
+    },
+    {
+      "pool": "special",
+      "id": "Fountain of Cleansing",
+      "floor": 2,
+      "isCursed": true,
+      "eligible": true,
+      "basis": "player.isCursed()"
+    }
+  ],
+  "limitations": "Only eligibility component, not selection probabilities or RNG consumption; Duplicator/Act1 conflict deliberately omitted."
+}

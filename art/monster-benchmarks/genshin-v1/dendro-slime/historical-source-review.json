@@ -1,0 +1,49 @@
+{
+  "identity": "Dendro Slime / 草史莱姆 (official small species)",
+  "observed_anatomy": "Actual HoYoWiki reference has low soft green body, pale lower belly, irregular upper green patches, two pale warm-bordered eyes without mouth, fern-like lobed leaves and curled tendrils. No flower cap.",
+  "identity_review": "Recognizable small Dendro Slime; lobed leaf silhouette, curled stems, mouthless two-eye face and green-to-pale body preserved. Three leaves are more upright than compact right-hand pose, but same species reference includes this upright arrangement. Not invented medium or poison species.",
+  "small_size_review": "106/127px pair of warm eyes and lobed leaf crown remain clear. Thin curls merge; green body stays distinct from rocky brown hatchling.",
+  "proposal_id": "acid_slime_m",
+  "status": "offline-source-candidate-awaiting-owner-review",
+  "independent_per_identity_review": true,
+  "technical": {
+    "size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "alpha_nonzero_bbox": [
+      0,
+      19,
+      1225,
+      1230
+    ],
+    "alpha_gt_16_bbox": [
+      214,
+      58,
+      1223,
+      1162
+    ],
+    "alpha_gt_128_bbox": [
+      215,
+      59,
+      1222,
+      1161
+    ]
+  },
+  "edge_limitation": "Low-alpha fringe/specks extend farther than visible solid silhouette. Raw alpha preserved. Small preview is not native antialiasing/crop safety proof; later native adaptation should test 6% inset contain without trimming.",
+  "owner_approved": false,
+  "native_approved": false,
+  "runtime_enabled": false,
+  "device_approved": false,
+  "native": false,
+  "runtime": false,
+  "device": false,
+  "all_42_mapping_approved": false,
+  "gameplay_binding_changed": false,
+  "generation_fix_needed": false
+}

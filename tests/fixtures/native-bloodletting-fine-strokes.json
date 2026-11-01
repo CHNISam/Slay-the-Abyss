@@ -1,0 +1,765 @@
+{
+  "schemaVersion": 1,
+  "sourceArtwork": {
+    "reference": "TASK-25.2 original Bloodletting source.png; separately delivered review artifact, not a runtime bitmap",
+    "sha256": "9092ea67f21c1c8022c7968cf608629313ae6d55cd449741fbee1003cd0b08a3"
+  },
+  "authoringRecipe": {
+    "reference": "Frozen pre-fix geo-bloodletting-refinement/build-native.py line()/sl()/crystal() source coordinate calls",
+    "sha256": "f9088fbca81a8aee0af008878ae3299bdb26883ded3dec9162f38645bea24a8a"
+  },
+  "originalClampedLuaSha256": "c87314bb50192daa0fca701c37a20c7ad071499e0b535799e7509339ad925420",
+  "coordinateContract": "2048 source width to144; source y offset+8; centered34crop removes15; Lua centered Y-up",
+  "evidenceLimit": "Mixed XYZ projection uses pinned editor103025 convention; official rendering not validated",
+  "strokes": [
+    {
+      "index": 15,
+      "name": "red-current-fine",
+      "sourceEndpoints": [
+        [
+          464,
+          183
+        ],
+        [
+          775,
+          240
+        ]
+      ],
+      "thickness": 0.37,
+      "originalClampedRow": [
+        100001,
+        -28.4414005279541,
+        9.128899574279785,
+        22.231399536132812,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        -10.385899543762207,
+        206,
+        81,
+        67,
+        204
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 16,
+      "name": "amber-open-wisp-a",
+      "sourceEndpoints": [
+        [
+          1450,
+          210
+        ],
+        [
+          1615,
+          154
+        ]
+      ],
+      "thickness": 0.28,
+      "originalClampedRow": [
+        100001,
+        35.75389862060547,
+        11.203100204467773,
+        12.251500129699707,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        18.74690055847168,
+        208,
+        161,
+        91,
+        92
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 17,
+      "name": "amber-open-wisp-b",
+      "sourceEndpoints": [
+        [
+          1590,
+          327
+        ],
+        [
+          1760,
+          285
+        ]
+      ],
+      "thickness": 0.24,
+      "originalClampedRow": [
+        100001,
+        45.773399353027344,
+        2.4844000339508057,
+        12.3125,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        13.8774995803833,
+        196,
+        149,
+        80,
+        56
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 18,
+      "name": "amber-open-wisp-c",
+      "sourceEndpoints": [
+        [
+          1180,
+          215
+        ],
+        [
+          1230,
+          175
+        ]
+      ],
+      "thickness": 0.23,
+      "originalClampedRow": [
+        100001,
+        12.72659969329834,
+        10.28909969329834,
+        4.502200126647949,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        38.6598014831543,
+        211,
+        164,
+        94,
+        71
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 44,
+      "name": "cuff-gold-piping",
+      "sourceEndpoints": [
+        [
+          498,
+          374
+        ],
+        [
+          548,
+          498
+        ]
+      ],
+      "thickness": 0.62,
+      "originalClampedRow": [
+        100001,
+        -35.226600646972656,
+        -6.656199932098389,
+        9.400899887084961,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        -68.03939819335938,
+        179,
+        149,
+        112,
+        255
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 45,
+      "name": "cuff-lit-piping",
+      "sourceEndpoints": [
+        [
+          502,
+          372
+        ],
+        [
+          552,
+          497
+        ]
+      ],
+      "thickness": 0.25,
+      "originalClampedRow": [
+        100001,
+        -34.9453010559082,
+        -6.55079984664917,
+        9.466099739074707,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        -68.19860076904297,
+        246,
+        222,
+        179,
+        255
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 94,
+      "name": "index-crest",
+      "sourceEndpoints": [
+        [
+          852,
+          402
+        ],
+        [
+          910,
+          358
+        ]
+      ],
+      "thickness": 0.52,
+      "originalClampedRow": [
+        100001,
+        -10.054699897766113,
+        -2.7188000679016113,
+        5.118800163269043,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        37.18470001220703,
+        255,
+        220,
+        192,
+        255
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 95,
+      "name": "middle-crest",
+      "sourceEndpoints": [
+        [
+          928,
+          396
+        ],
+        [
+          1019,
+          325
+        ]
+      ],
+      "thickness": 0.55,
+      "originalClampedRow": [
+        100001,
+        -3.550800085067749,
+        -1.3476999998092651,
+        8.115500450134277,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        37.962100982666016,
+        255,
+        219,
+        192,
+        255
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 96,
+      "name": "outer-finger-crest",
+      "sourceEndpoints": [
+        [
+          956,
+          446
+        ],
+        [
+          1045,
+          371
+        ]
+      ],
+      "thickness": 0.5,
+      "originalClampedRow": [
+        100001,
+        -1.6523000001907349,
+        -4.722700119018555,
+        8.183500289916992,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        40.12070083618164,
+        255,
+        213,
+        186,
+        255
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 97,
+      "name": "palm-fold-a",
+      "sourceEndpoints": [
+        [
+          689,
+          441
+        ],
+        [
+          765,
+          450
+        ]
+      ],
+      "thickness": 0.29,
+      "originalClampedRow": [
+        100001,
+        -20.88279914855957,
+        -7.32420015335083,
+        5.381100177764893,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        -6.753600120544434,
+        197,
+        139,
+        121,
+        255
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 98,
+      "name": "palm-fold-b",
+      "sourceEndpoints": [
+        [
+          765,
+          450
+        ],
+        [
+          810,
+          460
+        ]
+      ],
+      "thickness": 0.29,
+      "originalClampedRow": [
+        100001,
+        -16.6289005279541,
+        -7.992199897766113,
+        3.2411999702453613,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        -12.528800010681152,
+        197,
+        139,
+        121,
+        255
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 99,
+      "name": "palm-fold-c",
+      "sourceEndpoints": [
+        [
+          810,
+          460
+        ],
+        [
+          887,
+          438
+        ]
+      ],
+      "thickness": 0.29,
+      "originalClampedRow": [
+        100001,
+        -12.339799880981445,
+        -7.570300102233887,
+        5.63070011138916,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        15.94540023803711,
+        197,
+        139,
+        121,
+        255
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 105,
+      "name": "life-thread-near-mote",
+      "sourceEndpoints": [
+        [
+          775,
+          249
+        ],
+        [
+          851,
+          283
+        ]
+      ],
+      "thickness": 0.45,
+      "originalClampedRow": [
+        100001,
+        -14.83590030670166,
+        5.296899795532227,
+        5.854100227355957,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        -24.10219955444336,
+        238,
+        102,
+        80,
+        204
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 121,
+      "name": "large-amber-edge-1",
+      "sourceEndpoints": [
+        [
+          1391,
+          202
+        ],
+        [
+          1251,
+          315
+        ]
+      ],
+      "thickness": 0.29,
+      "originalClampedRow": [
+        100001,
+        20.88279914855957,
+        5.82420015335083,
+        12.650199890136719,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        -141.0915069580078,
+        255,
+        232,
+        173,
+        255
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 122,
+      "name": "large-amber-edge-2",
+      "sourceEndpoints": [
+        [
+          1251,
+          315
+        ],
+        [
+          1284,
+          133
+        ]
+      ],
+      "thickness": 0.29,
+      "originalClampedRow": [
+        100001,
+        17.1210994720459,
+        8.25,
+        13.005499839782715,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        79.722900390625,
+        255,
+        232,
+        173,
+        255
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 131,
+      "name": "small-amber-edge-0",
+      "sourceEndpoints": [
+        [
+          1517,
+          195
+        ],
+        [
+          1515,
+          294
+        ]
+      ],
+      "thickness": 0.29,
+      "originalClampedRow": [
+        100001,
+        34.59379959106445,
+        6.808599948883057,
+        6.962399959564209,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        -91.15730285644531,
+        255,
+        232,
+        173,
+        255
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 132,
+      "name": "small-amber-edge-1",
+      "sourceEndpoints": [
+        [
+          1515,
+          294
+        ],
+        [
+          1418,
+          370
+        ]
+      ],
+      "thickness": 0.29,
+      "originalClampedRow": [
+        100001,
+        31.113300323486328,
+        0.6561999917030334,
+        8.664400100708008,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        -141.9210968017578,
+        255,
+        232,
+        173,
+        255
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 133,
+      "name": "small-amber-edge-2",
+      "sourceEndpoints": [
+        [
+          1418,
+          370
+        ],
+        [
+          1437,
+          249
+        ]
+      ],
+      "thickness": 0.29,
+      "originalClampedRow": [
+        100001,
+        28.3710994720459,
+        2.238300085067749,
+        8.612099647521973,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        81.07599639892578,
+        255,
+        232,
+        173,
+        255
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 134,
+      "name": "small-amber-edge-3",
+      "sourceEndpoints": [
+        [
+          1437,
+          249
+        ],
+        [
+          1517,
+          195
+        ]
+      ],
+      "thickness": 0.29,
+      "originalClampedRow": [
+        100001,
+        31.851600646972656,
+        8.390600204467773,
+        6.786499977111816,
+        1,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1,
+        1,
+        34.0192985534668,
+        255,
+        232,
+        173,
+        255
+      ],
+      "originalClampedXY": [
+        0,
+        0
+      ]
+    }
+  ],
+  "unchangedHeavyAssets": {
+    "art/cards/geo-samples/heavy_blade/native-art.json": "ffa4d73a214613bc97e1467d7e9bc9a115f3df32336067fb4ab859b42323e722",
+    "art/cards/geo-samples/heavy_blade/native-art.lua": "12835d2700ccc36a60880cbbadcc8442629cdb7f914e2b5e68e7f482c041a338"
+  },
+  "preservedSceneSha256": "f4483f081f4de6c37bf5e406e17efb9a0377db4e24681361897302deba763392",
+  "preservedDrawingSha256": "476363ce6bfe9254868801aa269a04fd8a6ef9c9baa0014bee84cb7c0e2735f6",
+  "unchangedPoolSha256": "853b3fd535aac0aaafe4de285c59adca36817a68a5bd44024a74e6a6358e46f5",
+  "unchangedHeavyLayoutSha256": "191aba53b0d9053c4a819d0132ffc2ca47c239e90e937a006e62f03bdb69e528"
+}

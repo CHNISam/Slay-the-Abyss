@@ -1,0 +1,12 @@
+{
+  "headChildren": 61,
+  "candidateChildren": 60,
+  "battleMax": 60,
+  "gameMax": 60,
+  "originalControlsAndDrawOrderUnchanged": true,
+  "groupInert": true,
+  "sourceFiles": [
+    "scripts/ui-layout.mjs",
+    "src/lua/abyss_battle_ui.lua"
+  ]
+}

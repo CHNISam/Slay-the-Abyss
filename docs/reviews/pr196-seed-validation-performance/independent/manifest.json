@@ -1,0 +1,32 @@
+{
+  "head": "9a4cf64fb6c0f435bb8ad61a3f68f0549a2d03bf",
+  "strings": 588,
+  "canonical_strings": 73,
+  "state_seeds": 56,
+  "files": [
+    {
+      "path": "src/lua/abyss_randomxs128.lua",
+      "candidateSha256": "8e886c3737c875e56a40b5886e4f20b76068101cfcf1b6a18bafa6b144f14d39",
+      "candidateGitBlob": "04f464b6c324caf335e2d3c653514be9da147fd5",
+      "originalGitBlob": "6d745648c4d78a71e03b0b0c490e9471c45dcb44"
+    },
+    {
+      "path": "src/lua/abyss_sts_random.lua",
+      "candidateSha256": "33af2fadd844eb303c3de5bcb9831f7d99e592d3cf7369ca97cee687eba99bab",
+      "candidateGitBlob": "29456527387d0264feecff4410576c3bf1e374df",
+      "originalGitBlob": "00d059441a1e2263884c420c74535d5d91a6927b"
+    },
+    {
+      "path": "src/lua/abyss_run_seed.lua",
+      "candidateSha256": "5824976965571af562afebd83dd55bc54516c1436cf61cccd27d4934e05b609c",
+      "candidateGitBlob": "85b490a106df585d61682681a3c5e7f53b20d5b2",
+      "originalGitBlob": "c37adf6a362858e30e85a4cc583f3a35c684feca"
+    },
+    {
+      "path": "src/lua/abyss_map_topology.lua",
+      "candidateSha256": "628b351e5c21b2ea79b5d5b12273e63e97042780c84e168f8a925fbc43012b1a",
+      "candidateGitBlob": "dd9390ad59141f5935647eba79e74cb7b318a7b2",
+      "originalGitBlob": "20c6940a02693da811380c8d1e35e2d1d193dc3d"
+    }
+  ]
+}

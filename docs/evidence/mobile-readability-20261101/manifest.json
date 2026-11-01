@@ -1,0 +1,160 @@
+{
+  "codeHead": "04e3a75e406341b78db0205864535173c526915f",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 3665,
+      "sha256": "b9d865f09eb1715f977bec9a1f622f63ab3a1e0045ad4080a208a4826d711651"
+    },
+    {
+      "path": "author-sources.json.gz",
+      "bytes": 25321,
+      "sha256": "9306787839a5eadbea118435fe73c631a652755d36d36748c94533e42f63226c"
+    },
+    {
+      "path": "map-before-after.png",
+      "bytes": 172619,
+      "sha256": "3d5b5c69e0efdb4498fd35f2b1a4418811af2ade71f868161d55883bfc0dc68d"
+    },
+    {
+      "path": "mobile-font-compatibility-audit.json",
+      "bytes": 8191,
+      "sha256": "3d74c864b70a9f4ce05db3914617f981ee0748c17575df6853e6d500739029e9"
+    },
+    {
+      "path": "mobile-font-implementation.json",
+      "bytes": 9331,
+      "sha256": "0319ca95e537f70db9ef65f22121b814a3ddb495453484465a091cfa99edfbd7"
+    },
+    {
+      "path": "mobile-font-independent-review.json",
+      "bytes": 5321,
+      "sha256": "981454077e4315471f99d91576b3af1c0309fa6fbb429d92278b89e6fca68dff"
+    },
+    {
+      "path": "mobile-font-root-cause.json",
+      "bytes": 8174,
+      "sha256": "af5abbcb469c073045df11babe008fe5973e7a4e1c9e0acedf2d53855ad4f728"
+    },
+    {
+      "path": "mobile-loading-fix-report.json",
+      "bytes": 16928,
+      "sha256": "5a6bf201fb1739f9994114d93e5dc267f6b06a66eb40786310d1a7d42710ac8f"
+    },
+    {
+      "path": "mobile-loading-independent-review.json",
+      "bytes": 10530,
+      "sha256": "35c3025f51518ec7d3713e4ada163ace50fedd33f06b7539ed6146231f0bb194"
+    },
+    {
+      "path": "mobile-loading-investigation.json",
+      "bytes": 12803,
+      "sha256": "528ebf3f2db18b83cd0d150666f3c8859266b72ab2dd91fe425e1c20deae0851"
+    },
+    {
+      "path": "mobile-theme-semantic-diff.json",
+      "bytes": 4802,
+      "sha256": "20369adffe04819a7260a584343d9e7f2f4164e21daebbda347cb5666c47b69f"
+    },
+    {
+      "path": "raw-diagnostics-manifest.json",
+      "bytes": 20754,
+      "sha256": "c01767ef324c16e3f3415a0ec9383a0768311ab20c95253f02c46b74f7a9d530"
+    },
+    {
+      "path": "raw-diagnostics.tar.gz",
+      "bytes": 82383,
+      "sha256": "83673b83f6dfac5f0a1a88d8edad70f072797748bd4e5256f59bd20aff6640ca"
+    },
+    {
+      "path": "render/before/host-scenes.log.gz",
+      "bytes": 17908,
+      "sha256": "469f6cdba46a6c7526dc6d26de3458182650bb2f0e18194fcc0696dfde6a9824"
+    },
+    {
+      "path": "render/before/provenance.json",
+      "bytes": 434,
+      "sha256": "c88bb043bd9d83121de41d52015a87e6095f48b6c89b33014105859189a7c71f"
+    },
+    {
+      "path": "render/before/text-fit.json",
+      "bytes": 405,
+      "sha256": "61a8fdc37459c9e8a069b7f9d723f4d5c49b1896ac38c3e44944ca78d797c44f"
+    },
+    {
+      "path": "render/final/card-pick-hover-landscape.png",
+      "bytes": 48040,
+      "sha256": "148ac671495dc6d566cc0d0de9e0b8d63a2345a383a773a9941add7606b8b471"
+    },
+    {
+      "path": "render/final/card-pick-landscape.png",
+      "bytes": 44106,
+      "sha256": "f6524cd700e8bad8514504f226f8c9cf23fe3550d5e85e165be75ad77eec8890"
+    },
+    {
+      "path": "render/final/controls-landscape.png",
+      "bytes": 57711,
+      "sha256": "aa7f59480ddcc4f9e43ac01a474c923141bfdde9b02d417ac6caf92cdf960eed"
+    },
+    {
+      "path": "render/final/deck-landscape.png",
+      "bytes": 80234,
+      "sha256": "e6b07ea9c8bbfb9bbe45f611fa7a35498151401efb5bd5853ef4ff16386124e3"
+    },
+    {
+      "path": "render/final/exit-landscape.png",
+      "bytes": 15592,
+      "sha256": "7a4b95f4d971c62c91f356dae77edf7ce8cb59b28deeedd68cda46afea1185dd"
+    },
+    {
+      "path": "render/final/host-scenes.log.gz",
+      "bytes": 22357,
+      "sha256": "836bb51f88f18a8a08a2ac8cffb80e03c6c7c997b036222aac64846a4605662f"
+    },
+    {
+      "path": "render/final/map-current-landscape.png",
+      "bytes": 126775,
+      "sha256": "15ecfda8e6dd4a556d5ca1d7d28d58ee2f7b756b78ebfb8bea883d995f272d57"
+    },
+    {
+      "path": "render/final/map-start-landscape.png",
+      "bytes": 128546,
+      "sha256": "ea3596abeff72e02dcdd32017cac5d3db9c84ae07a34dbc4a20ca894f342252a"
+    },
+    {
+      "path": "render/final/menu-landscape.png",
+      "bytes": 12920,
+      "sha256": "84f71dd089abc589c94ac89647303fd15b847e22162bce0da7357109f251e415"
+    },
+    {
+      "path": "render/final/provenance.json",
+      "bytes": 465,
+      "sha256": "e4679cbb1e840c85245ccbf8112aabac017203b7d7963a9e7bf8fb1ada3b35bb"
+    },
+    {
+      "path": "render/final/rewards-landscape.png",
+      "bytes": 19691,
+      "sha256": "8fd5a922b4b12a31bb3ea6b7cc5de126cb15ac48d656d4bd239cbf42ffaaf0d6"
+    },
+    {
+      "path": "render/final/text-fit.json",
+      "bytes": 469,
+      "sha256": "db54f5343465a871a7b1180f01a0605b67e965255decad63cc1757c2242e0706"
+    },
+    {
+      "path": "render/intermediate/host-scenes.log.gz",
+      "bytes": 16552,
+      "sha256": "7fcf06c956afc728e51266d1bd204b6ae9ca9d9ea84a2bf056a4ed3118020b6f"
+    },
+    {
+      "path": "render/intermediate/provenance.json",
+      "bytes": 433,
+      "sha256": "470e7c3310581a4452f2732cfc52a3742accb165c89d36d261995ac6de30cfe5"
+    },
+    {
+      "path": "render/intermediate/text-fit.json",
+      "bytes": 383,
+      "sha256": "8ea4a0dcd871c66259d5d0808a0da65ba6cde94a4a7374efeda5c9b251e1b972"
+    }
+  ]
+}

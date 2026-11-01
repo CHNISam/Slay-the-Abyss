@@ -1,0 +1,36 @@
+{
+  "base": "386bc27ca892fda580a76bacdfd079817e8b40dc",
+  "files": [
+    {
+      "path": "scripts/ui-layout.mjs",
+      "before_sha256": "2f1abb79dac241be572674c64935afb87cc8d2f4a5d6ae4f390a3fa8f1593d5a",
+      "after_sha256": "ddb0d90efd1d74ce5b8d89dc24a27c4215f5cb052ece5ae39a49728da8f1b8f8"
+    },
+    {
+      "path": "src/lua/abyss_battle_ui.lua",
+      "before_sha256": "b8954ac184dd89b16f31505f56a2a29acd9e11738a3a0962204bd80d843bc082",
+      "after_sha256": "0d274a06e0d4f3b74be468c6c63462ee00efae946324914799f52dd54906a9b9"
+    },
+    {
+      "path": "tests/ui-layout.test.mjs",
+      "before_sha256": "8ebaece8c5ed3f172119f62cdec2d1dfd7f325ea18bc6fec7648693a31b22ab2",
+      "after_sha256": "c3244d059a0a1827a5d3c4b99f5ee502e5c9c17f7efd015132d94b01c955c511"
+    },
+    {
+      "path": "tests/lua/battle_ui.lua",
+      "before_sha256": "c41b7d3eaa53d0958111a434b0d13c09f91fe0e045cd5a119755cf762633036c",
+      "after_sha256": "9635793529e3055d3f58e5fc052a83afc56c9a048e70156b3236ced1847c4503"
+    },
+    {
+      "path": "tests/lua/looter_feedback_ui.lua",
+      "before_sha256": "9ee2761be136c0451e908b7cedba49dfe50aa564c213969f1019952ddafddd65",
+      "after_sha256": "94bdadcc49b34ea001190457c4761aa843301ac02ad6baa06b42a7f73a3958d1"
+    },
+    {
+      "path": "tests/lua/looter_reward_stage.lua",
+      "before_sha256": "ce5200a6afd5fc9ba5230a9e17a5323db16090f40d5f9d76dbccd0774ed56f57",
+      "after_sha256": "3302bc9638ae200c234650a9fc45adbc27ec1b5fd98941f084844b09ae919dff"
+    }
+  ],
+  "patch_sha256": "e39ec3e44cdf38759216b61ecf36d3907dfb2034798dad3a89aea160433fbb59"
+}

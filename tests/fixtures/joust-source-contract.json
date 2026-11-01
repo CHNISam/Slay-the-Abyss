@@ -1,0 +1,30 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenance": "Pinned community decompilation mirror; not authenticated PC binary execution",
+  "files": [
+    {
+      "path": "events/city/TheJoust.java",
+      "gitBlobSha": "8513080727370f37f71059631e401e105ed9a46b",
+      "sha256": "b88c92015b7695a4736aabb9275c363d427c9583b45ecd40aa926c32e178c61e",
+      "size": 6024
+    },
+    {
+      "path": "characters/AbstractPlayer.java",
+      "gitBlobSha": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+      "size": 98339
+    },
+    {
+      "path": "random/Random.java",
+      "gitBlobSha": "c4b71d5645688f6e764c46c593223eb91a5249bc",
+      "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172",
+      "size": 2596
+    },
+    {
+      "path": "dungeons/AbstractDungeon.java",
+      "gitBlobSha": "9059f4da5c8002e9645bf38f200e5527d1212ac0",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+      "size": 115023
+    }
+  ]
+}

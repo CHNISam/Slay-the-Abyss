@@ -1,0 +1,1291 @@
+{
+  "date": "2026-10-24",
+  "baseline": "ecade28 (production data/runtime inherited from 6e8714f)",
+  "scope": "30 launch Ironclad cards, base and upgrade; not 75-card expansion",
+  "sourceIdentity": "docs/evidence/card-audit-m3/source-identity.json",
+  "method": "Read pinned constructor/use/upgrade for every card; ordinary non-debug source branch only. Reuse existing per-card behavior tests and add target/energy/Entangled boundary coverage.",
+  "strictPcParity": "NOT_PASSED",
+  "originalObservationDate": null,
+  "officialPcBinaryHash": null,
+  "platformRun": false,
+  "localExecuted": [
+    {
+      "file": "tests/lua/card_pool.lua",
+      "passed": 93,
+      "failed": 0
+    },
+    {
+      "file": "tests/lua/card_use_requirements.lua",
+      "passed": 60,
+      "failed": 0
+    }
+  ],
+  "entries": [
+    {
+      "id": "strike",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Strike_Red.java",
+      "identityId": "strike",
+      "sections": {
+        "constructor": {
+          "start": 27,
+          "end": 33
+        },
+        "use": {
+          "start": 35,
+          "end": 54
+        },
+        "upgrade": {
+          "start": 56,
+          "end": 63
+        }
+      },
+      "expected": {
+        "baseCost": 1,
+        "upgradeCost": 1,
+        "target": "ENEMY",
+        "baseEffect": "伤害6",
+        "upgradeEffect": "伤害9",
+        "conditions": "普通攻击"
+      },
+      "implementation": [
+        "data/cards.json#strike",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "defend",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Defend_Red.java",
+      "identityId": "defend",
+      "sections": {
+        "constructor": {
+          "start": 21,
+          "end": 26
+        },
+        "use": {
+          "start": 28,
+          "end": 34
+        },
+        "upgrade": {
+          "start": 36,
+          "end": 43
+        }
+      },
+      "expected": {
+        "baseCost": 1,
+        "upgradeCost": 1,
+        "target": "SELF",
+        "baseEffect": "格挡5",
+        "upgradeEffect": "格挡8",
+        "conditions": "格挡"
+      },
+      "implementation": [
+        "data/cards.json#defend",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "bash",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Bash.java",
+      "identityId": "bash",
+      "sections": {
+        "constructor": {
+          "start": 27,
+          "end": 33
+        },
+        "use": {
+          "start": 35,
+          "end": 49
+        },
+        "upgrade": {
+          "start": 51,
+          "end": 59
+        }
+      },
+      "expected": {
+        "baseCost": 2,
+        "upgradeCost": 2,
+        "target": "ENEMY",
+        "baseEffect": "伤害8 → 易伤2",
+        "upgradeEffect": "伤害10 → 易伤3",
+        "conditions": "攻击后施加"
+      },
+      "implementation": [
+        "data/cards.json#bash",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "cleave",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Cleave.java",
+      "identityId": "cleave",
+      "sections": {
+        "constructor": {
+          "start": 24,
+          "end": 29
+        },
+        "use": {
+          "start": 31,
+          "end": 36
+        },
+        "upgrade": {
+          "start": 38,
+          "end": 45
+        }
+      },
+      "expected": {
+        "baseCost": 1,
+        "upgradeCost": 1,
+        "target": "ALL_ENEMY",
+        "baseEffect": "全体伤害8",
+        "upgradeEffect": "全体伤害11",
+        "conditions": "全体普通攻击"
+      },
+      "implementation": [
+        "data/cards.json#cleave",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "clothesline",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Clothesline.java",
+      "identityId": "clothesline",
+      "sections": {
+        "constructor": {
+          "start": 23,
+          "end": 29
+        },
+        "use": {
+          "start": 31,
+          "end": 35
+        },
+        "upgrade": {
+          "start": 37,
+          "end": 45
+        }
+      },
+      "expected": {
+        "baseCost": 2,
+        "upgradeCost": 2,
+        "target": "ENEMY",
+        "baseEffect": "伤害12 → 虚弱2",
+        "upgradeEffect": "伤害14 → 虚弱3",
+        "conditions": "攻击后施加"
+      },
+      "implementation": [
+        "data/cards.json#clothesline",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "iron_wave",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/IronWave.java",
+      "identityId": "iron_wave",
+      "sections": {
+        "constructor": {
+          "start": 26,
+          "end": 31
+        },
+        "use": {
+          "start": 33,
+          "end": 40
+        },
+        "upgrade": {
+          "start": 42,
+          "end": 50
+        }
+      },
+      "expected": {
+        "baseCost": 1,
+        "upgradeCost": 1,
+        "target": "ENEMY",
+        "baseEffect": "格挡5 → 伤害5",
+        "upgradeEffect": "格挡7 → 伤害7",
+        "conditions": "先格挡后攻击"
+      },
+      "implementation": [
+        "data/cards.json#iron_wave",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua",
+        "tests/lua/iron_wave_order.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "anger",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Anger.java",
+      "identityId": "anger",
+      "sections": {
+        "constructor": {
+          "start": 26,
+          "end": 30
+        },
+        "use": {
+          "start": 32,
+          "end": 37
+        },
+        "upgrade": {
+          "start": 39,
+          "end": 46
+        }
+      },
+      "expected": {
+        "baseCost": 0,
+        "upgradeCost": 0,
+        "target": "ENEMY",
+        "baseEffect": "伤害6 → 弃牌堆加入同状态副本",
+        "upgradeEffect": "伤害8 → 弃牌堆加入升级副本",
+        "conditions": "副本仅本场；末敌死亡清理队尾"
+      },
+      "implementation": [
+        "data/cards.json#anger",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua",
+        "tests/lua/copied_attack.lua",
+        "tests/lua/post_combat_actions.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "body_slam",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/BodySlam.java",
+      "identityId": "body_slam",
+      "sections": {
+        "constructor": {
+          "start": 22,
+          "end": 26
+        },
+        "use": {
+          "start": 28,
+          "end": 35
+        },
+        "upgrade": {
+          "start": 78,
+          "end": 85
+        }
+      },
+      "expected": {
+        "baseCost": 1,
+        "upgradeCost": 0,
+        "target": "ENEMY",
+        "baseEffect": "以当前格挡为基础计算普通伤害",
+        "upgradeEffect": "效果相同、费用0",
+        "conditions": "仍受Strength/Weak/Vulnerable，不消费格挡"
+      },
+      "implementation": [
+        "data/cards.json#body_slam",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua",
+        "tests/lua/block_damage.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "flex",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Flex.java",
+      "identityId": "flex",
+      "sections": {
+        "constructor": {
+          "start": 21,
+          "end": 26
+        },
+        "use": {
+          "start": 28,
+          "end": 32
+        },
+        "upgrade": {
+          "start": 34,
+          "end": 41
+        }
+      },
+      "expected": {
+        "baseCost": 0,
+        "upgradeCost": 0,
+        "target": "SELF",
+        "baseEffect": "力量+2 → 回合末移除2",
+        "upgradeEffect": "力量+4 → 回合末移除4",
+        "conditions": "两个Power；Artifact可挡LoseStrength"
+      },
+      "implementation": [
+        "data/cards.json#flex",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua",
+        "tests/lua/flex.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "twin_strike",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/TwinStrike.java",
+      "identityId": "twin_strike",
+      "sections": {
+        "constructor": {
+          "start": 22,
+          "end": 27
+        },
+        "use": {
+          "start": 29,
+          "end": 33
+        },
+        "upgrade": {
+          "start": 35,
+          "end": 42
+        }
+      },
+      "expected": {
+        "baseCost": 1,
+        "upgradeCost": 1,
+        "target": "ENEMY",
+        "baseEffect": "5伤害两次",
+        "upgradeEffect": "7伤害两次",
+        "conditions": "逐段普通攻击/反应"
+      },
+      "implementation": [
+        "data/cards.json#twin_strike",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua",
+        "tests/lua/twin_strike_boundaries.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "pommel_strike",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/PommelStrike.java",
+      "identityId": "pommel_strike",
+      "sections": {
+        "constructor": {
+          "start": 23,
+          "end": 30
+        },
+        "use": {
+          "start": 32,
+          "end": 36
+        },
+        "upgrade": {
+          "start": 38,
+          "end": 48
+        }
+      },
+      "expected": {
+        "baseCost": 1,
+        "upgradeCost": 1,
+        "target": "ENEMY",
+        "baseEffect": "伤害9 → 抽1",
+        "upgradeEffect": "伤害10 → 抽2",
+        "conditions": "末敌死亡清理抽牌"
+      },
+      "implementation": [
+        "data/cards.json#pommel_strike",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "shrug_it_off",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/ShrugItOff.java",
+      "identityId": "shrug_it_off",
+      "sections": {
+        "constructor": {
+          "start": 20,
+          "end": 24
+        },
+        "use": {
+          "start": 26,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 37,
+          "end": 44
+        }
+      },
+      "expected": {
+        "baseCost": 1,
+        "upgradeCost": 1,
+        "target": "SELF",
+        "baseEffect": "格挡8 → 抽1",
+        "upgradeEffect": "格挡11 → 抽1",
+        "conditions": "先格挡后抽牌"
+      },
+      "implementation": [
+        "data/cards.json#shrug_it_off",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "thunderclap",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/ThunderClap.java",
+      "identityId": "thunderclap",
+      "sections": {
+        "constructor": {
+          "start": 31,
+          "end": 36
+        },
+        "use": {
+          "start": 38,
+          "end": 55
+        },
+        "upgrade": {
+          "start": 57,
+          "end": 64
+        }
+      },
+      "expected": {
+        "baseCost": 1,
+        "upgradeCost": 1,
+        "target": "ALL_ENEMY",
+        "baseEffect": "全体伤害4 → 全体易伤1",
+        "upgradeEffect": "全体伤害7 → 全体易伤1",
+        "conditions": "先整组伤害，后逐敌Power"
+      },
+      "implementation": [
+        "data/cards.json#thunderclap",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "uppercut",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Uppercut.java",
+      "identityId": "uppercut",
+      "sections": {
+        "constructor": {
+          "start": 24,
+          "end": 30
+        },
+        "use": {
+          "start": 32,
+          "end": 37
+        },
+        "upgrade": {
+          "start": 39,
+          "end": 46
+        }
+      },
+      "expected": {
+        "baseCost": 2,
+        "upgradeCost": 2,
+        "target": "ENEMY",
+        "baseEffect": "伤害13 → 虚弱1 → 易伤1",
+        "upgradeEffect": "伤害13 → 虚弱2 → 易伤2",
+        "conditions": "有顺序的独立Power"
+      },
+      "implementation": [
+        "data/cards.json#uppercut",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "inflame",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Inflame.java",
+      "identityId": "inflame",
+      "sections": {
+        "constructor": {
+          "start": 22,
+          "end": 27
+        },
+        "use": {
+          "start": 29,
+          "end": 33
+        },
+        "upgrade": {
+          "start": 35,
+          "end": 43
+        }
+      },
+      "expected": {
+        "baseCost": 1,
+        "upgradeCost": 1,
+        "target": "SELF",
+        "baseEffect": "力量+2",
+        "upgradeEffect": "力量+3",
+        "conditions": "能力牌离开战斗牌堆，不进入消耗堆"
+      },
+      "implementation": [
+        "data/cards.json#inflame",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua",
+        "tests/lua/power_card_lifecycle.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "battle_trance",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/BattleTrance.java",
+      "identityId": "battle_trance",
+      "sections": {
+        "constructor": {
+          "start": 21,
+          "end": 26
+        },
+        "use": {
+          "start": 28,
+          "end": 32
+        },
+        "upgrade": {
+          "start": 34,
+          "end": 41
+        }
+      },
+      "expected": {
+        "baseCost": 0,
+        "upgradeCost": 0,
+        "target": "NONE",
+        "baseEffect": "抽3 → 本回合禁止抽牌",
+        "upgradeEffect": "抽4 → 本回合禁止抽牌",
+        "conditions": "NoDraw为独立Power，可被Artifact挡"
+      },
+      "implementation": [
+        "data/cards.json#battle_trance",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua",
+        "tests/lua/artifact_no_draw.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "bloodletting",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Bloodletting.java",
+      "identityId": "bloodletting",
+      "sections": {
+        "constructor": {
+          "start": 20,
+          "end": 25
+        },
+        "use": {
+          "start": 27,
+          "end": 31
+        },
+        "upgrade": {
+          "start": 33,
+          "end": 42
+        }
+      },
+      "expected": {
+        "baseCost": 0,
+        "upgradeCost": 0,
+        "target": "SELF",
+        "baseEffect": "失去3HP → 能量+2",
+        "upgradeEffect": "失去3HP → 能量+3",
+        "conditions": "HP支付绕过格挡，致死停止"
+      },
+      "implementation": [
+        "data/cards.json#bloodletting",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua",
+        "tests/lua/hp_loss.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "barricade",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Barricade.java",
+      "identityId": "barricade",
+      "sections": {
+        "constructor": {
+          "start": 23,
+          "end": 26
+        },
+        "use": {
+          "start": 28,
+          "end": 44
+        },
+        "upgrade": {
+          "start": 46,
+          "end": 53
+        }
+      },
+      "expected": {
+        "baseCost": 3,
+        "upgradeCost": 2,
+        "target": "SELF",
+        "baseEffect": "未持有时获得壁垒",
+        "upgradeEffect": "同效果、费用2",
+        "conditions": "重复打出时源不排ApplyPower；生产额外零变化事件"
+      },
+      "implementation": [
+        "data/cards.json#barricade",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua",
+        "tests/lua/power_card_lifecycle.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "KNOWN_DIFFERENCE",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "carnage",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Carnage.java",
+      "identityId": "carnage",
+      "sections": {
+        "constructor": {
+          "start": 27,
+          "end": 32
+        },
+        "use": {
+          "start": 34,
+          "end": 50
+        },
+        "upgrade": {
+          "start": 52,
+          "end": 59
+        }
+      },
+      "expected": {
+        "baseCost": 2,
+        "upgradeCost": 2,
+        "target": "ENEMY",
+        "baseEffect": "伤害20",
+        "upgradeEffect": "伤害28",
+        "conditions": "虚无；未打出回合末消耗"
+      },
+      "implementation": [
+        "data/cards.json#carnage",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua",
+        "tests/lua/ethereal_card_lifecycle.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "disarm",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Disarm.java",
+      "identityId": "disarm",
+      "sections": {
+        "constructor": {
+          "start": 20,
+          "end": 26
+        },
+        "use": {
+          "start": 28,
+          "end": 31
+        },
+        "upgrade": {
+          "start": 33,
+          "end": 40
+        }
+      },
+      "expected": {
+        "baseCost": 1,
+        "upgradeCost": 1,
+        "target": "ENEMY",
+        "baseEffect": "目标力量-2",
+        "upgradeEffect": "目标力量-3",
+        "conditions": "消耗；Artifact可挡"
+      },
+      "implementation": [
+        "data/cards.json#disarm",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "dropkick",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Dropkick.java",
+      "identityId": "dropkick",
+      "sections": {
+        "constructor": {
+          "start": 27,
+          "end": 31
+        },
+        "use": {
+          "start": 33,
+          "end": 36
+        },
+        "upgrade": {
+          "start": 54,
+          "end": 61
+        }
+      },
+      "expected": {
+        "baseCost": 1,
+        "upgradeCost": 1,
+        "target": "ENEMY",
+        "baseEffect": "伤害5；易伤时能量+1 → 抽1",
+        "upgradeEffect": "伤害8；易伤时能量+1 → 抽1",
+        "conditions": "没有易伤仍可打出，仅条件收益缺失"
+      },
+      "implementation": [
+        "data/cards.json#dropkick",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua",
+        "tests/lua/vulnerable_combo.lua",
+        "tests/lua/post_combat_actions.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "entrench",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Entrench.java",
+      "identityId": "entrench",
+      "sections": {
+        "constructor": {
+          "start": 20,
+          "end": 23
+        },
+        "use": {
+          "start": 25,
+          "end": 28
+        },
+        "upgrade": {
+          "start": 35,
+          "end": 44
+        }
+      },
+      "expected": {
+        "baseCost": 2,
+        "upgradeCost": 1,
+        "target": "SELF",
+        "baseEffect": "当前格挡翻倍",
+        "upgradeEffect": "同效果、费用1",
+        "conditions": "增加当前格挡值，不重套敏捷/脆弱"
+      },
+      "implementation": [
+        "data/cards.json#entrench",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua",
+        "tests/lua/entrench.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "ghostly_armor",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/GhostlyArmor.java",
+      "identityId": "ghostly_armor",
+      "sections": {
+        "constructor": {
+          "start": 20,
+          "end": 25
+        },
+        "use": {
+          "start": 27,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 37,
+          "end": 44
+        }
+      },
+      "expected": {
+        "baseCost": 1,
+        "upgradeCost": 1,
+        "target": "SELF",
+        "baseEffect": "格挡10",
+        "upgradeEffect": "格挡13",
+        "conditions": "虚无；打出不消耗，未打出回合末消耗"
+      },
+      "implementation": [
+        "data/cards.json#ghostly_armor",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua",
+        "tests/lua/ethereal_card_lifecycle.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "hemokinesis",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Hemokinesis.java",
+      "identityId": "hemokinesis",
+      "sections": {
+        "constructor": {
+          "start": 25,
+          "end": 31
+        },
+        "use": {
+          "start": 33,
+          "end": 39
+        },
+        "upgrade": {
+          "start": 41,
+          "end": 48
+        }
+      },
+      "expected": {
+        "baseCost": 1,
+        "upgradeCost": 1,
+        "target": "ENEMY",
+        "baseEffect": "失去2HP → 伤害15",
+        "upgradeEffect": "失去2HP → 伤害20",
+        "conditions": "HP支付先于攻击"
+      },
+      "implementation": [
+        "data/cards.json#hemokinesis",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua",
+        "tests/lua/hp_loss.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "rampage",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Rampage.java",
+      "identityId": "rampage",
+      "sections": {
+        "constructor": {
+          "start": 22,
+          "end": 28
+        },
+        "use": {
+          "start": 30,
+          "end": 34
+        },
+        "upgrade": {
+          "start": 36,
+          "end": 44
+        }
+      },
+      "expected": {
+        "baseCost": 1,
+        "upgradeCost": 1,
+        "target": "ENEMY",
+        "baseEffect": "伤害8 → 本实例本战伤害+5",
+        "upgradeEffect": "伤害8 → 本实例本战伤害+8",
+        "conditions": "仅同一uuid/实例增长，末敌死亡清队尾"
+      },
+      "implementation": [
+        "data/cards.json#rampage",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua",
+        "tests/lua/growing_attack.lua",
+        "tests/lua/post_combat_actions.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "seeing_red",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/SeeingRed.java",
+      "identityId": "seeing_red",
+      "sections": {
+        "constructor": {
+          "start": 19,
+          "end": 23
+        },
+        "use": {
+          "start": 25,
+          "end": 28
+        },
+        "upgrade": {
+          "start": 30,
+          "end": 37
+        }
+      },
+      "expected": {
+        "baseCost": 1,
+        "upgradeCost": 0,
+        "target": "NONE",
+        "baseEffect": "能量+2",
+        "upgradeEffect": "能量+2，费用0",
+        "conditions": "消耗"
+      },
+      "implementation": [
+        "data/cards.json#seeing_red",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "shockwave",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Shockwave.java",
+      "identityId": "shockwave",
+      "sections": {
+        "constructor": {
+          "start": 27,
+          "end": 33
+        },
+        "use": {
+          "start": 35,
+          "end": 44
+        },
+        "upgrade": {
+          "start": 46,
+          "end": 53
+        }
+      },
+      "expected": {
+        "baseCost": 2,
+        "upgradeCost": 2,
+        "target": "ALL_ENEMY",
+        "baseEffect": "逐敌：虚弱3 → 易伤3",
+        "upgradeEffect": "逐敌：虚弱5 → 易伤5",
+        "conditions": "消耗；生产顺序与来源不同，见diagnostics"
+      },
+      "implementation": [
+        "data/cards.json#shockwave",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "KNOWN_DIFFERENCE",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "offering",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Offering.java",
+      "identityId": "offering",
+      "sections": {
+        "constructor": {
+          "start": 22,
+          "end": 28
+        },
+        "use": {
+          "start": 30,
+          "end": 39
+        },
+        "upgrade": {
+          "start": 41,
+          "end": 50
+        }
+      },
+      "expected": {
+        "baseCost": 0,
+        "upgradeCost": 0,
+        "target": "SELF",
+        "baseEffect": "失去6HP → 能量+2 → 抽3",
+        "upgradeEffect": "失去6HP → 能量+2 → 抽5",
+        "conditions": "消耗；致死HP支付停止后续"
+      },
+      "implementation": [
+        "data/cards.json#offering",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua",
+        "tests/lua/hp_loss.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "impervious",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Impervious.java",
+      "identityId": "impervious",
+      "sections": {
+        "constructor": {
+          "start": 19,
+          "end": 24
+        },
+        "use": {
+          "start": 26,
+          "end": 29
+        },
+        "upgrade": {
+          "start": 31,
+          "end": 38
+        }
+      },
+      "expected": {
+        "baseCost": 2,
+        "upgradeCost": 2,
+        "target": "SELF",
+        "baseEffect": "格挡30",
+        "upgradeEffect": "格挡40",
+        "conditions": "消耗"
+      },
+      "implementation": [
+        "data/cards.json#impervious",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    },
+    {
+      "id": "bludgeon",
+      "source": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Bludgeon.java",
+      "identityId": "bludgeon",
+      "sections": {
+        "constructor": {
+          "start": 25,
+          "end": 29
+        },
+        "use": {
+          "start": 31,
+          "end": 37
+        },
+        "upgrade": {
+          "start": 39,
+          "end": 46
+        }
+      },
+      "expected": {
+        "baseCost": 3,
+        "upgradeCost": 3,
+        "target": "ENEMY",
+        "baseEffect": "伤害32",
+        "upgradeEffect": "伤害42",
+        "conditions": "普通攻击"
+      },
+      "implementation": [
+        "data/cards.json#bludgeon",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "behaviorEvidence": [
+        "tests/lua/card_pool.lua",
+        "tests/lua/card_use_requirements.lua"
+      ],
+      "numericFieldReview": "No cost/base/upgrade-number difference found against pinned mirror; not authenticated PC acceptance",
+      "sequenceStatus": "No new card-local difference found; shared queue/hooks and full strict parity unverified",
+      "live": "pending-per-item-natural-acquisition-and-execution"
+    }
+  ],
+  "starter": {
+    "source": "characters/Ironclad.java:63-94",
+    "expected": {
+      "strike": 5,
+      "defend": 4,
+      "bash": 1,
+      "relic": "burning_blood",
+      "maxHp": 80,
+      "gold": 99
+    },
+    "status": "matches-current-data; not new live evidence"
+  },
+  "findings": [
+    {
+      "id": "shockwave-target-major-order",
+      "tasks": [
+        "TASK-16",
+        "TASK-16.1"
+      ],
+      "status": "strict-fail-not-fixed",
+      "source": "Shockwave.use",
+      "expected": "Weak(A), Vulnerable(A), Weak(B), Vulnerable(B)",
+      "actual": "Weak(A), Weak(B), Vulnerable(A), Vulnerable(B)",
+      "evidence": "docs/evidence/card-audit-m3/sequence-diagnostics.json",
+      "impact": "Final independent status totals match in current fixture; observable status-event order differs."
+    },
+    {
+      "id": "barricade-duplicate-status-event",
+      "tasks": [
+        "TASK-16",
+        "TASK-16.1"
+      ],
+      "status": "strict-fail-not-fixed",
+      "source": "Barricade.use",
+      "expected": "No ApplyPower action when already present",
+      "actual": "Emits player:barricade:0 status event",
+      "evidence": "docs/evidence/card-audit-m3/sequence-diagnostics.json",
+      "impact": "Retains a single Barricade and correct block retention, but adds a zero-change feedback frame."
+    }
+  ],
+  "limitations": [
+    "Pinned decompiled mirror is not official source and has no licensed-PC binary authentication.",
+    "Strike/Defend/Bash debug branches are explicitly excluded; only ordinary branch is compared.",
+    "Power priorities, all onUse/onAfterUse/onExhaust hooks, exact animation timing, global RNG and full original-game shared queue remain unverified.",
+    "Existing extra specialized suites are linked for traceability, not all rerun in this slice.",
+    "No natural full-run build proof, platform compilation/import or fresh game session was produced."
+  ]
+}

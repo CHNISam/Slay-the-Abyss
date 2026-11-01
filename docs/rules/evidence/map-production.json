@@ -1,0 +1,130 @@
+{
+  "scope": "PRODUCTION_A0_ACT1_MAP_ONLY",
+  "status": "BOUNDED_LOCAL_CHECKS_PASS",
+  "baseCommit": "b91a461bb759ff71fa66a6368ffe0289c36641f2",
+  "sourceEvidence": [
+    "w1-map-topology-candidate.json",
+    "w1-map-room-candidate.json"
+  ],
+  "golden": {
+    "matches": 12,
+    "requested": 12,
+    "unchanged": true,
+    "manifestSha256": "a79023a778a3d6629c66ecd90822bd93e83c320fd13fd701eaf9860f38084ff7",
+    "seedManifestSha256": "5f72893e59d29d4846570927923fa407854dc90ecb2a25a4e17ad6491f275007"
+  },
+  "deployedModuleHashEncoding": "UTF-8 with LF line endings",
+  "deployedModules": {
+    "src/lua/abyss_map_topology.lua": "359598f43fdae9f6e7db629c7b700301a9725c2873f557b1bee7df57f19707f5",
+    "src/lua/abyss_map_rooms.lua": "e9fa282510fd34d1ccb1e7e92c2488b99c55392e3933b0cb75a9eac8c7515517",
+    "src/lua/abyss_map.lua": "eef3e19b15a186bbab484723f7d208f2868221fa58f42298cb34dd3079d19128",
+    "src/lua/abyss_run_seed.lua": "32a942689ebcba8653e4e9beea711ad89ef9ac8ab65beb20dfbab4b632fa50e3",
+    "src/lua/abyss_sts_random.lua": "1e0e0f64fe6a7d2edfe8609419080266c554b763fd71b9565b52eed99aaa42b9",
+    "src/lua/abyss_randomxs128.lua": "73af699eb931d4134c81db9bc980f0fa8cabbcf3c587c9031c85ce6886fe9777"
+  },
+  "logs": {
+    ".artifacts/sts1-map-production/related-node.log": {
+      "sha256": "f789c34f43508c926c73da64766afafb47d9c12d5192f9abe99339716af2ec49",
+      "nodeTests": 49,
+      "passed": 49,
+      "failed": 0,
+      "includesUnchangedGoldenMatches": 12
+    },
+    ".artifacts/sts1-map-production/map.log": {
+      "sha256": "8a9498d68f60470b8178ff04c9df4f5d8900827eb26f7e00e9c84b85d387820e",
+      "groups": 10
+    },
+    ".artifacts/sts1-map-production/map_floor_boundaries.log": {
+      "sha256": "91b2012d7a57690719698e70aea61b518bba5f51affa4c573a4923fd821d6128",
+      "seeds": 128
+    },
+    ".artifacts/sts1-map-production/map_no_crossings.log": {
+      "sha256": "88cfda9e1cba3e3f23cec3da4ac9bedf2bd422ad431e9c8418e7dbcebb7ba929",
+      "seeds": 128
+    },
+    ".artifacts/sts1-map-production/map_treasure_placement.log": {
+      "sha256": "65638e42cc98d9437f6bc5f3dbd830b5e0c053f844a92da5fa41c9fc7deafd87",
+      "seeds": 128
+    },
+    ".artifacts/sts1-map-production/map_ui.log": {
+      "sha256": "4db6a0a23c5d795186ecb4232b513bc1a71b60ae2835ff763b0fd44722f275b7",
+      "groups": 27
+    },
+    ".artifacts/sts1-map-production/map_gesture_ownership.log": {
+      "sha256": "382cea5fd83c4fbc7b84093040b65baf30661ad575402b1f3d2942a44914eb33",
+      "groups": 35
+    },
+    ".artifacts/sts1-map-production/game_ui_seed.log": {
+      "sha256": "78baaa524eec6be1b6496d11ce05972b8e61fab1e87d5d3aefa0362a3e8160b5",
+      "groups": 7
+    },
+    ".artifacts/sts1-map-production/game_ui.log": {
+      "sha256": "03c3076fd83ab760a8790c23b14474ab90080d36db884426f2bfdaedaa116792",
+      "groups": 15
+    },
+    ".artifacts/sts1-map-production/game_ui_prologue.log": {
+      "sha256": "f4270ddb7c919cec813b42800d3950ad1010b855f3d8a3269c7a406262be5524",
+      "groups": 10
+    },
+    ".artifacts/sts1-map-production/final-inventory.log": {
+      "sha256": "dc669a0532b62daaf0566de969ea563711480cfcd98000c88ea64dfd063c5dc2",
+      "groups": 11
+    },
+    ".artifacts/sts1-map-production/final-inventory_restore.log": {
+      "sha256": "67db095649cbb27d0487392bc1af1868f7e92f2b66e2b3f4836110bbfa16f06c",
+      "groups": 5,
+      "rejectedSnapshots": 8
+    },
+    ".artifacts/sts1-map-production/final-nodes.log": {
+      "sha256": "080d45272fa0756df0451dea86b8c5ef6866408237617d15aab4def37e8a7fa5",
+      "groups": 21
+    },
+    ".artifacts/sts1-map-production/final-card_pool.log": {
+      "sha256": "028887153f659ceee38e5ee67b1a49dfd2eccee82e7a5de384ea40be6057116e",
+      "groups": 93
+    },
+    ".artifacts/sts1-map-production/final-shop_card_identity.log": {
+      "sha256": "e3cc0c38e98355665df972d46aee63f47042bdc393cf46cd929065ed87cb6756",
+      "groups": 15
+    },
+    ".artifacts/sts1-map-production/final-small_slimes.log": {
+      "sha256": "1d3712120466f3958ba8522d200cba134d413858992b0a1d09e849d4d522dbdb",
+      "groups": 18
+    },
+    ".artifacts/sts1-map-production/final-gremlin_gang.log": {
+      "sha256": "9af8a5a17efdadf07239cb2070e51441eedb0dc0921ee93ca6429cd919c2df1b",
+      "groups": 29,
+      "selectionPaths": 1680
+    },
+    ".artifacts/sts1-map-production/final-encounter_coverage.log": {
+      "sha256": "1e9229a3ff6a21cdf8b4d31296018d9ae3e332a4f7b3fcae2a153e0c83ef1976",
+      "groups": 55,
+      "encounters": 18
+    }
+  },
+  "red": {
+    "path": ".artifacts/sts1-map-production/red.log",
+    "sha256": "92eb373ff4308e5269d98851d76d803eb85d6793ddd7cae65eb24a4a45158b89",
+    "tests": 3,
+    "failed": 3,
+    "productionGoldenMatches": 0
+  },
+  "incomplete": {
+    "property10000": {
+      "status": "INTERRUPTED_NO_FINAL_REPORT",
+      "requested": 10000,
+      "lastProgress": 1050,
+      "passed": null,
+      "path": ".artifacts/sts1-map-production/properties.log",
+      "sha256": "f0d5a498eb3b4f6569677bc81ebbfeb92364d43ccc4243a8e6c71d3937bb3713"
+    },
+    "fullCheck": "NOT_EXECUTED_BY_THIS_AGENT",
+    "platformCompile": "NOT_EXECUTED",
+    "saveImport": "NOT_EXECUTED",
+    "realClient": "NOT_EXECUTED",
+    "uiAcceptance": "NOT_EXECUTED",
+    "encounterQueue": "NOT_CONNECTED",
+    "normalSeedSupplier": "EXISTING_CLOCK_MIXED_16BIT",
+    "targetPcBinaryAndLibgdx": "NOT_CERTIFIED"
+  }
+}

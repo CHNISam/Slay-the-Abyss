@@ -1,0 +1,5070 @@
+{
+  "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+  "sourceRawGia": {
+    "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\session-log.gia",
+    "sourceSha256": "7e7c52a217a0bbe3d3db1b35c812661b6694d3ee12ea8b5256a8d267e72e3d57",
+    "sourceBytes": 152602,
+    "role": "Complete raw run directory inventory; retained locally",
+    "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41"
+  },
+  "decoderResultSource": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\verified-probe-status-final.json",
+  "decoderResultSha256": "08645a68267c541f2949575df3a848228c95c899b8d10ce36c456634e5673728",
+  "log": {
+    "file": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\session-log.gia",
+    "officialLog": "C:\\Users\\Administrator\\AppData\\LocalLow\\miHoYo\\原神\\BeyondLocal\\217122260\\Beyond_Debug_Log\\2026-10-24_14-23-14_24_217122260.gia",
+    "printCount": 837,
+    "truncated": false,
+    "prints": [
+      {
+        "t": 2,
+        "graphId": null,
+        "text": "ABYSS_UI init Color=table",
+        "clientScript": true
+      },
+      {
+        "t": 2,
+        "graphId": null,
+        "text": "ABYSS_UI viewport_ready",
+        "clientScript": true
+      },
+      {
+        "t": 2,
+        "graphId": null,
+        "text": "ABYSS_UI ready",
+        "clientScript": true
+      },
+      {
+        "t": 2,
+        "graphId": null,
+        "text": "M1_PROBE strength initial2 elapsed=0.0 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 2,
+        "graphId": null,
+        "text": "M1_PROBE readonly strength initial2",
+        "clientScript": true
+      },
+      {
+        "t": 2,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=1 phase=initial2-player elapsed=0.0",
+        "clientScript": true
+      },
+      {
+        "t": 4,
+        "graphId": null,
+        "text": "M1_PROBE strength initial2-enemy elapsed=4.0 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 4,
+        "graphId": null,
+        "text": "M1_PROBE readonly strength initial2-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 4,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=1 phase=initial2-enemy elapsed=4.0",
+        "clientScript": true
+      },
+      {
+        "t": 8,
+        "graphId": null,
+        "text": "M1_PROBE strength stacked5 elapsed=8.0 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 8,
+        "graphId": null,
+        "text": "M1_PROBE readonly strength stacked5",
+        "clientScript": true
+      },
+      {
+        "t": 8,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=1 phase=stacked5-player elapsed=8.0",
+        "clientScript": true
+      },
+      {
+        "t": 12,
+        "graphId": null,
+        "text": "M1_PROBE strength stacked5-enemy elapsed=12.0 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 12,
+        "graphId": null,
+        "text": "M1_PROBE readonly strength stacked5-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 12,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=1 phase=stacked5-enemy elapsed=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 16,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 16,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1241",
+        "clientScript": true
+      },
+      {
+        "t": 16,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=1 phase=defend elapsed=16.0",
+        "clientScript": true
+      },
+      {
+        "t": 16,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 16,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1242",
+        "clientScript": true
+      },
+      {
+        "t": 21,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 21,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1243",
+        "clientScript": true
+      },
+      {
+        "t": 21,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=1 phase=strike elapsed=21.0",
+        "clientScript": true
+      },
+      {
+        "t": 21,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=player target=cultist_1 amount=4",
+        "clientScript": true
+      },
+      {
+        "t": 21,
+        "graphId": null,
+        "text": "ABYSS_AUDIO hit id=40313 instance=1244",
+        "clientScript": true
+      },
+      {
+        "t": 27,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 27,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1245",
+        "clientScript": true
+      },
+      {
+        "t": 27,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=1 phase=endTurn elapsed=27.0",
+        "clientScript": true
+      },
+      {
+        "t": 28,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 29,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 29,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1246",
+        "clientScript": true
+      },
+      {
+        "t": 29,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 29,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 29,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 29,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1247",
+        "clientScript": true
+      },
+      {
+        "t": 35,
+        "graphId": null,
+        "text": "M1_PROBE strength afterTurn elapsed=35.0 caseTime=35.0 player=5.0 enemy=5.0 hp=60/34 block=0/0 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 35,
+        "graphId": null,
+        "text": "M1_PROBE readonly strength afterTurn",
+        "clientScript": true
+      },
+      {
+        "t": 35,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=1 phase=afterTurn-player elapsed=35.0",
+        "clientScript": true
+      },
+      {
+        "t": 39,
+        "graphId": null,
+        "text": "M1_PROBE strength afterTurn-enemy elapsed=39.0 caseTime=39.0 player=5.0 enemy=5.0 hp=60/34 block=0/0 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 39,
+        "graphId": null,
+        "text": "M1_PROBE readonly strength afterTurn-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 39,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=1 phase=afterTurn-enemy elapsed=39.0",
+        "clientScript": true
+      },
+      {
+        "t": 43,
+        "graphId": null,
+        "text": "M1_PROBE dexterity initial2 elapsed=43.0 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 43,
+        "graphId": null,
+        "text": "M1_PROBE readonly dexterity initial2",
+        "clientScript": true
+      },
+      {
+        "t": 43,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=2 phase=initial2-player elapsed=43.0",
+        "clientScript": true
+      },
+      {
+        "t": 47,
+        "graphId": null,
+        "text": "M1_PROBE dexterity initial2-enemy elapsed=47.1 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 47,
+        "graphId": null,
+        "text": "M1_PROBE readonly dexterity initial2-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 47,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=2 phase=initial2-enemy elapsed=47.1",
+        "clientScript": true
+      },
+      {
+        "t": 51,
+        "graphId": null,
+        "text": "M1_PROBE dexterity stacked5 elapsed=51.0 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 51,
+        "graphId": null,
+        "text": "M1_PROBE readonly dexterity stacked5",
+        "clientScript": true
+      },
+      {
+        "t": 51,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=2 phase=stacked5-player elapsed=51.0",
+        "clientScript": true
+      },
+      {
+        "t": 55,
+        "graphId": null,
+        "text": "M1_PROBE dexterity stacked5-enemy elapsed=55.1 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 55,
+        "graphId": null,
+        "text": "M1_PROBE readonly dexterity stacked5-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 55,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=2 phase=stacked5-enemy elapsed=55.1",
+        "clientScript": true
+      },
+      {
+        "t": 59,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 59,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1248",
+        "clientScript": true
+      },
+      {
+        "t": 59,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=2 phase=defend elapsed=59.0",
+        "clientScript": true
+      },
+      {
+        "t": 59,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=10",
+        "clientScript": true
+      },
+      {
+        "t": 59,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1249",
+        "clientScript": true
+      },
+      {
+        "t": 64,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 64,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1250",
+        "clientScript": true
+      },
+      {
+        "t": 64,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=2 phase=strike elapsed=64.0",
+        "clientScript": true
+      },
+      {
+        "t": 64,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=player target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 64,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1251",
+        "clientScript": true
+      },
+      {
+        "t": 70,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 70,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1252",
+        "clientScript": true
+      },
+      {
+        "t": 70,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=2 phase=endTurn elapsed=70.1",
+        "clientScript": true
+      },
+      {
+        "t": 71,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 71,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 72,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 72,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1253",
+        "clientScript": true
+      },
+      {
+        "t": 72,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 72,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 72,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 72,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1254",
+        "clientScript": true
+      },
+      {
+        "t": 78,
+        "graphId": null,
+        "text": "M1_PROBE dexterity afterTurn elapsed=78.0 caseTime=35.0 player=5.0 enemy=5.0 hp=60/38 block=0/0 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 78,
+        "graphId": null,
+        "text": "M1_PROBE readonly dexterity afterTurn",
+        "clientScript": true
+      },
+      {
+        "t": 78,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=2 phase=afterTurn-player elapsed=78.0",
+        "clientScript": true
+      },
+      {
+        "t": 82,
+        "graphId": null,
+        "text": "M1_PROBE dexterity afterTurn-enemy elapsed=82.1 caseTime=39.0 player=5.0 enemy=5.0 hp=60/38 block=0/0 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 82,
+        "graphId": null,
+        "text": "M1_PROBE readonly dexterity afterTurn-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 82,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=2 phase=afterTurn-enemy elapsed=82.1",
+        "clientScript": true
+      },
+      {
+        "t": 86,
+        "graphId": null,
+        "text": "M1_PROBE vulnerable initial2 elapsed=86.1 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 86,
+        "graphId": null,
+        "text": "M1_PROBE readonly vulnerable initial2",
+        "clientScript": true
+      },
+      {
+        "t": 86,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=3 phase=initial2-player elapsed=86.1",
+        "clientScript": true
+      },
+      {
+        "t": 90,
+        "graphId": null,
+        "text": "M1_PROBE vulnerable initial2-enemy elapsed=90.1 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 90,
+        "graphId": null,
+        "text": "M1_PROBE readonly vulnerable initial2-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 90,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=3 phase=initial2-enemy elapsed=90.1",
+        "clientScript": true
+      },
+      {
+        "t": 94,
+        "graphId": null,
+        "text": "M1_PROBE vulnerable stacked5 elapsed=94.1 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 94,
+        "graphId": null,
+        "text": "M1_PROBE readonly vulnerable stacked5",
+        "clientScript": true
+      },
+      {
+        "t": 94,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=3 phase=stacked5-player elapsed=94.1",
+        "clientScript": true
+      },
+      {
+        "t": 98,
+        "graphId": null,
+        "text": "M1_PROBE vulnerable stacked5-enemy elapsed=98.1 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 98,
+        "graphId": null,
+        "text": "M1_PROBE readonly vulnerable stacked5-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 98,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=3 phase=stacked5-enemy elapsed=98.1",
+        "clientScript": true
+      },
+      {
+        "t": 102,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 102,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1255",
+        "clientScript": true
+      },
+      {
+        "t": 102,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=3 phase=defend elapsed=102.1",
+        "clientScript": true
+      },
+      {
+        "t": 102,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 102,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1256",
+        "clientScript": true
+      },
+      {
+        "t": 107,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 107,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1257",
+        "clientScript": true
+      },
+      {
+        "t": 107,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=3 phase=strike elapsed=107.1",
+        "clientScript": true
+      },
+      {
+        "t": 107,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=player target=cultist_1 amount=2",
+        "clientScript": true
+      },
+      {
+        "t": 107,
+        "graphId": null,
+        "text": "ABYSS_AUDIO hit id=40313 instance=1258",
+        "clientScript": true
+      },
+      {
+        "t": 113,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 113,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1259",
+        "clientScript": true
+      },
+      {
+        "t": 113,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=3 phase=endTurn elapsed=113.1",
+        "clientScript": true
+      },
+      {
+        "t": 114,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 115,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 115,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1260",
+        "clientScript": true
+      },
+      {
+        "t": 115,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK status source=player target=player amount=-1",
+        "clientScript": true
+      },
+      {
+        "t": 115,
+        "graphId": null,
+        "text": "ABYSS_AUDIO status id=50928 instance=1261",
+        "clientScript": true
+      },
+      {
+        "t": 115,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1",
+        "clientScript": true
+      },
+      {
+        "t": 115,
+        "graphId": null,
+        "text": "ABYSS_AUDIO status id=50928 instance=1262",
+        "clientScript": true
+      },
+      {
+        "t": 115,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 115,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 115,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 115,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1263",
+        "clientScript": true
+      },
+      {
+        "t": 121,
+        "graphId": null,
+        "text": "M1_PROBE vulnerable afterTurn elapsed=121.1 caseTime=35.0 player=4.0 enemy=4.0 hp=60/36 block=0/0 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 121,
+        "graphId": null,
+        "text": "M1_PROBE readonly vulnerable afterTurn",
+        "clientScript": true
+      },
+      {
+        "t": 121,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=3 phase=afterTurn-player elapsed=121.1",
+        "clientScript": true
+      },
+      {
+        "t": 125,
+        "graphId": null,
+        "text": "M1_PROBE vulnerable afterTurn-enemy elapsed=125.1 caseTime=39.0 player=4.0 enemy=4.0 hp=60/36 block=0/0 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 125,
+        "graphId": null,
+        "text": "M1_PROBE readonly vulnerable afterTurn-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 125,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=3 phase=afterTurn-enemy elapsed=125.1",
+        "clientScript": true
+      },
+      {
+        "t": 129,
+        "graphId": null,
+        "text": "M1_PROBE weak initial2 elapsed=129.1 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 129,
+        "graphId": null,
+        "text": "M1_PROBE readonly weak initial2",
+        "clientScript": true
+      },
+      {
+        "t": 129,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=4 phase=initial2-player elapsed=129.1",
+        "clientScript": true
+      },
+      {
+        "t": 133,
+        "graphId": null,
+        "text": "M1_PROBE weak initial2-enemy elapsed=133.1 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 133,
+        "graphId": null,
+        "text": "M1_PROBE readonly weak initial2-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 133,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=4 phase=initial2-enemy elapsed=133.1",
+        "clientScript": true
+      },
+      {
+        "t": 137,
+        "graphId": null,
+        "text": "M1_PROBE weak stacked5 elapsed=137.1 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 137,
+        "graphId": null,
+        "text": "M1_PROBE readonly weak stacked5",
+        "clientScript": true
+      },
+      {
+        "t": 137,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=4 phase=stacked5-player elapsed=137.1",
+        "clientScript": true
+      },
+      {
+        "t": 141,
+        "graphId": null,
+        "text": "M1_PROBE weak stacked5-enemy elapsed=141.1 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 141,
+        "graphId": null,
+        "text": "M1_PROBE readonly weak stacked5-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 141,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=4 phase=stacked5-enemy elapsed=141.1",
+        "clientScript": true
+      },
+      {
+        "t": 145,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 145,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1264",
+        "clientScript": true
+      },
+      {
+        "t": 145,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=4 phase=defend elapsed=145.1",
+        "clientScript": true
+      },
+      {
+        "t": 145,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 145,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1265",
+        "clientScript": true
+      },
+      {
+        "t": 150,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 150,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1266",
+        "clientScript": true
+      },
+      {
+        "t": 150,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=4 phase=strike elapsed=150.1",
+        "clientScript": true
+      },
+      {
+        "t": 150,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=player target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 150,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1267",
+        "clientScript": true
+      },
+      {
+        "t": 156,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 156,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1268",
+        "clientScript": true
+      },
+      {
+        "t": 156,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=4 phase=endTurn elapsed=156.1",
+        "clientScript": true
+      },
+      {
+        "t": 157,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 157,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 158,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 158,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1269",
+        "clientScript": true
+      },
+      {
+        "t": 158,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK status source=player target=player amount=-1",
+        "clientScript": true
+      },
+      {
+        "t": 158,
+        "graphId": null,
+        "text": "ABYSS_AUDIO status id=50928 instance=1270",
+        "clientScript": true
+      },
+      {
+        "t": 158,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1",
+        "clientScript": true
+      },
+      {
+        "t": 158,
+        "graphId": null,
+        "text": "ABYSS_AUDIO status id=50928 instance=1271",
+        "clientScript": true
+      },
+      {
+        "t": 158,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 158,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 158,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 158,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1272",
+        "clientScript": true
+      },
+      {
+        "t": 164,
+        "graphId": null,
+        "text": "M1_PROBE weak afterTurn elapsed=164.1 caseTime=35.0 player=4.0 enemy=4.0 hp=60/38 block=0/0 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 164,
+        "graphId": null,
+        "text": "M1_PROBE readonly weak afterTurn",
+        "clientScript": true
+      },
+      {
+        "t": 164,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=4 phase=afterTurn-player elapsed=164.1",
+        "clientScript": true
+      },
+      {
+        "t": 168,
+        "graphId": null,
+        "text": "M1_PROBE weak afterTurn-enemy elapsed=168.2 caseTime=39.1 player=4.0 enemy=4.0 hp=60/38 block=0/0 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 168,
+        "graphId": null,
+        "text": "M1_PROBE readonly weak afterTurn-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 168,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=4 phase=afterTurn-enemy elapsed=168.2",
+        "clientScript": true
+      },
+      {
+        "t": 172,
+        "graphId": null,
+        "text": "M1_PROBE frail initial2 elapsed=172.1 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 172,
+        "graphId": null,
+        "text": "M1_PROBE readonly frail initial2",
+        "clientScript": true
+      },
+      {
+        "t": 172,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=5 phase=initial2-player elapsed=172.1",
+        "clientScript": true
+      },
+      {
+        "t": 176,
+        "graphId": null,
+        "text": "M1_PROBE frail initial2-enemy elapsed=176.2 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 176,
+        "graphId": null,
+        "text": "M1_PROBE readonly frail initial2-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 176,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=5 phase=initial2-enemy elapsed=176.2",
+        "clientScript": true
+      },
+      {
+        "t": 180,
+        "graphId": null,
+        "text": "M1_PROBE frail stacked5 elapsed=180.2 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 180,
+        "graphId": null,
+        "text": "M1_PROBE readonly frail stacked5",
+        "clientScript": true
+      },
+      {
+        "t": 180,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=5 phase=stacked5-player elapsed=180.2",
+        "clientScript": true
+      },
+      {
+        "t": 184,
+        "graphId": null,
+        "text": "M1_PROBE frail stacked5-enemy elapsed=184.1 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 184,
+        "graphId": null,
+        "text": "M1_PROBE readonly frail stacked5-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 184,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=5 phase=stacked5-enemy elapsed=184.1",
+        "clientScript": true
+      },
+      {
+        "t": 188,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 188,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1273",
+        "clientScript": true
+      },
+      {
+        "t": 188,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=5 phase=defend elapsed=188.2",
+        "clientScript": true
+      },
+      {
+        "t": 188,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=3",
+        "clientScript": true
+      },
+      {
+        "t": 188,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1274",
+        "clientScript": true
+      },
+      {
+        "t": 193,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 193,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1275",
+        "clientScript": true
+      },
+      {
+        "t": 193,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=5 phase=strike elapsed=193.2",
+        "clientScript": true
+      },
+      {
+        "t": 193,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=player target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 193,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1276",
+        "clientScript": true
+      },
+      {
+        "t": 199,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 199,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1277",
+        "clientScript": true
+      },
+      {
+        "t": 199,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=5 phase=endTurn elapsed=199.2",
+        "clientScript": true
+      },
+      {
+        "t": 200,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 200,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 201,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 201,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1278",
+        "clientScript": true
+      },
+      {
+        "t": 201,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK status source=player target=player amount=-1",
+        "clientScript": true
+      },
+      {
+        "t": 201,
+        "graphId": null,
+        "text": "ABYSS_AUDIO status id=50928 instance=1279",
+        "clientScript": true
+      },
+      {
+        "t": 201,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1",
+        "clientScript": true
+      },
+      {
+        "t": 201,
+        "graphId": null,
+        "text": "ABYSS_AUDIO status id=50928 instance=1280",
+        "clientScript": true
+      },
+      {
+        "t": 201,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 201,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 201,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 201,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1281",
+        "clientScript": true
+      },
+      {
+        "t": 207,
+        "graphId": null,
+        "text": "M1_PROBE frail afterTurn elapsed=207.2 caseTime=35.0 player=4.0 enemy=4.0 hp=60/38 block=0/0 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 207,
+        "graphId": null,
+        "text": "M1_PROBE readonly frail afterTurn",
+        "clientScript": true
+      },
+      {
+        "t": 207,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=5 phase=afterTurn-player elapsed=207.2",
+        "clientScript": true
+      },
+      {
+        "t": 211,
+        "graphId": null,
+        "text": "M1_PROBE frail afterTurn-enemy elapsed=211.2 caseTime=39.0 player=4.0 enemy=4.0 hp=60/38 block=0/0 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 211,
+        "graphId": null,
+        "text": "M1_PROBE readonly frail afterTurn-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 211,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=5 phase=afterTurn-enemy elapsed=211.2",
+        "clientScript": true
+      },
+      {
+        "t": 215,
+        "graphId": null,
+        "text": "M1_PROBE poison initial2 elapsed=215.2 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 215,
+        "graphId": null,
+        "text": "M1_PROBE readonly poison initial2",
+        "clientScript": true
+      },
+      {
+        "t": 215,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=6 phase=initial2-player elapsed=215.2",
+        "clientScript": true
+      },
+      {
+        "t": 219,
+        "graphId": null,
+        "text": "M1_PROBE poison initial2-enemy elapsed=219.2 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 219,
+        "graphId": null,
+        "text": "M1_PROBE readonly poison initial2-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 219,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=6 phase=initial2-enemy elapsed=219.2",
+        "clientScript": true
+      },
+      {
+        "t": 223,
+        "graphId": null,
+        "text": "M1_PROBE poison stacked5 elapsed=223.2 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 223,
+        "graphId": null,
+        "text": "M1_PROBE readonly poison stacked5",
+        "clientScript": true
+      },
+      {
+        "t": 223,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=6 phase=stacked5-player elapsed=223.2",
+        "clientScript": true
+      },
+      {
+        "t": 227,
+        "graphId": null,
+        "text": "M1_PROBE poison stacked5-enemy elapsed=227.2 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 227,
+        "graphId": null,
+        "text": "M1_PROBE readonly poison stacked5-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 227,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=6 phase=stacked5-enemy elapsed=227.2",
+        "clientScript": true
+      },
+      {
+        "t": 231,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 231,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1282",
+        "clientScript": true
+      },
+      {
+        "t": 231,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=6 phase=defend elapsed=231.2",
+        "clientScript": true
+      },
+      {
+        "t": 231,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 231,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1283",
+        "clientScript": true
+      },
+      {
+        "t": 236,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 236,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1284",
+        "clientScript": true
+      },
+      {
+        "t": 236,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=6 phase=strike elapsed=236.2",
+        "clientScript": true
+      },
+      {
+        "t": 236,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=player target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 236,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1285",
+        "clientScript": true
+      },
+      {
+        "t": 242,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 242,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1286",
+        "clientScript": true
+      },
+      {
+        "t": 242,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=6 phase=endTurn elapsed=242.2",
+        "clientScript": true
+      },
+      {
+        "t": 243,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 243,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK status_damage source=cultist_1 target=cultist_1 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 243,
+        "graphId": null,
+        "text": "ABYSS_AUDIO hit id=40313 instance=1287",
+        "clientScript": true
+      },
+      {
+        "t": 243,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 244,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 244,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1288",
+        "clientScript": true
+      },
+      {
+        "t": 244,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 244,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK status_damage source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 244,
+        "graphId": null,
+        "text": "ABYSS_AUDIO hurt id=50936 instance=1289",
+        "clientScript": true
+      },
+      {
+        "t": 244,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 244,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 244,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1290",
+        "clientScript": true
+      },
+      {
+        "t": 250,
+        "graphId": null,
+        "text": "M1_PROBE poison afterTurn elapsed=250.2 caseTime=35.0 player=4.0 enemy=4.0 hp=55.0/33.0 block=0/0 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 250,
+        "graphId": null,
+        "text": "M1_PROBE readonly poison afterTurn",
+        "clientScript": true
+      },
+      {
+        "t": 250,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=6 phase=afterTurn-player elapsed=250.2",
+        "clientScript": true
+      },
+      {
+        "t": 254,
+        "graphId": null,
+        "text": "M1_PROBE poison afterTurn-enemy elapsed=254.2 caseTime=39.0 player=4.0 enemy=4.0 hp=55.0/33.0 block=0/0 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 254,
+        "graphId": null,
+        "text": "M1_PROBE readonly poison afterTurn-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 254,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=6 phase=afterTurn-enemy elapsed=254.2",
+        "clientScript": true
+      },
+      {
+        "t": 258,
+        "graphId": null,
+        "text": "M1_PROBE thorns initial2 elapsed=258.2 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 258,
+        "graphId": null,
+        "text": "M1_PROBE readonly thorns initial2",
+        "clientScript": true
+      },
+      {
+        "t": 258,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=7 phase=initial2-player elapsed=258.2",
+        "clientScript": true
+      },
+      {
+        "t": 262,
+        "graphId": null,
+        "text": "M1_PROBE thorns initial2-enemy elapsed=262.3 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 262,
+        "graphId": null,
+        "text": "M1_PROBE readonly thorns initial2-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 262,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=7 phase=initial2-enemy elapsed=262.3",
+        "clientScript": true
+      },
+      {
+        "t": 266,
+        "graphId": null,
+        "text": "M1_PROBE thorns stacked5 elapsed=266.2 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 266,
+        "graphId": null,
+        "text": "M1_PROBE readonly thorns stacked5",
+        "clientScript": true
+      },
+      {
+        "t": 266,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=7 phase=stacked5-player elapsed=266.2",
+        "clientScript": true
+      },
+      {
+        "t": 270,
+        "graphId": null,
+        "text": "M1_PROBE thorns stacked5-enemy elapsed=270.2 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 270,
+        "graphId": null,
+        "text": "M1_PROBE readonly thorns stacked5-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 270,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=7 phase=stacked5-enemy elapsed=270.2",
+        "clientScript": true
+      },
+      {
+        "t": 274,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 274,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1291",
+        "clientScript": true
+      },
+      {
+        "t": 274,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=7 phase=defend elapsed=274.2",
+        "clientScript": true
+      },
+      {
+        "t": 274,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 274,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1292",
+        "clientScript": true
+      },
+      {
+        "t": 279,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 279,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1293",
+        "clientScript": true
+      },
+      {
+        "t": 279,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=7 phase=strike elapsed=279.2",
+        "clientScript": true
+      },
+      {
+        "t": 279,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=player target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 279,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1294",
+        "clientScript": true
+      },
+      {
+        "t": 280,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK status_damage source=cultist_1 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 280,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1295",
+        "clientScript": true
+      },
+      {
+        "t": 285,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 285,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1296",
+        "clientScript": true
+      },
+      {
+        "t": 285,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=7 phase=endTurn elapsed=285.3",
+        "clientScript": true
+      },
+      {
+        "t": 286,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 286,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 287,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 287,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1297",
+        "clientScript": true
+      },
+      {
+        "t": 287,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK status_damage source=player target=cultist_1 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 287,
+        "graphId": null,
+        "text": "ABYSS_AUDIO hit id=40313 instance=1298",
+        "clientScript": true
+      },
+      {
+        "t": 287,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 287,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 287,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 287,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1299",
+        "clientScript": true
+      },
+      {
+        "t": 293,
+        "graphId": null,
+        "text": "M1_PROBE thorns afterTurn elapsed=293.2 caseTime=35.0 player=5.0 enemy=5.0 hp=60.0/33.0 block=0/0 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 293,
+        "graphId": null,
+        "text": "M1_PROBE readonly thorns afterTurn",
+        "clientScript": true
+      },
+      {
+        "t": 293,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=7 phase=afterTurn-player elapsed=293.2",
+        "clientScript": true
+      },
+      {
+        "t": 297,
+        "graphId": null,
+        "text": "M1_PROBE thorns afterTurn-enemy elapsed=297.2 caseTime=39.0 player=5.0 enemy=5.0 hp=60.0/33.0 block=0/0 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 297,
+        "graphId": null,
+        "text": "M1_PROBE readonly thorns afterTurn-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 297,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=7 phase=afterTurn-enemy elapsed=297.2",
+        "clientScript": true
+      },
+      {
+        "t": 301,
+        "graphId": null,
+        "text": "M1_PROBE regen initial2 elapsed=301.3 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 301,
+        "graphId": null,
+        "text": "M1_PROBE readonly regen initial2",
+        "clientScript": true
+      },
+      {
+        "t": 301,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=8 phase=initial2-player elapsed=301.3",
+        "clientScript": true
+      },
+      {
+        "t": 305,
+        "graphId": null,
+        "text": "M1_PROBE regen initial2-enemy elapsed=305.3 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 305,
+        "graphId": null,
+        "text": "M1_PROBE readonly regen initial2-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 305,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=8 phase=initial2-enemy elapsed=305.3",
+        "clientScript": true
+      },
+      {
+        "t": 309,
+        "graphId": null,
+        "text": "M1_PROBE regen stacked5 elapsed=309.3 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 309,
+        "graphId": null,
+        "text": "M1_PROBE readonly regen stacked5",
+        "clientScript": true
+      },
+      {
+        "t": 309,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=8 phase=stacked5-player elapsed=309.3",
+        "clientScript": true
+      },
+      {
+        "t": 313,
+        "graphId": null,
+        "text": "M1_PROBE regen stacked5-enemy elapsed=313.3 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 313,
+        "graphId": null,
+        "text": "M1_PROBE readonly regen stacked5-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 313,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=8 phase=stacked5-enemy elapsed=313.3",
+        "clientScript": true
+      },
+      {
+        "t": 317,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 317,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1300",
+        "clientScript": true
+      },
+      {
+        "t": 317,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=8 phase=defend elapsed=317.3",
+        "clientScript": true
+      },
+      {
+        "t": 318,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 318,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1301",
+        "clientScript": true
+      },
+      {
+        "t": 322,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 322,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1302",
+        "clientScript": true
+      },
+      {
+        "t": 322,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=8 phase=strike elapsed=322.3",
+        "clientScript": true
+      },
+      {
+        "t": 323,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=player target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 323,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1303",
+        "clientScript": true
+      },
+      {
+        "t": 328,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK heal source=- target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 328,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=8 phase=endTurn elapsed=328.3",
+        "clientScript": true
+      },
+      {
+        "t": 328,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 328,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1304",
+        "clientScript": true
+      },
+      {
+        "t": 329,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 329,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 330,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 330,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1305",
+        "clientScript": true
+      },
+      {
+        "t": 330,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK heal source=- target=cultist_1 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 330,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 330,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 330,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 330,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1306",
+        "clientScript": true
+      },
+      {
+        "t": 336,
+        "graphId": null,
+        "text": "M1_PROBE regen afterTurn elapsed=336.3 caseTime=35.0 player=4.0 enemy=4.0 hp=65.0/43.0 block=0/0 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 336,
+        "graphId": null,
+        "text": "M1_PROBE readonly regen afterTurn",
+        "clientScript": true
+      },
+      {
+        "t": 336,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=8 phase=afterTurn-player elapsed=336.3",
+        "clientScript": true
+      },
+      {
+        "t": 340,
+        "graphId": null,
+        "text": "M1_PROBE regen afterTurn-enemy elapsed=340.3 caseTime=39.0 player=4.0 enemy=4.0 hp=65.0/43.0 block=0/0 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 340,
+        "graphId": null,
+        "text": "M1_PROBE readonly regen afterTurn-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 340,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=8 phase=afterTurn-enemy elapsed=340.3",
+        "clientScript": true
+      },
+      {
+        "t": 344,
+        "graphId": null,
+        "text": "M1_PROBE barricade initial2 elapsed=344.3 caseTime=0.0 player=1 enemy=1 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 344,
+        "graphId": null,
+        "text": "M1_PROBE readonly barricade initial2",
+        "clientScript": true
+      },
+      {
+        "t": 344,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=9 phase=initial2-player elapsed=344.3",
+        "clientScript": true
+      },
+      {
+        "t": 348,
+        "graphId": null,
+        "text": "M1_PROBE barricade initial2-enemy elapsed=348.3 caseTime=4.0 player=1 enemy=1 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 348,
+        "graphId": null,
+        "text": "M1_PROBE readonly barricade initial2-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 348,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=9 phase=initial2-enemy elapsed=348.3",
+        "clientScript": true
+      },
+      {
+        "t": 352,
+        "graphId": null,
+        "text": "M1_PROBE barricade stacked5 elapsed=352.3 caseTime=8.0 player=1 enemy=1 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 352,
+        "graphId": null,
+        "text": "M1_PROBE readonly barricade stacked5",
+        "clientScript": true
+      },
+      {
+        "t": 352,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=9 phase=stacked5-player elapsed=352.3",
+        "clientScript": true
+      },
+      {
+        "t": 356,
+        "graphId": null,
+        "text": "M1_PROBE barricade stacked5-enemy elapsed=356.3 caseTime=12.0 player=1 enemy=1 hp=60/38 block=7/7 turn=1",
+        "clientScript": true
+      },
+      {
+        "t": 356,
+        "graphId": null,
+        "text": "M1_PROBE readonly barricade stacked5-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 356,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=9 phase=stacked5-enemy elapsed=356.3",
+        "clientScript": true
+      },
+      {
+        "t": 360,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 360,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1307",
+        "clientScript": true
+      },
+      {
+        "t": 360,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=9 phase=defend elapsed=360.3",
+        "clientScript": true
+      },
+      {
+        "t": 360,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 360,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1308",
+        "clientScript": true
+      },
+      {
+        "t": 365,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 365,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1309",
+        "clientScript": true
+      },
+      {
+        "t": 365,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=9 phase=strike elapsed=365.3",
+        "clientScript": true
+      },
+      {
+        "t": 365,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=player target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 365,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1310",
+        "clientScript": true
+      },
+      {
+        "t": 371,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 371,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1311",
+        "clientScript": true
+      },
+      {
+        "t": 371,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=9 phase=endTurn elapsed=371.3",
+        "clientScript": true
+      },
+      {
+        "t": 372,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 373,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 373,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1312",
+        "clientScript": true
+      },
+      {
+        "t": 373,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 373,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 373,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1313",
+        "clientScript": true
+      },
+      {
+        "t": 379,
+        "graphId": null,
+        "text": "M1_PROBE barricade afterTurn elapsed=379.3 caseTime=35.0 player=1 enemy=1 hp=60/38 block=6.0/1 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 379,
+        "graphId": null,
+        "text": "M1_PROBE readonly barricade afterTurn",
+        "clientScript": true
+      },
+      {
+        "t": 379,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=9 phase=afterTurn-player elapsed=379.3",
+        "clientScript": true
+      },
+      {
+        "t": 383,
+        "graphId": null,
+        "text": "M1_PROBE barricade afterTurn-enemy elapsed=383.3 caseTime=39.1 player=1 enemy=1 hp=60/38 block=6.0/1 turn=2",
+        "clientScript": true
+      },
+      {
+        "t": 383,
+        "graphId": null,
+        "text": "M1_PROBE readonly barricade afterTurn-enemy",
+        "clientScript": true
+      },
+      {
+        "t": 383,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=9 phase=afterTurn-enemy elapsed=383.3",
+        "clientScript": true
+      },
+      {
+        "t": 387,
+        "graphId": null,
+        "text": "M1_PROBE_PHASE case=10 phase=initial2-player elapsed=387.3",
+        "clientScript": true
+      },
+      {
+        "t": 387,
+        "graphId": null,
+        "text": "M1_PROBE complete 9",
+        "clientScript": true
+      },
+      {
+        "t": 387,
+        "graphId": null,
+        "text": "M1_UNIFIED_PHASE block",
+        "clientScript": true
+      },
+      {
+        "t": 387,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=baseline wall=0.00 enemies=1 boss=false hp=60 block=7",
+        "clientScript": true
+      },
+      {
+        "t": 388,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=player-gain wall=1.04 ",
+        "clientScript": true
+      },
+      {
+        "t": 388,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 388,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1314",
+        "clientScript": true
+      },
+      {
+        "t": 389,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 389,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1315",
+        "clientScript": true
+      },
+      {
+        "t": 389,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=sample wall=1.42 action=1 actor=player kind=block age=0.020 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 390,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=sample wall=2.31 action=1 actor=player kind=block age=0.100 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 391,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=sample wall=3.44 action=1 actor=player kind=block age=0.300 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 392,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=action-restored wall=4.89 action=1 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 393,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=enemy-gain wall=5.70 ",
+        "clientScript": true
+      },
+      {
+        "t": 393,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 393,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1316",
+        "clientScript": true
+      },
+      {
+        "t": 394,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 394,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 395,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=cultist_1 target=cultist_1 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 395,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1317",
+        "clientScript": true
+      },
+      {
+        "t": 395,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=sample wall=7.99 action=2 actor=cultist_1 kind=block age=0.020 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 396,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=sample wall=8.89 action=2 actor=cultist_1 kind=block age=0.100 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 397,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 397,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 397,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 397,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1318",
+        "clientScript": true
+      },
+      {
+        "t": 397,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=sample wall=9.99 action=2 actor=cultist_1 kind=block age=0.300 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 399,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=action-restored wall=12.22 action=2 hp=60 block=0",
+        "clientScript": true
+      },
+      {
+        "t": 400,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=player-gain-before-absorb wall=13.02 ",
+        "clientScript": true
+      },
+      {
+        "t": 400,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 400,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1319",
+        "clientScript": true
+      },
+      {
+        "t": 401,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 401,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1320",
+        "clientScript": true
+      },
+      {
+        "t": 401,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=sample wall=13.39 action=3 actor=player kind=block age=0.020 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 402,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=sample wall=14.29 action=3 actor=player kind=block age=0.100 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 403,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=sample wall=15.42 action=3 actor=player kind=block age=0.300 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 404,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=action-restored wall=16.85 action=3 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 405,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=absorption wall=17.65 ",
+        "clientScript": true
+      },
+      {
+        "t": 405,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 405,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1321",
+        "clientScript": true
+      },
+      {
+        "t": 406,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 406,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 407,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 407,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1322",
+        "clientScript": true
+      },
+      {
+        "t": 407,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=sample wall=19.97 action=4 actor=player kind=damage age=0.020 hp=60 block=6.0",
+        "clientScript": true
+      },
+      {
+        "t": 408,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=sample wall=20.89 action=4 actor=player kind=damage age=0.100 hp=60 block=6.0",
+        "clientScript": true
+      },
+      {
+        "t": 409,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 409,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 409,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 409,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1323",
+        "clientScript": true
+      },
+      {
+        "t": 409,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=sample wall=22.00 action=4 actor=player kind=damage age=0.300 hp=60 block=0",
+        "clientScript": true
+      },
+      {
+        "t": 412,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=action-restored wall=24.54 action=4 hp=60 block=0",
+        "clientScript": true
+      },
+      {
+        "t": 412,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=cancel-active-block wall=25.33 ",
+        "clientScript": true
+      },
+      {
+        "t": 412,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 412,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1324",
+        "clientScript": true
+      },
+      {
+        "t": 413,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 413,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1325",
+        "clientScript": true
+      },
+      {
+        "t": 413,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=sample wall=25.75 action=5 actor=player kind=block age=0.020 hp=60 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 414,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK recovered cancelled",
+        "clientScript": true
+      },
+      {
+        "t": 414,
+        "graphId": null,
+        "text": "M1_BLOCK case=1 phase=cancelled-restored wall=26.56 hp=60 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 415,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=baseline wall=27.84 enemies=2 boss=false hp=60 block=7",
+        "clientScript": true
+      },
+      {
+        "t": 416,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=player-gain wall=28.90 ",
+        "clientScript": true
+      },
+      {
+        "t": 416,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 416,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1326",
+        "clientScript": true
+      },
+      {
+        "t": 416,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 416,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1327",
+        "clientScript": true
+      },
+      {
+        "t": 416,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=sample wall=29.27 action=1 actor=player kind=block age=0.020 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 417,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=sample wall=30.18 action=1 actor=player kind=block age=0.100 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 418,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=sample wall=31.33 action=1 actor=player kind=block age=0.300 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 420,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=action-restored wall=32.76 action=1 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 421,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=enemy-gain wall=33.57 ",
+        "clientScript": true
+      },
+      {
+        "t": 421,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 421,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1328",
+        "clientScript": true
+      },
+      {
+        "t": 422,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 422,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_2 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 422,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 423,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=cultist_1 target=cultist_1 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 423,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1329",
+        "clientScript": true
+      },
+      {
+        "t": 423,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=sample wall=36.01 action=2 actor=cultist_1 kind=block age=0.020 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 424,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=sample wall=36.90 action=2 actor=cultist_1 kind=block age=0.100 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 425,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_2 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 425,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=sample wall=38.00 action=2 actor=cultist_1 kind=block age=0.300 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 427,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=cultist_2 target=cultist_2 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 427,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1330",
+        "clientScript": true
+      },
+      {
+        "t": 427,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=sample wall=39.43 action=2 actor=cultist_2 kind=block age=0.020 hp=50 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 427,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=sample wall=40.33 action=2 actor=cultist_2 kind=block age=0.100 hp=50 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 428,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 428,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 428,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 428,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1331",
+        "clientScript": true
+      },
+      {
+        "t": 429,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=sample wall=41.42 action=2 actor=cultist_2 kind=block age=0.300 hp=50 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 431,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=action-restored wall=43.65 action=2 hp=60 block=0",
+        "clientScript": true
+      },
+      {
+        "t": 432,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=player-gain-before-absorb wall=44.45 ",
+        "clientScript": true
+      },
+      {
+        "t": 432,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 432,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1332",
+        "clientScript": true
+      },
+      {
+        "t": 432,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 432,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1333",
+        "clientScript": true
+      },
+      {
+        "t": 432,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=sample wall=44.84 action=3 actor=player kind=block age=0.020 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 433,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=sample wall=45.73 action=3 actor=player kind=block age=0.100 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 434,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=sample wall=47.27 action=3 actor=player kind=block age=0.308 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 436,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=action-restored wall=48.70 action=3 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 437,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=absorption wall=49.50 ",
+        "clientScript": true
+      },
+      {
+        "t": 437,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 437,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1334",
+        "clientScript": true
+      },
+      {
+        "t": 438,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 438,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_2 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 438,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 439,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 439,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1335",
+        "clientScript": true
+      },
+      {
+        "t": 439,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=sample wall=51.84 action=4 actor=player kind=damage age=0.020 hp=60 block=6.0",
+        "clientScript": true
+      },
+      {
+        "t": 440,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=sample wall=52.73 action=4 actor=player kind=damage age=0.100 hp=60 block=6.0",
+        "clientScript": true
+      },
+      {
+        "t": 441,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_2 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 441,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=sample wall=53.83 action=4 actor=player kind=damage age=0.300 hp=60 block=6.0",
+        "clientScript": true
+      },
+      {
+        "t": 442,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_2 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 443,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 443,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 443,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 443,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1336",
+        "clientScript": true
+      },
+      {
+        "t": 444,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=action-restored wall=57.19 action=4 hp=60 block=0",
+        "clientScript": true
+      },
+      {
+        "t": 445,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=cancel-active-block wall=57.99 ",
+        "clientScript": true
+      },
+      {
+        "t": 445,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 445,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1337",
+        "clientScript": true
+      },
+      {
+        "t": 445,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 445,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1338",
+        "clientScript": true
+      },
+      {
+        "t": 445,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=sample wall=58.43 action=5 actor=player kind=block age=0.020 hp=60 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 446,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK recovered cancelled",
+        "clientScript": true
+      },
+      {
+        "t": 446,
+        "graphId": null,
+        "text": "M1_BLOCK case=2 phase=cancelled-restored wall=59.23 hp=60 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 448,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=baseline wall=60.53 enemies=3 boss=false hp=60 block=7",
+        "clientScript": true
+      },
+      {
+        "t": 449,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=player-gain wall=61.59 ",
+        "clientScript": true
+      },
+      {
+        "t": 449,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 449,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1339",
+        "clientScript": true
+      },
+      {
+        "t": 449,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 449,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1340",
+        "clientScript": true
+      },
+      {
+        "t": 449,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=61.98 action=1 actor=player kind=block age=0.020 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 450,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=62.88 action=1 actor=player kind=block age=0.100 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 451,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=64.01 action=1 actor=player kind=block age=0.300 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 452,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=action-restored wall=65.44 action=1 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 453,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=enemy-gain wall=66.23 ",
+        "clientScript": true
+      },
+      {
+        "t": 453,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 453,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1341",
+        "clientScript": true
+      },
+      {
+        "t": 455,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 455,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_2 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 455,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_3 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 455,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 456,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=cultist_1 target=cultist_1 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 456,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1342",
+        "clientScript": true
+      },
+      {
+        "t": 456,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=68.59 action=2 actor=cultist_1 kind=block age=0.020 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 457,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=69.49 action=2 actor=cultist_1 kind=block age=0.100 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 458,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_2 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 458,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=70.59 action=2 actor=cultist_1 kind=block age=0.300 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 459,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=cultist_2 target=cultist_2 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 459,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1343",
+        "clientScript": true
+      },
+      {
+        "t": 459,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=72.02 action=2 actor=cultist_2 kind=block age=0.020 hp=50 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 460,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=72.91 action=2 actor=cultist_2 kind=block age=0.100 hp=50 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 461,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_3 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 461,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=74.01 action=2 actor=cultist_2 kind=block age=0.300 hp=50 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 463,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=cultist_3 target=cultist_3 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 463,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1344",
+        "clientScript": true
+      },
+      {
+        "t": 463,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=75.44 action=2 actor=cultist_3 kind=block age=0.020 hp=53 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 463,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=76.34 action=2 actor=cultist_3 kind=block age=0.100 hp=53 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 464,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 464,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 464,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 464,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1345",
+        "clientScript": true
+      },
+      {
+        "t": 464,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=77.43 action=2 actor=cultist_3 kind=block age=0.300 hp=53 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 467,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=action-restored wall=79.66 action=2 hp=60 block=0",
+        "clientScript": true
+      },
+      {
+        "t": 468,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=player-gain-before-absorb wall=80.46 ",
+        "clientScript": true
+      },
+      {
+        "t": 468,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 468,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1346",
+        "clientScript": true
+      },
+      {
+        "t": 468,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 468,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1347",
+        "clientScript": true
+      },
+      {
+        "t": 468,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=80.86 action=3 actor=player kind=block age=0.020 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 469,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=81.76 action=3 actor=player kind=block age=0.100 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 470,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=82.89 action=3 actor=player kind=block age=0.300 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 471,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=action-restored wall=84.32 action=3 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 472,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=absorption wall=85.12 ",
+        "clientScript": true
+      },
+      {
+        "t": 472,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 472,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1348",
+        "clientScript": true
+      },
+      {
+        "t": 474,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 474,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_2 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 474,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_3 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 474,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 475,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 475,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1349",
+        "clientScript": true
+      },
+      {
+        "t": 475,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=87.49 action=4 actor=player kind=damage age=0.020 hp=60 block=6.0",
+        "clientScript": true
+      },
+      {
+        "t": 475,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=88.38 action=4 actor=player kind=damage age=0.100 hp=60 block=6.0",
+        "clientScript": true
+      },
+      {
+        "t": 476,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_2 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 477,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=89.48 action=4 actor=player kind=damage age=0.300 hp=60 block=6.0",
+        "clientScript": true
+      },
+      {
+        "t": 478,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_2 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 478,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_3 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 479,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_3 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 479,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 480,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 480,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 480,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1350",
+        "clientScript": true
+      },
+      {
+        "t": 481,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=action-restored wall=93.98 action=4 hp=60 block=0",
+        "clientScript": true
+      },
+      {
+        "t": 482,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=cancel-active-block wall=94.79 ",
+        "clientScript": true
+      },
+      {
+        "t": 482,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 482,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1351",
+        "clientScript": true
+      },
+      {
+        "t": 482,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 482,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1352",
+        "clientScript": true
+      },
+      {
+        "t": 482,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=sample wall=95.18 action=5 actor=player kind=block age=0.020 hp=60 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 483,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK recovered cancelled",
+        "clientScript": true
+      },
+      {
+        "t": 483,
+        "graphId": null,
+        "text": "M1_BLOCK case=3 phase=cancelled-restored wall=95.97 hp=60 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 484,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=baseline wall=97.31 enemies=4 boss=false hp=60 block=7",
+        "clientScript": true
+      },
+      {
+        "t": 485,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=player-gain wall=98.35 ",
+        "clientScript": true
+      },
+      {
+        "t": 485,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 485,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1353",
+        "clientScript": true
+      },
+      {
+        "t": 486,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 486,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1354",
+        "clientScript": true
+      },
+      {
+        "t": 486,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=98.73 action=1 actor=player kind=block age=0.020 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 487,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=99.63 action=1 actor=player kind=block age=0.100 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 488,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=100.76 action=1 actor=player kind=block age=0.300 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 489,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=action-restored wall=102.19 action=1 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 490,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=enemy-gain wall=102.99 ",
+        "clientScript": true
+      },
+      {
+        "t": 490,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 490,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1355",
+        "clientScript": true
+      },
+      {
+        "t": 492,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 492,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_2 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 492,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_3 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 492,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_4 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 492,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 492,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=cultist_1 target=cultist_1 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 492,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1356",
+        "clientScript": true
+      },
+      {
+        "t": 492,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=105.39 action=2 actor=cultist_1 kind=block age=0.020 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 493,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=106.29 action=2 actor=cultist_1 kind=block age=0.100 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 494,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_2 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 494,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=107.39 action=2 actor=cultist_1 kind=block age=0.300 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 496,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=cultist_2 target=cultist_2 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 496,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1357",
+        "clientScript": true
+      },
+      {
+        "t": 496,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=108.81 action=2 actor=cultist_2 kind=block age=0.020 hp=50 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 497,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=109.71 action=2 actor=cultist_2 kind=block age=0.100 hp=50 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 498,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_3 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 498,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=110.81 action=2 actor=cultist_2 kind=block age=0.300 hp=50 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 499,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=cultist_3 target=cultist_3 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 499,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1358",
+        "clientScript": true
+      },
+      {
+        "t": 499,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=112.24 action=2 actor=cultist_3 kind=block age=0.020 hp=53 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 500,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=113.13 action=2 actor=cultist_3 kind=block age=0.100 hp=53 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 501,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_4 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 501,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=114.23 action=2 actor=cultist_3 kind=block age=0.300 hp=53 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 503,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=cultist_4 target=cultist_4 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 503,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1359",
+        "clientScript": true
+      },
+      {
+        "t": 503,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=115.66 action=2 actor=cultist_4 kind=block age=0.020 hp=51 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 504,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=116.56 action=2 actor=cultist_4 kind=block age=0.100 hp=51 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 505,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 505,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 505,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 505,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1360",
+        "clientScript": true
+      },
+      {
+        "t": 505,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=117.65 action=2 actor=cultist_4 kind=block age=0.300 hp=51 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 507,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=action-restored wall=119.88 action=2 hp=60 block=0",
+        "clientScript": true
+      },
+      {
+        "t": 508,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=player-gain-before-absorb wall=120.67 ",
+        "clientScript": true
+      },
+      {
+        "t": 508,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 508,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1361",
+        "clientScript": true
+      },
+      {
+        "t": 508,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 508,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1362",
+        "clientScript": true
+      },
+      {
+        "t": 508,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=121.09 action=3 actor=player kind=block age=0.020 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 509,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=121.98 action=3 actor=player kind=block age=0.100 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 510,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=123.12 action=3 actor=player kind=block age=0.300 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 512,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=action-restored wall=124.55 action=3 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 512,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=absorption wall=125.37 ",
+        "clientScript": true
+      },
+      {
+        "t": 512,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 512,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1363",
+        "clientScript": true
+      },
+      {
+        "t": 514,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 514,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_2 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 514,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_3 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 514,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_4 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 514,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 515,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 515,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1364",
+        "clientScript": true
+      },
+      {
+        "t": 515,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=127.79 action=4 actor=player kind=damage age=0.020 hp=60 block=6.0",
+        "clientScript": true
+      },
+      {
+        "t": 516,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=128.69 action=4 actor=player kind=damage age=0.100 hp=60 block=6.0",
+        "clientScript": true
+      },
+      {
+        "t": 517,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_2 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 517,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=129.79 action=4 actor=player kind=damage age=0.300 hp=60 block=6.0",
+        "clientScript": true
+      },
+      {
+        "t": 518,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_2 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 519,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_3 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 519,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_3 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 520,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_4 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 521,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_4 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 521,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 521,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 521,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 521,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1365",
+        "clientScript": true
+      },
+      {
+        "t": 523,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=action-restored wall=135.77 action=4 hp=60 block=0",
+        "clientScript": true
+      },
+      {
+        "t": 523,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=cancel-active-block wall=136.59 ",
+        "clientScript": true
+      },
+      {
+        "t": 523,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 523,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1366",
+        "clientScript": true
+      },
+      {
+        "t": 524,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 524,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1367",
+        "clientScript": true
+      },
+      {
+        "t": 524,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=sample wall=136.97 action=5 actor=player kind=block age=0.020 hp=60 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 525,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK recovered cancelled",
+        "clientScript": true
+      },
+      {
+        "t": 525,
+        "graphId": null,
+        "text": "M1_BLOCK case=4 phase=cancelled-restored wall=137.76 hp=60 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 526,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=baseline wall=139.06 enemies=5 boss=false hp=60 block=7",
+        "clientScript": true
+      },
+      {
+        "t": 527,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=player-gain wall=140.12 ",
+        "clientScript": true
+      },
+      {
+        "t": 527,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 527,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1368",
+        "clientScript": true
+      },
+      {
+        "t": 527,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 527,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1369",
+        "clientScript": true
+      },
+      {
+        "t": 527,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=140.49 action=1 actor=player kind=block age=0.020 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 528,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=141.39 action=1 actor=player kind=block age=0.100 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 529,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=142.53 action=1 actor=player kind=block age=0.300 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 531,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=action-restored wall=143.97 action=1 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 532,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=enemy-gain wall=144.77 ",
+        "clientScript": true
+      },
+      {
+        "t": 532,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 532,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1370",
+        "clientScript": true
+      },
+      {
+        "t": 533,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 533,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_2 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 533,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_3 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 533,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_4 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 533,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_5 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 533,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 534,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=cultist_1 target=cultist_1 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 534,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1371",
+        "clientScript": true
+      },
+      {
+        "t": 534,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=147.20 action=2 actor=cultist_1 kind=block age=0.020 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 535,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=148.09 action=2 actor=cultist_1 kind=block age=0.100 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 536,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_2 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 536,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=149.20 action=2 actor=cultist_1 kind=block age=0.300 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 537,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=cultist_2 target=cultist_2 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 537,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1372",
+        "clientScript": true
+      },
+      {
+        "t": 537,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=150.66 action=2 actor=cultist_2 kind=block age=0.020 hp=50 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 538,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=151.56 action=2 actor=cultist_2 kind=block age=0.100 hp=50 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 539,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_3 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 539,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=152.65 action=2 actor=cultist_2 kind=block age=0.300 hp=50 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 541,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=cultist_3 target=cultist_3 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 541,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1373",
+        "clientScript": true
+      },
+      {
+        "t": 541,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=154.09 action=2 actor=cultist_3 kind=block age=0.020 hp=53 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 542,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=155.03 action=2 actor=cultist_3 kind=block age=0.100 hp=53 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 543,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_4 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 543,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=156.12 action=2 actor=cultist_3 kind=block age=0.300 hp=53 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 544,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=cultist_4 target=cultist_4 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 544,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1374",
+        "clientScript": true
+      },
+      {
+        "t": 544,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=157.55 action=2 actor=cultist_4 kind=block age=0.020 hp=51 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 545,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=158.47 action=2 actor=cultist_4 kind=block age=0.100 hp=51 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 546,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_5 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 546,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=159.57 action=2 actor=cultist_4 kind=block age=0.300 hp=51 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 548,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=cultist_5 target=cultist_5 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 548,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1375",
+        "clientScript": true
+      },
+      {
+        "t": 548,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=161.03 action=2 actor=cultist_5 kind=block age=0.020 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 549,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=161.93 action=2 actor=cultist_5 kind=block age=0.100 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 550,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 550,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 550,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 550,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1376",
+        "clientScript": true
+      },
+      {
+        "t": 550,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=163.03 action=2 actor=cultist_5 kind=block age=0.300 hp=48 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 552,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=action-restored wall=165.26 action=2 hp=60 block=0",
+        "clientScript": true
+      },
+      {
+        "t": 553,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=player-gain-before-absorb wall=166.06 ",
+        "clientScript": true
+      },
+      {
+        "t": 553,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 553,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1377",
+        "clientScript": true
+      },
+      {
+        "t": 553,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 553,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1378",
+        "clientScript": true
+      },
+      {
+        "t": 553,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=166.45 action=3 actor=player kind=block age=0.020 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 554,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=167.35 action=3 actor=player kind=block age=0.100 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 555,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=168.49 action=3 actor=player kind=block age=0.300 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 557,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=action-restored wall=169.92 action=3 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 558,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=absorption wall=170.72 ",
+        "clientScript": true
+      },
+      {
+        "t": 558,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 558,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1379",
+        "clientScript": true
+      },
+      {
+        "t": 559,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 559,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_2 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 559,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_3 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 559,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_4 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 559,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=cultist_5 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 559,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 560,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 560,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1380",
+        "clientScript": true
+      },
+      {
+        "t": 560,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=173.16 action=4 actor=player kind=damage age=0.020 hp=60 block=6.0",
+        "clientScript": true
+      },
+      {
+        "t": 561,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=174.07 action=4 actor=player kind=damage age=0.100 hp=60 block=6.0",
+        "clientScript": true
+      },
+      {
+        "t": 562,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_2 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 562,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=175.17 action=4 actor=player kind=damage age=0.300 hp=60 block=6.0",
+        "clientScript": true
+      },
+      {
+        "t": 563,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_2 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 564,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_3 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 565,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_3 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 565,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_4 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 566,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_4 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 566,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=cultist_5 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 567,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=cultist_5 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 567,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 567,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 567,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 567,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1381",
+        "clientScript": true
+      },
+      {
+        "t": 569,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=action-restored wall=181.99 action=4 hp=60 block=0",
+        "clientScript": true
+      },
+      {
+        "t": 570,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=cancel-active-block wall=182.79 ",
+        "clientScript": true
+      },
+      {
+        "t": 570,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 570,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1382",
+        "clientScript": true
+      },
+      {
+        "t": 570,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 570,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1383",
+        "clientScript": true
+      },
+      {
+        "t": 570,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=sample wall=183.17 action=5 actor=player kind=block age=0.020 hp=60 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 571,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK recovered cancelled",
+        "clientScript": true
+      },
+      {
+        "t": 571,
+        "graphId": null,
+        "text": "M1_BLOCK case=5 phase=cancelled-restored wall=183.96 hp=60 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 572,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=baseline wall=185.26 enemies=1 boss=true hp=60 block=7",
+        "clientScript": true
+      },
+      {
+        "t": 573,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=player-gain wall=186.32 ",
+        "clientScript": true
+      },
+      {
+        "t": 573,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 573,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1384",
+        "clientScript": true
+      },
+      {
+        "t": 573,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 573,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1385",
+        "clientScript": true
+      },
+      {
+        "t": 573,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=sample wall=186.69 action=1 actor=player kind=block age=0.020 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 574,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=sample wall=187.59 action=1 actor=player kind=block age=0.100 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 575,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=sample wall=188.72 action=1 actor=player kind=block age=0.300 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 577,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=action-restored wall=190.16 action=1 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 577,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=enemy-gain wall=190.96 ",
+        "clientScript": true
+      },
+      {
+        "t": 577,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 577,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1386",
+        "clientScript": true
+      },
+      {
+        "t": 579,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=guardian_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 579,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=guardian_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 580,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=guardian_1 target=guardian_1 amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 580,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1387",
+        "clientScript": true
+      },
+      {
+        "t": 580,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=sample wall=193.26 action=2 actor=guardian_1 kind=block age=0.020 hp=240 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 581,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=sample wall=194.16 action=2 actor=guardian_1 kind=block age=0.100 hp=240 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 582,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 582,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 582,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 582,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1388",
+        "clientScript": true
+      },
+      {
+        "t": 582,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=sample wall=195.26 action=2 actor=guardian_1 kind=block age=0.300 hp=240 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 584,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=action-restored wall=197.47 action=2 hp=60 block=0",
+        "clientScript": true
+      },
+      {
+        "t": 585,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=player-gain-before-absorb wall=198.28 ",
+        "clientScript": true
+      },
+      {
+        "t": 585,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 585,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1389",
+        "clientScript": true
+      },
+      {
+        "t": 585,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 585,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1390",
+        "clientScript": true
+      },
+      {
+        "t": 585,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=sample wall=198.69 action=3 actor=player kind=block age=0.020 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 586,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=sample wall=199.59 action=3 actor=player kind=block age=0.100 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 587,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=sample wall=200.72 action=3 actor=player kind=block age=0.300 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 589,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=action-restored wall=202.14 action=3 hp=60 block=12.0",
+        "clientScript": true
+      },
+      {
+        "t": 589,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=absorption wall=202.94 ",
+        "clientScript": true
+      },
+      {
+        "t": 589,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 589,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1391",
+        "clientScript": true
+      },
+      {
+        "t": 591,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=guardian_1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 591,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK intent source=guardian_1 target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 592,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=guardian_1 target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 592,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_hit id=50937 instance=1392",
+        "clientScript": true
+      },
+      {
+        "t": 592,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=sample wall=205.24 action=4 actor=player kind=damage age=0.020 hp=60 block=6.0",
+        "clientScript": true
+      },
+      {
+        "t": 593,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=sample wall=206.14 action=4 actor=player kind=damage age=0.100 hp=60 block=6.0",
+        "clientScript": true
+      },
+      {
+        "t": 594,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 594,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 594,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 594,
+        "graphId": null,
+        "text": "ABYSS_AUDIO turn id=50926 instance=1393",
+        "clientScript": true
+      },
+      {
+        "t": 594,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=sample wall=207.23 action=4 actor=player kind=damage age=0.300 hp=60 block=0",
+        "clientScript": true
+      },
+      {
+        "t": 596,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=action-restored wall=209.46 action=4 hp=60 block=0",
+        "clientScript": true
+      },
+      {
+        "t": 597,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=cancel-active-block wall=210.26 ",
+        "clientScript": true
+      },
+      {
+        "t": 597,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 597,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1394",
+        "clientScript": true
+      },
+      {
+        "t": 597,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+        "clientScript": true
+      },
+      {
+        "t": 597,
+        "graphId": null,
+        "text": "ABYSS_AUDIO block_gain id=50940 instance=1395",
+        "clientScript": true
+      },
+      {
+        "t": 597,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=sample wall=210.64 action=5 actor=player kind=block age=0.020 hp=60 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 598,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK recovered cancelled",
+        "clientScript": true
+      },
+      {
+        "t": 598,
+        "graphId": null,
+        "text": "M1_BLOCK case=6 phase=cancelled-restored wall=211.44 hp=60 block=5.0",
+        "clientScript": true
+      },
+      {
+        "t": 599,
+        "graphId": null,
+        "text": "M1_BLOCK case=7 phase=complete wall=212.74 cases=6 samples=108 cancelled=6",
+        "clientScript": true
+      },
+      {
+        "t": 599,
+        "graphId": null,
+        "text": "M1_UNIFIED_PHASE preview",
+        "clientScript": true
+      },
+      {
+        "t": 599,
+        "graphId": null,
+        "text": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=unaimed elapsed=0.00 expected=strike=4 twin=3x2 cleave=6 defend=5; costs=1/1/1/1/2; AcidSpit=7+Slimed, Bellow=Strength+3/Block6 detail= seed=11009 hp=60 energy=3 gold=99",
+        "clientScript": true
+      },
+      {
+        "t": 603,
+        "graphId": null,
+        "text": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=strike-aim-plain elapsed=4.03 expected=4 detail= seed=11009 hp=60 energy=3 gold=99",
+        "clientScript": true
+      },
+      {
+        "t": 607,
+        "graphId": null,
+        "text": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=strike-aim-vulnerable elapsed=8.06 expected=6; other hand cards unchanged detail= seed=11009 hp=60 energy=3 gold=99",
+        "clientScript": true
+      },
+      {
+        "t": 611,
+        "graphId": null,
+        "text": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=strike-cancel elapsed=12.07 expected=4; zero cards played, RNG unchanged detail= seed=11009 hp=60 energy=3 gold=99",
+        "clientScript": true
+      },
+      {
+        "t": 615,
+        "graphId": null,
+        "text": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=multi-aim-vulnerable elapsed=16.10 expected=5x2; floor(5*0.75*1.5)=5 per hit detail= seed=11009 hp=60 energy=3 gold=99",
+        "clientScript": true
+      },
+      {
+        "t": 619,
+        "graphId": null,
+        "text": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=aoe-aim elapsed=20.10 expected=label6; per targets6/9, never6~9 range detail= seed=11009 hp=60 energy=3 gold=99",
+        "clientScript": true
+      },
+      {
+        "t": 623,
+        "graphId": null,
+        "text": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=acid-intent-tap elapsed=24.12 expected=upcoming damage7 and 1 Slimed; not applied player Weak detail=中型酸液团 · 行动意图 | 攻击 | 攻击造成 7 点伤害；将 1 张「黏滞」放入你的弃牌堆 seed=11009 hp=60 energy=3 gold=99",
+        "clientScript": true
+      },
+      {
+        "t": 627,
+        "graphId": null,
+        "text": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=jaw-bellow-tap elapsed=28.13 expected=upcoming Strength+3 and Block6; existing Strength2 remains on Jaw detail=石颚兽 · 行动意图 | 强化 | 自身获得 3 层力量；获得 6 点格挡 seed=11009 hp=60 energy=3 gold=99",
+        "clientScript": true
+      },
+      {
+        "t": 631,
+        "graphId": null,
+        "text": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=status-held elapsed=32.15 expected=actual Jaw status name/layers/detail; pending Bellow not yet applied detail= seed=11009 hp=60 energy=3 gold=99",
+        "clientScript": true
+      },
+      {
+        "t": 635,
+        "graphId": null,
+        "text": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=status-release elapsed=36.18 expected=no extra play/target/RNG change detail=石颚兽 | 力量 2 · 增益 | 攻击每段伤害 +2。 seed=11009 hp=60 energy=3 gold=99",
+        "clientScript": true
+      },
+      {
+        "t": 639,
+        "graphId": null,
+        "text": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=bash-keyword-hover elapsed=40.20 expected=Vulnerable keyword; not an applied state detail= seed=11009 hp=60 energy=3 gold=99",
+        "clientScript": true
+      },
+      {
+        "t": 643,
+        "graphId": null,
+        "text": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=player-weak-tap elapsed=44.22 expected=Weak2 belongs to player; never enemy upcoming action detail=旅行者 | 虚弱 2 · 减益 | 造成的攻击伤害 -25%，持续 2 回合。 seed=11009 hp=60 energy=3 gold=99",
+        "clientScript": true
+      },
+      {
+        "t": 647,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK play source=- target=2 amount=0",
+        "clientScript": true
+      },
+      {
+        "t": 647,
+        "graphId": null,
+        "text": "ABYSS_AUDIO card_play id=50916 instance=1396",
+        "clientScript": true
+      },
+      {
+        "t": 647,
+        "graphId": null,
+        "text": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=normal-strike-resolution elapsed=48.24 expected=actual enemy HP-6 energy3->2 hand5->4; production feedback detail= seed=11009 hp=60 energy=2 gold=99",
+        "clientScript": true
+      },
+      {
+        "t": 648,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=6",
+        "clientScript": true
+      },
+      {
+        "t": 648,
+        "graphId": null,
+        "text": "ABYSS_AUDIO hit id=40313 instance=1397",
+        "clientScript": true
+      },
+      {
+        "t": 651,
+        "graphId": null,
+        "text": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=complete elapsed=52.28 expected=read-only previews/help plus exactly one normal Strike; no natural-acquisition or full-run claim detail= seed=11009 hp=60 energy=2 gold=99",
+        "clientScript": true
+      }
+    ]
+  },
+  "expectations": {
+    "passed": true,
+    "met": 4,
+    "of": 4,
+    "results": [
+      {
+        "expect": "print \"ABYSS_UI ready\"",
+        "met": true,
+        "t": 2
+      },
+      {
+        "expect": "print \"M1_PROBE complete 9\"",
+        "met": true,
+        "t": 387
+      },
+      {
+        "expect": "print \"M1_UNIFIED_PHASE preview\"",
+        "met": true,
+        "t": 599
+      },
+      {
+        "expect": "no fault in a client script",
+        "met": true
+      }
+    ],
+    "note": "Everything expected was printed, in order. That is what the level said of itself: look at the screenshots for what the player sees."
+  },
+  "scope": "MCP decoded log and self-reported expectation results; screenshot review is separate."
+}

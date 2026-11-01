@@ -1,0 +1,21 @@
+DETAIL clash seed=7 slot=2 price=53 uid=11 upgrades=1
+PASS channel clash real shop -> camp -> next battle
+PASS combat clash basic/upgrade and temporary availability
+DETAIL whirlwind seed=16 slot=1 price=81 uid=11 upgrades=1
+PASS channel whirlwind real shop -> camp -> next battle
+PASS combat whirlwind basic/upgrade and temporary availability
+DETAIL transform clash fullPool=72 slot=9 uid=1->11 miscCounter=7->8
+PASS transform clash full72 single draw
+DETAIL transform whirlwind fullPool=72 slot=40 uid=1->11 miscCounter=7->8
+PASS transform whirlwind full72 single draw
+PASS negative capability condition
+PASS negative camp condition atomic rejection
+PASS negative transform condition full72 atomic rejection
+PASS negative capability costMode
+PASS negative camp costMode atomic rejection
+PASS negative transform costMode full72 atomic rejection
+PASS negative capability effect
+PASS negative camp effect atomic rejection
+PASS negative transform effect full72 atomic rejection
+PASS registered status/curse are not blanket allowed
+RESULT 16 passed; 0 failed; bounded two-card review only

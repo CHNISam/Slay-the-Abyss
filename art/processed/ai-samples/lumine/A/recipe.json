@@ -1,0 +1,28 @@
+{
+  "asset": "lumine",
+  "route": "A",
+  "source": "art\\source\\lumine_geo_portrait.png",
+  "sourceSha256": "5a8287ed5c1d1825b9068534df985cf14067596e37eef530f5d2a6ab1ba26854",
+  "originalSize": [
+    1086,
+    1448
+  ],
+  "crop": null,
+  "inputSize": [
+    144,
+    192
+  ],
+  "palette": null,
+  "config": {
+    "num_primitives": 256,
+    "allowed_shapes": [
+      "circle"
+    ],
+    "detail_scale": 1,
+    "workers": 4,
+    "transparent_output": false
+  },
+  "fitSeconds": 44.54513759999827,
+  "controls": 256,
+  "randomSeed": "upstream clock seed; exact refit is nondeterministic"
+}

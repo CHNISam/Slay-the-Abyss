@@ -1,0 +1,297 @@
+{
+  "sourceCommit": "139de949b173c8343d628ce6ba036097a9ff954e",
+  "checkedAt": "2026-10-23T08:42:31.132Z",
+  "liveWriteEnabled": false,
+  "candidate": {
+    "relativePath": ".artifacts/continued-batch-139de94/wmvkpu9f0-0/working.gil",
+    "sha256": "a3dc885af8a42ec1c51ce529809c3a27d2ba75e8909bd42abfec9cb828e6b90f"
+  },
+  "inputs": [
+    {
+      "path": "F:\\New folder\\.artifacts\\offline-sprint-085f499\\source-base.gil",
+      "sha256Before": "6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432",
+      "sha256After": "6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432"
+    }
+  ],
+  "modules": {
+    "expected": 28,
+    "actual": 28,
+    "allSourceTextIdentical": true,
+    "exactBytes": 5,
+    "lineEndingsNormalized": 23,
+    "hashes": [
+      {
+        "name": "abyss_data",
+        "expectedSha256": "f4b412f8424e79ff75bd73b8c02aef11925736b74b037a21916bfe6c13b02817",
+        "actualSha256": "f4b412f8424e79ff75bd73b8c02aef11925736b74b037a21916bfe6c13b02817"
+      },
+      {
+        "name": "abyss_map_layout",
+        "expectedSha256": "89ffbaeebc1763a914ff2a1111b0b4e7055f363c26088e826343a101a4f043d3",
+        "actualSha256": "89ffbaeebc1763a914ff2a1111b0b4e7055f363c26088e826343a101a4f043d3"
+      },
+      {
+        "name": "abyss_narrative",
+        "expectedSha256": "109f55e8252af0b293700f9e73e6bb5a4f55af2b4dcfd870df34fe6779f2bd38",
+        "actualSha256": "109f55e8252af0b293700f9e73e6bb5a4f55af2b4dcfd870df34fe6779f2bd38"
+      },
+      {
+        "name": "abyss_presentation",
+        "expectedSha256": "d847f9db262d66a52405364bccf17f97aef7a17155e7cd08b64bf879f48c5714",
+        "actualSha256": "d847f9db262d66a52405364bccf17f97aef7a17155e7cd08b64bf879f48c5714"
+      },
+      {
+        "name": "abyss_theme",
+        "expectedSha256": "b7490fc3277a35ce5515f2342c762d273ded3d5df5259f71fba06ccb66976647",
+        "actualSha256": "b7490fc3277a35ce5515f2342c762d273ded3d5df5259f71fba06ccb66976647"
+      },
+      {
+        "name": "abyss_actor",
+        "expectedSha256": "05c96dc3c186d312b5497564e8435603a72d9acda5b9a8b75ac2c85e65df1f2a",
+        "actualSha256": "905ebed823218ba45526e2d0c256b25ef04200deb4f16f0617734b17a1c15cdb"
+      },
+      {
+        "name": "abyss_battle_ui",
+        "expectedSha256": "a9fb88644573d32f36717e7d54bcccd7e3c652edd6809a644be47435e7c3cb3d",
+        "actualSha256": "0881e0f830ee58cce1c8ded9cf6bc75ebf57799b2305900da08a79695aff96ed"
+      },
+      {
+        "name": "abyss_blue_slaver_ai",
+        "expectedSha256": "f600520998bd33a13716e71ff93be6937db4d323a55aa1721ab6ce8e5be8108c",
+        "actualSha256": "b7d21d343d44b931b078243f18194171e3dccd75ba875bd177a277a4d28e6132"
+      },
+      {
+        "name": "abyss_combat",
+        "expectedSha256": "50513c5763df57d5ce6c309c716a249bfed895396bfa3e55df9e3258d8d53cda",
+        "actualSha256": "6f021eb3238d2ce38e7a73c52edacb438ffb93b521ea01d70e0ed1dd6fd6c1b5"
+      },
+      {
+        "name": "abyss_deck_ui",
+        "expectedSha256": "969c8ae477b6184518b1232165c79fc0799c9301aa9be3f86fea57e43ac82344",
+        "actualSha256": "e592e66116682f1c5ea0cd4fb1df53be85e076d22ce6f74e9035fe82e3284d1d"
+      },
+      {
+        "name": "abyss_effects",
+        "expectedSha256": "d2406e53e09819ac6ce226294db08085be9a51aafd239bfc3a58cb1d89301af4",
+        "actualSha256": "46e14510b9a25945be7986326f3b06aedf6078dec4c34715c826af3ee7c8ce76"
+      },
+      {
+        "name": "abyss_enemy_ai",
+        "expectedSha256": "ebabe0074d554a40f97785029cd1c952ad3d2e7aa5f0db5e8f8a4e3da1c9da90",
+        "actualSha256": "7440f15c064c2c4eed9b3d8f101a1b04f0fc0da155638a5bf7311546c79d64ee"
+      },
+      {
+        "name": "abyss_events",
+        "expectedSha256": "a20b685fb142503d8bba488af02c2d202ce2e33be0aa9b7faf67511cc82cc251",
+        "actualSha256": "5b67f1d1741011b0787006a0e056f7363793164f5b788e23db0b417e59c150ba"
+      },
+      {
+        "name": "abyss_feedback",
+        "expectedSha256": "2daf0080150db3e8973847051757aef5266001f20a1334ca1d4a3526ee280ec2",
+        "actualSha256": "b2a00077578b5901ccfc7841bbbe653f2242bc317c4853431541de7cf6d4f506"
+      },
+      {
+        "name": "abyss_game_ui",
+        "expectedSha256": "3b1bca382f26e4f59f6e8b6486b2e9bcab8b377e1e4dab8d509abefbec4fb21f",
+        "actualSha256": "5b99f06cd2895834b6f4cfe833ca3508dd044ac4e68746880bd713e721e58177"
+      },
+      {
+        "name": "abyss_gremlin_nob_ai",
+        "expectedSha256": "218d7c84a3658885a4e5623d19e9d116c2067b349652a432d36a337cb0012396",
+        "actualSha256": "a33ba959aa080c2e37adb2c6d1255eb582af77e1b5b8957fff4a75c545a8c6ee"
+      },
+      {
+        "name": "abyss_guardian_ai",
+        "expectedSha256": "c9e99d7fb723dd3e63c1e8dfb9bfa155ee7c44d8b8e8ce38b4ce2d036a357821",
+        "actualSha256": "bcb5f6c0792722bc85427281fb59a456f47a298f6e430bf039328ea8ff2badf7"
+      },
+      {
+        "name": "abyss_inventory",
+        "expectedSha256": "85dcdb1474da1e81dce994e2c45d4c617f0ef8f879d5612dd1a3afcc8ab05989",
+        "actualSha256": "406663134f3ccdb91943aa6e17693ccb6a589c60d98d651ead49d116aee20d0d"
+      },
+      {
+        "name": "abyss_jaw_worm_ai",
+        "expectedSha256": "3fe2f2e714d087cc5d643ef1f898809c99231b5ff639fd62e570a2acf2736494",
+        "actualSha256": "26be5aac1d0174ee0a238e22cdd5ca8813a5534e2d0a604d521c70d9f4361583"
+      },
+      {
+        "name": "abyss_map",
+        "expectedSha256": "05ed7a259862dc0a76eb8830a75d0af1193cf56f087f01ca4c3fee54c7825c06",
+        "actualSha256": "6b4876bb1764644474642476eb6414919c879ed92425e0dee8f96ffccce83d2c"
+      },
+      {
+        "name": "abyss_map_ui",
+        "expectedSha256": "7bf2ea26a0e912c1a38207d2008b4c43a1b39675f59582e768c87839ef8a86fa",
+        "actualSha256": "18416308acd3033ac0fa63dae710339b6c40bc1826a69dc7dbe80d8cee764b1d"
+      },
+      {
+        "name": "abyss_node_ui",
+        "expectedSha256": "5661bfae871b71821bfcb0c169eb4c33ceb7ec8c2dbc79eb6c0ef14938efb47f",
+        "actualSha256": "6b817c76680bbc9bbce258e9676e6c4181b093fcda8cbaf71b0c1c1a2556bcf6"
+      },
+      {
+        "name": "abyss_nodes",
+        "expectedSha256": "4ecb066730e33b4aebdaa0b123142b32ba044172315fe7b0f945c872ae16db21",
+        "actualSha256": "3cf6d33b801f0aa73dcf7b0195ea031754699b14b09d50c2ba8b36797c87a9a0"
+      },
+      {
+        "name": "abyss_random",
+        "expectedSha256": "a052a4996c3b7090b1d79112f18630400f21df4318afe68041a2167d1c92e09d",
+        "actualSha256": "2104296392c6cc52e4813eb05c4138319de0297a3b72c30598fba8ad4dbf4c93"
+      },
+      {
+        "name": "abyss_run",
+        "expectedSha256": "86e57c9df64460ab8a39e3075d27b38b0126513e5f5b4a747f0aeab07193a4e8",
+        "actualSha256": "051fbc885f81c32a6322fbeb346b74428112d561a80e21d921e938d66a4bcae1"
+      },
+      {
+        "name": "abyss_ui",
+        "expectedSha256": "d76192a7483a4dd69e8e7dec840f9a3d62709b1ffa97cb09a01be0f61613d60d",
+        "actualSha256": "72efaeb7fafb4a946f68ce58f5a7cb7078fd40d1423b401bca57fb4df18fba01"
+      },
+      {
+        "name": "abyss_unknown",
+        "expectedSha256": "05af99b16c08081590dc088c19ce21d1a12d07328410cb779e935350d78c8e26",
+        "actualSha256": "c020229f7e1cffe57df3fc28b74ba86d795341a9729bc515a6417e5faea1d370"
+      },
+      {
+        "name": "abyss_viewport",
+        "expectedSha256": "9b425d8774508718083d64bef520aa7b655c48e7ed216a8aa2e81067cdac7a25",
+        "actualSha256": "7d7fc4973b47c60ced3915d930fec57ac6c16ea3f7f5dee6d588fbf2aed5be0a"
+      }
+    ]
+  },
+  "ui": {
+    "controlTreeNodes": 1590,
+    "interfaceContainerAndRoot": 2,
+    "rawNodesIncludingInterfaceShell": 1592,
+    "maxChildren": 50,
+    "grids": [
+      {
+        "path": "/stage/deckPanel/grid",
+        "itemTemplate": "AbyssDeckCard",
+        "grid": {
+          "itemSize": [
+            148,
+            226
+          ],
+          "spacing": [
+            36,
+            0
+          ],
+          "padding": [
+            14,
+            14,
+            12,
+            40
+          ],
+          "columns": 6,
+          "preview": 5
+        },
+        "size": [
+          1120,
+          560
+        ]
+      }
+    ],
+    "deckTemplateIndex": 1073741845,
+    "deckTemplateName": "AbyssDeckCard",
+    "rootScripts": [
+      "abyss_ui"
+    ],
+    "sameSourceGeneration": {
+      "sourceCommit": "139de94",
+      "gameUiPath": "F:\\New folder\\.artifacts\\continued-batch-139de94\\readback-source-139de94\\build\\lua\\game-ui.json",
+      "controlTreeNodes": 1590,
+      "maxChildren": 50,
+      "sourceStructureSha256": "ed388660a0de9a9e133dd8e8689e57e776bf405e5d9789f23ad91827e9477da3",
+      "actualStructureSha256": "ed388660a0de9a9e133dd8e8689e57e776bf405e5d9789f23ad91827e9477da3",
+      "exactStructureMatch": true,
+      "sourceDeckStructureSha256": "34f0879fe8f1b7a68b74bb137d84eb3868eba701a4a1356ec43e1f54a3cb9ba2",
+      "actualDeckStructureSha256": "34f0879fe8f1b7a68b74bb137d84eb3868eba701a4a1356ec43e1f54a3cb9ba2",
+      "exactDeckStructureMatch": true
+    }
+  },
+  "graphs": [
+    {
+      "id": 1073741825,
+      "name": "_GSTS_ABYSS_SETTLEMENT",
+      "type": 20000,
+      "nodeCount": 22,
+      "editorCount": 72,
+      "nodePayloadHash": "326864ca6ef10894a10a40b896b7aae0771fd9d5c4ecb2ade88751485076d49f",
+      "topology": {
+        "version": 1,
+        "nodeCount": 22,
+        "connectionCount": 22,
+        "hash": "39d4aa08ef0a09b0a554bce38b021dbdebe1c318c8c2aed420606dc914d8c547",
+        "scope": "Node indices, generic/concrete IDs and directed pin connections only; excludes layout, literal values, pin types, graph variables, bindings and runtime"
+      },
+      "signalReferences": [
+        {
+          "name": "ABYSS_WIN",
+          "role": "monitor",
+          "nodeIndex": 1,
+          "nodeId": 1610612738,
+          "signalVersion": null,
+          "resolution": "observed-definition-id-match",
+          "gameplay": "not_run"
+        },
+        {
+          "name": "ABYSS_LOSE",
+          "role": "monitor",
+          "nodeIndex": 12,
+          "nodeId": 1610612742,
+          "signalVersion": null,
+          "resolution": "observed-definition-id-match",
+          "gameplay": "not_run"
+        }
+      ],
+      "writable": true
+    }
+  ],
+  "stageMounts": [
+    {
+      "entityId": 1094713345,
+      "graphId": 1073741825,
+      "category": 20000,
+      "enabled": 1
+    }
+  ],
+  "staticCheck": {
+    "errors": 0,
+    "warnings": 17,
+    "warningScope": "16 custom-method name checks and 1 unmounted unknown reducer; not runtime acceptance"
+  },
+  "readbackReport": {
+    "relativePath": ".artifacts/continued-batch-139de94/readback-verification.json",
+    "sha256": "476d74318b32b9cdb2f6dfdf9715a63df93075cf144b01e16623faa87115551b"
+  },
+  "diagnosticCorrections": [
+    {
+      "initialIssue": "Control tree count/max children differs from expected",
+      "reason": "The first verifier added the interface container/root shell (2 nodes) to the 1590 interface.controls descendants, then compared 1592 with a historical 1590 tree-only count. This was a verifier counting-scope mistake, not a candidate UI defect.",
+      "correctedEvidence": "Source139 regenerated game-ui.json and candidate interface.controls are compared on the same scope, plus exact name/kind/child order structure and the deck template. Both tree-only and shell-inclusive counts remain recorded.",
+      "candidateUiModified": false
+    }
+  ],
+  "officialImport": "NOT_TESTED",
+  "playtest": "NOT_TESTED",
+  "audio": "NOT_TESTED",
+  "strictMapGolden": {
+    "status": "FAIL",
+    "matches": 0,
+    "requested": 12,
+    "mismatches": 11,
+    "unsupportedSeed": 1,
+    "randomTreasureErrors": 0
+  },
+  "quality": {
+    "head": "cf6969e768a6102a726948742dd327642043c2ab",
+    "run": "https://github.com/CHNISam/Slay-the-Abyss/actions/runs/39926170680",
+    "check": "SUCCESS",
+    "presentation": "SUCCESS",
+    "mergedCommit": "14979dfb94fc6a7a5f714acb927293a6e96f809b"
+  }
+}

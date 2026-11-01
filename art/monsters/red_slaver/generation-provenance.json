@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "red_slaver",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T19:54:44.019Z",
+    "endUtc": "2026-10-29T19:56:16.546Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none-exact-raw-copy",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "sha256": "114416652a6902e8a90275b45d6bcc4f20f4de567acc8d4bd705f615d7a43db4",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "actual-human-family-material-style-only-not-silhouette-or-equipment",
+      "actuallyPassed": true,
+      "path": "../blue_slaver/source.png"
+    },
+    {
+      "sha256": "534976f100a3edf8a424faa5064062025cc8e753d277c52e914cd4d4546069bf",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "painted-style-only-not-identity",
+      "actuallyPassed": true,
+      "path": "../looter/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1112090,
+      "sha256": "02481d421830376e77a224a5522ca1c339e9116973c11fb6e314759feef5112c"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2752,
+      "sha256": "5834bdce612024f23173c7819a0711e6c18d74467863498e426496360b92e1a3"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 16208,
+      "sha256": "052a975ce48223a102557907691776fd344f68af9fac59842419686093238313"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 21733,
+      "sha256": "7571b22fcb15b47e8dcaf830104f69ec7e821567a72eb1600c51c639e86705c2"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "design": "Original broad tan human brickred trapezoid tunic with wide waist clothrope and one short two-prong fork, pressing left stance, empty back hand",
+  "alpha": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "meaningfulBBoxAlphaGt16": [
+      37,
+      47,
+      1249,
+      1216
+    ],
+    "edgeClipping": "no meaningful appendage edge cut observed"
+  },
+  "inspection": {
+    "fullOriginal": true,
+    "contain106": true,
+    "contain127": true,
+    "nearest4x106": true,
+    "nearest4x127": true,
+    "observations": "Full106127and4x inspected: broader red shoulders thick arms/legs and wider stance clearly distinct blue narrow body, fork exactly2 blunt prongs and continuous owned shaft, wide simple waist cloth. Complete boots/hands/weapon intact. Red looks family-related but not merely colorclone; no net hat or captive. Native cost unknown."
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "acid_slime_s",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T19:44:00.266Z",
+    "endUtc": "2026-10-29T19:45:04.070Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "repositoryPath": "art/cards/traveler-geo/armaments/source.png",
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "actualDimensions": [
+        1881,
+        836
+      ],
+      "role": "approved painterly style-only; no objects/costume/anatomy",
+      "actuallyPassed": true
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 591437,
+      "sha256": "5de3f90d5301baf8fb601e44e2d5c502f2badddbe61eb66cd253b17b1a6a0a37"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 3159,
+      "sha256": "1fbb049e07b76af88cc327fafc5bf7dd9d4a616dbf4a71e30e27796b9dc56605"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 8132,
+      "sha256": "74193ecb76d122286431914a2f16c210bd6cea3f7817df178a48edc15490dd3c"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 10855,
+      "sha256": "4a33dd0ad9f0302d8dc6a0471f0001bdb8c82fff0b0f71d942d319f6fb32953f"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": "Original flat low graygreen mineralgel with oneleft frontnub, one enclosed rounded pale stone, NO side lobes; acid family benchmark not copied STS/Genshin identity",
+  "inspection": {
+    "authorFull": "inspected",
+    "containSizes": [
+      106,
+      127
+    ],
+    "observation": "Flatonegel drop/oneleftnub/no side lobes, one enclosed palerounded stone reads at106/127. Alpha>16bbox(101,471,1168,922), safe complete margins. Broad painted translucent look; rawsource unchanged, no crop/stretch."
+  }
+}

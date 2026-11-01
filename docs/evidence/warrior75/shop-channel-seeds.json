@@ -1,0 +1,290 @@
+{
+  "headbutt": {
+    "seed": 1,
+    "slot": 1
+  },
+  "twin_strike": {
+    "seed": 1,
+    "slot": 2
+  },
+  "battle_trance": {
+    "seed": 1,
+    "slot": 3
+  },
+  "true_grit": {
+    "seed": 1,
+    "slot": 4
+  },
+  "fire_breathing": {
+    "seed": 1,
+    "slot": 5
+  },
+  "rampage": {
+    "seed": 2,
+    "slot": 1
+  },
+  "iron_wave": {
+    "seed": 2,
+    "slot": 2
+  },
+  "armaments": {
+    "seed": 2,
+    "slot": 3
+  },
+  "spot_weakness": {
+    "seed": 2,
+    "slot": 4
+  },
+  "evolve": {
+    "seed": 2,
+    "slot": 5
+  },
+  "wild_strike": {
+    "seed": 3,
+    "slot": 1
+  },
+  "thunderclap": {
+    "seed": 3,
+    "slot": 2
+  },
+  "warcry": {
+    "seed": 3,
+    "slot": 3
+  },
+  "shrug_it_off": {
+    "seed": 3,
+    "slot": 4
+  },
+  "dark_embrace": {
+    "seed": 3,
+    "slot": 5
+  },
+  "pummel": {
+    "seed": 4,
+    "slot": 1
+  },
+  "perfected_strike": {
+    "seed": 4,
+    "slot": 2
+  },
+  "power_through": {
+    "seed": 4,
+    "slot": 3
+  },
+  "flex": {
+    "seed": 4,
+    "slot": 4
+  },
+  "inflame": {
+    "seed": 4,
+    "slot": 5
+  },
+  "body_slam": {
+    "seed": 5,
+    "slot": 1
+  },
+  "havoc": {
+    "seed": 5,
+    "slot": 4
+  },
+  "pommel_strike": {
+    "seed": 6,
+    "slot": 1
+  },
+  "dual_wield": {
+    "seed": 6,
+    "slot": 4
+  },
+  "cleave": {
+    "seed": 7,
+    "slot": 1
+  },
+  "clash": {
+    "seed": 7,
+    "slot": 2
+  },
+  "disarm": {
+    "seed": 7,
+    "slot": 3
+  },
+  "uppercut": {
+    "seed": 8,
+    "slot": 2
+  },
+  "metallicize": {
+    "seed": 8,
+    "slot": 5
+  },
+  "anger": {
+    "seed": 9,
+    "slot": 1
+  },
+  "heavy_blade": {
+    "seed": 9,
+    "slot": 2
+  },
+  "combust": {
+    "seed": 9,
+    "slot": 5
+  },
+  "sever_soul": {
+    "seed": 10,
+    "slot": 2
+  },
+  "burning_pact": {
+    "seed": 10,
+    "slot": 4
+  },
+  "rage": {
+    "seed": 11,
+    "slot": 4
+  },
+  "rupture": {
+    "seed": 11,
+    "slot": 5
+  },
+  "clothesline": {
+    "seed": 12,
+    "slot": 2
+  },
+  "second_wind": {
+    "seed": 12,
+    "slot": 4
+  },
+  "bludgeon": {
+    "seed": 13,
+    "slot": 1
+  },
+  "shockwave": {
+    "seed": 13,
+    "slot": 4
+  },
+  "sword_boomerang": {
+    "seed": 14,
+    "slot": 2
+  },
+  "seeing_red": {
+    "seed": 14,
+    "slot": 3
+  },
+  "reckless_charge": {
+    "seed": 15,
+    "slot": 2
+  },
+  "whirlwind": {
+    "seed": 16,
+    "slot": 1
+  },
+  "ghostly_armor": {
+    "seed": 17,
+    "slot": 3
+  },
+  "reaper": {
+    "seed": 18,
+    "slot": 1
+  },
+  "entrench": {
+    "seed": 19,
+    "slot": 4
+  },
+  "immolate": {
+    "seed": 23,
+    "slot": 1
+  },
+  "carnage": {
+    "seed": 23,
+    "slot": 2
+  },
+  "intimidate": {
+    "seed": 25,
+    "slot": 3
+  },
+  "hemokinesis": {
+    "seed": 28,
+    "slot": 1
+  },
+  "feel_no_pain": {
+    "seed": 28,
+    "slot": 5
+  },
+  "infernal_blade": {
+    "seed": 31,
+    "slot": 3
+  },
+  "flame_barrier": {
+    "seed": 32,
+    "slot": 3
+  },
+  "bloodletting": {
+    "seed": 33,
+    "slot": 4
+  },
+  "double_tap": {
+    "seed": 36,
+    "slot": 3
+  },
+  "dropkick": {
+    "seed": 38,
+    "slot": 2
+  },
+  "searing_blow": {
+    "seed": 40,
+    "slot": 1
+  },
+  "offering": {
+    "seed": 41,
+    "slot": 3
+  },
+  "sentinel": {
+    "seed": 41,
+    "slot": 4
+  },
+  "demon_form": {
+    "seed": 48,
+    "slot": 5
+  },
+  "blood_for_blood": {
+    "seed": 63,
+    "slot": 2
+  },
+  "limit_break": {
+    "seed": 64,
+    "slot": 3
+  },
+  "feed": {
+    "seed": 73,
+    "slot": 1
+  },
+  "juggernaut": {
+    "seed": 76,
+    "slot": 5
+  },
+  "berserk": {
+    "seed": 121,
+    "slot": 5
+  },
+  "brutality": {
+    "seed": 122,
+    "slot": 5
+  },
+  "barricade": {
+    "seed": 164,
+    "slot": 5
+  },
+  "corruption": {
+    "seed": 166,
+    "slot": 5
+  },
+  "impervious": {
+    "seed": 203,
+    "slot": 3
+  },
+  "exhume": {
+    "seed": 223,
+    "slot": 4
+  },
+  "fiend_fire": {
+    "seed": 233,
+    "slot": 1
+  }
+}

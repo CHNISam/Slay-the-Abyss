@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-10-23T16:29:53.188Z",
+  "sourceCommit": "5165a78c86e9a3cecd0fda3d5fa7bf59b5409ef9",
+  "mergedAs": "95ce2bd594f62b7d8a1f5b6ad326fa5886973077",
+  "candidate": {
+    "sourceArtifact": ".artifacts/m1-handoff-5165a78/abyss-m1-5165a78.gil",
+    "sha256": "8ff910c6772c729cf86cf26dd9d48f73c2de4ccffdf5fbc1b0029d9286f54288"
+  },
+  "quality": {
+    "runId": 39978249838,
+    "url": "https://github.com/CHNISam/Slay-the-Abyss/actions/runs/39978249838",
+    "head": "5165a78c86e9a3cecd0fda3d5fa7bf59b5409ef9",
+    "check": "success",
+    "presentation": "success"
+  },
+  "officialImport": {
+    "saveId": "1073741838",
+    "snapshotSha256": "037babcb72d4e13ee29ebb99f473377a333f2f252d29c59d00edd62d48f45e67",
+    "readback": "docs/evidence/m1-live-5165a78/import-readback.json"
+  },
+  "liveRun": {
+    "runId": "9bb0abe3-9602-418b-a729-25fc739523c2",
+    "state": "succeeded",
+    "record": "docs/evidence/m1-live-5165a78/run.json",
+    "printCount": 64,
+    "logSha256": "9190f386685e52c16bd66f9781e637a7859a51b15e2e0e22b0b00f1add9953c8",
+    "decoded": "docs/evidence/m1-live-5165a78/log-decoded.json"
+  },
+  "review": {
+    "file": "docs/evidence/m1-live-5165a78/battle-review.json",
+    "reviewedScreenshots": 16,
+    "archivedScreenshots": 10
+  },
+  "graphBoundary": {
+    "candidatePayload": "MATCHED_SOURCE_COMPILED_PAYLOAD",
+    "candidateEvidence": "docs/evidence/m1-live-5165a78/import-readback.json",
+    "officialReserializedPayload": "NOT_CERTIFIED",
+    "details": "docs/evidence/m1-live-5165a78/import-readback.json"
+  },
+  "acceptance": {
+    "task32": {
+      "ac1": "EVIDENCED",
+      "ac2": "EVIDENCED"
+    },
+    "task3": {
+      "ac1": "EVIDENCED_ONE_PC_BATTLE",
+      "ac2": "EVIDENCED_ONE_PC_BATTLE",
+      "ac3": "EVIDENCED_WITH_LIMITATIONS",
+      "terminalRecommended": false
+    },
+    "m1Complete": false,
+    "exitSpecial": {
+      "runId": "8f623503-7687-4ec7-9620-a987b72cc0cf",
+      "status": "LIMITED_PASS_MENU_CANCEL_AND_CONFIRM",
+      "record": "docs/evidence/m1-live-5165a78/exit-special/run.json",
+      "officialSaveId": "1073741838",
+      "plannedDurationSeconds": 45,
+      "levelEndedAtPlaySeconds": 17.3,
+      "logSha256": "33c52cd612f55f98b34ea72448bde6de5cb0f74423c8e7c284690e7f4ae68b26",
+      "printCount": 5,
+      "recordCount": 6,
+      "inputsLate": [
+        {
+          "at": 5,
+          "lateSeconds": 0.67
+        }
+      ],
+      "scope": "Same-candidate menu exit confirmation, cancel then confirm to official settlement only; other-page confirmations and phone unverified."
+    },
+    "nineStatuses": "NOT_COMPLETE",
+    "physicalRespawn": "NOT_VERIFIED",
+    "fullUiGate": "NOT_PASSED",
+    "mobileTouch": "NOT_VERIFIED"
+  },
+  "files": {
+    "importReadback": "docs/evidence/m1-live-5165a78/import-readback.json",
+    "battleReview": "docs/evidence/m1-live-5165a78/battle-review.json",
+    "run": "docs/evidence/m1-live-5165a78/run.json",
+    "log": "docs/evidence/m1-live-5165a78/session-log.gia",
+    "logDecoded": "docs/evidence/m1-live-5165a78/log-decoded.json",
+    "logCounts": "docs/evidence/m1-live-5165a78/log-counts.json",
+    "fileManifest": "docs/evidence/m1-live-5165a78/file-manifest.json",
+    "screens": [
+      "docs/evidence/m1-live-5165a78/screens/game-menu-0.png",
+      "docs/evidence/m1-live-5165a78/screens/first-battle-0.png",
+      "docs/evidence/m1-live-5165a78/screens/bash-left-0.png",
+      "docs/evidence/m1-live-5165a78/screens/end-turn-one-0.png",
+      "docs/evidence/m1-live-5165a78/screens/defend-two-0.png",
+      "docs/evidence/m1-live-5165a78/screens/fourth-hand-0.png",
+      "docs/evidence/m1-live-5165a78/screens/rewards-0.png",
+      "docs/evidence/m1-live-5165a78/screens/take-flex-0.png",
+      "docs/evidence/m1-live-5165a78/screens/shop-enter-0.png",
+      "docs/evidence/m1-live-5165a78/screens/deck-cancel-0.png"
+    ],
+    "exitSpecial": "docs/evidence/m1-live-5165a78/exit-special/run.json",
+    "exitScreens": [
+      "docs/evidence/m1-live-5165a78/exit-special/01-t004.jpg",
+      "docs/evidence/m1-live-5165a78/exit-special/02-t007.jpg",
+      "docs/evidence/m1-live-5165a78/exit-special/03-t010.jpg",
+      "docs/evidence/m1-live-5165a78/exit-special/04-t013.jpg"
+    ],
+    "exitLog": "docs/evidence/m1-live-5165a78/exit-special/session-log.gia",
+    "exitLogDecoded": "docs/evidence/m1-live-5165a78/exit-special/log-decoded.json"
+  },
+  "provenance": {
+    "rootArtifactDirectory": ".artifacts/m1-live-5165a78",
+    "sourceEvidence": ".artifacts/m1-handoff-5165a78/evidence.json"
+  },
+  "note": "Archive of newly obtained live-platform evidence, not a claim that merged code alone passed M1. Candidate source/hash, imported save, run, fresh log and visual review are linked."
+}

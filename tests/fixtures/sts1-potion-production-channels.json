@@ -1,0 +1,603 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "oracle": "tools/oracles/sts1_potion_pool.py",
+  "scope": "First ordinary drop and initial shop slots, source seeds searched offline; production combat unchanged, no route or platform claim.",
+  "drops": [
+    {
+      "seed": 10,
+      "id": "blood_potion",
+      "sourceId": "BloodPotion",
+      "after": {
+        "words": [
+          "b632f75f2fc62855",
+          "b11029cf11723fac"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "seed": 28,
+      "id": "elixir",
+      "sourceId": "ElixirPotion",
+      "after": {
+        "words": [
+          "45dec69647524be4",
+          "75a8ca6ed2f4625d"
+        ],
+        "counter": 5
+      }
+    },
+    {
+      "seed": 109,
+      "id": "heart_of_iron",
+      "sourceId": "HeartOfIron",
+      "after": {
+        "words": [
+          "65f84caf5ea1d2f8",
+          "7b8e87b97d892be5"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "seed": 23,
+      "id": "block_potion",
+      "sourceId": "Block Potion",
+      "after": {
+        "words": [
+          "554396ae8ea1f62d",
+          "83cd3c40bdadfb1e"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "seed": 2,
+      "id": "dexterity_potion",
+      "sourceId": "Dexterity Potion",
+      "after": {
+        "words": [
+          "07c3c63d06efe7ff",
+          "39411a935cae3cb6"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "seed": 159,
+      "id": "energy_potion",
+      "sourceId": "Energy Potion",
+      "after": {
+        "words": [
+          "8092d84739762806",
+          "d9b313b23d42344a"
+        ],
+        "counter": 4
+      }
+    },
+    {
+      "seed": 68,
+      "id": "explosive_potion",
+      "sourceId": "Explosive Potion",
+      "after": {
+        "words": [
+          "146406c064af085b",
+          "e1eaf0717b74de4c"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "seed": 61,
+      "id": "fire_potion",
+      "sourceId": "Fire Potion",
+      "after": {
+        "words": [
+          "5d1ce2cdb053d86c",
+          "757bcd573865c53c"
+        ],
+        "counter": 6
+      }
+    },
+    {
+      "seed": 18,
+      "id": "strength_potion",
+      "sourceId": "Strength Potion",
+      "after": {
+        "words": [
+          "db27b36dd3893263",
+          "e00c712e40070402"
+        ],
+        "counter": 4
+      }
+    },
+    {
+      "seed": 13,
+      "id": "swift_potion",
+      "sourceId": "Swift Potion",
+      "after": {
+        "words": [
+          "e0695874f1725af2",
+          "fef9032c3cd54432"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "seed": 135,
+      "id": "weak_potion",
+      "sourceId": "Weak Potion",
+      "after": {
+        "words": [
+          "e018b43eff3a48e6",
+          "f4b19b13e7600136"
+        ],
+        "counter": 5
+      }
+    },
+    {
+      "seed": 138,
+      "id": "fear_potion",
+      "sourceId": "FearPotion",
+      "after": {
+        "words": [
+          "eb2aa6775350f8cf",
+          "77f8ebf1d0278697"
+        ],
+        "counter": 5
+      }
+    },
+    {
+      "seed": 45,
+      "id": "attack_potion",
+      "sourceId": "AttackPotion",
+      "after": {
+        "words": [
+          "ec0eb3964cc556d2",
+          "e510091340c442e5"
+        ],
+        "counter": 5
+      }
+    },
+    {
+      "seed": 21,
+      "id": "skill_potion",
+      "sourceId": "SkillPotion",
+      "after": {
+        "words": [
+          "780b7cd94de27de6",
+          "9fd233fa788d0504"
+        ],
+        "counter": 4
+      }
+    },
+    {
+      "seed": 16,
+      "id": "power_potion",
+      "sourceId": "PowerPotion",
+      "after": {
+        "words": [
+          "b83dec7de1ade519",
+          "4e3c229549c53a82"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "seed": 12,
+      "id": "colorless_potion",
+      "sourceId": "ColorlessPotion",
+      "after": {
+        "words": [
+          "c8a75edcd30faa50",
+          "a7b5ab21ef515a55"
+        ],
+        "counter": 4
+      }
+    },
+    {
+      "seed": 4,
+      "id": "flex_potion",
+      "sourceId": "SteroidPotion",
+      "after": {
+        "words": [
+          "af1e20db4675c647",
+          "74909a0bc329b388"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "seed": 50,
+      "id": "speed_potion",
+      "sourceId": "SpeedPotion",
+      "after": {
+        "words": [
+          "a9080d8a71bd7ade",
+          "da8be850e97998d7"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "seed": 228,
+      "id": "blessing_of_the_forge",
+      "sourceId": "BlessingOfTheForge",
+      "after": {
+        "words": [
+          "21ae95a4ce93c05f",
+          "a97cc0384c1060bc"
+        ],
+        "counter": 6
+      }
+    },
+    {
+      "seed": 84,
+      "id": "regen_potion",
+      "sourceId": "Regen Potion",
+      "after": {
+        "words": [
+          "5498882a39d0c19b",
+          "cd363d1cd4f4bbc7"
+        ],
+        "counter": 4
+      }
+    },
+    {
+      "seed": 32,
+      "id": "ancient_potion",
+      "sourceId": "Ancient Potion",
+      "after": {
+        "words": [
+          "d9bce1fd0d24cd51",
+          "cdfb34c71da18d53"
+        ],
+        "counter": 4
+      }
+    },
+    {
+      "seed": 101,
+      "id": "liquid_bronze",
+      "sourceId": "LiquidBronze",
+      "after": {
+        "words": [
+          "fd967c000c5f514b",
+          "8a00a1494c6a7d96"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "seed": 233,
+      "id": "gamblers_brew",
+      "sourceId": "GamblersBrew",
+      "after": {
+        "words": [
+          "ce0946cc9f0f6182",
+          "63ff7600eec8e3a7"
+        ],
+        "counter": 6
+      }
+    },
+    {
+      "seed": 73,
+      "id": "essence_of_steel",
+      "sourceId": "EssenceOfSteel",
+      "after": {
+        "words": [
+          "164f2c436f4c69a6",
+          "9b2b56785bbf02ce"
+        ],
+        "counter": 5
+      }
+    },
+    {
+      "seed": 107,
+      "id": "duplication_potion",
+      "sourceId": "DuplicationPotion",
+      "after": {
+        "words": [
+          "5457465c1f0df1a5",
+          "7c70413729c88985"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "seed": 53,
+      "id": "distilled_chaos",
+      "sourceId": "DistilledChaos",
+      "after": {
+        "words": [
+          "290e8e9ed87a6a9d",
+          "41c21828671b2d75"
+        ],
+        "counter": 7
+      }
+    },
+    {
+      "seed": 160,
+      "id": "liquid_memories",
+      "sourceId": "LiquidMemories",
+      "after": {
+        "words": [
+          "33633c581008a23a",
+          "1c170e4e2bf532c5"
+        ],
+        "counter": 4
+      }
+    },
+    {
+      "seed": 193,
+      "id": "cultist_potion",
+      "sourceId": "CultistPotion",
+      "after": {
+        "words": [
+          "48c6a08a2f3c4c23",
+          "8dcfa6a2343c13bd"
+        ],
+        "counter": 5
+      }
+    },
+    {
+      "seed": 33,
+      "id": "fruit_juice",
+      "sourceId": "Fruit Juice",
+      "after": {
+        "words": [
+          "403d8e051ea1f1ed",
+          "f79e7294a9d2cf29"
+        ],
+        "counter": 5
+      }
+    },
+    {
+      "seed": 209,
+      "id": "snecko_oil",
+      "sourceId": "SneckoOil",
+      "after": {
+        "words": [
+          "7ebb6e0bb186c1e6",
+          "8704c27d28a8c1d2"
+        ],
+        "counter": 5
+      }
+    },
+    {
+      "seed": 108,
+      "id": "fairy_in_a_bottle",
+      "sourceId": "FairyPotion",
+      "after": {
+        "words": [
+          "08528302fec3aa67",
+          "f8a9d474f93ae81a"
+        ],
+        "counter": 19
+      }
+    },
+    {
+      "seed": 179,
+      "id": "smoke_bomb",
+      "sourceId": "SmokeBomb",
+      "after": {
+        "words": [
+          "298dd0a754015bf1",
+          "3c363e6b23c27f33"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "seed": 554,
+      "id": "entropic_brew",
+      "sourceId": "EntropicBrew",
+      "after": {
+        "words": [
+          "f4fc5f36474f435f",
+          "8d6728f56a5d26bb"
+        ],
+        "counter": 4
+      }
+    }
+  ],
+  "shop": [
+    {
+      "seed": 3,
+      "slot": 3,
+      "id": "blood_potion",
+      "sourceId": "BloodPotion"
+    },
+    {
+      "seed": 0,
+      "slot": 1,
+      "id": "elixir",
+      "sourceId": "ElixirPotion"
+    },
+    {
+      "seed": 10,
+      "slot": 3,
+      "id": "heart_of_iron",
+      "sourceId": "HeartOfIron"
+    },
+    {
+      "seed": 0,
+      "slot": 2,
+      "id": "block_potion",
+      "sourceId": "Block Potion"
+    },
+    {
+      "seed": 4,
+      "slot": 1,
+      "id": "dexterity_potion",
+      "sourceId": "Dexterity Potion"
+    },
+    {
+      "seed": 2,
+      "slot": 1,
+      "id": "energy_potion",
+      "sourceId": "Energy Potion"
+    },
+    {
+      "seed": 15,
+      "slot": 2,
+      "id": "explosive_potion",
+      "sourceId": "Explosive Potion"
+    },
+    {
+      "seed": 7,
+      "slot": 3,
+      "id": "fire_potion",
+      "sourceId": "Fire Potion"
+    },
+    {
+      "seed": 10,
+      "slot": 2,
+      "id": "strength_potion",
+      "sourceId": "Strength Potion"
+    },
+    {
+      "seed": 4,
+      "slot": 3,
+      "id": "swift_potion",
+      "sourceId": "Swift Potion"
+    },
+    {
+      "seed": 16,
+      "slot": 2,
+      "id": "weak_potion",
+      "sourceId": "Weak Potion"
+    },
+    {
+      "seed": 3,
+      "slot": 2,
+      "id": "fear_potion",
+      "sourceId": "FearPotion"
+    },
+    {
+      "seed": 1,
+      "slot": 1,
+      "id": "attack_potion",
+      "sourceId": "AttackPotion"
+    },
+    {
+      "seed": 18,
+      "slot": 1,
+      "id": "skill_potion",
+      "sourceId": "SkillPotion"
+    },
+    {
+      "seed": 6,
+      "slot": 2,
+      "id": "power_potion",
+      "sourceId": "PowerPotion"
+    },
+    {
+      "seed": 8,
+      "slot": 3,
+      "id": "colorless_potion",
+      "sourceId": "ColorlessPotion"
+    },
+    {
+      "seed": 1,
+      "slot": 2,
+      "id": "flex_potion",
+      "sourceId": "SteroidPotion"
+    },
+    {
+      "seed": 13,
+      "slot": 3,
+      "id": "speed_potion",
+      "sourceId": "SpeedPotion"
+    },
+    {
+      "seed": 32,
+      "slot": 1,
+      "id": "blessing_of_the_forge",
+      "sourceId": "BlessingOfTheForge"
+    },
+    {
+      "seed": 5,
+      "slot": 2,
+      "id": "regen_potion",
+      "sourceId": "Regen Potion"
+    },
+    {
+      "seed": 6,
+      "slot": 1,
+      "id": "ancient_potion",
+      "sourceId": "Ancient Potion"
+    },
+    {
+      "seed": 1,
+      "slot": 3,
+      "id": "liquid_bronze",
+      "sourceId": "LiquidBronze"
+    },
+    {
+      "seed": 0,
+      "slot": 3,
+      "id": "gamblers_brew",
+      "sourceId": "GamblersBrew"
+    },
+    {
+      "seed": 30,
+      "slot": 1,
+      "id": "essence_of_steel",
+      "sourceId": "EssenceOfSteel"
+    },
+    {
+      "seed": 2,
+      "slot": 3,
+      "id": "duplication_potion",
+      "sourceId": "DuplicationPotion"
+    },
+    {
+      "seed": 11,
+      "slot": 1,
+      "id": "distilled_chaos",
+      "sourceId": "DistilledChaos"
+    },
+    {
+      "seed": 19,
+      "slot": 2,
+      "id": "liquid_memories",
+      "sourceId": "LiquidMemories"
+    },
+    {
+      "seed": 8,
+      "slot": 1,
+      "id": "cultist_potion",
+      "sourceId": "CultistPotion"
+    },
+    {
+      "seed": 3,
+      "slot": 1,
+      "id": "fruit_juice",
+      "sourceId": "Fruit Juice"
+    },
+    {
+      "seed": 15,
+      "slot": 3,
+      "id": "snecko_oil",
+      "sourceId": "SneckoOil"
+    },
+    {
+      "seed": 36,
+      "slot": 1,
+      "id": "fairy_in_a_bottle",
+      "sourceId": "FairyPotion"
+    },
+    {
+      "seed": 44,
+      "slot": 1,
+      "id": "smoke_bomb",
+      "sourceId": "SmokeBomb"
+    },
+    {
+      "seed": 9,
+      "slot": 2,
+      "id": "entropic_brew",
+      "sourceId": "EntropicBrew"
+    }
+  ]
+}

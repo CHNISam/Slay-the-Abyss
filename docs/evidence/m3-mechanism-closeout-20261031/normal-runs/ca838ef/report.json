@@ -1,0 +1,1306 @@
+{
+  "fixCommit": "ca838ef6f36fedc1ed55a8eeeaafe9370149cb0d",
+  "base": "c3d2654beee31fdd011db0535228e063b657ab8a",
+  "classification": "offline evidence producer stage-protocol fix; production player rules unchanged",
+  "tests": {
+    "red": "/workspace/cloud-reports/m3-event-stage-red.log",
+    "redReason": "initial staged picker must not submit UID before choose_card: forget",
+    "green": "/workspace/cloud-reports/m3-event-stage-green.log",
+    "results": "2/2 standard JS tests PASS; 7 new LivingWall cases and 3 unchanged prior event cases",
+    "perLuaTimeoutMs": 30000
+  },
+  "originalNaturalFailure": {
+    "sourceCommit": "c3d2654beee31fdd011db0535228e063b657ab8a",
+    "seed": 17,
+    "step": 38,
+    "event": "living_wall",
+    "stage": "nil initial",
+    "choice": "forget",
+    "uid": 1,
+    "result": "driver_blocked invalid_event_choice",
+    "artifact": "/workspace/cloud-reports/m3-natural-c3d2654/current-cohort/seed-17.json.gz"
+  },
+  "fixedNaturalRun": {
+    "seed": 17,
+    "status": "defeat",
+    "floor": 16,
+    "hp": 0,
+    "actions": 184,
+    "newRunConstructionResetVerified": true,
+    "artifact": "seed-17.json.gz"
+  },
+  "fixedPublicLivingWallTrace": [
+    {
+      "step": 38,
+      "ok": true,
+      "reason": "choose_card",
+      "details": {
+        "choice": "forget",
+        "event": "living_wall"
+      },
+      "before": {
+        "phase": "node",
+        "floor": 3,
+        "deckSize": 12
+      },
+      "after": {
+        "phase": "node",
+        "floor": 3,
+        "deckSize": 12
+      }
+    },
+    {
+      "step": 39,
+      "ok": true,
+      "reason": "complete",
+      "details": {
+        "choice": "forget",
+        "event": "living_wall",
+        "stage": "choose_card",
+        "uid": 1
+      },
+      "before": {
+        "phase": "node",
+        "floor": 3,
+        "deckSize": 12
+      },
+      "after": {
+        "phase": "map",
+        "floor": 3,
+        "deckSize": 11
+      }
+    }
+  ],
+  "publicFailuresAfterFix": [],
+  "coverage": {
+    "kind": "offline-natural-acquisition-and-play-observation",
+    "platformVerified": false,
+    "runs": [
+      {
+        "seed": 17,
+        "status": "defeat",
+        "floor": 16,
+        "hp": 0,
+        "actions": 184,
+        "newRunConstructionResetVerified": true,
+        "artifact": "seed-17.json.gz"
+      }
+    ],
+    "requiredCards": 75,
+    "acquired": 9,
+    "played": 8,
+    "missingAcquisition": [
+      "armaments",
+      "body_slam",
+      "clash",
+      "cleave",
+      "clothesline",
+      "flex",
+      "havoc",
+      "headbutt",
+      "heavy_blade",
+      "iron_wave",
+      "perfected_strike",
+      "pommel_strike",
+      "sword_boomerang",
+      "thunderclap",
+      "warcry",
+      "wild_strike",
+      "battle_trance",
+      "blood_for_blood",
+      "bloodletting",
+      "burning_pact",
+      "carnage",
+      "combust",
+      "disarm",
+      "dropkick",
+      "dual_wield",
+      "entrench",
+      "evolve",
+      "feel_no_pain",
+      "fire_breathing",
+      "flame_barrier",
+      "ghostly_armor",
+      "hemokinesis",
+      "infernal_blade",
+      "intimidate",
+      "metallicize",
+      "power_through",
+      "pummel",
+      "rage",
+      "rampage",
+      "reckless_charge",
+      "rupture",
+      "searing_blow",
+      "second_wind",
+      "seeing_red",
+      "sentinel",
+      "sever_soul",
+      "shockwave",
+      "spot_weakness",
+      "uppercut",
+      "whirlwind",
+      "barricade",
+      "berserk",
+      "bludgeon",
+      "brutality",
+      "corruption",
+      "demon_form",
+      "double_tap",
+      "exhume",
+      "feed",
+      "fiend_fire",
+      "immolate",
+      "impervious",
+      "juggernaut",
+      "limit_break",
+      "offering",
+      "reaper"
+    ],
+    "missingPlay": [
+      "armaments",
+      "body_slam",
+      "clash",
+      "cleave",
+      "clothesline",
+      "flex",
+      "havoc",
+      "headbutt",
+      "heavy_blade",
+      "iron_wave",
+      "perfected_strike",
+      "pommel_strike",
+      "sword_boomerang",
+      "thunderclap",
+      "warcry",
+      "wild_strike",
+      "battle_trance",
+      "blood_for_blood",
+      "bloodletting",
+      "burning_pact",
+      "carnage",
+      "combust",
+      "dark_embrace",
+      "disarm",
+      "dropkick",
+      "dual_wield",
+      "entrench",
+      "evolve",
+      "feel_no_pain",
+      "fire_breathing",
+      "flame_barrier",
+      "ghostly_armor",
+      "hemokinesis",
+      "infernal_blade",
+      "intimidate",
+      "metallicize",
+      "power_through",
+      "pummel",
+      "rage",
+      "rampage",
+      "reckless_charge",
+      "rupture",
+      "searing_blow",
+      "second_wind",
+      "seeing_red",
+      "sentinel",
+      "sever_soul",
+      "shockwave",
+      "spot_weakness",
+      "uppercut",
+      "whirlwind",
+      "barricade",
+      "berserk",
+      "bludgeon",
+      "brutality",
+      "corruption",
+      "demon_form",
+      "double_tap",
+      "exhume",
+      "feed",
+      "fiend_fire",
+      "immolate",
+      "impervious",
+      "juggernaut",
+      "limit_break",
+      "offering",
+      "reaper"
+    ],
+    "cards": [
+      {
+        "id": "strike",
+        "acquisitions": [
+          {
+            "seed": 17,
+            "uid": 1,
+            "source": "initial_deck",
+            "floor": 0
+          },
+          {
+            "seed": 17,
+            "uid": 2,
+            "source": "initial_deck",
+            "floor": 0
+          },
+          {
+            "seed": 17,
+            "uid": 3,
+            "source": "initial_deck",
+            "floor": 0
+          },
+          {
+            "seed": 17,
+            "uid": 4,
+            "source": "initial_deck",
+            "floor": 0
+          },
+          {
+            "seed": 17,
+            "uid": 5,
+            "source": "initial_deck",
+            "floor": 0
+          }
+        ],
+        "plays": [
+          {
+            "seed": 17,
+            "uid": 4,
+            "floor": 1,
+            "action": 6
+          },
+          {
+            "seed": 17,
+            "uid": 1,
+            "floor": 1,
+            "action": 7
+          },
+          {
+            "seed": 17,
+            "uid": 5,
+            "floor": 1,
+            "action": 8
+          },
+          {
+            "seed": 17,
+            "uid": 3,
+            "floor": 1,
+            "action": 11
+          },
+          {
+            "seed": 17,
+            "uid": 2,
+            "floor": 2,
+            "action": 19
+          },
+          {
+            "seed": 17,
+            "uid": 4,
+            "floor": 2,
+            "action": 22
+          },
+          {
+            "seed": 17,
+            "uid": 2,
+            "floor": 2,
+            "action": 24
+          },
+          {
+            "seed": 17,
+            "uid": 3,
+            "floor": 2,
+            "action": 25
+          },
+          {
+            "seed": 17,
+            "uid": 1,
+            "floor": 2,
+            "action": 26
+          },
+          {
+            "seed": 17,
+            "uid": 3,
+            "floor": 2,
+            "action": 31
+          },
+          {
+            "seed": 17,
+            "uid": 2,
+            "floor": 5,
+            "action": 47
+          },
+          {
+            "seed": 17,
+            "uid": 3,
+            "floor": 5,
+            "action": 50
+          },
+          {
+            "seed": 17,
+            "uid": 1,
+            "floor": 5,
+            "action": 51
+          },
+          {
+            "seed": 17,
+            "uid": 3,
+            "floor": 5,
+            "action": 53
+          },
+          {
+            "seed": 17,
+            "uid": 2,
+            "floor": 10,
+            "action": 68
+          },
+          {
+            "seed": 17,
+            "uid": 3,
+            "floor": 10,
+            "action": 73
+          },
+          {
+            "seed": 17,
+            "uid": 1,
+            "floor": 10,
+            "action": 74
+          },
+          {
+            "seed": 17,
+            "uid": 1,
+            "floor": 10,
+            "action": 76
+          },
+          {
+            "seed": 17,
+            "uid": 3,
+            "floor": 10,
+            "action": 77
+          },
+          {
+            "seed": 17,
+            "uid": 2,
+            "floor": 10,
+            "action": 81
+          },
+          {
+            "seed": 17,
+            "uid": 2,
+            "floor": 10,
+            "action": 85
+          },
+          {
+            "seed": 17,
+            "uid": 1,
+            "floor": 10,
+            "action": 86
+          },
+          {
+            "seed": 17,
+            "uid": 1,
+            "floor": 13,
+            "action": 107
+          },
+          {
+            "seed": 17,
+            "uid": 1,
+            "floor": 13,
+            "action": 112
+          },
+          {
+            "seed": 17,
+            "uid": 2,
+            "floor": 13,
+            "action": 116
+          },
+          {
+            "seed": 17,
+            "uid": 1,
+            "floor": 14,
+            "action": 124
+          },
+          {
+            "seed": 17,
+            "uid": 2,
+            "floor": 14,
+            "action": 125
+          },
+          {
+            "seed": 17,
+            "uid": 3,
+            "floor": 14,
+            "action": 129
+          },
+          {
+            "seed": 17,
+            "uid": 3,
+            "floor": 16,
+            "action": 146
+          },
+          {
+            "seed": 17,
+            "uid": 1,
+            "floor": 16,
+            "action": 149
+          },
+          {
+            "seed": 17,
+            "uid": 3,
+            "floor": 16,
+            "action": 154
+          },
+          {
+            "seed": 17,
+            "uid": 2,
+            "floor": 16,
+            "action": 155
+          },
+          {
+            "seed": 17,
+            "uid": 1,
+            "floor": 16,
+            "action": 166
+          },
+          {
+            "seed": 17,
+            "uid": 3,
+            "floor": 16,
+            "action": 170
+          },
+          {
+            "seed": 17,
+            "uid": 1,
+            "floor": 16,
+            "action": 176
+          },
+          {
+            "seed": 17,
+            "uid": 3,
+            "floor": 16,
+            "action": 181
+          }
+        ]
+      },
+      {
+        "id": "defend",
+        "acquisitions": [
+          {
+            "seed": 17,
+            "uid": 6,
+            "source": "initial_deck",
+            "floor": 0
+          },
+          {
+            "seed": 17,
+            "uid": 7,
+            "source": "initial_deck",
+            "floor": 0
+          },
+          {
+            "seed": 17,
+            "uid": 8,
+            "source": "initial_deck",
+            "floor": 0
+          },
+          {
+            "seed": 17,
+            "uid": 9,
+            "source": "initial_deck",
+            "floor": 0
+          }
+        ],
+        "plays": [
+          {
+            "seed": 17,
+            "uid": 6,
+            "floor": 2,
+            "action": 18
+          },
+          {
+            "seed": 17,
+            "uid": 9,
+            "floor": 2,
+            "action": 28
+          },
+          {
+            "seed": 17,
+            "uid": 4,
+            "floor": 10,
+            "action": 78
+          },
+          {
+            "seed": 17,
+            "uid": 6,
+            "floor": 10,
+            "action": 87
+          },
+          {
+            "seed": 17,
+            "uid": 5,
+            "floor": 13,
+            "action": 104
+          },
+          {
+            "seed": 17,
+            "uid": 6,
+            "floor": 13,
+            "action": 113
+          },
+          {
+            "seed": 17,
+            "uid": 6,
+            "floor": 14,
+            "action": 130
+          },
+          {
+            "seed": 17,
+            "uid": 4,
+            "floor": 16,
+            "action": 159
+          },
+          {
+            "seed": 17,
+            "uid": 5,
+            "floor": 16,
+            "action": 160
+          },
+          {
+            "seed": 17,
+            "uid": 4,
+            "floor": 16,
+            "action": 182
+          },
+          {
+            "seed": 17,
+            "uid": 5,
+            "floor": 16,
+            "action": 183
+          }
+        ]
+      },
+      {
+        "id": "bash",
+        "acquisitions": [
+          {
+            "seed": 17,
+            "uid": 10,
+            "source": "initial_deck",
+            "floor": 0
+          }
+        ],
+        "plays": [
+          {
+            "seed": 17,
+            "uid": 10,
+            "floor": 1,
+            "action": 10
+          },
+          {
+            "seed": 17,
+            "uid": 10,
+            "floor": 2,
+            "action": 21
+          },
+          {
+            "seed": 17,
+            "uid": 10,
+            "floor": 2,
+            "action": 29
+          },
+          {
+            "seed": 17,
+            "uid": 8,
+            "floor": 14,
+            "action": 132
+          },
+          {
+            "seed": 17,
+            "uid": 8,
+            "floor": 16,
+            "action": 142
+          },
+          {
+            "seed": 17,
+            "uid": 8,
+            "floor": 16,
+            "action": 177
+          }
+        ]
+      },
+      {
+        "id": "anger",
+        "acquisitions": [
+          {
+            "seed": 17,
+            "uid": 16,
+            "source": "card_reward",
+            "floor": 14,
+            "action": 134
+          }
+        ],
+        "plays": [
+          {
+            "seed": 17,
+            "uid": 14,
+            "floor": 16,
+            "action": 144
+          },
+          {
+            "seed": 17,
+            "uid": 15,
+            "floor": 16,
+            "action": 152
+          },
+          {
+            "seed": 17,
+            "uid": 14,
+            "floor": 16,
+            "action": 158
+          },
+          {
+            "seed": 17,
+            "uid": 15,
+            "floor": 16,
+            "action": 163
+          },
+          {
+            "seed": 17,
+            "uid": 16,
+            "floor": 16,
+            "action": 164
+          },
+          {
+            "seed": 17,
+            "uid": 15,
+            "floor": 16,
+            "action": 169
+          },
+          {
+            "seed": 17,
+            "uid": 18,
+            "floor": 16,
+            "action": 173
+          },
+          {
+            "seed": 17,
+            "uid": 14,
+            "floor": 16,
+            "action": 174
+          },
+          {
+            "seed": 17,
+            "uid": 19,
+            "floor": 16,
+            "action": 175
+          },
+          {
+            "seed": 17,
+            "uid": 16,
+            "floor": 16,
+            "action": 179
+          },
+          {
+            "seed": 17,
+            "uid": 17,
+            "floor": 16,
+            "action": 180
+          }
+        ]
+      },
+      {
+        "id": "armaments",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "body_slam",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "clash",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "cleave",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "clothesline",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "flex",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "havoc",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "headbutt",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "heavy_blade",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "iron_wave",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "perfected_strike",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "pommel_strike",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "shrug_it_off",
+        "acquisitions": [
+          {
+            "seed": 17,
+            "uid": 11,
+            "source": "card_reward",
+            "floor": 1,
+            "action": 13
+          }
+        ],
+        "plays": [
+          {
+            "seed": 17,
+            "uid": 11,
+            "floor": 2,
+            "action": 17
+          },
+          {
+            "seed": 17,
+            "uid": 9,
+            "floor": 5,
+            "action": 45
+          },
+          {
+            "seed": 17,
+            "uid": 9,
+            "floor": 10,
+            "action": 69
+          },
+          {
+            "seed": 17,
+            "uid": 9,
+            "floor": 10,
+            "action": 82
+          },
+          {
+            "seed": 17,
+            "uid": 9,
+            "floor": 13,
+            "action": 102
+          },
+          {
+            "seed": 17,
+            "uid": 9,
+            "floor": 13,
+            "action": 109
+          },
+          {
+            "seed": 17,
+            "uid": 9,
+            "floor": 16,
+            "action": 150
+          },
+          {
+            "seed": 17,
+            "uid": 9,
+            "floor": 16,
+            "action": 162
+          },
+          {
+            "seed": 17,
+            "uid": 9,
+            "floor": 16,
+            "action": 172
+          }
+        ]
+      },
+      {
+        "id": "sword_boomerang",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "thunderclap",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "true_grit",
+        "acquisitions": [
+          {
+            "seed": 17,
+            "uid": 14,
+            "source": "card_reward",
+            "floor": 10,
+            "action": 92
+          }
+        ],
+        "plays": [
+          {
+            "seed": 17,
+            "uid": 12,
+            "floor": 13,
+            "action": 111
+          },
+          {
+            "seed": 17,
+            "uid": 12,
+            "floor": 14,
+            "action": 123
+          },
+          {
+            "seed": 17,
+            "uid": 12,
+            "floor": 16,
+            "action": 145
+          },
+          {
+            "seed": 17,
+            "uid": 12,
+            "floor": 16,
+            "action": 153
+          },
+          {
+            "seed": 17,
+            "uid": 12,
+            "floor": 16,
+            "action": 165
+          }
+        ]
+      },
+      {
+        "id": "twin_strike",
+        "acquisitions": [
+          {
+            "seed": 17,
+            "uid": 12,
+            "source": "card_reward",
+            "floor": 2,
+            "action": 34
+          }
+        ],
+        "plays": [
+          {
+            "seed": 17,
+            "uid": 10,
+            "floor": 5,
+            "action": 49
+          },
+          {
+            "seed": 17,
+            "uid": 10,
+            "floor": 10,
+            "action": 70
+          },
+          {
+            "seed": 17,
+            "uid": 10,
+            "floor": 10,
+            "action": 80
+          },
+          {
+            "seed": 17,
+            "uid": 10,
+            "floor": 10,
+            "action": 84
+          },
+          {
+            "seed": 17,
+            "uid": 10,
+            "floor": 10,
+            "action": 89
+          },
+          {
+            "seed": 17,
+            "uid": 10,
+            "floor": 13,
+            "action": 103
+          },
+          {
+            "seed": 17,
+            "uid": 10,
+            "floor": 13,
+            "action": 115
+          },
+          {
+            "seed": 17,
+            "uid": 10,
+            "floor": 14,
+            "action": 128
+          },
+          {
+            "seed": 17,
+            "uid": 10,
+            "floor": 16,
+            "action": 141
+          },
+          {
+            "seed": 17,
+            "uid": 10,
+            "floor": 16,
+            "action": 157
+          },
+          {
+            "seed": 17,
+            "uid": 10,
+            "floor": 16,
+            "action": 168
+          }
+        ]
+      },
+      {
+        "id": "warcry",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "wild_strike",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "battle_trance",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "blood_for_blood",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "bloodletting",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "burning_pact",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "carnage",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "combust",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "dark_embrace",
+        "acquisitions": [
+          {
+            "seed": 17,
+            "uid": 15,
+            "source": "buyCardSlot",
+            "floor": 12,
+            "action": 99
+          }
+        ],
+        "plays": []
+      },
+      {
+        "id": "disarm",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "dropkick",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "dual_wield",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "entrench",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "evolve",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "feel_no_pain",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "fire_breathing",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "flame_barrier",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "ghostly_armor",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "hemokinesis",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "infernal_blade",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "inflame",
+        "acquisitions": [
+          {
+            "seed": 17,
+            "uid": 13,
+            "source": "buyCardSlot",
+            "floor": 4,
+            "action": 41
+          }
+        ],
+        "plays": [
+          {
+            "seed": 17,
+            "uid": 11,
+            "floor": 5,
+            "action": 46
+          },
+          {
+            "seed": 17,
+            "uid": 11,
+            "floor": 10,
+            "action": 72
+          },
+          {
+            "seed": 17,
+            "uid": 11,
+            "floor": 13,
+            "action": 106
+          },
+          {
+            "seed": 17,
+            "uid": 11,
+            "floor": 14,
+            "action": 127
+          },
+          {
+            "seed": 17,
+            "uid": 11,
+            "floor": 16,
+            "action": 148
+          }
+        ]
+      },
+      {
+        "id": "intimidate",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "metallicize",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "power_through",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "pummel",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "rage",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "rampage",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "reckless_charge",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "rupture",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "searing_blow",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "second_wind",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "seeing_red",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "sentinel",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "sever_soul",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "shockwave",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "spot_weakness",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "uppercut",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "whirlwind",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "barricade",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "berserk",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "bludgeon",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "brutality",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "corruption",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "demon_form",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "double_tap",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "exhume",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "feed",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "fiend_fire",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "immolate",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "impervious",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "juggernaut",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "limit_break",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "offering",
+        "acquisitions": [],
+        "plays": []
+      },
+      {
+        "id": "reaper",
+        "acquisitions": [],
+        "plays": []
+      }
+    ]
+  },
+  "completedAt": "2026-10-31T17:59:48.624331+00:00",
+  "sourceHashes": {
+    "scripts/m3-normal-campaign.lua": "bed113604921fdaaab939b9958fb939918ca3d305ee22f83ad150794522fb9df",
+    "scripts/m3-normal-campaign.mjs": "0190f921d7a4a5d7dfb691e8c72b5e4b86450861bbfe24e9b2aa7005d47d9377",
+    "scripts/warrior75-autoplay-policy.lua": "5a0055c523c4ccc16db573756c87a32bd0797fddb072165830a24d45bc5d0e5b",
+    "scripts/m3-event-card-policy.lua": "19b85fda6be4c04785344dad0385128b7e1cba0e6c32d98687d8fd006fc16e44",
+    "scripts/m3-relic-choice-policy.lua": "ed73d98fd30ef6b95bb103991af56a612cd79c2363ba0ef4db68ef49c1a946b7",
+    "scripts/m3-campaign-coverage.mjs": "637db1c82ef2bbe0670de57fe78bbc2bf82a7076170eb4879444161eeb760e03"
+  },
+  "boundaries": [
+    "Old C3 five-seed cohort remains unchanged and separate; fix-source seed17 is a distinct clean-source cohort.",
+    "Natural seed17 proceeds through both LivingWall commands, then genuinely loses at floor16; this proves continuation, not a full two-act victory.",
+    "Inventory acquisition in controlled tests does not prove natural acquisition. Natural driver run used unchanged public-observation policy and 300000ms budget.",
+    "No player production module, normal driver, pool, HP, deck, inventory, RNG or map prefix was changed. No remote, PR or root branch changes.",
+    "Fresh-Run construction check is not Host restart or official device verification."
+  ]
+}

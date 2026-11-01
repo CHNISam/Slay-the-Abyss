@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "card_id": "true_grit",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T17:26:52.947Z",
+    "endUtc": "2026-10-29T17:27:27.087Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Distinct low close camera, connected original pale-blue petal skirt and white/gold boots, partly cropped gold waist at upper edge. Two planted feet with dark contact shadows convey stable defensive footing, no hit/heal/enemy/UI/cards. Identity is costume/boot-based, no face/flower and gold waist only partially visible: flag for independent identity review. Native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/true_grit/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "d3256b9e8b5fadf368f7805b26c19c8cb349bb935073510fc7894dddabe51dd2",
+    "bytes": 1794545,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/true_grit/prompt.txt",
+    "sha256": "8158aa4ae3fce100486649f465f700bb52a629e69bcd72799d31c3f39f348c57"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "card_id": "warcry",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T17:26:59.246Z",
+    "completedAt": "2026-10-29T17:27:49Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-costume-head-flower-and-normal-one-handed-sword-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "a3166687ab2410ac8ede91b31d650f56e669092f52659d46d688579210883da4",
+      "bytes": 1954235
+    },
+    "prompt.txt": {
+      "sha256": "312533adbcbc2be3c39d7a8eadf9b8677802c5594a8cabc3317c382ffae6bc10",
+      "bytes": 2767
+    },
+    "preview-source-144x64.png": {
+      "sha256": "ee9e0275ef97adb133421f3b837df6f56381b347b48d782e191f28edc81659e2",
+      "bytes": 18506
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions retained unchanged despite requested size"
+  },
+  "intent": {
+    "name": "调整战术",
+    "mechanics": "draw 1 then handToDraw, exhaust; upgraded draw 2",
+    "mainAction": "self tactical rethink, focused eye and thoughtful hand gesture, no attack or buff",
+    "identityCarriers": [
+      "blonde bob and prominent white flower",
+      "amber focused eye",
+      "connected original white-blue collar and shoulder with gold fastening"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and 144x64: close recognizable blonde whiteflower amber-eyed Lumine with connected white-blue shoulder, one hand touching chin, closed mouth, no sword or literal card UI. Quiet right dark gap, no rage or AoE buff. Independent review pending.",
+    "independentReview": "pending",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

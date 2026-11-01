@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "1bfca6261044b92f8065bb83668c358b0a2627da",
+  "files": {
+    "config/architecture.json": {
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "    \"abyss_combat_catalog\": \"core\","
+          ]
+        }
+      ],
+      "beforeSha256": "e7143d88785c45ea827532e04089c399516ca8c6759b7aaebb0535bec740b003",
+      "afterSha256": "136b60aac912d2c6cca7211c55005e6976784a9b8740893584ac097652595abc"
+    },
+    "src/lua/abyss_combat.lua": {
+      "hunks": [
+        {
+          "at": 1987,
+          "before": [
+            "    data=require('abyss_colorless_cards').withCards(data)"
+          ],
+          "after": [
+            "    local catalog",
+            "    data,catalog=require('abyss_combat_catalog').prepare(data)"
+          ]
+        },
+        {
+          "at": 1992,
+          "before": [
+            "    -- Existing definitions remain caller-owned. Newly registered definitions",
+            "    -- already have private graphs and can be adopted without copying twice.",
+            "    local catalogData=data~=originalData and originalData or data",
+            "    local cardCatalog,statusCatalog=index(copy(catalogData.cards.cards)),index(copy(catalogData.statuses.statuses))",
+            "    if data~=originalData then",
+            "        for _,definition in ipairs(data.cards.cards)do",
+            "            if not cardCatalog[definition.id]then cardCatalog[definition.id]=definition end",
+            "        end",
+            "        for _,definition in ipairs(data.statuses.statuses)do",
+            "            if not statusCatalog[definition.id]then statusCatalog[definition.id]=definition end",
+            "        end",
+            "    end"
+          ],
+          "after": []
+        },
+        {
+          "at": 2014,
+          "before": [
+            "    local state = { stolenGoldReward = 0, mugged = false, rules = rules,sourcePools=sourcePools,experimentalCharacter=data.experimentalCharacter, catalog = { cards = cardCatalog, enemies = index(copy(data.enemies.enemies)),",
+            "              statuses = statusCatalog,potions=index(data.potions and data.potions.potions or {}) },"
+          ],
+          "after": [
+            "    catalog.enemies=require('abyss_combat_catalog').enemies(data)",
+            "    catalog.potions=index(data.potions and data.potions.potions or {})",
+            "    local state = { stolenGoldReward = 0, mugged = false, rules = rules,sourcePools=sourcePools,experimentalCharacter=data.experimentalCharacter, catalog = catalog,"
+          ]
+        }
+      ],
+      "beforeSha256": "a8987161f26ebed382d7578f52f307f71946c7161aeb832cbe5d5aed9228b7d2",
+      "afterSha256": "d11a5661e441128d6aadc48d822eb6be0920a8ea7a3204957d8d345ba09742dd"
+    },
+    "src/lua/abyss_combat_catalog.lua": {
+      "beforeSha256": null,
+      "afterSha256": "3a82ccf1d73efc1274826b4093fcead3a62a663dc2968bed953059ec1c22b72d",
+      "hunks": []
+    }
+  }
+}

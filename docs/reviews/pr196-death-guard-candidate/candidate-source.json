@@ -1,0 +1,13 @@
+{
+  "candidateVersion": 2,
+  "baseHead": "9a4cf64fb6c0f435bb8ad61a3f68f0549a2d03bf",
+  "changedProductionFiles": [
+    "src/lua/abyss_actor.lua"
+  ],
+  "baseActorGitBlob": "4b5124b0d476a1b8a12cb0ddd3c8935771220c1b",
+  "candidateActorGitBlob": "3975ba1c2cbd30aac65f6d228ead9a91eb5d82a0",
+  "candidateActorSha256": "47902041ef11643e0dde3a5a0c86aa9023e8de13942ae1c46ac7318960a9a992",
+  "patchSha256": "d300a88081dcc8961a6653f6058b686cda948a26aafeae835da4267fe6c76dea",
+  "allOtherVerifiedInputsUnchanged": true,
+  "supersededCandidateActorGitBlob": "bec39792a1cf172a2ce9f07d7709552b85f4cc8a"
+}

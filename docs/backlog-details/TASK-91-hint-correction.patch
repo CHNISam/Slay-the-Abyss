@@ -1,0 +1,13 @@
+diff --git a/src/lua/abyss_deck_ui.lua b/src/lua/abyss_deck_ui.lua
+--- a/src/lua/abyss_deck_ui.lua
++++ b/src/lua/abyss_deck_ui.lua
+@@ -83,8 +83,8 @@
+     local function sortHint()
+         if self.sortMode=='original' then
+-            return self.pileKind and '保留打开牌堆时的展示顺序。' or '保留本局牌组顺序；新增牌追加，替换牌保留原位置。'
++            return self.pileKind and '保留打开牌堆时的展示顺序。' or '保留打开牌组时的展示顺序。'
+         end
+         return sortHints[self.sortMode]
+     end
+     local function paintBrowse()
+         local active=canBrowse()

@@ -1,0 +1,34 @@
+{
+  "base": "8a5a4ad6b105e493db7b6f4d30e031c591216173",
+  "normalization": "Readable txt expands tabs and removes trailing whitespace only; exact original output remains in deterministic gzip. Linux-only execution; CRLF inputs are simulated, not Windows execution.",
+  "logs": [
+    {
+      "readable": "green.txt",
+      "rawArchive": "green.txt.raw.gz",
+      "rawSha256": "156dbedac62d393348e6b87664615583c217b4ddc575bcd15ecfeca4be68f60b",
+      "readableSha256": "156dbedac62d393348e6b87664615583c217b4ddc575bcd15ecfeca4be68f60b",
+      "archiveSha256": "7f9d94a1c10ab9cadf90097f3e929ca3300ce3b24e19f7448b6f8b7e0d2ef245"
+    },
+    {
+      "readable": "new-negative-controls.txt",
+      "rawArchive": "new-negative-controls.txt.raw.gz",
+      "rawSha256": "efc8552657125684266d64d7e75e9180aef4fe2dfae16c1759db8d445050aa37",
+      "readableSha256": "efc8552657125684266d64d7e75e9180aef4fe2dfae16c1759db8d445050aa37",
+      "archiveSha256": "a7429063d0ca8fcffd68c7a2d3193703690622dd93de924304310846a7a8f56d"
+    },
+    {
+      "readable": "red.txt",
+      "rawArchive": "red.txt.raw.gz",
+      "rawSha256": "22e35d557cc49e33c431343a2d82d023acb10f28b0ffca6d61a89ed7061c3d3a",
+      "readableSha256": "fb6eeec6982a9ce6f5122a4706ca95b03dde07455798e7ff2eedcb4f6e169ed4",
+      "archiveSha256": "a2e33b18e9d6e673495ab4bfb39c06152532aa58edd367f06f0dfae1966fcf96"
+    },
+    {
+      "readable": "related.txt",
+      "rawArchive": "related.txt.raw.gz",
+      "rawSha256": "53e238cf276a8d5a39aa8e82fda91266b8396af5fe0417b62d2e643293fd7038",
+      "readableSha256": "53e238cf276a8d5a39aa8e82fda91266b8396af5fe0417b62d2e643293fd7038",
+      "archiveSha256": "b75876a773a39b668f622a2107618eca9910841bd3fcf75ec7db8db00ae79d61"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 2,
+  "purpose": "right-facing full-body battle figure",
+  "sourceSha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+  "sourceSize": [
+    1024,
+    1536
+  ],
+  "sourceMode": "RGBA",
+  "targetSize": [
+    133,
+    133
+  ],
+  "fit": "contain, no crop/stretch",
+  "fittedSize": [
+    89,
+    133
+  ],
+  "offset": [
+    22,
+    0
+  ],
+  "paletteColors": 64,
+  "alphaPolicy": "preserve all resampled alpha values; omit exactly alpha=0 cells only",
+  "imageControls": 4315,
+  "masks": 0,
+  "contentBounds": "all geometry inside canvas; transparent cells omitted",
+  "stage": "first offline authoring draft, not final native visual approval",
+  "pillowVersion": "12.3.0",
+  "productionEnabled": false,
+  "gilDeltaBytes": null,
+  "officialUploadDeltaBytes": null
+}

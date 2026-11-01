@@ -1,0 +1,8 @@
+ORIGINAL197 clash: capability=false; Combat.canPlay=false/advanced_card_not_enabled
+ORIGINAL197 true_grit: capability=false; Combat.canPlay=false/unsupported_effect:exhaustRandom
+ORIGINAL197 warcry: capability=false; Combat.canPlay=false/unsupported_effect:putOnDrawPile
+ORIGINAL197 metallicize: capability=false; Combat.canPlay=false/unsupported_effect:blockPerTurn
+ORIGINAL197 whirlwind: capability=false; Combat.canPlay=false/advanced_card_not_enabled
+ORIGINAL197 demon_form: capability=false; Combat.canPlay=false/unsupported_effect:gainStatusPerTurn
+ORIGINAL197 reaper: capability=false; Combat.canPlay=false/unsupported_effect:healEqualToDamageDealt
+PASS: original197 rejects all seven unimplemented prototypes. No single-PR gate bug is claimed.

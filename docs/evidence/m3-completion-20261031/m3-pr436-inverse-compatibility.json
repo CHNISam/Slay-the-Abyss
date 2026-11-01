@@ -1,0 +1,73 @@
+{
+  "reviewedCommit": "0fa98950081f54b257218641a04ffa35a949fc10",
+  "comparedOwnCommit": "8dbf4e0faeb74752eb4e51e7d6432ad3bfcae304",
+  "verdict": "PASS_PR436_INVERSE_ALONE_DO_NOT_PREPEND_8DBF_LAYER",
+  "scope": "只读0fa card-origin helper/test/pr323接入与8dbf营地层覆盖及顺序兼容性；非PR436全部源码或任意live whole-tree历史投影批准。",
+  "blockingFindingsFor0faHelper": [],
+  "integrationHazard": {
+    "severity": "Important",
+    "condition": "把8dbf的mobile前置preM3CampUpgradeOriginSource保留，再使用436新增pr323 preCardOriginSource。",
+    "effect": "两层都认同nodes whole-after f685与whole-before7d9732ed，8dbf先逆会使436 helper只看到旧7d，因而不触发它对当前来源owner abyss_card_origin.lua的fresh hash检查。字节恢复相同，但削弱436新增owner drift门禁。",
+    "proof": "独立进程内拦截fs.readFileSync模拟warm后owner漂移：436直读current nodes与mobile reader均throw；preCardOriginSource(nodes,preM3CampUpgradeOriginSource(nodes,current))返回旧bytes而不读owner。无磁盘源码修改。",
+    "requiredIntegration": "保436 helper及pr323接入，跳过8dbf helper/fixture/mobile四入口改动；若保8dbf regression test，仅保测试文件，调用436已有mobile路径。不得把两层无序并入。"
+  },
+  "coverage": {
+    "nodes": "完全覆盖8dbf相同两行camp Origin.state/record和相同f685->7d完整文件身份。436用完整after/before SHA256保证精确字节；我的position/Gitblob proof额外信息不是实现缺口。436新增fresh core owner hash比8dbf更严格。",
+    "architecture": "436另外处理当前8c6e架构完整字节->pre-origin640bb；仅允许同token排版，固定当前live字节与完整before hash，并fresh验证origin_view与origin两个owner。pr323在history和composition入口先投影，并在score live witness读处接入；旧archive/after hashes不替换。",
+    "currentRun": "不投影abyss_run.lua transaction observe、relic receipt或其他currentRun生产变动。不得宣称全M3来源变更已被逆回。",
+    "unknownBytes": "路径/完整source hash不匹配返回原source；append/typo/partial/duplicate/moved/foreign/旧guard变异继续由下游拒绝。architecture缺key/错owner分类/重复key/order变化也不获取许可。",
+    "ownerFreshness": "每次匹配投影均直接readFileSync owner，不用缓存覆盖校验；nodes核core，architecture核core+view。原helper测试没有直接owner drift测试，本审查额外实施此负控。"
+  },
+  "freshValidation": [
+    {
+      "command": "node --test tests/card-origin-source-inverse.test.mjs",
+      "result": "2/2 PASS"
+    },
+    {
+      "command": "node --test --test-name-pattern='^three original camp commands' tests/ruby-recall.test.mjs",
+      "result": "1/1 PASS,93.9ms; 原camp block hash与ToxicEgg断言不变"
+    },
+    {
+      "check": "8dbf新增regression测试通过dataURL只改import目标至436 mobile helper，源码文件不落盘",
+      "result": "2/2 PASS; 全历史before bytes、disk path、CRLF、7种源漂移、unregistered/null"
+    },
+    {
+      "check": "内存fs拦截warm-call core/view owner漂移",
+      "result": "两owner均拒；nodes mobile disk读core drift拒；8dbf-first owner绕过已复现"
+    },
+    {
+      "command": "node --test tests/architecture-composition-format.test.mjs",
+      "result": "原historical环境2/2 PASS，7.17s；非current whole-tree投影证明"
+    },
+    {
+      "check": "current architecture requirePr323Source额外探针",
+      "result": "FAIL_CLOSED at既有delivery linked owner abyss_monster_intent_particle_view.lua：actual8117dd827ff947880d410f19fc5999fdce6cbd8caeb0b8e2b2cdb11b9db3dd70 / expected2d3079a761d86d91804ccea9c51fc3462aeb35aa46217edbbffb756b5dcdae78。未改旧guard或声称全链已通过。"
+    }
+  ],
+  "minimalRecommendation": [
+    "在PR436基底保留card-origin-source-inverse及三个pr323接入位置，勿覆盖对方实现。",
+    "删除/不cherry8dbf的m3-camp-upgrade-origin-inverse helper+fixture和mobile修改；可仅移植新regression test，已独立证明它在436自带层上通过。",
+    "自己的architecture新逆层也应按同原则与436合并为一个识别层，保留其owner验证；此报告未审该另agent实现。",
+    "保PR436更具体许可category、图片原hash和其登记不动；本审查未修改许可表。",
+    "最终source聚合不能仍称全部生产源码等243：436 origin_view另有4行nil deckUid修正（生成combat卡不fallback主牌uid），需独立source范围确认后绑定最终head。"
+  ],
+  "provenance": [
+    {
+      "path": "tests/helpers/card-origin-source-inverse.mjs",
+      "sha256": "1c33423b75c5d10b917066d26e31126083eff8a60ff4b775fc62125da3971346"
+    },
+    {
+      "path": "tests/card-origin-source-inverse.test.mjs",
+      "sha256": "dff07156a504f34114b82410818c1bef270bcedb2950c2e2d7e58af6f18b96b8"
+    },
+    {
+      "path": "tests/helpers/pr323-accepted-source-inverse.mjs",
+      "sha256": "c570658ecbfa973f29f7bd508b6246720efdad8f735ac8bed65eb8573d244a5f"
+    }
+  ],
+  "boundaries": [
+    "未修改root/remote或许可表；隔离树/workspace/m3-pr436-inverse-review保持clean。",
+    "未运行原39秒物化套或完整CI；当前实际CI/PR切换由root处理，旧435/a766绑定不自动适用于436新head。",
+    "这是对436新实现和顺序兼容性的独立审查，不把本人原8dbf实现作为最终作者外批准。"
+  ]
+}

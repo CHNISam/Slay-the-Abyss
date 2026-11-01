@@ -1,0 +1,183 @@
+{
+  "date": "2026-10-24",
+  "task": "TASK-15",
+  "base": "0540431",
+  "sourceEquivalentIntegration": "b91a461",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "module": "src/lua/abyss_encounter_formation.lua",
+  "combatEntry": {
+    "sourceEncounter": "exact source name",
+    "encounterBoundary": {
+      "misc": [
+        "boolean()",
+        "integer(lower,upperInclusive)"
+      ],
+      "visualFloat": "MathUtils offset only, independent of misc"
+    }
+  },
+  "productionQueueWired": false,
+  "runNodesChanged": false,
+  "productionContentPoolChanged": false,
+  "originalSameSeedCertified": false,
+  "bindings": [
+    {
+      "source": "2 Louse",
+      "status": "callable_unwired",
+      "slots": 2,
+      "miscCalls": 2,
+      "indexUpperBounds": [],
+      "mathUtilsOffsetCalls": 0,
+      "monsterHpConstructorCallsIncludingBite": 4
+    },
+    {
+      "source": "3 Louse",
+      "status": "callable_unwired",
+      "slots": 3,
+      "miscCalls": 3,
+      "indexUpperBounds": [],
+      "mathUtilsOffsetCalls": 0,
+      "monsterHpConstructorCallsIncludingBite": 6
+    },
+    {
+      "source": "Large Slime",
+      "status": "callable_unwired",
+      "slots": 1,
+      "miscCalls": 1,
+      "indexUpperBounds": [],
+      "mathUtilsOffsetCalls": 0,
+      "monsterHpConstructorCallsIncludingBite": 1
+    },
+    {
+      "source": "Lots of Slimes",
+      "status": "callable_unwired",
+      "slots": 5,
+      "miscCalls": 5,
+      "indexUpperBounds": [
+        4,
+        3,
+        2,
+        1,
+        0
+      ],
+      "mathUtilsOffsetCalls": 0,
+      "monsterHpConstructorCallsIncludingBite": 5
+    },
+    {
+      "source": "Exordium Thugs",
+      "status": "callable_unwired",
+      "slots": 2,
+      "miscCalls": 4,
+      "indexUpperBounds": [
+        2,
+        2
+      ],
+      "mathUtilsOffsetCalls": 4,
+      "monsterHpConstructorCallsIncludingBite": 7
+    },
+    {
+      "source": "Exordium Wildlife",
+      "status": "callable_unwired",
+      "slots": 2,
+      "miscCalls": 3,
+      "indexUpperBounds": [
+        1,
+        2
+      ],
+      "mathUtilsOffsetCalls": 4,
+      "monsterHpConstructorCallsIncludingBite": 6
+    }
+  ],
+  "sourceHashes": {
+    "MonsterHelper": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1",
+    "constructors": {
+      "AcidSlime_L.java": "56eaec2de1c6344701613e5643f3161c5acf6591890b7859f062f420a692dd72",
+      "AcidSlime_M.java": "34fe1c1000d351ffd3ee1e5902a0af14ebb10fe3885bd181feeb75c1942cb400",
+      "AcidSlime_S.java": "57cf3cb408a2dac4e96a30b01e4ee3860be173fb9157d0ae55ec7eb2d45c21df",
+      "Cultist.java": "93e6404234a9c57f794c1f98f7943b60c62e66c464dd19d7579913fd75ad7f4f",
+      "FungiBeast.java": "cdec8d58bd0a0476c8dab7b9deb9846bdd9b6c07557c905487909f9aa9188e71",
+      "JawWorm.java": "e0950443e76332942fe556687782e8e18d91ee683a6c22ca0eb2e5663d4a312e",
+      "Looter.java": "8e4a94a8f8404a3ed64f5fa12dd301d597bc86abc0d750d7b296daf5663ce0cc",
+      "LouseDefensive.java": "48a0b5c54a745c1842d10f61754edf0ea28efeb676816efa5a131bce1a7a5bd0",
+      "LouseNormal.java": "b9a875b240236ac28e5c427584f56af1751604b7781bc6c1a5535fa888f9775f",
+      "SlaverBlue.java": "a523e2ae8a5b598ad19af3460a28f13b8bc47152501f9b4e61f46f732d869206",
+      "SlaverRed.java": "2e92dfad2ddee766d9f95b45c028b80b5abae3e966eb3dff1656d60c253da7c4",
+      "SpikeSlime_L.java": "a6a6976050a4f16507e0bbda75d4946f5eee3bbfc3d9787bc4e7a99f1d22269c",
+      "SpikeSlime_M.java": "6eb1991db8ac36b1037871537c8669b135a58705ab2b33ca74550dcf84cad707",
+      "SpikeSlime_S.java": "3ebda589dc277d9d0a5f0a59ab3fb03783cb4e74ee0f03a1a9f40ca9126302b5"
+    }
+  },
+  "sourceCorrection": {
+    "location": "MonsterHelper.java:600-605",
+    "previousAuditClaim": "bottom XY offsets consume miscRng",
+    "actual": "MathUtils.random(-20f,20f); miscRng is not consumed for XY offsets"
+  },
+  "tests": {
+    "formationGroups": 7,
+    "combatGroups": 4,
+    "lotSlimeIndexPaths": 120,
+    "lotSlimeFirstSpikePaths": 72,
+    "lotSlimeFirstAcidPaths": 48,
+    "louseColorPaths": 12,
+    "thugsLatentBranches": 36,
+    "wildlifeLatentBranches": 12,
+    "mutationsKilled": 5,
+    "javascriptPass": 65,
+    "javascriptCommand": "node --test tests/native-candidate-scripts.test.mjs tests/louse-ai-data.test.mjs tests/small-slimes-data.test.mjs tests/gremlin-gang-data.test.mjs",
+    "lua": [
+      {
+        "file": "encounter_formations",
+        "status": 0,
+        "summary": "LUA_ENCOUNTER_FORMATIONS_PASS 7"
+      },
+      {
+        "file": "encounter_formation_combat",
+        "status": 0,
+        "summary": "LUA_ENCOUNTER_FORMATION_COMBAT_PASS 4"
+      },
+      {
+        "file": "louse_ai",
+        "status": 0,
+        "summary": "LOUSE_AI 4 passed; 0 failed"
+      },
+      {
+        "file": "louse_red_ai",
+        "status": 0,
+        "summary": "LOUSE_RED_AI 11 passed; 0 failed"
+      },
+      {
+        "file": "louse_green_ai",
+        "status": 0,
+        "summary": "LOUSE_GREEN_AI 11 passed; 0 failed"
+      },
+      {
+        "file": "small_slimes",
+        "status": 0,
+        "summary": "SMALL_SLIMES_PASS 18"
+      },
+      {
+        "file": "gremlin_gang",
+        "status": 0,
+        "summary": "GREMLIN_GANG_PASS 29; exhaustive selection paths=1680; full constructions only for targeted integration"
+      },
+      {
+        "file": "combat",
+        "status": 0,
+        "summary": "LUA_COMBAT_PASS 23"
+      }
+    ]
+  },
+  "logs": {
+    "formation-red.json": "b9b9fa7a4c76320fe2ec41933b02dd21344997b90ad9192cc159a45afa67ec30",
+    "formation-combat-red.json": "f2f659dd478f5b8d6be1421812fb76873edd179c404820727ffe4e4a438ab11c",
+    "formation-mutations.json": "f374856417e007f8bbefb3c7562269fb65f54c7171cad13aca923b5fba4eb7d3",
+    "formation-targeted-results.json": "87c19e2ee98994849d54b2dc7f79d68b3f60dfce458133a3ecf203361ea0bca3"
+  },
+  "limitations": [
+    "constructor callback owns its private HP/Bite/cosmetic streams; callback failure requires caller to discard staged streams",
+    "Combat optional bridge still uses shared project LCG for HP/Bite/AI/deck, not original split streams",
+    "MathUtils offset callback does not model complete cosmetic/global MathUtils RNG",
+    "Run/Nodes and queue still need explicit integration and legacy content-pool migration; medium_slimes remains unmapped",
+    "no PC binary verification, room reseed certification, candidate build/import or platform playtest",
+    "full npm check not run"
+  ]
+}

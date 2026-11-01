@@ -1,0 +1,81 @@
+local part=... or 1
+assert(part>=1 and part<=7 and part%1==0,'invalid boss transaction part')
+local fixture = dofile('tests/helpers/boss_rewards.lua')
+local Run, data, bossWin = fixture.Run, fixture.data, fixture.bossWin
+local equal, same = fixture.equal, fixture.same
+local Combat = require('abyss_combat')
+for choice = part<=4 and part-1 or 1, part<=4 and part-1 or 0 do
+    local run = bossWin(42)
+    assert(Run.claimGoldReward(run)) -- isolate the following card transaction
+    local options, before = Run.rewardOptions(run), Combat.copy(run)
+    options[1] = 'strike'
+    same(run, before)
+    for _, invalid in ipairs({ -1, 4, 0.5, '1', false, {}, math.huge, 0/0 }) do
+        equal(Run.claimCardReward(run, invalid), false); same(run, before)
+    end
+    equal(Run.claimCardReward(run, nil), false); same(run, before)
+    local selected = before.rewards.cards[choice]
+    assert(Run.claimCardReward(run, choice))
+    dofile('tests/lua/support/finish_combat_rewards.lua')(run)
+    equal(run.gold, before.gold); equal(run.seed, before.seed)
+    equal(run.hp, before.hp); equal(run.victories, before.victories)
+    equal(#run.deck, #before.deck + (choice > 0 and 1 or 0))
+    if choice > 0 then
+        local card = run.deck[#run.deck]
+        equal(card.cardId, selected); equal(card.uid, before.nextDeckUid); equal(card.upgraded, false)
+        equal(run.nextDeckUid, before.nextDeckUid + 1)
+    else equal(run.nextDeckUid, before.nextDeckUid) end
+    equal(run.phase, 'map')
+    local after = Combat.copy(run)
+    equal(Run.claimCardReward(run, choice), false); equal(Run.finishCombat(run), false)
+    same(run, after)
+end
+print('ok boss reward all three claims, skip, invalid and duplicate requests preserve resources')
+
+-- Frozen reward-entry seeds/outputs protect other tiers independently of enemy
+-- AI consumption. The fourth field is the old HP+9-shuffle LCG state, not an
+-- original-RNG parity claim; Cultist now also consumes its required opening roll.
+local legacy = {
+    {1, 44130, 'rampage,carnage,flex', 20919},
+    {42, 58063, 'iron_wave,thunderclap,carnage', 35128},
+    {65535, 13080, 'battle_trance,hemokinesis,flex', 17029},
+}
+for _, tier in ipairs(part==5 and {'normal'} or part==6 and {'elite'} or {}) do
+    for _, fixture in ipairs(legacy) do
+        local run = Run.new(data, fixture[1])
+        assert(Run.startCombat(run, 'cultist_solo'))
+        run.encounterTier = tier -- isolate reward dispatch from encounter AI.
+        run.combat.seed = fixture[4]
+        for _, enemy in ipairs(run.combat.enemies) do enemy.hp = 0 end
+        assert(Run.finishCombat(run))
+        equal(run.seed, fixture[4]) -- card rewards no longer consume combat/shuffle LCG
+        local replay=Run.new(data,fixture[1]);replay.encounterTier=tier
+        local expected,rng,offset=require('abyss_card_pool').prepareRewards(replay)
+        same(Run.rewardOptions(run),expected);same(run.cardRng,rng);equal(run.cardRarityOffset,offset)
+        equal(run.gold, data.rules.player.startingGold)
+        local amount=run.rewards.gold
+        assert(amount%1==0 and amount>=(tier=='normal'and 10 or 25) and amount<=(tier=='normal'and 20 or 35))
+        assert(Run.claimGoldReward(run))
+        equal(run.gold, data.rules.player.startingGold + amount)
+    end
+end
+print('ok normal and elite dispatch commit shared card RNG and leave combat RNG unchanged')
+if part==7 then
+local run = Run.new(data, 42)
+run.floor = 16
+assert(Run.startCombat(run, 'boss_guardian'))
+local before = Combat.copy(run)
+equal(Run.finishCombat(run), false); same(run, before)
+run.combat.player.hp = 0
+assert(Run.finishCombat(run)); equal(run.phase, 'defeat')
+equal(run.gold, data.rules.player.startingGold); equal(#run.deck, #before.deck)
+equal(#Run.rewardOptions(run), 0); equal(Run.claimCardReward(run, 1), false)
+run = bossWin(42)
+equal(run.gold, data.rules.player.startingGold);assert(Run.claimGoldReward(run))
+equal(run.gold, data.rules.player.startingGold + data.rules.rewards.bossGold)
+before = Combat.copy(run)
+equal(Run.finishCombat(run), false); same(run, before)
+print('ok unfinished, defeated and repeated boss completion never award extra resources')
+end
+print('PR238_BOSS_TRANSACTION_PART '..part)
+print('LUA_BOSS_REWARD_TRANSACTIONS_PASS')

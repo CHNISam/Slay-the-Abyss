@@ -1,0 +1,48 @@
+{
+  "runs": [
+    {
+      "variant": "baseline",
+      "command": [
+        "/workspace/shared/sta-cloud-toolchain-0253/repo/node_modules/.bin/fengari",
+        "-e",
+        "dofile('/workspace/shared/sta-card-help-cost-0249/baseline/tests/lua/card_help_release.lua')"
+      ],
+      "cwd": "/workspace/shared/sta-card-help-cost-0249/baseline",
+      "runtime": "Fengari 0.1.5 / fengari-node-cli 0.1.0",
+      "timeout_seconds": 30,
+      "elapsed_seconds": 12.305003712999678,
+      "timed_out": false,
+      "exit_code": 0,
+      "pass_count": 31,
+      "fail_count": 0,
+      "summary": [
+        "LUA_CARD_HELP_RELEASE 31 passed; 0 failed"
+      ],
+      "stdout_sha256": "e2f33a713301fea289a1ee73d1765bd52a12f7773c0b9b3a8f6dcd27872e7506",
+      "stderr_bytes": 0
+    },
+    {
+      "variant": "candidate",
+      "command": [
+        "/workspace/shared/sta-cloud-toolchain-0253/repo/node_modules/.bin/fengari",
+        "-e",
+        "dofile('/workspace/shared/sta-card-help-cost-0249/candidate/tests/lua/card_help_release.lua')"
+      ],
+      "cwd": "/workspace/shared/sta-card-help-cost-0249/candidate",
+      "runtime": "Fengari 0.1.5 / fengari-node-cli 0.1.0",
+      "timeout_seconds": 30,
+      "elapsed_seconds": 7.216468104001251,
+      "timed_out": false,
+      "exit_code": 0,
+      "pass_count": 31,
+      "fail_count": 0,
+      "summary": [
+        "LUA_CARD_HELP_RELEASE 31 passed; 0 failed"
+      ],
+      "stdout_sha256": "e2f33a713301fea289a1ee73d1765bd52a12f7773c0b9b3a8f6dcd27872e7506",
+      "stderr_bytes": 0
+    }
+  ],
+  "stdout_byte_equal": true,
+  "note": "One sequential comparison on dot cloud Linux; no Windows CI conclusion."
+}

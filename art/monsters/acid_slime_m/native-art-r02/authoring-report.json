@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "monsterId": "acid_slime_m",
+  "method": "manual broad source-faithful fronds and body silhouette; sparse strip tendrils; three alpha ellipse lighting groups; native ellipse patches/eyes; no source sampling, raster import, fitting or new renderer",
+  "source": {
+    "path": "art/monster-benchmarks/genshin-v1/dendro-slime/source.png",
+    "sha256": "f6ed0bc296c82912fb8720b7e2b8827b6e217f70ae1119d3138937c5f77442ba",
+    "bytes": 1014472,
+    "size": [
+      1254,
+      1254
+    ],
+    "sourceBytesModified": false
+  },
+  "contain": {
+    "canvasInsetFractionPerSide": 0.06,
+    "extentFraction": 0.88,
+    "sourceAlphaCropped": false,
+    "groundAnchor": null,
+    "sourceComparisonResample": "Pillow affine BICUBIC at8x then LANCZOS reduce; exact6% source-space no crop",
+    "existingWholeCanvasPaddingZeroPreviewsNotReplaced": true
+  },
+  "nativeSize": [
+    106,
+    106
+  ],
+  "attempts": {
+    "priorSibling": "native-slime-benchmark: 571 controls, local fidelity FAIL; preserved",
+    "targetedRevision": 2,
+    "targetedVisualFixes": 1,
+    "densityEscalation": false,
+    "renderedDensitySweep": false
+  },
+  "controls": 597,
+  "primitiveCounts": {
+    "ellipse": 63,
+    "triangle": 534
+  },
+  "semanticPlanes": 56,
+  "masks": 0,
+  "galleryImages": 0,
+  "serializationClosure": [
+    {
+      "x": 4.9971195693387926e-05,
+      "y": 5.058269452717923e-05,
+      "width": 9.963721559103078e-05,
+      "height": 9.45964612455441e-05,
+      "rotation": 5.4235014630421574e-05,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    },
+    {
+      "x": 0.0,
+      "y": 0.0,
+      "width": 0.0,
+      "height": 0.0,
+      "rotation": 0.0,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    }
+  ],
+  "strictJsonVsLiteralReplay": {
+    "106px-1x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "106px-4x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "127px-1x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "127px-4x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    }
+  },
+  "luaOptionalSnapshot": {
+    "rawExportSha256": "2a395405546fa6a5fab674a3c8c58346dc4311d4622426e4e20c7449ab69aa45",
+    "rawExportBytes": 460722,
+    "removedBytes": 345923,
+    "runtimeLiteralUnchanged": true
+  },
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "qualityStatus": "SOURCE-RECOGNIZABLE-USABLE-CANDIDATE-PENDING-ROOT-REVIEW; technical-replay-PASS; not platform acceptance",
+  "platform": {
+    "ownerSourceDirectionAcceptance": true,
+    "ownerNativeAcceptance": false,
+    "nativePlatformAcceptance": false,
+    "runtimeEnabled": false,
+    "GIL": "not-produced",
+    "PC": "not-run",
+    "Android": "not-run",
+    "mobilePerformance": "unmeasured",
+    "realIdleAndLifecycle": "unmeasured",
+    "multiEnemy": "not-run",
+    "uploadIncrement": "unknown; no20MB guarantee"
+  },
+  "files": {
+    "README.md": {
+      "bytes": 4516,
+      "sha256": "fc975dd6f7b843991615eea1a55bfb2c73920d3f606f78877f0c2d78cd816c1c"
+    },
+    "comparison-106-1x.png": {
+      "bytes": 16157,
+      "sha256": "c32574a60182d4db074a31f1e68122c37c06159fb3cef6d5ed929681eb26ce85"
+    },
+    "comparison-106-4x.png": {
+      "bytes": 112912,
+      "sha256": "19987c462df4151a136cb1b8180386b19dd820febfbaff49632cb1cebc9f3ea5"
+    },
+    "comparison-127-1x.png": {
+      "bytes": 20198,
+      "sha256": "b8ad383727302c3c14b487230d50e0479e300dfd4e78f8c583eed3631f0a077c"
+    },
+    "comparison-127-4x.png": {
+      "bytes": 150322,
+      "sha256": "d09b16aedbf4f237fbc34bbca853c1422070d77c424fc52cff33b98749a7c828"
+    },
+    "comparison-zh.png": {
+      "bytes": 166532,
+      "sha256": "c2063e3a3d364f5bea310d88e35ac8533c269469e3579e890a3852bc7cdda6a6"
+    },
+    "finish-review.py": {
+      "bytes": 2154,
+      "sha256": "bf9f45a58efe701d2f0c45cf7cd4479f76242a4648c17ac533f3146b59f1a88a"
+    },
+    "native-art.json": {
+      "bytes": 366687,
+      "sha256": "4d42bcc3314c3bd1e3eefbeaa7112703157a17716bfd84a969d2818f47e3f1a9"
+    },
+    "native-art.lua": {
+      "bytes": 114799,
+      "sha256": "c638fb8227ef47b6bb20c455913d079131e18f32f1eea149621f134262a774b4"
+    },
+    "native-authoring.py": {
+      "bytes": 17014,
+      "sha256": "96d476a07d935fc91837ef6c01d93bd76bbf6e87d69932463ecbfbe96555291f"
+    },
+    "preview-native-106-4x.png": {
+      "bytes": 16407,
+      "sha256": "0b75a9869987ed6b7c8bb889ff11c32a16f6618feef26088c0cb14b2a33eef93"
+    },
+    "preview-native-106.png": {
+      "bytes": 3558,
+      "sha256": "ca7643c63009ee7d0e1bf4982255887e988501b2c73384bf9c14422f771c67bd"
+    },
+    "preview-native-127-4x.png": {
+      "bytes": 19559,
+      "sha256": "4cfbb3fa02d8686b9432e49a7a3d2f0c361ba24b59e990075d328039f56040fd"
+    },
+    "preview-native-127.png": {
+      "bytes": 4434,
+      "sha256": "c4ca41e74476a2a94d23fe6cf7c67ddafee4b7a738490f0375f6186a46c8c3c4"
+    },
+    "preview-source-106-4x.png": {
+      "bytes": 116701,
+      "sha256": "b7b11b959ab36d36cf386126c1ac8451ce5a1aa0ce6cdce6aaffab1806ec4047"
+    },
+    "preview-source-106.png": {
+      "bytes": 12535,
+      "sha256": "1bc5b30d787087cb7401e9951bcf63b998d2a22f4e4cdd5151e13f2a8749fee6"
+    },
+    "preview-source-127-4x.png": {
+      "bytes": 158943,
+      "sha256": "83913700c53495eb3db8c2054cd77947f69bf6258910fb11f487f700db00fac4"
+    },
+    "preview-source-127.png": {
+      "bytes": 16727,
+      "sha256": "c2385833c601224b90224c4fb4031453fb9c3dc583826fc93846b34a3a1aaebf"
+    },
+    "shape-authoring.json": {
+      "bytes": 43168,
+      "sha256": "e4077486f1076055939f41754eba9c52c329866b99df1627d61ef40b6977a52e"
+    }
+  },
+  "visualReview": {
+    "inspected": [
+      "actual approved raw source",
+      "source/native106px1x",
+      "source/native106px4x",
+      "source/native127px1x",
+      "source/native127px4x"
+    ],
+    "identity": "Recognizable Dendro Slime; three broad fronds, curled tendrils, green jelly body, pale abdomen, two orange-bordered pale eyes, no mouth",
+    "r02Repair": "Full frond masses restored, eye lean corrected, striped body replaced with three broad alpha-composited native ellipse groups",
+    "quality": "usable-candidate-pending-root-review; not refined/pixel-identical or platform accepted",
+    "remainingDifferences": [
+      "Flatter frond shading",
+      "Polygonal tendrils and rasterized native edges",
+      "Softly glowing pale abdomen differs from directional painted jelly shading",
+      "Simplified right-side shade"
+    ],
+    "ownerNativeAcceptance": false,
+    "rootReview": "pending",
+    "decision": "One candidate for root visual review before any runtime enablement; no further art revision or density sweep"
+  },
+  "exactBytes": {
+    "native-art.json": 366687,
+    "native-art.lua": 114799
+  },
+  "sourceHashMatchesPreExistingManifest": true,
+  "runtimeIntegrationContract": {
+    "canvas": [
+      106,
+      106
+    ],
+    "requiresXYZRotation": true,
+    "preserveOpacity": true,
+    "requiresSourceOverZIndexOrder": true,
+    "actualBinding": "not implemented in this task"
+  }
+}

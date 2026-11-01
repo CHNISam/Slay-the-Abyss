@@ -1,0 +1,11 @@
+FAIL negative capability condition: ../probe.lua:10: : true ~= false
+FAIL negative camp condition atomic rejection: ../probe.lua:10: : true ~= false
+FAIL negative transform condition full72 atomic rejection: ../probe.lua:10: : true ~= false
+FAIL negative capability costMode: ../probe.lua:10: : true ~= false
+FAIL negative camp costMode atomic rejection: ../probe.lua:10: : true ~= false
+FAIL negative transform costMode full72 atomic rejection: ../probe.lua:10: : true ~= false
+FAIL negative capability effect: ../probe.lua:10: : true ~= false
+FAIL negative camp effect atomic rejection: ../probe.lua:10: : true ~= false
+FAIL negative transform effect full72 atomic rejection: ../probe.lua:10: : true ~= false
+RESULT 0 passed; 9 failed; bounded two-card review only
+../probe.lua:144: bounded integration review failed

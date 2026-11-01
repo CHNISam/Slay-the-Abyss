@@ -1,0 +1,122 @@
+{
+  "baseCommit": "c3594f1584e433944f69e8483c37df30d86c2591",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sourceFiles": 20,
+  "red": {
+    "publicCommand": "Nodes.enter",
+    "error": "event_unavailable",
+    "elapsedMs": 1057
+  },
+  "finalDedicated": [
+    {
+      "file": "tests/lua/act3_winding_event.lua",
+      "status": 0,
+      "elapsedMs": 765,
+      "stdout": "ACT3_WINDING_EVENT_PASS real public entry, mandatory three choices and exact two permanent UIDs\n",
+      "stderr": ""
+    },
+    {
+      "file": "tests/lua/act3_winding_outcomes.lua",
+      "status": 0,
+      "elapsedMs": 2249,
+      "stdout": "ACT3_WINDING_OUTCOMES_PASS heal/Bloom/Flower/Writhe/Omamori, max-health clamp without heal, fatal obtains/Fairy, null-owner Torii and refused missing relic hooks\n",
+      "stderr": ""
+    },
+    {
+      "file": "tests/lua/act3_winding_rollback.lua",
+      "status": 0,
+      "elapsedMs": 3064,
+      "stdout": "ACT3_WINDING_ROLLBACK_PASS wrong-stage/UID/maxHP, missing definitions after damage/heal, real second-UID overflow, late second obtain and blocked curse rollback before defeat\n",
+      "stderr": ""
+    },
+    {
+      "file": "tests/lua/act3_winding_rounding.lua",
+      "status": 0,
+      "elapsedMs": 1453,
+      "stdout": "ACT3_WINDING_ROUNDING_PASS independent Java float/round three ratios and min-one no-heal boundary\n",
+      "stderr": ""
+    },
+    {
+      "file": "tests/lua/act3_winding_natural.lua",
+      "status": 0,
+      "elapsedMs": 760,
+      "stdout": "ACT3_WINDING_NATURAL_PASS seed11 unfiltered full pool, exact single removal/once history and independent full RNG words\n",
+      "stderr": ""
+    },
+    {
+      "file": "tests/lua/act3_winding_ui.lua",
+      "status": 0,
+      "elapsedMs": 1479,
+      "stdout": "ACT3_WINDING_UI_PASS source title/three values and card names, no escape, two UIDs, blocked heal/curse, maximum loss, fatal obtains and stale native callbacks/touches\n",
+      "stderr": ""
+    }
+  ],
+  "affected": [
+    {
+      "file": "act3_falling_event.lua",
+      "status": 0,
+      "elapsedMs": 3311,
+      "stdout": "ACT3_FALLING_EVENT_PASS exact typed RNG/UIDs, three choices, singleton/all-missing, bottles, stages, stale inputs and full rollback\n",
+      "stderr": ""
+    },
+    {
+      "file": "act3_moai_event.lua",
+      "status": 0,
+      "elapsedMs": 4870,
+      "stdout": "ACT3_MOAI_EVENT_PASS source f32/round, full-HP admission, clamp/heal/Bloom/Fairy, exact canonical Idol/333/Ectoplasm, stages and atomic stale/late failures\n",
+      "stderr": ""
+    },
+    {
+      "file": "event_fairy.lua",
+      "status": 0,
+      "elapsedMs": 4334,
+      "stdout": "PASS event fairy 1 real Scrap Ooze and Wheel fatal damage revive then finish their normal event stages\nPASS event fairy 2 event revival applies Bark and Bloom but never combat Flower or ordinary Toy healing\nPASS event fairy 3 leftmost occupied Fairy consumes one physical slot per fatal Scrap search across a five-slot belt\nPASS event fairy 4 stale combat health inventory powers and relics cannot influence outside damage or be changed\nPASS event fairy 5 missing selected relic rolls back fatal damage Fairy slot RNG progression and every live owner\nPASS event fairy 6 nonlethal and zero damage do not use Fairy while absent or blocked Fairy preserves fatal defeat\nPASS event fairy 7 legacy Nodes damage events use the same outside boundary without changing their rewards or picker\nPASS event fairy 8 event Fairy minimum one HP is not confused with maximum-health changes or existing death\nEVENT_FAIRY 8 passed\n",
+      "stderr": ""
+    }
+  ],
+  "js": {
+    "passed": 19,
+    "failed": 0
+  },
+  "architecture": {
+    "modules": 151,
+    "edges": 853
+  },
+  "static": {
+    "status": "FAILED_EXISTING_BASE",
+    "baselineDiagnostics": 107,
+    "actualDiagnostics": 107,
+    "remaining": [
+      {
+        "file": "src/lua/abyss_effects.lua",
+        "line": 197,
+        "column": 51,
+        "code": "W542",
+        "message": "empty if branch"
+      },
+      {
+        "file": "src/lua/abyss_effects.lua",
+        "line": 199,
+        "column": 82,
+        "code": "W542",
+        "message": "empty if branch"
+      }
+    ],
+    "unchangedBaseEffectsSha256": "7f428bcc94a73642a9156512dae8c1c5601522b7ef6fc76e6f0e4b31cb217d0d",
+    "nodeUiPositionOnlyMappings": 14,
+    "newExemptions": 0
+  },
+  "uiComplexity": {
+    "errors": [],
+    "maxBattleRenderLimit": 10,
+    "maxScopedFunctionLimit": 15
+  },
+  "dependencies": [
+    "tungsten_rod: real shared onLoseHpLast not implemented; eventNormalDamage refuses held owner",
+    "lizard_tail: real shared fatal interception not implemented; eventNormalDamage refuses held owner",
+    "Other missing relic definitions/normal acquisition are not granted by owner boundary fixtures.",
+    "toxic_egg: skill obtain upgrade not implemented; Madness choice refuses held owner",
+    "darkstone_periapt: curse obtain maxHP/heal not implemented; Writhe choice refuses held owner"
+  ],
+  "scope": "One local Act3 event component; no fullcheck, CI, platform or whole-M3 acceptance."
+}

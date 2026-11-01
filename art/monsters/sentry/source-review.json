@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "sentry",
+  "sourceSha256": "b4313791a2360d6f056f47b9c9b5373568dc12019faf3876a4cac48d222463b8",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    117,
+    54,
+    1154,
+    1199
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "b87c1ae2394cd63eec79754a8d192bcc1edd2370748cfdaba483050eb0ba224b",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "0299b8f16b5c5ea3b149addadff8336b5fa6fb7a0de2fe997bf793727b377df4",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Narrow upright stele, rectangular top notch/tiny cyan interior, two short horizontal arms and two separate feet. Bronze joint chains connected; no detached or extra pieces.",
+    "No STS floating triangle-eye; original stone/bronze material family consistent with Guardian/Lagavulin but distinct tall-pillar silhouette.",
+    "Notch, pillar, two arms and foot separation readable106/127; tiny cyan and stone cracks not dependable primary cues. Contours intact."
+  ],
+  "costLimits": [
+    "Preserve pillar/notch/arm-foot connections and large values before cracks/facets/glints.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserve; intact tight margins downstream6% inset contain allowed; no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only; no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

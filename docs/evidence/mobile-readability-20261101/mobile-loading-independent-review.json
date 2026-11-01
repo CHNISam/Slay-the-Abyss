@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "conclusion": "pass",
+  "integrationDecision": "Approved to integrate cumulative commits12e035c1 +1cbf08db +db4014c5 as a normal UI call-reduction fix, subject to integration CI. Both Important findings are resolved. This does not establish mobile performance or release acceptance.",
+  "reviewedHeadSha": "db4014c59c70e207a54ce8022176b9a1ca0c3347",
+  "baseSha": "2d06741de47f2a65eb2772705e33064c16ccdce3",
+  "reviewerWorktree": "/workspace/mobile-loading-independent-review",
+  "authorWorktreeUnmodified": true,
+  "positiveChecks": [
+    "Only 3 production Lua files and 2 focused Lua test files changed (mobile_render_write_cache.lua and mobile_map_size_ownership.lua).",
+    "Intent caches are per install and weak-keyed by actual native object; image source and unwrapped image id participate. No actor id/native UID is used as a cache identity.",
+    "Size and image caches are populated after setter returns non-false. Throwing setter skips cache assignment; text cache assignment occurs after property write. Production picture adapter now propagates SetImage false.",
+    "Expired controls force original setter/property paths rather than suppressing alive guards. Dynamic surface manager generation/retirement logic is unchanged.",
+    "Repository-wide search found intent base text/image writes confined to battle_render_actors; intent particle images are separate pooled effect child controls. Base icon tint, alpha, geometry, visibility and particle update/paint paths remain active.",
+    "Map color writes, reachable oscillation, scale lerp, rotation, position and scroll paths remain unchanged. Important finding concerns owner reuse, not suppression of those update calculations."
+  ],
+  "validation": {
+    "build": [
+      "npm run build:data PASS",
+      "npm run build:ui PASS"
+    ],
+    "independentFocusedRuns": [
+      {
+        "fixture": "mobile_map_size_ownership",
+        "result": "PASS",
+        "log": "/workspace/cloud-reports/mobile-loading-independent-1cb-mobile_map_size_ownership.log"
+      },
+      {
+        "fixture": "mobile_render_write_cache",
+        "result": "PASS",
+        "log": "/workspace/cloud-reports/mobile-loading-independent-1cb-mobile_render_write_cache.log"
+      },
+      {
+        "fixture": "m3_map_input_acceptance",
+        "result": "PASS",
+        "log": "/workspace/cloud-reports/mobile-loading-independent-1cb-m3_map_input_acceptance.log"
+      },
+      {
+        "fixture": "monster_intent_particle_game_ui",
+        "result": "PASS",
+        "log": "/workspace/cloud-reports/mobile-loading-independent-1cb-monster_intent_particle_game_ui.log"
+      },
+      {
+        "fixture": "grid_lifecycle_contract",
+        "result": "PASS",
+        "log": "/workspace/cloud-reports/mobile-loading-independent-1cb-grid_lifecycle_contract.log"
+      },
+      {
+        "fixture": "dynamic_monster_surfaces",
+        "result": "PASS",
+        "log": "/workspace/cloud-reports/mobile-loading-independent-1cb-dynamic_monster_surfaces.log"
+      },
+      {
+        "fixture": "monster_intent_cleanup_failure",
+        "result": "PASS",
+        "log": "/workspace/cloud-reports/mobile-loading-independent-1cb-monster_intent_cleanup_failure.log"
+      },
+      {
+        "fixture": "intent_face_clearance",
+        "result": "PASS",
+        "log": "/workspace/cloud-reports/mobile-loading-independent-1cb-intent_face_clearance.log"
+      }
+    ],
+    "additionalOwnerProbe": "PASS on1cb and baseline; original12e RED preserved",
+    "diffCheck": "PASS",
+    "wholeSuiteRun": false,
+    "finalHeadFocusedRuns": [
+      {
+        "case": "cache",
+        "result": "PASS",
+        "log": "/workspace/cloud-reports/mobile-loading-independent-db4014-cache.log"
+      },
+      {
+        "case": "image-promise",
+        "result": "PASS",
+        "log": "/workspace/cloud-reports/mobile-loading-independent-db4014-image-promise.log"
+      },
+      {
+        "case": "text-promise",
+        "result": "PASS",
+        "log": "/workspace/cloud-reports/mobile-loading-independent-db4014-text-promise.log"
+      },
+      {
+        "case": "ownership",
+        "result": "PASS",
+        "log": "/workspace/cloud-reports/mobile-loading-independent-db4014-ownership.log"
+      },
+      {
+        "case": "particles",
+        "result": "PASS",
+        "log": "/workspace/cloud-reports/mobile-loading-independent-db4014-particles.log"
+      },
+      {
+        "case": "map-probe",
+        "result": "PASS",
+        "log": "/workspace/cloud-reports/mobile-loading-independent-db4014-map-probe.log"
+      },
+      {
+        "case": "map-throw-weak",
+        "result": "PASS",
+        "log": "/workspace/cloud-reports/mobile-loading-independent-db4014-map-throw-weak.log"
+      }
+    ],
+    "earlierFocusedRunsRetained": "All original seven focused regressions independently passed at1cb; final child changes only two intent invalidation lines and adds tests. Cache/promise/particle tests rerun atdb4014, unrelated map/lifecycle tests not needlessly repeated.",
+    "intentBaselineCounterexample": "Real image promise probe failed on1cb, passed with baseline2d actors source, and passed ondb4014. Text mutation probe failed1cb and passeddb4014."
+  },
+  "performanceEvidenceBoundary": "Author counter reductions (map15000->1200, idle text/image300->0) are plausible offline native-write counts and were inspected in report. No mobile/FPS/startup latency conclusion is approved. Some author offline scenario timing increased; calls reduced does not establish device performance improvement.",
+  "notifications": "Both Important findings sent to root/author, repaired in separate child commits and independently verified. History and RED evidence retained.",
+  "resolvedFindings": [
+    {
+      "id": "MAP-CACHE-OWNER-1",
+      "severity": "Important",
+      "path": "src/lua/abyss_map_ui.lua:23",
+      "title": "Cache lives on logical room fx while native controls are reused across room owners",
+      "detail": "roomSize records fx.paintedIcon/paintedRing keyed by control and size. roomFx survives observeMap map identity changes; visible boxes are assigned by current.nodes index. A native box can be written by a different room fx while an earlier fx retains its last-success cache. Returning to the earlier map lets that earlier fx skip the setter even though the actual native dimensions were overwritten.",
+      "reproduction": "Use real F.control(require abyss_map_controls), Map.generate(Data,42), UI.new; ui:update(.1); assign ui.map=Map.generate(Data,1); ui:render(); assign original42 map; ui:render(); compare each visible icon.size[1] with fx.size*Layout.sts.iconPerScale*UI.drawScale(fx).",
+      "observed": "return 1 stale room size actual=39.086323079841 expected=40.705995192803",
+      "headProbeExitCode": 1,
+      "baselineProbeExitCode": 0,
+      "baselineEvidence": "Same real map sequence passed with only abyss_map_ui loaded from base2d bytes and all other source/build inputs unchanged.",
+      "probe": "/workspace/cloud-reports/mobile-loading-map-ownership-probe.lua",
+      "baselineProbe": "/workspace/cloud-reports/mobile-loading-map-ownership-baseline-probe.lua",
+      "suggestedFix": "Store last-success size in a view-owned weak table keyed by actual native control, shared across all room fx in that view; or explicitly invalidate all affected fx identities on every control ownership/map transition. Keep failure/expired-control retry and animation updates. Add real map42 -> seed1 -> map42 regression.",
+      "resolvedAt": "1cbf08dbb56ffd3438ef0d3e791169ec13ec8166"
+    },
+    {
+      "id": "INTENT-CACHE-PROMISE-2",
+      "severity": "Important",
+      "path": "src/lua/abyss_battle_render_actors.lua:29",
+      "title": "Failed image replacement preserves an invalid previous-success promise",
+      "detail": "intentImages still holds A when trying B. If SetImage changes actual state then returns false, requesting A next skips native write based on old A cache, leaving actual B. Same stale-promise pattern can affect intentTexts when a property write mutates then throws.",
+      "reproduction": "Real F/GameUI cultist fixture; old buff image102020; wrap native SetImage to call original then return false once; change Theme.icon.intent.buff to123456789/update; restore102020/update.",
+      "observed": "actual123456789 expected102020 attempts1",
+      "probe": "/workspace/cloud-reports/mobile-loading-intent-failed-promise-probe.lua",
+      "log": "/workspace/cloud-reports/mobile-loading-independent-1cb-intent-failed-promise.log",
+      "suggestedFix": "Clear intentImages[control] immediately before attempted SetImage; populate after non-false success. Clear intentTexts[value] immediately before property assignment; populate after successful completion. Add A -> failed partially applied B -> A recovery regressions.",
+      "resolvedAt": "db4014c59c70e207a54ce8022176b9a1ca0c3347",
+      "resolution": "Both image and text caches are invalidated before native writes, re-established only after success. Real image and independent text RED probes now PASS; false/throw partial mutation recovery tests PASS."
+    }
+  ],
+  "mapFixRecheck": {
+    "headProbe": "PASS original independent probe over10seeds",
+    "ownerFixture": "PASS mobile_map_size_ownership (all visible icon/ring dimensions; two controllers sharing native control)",
+    "failedPromiseProbe": "PASS false and throw after native mutation, previous owner restored then stable dedupe",
+    "weakReferenceProbe": "PASS structural __mode=k and owner empty token/no control/fx/box backreference; actual GC UNVERIFIED because Fengari does not implement collectgarbage",
+    "log": "/workspace/cloud-reports/mobile-loading-independent-1cb-throw-weak.log"
+  },
+  "reviewedCommits": [
+    "12e035c1e35d51b67dcecf83d727fe843f23ae91",
+    "1cbf08dbb56ffd3438ef0d3e791169ec13ec8166",
+    "db4014c59c70e207a54ce8022176b9a1ca0c3347"
+  ],
+  "historicalReviews": [
+    {
+      "path": "/workspace/cloud-reports/mobile-loading-independent-review-12e035c1-changes-requested.json",
+      "sha256": "1a9f8a515c68b6127835efe5c646fec73be5a6f9cd405690877a97020fb7655f"
+    },
+    {
+      "path": "/workspace/cloud-reports/mobile-loading-independent-review-1cbf08db-changes-requested.json",
+      "sha256": "8f5bc83e37cb7481e13116b834cbf48cb25efc70c67d2adf48953628769b144c"
+    }
+  ],
+  "findings": [],
+  "weakReferenceBoundary": "Structural weak-key/no-backreference audit PASS. Actual collection is UNVERIFIED in Fengari (collectgarbage unsupported); no GC claim made."
+}

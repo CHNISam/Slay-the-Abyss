@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "card_id": "reaper",
+  "displayName": "以战养战",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "reaper/generation-provenance.json",
+      "sha256": "07bc8be5835382fcee0f703a67ab89a84e3f5d3a14d9a1aba15df6792528095f",
+      "bytes": 2901
+    },
+    "preview-source-144x64.png": {
+      "path": "reaper/preview-source-144x64.png",
+      "sha256": "b53be733b10d4ad957b906756eddcaa110d8848af3e72958a93d707ab3e72ae5",
+      "bytes": 21263
+    },
+    "prompt.txt": {
+      "path": "reaper/prompt.txt",
+      "sha256": "e105d7c81e71c5322e28594bca364f00c0b0a6d4db931253db8cf3752a376b12",
+      "bytes": 2989
+    },
+    "source.png": {
+      "path": "reaper/source.png",
+      "sha256": "e284772dfb50f07ba51babcfb271083c7e3a52eb0828842eb2eb3b1a2968373a",
+      "bytes": 2116068
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "reaper",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "reaper",
+        "value": 4
+      }
+    ],
+    "target": "ALL_ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-18",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

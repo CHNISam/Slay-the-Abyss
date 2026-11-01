@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "acid_slime_l",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T19:46:40.447Z",
+    "endUtc": "2026-10-29T19:47:29.048Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none-exact-raw-copy",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "sha256": "5de3f90d5301baf8fb601e44e2d5c502f2badddbe61eb66cd253b17b1a6a0a37",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "actual-family-material-core-palette-only-not-scale-copy",
+      "actuallyPassed": true,
+      "path": "../acid_slime_s/source.png"
+    },
+    {
+      "sha256": "534976f100a3edf8a424faa5064062025cc8e753d277c52e914cd4d4546069bf",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "painted-style-only-not-identity",
+      "actuallyPassed": true,
+      "path": "../looter/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1071389,
+      "sha256": "b0340d32eef614c71ef852cb8e4289ba2f8928ec08315c3e3b535da055fc8f82"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2627,
+      "sha256": "e4824d46d9ec6dc15417f6a2fa3a83573f46c64f07959b729775dd3bb28fcb1e"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 13890,
+      "sha256": "e49d77007c7862998701372170080a767f84e9bdd1a5085e89d503475d0a1f66"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 18634,
+      "sha256": "039cc08294b7c4fece058cd6f44192fe710ebb08c92fcb5333a7db7817230600"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "design": "Original high twin rounded peak acid gel with three broad basal lobes and one fully enclosed rounded pale mineral, same material but different geometry from small flat acid",
+  "alpha": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "meaningfulBBoxAlphaGt16": [
+      13,
+      237,
+      1245,
+      1062
+    ],
+    "edgeClipping": "no meaningful appendage edge cut observed"
+  },
+  "inspection": {
+    "fullOriginal": true,
+    "contain106": true,
+    "contain127": true,
+    "nearest4x106": true,
+    "nearest4x127": true,
+    "observations": "Full106/127and4x inspected: twin rounded peaks clear, left taller; three base lobes and single enclosed pale stone read, entire outline intact though margins tight. No detached blobs or spikes. More facets than ideal but silhouette broad; native cost unknown. Downstream6%inset contain advised without source edit."
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "card_id": "strike",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T17:00:12.041Z",
+    "endUtc": "2026-10-29T17:00:47.800Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/cards/traveler-geo/heavy_blade/source.png",
+      "role": "Lumine-costume-and-one-handed-sword-identity-only",
+      "actuallyPassed": true,
+      "sha256": "1cf7dec3ef1f9ae369837204c24b0ce727142909f200c225d252dd85760bdbfc"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "One ordinary single-target contact, Lumine connected waist/skirt visible. At 144x64 the blade/contact and contrasting costume remain readable. Blade reads as thrust/normal hit more than broad slash; still consistent with ordinary single-target attack.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/strike/source.png",
+    "sha256": "a7dc3facc320b1c5b36d3d220e33b4ace98ea441d46d4023c0a7c538a18679aa",
+    "bytes": 1992890,
+    "dimensions": [
+      1881,
+      836
+    ],
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/strike/prompt.txt",
+    "sha256": "7a6d920681f798b6240b145008e76c0a1981dc72cd0db40d17f1d07699a75449"
+  }
+}

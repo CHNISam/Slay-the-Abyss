@@ -1,0 +1,774 @@
+{
+  "schemaVersion": 1,
+  "candidateMapPath": "F:\\New folder\\.worktrees\\warrior75\\.artifacts\\warrior75-native-probe-529c8af\\scenes\\saves\\abyss-warrior75-EXPLICIT-FIXTURES.gil",
+  "officialMapPath": "C:\\Users\\Administrator\\AppData\\LocalLow\\miHoYo\\原神\\BeyondLocal\\217122260\\Beyond_Local_Save_Level\\1073741855\\1073741855.gil",
+  "sidecarDirectory": "C:\\Users\\Administrator\\AppData\\LocalLow\\miHoYo\\原神\\BeyondLocal\\217122260\\Beyond_Local_Save_Level\\1073741855\\external_lua_file",
+  "entry": "abyss_ui",
+  "normalization": "UTF-8 BOM at start and CRLF -> LF only",
+  "scope": "Lua source equality only; not ready, playable, imported UI parity or gameplay acceptance.",
+  "ok": true,
+  "modules": [
+    {
+      "name": "abyss_data",
+      "file": "abyss_data.lua",
+      "actualFile": "abyss_data.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "65a62e2008f4418cd495b7e60ba238715f15f90f8d193ec6bc7079953c8955ad",
+        "normalizedSha256": "65a62e2008f4418cd495b7e60ba238715f15f90f8d193ec6bc7079953c8955ad"
+      },
+      "external": {
+        "rawSha256": "3c6fef4277ef04cff4f9ba31e0cb889ead02c39efbdd82e3bad524526257ba96",
+        "normalizedSha256": "65a62e2008f4418cd495b7e60ba238715f15f90f8d193ec6bc7079953c8955ad"
+      }
+    },
+    {
+      "name": "abyss_map_layout",
+      "file": "abyss_map_layout.lua",
+      "actualFile": "abyss_map_layout.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "619c85496eef8d88790709ab9fbbd0466527773440d2e5bc015bdab3167acb57",
+        "normalizedSha256": "619c85496eef8d88790709ab9fbbd0466527773440d2e5bc015bdab3167acb57"
+      },
+      "external": {
+        "rawSha256": "7520e946b16ad0f66abb15ddb641b8dc7538157a4b3eeeb454eea9a01770cff6",
+        "normalizedSha256": "619c85496eef8d88790709ab9fbbd0466527773440d2e5bc015bdab3167acb57"
+      }
+    },
+    {
+      "name": "abyss_narrative",
+      "file": "abyss_narrative.lua",
+      "actualFile": "abyss_narrative.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "a190f16474d0e5603710c38a2bf3c5e8700a0ce94f584fd47f24ca10477639db",
+        "normalizedSha256": "a190f16474d0e5603710c38a2bf3c5e8700a0ce94f584fd47f24ca10477639db"
+      },
+      "external": {
+        "rawSha256": "c8ce60f228191259a2f50701340db8c80fd76980a85e96a7ca2562f69aeb5b36",
+        "normalizedSha256": "a190f16474d0e5603710c38a2bf3c5e8700a0ce94f584fd47f24ca10477639db"
+      }
+    },
+    {
+      "name": "abyss_presentation",
+      "file": "abyss_presentation.lua",
+      "actualFile": "abyss_presentation.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "11613cac3de751cd5ca694a768836dade9380d1d522351c4c84ac36f791c97e6",
+        "normalizedSha256": "11613cac3de751cd5ca694a768836dade9380d1d522351c4c84ac36f791c97e6"
+      },
+      "external": {
+        "rawSha256": "424b153aff793228087e8b125f40204a4875981809c5f7d071badadbe9f803eb",
+        "normalizedSha256": "11613cac3de751cd5ca694a768836dade9380d1d522351c4c84ac36f791c97e6"
+      }
+    },
+    {
+      "name": "abyss_theme",
+      "file": "abyss_theme.lua",
+      "actualFile": "abyss_theme.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "caab33367b709fa74c24c693c275205d69cb772e44091dbd8499449dd9540192",
+        "normalizedSha256": "caab33367b709fa74c24c693c275205d69cb772e44091dbd8499449dd9540192"
+      },
+      "external": {
+        "rawSha256": "c818d85f837a2e045d5430cff313df195342d882c9dd3f719be9f018a86857e0",
+        "normalizedSha256": "caab33367b709fa74c24c693c275205d69cb772e44091dbd8499449dd9540192"
+      }
+    },
+    {
+      "name": "abyss_acid_slime_s_ai",
+      "file": "abyss_acid_slime_s_ai.lua",
+      "actualFile": "abyss_acid_slime_s_ai.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "c100602f15af332ef85d4b8897e10a97442b5924fe59b1d2e4eb938bc24ba204",
+        "normalizedSha256": "ce2c02720a20d538bf20234b9a3550302d58974b82bf44a6dc33633b0562fcbe"
+      },
+      "external": {
+        "rawSha256": "103f7a10ca3c386e296725195fd50d6406cca7059e3e8d08d64f3285c5cf70a9",
+        "normalizedSha256": "ce2c02720a20d538bf20234b9a3550302d58974b82bf44a6dc33633b0562fcbe"
+      }
+    },
+    {
+      "name": "abyss_actor",
+      "file": "abyss_actor.lua",
+      "actualFile": "abyss_actor.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "6fe564ffaa63cd378734982a3a4826b785f5ba49be842b8175de0bdbe71b201e",
+        "normalizedSha256": "428bdbe38864f789cf4875fd3e74af4dad3f6fa3b511219b56f9f9f17687dc97"
+      },
+      "external": {
+        "rawSha256": "ca9aaa3f03cb2c1bad07dbe7608491d9bb0a72f8d7b216abaaeff704424c942d",
+        "normalizedSha256": "428bdbe38864f789cf4875fd3e74af4dad3f6fa3b511219b56f9f9f17687dc97"
+      }
+    },
+    {
+      "name": "abyss_battle_ui",
+      "file": "abyss_battle_ui.lua",
+      "actualFile": "abyss_battle_ui.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "fe3815950a7fe4596f71148d5fcb7349d8dfdf83eded5c2dcdc2de8de879258c",
+        "normalizedSha256": "8afc80eddd9fdca13c1ca0afd75fde522d25a4edc05c92cf5994d511e8084921"
+      },
+      "external": {
+        "rawSha256": "aff2ec6c59063f61d046a68cf21bc47e023d6e2bb774491c49d435c0317019db",
+        "normalizedSha256": "8afc80eddd9fdca13c1ca0afd75fde522d25a4edc05c92cf5994d511e8084921"
+      }
+    },
+    {
+      "name": "abyss_bgm",
+      "file": "abyss_bgm.lua",
+      "actualFile": "abyss_bgm.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "c202344ab9a923f46be97603858c25e30f893a3c68fac1d3d091b9c4cd440525",
+        "normalizedSha256": "adcc610892b2c068e2c37a0f067080ec44e3b233e78d7799ac9371e1ddce39ec"
+      },
+      "external": {
+        "rawSha256": "138aa7020d9637fdd319aa34b03a80f86c0dfdbaba3c701d7289103e2d832635",
+        "normalizedSha256": "adcc610892b2c068e2c37a0f067080ec44e3b233e78d7799ac9371e1ddce39ec"
+      }
+    },
+    {
+      "name": "abyss_blue_slaver_ai",
+      "file": "abyss_blue_slaver_ai.lua",
+      "actualFile": "abyss_blue_slaver_ai.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "b7d21d343d44b931b078243f18194171e3dccd75ba875bd177a277a4d28e6132",
+        "normalizedSha256": "f600520998bd33a13716e71ff93be6937db4d323a55aa1721ab6ce8e5be8108c"
+      },
+      "external": {
+        "rawSha256": "99ffdcd75428b90f69241d37d8083b55e7f0bff358cc859c4dc0d4052021b5b5",
+        "normalizedSha256": "f600520998bd33a13716e71ff93be6937db4d323a55aa1721ab6ce8e5be8108c"
+      }
+    },
+    {
+      "name": "abyss_combat",
+      "file": "abyss_combat.lua",
+      "actualFile": "abyss_combat.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "daf3905107834e4579436469fb9ef4f93050a74eb3493e20aeb01215586b85bc",
+        "normalizedSha256": "d926c69694cf307b98cb29ae472dea26fdfe0df90b5fc4e56baa0eebc60e11ab"
+      },
+      "external": {
+        "rawSha256": "3ebb80687157080d17e8e779cc8a0ab666f2242700f7b5bf75fb551d1c23f61a",
+        "normalizedSha256": "d926c69694cf307b98cb29ae472dea26fdfe0df90b5fc4e56baa0eebc60e11ab"
+      }
+    },
+    {
+      "name": "abyss_deck_ui",
+      "file": "abyss_deck_ui.lua",
+      "actualFile": "abyss_deck_ui.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "faf5142c39bb6b485288b4204f83fc3f0972957bf81871b8b581830318ec9e97",
+        "normalizedSha256": "0527af7f5187353f8b84a46416fd2f24cf7da43964760a929ca197f31f57c048"
+      },
+      "external": {
+        "rawSha256": "f0b5ea3a94bec49f882c592da2c77e0c48e17207edfaeeb0d94d3a9466abf7fd",
+        "normalizedSha256": "0527af7f5187353f8b84a46416fd2f24cf7da43964760a929ca197f31f57c048"
+      }
+    },
+    {
+      "name": "abyss_effects",
+      "file": "abyss_effects.lua",
+      "actualFile": "abyss_effects.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "fc219411015a712648acf2ffac757ad24dd2d0d2f738fed9a3067b515e4006bc",
+        "normalizedSha256": "0a69877377291de70466eb83049879bdcd4466d1e8429a5ccc4193f25dc635c7"
+      },
+      "external": {
+        "rawSha256": "c8c0d4fcff936a60c8a012ca5410b605159b150c7b77b175e9ae8d9b5dc8a552",
+        "normalizedSha256": "0a69877377291de70466eb83049879bdcd4466d1e8429a5ccc4193f25dc635c7"
+      }
+    },
+    {
+      "name": "abyss_enemy_ai",
+      "file": "abyss_enemy_ai.lua",
+      "actualFile": "abyss_enemy_ai.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "6e0ed0d2ec2c705a40cbd73c207716018abbf9dee27ae17e6247a25c6e0e2b3b",
+        "normalizedSha256": "192d40beec8efce60f3516169f76485274d7ecd8a97172531461dbb70c5fc23f"
+      },
+      "external": {
+        "rawSha256": "764804b843e6d952f7e8a8c0dcdcfa982cb137243f17446c0aec0db6f2f01909",
+        "normalizedSha256": "192d40beec8efce60f3516169f76485274d7ecd8a97172531461dbb70c5fc23f"
+      }
+    },
+    {
+      "name": "abyss_events",
+      "file": "abyss_events.lua",
+      "actualFile": "abyss_events.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "5b67f1d1741011b0787006a0e056f7363793164f5b788e23db0b417e59c150ba",
+        "normalizedSha256": "a20b685fb142503d8bba488af02c2d202ce2e33be0aa9b7faf67511cc82cc251"
+      },
+      "external": {
+        "rawSha256": "5ba52e66b0cdbab8075a441e15a29359c97fac9df70b62cd5fc20cf55bcc83c6",
+        "normalizedSha256": "a20b685fb142503d8bba488af02c2d202ce2e33be0aa9b7faf67511cc82cc251"
+      }
+    },
+    {
+      "name": "abyss_feedback",
+      "file": "abyss_feedback.lua",
+      "actualFile": "abyss_feedback.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "a9c1c385bbc7a4ff8663892a4d3b885a6e3916ec472532db58c8ef07f61f2280",
+        "normalizedSha256": "730246e8c501ce054eea594c85401b2d4bf50b4b519c64642feddf252cae4400"
+      },
+      "external": {
+        "rawSha256": "457cd73224bdf39fc821b7bfd5892b893c87fd5591d3e1b42cca41667fb7cb3f",
+        "normalizedSha256": "730246e8c501ce054eea594c85401b2d4bf50b4b519c64642feddf252cae4400"
+      }
+    },
+    {
+      "name": "abyss_game_ui",
+      "file": "abyss_game_ui.lua",
+      "actualFile": "abyss_game_ui.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "e45588e9c4cc85233d387077efc2f4589453924cd9ad0b9d2d8f47df846a3049",
+        "normalizedSha256": "5a07a6ed22398d5e55eb080de0777e1b5b7a01f7e78ff6fd2e901f8549f6eb45"
+      },
+      "external": {
+        "rawSha256": "9a97dd081f004c0ea918e45c765f1c23222e794e0d140a0a57b20550a3cfb244",
+        "normalizedSha256": "5a07a6ed22398d5e55eb080de0777e1b5b7a01f7e78ff6fd2e901f8549f6eb45"
+      }
+    },
+    {
+      "name": "abyss_gremlin_nob_ai",
+      "file": "abyss_gremlin_nob_ai.lua",
+      "actualFile": "abyss_gremlin_nob_ai.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "a33ba959aa080c2e37adb2c6d1255eb582af77e1b5b8957fff4a75c545a8c6ee",
+        "normalizedSha256": "218d7c84a3658885a4e5623d19e9d116c2067b349652a432d36a337cb0012396"
+      },
+      "external": {
+        "rawSha256": "9cd52d7a85b97293c9774c9a3a03060b0436a58ec3dee79e1a92a51c2c47c0f1",
+        "normalizedSha256": "218d7c84a3658885a4e5623d19e9d116c2067b349652a432d36a337cb0012396"
+      }
+    },
+    {
+      "name": "abyss_guardian_ai",
+      "file": "abyss_guardian_ai.lua",
+      "actualFile": "abyss_guardian_ai.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "bcc0534cb53e8a9c8c1570d9c5b9536565a8be62951d22281dce4c1748b1244f",
+        "normalizedSha256": "cc88c070e54cf67c1892afc93650c5400d98ac0f476c579b06d871116218fd8b"
+      },
+      "external": {
+        "rawSha256": "682ee0433a26e0a3160bf12ceb22ecdf4ed481c1eeb956f3f16fc62e85748446",
+        "normalizedSha256": "cc88c070e54cf67c1892afc93650c5400d98ac0f476c579b06d871116218fd8b"
+      }
+    },
+    {
+      "name": "abyss_inventory",
+      "file": "abyss_inventory.lua",
+      "actualFile": "abyss_inventory.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "640237619a98363b502d88643a853ddd4f8ed19f1b1675f8d76598e02d95190c",
+        "normalizedSha256": "57d58e3a754b49a574f9b34d17314ed5f0ca84af8d5de6c4118ee058c6a4ca60"
+      },
+      "external": {
+        "rawSha256": "d76c052a5bc067a74eb171e4be78f608f7e8ad6b7128d005239bee2a9b760622",
+        "normalizedSha256": "57d58e3a754b49a574f9b34d17314ed5f0ca84af8d5de6c4118ee058c6a4ca60"
+      }
+    },
+    {
+      "name": "abyss_jaw_worm_ai",
+      "file": "abyss_jaw_worm_ai.lua",
+      "actualFile": "abyss_jaw_worm_ai.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "26be5aac1d0174ee0a238e22cdd5ca8813a5534e2d0a604d521c70d9f4361583",
+        "normalizedSha256": "3fe2f2e714d087cc5d643ef1f898809c99231b5ff639fd62e570a2acf2736494"
+      },
+      "external": {
+        "rawSha256": "4cbfe25f6a0cd88f7863c3e90bea769b331a09d33aacf5734e4588f89036c1bc",
+        "normalizedSha256": "3fe2f2e714d087cc5d643ef1f898809c99231b5ff639fd62e570a2acf2736494"
+      }
+    },
+    {
+      "name": "abyss_map",
+      "file": "abyss_map.lua",
+      "actualFile": "abyss_map.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "b10f77f63455d0466d6c936a231b95e38440b0e0c790e6da77b56e14e884e130",
+        "normalizedSha256": "ea3d0ad5add18ad0369d1d00685b09045122d633d2fc645f3d3a37c0612220fd"
+      },
+      "external": {
+        "rawSha256": "6ad0c11d1fb12c4cf38a04f1b58e3c3648abb2865817a8243306d9109637cbca",
+        "normalizedSha256": "ea3d0ad5add18ad0369d1d00685b09045122d633d2fc645f3d3a37c0612220fd"
+      }
+    },
+    {
+      "name": "abyss_map_ui",
+      "file": "abyss_map_ui.lua",
+      "actualFile": "abyss_map_ui.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "fb1fa3e43507dafb863a327c5dff504b0aa73b281564fb48163c5a5aa9dc3a8d",
+        "normalizedSha256": "49147fd33dddf7d796927ade746b6f1b631d3101d770740c7a25be6fda0df836"
+      },
+      "external": {
+        "rawSha256": "bd7e77a56552603e6a77bb4636273ecb6ca30396f5844e882984774cf50d6f88",
+        "normalizedSha256": "49147fd33dddf7d796927ade746b6f1b631d3101d770740c7a25be6fda0df836"
+      }
+    },
+    {
+      "name": "abyss_node_ui",
+      "file": "abyss_node_ui.lua",
+      "actualFile": "abyss_node_ui.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "d27f669a0be22a9a9a554a7f473e93566f2eaa5683241f26c9a78332f504f093",
+        "normalizedSha256": "c2832998ea21fc25f90e04be984f492f5517b2e8ac7d4e6a6a8dcc64869dd243"
+      },
+      "external": {
+        "rawSha256": "4f8dcde053eaa2626b7026fbd1781e042b9076f787f65d702e729715a6d73c85",
+        "normalizedSha256": "c2832998ea21fc25f90e04be984f492f5517b2e8ac7d4e6a6a8dcc64869dd243"
+      }
+    },
+    {
+      "name": "abyss_nodes",
+      "file": "abyss_nodes.lua",
+      "actualFile": "abyss_nodes.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "8014c7bdd9002069f571fa72c738811c584720a0c3587026ced832cb02d44cb5",
+        "normalizedSha256": "1a291833818dead89dd922c1b71aa2bb7dbda9fc6cd8e64ac28c489f2c958357"
+      },
+      "external": {
+        "rawSha256": "f76cc3994d35036b26fca6b40668019f8c42cda9ab0fd3bc163707adcf6aa5a1",
+        "normalizedSha256": "1a291833818dead89dd922c1b71aa2bb7dbda9fc6cd8e64ac28c489f2c958357"
+      }
+    },
+    {
+      "name": "abyss_random",
+      "file": "abyss_random.lua",
+      "actualFile": "abyss_random.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "2104296392c6cc52e4813eb05c4138319de0297a3b72c30598fba8ad4dbf4c93",
+        "normalizedSha256": "a052a4996c3b7090b1d79112f18630400f21df4318afe68041a2167d1c92e09d"
+      },
+      "external": {
+        "rawSha256": "24823941177b22c8f69d7467af8a1650d3721a98e01f9cb2300e3f49a8dcd456",
+        "normalizedSha256": "a052a4996c3b7090b1d79112f18630400f21df4318afe68041a2167d1c92e09d"
+      }
+    },
+    {
+      "name": "abyss_red_slaver_ai",
+      "file": "abyss_red_slaver_ai.lua",
+      "actualFile": "abyss_red_slaver_ai.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "3b46f147effecf60debbccd4f293cdc81832692227308ba2226e12b35760b91f",
+        "normalizedSha256": "7b785a5f8c9b14199f7907fe7e71ad1a1992144d2c168e58e251c462f4474457"
+      },
+      "external": {
+        "rawSha256": "b6ca654d2e2a80aa044287ea0950773344043a5578e87c730315b126e78da30d",
+        "normalizedSha256": "7b785a5f8c9b14199f7907fe7e71ad1a1992144d2c168e58e251c462f4474457"
+      }
+    },
+    {
+      "name": "abyss_run",
+      "file": "abyss_run.lua",
+      "actualFile": "abyss_run.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "90ad1378ca6b6c47f01a3095960a6c31419dacf9229c64ae0c531cb669ba7bf6",
+        "normalizedSha256": "b4863df1bcdce6b6e12061017132ebe99d829c7e8f5e9f37f8d3f593c3f33e70"
+      },
+      "external": {
+        "rawSha256": "c3726828a7e8d4272a4fd54779b3a8bcda5dd6ad22e6fb8ab603e30b1ad65c3c",
+        "normalizedSha256": "b4863df1bcdce6b6e12061017132ebe99d829c7e8f5e9f37f8d3f593c3f33e70"
+      }
+    },
+    {
+      "name": "abyss_sentry_ai",
+      "file": "abyss_sentry_ai.lua",
+      "actualFile": "abyss_sentry_ai.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "72db97c39b83eabe25ec5329129598d6b3946611ed15aed2c22e9e0c79f0e2cb",
+        "normalizedSha256": "0afbd957931ed31173799f4873fa327e5df809e520633daff8a780f3bac11651"
+      },
+      "external": {
+        "rawSha256": "af2f31439ae4696aeefc2ae96d1bfc8617485649fa696526118e1c778152e429",
+        "normalizedSha256": "0afbd957931ed31173799f4873fa327e5df809e520633daff8a780f3bac11651"
+      }
+    },
+    {
+      "name": "abyss_ui",
+      "file": "abyss_ui.lua",
+      "actualFile": "abyss_ui.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "20eeac862f88317605108424facfc2a38515ef2281e3ca6f9786f0f5aefd5665",
+        "normalizedSha256": "688f0e5eca97aaf2fc8e611d092b78cf6d37f326edaeed5fe8879755933cae14"
+      },
+      "external": {
+        "rawSha256": "c27de8db1ed87d028b3ecba60c96ff9b175009bc1d6aa29a4e1c796b0c30d777",
+        "normalizedSha256": "688f0e5eca97aaf2fc8e611d092b78cf6d37f326edaeed5fe8879755933cae14"
+      }
+    },
+    {
+      "name": "abyss_unknown",
+      "file": "abyss_unknown.lua",
+      "actualFile": "abyss_unknown.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "06fd62a6f679f0cee51e42c47314735b39420001e97952cca81db4656dc4128e",
+        "normalizedSha256": "1a35af89546437350e32caaf12ab64ca379f37c06f636348933d5f5f4840b69c"
+      },
+      "external": {
+        "rawSha256": "966a6400ab9ad7cc26c439037db6a3f63aaf55fc097a92ce28722d910a1695b9",
+        "normalizedSha256": "1a35af89546437350e32caaf12ab64ca379f37c06f636348933d5f5f4840b69c"
+      }
+    },
+    {
+      "name": "abyss_viewport",
+      "file": "abyss_viewport.lua",
+      "actualFile": "abyss_viewport.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "7d7fc4973b47c60ced3915d930fec57ac6c16ea3f7f5dee6d588fbf2aed5be0a",
+        "normalizedSha256": "9b425d8774508718083d64bef520aa7b655c48e7ed216a8aa2e81067cdac7a25"
+      },
+      "external": {
+        "rawSha256": "2fb16b6a1c04569c73dd6a69a32dd9d7014c0223893c9ed49189bd40d22143b1",
+        "normalizedSha256": "9b425d8774508718083d64bef520aa7b655c48e7ed216a8aa2e81067cdac7a25"
+      }
+    },
+    {
+      "name": "abyss_acid_slime_m_ai",
+      "file": "abyss_acid_slime_m_ai.lua",
+      "actualFile": "abyss_acid_slime_m_ai.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "e275b82b4da6f2d37e62f6b288b2e98823c3a125e2cb447088f80a98bda583d2",
+        "normalizedSha256": "6232ee3fffc533109cbbe42e3a22f6753810044b4b1d2a8968bef6ec7b5fcb08"
+      },
+      "external": {
+        "rawSha256": "474bd9a9e5c51a5aae4bdc78fde573aedcd99d45d2c08cedc2e1405654af6380",
+        "normalizedSha256": "6232ee3fffc533109cbbe42e3a22f6753810044b4b1d2a8968bef6ec7b5fcb08"
+      }
+    },
+    {
+      "name": "abyss_card_actions",
+      "file": "abyss_card_actions.lua",
+      "actualFile": "abyss_card_actions.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "1186b4c4c32f51f8ef3ed4ef1b9e4799498da0c47a212d49d4e5cef87d107f33",
+        "normalizedSha256": "1186b4c4c32f51f8ef3ed4ef1b9e4799498da0c47a212d49d4e5cef87d107f33"
+      },
+      "external": {
+        "rawSha256": "ce66b1921afd15936e1b7ab71b566cb7f23961260175442c7fe70bf21dcffcd9",
+        "normalizedSha256": "1186b4c4c32f51f8ef3ed4ef1b9e4799498da0c47a212d49d4e5cef87d107f33"
+      }
+    },
+    {
+      "name": "abyss_card_display",
+      "file": "abyss_card_display.lua",
+      "actualFile": "abyss_card_display.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "c18664fa2d5797af932e816bbf9b9e61001d004de8d65d80f1fe39c33575b8b2",
+        "normalizedSha256": "ba97acaf3997cc196ff03ee67a615a7dcc471c1b8c9b5fdd596342bd0fa14f01"
+      },
+      "external": {
+        "rawSha256": "412170b0d6879f2937b428bca5206c7b8a0fb30fe5f07738004e6e0739363bb6",
+        "normalizedSha256": "ba97acaf3997cc196ff03ee67a615a7dcc471c1b8c9b5fdd596342bd0fa14f01"
+      }
+    },
+    {
+      "name": "abyss_card_pool",
+      "file": "abyss_card_pool.lua",
+      "actualFile": "abyss_card_pool.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "28f3d397c68bc457e7c0641f3c41468ee1d7b0a792d4edf638276353c06ddb9d",
+        "normalizedSha256": "28f3d397c68bc457e7c0641f3c41468ee1d7b0a792d4edf638276353c06ddb9d"
+      },
+      "external": {
+        "rawSha256": "39d55dc3086560512e9bc1fa26885a0463029df916cc12f8659d9f4a47679d1e",
+        "normalizedSha256": "28f3d397c68bc457e7c0641f3c41468ee1d7b0a792d4edf638276353c06ddb9d"
+      }
+    },
+    {
+      "name": "abyss_event_pool",
+      "file": "abyss_event_pool.lua",
+      "actualFile": "abyss_event_pool.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "3e05f9b827b4a638586128a1066653744ee3f65112e63345ba57d6c09433aacd",
+        "normalizedSha256": "beefb0883371b13d998eb48f71f8ded3ee803175a1979a7f6a071f0772d8bc2f"
+      },
+      "external": {
+        "rawSha256": "15bc1c9cc6edd1d3714c4fc75cf40213e3403d53d7639b7fa9cfe5b83c68e3db",
+        "normalizedSha256": "beefb0883371b13d998eb48f71f8ded3ee803175a1979a7f6a071f0772d8bc2f"
+      }
+    },
+    {
+      "name": "abyss_fungi_beast_ai",
+      "file": "abyss_fungi_beast_ai.lua",
+      "actualFile": "abyss_fungi_beast_ai.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "736b296bc6150db5424affc358be518ee5411fb83485e6c6efd4b6f6a6e7aadf",
+        "normalizedSha256": "1719491618f47b5870f0d3fef5d20256082393aa2b73b08f901d47c49db1a65a"
+      },
+      "external": {
+        "rawSha256": "5a92df32a3af55235d05b7815bc0c7ca56c70ffa42c135fbbdbcc6404cd3124a",
+        "normalizedSha256": "1719491618f47b5870f0d3fef5d20256082393aa2b73b08f901d47c49db1a65a"
+      }
+    },
+    {
+      "name": "abyss_looter_ai",
+      "file": "abyss_looter_ai.lua",
+      "actualFile": "abyss_looter_ai.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "5566c57d23211f580b7296023e79a074240a36667122437ac5790a2d9bb73d66",
+        "normalizedSha256": "5cda94e9d936ab6e5fd004a91ea55728a65c793dcd1837a7e1dfe7c19f791bf9"
+      },
+      "external": {
+        "rawSha256": "0e3992b14906b277bf66ef390ce6a4845b8a1489909e313d1e07cef1b8b2d701",
+        "normalizedSha256": "5cda94e9d936ab6e5fd004a91ea55728a65c793dcd1837a7e1dfe7c19f791bf9"
+      }
+    },
+    {
+      "name": "abyss_louse_ai",
+      "file": "abyss_louse_ai.lua",
+      "actualFile": "abyss_louse_ai.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "a321b56a78b22f7b0b3770190acf16232217a721e19cf275bb24372f207ae38c",
+        "normalizedSha256": "f7bc7058a9b709410a0f3eb921a4ab2be9d4f776174998e876f319ae19ad632c"
+      },
+      "external": {
+        "rawSha256": "a4a162e5119bafdb9e0fba70c823c688a684a3d058898b3d87728abc23802c53",
+        "normalizedSha256": "f7bc7058a9b709410a0f3eb921a4ab2be9d4f776174998e876f319ae19ad632c"
+      }
+    },
+    {
+      "name": "abyss_merchant",
+      "file": "abyss_merchant.lua",
+      "actualFile": "abyss_merchant.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "65c4b0de0640ae1515d94496b331ef3559859fd47183f28ce5e12ba74bebfa82",
+        "normalizedSha256": "ef69936af0c7c339c3236a34795333b09961c00e42de9b94acb732422c349df9"
+      },
+      "external": {
+        "rawSha256": "25bf9d1f3eeb7aa546c38370ad012a1fa4ca0df4c11b12eb2df9b0043938218b",
+        "normalizedSha256": "ef69936af0c7c339c3236a34795333b09961c00e42de9b94acb732422c349df9"
+      }
+    },
+    {
+      "name": "abyss_new_run_seed",
+      "file": "abyss_new_run_seed.lua",
+      "actualFile": "abyss_new_run_seed.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "bbf281ef43af3b17264a930615a26bc51fc1d34394d8d857911c5fffe7ec1f2d",
+        "normalizedSha256": "3d22d46f72cae9cbeacf534091442d8e3205701bc1b118599c181e5adb981755"
+      },
+      "external": {
+        "rawSha256": "da90660143baf7a90129dddacdca143d27dfe9ca9e61fcfea73d5a03512022fc",
+        "normalizedSha256": "3d22d46f72cae9cbeacf534091442d8e3205701bc1b118599c181e5adb981755"
+      }
+    },
+    {
+      "name": "abyss_numbers",
+      "file": "abyss_numbers.lua",
+      "actualFile": "abyss_numbers.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "c65422fc6a2661f96067b6135c848a34b4255caba2f505ef2b651e67b77e81d8",
+        "normalizedSha256": "857c071eefa67b128b5d8aaf16fb4ae04374ac3f80ba2eddb13b324382953c80"
+      },
+      "external": {
+        "rawSha256": "0fa3ea8fe7e2c4394272a59762da4d526f8b36a711836f3ebb4759a4f3f3e491",
+        "normalizedSha256": "857c071eefa67b128b5d8aaf16fb4ae04374ac3f80ba2eddb13b324382953c80"
+      }
+    },
+    {
+      "name": "abyss_potion_discard_ui",
+      "file": "abyss_potion_discard_ui.lua",
+      "actualFile": "abyss_potion_discard_ui.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "5c2849f37fe0ce59e471e428483eefe9bfe56e059bfab695fcc5af19e6889f72",
+        "normalizedSha256": "a5767995b144c9c57f4b2b3916ea194c183a9972146e13073c44ed64893888c0"
+      },
+      "external": {
+        "rawSha256": "2cf399a512eadf369d6544263f43528dda205f73b150c330f4c82a479e266125",
+        "normalizedSha256": "a5767995b144c9c57f4b2b3916ea194c183a9972146e13073c44ed64893888c0"
+      }
+    },
+    {
+      "name": "abyss_potion_rewards",
+      "file": "abyss_potion_rewards.lua",
+      "actualFile": "abyss_potion_rewards.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "f836310969b61ebb6f8754571b88eb010cbf4e5d14c7e09684a44d0f179a80d1",
+        "normalizedSha256": "69773caa8289119f3598e5eef82c71f157b5ea7cd29e18a111bb0ec8fb171ca9"
+      },
+      "external": {
+        "rawSha256": "444f73b5a996b09fc2ed3992ffe0a1d5c7306551eab3e83c86f1f1dbdb24fba9",
+        "normalizedSha256": "69773caa8289119f3598e5eef82c71f157b5ea7cd29e18a111bb0ec8fb171ca9"
+      }
+    },
+    {
+      "name": "abyss_prologue",
+      "file": "abyss_prologue.lua",
+      "actualFile": "abyss_prologue.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "b7248c4d837fa085c4990db89c4fda3c2855d680c14eeed6a2f8878b0e1202da",
+        "normalizedSha256": "d7ee727de590abd939f7c452d71a7eb6e42fb36e8b74c1705422ab981f72f39c"
+      },
+      "external": {
+        "rawSha256": "3b2681a9244ed6038aaf2b24bc95d4be08b900df6a74e000920fb1173ee6c3e2",
+        "normalizedSha256": "d7ee727de590abd939f7c452d71a7eb6e42fb36e8b74c1705422ab981f72f39c"
+      }
+    },
+    {
+      "name": "abyss_randomxs128",
+      "file": "abyss_randomxs128.lua",
+      "actualFile": "abyss_randomxs128.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "11104d5e2f1158566d2db6abbe4a358df9d02526edfff5632147e79d04d99986",
+        "normalizedSha256": "73af699eb931d4134c81db9bc980f0fa8cabbcf3c587c9031c85ce6886fe9777"
+      },
+      "external": {
+        "rawSha256": "60aee2b81fe1d468c7be3e72c12d89096982fd9885ea2ebd61423de3396cc695",
+        "normalizedSha256": "73af699eb931d4134c81db9bc980f0fa8cabbcf3c587c9031c85ce6886fe9777"
+      }
+    },
+    {
+      "name": "abyss_shop",
+      "file": "abyss_shop.lua",
+      "actualFile": "abyss_shop.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "d22424bb3a6938549d274b47ac0717e626d945ca203f54b3f485cc5cab03b51f",
+        "normalizedSha256": "74b39dea718107ed185e1614da3e675754ffc0f72f548299470c6c75447b0361"
+      },
+      "external": {
+        "rawSha256": "8380c029073958d2e6917994f62206afb71e68abc7ca728e7184871ca8595d5d",
+        "normalizedSha256": "74b39dea718107ed185e1614da3e675754ffc0f72f548299470c6c75447b0361"
+      }
+    },
+    {
+      "name": "abyss_shop_price",
+      "file": "abyss_shop_price.lua",
+      "actualFile": "abyss_shop_price.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "53095e7d7a4deaac3e9dfe0f2d5a2d39849805e43f8383232e518af7f588fb70",
+        "normalizedSha256": "c882362aba486ae139b1d0bec7e67b5bd1b85f4cf812c3d365573a2ac7b45a1f"
+      },
+      "external": {
+        "rawSha256": "f66e22931ce5c61cd180312dd49c4fc5cdc7deca94fa85198efc72f05d3871ea",
+        "normalizedSha256": "c882362aba486ae139b1d0bec7e67b5bd1b85f4cf812c3d365573a2ac7b45a1f"
+      }
+    },
+    {
+      "name": "abyss_spike_slime_m_ai",
+      "file": "abyss_spike_slime_m_ai.lua",
+      "actualFile": "abyss_spike_slime_m_ai.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "234caee12229e1a9c693e8cda5ad19534e0334ad9eb391894d07470b956dc3b5",
+        "normalizedSha256": "941795ae786277e32c0382c785063a241f9dc4ae3f93dba595b346bef329dd2e"
+      },
+      "external": {
+        "rawSha256": "b9ceffbdfc9a748b461255b32ed13acd77bc7da3133c9d5b6fb766381fb7d2fc",
+        "normalizedSha256": "941795ae786277e32c0382c785063a241f9dc4ae3f93dba595b346bef329dd2e"
+      }
+    },
+    {
+      "name": "abyss_sts_random",
+      "file": "abyss_sts_random.lua",
+      "actualFile": "abyss_sts_random.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "6728ffa86944e578852ad9dfc4c5a23d825e917e2d24ab12f93fc1730a6d24ac",
+        "normalizedSha256": "1e0e0f64fe6a7d2edfe8609419080266c554b763fd71b9565b52eed99aaa42b9"
+      },
+      "external": {
+        "rawSha256": "bc69f6abee48403cfbc42b661a5f3f63ffdc0ff32337239d691871d1ed55547d",
+        "normalizedSha256": "1e0e0f64fe6a7d2edfe8609419080266c554b763fd71b9565b52eed99aaa42b9"
+      }
+    },
+    {
+      "name": "abyss_external_random",
+      "file": "abyss_external_random.lua",
+      "actualFile": "abyss_external_random.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "e328762910a732b84bd20b1d800f7372e0295156a8e66fae146acf758e834702",
+        "normalizedSha256": "e328762910a732b84bd20b1d800f7372e0295156a8e66fae146acf758e834702"
+      },
+      "external": {
+        "rawSha256": "716813e0be92674b0bfc56e84922600a4404579b61db95d78e8d0ee71ac0d50f",
+        "normalizedSha256": "e328762910a732b84bd20b1d800f7372e0295156a8e66fae146acf758e834702"
+      }
+    },
+    {
+      "name": "abyss_warrior75_checks",
+      "file": "abyss_warrior75_checks.lua",
+      "actualFile": "abyss_warrior75_checks.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "78cbb4bb599c8cb79729dd5dee2645641da9bcc2a6f473ba19c4f74799f2d27d",
+        "normalizedSha256": "78cbb4bb599c8cb79729dd5dee2645641da9bcc2a6f473ba19c4f74799f2d27d"
+      },
+      "external": {
+        "rawSha256": "a4ff359f127291e8ae46833dd00c81e6b628564a07a90e8b8b68791b2dd0db52",
+        "normalizedSha256": "78cbb4bb599c8cb79729dd5dee2645641da9bcc2a6f473ba19c4f74799f2d27d"
+      }
+    },
+    {
+      "name": "abyss_warrior75_probe",
+      "file": "abyss_warrior75_probe.lua",
+      "actualFile": "abyss_warrior75_probe.lua",
+      "status": "match",
+      "embedded": {
+        "rawSha256": "82d500b2935585145a7caf88f5eb13475d5cfb58757fa8650a3f07eea9e19144",
+        "normalizedSha256": "82d500b2935585145a7caf88f5eb13475d5cfb58757fa8650a3f07eea9e19144"
+      },
+      "external": {
+        "rawSha256": "9e9ca93b423659d85fc5921dcfc4fce9a6dd0798924446d87a044fb3b9c8ffaa",
+        "normalizedSha256": "82d500b2935585145a7caf88f5eb13475d5cfb58757fa8650a3f07eea9e19144"
+      }
+    }
+  ],
+  "unexpected": [],
+  "issues": [],
+  "inventory": {
+    "path": "F:\\New folder\\.worktrees\\warrior75\\.artifacts\\probe-529c-independent-scripts.json",
+    "rawSha256": "2f7211fc5cac81b9ca2d36c432dc22c9f93e01a018b839235306f99bece4f44c"
+  }
+}

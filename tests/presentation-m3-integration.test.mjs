@@ -1,0 +1,226 @@
+import test from 'node:test';
+import {historicalTest,withHistoricalBaseline,readHistoricalPlayerDeathInput} from './helpers/historical-baseline-inputs.mjs';
+import assert from 'node:assert/strict';
+import {cpSync,existsSync,mkdirSync,mkdtempSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
+import {join,resolve} from 'node:path';
+import {spawnSync} from 'node:child_process';
+import {runLua} from '../scripts/test-lua.mjs';
+import {integration as proof,acceptedPresentationSource,digest} from './helpers/presentation-m3-integration.mjs';
+
+import {retirementSources,preRetirementSource,archivedRetirementChangelog} from './helpers/presentation-announcement-retirement.mjs';
+import {formalEntryInverses,preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
+import {materializeHistoricalPresentation} from './helpers/p0-presentation-inverse.mjs';
+import {preMaxHpSource} from './helpers/max-hp-accepted-source-inverse.mjs';
+
+const oldTheme=JSON.parse(proof.beforeSources['data/presentation/ui_theme.json']);
+// The delta oracle describes its immutable reviewed sources, not today's layout.
+const theme=withHistoricalBaseline(()=>JSON.parse(preFormalEntrySource('data/presentation/ui_theme.json',readFileSync('data/presentation/ui_theme.json','utf8'))));
+const rgba=hex=>`{a=255,b=${parseInt(hex.slice(5,7),16)},g=${parseInt(hex.slice(3,5),16)},r=${parseInt(hex.slice(1,3),16)}}`;
+const row=source=>{
+  const match=/^\{1=string:([^,]+),2=string:([^,]+),3=(.*)\}$/.exec(source);
+  assert(match,'complete native write row');
+  return {path:match[1],field:match[2],value:match[3]};
+};
+const hash=entries=>{
+  let value=0;
+  for(const entry of entries)for(const byte of Buffer.from(entry+'\n'))value=(value*131+byte)%2147483647;
+  return value;
+};
+function addition(source){
+  const {path,field,value}=row(source);
+  const name=/^root\/(?:battlePanel\/card[12]|nodePanel\/pickerView\/(?:before|after|forgeGrid\/card(?:[1-9]|10)))\/(nameBand|nameRule)$/.exec(path);
+  if(name){
+    assert.equal(field,'imageColor');
+    assert.equal(value,rgba(name[1]==='nameBand'?theme.color.rarityBand.basic:theme.color.rarity.basic));
+    return 'rarityDecoration';
+  }
+  assert.match(path,/^root\/nodePanel\/pickerView\/(?:before|after|forgeGrid\/card(?:[1-9]|10))\/cost$/);
+  assert.equal(field,'fontColor');
+  assert([theme.color.energy,theme.color.positive,theme.color.textMuted].map(rgba).includes(value));
+  return 'nodeCostInk';
+}
+function replacement(before,after,flight){
+  const a=row(before),b=row(after);
+  assert.equal(a.path,b.path,'visual migration cannot change control ownership');
+  assert.equal(a.field,b.field,'visual migration cannot change native API');
+  if(/\/(?:card[12]|pickerView\/(?:before|after|forgeGrid\/card(?:[1-9]|10)))\/border$/.test(a.path)){
+    assert.equal(a.field,'imageColor');assert.equal(a.value,rgba(oldTheme.color.rarity.basic));
+    assert.equal(b.value,rgba(theme.color.rarity.basic));return 'rarityInk';
+  }
+  if(/^root\/battlePanel\/card[12]\/cost$/.test(a.path)){
+    assert.equal(a.field,'fontColor');assert.equal(a.value,rgba(oldTheme.color.textOnLight));
+    assert.equal(b.value,rgba(theme.color.energy));return 'energyInk';
+  }
+  if(a.path==='root/battlePanel/feedback/playedCard'){
+    assert(['SetAnchoredPosition','x'].includes(a.field));
+    const x=value=>Number(a.field==='x'?value:/^\{1=([^,]+),2=/.exec(value)[1]);
+    if(a.field==='SetAnchoredPosition'){
+      flight.count++;
+      assert.equal(a.value.slice(a.value.indexOf(',2=')),b.value.slice(b.value.indexOf(',2=')),'flight y is unchanged');
+    }
+    assert(flight.count>=1&&flight.count<=14);
+    const expected=(theme.layout.enemyRow.xFromFew-oldTheme.layout.enemyRow.xFrom)*(flight.count/14)**2;
+    assert(Math.abs((x(b.value)-x(a.value))-expected)<1e-9,'same quadratic flight follows the moved target');
+    return 'targetFlight';
+  }
+  const enemy=/^root\/battlePanel\/enemy1(?:\/(.+))?$/.exec(a.path);
+  assert(enemy,'only reviewed two-enemy geometry can otherwise change');
+  const part=enemy[1]||'';
+  const sizes={floating:[220,246,80],name:[196,222,40],hpBorder:[134,160,20],
+    hpTrack:[130,156,16],hpGhost:[130,156,16],hpFill:[130,156,16],hp:[130,156,40],
+    'statusRow/hit':[196,222,60]};
+  if(part in sizes){
+    const [oldWidth,newWidth,height]=sizes[part];
+    assert(['SetSizeDelta','size','sizeDeltaX'].includes(a.field));
+    assert.equal(a.value,a.field==='sizeDeltaX'?String(oldWidth):`{1=${oldWidth},2=${height}}`);
+    assert.equal(b.value,a.field==='sizeDeltaX'?String(newWidth):`{1=${newWidth},2=${height}}`);
+  }else{
+    assert(['','block','blockEdge','blockIcon'].includes(part));
+    assert(['SetAnchoredPosition','x'].includes(a.field));
+    const [oldX,newX,y]=part?[-50,-63,-100]:[-192,32,64];
+    assert.equal(a.value,a.field==='x'?String(oldX):`{1=${oldX},2=${y}}`);
+    assert.equal(b.value,a.field==='x'?String(newX):`{1=${newX},2=${y}}`);
+  }
+  return 'enemyGeometry';
+}
+function verify(before,after,delta){
+  assert.equal(before.length,79543);assert.equal(hash(before),1215629804,'accepted room-port trace remains frozen');
+  assert.equal(after.length,79757);assert.equal(hash(after),1467902785,'reviewed integrated live trace');
+  assert.equal(delta.additions.length,214);assert.equal(delta.replacements.length,593);
+  const inserted=new Map(delta.additions.map(item=>[item.index,item.row]));
+  assert.equal(inserted.size,214,'no duplicate insertion positions');
+  const changed=new Map(delta.replacements.map(item=>[item.index,item]));
+  assert.equal(changed.size,593,'no duplicate replacement positions');
+  const counts={},flight={count:0};let oldIndex=0,unchanged=0;
+  const count=kind=>counts[kind]=(counts[kind]||0)+1;
+  for(let index=0;index<after.length;index++){
+    if(inserted.has(index)){
+      assert.equal(after[index],inserted.get(index),'insertion value and global position');count(addition(after[index]));continue;
+    }
+    if(changed.has(oldIndex)){
+      const item=changed.get(oldIndex);
+      assert.equal(before[oldIndex],item.before);assert.equal(after[index],item.after);
+      count(replacement(item.before,item.after,flight));
+    }else{assert.equal(after[index],before[oldIndex],'all other writes retain values and global order');unchanged++;}
+    oldIndex++;
+  }
+  assert.equal(oldIndex,before.length);assert.equal(unchanged,78950);assert.equal(flight.count,14);
+  assert.deepEqual(counts,{rarityInk:40,rarityDecoration:156,nodeCostInk:58,enemyGeometry:512,energyInk:13,targetFlight:28});
+  return counts;
+}
+
+historicalTest('M3 frame and first UI batch retain every old native write except the explicitly reviewed visual delta',()=>{
+  assert.equal(proof.base,'4f5bf5bb30821f88f33467585abec3caba7e6005');
+  assert.deepEqual(proof.heads,{nest:'15b879f4b8d2f9771ac2b124adc8e8b7abd8ee9e',drag:'fcb18ea8345585e02cf869143ef9f85430bc8676',frame:'41dda081f46f0cbad68e88e9b8f6924a0d5b93ca',ui:'8849c853f8a2e7a43dd52fd9fee821872b077f38'});
+  verify(proof.before,proof.after,proof.delta);
+  for(const path of Object.keys(proof.beforeSources)){
+    acceptedPresentationSource(path);
+    assert.throws(()=>acceptedPresentationSource(path,(existsSync(path)?readFileSync(path,'utf8'):'')+'\n-- drift\n'),/unreviewed integrated/);
+  }
+});
+
+test('visual proof rejects changed gameplay text, missing writes, reordered writes and broadened visual approval',()=>{
+  const wrong=[...proof.after];const position=wrong.findIndex(value=>value.includes('/hp,2=string:text,'));
+  assert(position>=0);wrong[position]+='0';assert.throws(()=>verify(proof.before,wrong,proof.delta));
+  assert.throws(()=>verify(proof.before,proof.after.slice(1),proof.delta));
+  const reordered=[...proof.after];[reordered[0],reordered[1]]=[reordered[1],reordered[0]];
+  assert.notEqual(proof.after[0],proof.after[1]);assert.throws(()=>verify(proof.before,reordered,proof.delta));
+  assert.throws(()=>addition('{1=string:root/nodePanel/pickerView/before/cost,2=string:text,3=string:0}'));
+  assert.throws(()=>replacement('{1=string:root/battlePanel/enemy1/hp,2=string:text,3=string:30/40}',
+    '{1=string:root/battlePanel/enemy1/hp,2=string:text,3=string:31/40}',{count:0}));
+  const moved=structuredClone(proof.delta);moved.additions[0].index++;assert.throws(()=>verify(proof.before,proof.after,moved));
+});
+
+for(const [count,hash,sources]of [
+ [79543,1215629804,{...retirementSources.beforeSources,...proof.beforeSources}],
+ [79757,1467902785,retirementSources.beforeSources],
+])historicalTest(`the accepted presentation sources still execute the original strict ${count}-write fixture`,()=>{
+  mkdirSync('build',{recursive:true});const directory=mkdtempSync(resolve('build/accepted-presentation-'));
+  try{
+    // Repository-local temporary tree inherits installed node_modules resolution.
+    // No downloads, Git history dependency, shared outputs or weakened deadline.
+    for(const path of ['src','data','scripts','tools','config','tests/lua','package.json','package-lock.json',
+      '.release-please-manifest.json','CHANGELOG.md'])cpSync(path,join(directory,path),{recursive:true});
+    materializeHistoricalPresentation(directory);
+    for(const path of Object.keys(formalEntryInverses)){
+      const source=path==='tests/lua/support/battle_gesture_fixture.lua'?readHistoricalPlayerDeathInput(path):readFileSync(path,'utf8');
+      writeFileSync(join(directory,path),preFormalEntrySource(path,source));
+    }
+    for(const [path,source]of Object.entries(sources))writeFileSync(join(directory,path),source);
+    writeFileSync(join(directory,'data/relics.json'),preRetirementSource('data/relics.json'));
+    for(const script of ['build-lua-data.mjs','build-ui.mjs','build-ui-theme.mjs']){
+      const result=spawnSync(process.execPath,['scripts/'+script],{cwd:directory,encoding:'utf8',timeout:30000});
+      assert.equal(result.status,0,result.stdout+result.stderr);
+    }
+    const result=runLua('tests/lua/presentation_responsibilities_trace.lua',{cwd:directory});
+    assert.equal(result.status,0,result.stdout+result.stderr);
+    assert.match(result.stdout,new RegExp(`PRESENTATION_NATIVE_TRACE ${count} ${hash}`));
+    assert.match(sources['tests/lua/presentation_responsibilities_trace.lua'],/trace:assertNativeInteraction\(\)/);
+    assert.equal(digest(readFileSync('tests/lua/support/presentation_trace.lua','utf8').replaceAll('\r\n','\n')),
+      digest(proof.beforeSources['tests/lua/support/presentation_trace.lua']),'strict recorder is unchanged');
+  }finally{rmSync(directory,{recursive:true,force:true});}
+});
+
+historicalTest('historical replay inputs bind every changed build, host and version source, including the deleted module',()=>{
+ assert.deepEqual(retirementSources.trace,{before:[79757,1467902785],removed:68,after:[79689,2034622601]});
+ for(const [path,before]of Object.entries(retirementSources.beforeSources)){
+  assert.equal(path==='CHANGELOG.md'?archivedRetirementChangelog():preRetirementSource(path),before);
+  const live=existsSync(path)?readFileSync(path,'utf8'):'';
+  assert.throws(()=>preRetirementSource(path,live+'\n-- unreviewed drift\n'),/unreviewed integrated retirement source drift/);
+ }
+ assert.equal(existsSync('src/lua/abyss_release_notes_ui.lua'),false);
+ assert.match(retirementSources.beforeSources['tests/lua/presentation_responsibilities_trace.lua'],/assert\(trace.count==79757 and trace.hash==1467902785/);
+});
+
+historicalTest('historical relic input is the complete frozen pre-Molten/Mushrooms source, not a reduced live dataset',()=>{
+ const path='data/relics.json',live=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+ const before=readFileSync('tests/fixtures/presentation-relics-before-m3.json','utf8').replaceAll('\r\n','\n');
+ assert.equal(digest(before),'76f9c76d89f57c7c0bd5c556e1813d09eecd673ec8a0a1992446059b4ec87758');
+ assert.equal(preRetirementSource(path),before);
+ assert.equal(preRetirementSource(path,live.replaceAll('\n','\r\n')),before);
+ const current=JSON.parse(preMaxHpSource(path,live)),old=JSON.parse(before),ids=new Set(['molten_egg','odd_mushroom']);
+ const added=current.relics.filter(r=>ids.has(r.id));assert.equal(added.length,2);
+ assert.deepEqual({...current,relics:current.relics.filter(r=>!ids.has(r.id))},old,'all earlier relic definitions and their order remain exact');
+ for(const change of [
+  {...current,relics:current.relics.filter(r=>r.id!=='molten_egg')},
+  {...current,relics:[...current.relics].reverse()},
+  {...current,relics:current.relics.map(r=>r.id==='odd_mushroom'?{...r,name:'unreviewed'}:r)},
+  {...current,relics:current.relics.map((r,i)=>i===2?{...r,description:'unreviewed'}:r)},
+ ])assert.throws(()=>preRetirementSource(path,JSON.stringify(change,null,2)+'\n'),/unreviewed integrated retirement source drift/);
+});
+
+historicalTest('NodeUI refactor inverse preserves historical Mushrooms copy and rejects drift in every responsibility',()=>{
+ const path='src/lua/abyss_node_ui.lua',source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+ assert.equal(acceptedPresentationSource(path),proof.beforeSources[path]);
+ assert.equal(acceptedPresentationSource(path,source.replaceAll('\n','\r\n')),proof.beforeSources[path]);
+ assert.throws(()=>acceptedPresentationSource(path,source+'\n'),/unreviewed Node UI refactor source drift/);
+ const modules=['camp_actions','event_ownership','events','faces','feedback','input','lifecycle','rewards','shop','treasure'];
+ for(const name of modules){
+  const file='src/lua/abyss_node_ui_'+name+'.lua';
+  const current=readFileSync(file,'utf8').replaceAll('\r\n','\n');
+  assert.throws(()=>acceptedPresentationSource(path,source,{[file]:current+'\n'}),/unreviewed Node UI refactor source drift/);
+ }
+ const file='src/lua/abyss_node_ui_events.lua',events=readFileSync(file,'utf8').replaceAll('\r\n','\n');
+ const added="mushrooms={name='蘑菇',body='发光的蘑菇覆盖了通道。',leave='你离开了蘑菇群。'},";
+ assert.equal(events.split(added).length,2);
+ const moved=events.replace(added,'').replace("ghosts={name='幽灵'},",added+"ghosts={name='幽灵'},");
+ for(const changed of [events.replace(added,''),events.replace(added,added+added),moved,events.replace(added,added.replace("name='蘑菇'","name='changed'"))]){
+  assert.notEqual(changed,events);
+  assert.throws(()=>acceptedPresentationSource(path,source,{[file]:changed}),/unreviewed Node UI refactor source drift/);
+ }
+});
+
+test('historical announcement copy is independent of current player text but rejects archive tampering',()=>{
+ const historical=retirementSources.beforeSources['CHANGELOG.md'];
+ const current=readFileSync('CHANGELOG.md','utf8').replaceAll('\r\n','\n');
+ assert.notEqual(digest(current),retirementSources.afterSha256['CHANGELOG.md'],
+  'the current two-act player draft legitimately differs from retired announcement copy');
+ assert.equal(archivedRetirementChangelog(),historical);
+ assert.equal(archivedRetirementChangelog(historical.replaceAll('\n','\r\n')),historical);
+ for(const changed of [historical+'\n',historical.replace('v0.10.1','v0.10.2'),current]){
+  assert.notEqual(changed,historical,'negative check changes the archived input');
+  assert.throws(()=>archivedRetirementChangelog(changed),/unreviewed archived retirement source drift/);
+ }
+ assert.throws(()=>preRetirementSource('CHANGELOG.md',current),
+  /unreviewed integrated retirement source drift/,'explicit current-source drift remains rejected');
+});

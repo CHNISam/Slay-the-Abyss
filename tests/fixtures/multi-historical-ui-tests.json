@@ -1,0 +1,255 @@
+{
+  "afterCommit": "1feb8228b9a9fb6e1b610a3d5f317b9aa3f39112",
+  "beforeCommit": "1fcd321ca9d6f79b4e5bbdfede48069119f5ed52",
+  "files": {
+    "tests/lua/game_ui_battle_speed.lua": {
+      "afterSha256": "37e06e1ba7283fa6637f64d3ce662618e4857b10be25ded1debbc06227329e95",
+      "beforeSha256": "751db2fdc06cabcacb555fab739d99c2d4c23fbc099b3fcbf068dbb19d1ced09",
+      "hunks": [
+        {
+          "at": 2,
+          "after": [
+            "local Surfaces=require('abyss_monster_surfaces')",
+            "local function actorBox(panel,battle,index)",
+            "    local box,slot,entry=Surfaces.get(panel):find(assert(battle.enemies[index]).id)",
+            "    assert(box,'actor surface missing')",
+            "    return box,slot,entry",
+            "end"
+          ],
+          "before": []
+        },
+        {
+          "at": 70,
+          "after": [
+            "        actorBox(root:GetChild(\"battlePanel\"),battle,1):GetChild(\"hit\").click()"
+          ],
+          "before": [
+            "        root:GetChild(\"battlePanel\"):GetChild(\"enemy1\"):GetChild(\"hit\").click()"
+          ]
+        }
+      ]
+    },
+    "tests/lua/potion_drag_parity.lua": {
+      "afterSha256": "b9021d825a3ccf2ca9a68995b0d9bb4415c3bbee17c5a9f64764645e5a54ff63",
+      "beforeSha256": "34d7cebbd42b289ce8594de3d233e7e2721164f50249dea4f22a28b12bfaf8ae",
+      "hunks": [
+        {
+          "at": 1,
+          "after": [
+            "local Surfaces=require('abyss_monster_surfaces')",
+            "local function actorBox(panel,battle,index)",
+            "    local box,slot,entry=Surfaces.get(panel):find(assert(battle.enemies[index]).id)",
+            "    assert(box,'actor surface missing')",
+            "    return box,slot,entry",
+            "end",
+            "local function sourceSetup(...)",
+            "    local host,ui,panel,event,tap,drain,openClose,root=H.setup(...)",
+            "    -- Deliberately synthetic encounter constructor offsets, not MonsterHelper",
+            "    -- formation or count-dependent production spacing. Distinguish two targets.",
+            "    local actors=host.run.combat.enemies",
+            "    if #actors==2 then",
+            "        actors[1].sourcePosition={x=-240,y=0}",
+            "        actors[2].sourcePosition={x=80,y=0}",
+            "        host:refresh()",
+            "    end",
+            "    return host,ui,panel,event,tap,drain,openClose,root",
+            "end"
+          ],
+          "before": []
+        },
+        {
+          "at": 30,
+          "after": [
+            " local h,u,p,event,tap,drain=sourceSetup({'defend','defend'},{'cultist','jaw_worm'})"
+          ],
+          "before": [
+            " local h,u,p,event,tap,drain=H.setup({'defend','defend'},{'cultist','jaw_worm'})"
+          ]
+        },
+        {
+          "at": 33,
+          "after": [
+            "  local index=name:match('^enemy(%d+)$')",
+            "  local c=index and actorBox(p,h.run.combat,tonumber(index))or p:GetChild(name)or p:GetChild('potionHelp'):GetChild(name)"
+          ],
+          "before": [
+            "  local c=p:GetChild(name)or p:GetChild('potionHelp'):GetChild(name)"
+          ]
+        },
+        {
+          "at": 39,
+          "after": [
+            " local function target(slot)local enemy=actorBox(p,h.run.combat,slot);return enemy.x,enemy.y end"
+          ],
+          "before": [
+            " local function target(slot)local enemy=p:GetChild('enemy'..slot);return enemy.x,enemy.y end"
+          ]
+        },
+        {
+          "at": 54,
+          "after": [
+            " assert(actorBox(p,h.run.combat,2):GetChild('damagePreview').text=='\u221220')",
+            " assert(not actorBox(p,h.run.combat,1):GetChild('damagePreview').visible)",
+            " assert(not actorBox(p,h.run.combat,1):GetChild('targetH-1_-1').visible)"
+          ],
+          "before": [
+            " assert(p:GetChild('enemy2'):GetChild('damagePreview').text=='\u221220')",
+            " assert(not p:GetChild('enemy1'):GetChild('damagePreview').visible)",
+            " assert(not p:GetChild('enemy1'):GetChild('targetH-1_-1').visible)"
+          ]
+        },
+        {
+          "at": 106,
+          "after": [
+            " local x,y=start('potion1',7,2);assert(not actorBox(p,h.run.combat,2):GetChild('damagePreview').visible)"
+          ],
+          "before": [
+            " local x,y=start('potion1',7,2);assert(not p:GetChild('enemy2'):GetChild('damagePreview').visible)"
+          ]
+        }
+      ]
+    },
+    "tests/lua/support/game_ui_fixture.lua": {
+      "afterSha256": "5fdf49a7de6108953b64c0ff30d179d46b453944e335d8e27ec09e3f10c75b16",
+      "beforeSha256": "da8cee301e6215e10082a8d27ef50a472a1653bb42a8dafa529e35121fa46b97",
+      "hunks": [
+        {
+          "at": 10,
+          "after": [
+            "local Surfaces = require(\"abyss_monster_surfaces\")"
+          ],
+          "before": [
+            "local EnemyView = require(\"abyss_battle_enemy_view\")"
+          ]
+        },
+        {
+          "at": 67,
+          "after": [
+            "function Control:SetAnchorMin(x,y)self.anchorMin={x,y}end",
+            "function Control:SetAnchorMax(x,y)self.anchorMax={x,y}end",
+            "function Control:SetPivot(x,y)self.pivot={x,y}end",
+            "function Control:SetLocalRotation(x,y,z)NativeContract.transform3(x,y,z);self.rotation={x,y,z}end"
+          ],
+          "before": []
+        },
+        {
+          "at": 140,
+          "after": [
+            "-- Test engine implements the actual full actor template clone API, not a static five-slot fallback.",
+            "local function monsterActors()",
+            "    local serial=0",
+            "    return {enabled=true,templateIndex=1,containerTemplateIndex=2,powerTemplateIndex=3,",
+            "      instantiate=function(index,parent)",
+            "        local spec=index==1 and assert(Templates.AbyssMonsterActor) or index==3 and assert(Templates.AbyssMonsterPower) or {name='actorPage',kind='container',size={1280,720}}",
+            "        assert(index==1 or index==2 or index==3,'unknown monster template index')",
+            "        local box=control(spec,parent);serial=serial+1",
+            "        parent.children['nativeActor'..serial]=box",
+            "        return box",
+            "      end,destroy=function(box)",
+            "        if box.parent then for key,child in pairs(box.parent.children)do if child==box then box.parent.children[key]=nil end end end",
+            "        destroyControl(box)",
+            "      end}",
+            "end",
+            "-- Explicit native platform fixture: production GameUI remains unmodified.",
+            "local function withMonsterActors(platform)",
+            "    if platform.nativeMonsterArtEnabled==nil then platform.nativeMonsterArtEnabled=require('abyss_art_features').flags.monsters end",
+            "    platform.monsterActors=platform.monsterActors or monsterActors()",
+            "    platform.imageTypes=platform.imageTypes or {basic=1,stretch=2}",
+            "    return platform",
+            "end",
+            "local function newGameUI(root,data,presentation,event,platform)",
+            "    return GameUI.new(root,data,presentation,event,withMonsterActors(platform))",
+            "end"
+          ],
+          "before": []
+        },
+        {
+          "at": 170,
+          "after": [
+            "        { seed = 1, nativeMonsterArtEnabled=require('abyss_art_features').flags.monsters, monsterActors=monsterActors(), imageTypes={basic=1,stretch=2}, imageSource = \"static\", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle, music = music, cursorEvents = cursorEvents,"
+          ],
+          "before": [
+            "        { seed = 1, imageSource = \"static\", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle, music = music, cursorEvents = cursorEvents,"
+          ]
+        },
+        {
+          "at": 186,
+          "after": [
+            "local function actorControl(panel,name)",
+            "    local slot=name:match(\"^enemy(%d+)$\")",
+            "    if slot then return assert(Surfaces.get(panel):control(tonumber(slot)),\"missing dynamic actor \"..slot)end",
+            "    return panel:GetChild(name)",
+            "end"
+          ],
+          "before": []
+        },
+        {
+          "at": 193,
+          "after": [
+            "    if panel ~= \"mapPanel\" then for part in button:gmatch(\"[^/]+\") do box = assert(actorControl(box,part), button) end end"
+          ],
+          "before": [
+            "    if panel ~= \"mapPanel\" then for part in button:gmatch(\"[^/]+\") do box = assert(box:GetChild(part), button) end end"
+          ]
+        },
+        {
+          "at": 226,
+          "after": [
+            "                    local target=battle.enemies[ui.battleUI.target]",
+            "                    local _,screenSlot=Surfaces.get(root:GetChild('battlePanel')):find(target.id)"
+          ],
+          "before": [
+            "                    local screenSlot",
+            "                    for i, entry in ipairs(EnemyView.slots(battle)) do",
+            "                        if entry.index == ui.battleUI.target then",
+            "                            assert(entry.actor == battle.enemies[entry.index] and entry.id == entry.actor.id)",
+            "                            screenSlot = i break",
+            "                        end",
+            "                    end"
+          ]
+        },
+        {
+          "at": 260,
+          "after": [
+            "    GameUI = {new=newGameUI},",
+            "    withMonsterActors = withMonsterActors,"
+          ],
+          "before": [
+            "    GameUI = GameUI,"
+          ]
+        },
+        {
+          "at": 272,
+          "after": [
+            "    monsterActors = monsterActors,"
+          ],
+          "before": []
+        },
+        {
+          "at": 279,
+          "after": [
+            "    actorControl = actorControl,"
+          ],
+          "before": []
+        }
+      ]
+    },
+    "tests/lua/approved_enemy_details.lua": {
+      "afterSha256": "2c6a807cf923b71751fd0aa0bd30331d02edfaf56f82c1812d13f2ca11b562f4",
+      "beforeSha256": "8fdddc1a8296956ecec746e469d20de4c037fe7e21d4984d3596466035f07b41",
+      "hunks": [
+        {
+          "at": 29,
+          "after": [
+            " -- Synthetic tooltip effects retain a real source mixed-attack identity;",
+            " -- world texture selection must not infer an intent from effect order.",
+            " enemy.ai=nil;enemy.intentIndex=1;enemy.intents={{id='guardian_7',kind='defend',effects={"
+          ],
+          "before": [
+            " enemy.ai=nil;enemy.intentIndex=1;enemy.intents={{kind='defend',effects={"
+          ]
+        }
+      ]
+    }
+  }
+}

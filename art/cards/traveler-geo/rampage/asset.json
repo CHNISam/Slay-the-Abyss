@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "card_id": "rampage",
+  "displayName": "越战越勇",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "rampage/generation-provenance.json",
+      "sha256": "ecec850dac65932e379597675c8afe927cad183374aa0060ba6ce85047ce0bfb",
+      "bytes": 1950
+    },
+    "preview-contain-144x64.png": {
+      "path": "rampage/preview-contain-144x64.png",
+      "sha256": "3dfbe4fe550e1282b0b18cea26aa6504229688eb15760f36fb8b07cbd830329a",
+      "bytes": 19134
+    },
+    "prompt.txt": {
+      "path": "rampage/prompt.txt",
+      "sha256": "586e9348162aa503e79ee5a2a16a39b05f298b79bb53fde14bdf1ca13e6bf4e6",
+      "bytes": 3054
+    },
+    "source.png": {
+      "path": "rampage/source.png",
+      "sha256": "c200f52a70527dfbf48c55b10864d81a460cf7ccd6e77ed56aa4eb4860540501",
+      "bytes": 1930613
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "rampage",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damage",
+        "value": 8
+      },
+      {
+        "op": "increaseDamageThisCombat",
+        "value": 5
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-12",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

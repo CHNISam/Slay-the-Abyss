@@ -1,0 +1,81 @@
+{
+  "head": "9a4cf64fb6c0f435bb8ad61a3f68f0549a2d03bf",
+  "latestHeadRechecked": true,
+  "deliverable": "four production files plus tests/lua/run_seed_validation.lua",
+  "productionFiles": [
+    {
+      "path": "src/lua/abyss_randomxs128.lua",
+      "originalGitBlob": "6d745648c4d78a71e03b0b0c490e9471c45dcb44",
+      "candidateGitBlob": "04f464b6c324caf335e2d3c653514be9da147fd5",
+      "candidateSha256": "8e886c3737c875e56a40b5886e4f20b76068101cfcf1b6a18bafa6b144f14d39"
+    },
+    {
+      "path": "src/lua/abyss_sts_random.lua",
+      "originalGitBlob": "00d059441a1e2263884c420c74535d5d91a6927b",
+      "candidateGitBlob": "29456527387d0264feecff4410576c3bf1e374df",
+      "candidateSha256": "33af2fadd844eb303c3de5bcb9831f7d99e592d3cf7369ca97cee687eba99bab"
+    },
+    {
+      "path": "src/lua/abyss_run_seed.lua",
+      "originalGitBlob": "c37adf6a362858e30e85a4cc583f3a35c684feca",
+      "candidateGitBlob": "85b490a106df585d61682681a3c5e7f53b20d5b2",
+      "candidateSha256": "5824976965571af562afebd83dd55bc54516c1436cf61cccd27d4934e05b609c"
+    },
+    {
+      "path": "src/lua/abyss_map_topology.lua",
+      "originalGitBlob": "20c6940a02693da811380c8d1e35e2d1d193dc3d",
+      "candidateGitBlob": "dd9390ad59141f5935647eba79e74cb7b318a7b2",
+      "candidateSha256": "628b351e5c21b2ea79b5d5b12273e63e97042780c84e168f8a925fbc43012b1a"
+    }
+  ],
+  "primitiveValidationAssertsByteUnchanged": true,
+  "primitiveRngMathBodyByteUnchanged": true,
+  "fixtureSourceByteUnchanged": true,
+  "nativeLua54": {
+    "existingGremlinGroupsBaseline": 29,
+    "existingGremlinGroupsCandidate": 29,
+    "gremlinStdoutByteIdentical": true,
+    "newRegressionGroups": 7,
+    "fixedSourceVectorTestsBaseline": 25,
+    "fixedSourceVectorTestsCandidate": 25,
+    "sourceVectorAdaptation": "Existing JS assertions retained; only candidate module paths map to src/lua and runLua bridge uses native Lua5.4 instead of Fengari."
+  },
+  "seedDifferential": {
+    "inputs": 54,
+    "lines": 1307,
+    "sha256": "e91497f265b686d103cb81742d88e06c5b6037443bd5ee86a313d050088d99ab",
+    "byteIdentical": true
+  },
+  "selectionCost": {
+    "instructionHookInterval": 1000,
+    "baselineHooks": 286283,
+    "candidateHooks": 9345,
+    "hookReductionPercent": 96.735747,
+    "realStartCombatCallsEach": 1680,
+    "realForFloorCallsEach": 3360,
+    "realIncrementCallsEach": 16800,
+    "randomFromSeedBaseline": 36967,
+    "randomFromSeedCandidate": 5,
+    "rulesCopiesEach": 1680,
+    "selectionCaptureCopiesEach": 1680,
+    "poolCopiesEach": 1680
+  },
+  "purity": {
+    "fromSeedCalls": 0,
+    "mixCalls": 0,
+    "validateSeedCalls": 420
+  },
+  "mutants": {
+    "negativeZero": "rejected, exit1",
+    "extraArgs": "rejected, exit1",
+    "longWrap": "wrong boundary rejected, exit1",
+    "zeroState": "new persisted test and fixed vectors reject, exit1"
+  },
+  "limits": [
+    "Linux native Lua5.4, not Windows/Fengari budget proof",
+    "No full npm / complete current-head CI / platform compile or live test run",
+    "No dependency installation or user computer use",
+    "No remote writes; root owns integration",
+    "Earlier fixture-cache experiment explicitly rejected and excluded"
+  ]
+}

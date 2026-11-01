@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "flex",
+  "displayName": "蓄力",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "flex/generation-provenance.json",
+      "sha256": "f8ea0722a9564ffc3b5982dfb0d311b691cf4c749b8b817f0ee27fb557525ace",
+      "bytes": 2868
+    },
+    "preview-source-144x64.png": {
+      "path": "flex/preview-source-144x64.png",
+      "sha256": "52a6ddf6feb4ea2225925f217ff5027d199015ecfb75e410390c393db8c2fbf1",
+      "bytes": 18375
+    },
+    "prompt.txt": {
+      "path": "flex/prompt.txt",
+      "sha256": "e91a31d4ab199278a1d2450a1f3dd1395dee8c679709b1366f0807e4050136b4",
+      "bytes": 3222
+    },
+    "source.png": {
+      "path": "flex/source.png",
+      "sha256": "e717d5a2a47bd5efc32fc61d55e1bd98de335154ce932351764c679d3dae21c6",
+      "bytes": 1920831
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "flex",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "gainTemporaryStrength",
+        "status": "strength",
+        "value": 2
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-02",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

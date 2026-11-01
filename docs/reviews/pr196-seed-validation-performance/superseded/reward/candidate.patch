@@ -1,0 +1,23 @@
+--- a/tests/lua/diagnostic_reward_protocol.lua
++++ b/tests/lua/diagnostic_reward_protocol.lua
+@@ -14,9 +14,18 @@
+  for key in pairs(actual) do assert(expected[key]~=nil,'state gained a field') end
+ end
+ 
++local firstBattles={}
+ local function reward(seed,stolen)
+- local run,map=Run.new(Data,seed),Map.generate(Data,seed)
+- assert(Nodes.enter(run,map,Nodes.available(run,map)[1].id))
++ -- Reuse only deterministic setup, never a resolved reward or a played route.
++ -- Copy the complete graph so each case owns its data, RNG, combat and map.
++ local first=firstBattles[seed]
++ if not first then
++  local run,map=Run.new(Data,seed),Map.generate(Data,seed)
++  assert(Nodes.enter(run,map,Nodes.available(run,map)[1].id))
++  first={run=run,map=map};firstBattles[seed]=first
++ end
++ local fixture=Combat.copy(first)
++ local run,map=fixture.run,fixture.map
+  -- Completed-battle/registered-ledger fixture only. No reward fields are
+  -- patched; Run.finishCombat constructs all offers, then real APIs resolve them.
+  -- The unmodified full-route test below provides the natural-combat evidence.

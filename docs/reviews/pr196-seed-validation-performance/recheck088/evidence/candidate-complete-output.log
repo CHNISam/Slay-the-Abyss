@@ -1,0 +1,230 @@
+COMMAND: git apply --check ../candidate.patch
+CWD: /workspace/shared/sta-performance-integration-0156/recheck088/candidate
+EXIT: 0
+SECONDS: 0.0022564800001418917
+STDOUT:
+
+STDERR:
+
+
+COMMAND: git apply ../candidate.patch
+CWD: /workspace/shared/sta-performance-integration-0156/recheck088/candidate
+EXIT: 0
+SECONDS: 0.0020848120002483483
+STDOUT:
+
+STDERR:
+
+
+COMMAND: node scripts/build-lua-data.mjs
+CWD: /workspace/shared/sta-performance-integration-0156/recheck088/candidate
+EXIT: 0
+SECONDS: 0.07136905999868759
+STDOUT:
+Validated Lua data module built.
+
+STDERR:
+
+
+COMMAND: node scripts/build-ui.mjs
+CWD: /workspace/shared/sta-performance-integration-0156/recheck088/candidate
+EXIT: 0
+SECONDS: 0.2515647199998057
+STDOUT:
+Native battle UI and Traveler display module built.
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/node_ui.lua
+CWD: /workspace/shared/sta-performance-integration-0156/recheck088/candidate
+EXIT: 0
+SECONDS: 0.1253476249985397
+STDOUT:
+ok node UI 1 - forge sounds only after upgrade succeeds; refresh and repeated confirm are silent
+ok node UI 2 - rest and treasure sound once per action and audio errors cannot undo a committed action
+ok node UI 3 - node resource count includes bottles beyond an empty first slot
+ok node UI 4 - shop shelf shows five colored and two unavailable colorless cards without pages
+ok node UI 5 - unaffordable goods turn the price red, grey the card and explain without charging
+LUA_NODE_UI_PASS 5
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/node_ui_slice_2.lua
+CWD: /workspace/shared/sta-performance-integration-0156/recheck088/candidate
+EXIT: 0
+SECONDS: 0.13212250400101766
+STDOUT:
+ok node UI 1 - shop relic row shows sourced effect text and buys through Nodes
+ok node UI 2 - removal service selects a uid first, confirms with the core price and is spent for the shop
+ok node UI 3 - removal service shows shortfall and empty-deck diagnostic without opening the picker
+ok node UI 4 - an external removal invalidates a selected removal before charging gold
+ok node UI 5 - merchant opens with the scene narration once per run, then greets, and stays out of the way
+LUA_NODE_UI_PASS 5
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/node_ui_slice_3.lua
+CWD: /workspace/shared/sta-performance-integration-0156/recheck088/candidate
+EXIT: 0
+SECONDS: 0.10922165700139885
+STDOUT:
+ok node UI 1 - merchant reaction sounds are requested only for sales and refusals
+ok node UI 2 - merchant never appears outside a shop
+ok node UI 3 - camp shows rest healing projection and forge count; full health disables rest only when forging is possible
+ok node UI 4 - camp rest heals once through Nodes and holds the result until continue
+ok node UI 5 - forge previews the real before/after card and commits only the confirmed uid
+LUA_NODE_UI_PASS 5
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/node_ui_slice_4.lua
+CWD: /workspace/shared/sta-performance-integration-0156/recheck088/candidate
+EXIT: 0
+SECONDS: 0.15716343900021457
+STDOUT:
+ok node UI 1 - forge with two upgrades keeps the committed picker and stamps upgraded instances
+ok node UI 2 - Purifier prays for free through the picker and shows the removal result
+ok node UI 3 - Cleric options show sourced costs, disabled reasons and the healing result
+ok node UI 4 - Cleric purify is cancellable, charges once and leaves shop removal count unchanged
+ok node UI 5 - Cleric stale affordability is revalidated by Nodes without consuming the event
+LUA_NODE_UI_PASS 5
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/node_ui_slice_5.lua
+CWD: /workspace/shared/sta-performance-integration-0156/recheck088/candidate
+EXIT: 0
+SECONDS: 0.15456050899956608
+STDOUT:
+ok node UI 1 - treasure opens visually first, then grants the actual relic once
+ok node UI 2 - gold treasure explains the fallback and is claimed through Nodes
+ok node UI 3 - hidden input, external completion and a replaced run reject stale commands
+ok node UI 4 - a held result belongs to its run; a fresh run renders safely and restart resets navigation
+ok node UI 5 - hover down up and exit paint the real framed button without executing a command
+LUA_NODE_UI_PASS 5
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/node_ui_slice_6.lua
+CWD: /workspace/shared/sta-performance-integration-0156/recheck088/candidate
+EXIT: 0
+SECONDS: 0.12209259600058431
+STDOUT:
+ok node UI 1 - primary press uses white ink and drag-out or end-drag restores the complete button
+ok node UI 2 - disabled and selected results cannot be overridden by hover or retain a pressed scale
+ok node UI 3 - rerender and modal hiding cancel pending button visuals
+ok node UI 4 - foreign touches cannot release or move a pressed visual to another button
+ok node UI 5 - button listeners bind once and click-only hosts retain the existing C fallback
+LUA_NODE_UI_PASS 5
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/node_ui_slice_7.lua
+CWD: /workspace/shared/sta-performance-integration-0156/recheck088/candidate
+EXIT: 0
+SECONDS: 0.11701386200002162
+STDOUT:
+ok node UI 1 - upgrade shrine picker cancel consumes nothing; confirmation upgrades UID and holds a readable result
+ok node UI 2 - Goop shows real leave loss, applies it once and reports asset changes
+ok node UI 3 - Golden Wing commits seven damage before picker; cancel cannot refund or charge it again
+ok node UI 4 - Shining Light shows fixed damage and permanent upgraded names in its result
+ok node UI 5 - Golden Shrine exposes complete costs, permanent curse result and repeat safety
+LUA_NODE_UI_PASS 5
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/node_ui_slice_8.lua
+CWD: /workspace/shared/sta-performance-integration-0156/recheck088/candidate
+EXIT: 0
+SECONDS: 0.195977106999635
+STDOUT:
+ok node UI 1 - shop potion stock buys into a vacancy and rejects full sold and missing slots
+ok node UI 2 - integer-valued floating resources never expose decimal suffixes
+ok node UI 3 - single-card shop removal completes through the existing picker
+ok node UI 4 - single-card event purification is enabled, empty-deck purification is disabled
+ok node UI 5 - repeatable Searing Blow shows its actual before/after levels and damage
+LUA_NODE_UI_PASS 5
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/fountain_event.lua
+CWD: /workspace/shared/sta-performance-integration-0156/recheck088/candidate
+EXIT: 0
+SECONDS: 0.1692878430003475
+STDOUT:
+PASS fountain 1 official content mapping and real options
+PASS fountain 2 cleansing removes only permanent curse UIDs in reverse deck order, with zero HP reward
+PASS fountain 3 Flame and Lightning remain, empty cleanse and leave finish without damage or healing
+PASS fountain 4 invalid choice and unsupported remove hook fail atomically
+PASS fountain 5 full one-time pool selects from permanent deck, consumes on entry even when leaving
+PASS fountain 6 temporary curses do not grant full-pool eligibility; failure does not consume pool/RNG/map
+PASS fountain 7 three protected curses never grant eligibility or removal
+FOUNTAIN_EVENT 7 passed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/fountain_event_ui.lua
+CWD: /workspace/shared/sta-performance-integration-0156/recheck088/candidate
+EXIT: 0
+SECONDS: 0.06745977900027356
+STDOUT:
+PASS fountain UI cleanse immediately commits and displays actual count
+PASS fountain UI zero removals finish without a dead picker
+PASS fountain UI leave preserves the curse and holds result
+FOUNTAIN_UI 3 passed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/potion_target_rejection.lua
+CWD: /workspace/shared/sta-performance-integration-0156/recheck088/candidate
+EXIT: 0
+SECONDS: 0.2696508669996547
+STDOUT:
+ABYSS_RUN seed=1 source=explicit
+PASS old enemy confirmation is atomic without a render after dead
+ABYSS_RUN seed=1 source=explicit
+PASS old enemy confirmation is atomic without a render after replaced
+ABYSS_RUN seed=1 source=explicit
+PASS old enemy confirmation is atomic without a render after reordered
+ABYSS_RUN seed=1 source=explicit
+PASS old enemy confirmation is atomic without a render after refilled
+ABYSS_RUN seed=1 source=explicit
+PASS old enemy confirmation is atomic without a render after turn
+ABYSS_RUN seed=1 source=explicit
+PASS old enemy confirmation is atomic without a render after phase
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS cancel then fresh aim cannot inherit the old released enemy confirmation
+LUA_POTION_TARGET_REJECTION 7 passed; 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/run_seed_validation.lua
+CWD: /workspace/shared/sta-performance-integration-0156/recheck088/candidate
+EXIT: 0
+SECONDS: 0.021665387001121417
+STDOUT:
+ok 1 - canonical signed64 strings retain the constructor acceptance set
+ok 2 - invalid inputs retain exact strict rejection reasons and do not invoke metamethods
+ok 3 - number normalization and floor validation keep their original boundaries
+ok 4 - decimal increments and long wrap retain literal boundary results
+ok 5 - existing and new wrapper overload boundaries remain strict
+ok 6 - validation and identity derivation never call either RNG constructor
+ok 7 - RNG initialization and first draw retain fixed independent source vectors
+RUN_SEED_VALIDATION_PASS 7
+
+STDERR:
+

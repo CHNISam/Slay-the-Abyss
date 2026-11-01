@@ -1,0 +1,96 @@
+{
+  "scope": "Test graph equality only; no production changes",
+  "base": "6229a9b2342bfe5b13a31192539387500b096d3b",
+  "node": "v24.18.0 project portable Node",
+  "dependencySetup": "npm ci --offline --ignore-scripts; npm run build:data",
+  "baselineTimeout": {
+    "source": "Parent saved PR238/full-check log; not rerun in this tree",
+    "fixture": "potion_basic_five.lua",
+    "milliseconds": 30108,
+    "completedGroups": 1
+  },
+  "protectedOriginalBodiesSha256LF": {
+    "tests/lua/potion_basic_five.lua": "b640637cbb1069baa61f06c2252386a0de029a3cd7f736c132bb53f4c857796e",
+    "tests/lua/potion_basic_five_draw.lua": "4bcf735c58fd8a493a50e3a05b00293213a1b1042b332df30d6b6b86d3733468",
+    "tests/lua/potion_basic_five_status.lua": "06ef74a6a1d8e75ecdf74fdeaccc54348efbcd0f0b38c83bd832c12ee0f2ea74",
+    "tests/lua/potion_basic_five_acquisition.lua": "da0816c93622ecd23be6451ba78128b0fad23fa3318b1b7e0fce8eb4970ae42c"
+  },
+  "helperOtherFunctionsAndPrototypeIsolationByteIdenticalLF": true,
+  "productionDiffPaths": [],
+  "microProbe": {
+    "kind": "same bounded observation script before/after, complete comparisons",
+    "sharedDag": {
+      "uniqueTables": 26,
+      "uniqueFields": 50,
+      "before": {
+        "pairCalls": 16382,
+        "fieldVisits": 24572,
+        "cpuSeconds": 0.261392
+      },
+      "after": {
+        "pairCalls": 26,
+        "fieldVisits": 50,
+        "cpuSeconds": 0.002024
+      }
+    },
+    "actualRun300": {
+      "uniqueTables": 14666,
+      "uniqueFields": 56742,
+      "before": {
+        "pairCalls": 17804,
+        "fieldVisits": 78306,
+        "cpuSeconds": 0.770759
+      },
+      "after": {
+        "pairCalls": 14666,
+        "fieldVisits": 56742,
+        "cpuSeconds": 0.546883
+      }
+    }
+  },
+  "red": {
+    "fixture": "potion_basic_five_graph.lua",
+    "reason": "old same accepted split table alias",
+    "status": 1,
+    "milliseconds": 263
+  },
+  "finalOriginalCommand": "node --test --test-concurrency=1 tests/potion-basic-five.test.mjs",
+  "finalCommandStatus": 0,
+  "finalJsTests": {
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "milliseconds": 41897.5069
+  },
+  "originalLuaTimeoutMilliseconds": 30000,
+  "finalOriginalFixtures": [
+    {
+      "file": "tests/lua/potion_basic_five.lua",
+      "groups": 2,
+      "milliseconds": 23597
+    },
+    {
+      "file": "tests/lua/potion_basic_five_draw.lua",
+      "groups": 5,
+      "milliseconds": 5188
+    },
+    {
+      "file": "tests/lua/potion_basic_five_status.lua",
+      "groups": 4,
+      "milliseconds": 9007
+    },
+    {
+      "file": "tests/lua/potion_basic_five_acquisition.lua",
+      "groups": 1,
+      "milliseconds": 2233.607
+    }
+  ],
+  "newGraphProof": {
+    "groups": 6,
+    "milliseconds": 1710.9631
+  },
+  "limits": [
+    "No full Quality rerun or platform acceptance claimed",
+    "No original loops, seeds, bottle counts, fixtures, timeout, baseline or Run.new prototype isolation changed"
+  ]
+}

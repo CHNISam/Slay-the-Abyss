@@ -1,0 +1,37 @@
+{
+  "verdict": "PASS",
+  "blockingFindings": [],
+  "reviewedHelper": "/workspace/cloud-reports/m3-full-closeout/verify-original-delivery-connector-transport.mjs",
+  "helperSha256": "edb2424dc1436fa640098ba7e07768becba92bebf62ddc52c4feea3917b37047",
+  "originalVerifier": "/workspace/m3-final/scripts/verify-delivery.mjs",
+  "originalVerifierSha256": "920b94715630b64d2165760691a26d81f835e3c6b1e0e9a3ca9e8e697438b15e",
+  "scope": "只读外部artifact传输适配复审；不改仓库或原gate；不证明任何真实preflight/merged状态已经通过。",
+  "resolvedFinding": {
+    "id": "TRANSPORT-PR-CURRENT-GUARD",
+    "status": "CLOSED",
+    "evidence": "独立逐字确认原CLI全部6个current条件与相同errors.push消息同时存在于helper及原脚本：state/open、merged=false、head.sha、base.sha、base.ref、merge_commit_sha。原verifyDelivery未包含current的缺口已补。"
+  },
+  "assessment": [
+    "所有GitHub API请求直接调用真实固定gh二进制；只有checkoutReceipt调用的精确run download九参数被拦截，repo/name/run/dir均严格断言。不存在mock API或失败返回success替代分支。",
+    "ZIP必须匹配实时GitHub artifact元数据id/name/workflow_run.id/expired=false，以及sha256 digest和size；Python只读该ZIP的单一ci-checkout.json，输出为其真实payload，无构造receipt或结果注入。",
+    "collectPrDelivery、checkoutReceipt、verifyDelivery、collectMergedDelivery、verifyMergedDelivery直接导入仓库原函数，不改源码；原job/current-attempt/unique artifact/receipt/下载前后元数据/checkout/head/base/tested/target/merge parent/tree guards继续执行。",
+    "补回原CLI完整current最终检查；新增mode必须preflight或merged、目标必须develop以及merged输入repo/pr435约束均只收紧范围。",
+    "result仅来自verifyDelivery错误数组或verifyMergedDelivery返回；errors非空仍pending并设置非零退出码；assert/API/解压失败抛出不放行。artifactTransport只添加真实传输来源说明和ZIP hash，不覆盖errors/state。"
+  ],
+  "freshVerification": [
+    {
+      "command": "node --check /workspace/cloud-reports/m3-full-closeout/verify-original-delivery-connector-transport.mjs",
+      "result": "PASS exit0"
+    },
+    {
+      "check": "原CLI完整current守卫文本与helper逐字比对",
+      "result": "PASS"
+    }
+  ],
+  "boundaries": [
+    "此次仅代码审查，没有代跑真实GitHub preflight/merged收集，也未独立下载本轮ZIP；具体artifact真实性须由helper运行时实时digest/size/run/name/id守卫与原验证函数共同证明。",
+    "应先尝试原npm CLI；若真实302到Azure被代理403，再使用同GitHub artifact的connector ZIP传输，记录CLI网络失败与替代传输。不得声称原npm CLI下载网络成功。",
+    "connector不授予放宽交付gate：最终head/base变动、当前CI未成功、过期/重复/错误artifact或合后源tree/parent不匹配仍须拒绝。",
+    "本结论绑定所列helper与原verifier SHA256；后续代码改变须重新确认。无仓库/源码/任务/push修改。"
+  ]
+}

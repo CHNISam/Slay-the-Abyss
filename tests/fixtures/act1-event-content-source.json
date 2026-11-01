@@ -1,0 +1,93 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sources": {
+    "events/exordium/Sssserpent.java": "cbc65219bcf55b01957577d325df1e02d885790f084c28d1a61e5ae6897586ea",
+    "events/exordium/BigFish.java": "d14eba34d182ae3a73bb94d247616d280964ec56ee4a4abf4a96a0cfdc5c371f",
+    "events/shrines/AccursedBlacksmith.java": "d90c2723d66685fde57fe3b50e39b29a565b64bc3d665aa2bc68ba347d17808a",
+    "events/shrines/Bonfire.java": "6bb73acaac6dd7426c229957d832fcaa3f9b1d56aabc38b1b86cf1d03357688e",
+    "screens/select/GridCardSelectScreen.java": "1793bb4449bc7046d3e5477d1fdd4ad39f0a4d3d9582309ceb59595be8b130bc",
+    "vfx/cardManip/ShowCardAndObtainEffect.java": "1daffc2b13c79a1ddb10fcce995cf18980e917a576dba6db3751dccffa892e52",
+    "rooms/AbstractRoom.java": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05",
+    "dungeons/AbstractDungeon.java": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+    "core/AbstractCreature.java": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b",
+    "characters/AbstractPlayer.java": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
+  },
+  "contracts": {
+    "Liars Game": {
+      "intro": [
+        "agree",
+        "disagree"
+      ],
+      "agree": [
+        "confirm"
+      ],
+      "gold": 175,
+      "curse": "Doubt",
+      "result": [
+        "leave"
+      ]
+    },
+    "Big Fish": {
+      "intro": [
+        "banana",
+        "donut",
+        "box"
+      ],
+      "bananaHeal": "floor(entryMaxHp/3)",
+      "maxHp": 5,
+      "box": [
+        "returnRandomRelicTier",
+        "returnRandomScreenlessRelic",
+        "prepare-Regret-old-Omamori",
+        "obtain-relic",
+        "resolve-card-onObtain"
+      ],
+      "curse": "Regret",
+      "screenlessReject": [
+        "Bottled Flame",
+        "Bottled Lightning",
+        "Bottled Tornado",
+        "Whetstone"
+      ]
+    },
+    "Accursed Blacksmith": {
+      "intro": [
+        "forge",
+        "rummage",
+        "leave"
+      ],
+      "forgeCanCancel": false,
+      "rummage": [
+        "prepare-Pain-old-Omamori",
+        "obtain-WarpedTongs",
+        "resolve-card-onObtain"
+      ]
+    },
+    "Bonfire Elementals": {
+      "intro": [
+        "approach"
+      ],
+      "choose": [
+        "offer"
+      ],
+      "canCancel": false,
+      "purgeExcludes": [
+        "Necronomicurse",
+        "CurseOfTheBell",
+        "AscendersBane",
+        "inBottleFlame",
+        "inBottleLightning",
+        "inBottleTornado"
+      ],
+      "rewardBeforeRemove": true,
+      "basic": null,
+      "commonHeal": 5,
+      "specialHeal": 5,
+      "uncommonHeal": "maxHp",
+      "rareMaxHp": 10,
+      "rareHeal": "maxHp-after-increase",
+      "curseRelic": "Spirit Poop",
+      "alreadySpiritPoop": "Circlet"
+    }
+  }
+}

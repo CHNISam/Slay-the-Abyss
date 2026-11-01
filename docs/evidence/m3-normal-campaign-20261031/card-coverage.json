@@ -1,0 +1,4575 @@
+{
+  "kind": "offline-natural-acquisition-and-play-observation",
+  "platformVerified": false,
+  "runs": [
+    {
+      "seed": 2,
+      "status": "victory",
+      "floor": 34,
+      "hp": 30,
+      "ending": "two_act_complete",
+      "actions": 669,
+      "newRunConstructionResetVerified": true,
+      "artifact": "seed-2.json.gz"
+    },
+    {
+      "seed": 3,
+      "status": "defeat",
+      "floor": 16,
+      "hp": 0,
+      "actions": 170,
+      "newRunConstructionResetVerified": true,
+      "artifact": "seed-3.json.gz"
+    },
+    {
+      "seed": 42,
+      "status": "defeat",
+      "floor": 16,
+      "hp": 0,
+      "actions": 216,
+      "newRunConstructionResetVerified": true,
+      "artifact": "seed-42.json.gz"
+    }
+  ],
+  "requiredCards": 75,
+  "acquired": 21,
+  "played": 18,
+  "missingAcquisition": [
+    "body_slam",
+    "clash",
+    "clothesline",
+    "flex",
+    "havoc",
+    "headbutt",
+    "heavy_blade",
+    "perfected_strike",
+    "sword_boomerang",
+    "warcry",
+    "wild_strike",
+    "battle_trance",
+    "blood_for_blood",
+    "bloodletting",
+    "burning_pact",
+    "carnage",
+    "combust",
+    "disarm",
+    "dropkick",
+    "dual_wield",
+    "entrench",
+    "evolve",
+    "fire_breathing",
+    "infernal_blade",
+    "inflame",
+    "intimidate",
+    "power_through",
+    "pummel",
+    "rage",
+    "rampage",
+    "reckless_charge",
+    "rupture",
+    "searing_blow",
+    "second_wind",
+    "seeing_red",
+    "sentinel",
+    "sever_soul",
+    "spot_weakness",
+    "uppercut",
+    "barricade",
+    "berserk",
+    "bludgeon",
+    "brutality",
+    "corruption",
+    "demon_form",
+    "double_tap",
+    "exhume",
+    "feed",
+    "fiend_fire",
+    "impervious",
+    "juggernaut",
+    "limit_break",
+    "offering",
+    "reaper"
+  ],
+  "missingPlay": [
+    "body_slam",
+    "clash",
+    "clothesline",
+    "flex",
+    "havoc",
+    "headbutt",
+    "heavy_blade",
+    "perfected_strike",
+    "sword_boomerang",
+    "warcry",
+    "wild_strike",
+    "battle_trance",
+    "blood_for_blood",
+    "bloodletting",
+    "burning_pact",
+    "carnage",
+    "combust",
+    "dark_embrace",
+    "disarm",
+    "dropkick",
+    "dual_wield",
+    "entrench",
+    "evolve",
+    "feel_no_pain",
+    "fire_breathing",
+    "infernal_blade",
+    "inflame",
+    "intimidate",
+    "power_through",
+    "pummel",
+    "rage",
+    "rampage",
+    "reckless_charge",
+    "rupture",
+    "searing_blow",
+    "second_wind",
+    "seeing_red",
+    "sentinel",
+    "sever_soul",
+    "spot_weakness",
+    "uppercut",
+    "whirlwind",
+    "barricade",
+    "berserk",
+    "bludgeon",
+    "brutality",
+    "corruption",
+    "demon_form",
+    "double_tap",
+    "exhume",
+    "feed",
+    "fiend_fire",
+    "impervious",
+    "juggernaut",
+    "limit_break",
+    "offering",
+    "reaper"
+  ],
+  "cards": [
+    {
+      "id": "strike",
+      "acquisitions": [
+        {
+          "seed": 2,
+          "uid": 1,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 3,
+          "uid": 1,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 3,
+          "uid": 2,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 3,
+          "uid": 3,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 3,
+          "uid": 4,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 3,
+          "uid": 5,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 42,
+          "uid": 1,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 42,
+          "uid": 2,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 42,
+          "uid": 3,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 42,
+          "uid": 4,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 42,
+          "uid": 5,
+          "source": "initial_deck",
+          "floor": 0
+        }
+      ],
+      "plays": [
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 1,
+          "action": 6
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 1,
+          "action": 7
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 1,
+          "action": 12
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 1,
+          "action": 13
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 1,
+          "action": 14
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 1,
+          "action": 16
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 3,
+          "action": 28
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 3,
+          "action": 33
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 3,
+          "action": 34
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 3,
+          "action": 35
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 4,
+          "action": 48
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 4,
+          "action": 51
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 4,
+          "action": 52
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 4,
+          "action": 53
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 4,
+          "action": 55
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 5,
+          "action": 63
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 5,
+          "action": 67
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 5,
+          "action": 68
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 5,
+          "action": 71
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 5,
+          "action": 72
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 6,
+          "action": 82
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 6,
+          "action": 83
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 6,
+          "action": 84
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 6,
+          "action": 89
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 6,
+          "action": 96
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 6,
+          "action": 97
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 6,
+          "action": 98
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 6,
+          "action": 103
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 6,
+          "action": 112
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 6,
+          "action": 117
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 6,
+          "action": 123
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 7,
+          "action": 142
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 7,
+          "action": 143
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 7,
+          "action": 146
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 7,
+          "action": 151
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 7,
+          "action": 155
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 7,
+          "action": 156
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 7,
+          "action": 161
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 7,
+          "action": 164
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 7,
+          "action": 165
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 7,
+          "action": 173
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 8,
+          "action": 187
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 8,
+          "action": 190
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 8,
+          "action": 191
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 11,
+          "action": 204
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 11,
+          "action": 209
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 14,
+          "action": 232
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 14,
+          "action": 238
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 14,
+          "action": 239
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 14,
+          "action": 242
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 14,
+          "action": 243
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 14,
+          "action": 245
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 14,
+          "action": 249
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 16,
+          "action": 259
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 16,
+          "action": 263
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 16,
+          "action": 269
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 16,
+          "action": 273
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 16,
+          "action": 274
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 16,
+          "action": 278
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 16,
+          "action": 281
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 16,
+          "action": 286
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 16,
+          "action": 290
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 16,
+          "action": 294
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 16,
+          "action": 299
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 16,
+          "action": 309
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 16,
+          "action": 314
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 18,
+          "action": 324
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 18,
+          "action": 331
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 18,
+          "action": 332
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 21,
+          "action": 352
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 21,
+          "action": 355
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 21,
+          "action": 359
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 21,
+          "action": 363
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 24,
+          "action": 379
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 24,
+          "action": 380
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 24,
+          "action": 389
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 24,
+          "action": 408
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 24,
+          "action": 409
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 25,
+          "action": 418
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 25,
+          "action": 420
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 25,
+          "action": 426
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 25,
+          "action": 439
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 25,
+          "action": 440
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 25,
+          "action": 443
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 25,
+          "action": 444
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 27,
+          "action": 458
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 27,
+          "action": 465
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 27,
+          "action": 467
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 27,
+          "action": 482
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 27,
+          "action": 484
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 29,
+          "action": 499
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 29,
+          "action": 500
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 29,
+          "action": 505
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 29,
+          "action": 510
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 29,
+          "action": 513
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 29,
+          "action": 516
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 31,
+          "action": 534
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 31,
+          "action": 541
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 31,
+          "action": 546
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 31,
+          "action": 554
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 31,
+          "action": 555
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 33,
+          "action": 565
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 33,
+          "action": 566
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 33,
+          "action": 580
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 33,
+          "action": 584
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 33,
+          "action": 585
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 33,
+          "action": 595
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 33,
+          "action": 601
+        },
+        {
+          "seed": 2,
+          "uid": 1,
+          "floor": 33,
+          "action": 613
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 33,
+          "action": 614
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 33,
+          "action": 615
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 33,
+          "action": 624
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 33,
+          "action": 636
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 33,
+          "action": 641
+        },
+        {
+          "seed": 2,
+          "uid": 2,
+          "floor": 33,
+          "action": 646
+        },
+        {
+          "seed": 2,
+          "uid": 4,
+          "floor": 33,
+          "action": 658
+        },
+        {
+          "seed": 2,
+          "uid": 3,
+          "floor": 33,
+          "action": 663
+        },
+        {
+          "seed": 3,
+          "uid": 2,
+          "floor": 1,
+          "action": 7
+        },
+        {
+          "seed": 3,
+          "uid": 3,
+          "floor": 1,
+          "action": 9
+        },
+        {
+          "seed": 3,
+          "uid": 5,
+          "floor": 1,
+          "action": 10
+        },
+        {
+          "seed": 3,
+          "uid": 1,
+          "floor": 1,
+          "action": 11
+        },
+        {
+          "seed": 3,
+          "uid": 1,
+          "floor": 1,
+          "action": 13
+        },
+        {
+          "seed": 3,
+          "uid": 3,
+          "floor": 2,
+          "action": 21
+        },
+        {
+          "seed": 3,
+          "uid": 4,
+          "floor": 2,
+          "action": 22
+        },
+        {
+          "seed": 3,
+          "uid": 1,
+          "floor": 2,
+          "action": 23
+        },
+        {
+          "seed": 3,
+          "uid": 2,
+          "floor": 2,
+          "action": 30
+        },
+        {
+          "seed": 3,
+          "uid": 1,
+          "floor": 2,
+          "action": 31
+        },
+        {
+          "seed": 3,
+          "uid": 5,
+          "floor": 2,
+          "action": 33
+        },
+        {
+          "seed": 3,
+          "uid": 2,
+          "floor": 7,
+          "action": 56
+        },
+        {
+          "seed": 3,
+          "uid": 1,
+          "floor": 7,
+          "action": 62
+        },
+        {
+          "seed": 3,
+          "uid": 2,
+          "floor": 7,
+          "action": 63
+        },
+        {
+          "seed": 3,
+          "uid": 1,
+          "floor": 10,
+          "action": 81
+        },
+        {
+          "seed": 3,
+          "uid": 4,
+          "floor": 10,
+          "action": 82
+        },
+        {
+          "seed": 3,
+          "uid": 3,
+          "floor": 12,
+          "action": 97
+        },
+        {
+          "seed": 3,
+          "uid": 2,
+          "floor": 12,
+          "action": 102
+        },
+        {
+          "seed": 3,
+          "uid": 2,
+          "floor": 12,
+          "action": 111
+        },
+        {
+          "seed": 3,
+          "uid": 3,
+          "floor": 16,
+          "action": 133
+        },
+        {
+          "seed": 3,
+          "uid": 4,
+          "floor": 16,
+          "action": 134
+        },
+        {
+          "seed": 3,
+          "uid": 3,
+          "floor": 16,
+          "action": 141
+        },
+        {
+          "seed": 3,
+          "uid": 4,
+          "floor": 16,
+          "action": 151
+        },
+        {
+          "seed": 3,
+          "uid": 2,
+          "floor": 16,
+          "action": 152
+        },
+        {
+          "seed": 3,
+          "uid": 4,
+          "floor": 16,
+          "action": 163
+        },
+        {
+          "seed": 3,
+          "uid": 3,
+          "floor": 16,
+          "action": 167
+        },
+        {
+          "seed": 3,
+          "uid": 2,
+          "floor": 16,
+          "action": 168
+        },
+        {
+          "seed": 3,
+          "uid": 1,
+          "floor": 16,
+          "action": 169
+        },
+        {
+          "seed": 42,
+          "uid": 3,
+          "floor": 1,
+          "action": 6
+        },
+        {
+          "seed": 42,
+          "uid": 2,
+          "floor": 1,
+          "action": 7
+        },
+        {
+          "seed": 42,
+          "uid": 5,
+          "floor": 1,
+          "action": 8
+        },
+        {
+          "seed": 42,
+          "uid": 4,
+          "floor": 1,
+          "action": 13
+        },
+        {
+          "seed": 42,
+          "uid": 1,
+          "floor": 1,
+          "action": 14
+        },
+        {
+          "seed": 42,
+          "uid": 5,
+          "floor": 1,
+          "action": 19
+        },
+        {
+          "seed": 42,
+          "uid": 4,
+          "floor": 1,
+          "action": 21
+        },
+        {
+          "seed": 42,
+          "uid": 1,
+          "floor": 5,
+          "action": 37
+        },
+        {
+          "seed": 42,
+          "uid": 4,
+          "floor": 5,
+          "action": 39
+        },
+        {
+          "seed": 42,
+          "uid": 5,
+          "floor": 5,
+          "action": 42
+        },
+        {
+          "seed": 42,
+          "uid": 5,
+          "floor": 6,
+          "action": 50
+        },
+        {
+          "seed": 42,
+          "uid": 1,
+          "floor": 6,
+          "action": 51
+        },
+        {
+          "seed": 42,
+          "uid": 4,
+          "floor": 6,
+          "action": 54
+        },
+        {
+          "seed": 42,
+          "uid": 2,
+          "floor": 6,
+          "action": 55
+        },
+        {
+          "seed": 42,
+          "uid": 3,
+          "floor": 6,
+          "action": 58
+        },
+        {
+          "seed": 42,
+          "uid": 2,
+          "floor": 6,
+          "action": 61
+        },
+        {
+          "seed": 42,
+          "uid": 5,
+          "floor": 6,
+          "action": 62
+        },
+        {
+          "seed": 42,
+          "uid": 1,
+          "floor": 8,
+          "action": 74
+        },
+        {
+          "seed": 42,
+          "uid": 2,
+          "floor": 8,
+          "action": 79
+        },
+        {
+          "seed": 42,
+          "uid": 4,
+          "floor": 8,
+          "action": 80
+        },
+        {
+          "seed": 42,
+          "uid": 3,
+          "floor": 10,
+          "action": 95
+        },
+        {
+          "seed": 42,
+          "uid": 4,
+          "floor": 10,
+          "action": 100
+        },
+        {
+          "seed": 42,
+          "uid": 3,
+          "floor": 10,
+          "action": 101
+        },
+        {
+          "seed": 42,
+          "uid": 5,
+          "floor": 10,
+          "action": 102
+        },
+        {
+          "seed": 42,
+          "uid": 1,
+          "floor": 10,
+          "action": 106
+        },
+        {
+          "seed": 42,
+          "uid": 4,
+          "floor": 11,
+          "action": 128
+        },
+        {
+          "seed": 42,
+          "uid": 4,
+          "floor": 12,
+          "action": 134
+        },
+        {
+          "seed": 42,
+          "uid": 2,
+          "floor": 12,
+          "action": 135
+        },
+        {
+          "seed": 42,
+          "uid": 1,
+          "floor": 12,
+          "action": 136
+        },
+        {
+          "seed": 42,
+          "uid": 2,
+          "floor": 14,
+          "action": 161
+        },
+        {
+          "seed": 42,
+          "uid": 4,
+          "floor": 14,
+          "action": 162
+        },
+        {
+          "seed": 42,
+          "uid": 2,
+          "floor": 16,
+          "action": 175
+        },
+        {
+          "seed": 42,
+          "uid": 1,
+          "floor": 16,
+          "action": 178
+        },
+        {
+          "seed": 42,
+          "uid": 5,
+          "floor": 16,
+          "action": 179
+        },
+        {
+          "seed": 42,
+          "uid": 3,
+          "floor": 16,
+          "action": 182
+        },
+        {
+          "seed": 42,
+          "uid": 4,
+          "floor": 16,
+          "action": 185
+        },
+        {
+          "seed": 42,
+          "uid": 5,
+          "floor": 16,
+          "action": 186
+        },
+        {
+          "seed": 42,
+          "uid": 2,
+          "floor": 16,
+          "action": 191
+        },
+        {
+          "seed": 42,
+          "uid": 1,
+          "floor": 16,
+          "action": 195
+        },
+        {
+          "seed": 42,
+          "uid": 3,
+          "floor": 16,
+          "action": 199
+        },
+        {
+          "seed": 42,
+          "uid": 2,
+          "floor": 16,
+          "action": 203
+        },
+        {
+          "seed": 42,
+          "uid": 5,
+          "floor": 16,
+          "action": 206
+        },
+        {
+          "seed": 42,
+          "uid": 5,
+          "floor": 16,
+          "action": 214
+        },
+        {
+          "seed": 42,
+          "uid": 3,
+          "floor": 16,
+          "action": 215
+        }
+      ]
+    },
+    {
+      "id": "defend",
+      "acquisitions": [
+        {
+          "seed": 2,
+          "uid": 6,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 2,
+          "uid": 8,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 2,
+          "uid": 9,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 3,
+          "uid": 6,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 3,
+          "uid": 7,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 3,
+          "uid": 8,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 3,
+          "uid": 9,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 42,
+          "uid": 6,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 42,
+          "uid": 7,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 42,
+          "uid": 8,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 42,
+          "uid": 9,
+          "source": "initial_deck",
+          "floor": 0
+        }
+      ],
+      "plays": [
+        {
+          "seed": 2,
+          "uid": 9,
+          "floor": 1,
+          "action": 9
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 3,
+          "action": 26
+        },
+        {
+          "seed": 2,
+          "uid": 9,
+          "floor": 3,
+          "action": 27
+        },
+        {
+          "seed": 2,
+          "uid": 6,
+          "floor": 3,
+          "action": 30
+        },
+        {
+          "seed": 2,
+          "uid": 9,
+          "floor": 3,
+          "action": 37
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 3,
+          "action": 38
+        },
+        {
+          "seed": 2,
+          "uid": 8,
+          "floor": 3,
+          "action": 39
+        },
+        {
+          "seed": 2,
+          "uid": 8,
+          "floor": 5,
+          "action": 62
+        },
+        {
+          "seed": 2,
+          "uid": 9,
+          "floor": 5,
+          "action": 66
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 6,
+          "action": 91
+        },
+        {
+          "seed": 2,
+          "uid": 9,
+          "floor": 6,
+          "action": 92
+        },
+        {
+          "seed": 2,
+          "uid": 8,
+          "floor": 6,
+          "action": 94
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 6,
+          "action": 101
+        },
+        {
+          "seed": 2,
+          "uid": 8,
+          "floor": 6,
+          "action": 105
+        },
+        {
+          "seed": 2,
+          "uid": 9,
+          "floor": 6,
+          "action": 106
+        },
+        {
+          "seed": 2,
+          "uid": 6,
+          "floor": 6,
+          "action": 107
+        },
+        {
+          "seed": 2,
+          "uid": 8,
+          "floor": 6,
+          "action": 116
+        },
+        {
+          "seed": 2,
+          "uid": 9,
+          "floor": 6,
+          "action": 119
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 6,
+          "action": 120
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 7,
+          "action": 134
+        },
+        {
+          "seed": 2,
+          "uid": 9,
+          "floor": 7,
+          "action": 135
+        },
+        {
+          "seed": 2,
+          "uid": 8,
+          "floor": 7,
+          "action": 145
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 7,
+          "action": 147
+        },
+        {
+          "seed": 2,
+          "uid": 6,
+          "floor": 7,
+          "action": 153
+        },
+        {
+          "seed": 2,
+          "uid": 8,
+          "floor": 7,
+          "action": 163
+        },
+        {
+          "seed": 2,
+          "uid": 9,
+          "floor": 7,
+          "action": 170
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 7,
+          "action": 171
+        },
+        {
+          "seed": 2,
+          "uid": 9,
+          "floor": 11,
+          "action": 208
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 14,
+          "action": 231
+        },
+        {
+          "seed": 2,
+          "uid": 8,
+          "floor": 14,
+          "action": 236
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 16,
+          "action": 282
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 16,
+          "action": 295
+        },
+        {
+          "seed": 2,
+          "uid": 8,
+          "floor": 16,
+          "action": 298
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 16,
+          "action": 300
+        },
+        {
+          "seed": 2,
+          "uid": 9,
+          "floor": 21,
+          "action": 358
+        },
+        {
+          "seed": 2,
+          "uid": 9,
+          "floor": 24,
+          "action": 383
+        },
+        {
+          "seed": 2,
+          "uid": 6,
+          "floor": 24,
+          "action": 387
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 24,
+          "action": 392
+        },
+        {
+          "seed": 2,
+          "uid": 6,
+          "floor": 24,
+          "action": 397
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 25,
+          "action": 427
+        },
+        {
+          "seed": 2,
+          "uid": 9,
+          "floor": 25,
+          "action": 432
+        },
+        {
+          "seed": 2,
+          "uid": 8,
+          "floor": 25,
+          "action": 434
+        },
+        {
+          "seed": 2,
+          "uid": 8,
+          "floor": 27,
+          "action": 455
+        },
+        {
+          "seed": 2,
+          "uid": 9,
+          "floor": 27,
+          "action": 461
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 27,
+          "action": 462
+        },
+        {
+          "seed": 2,
+          "uid": 6,
+          "floor": 27,
+          "action": 472
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 27,
+          "action": 475
+        },
+        {
+          "seed": 2,
+          "uid": 6,
+          "floor": 29,
+          "action": 498
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 29,
+          "action": 504
+        },
+        {
+          "seed": 2,
+          "uid": 6,
+          "floor": 29,
+          "action": 512
+        },
+        {
+          "seed": 2,
+          "uid": 6,
+          "floor": 31,
+          "action": 540
+        },
+        {
+          "seed": 2,
+          "uid": 8,
+          "floor": 31,
+          "action": 544
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 31,
+          "action": 545
+        },
+        {
+          "seed": 2,
+          "uid": 8,
+          "floor": 33,
+          "action": 564
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 33,
+          "action": 567
+        },
+        {
+          "seed": 2,
+          "uid": 6,
+          "floor": 33,
+          "action": 575
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 33,
+          "action": 576
+        },
+        {
+          "seed": 2,
+          "uid": 6,
+          "floor": 33,
+          "action": 587
+        },
+        {
+          "seed": 2,
+          "uid": 8,
+          "floor": 33,
+          "action": 592
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 33,
+          "action": 593
+        },
+        {
+          "seed": 2,
+          "uid": 6,
+          "floor": 33,
+          "action": 605
+        },
+        {
+          "seed": 2,
+          "uid": 8,
+          "floor": 33,
+          "action": 611
+        },
+        {
+          "seed": 2,
+          "uid": 8,
+          "floor": 33,
+          "action": 628
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 33,
+          "action": 629
+        },
+        {
+          "seed": 2,
+          "uid": 7,
+          "floor": 33,
+          "action": 640
+        },
+        {
+          "seed": 2,
+          "uid": 6,
+          "floor": 33,
+          "action": 645
+        },
+        {
+          "seed": 2,
+          "uid": 5,
+          "floor": 33,
+          "action": 659
+        },
+        {
+          "seed": 3,
+          "uid": 6,
+          "floor": 2,
+          "action": 25
+        },
+        {
+          "seed": 3,
+          "uid": 6,
+          "floor": 10,
+          "action": 83
+        },
+        {
+          "seed": 3,
+          "uid": 7,
+          "floor": 12,
+          "action": 96
+        },
+        {
+          "seed": 3,
+          "uid": 6,
+          "floor": 12,
+          "action": 101
+        },
+        {
+          "seed": 3,
+          "uid": 8,
+          "floor": 12,
+          "action": 103
+        },
+        {
+          "seed": 3,
+          "uid": 5,
+          "floor": 12,
+          "action": 112
+        },
+        {
+          "seed": 3,
+          "uid": 6,
+          "floor": 16,
+          "action": 137
+        },
+        {
+          "seed": 3,
+          "uid": 8,
+          "floor": 16,
+          "action": 138
+        },
+        {
+          "seed": 3,
+          "uid": 7,
+          "floor": 16,
+          "action": 142
+        },
+        {
+          "seed": 3,
+          "uid": 5,
+          "floor": 16,
+          "action": 145
+        },
+        {
+          "seed": 3,
+          "uid": 8,
+          "floor": 16,
+          "action": 158
+        },
+        {
+          "seed": 3,
+          "uid": 5,
+          "floor": 16,
+          "action": 162
+        },
+        {
+          "seed": 42,
+          "uid": 6,
+          "floor": 1,
+          "action": 10
+        },
+        {
+          "seed": 42,
+          "uid": 7,
+          "floor": 1,
+          "action": 15
+        },
+        {
+          "seed": 42,
+          "uid": 8,
+          "floor": 1,
+          "action": 17
+        },
+        {
+          "seed": 42,
+          "uid": 6,
+          "floor": 1,
+          "action": 18
+        },
+        {
+          "seed": 42,
+          "uid": 8,
+          "floor": 10,
+          "action": 90
+        },
+        {
+          "seed": 42,
+          "uid": 7,
+          "floor": 10,
+          "action": 91
+        },
+        {
+          "seed": 42,
+          "uid": 6,
+          "floor": 10,
+          "action": 94
+        },
+        {
+          "seed": 42,
+          "uid": 9,
+          "floor": 11,
+          "action": 119
+        },
+        {
+          "seed": 42,
+          "uid": 8,
+          "floor": 11,
+          "action": 123
+        },
+        {
+          "seed": 42,
+          "uid": 7,
+          "floor": 11,
+          "action": 124
+        },
+        {
+          "seed": 42,
+          "uid": 6,
+          "floor": 12,
+          "action": 140
+        },
+        {
+          "seed": 42,
+          "uid": 7,
+          "floor": 14,
+          "action": 155
+        },
+        {
+          "seed": 42,
+          "uid": 6,
+          "floor": 16,
+          "action": 183
+        },
+        {
+          "seed": 42,
+          "uid": 7,
+          "floor": 16,
+          "action": 187
+        },
+        {
+          "seed": 42,
+          "uid": 6,
+          "floor": 16,
+          "action": 202
+        },
+        {
+          "seed": 42,
+          "uid": 8,
+          "floor": 16,
+          "action": 207
+        }
+      ]
+    },
+    {
+      "id": "bash",
+      "acquisitions": [
+        {
+          "seed": 2,
+          "uid": 10,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 3,
+          "uid": 10,
+          "source": "initial_deck",
+          "floor": 0
+        },
+        {
+          "seed": 42,
+          "uid": 10,
+          "source": "initial_deck",
+          "floor": 0
+        }
+      ],
+      "plays": [
+        {
+          "seed": 2,
+          "uid": 10,
+          "floor": 1,
+          "action": 10
+        },
+        {
+          "seed": 2,
+          "uid": 10,
+          "floor": 3,
+          "action": 31
+        },
+        {
+          "seed": 2,
+          "uid": 10,
+          "floor": 3,
+          "action": 41
+        },
+        {
+          "seed": 2,
+          "uid": 10,
+          "floor": 4,
+          "action": 47
+        },
+        {
+          "seed": 2,
+          "uid": 10,
+          "floor": 5,
+          "action": 75
+        },
+        {
+          "seed": 2,
+          "uid": 10,
+          "floor": 6,
+          "action": 111
+        },
+        {
+          "seed": 2,
+          "uid": 10,
+          "floor": 7,
+          "action": 138
+        },
+        {
+          "seed": 2,
+          "uid": 10,
+          "floor": 8,
+          "action": 182
+        },
+        {
+          "seed": 2,
+          "uid": 10,
+          "floor": 11,
+          "action": 212
+        },
+        {
+          "seed": 2,
+          "uid": 10,
+          "floor": 16,
+          "action": 260
+        },
+        {
+          "seed": 2,
+          "uid": 10,
+          "floor": 18,
+          "action": 335
+        },
+        {
+          "seed": 2,
+          "uid": 10,
+          "floor": 25,
+          "action": 422
+        },
+        {
+          "seed": 2,
+          "uid": 10,
+          "floor": 25,
+          "action": 436
+        },
+        {
+          "seed": 2,
+          "uid": 9,
+          "floor": 33,
+          "action": 597
+        },
+        {
+          "seed": 2,
+          "uid": 9,
+          "floor": 33,
+          "action": 652
+        },
+        {
+          "seed": 3,
+          "uid": 10,
+          "floor": 1,
+          "action": 6
+        },
+        {
+          "seed": 3,
+          "uid": 10,
+          "floor": 1,
+          "action": 15
+        },
+        {
+          "seed": 3,
+          "uid": 10,
+          "floor": 2,
+          "action": 26
+        },
+        {
+          "seed": 3,
+          "uid": 9,
+          "floor": 7,
+          "action": 53
+        },
+        {
+          "seed": 3,
+          "uid": 9,
+          "floor": 10,
+          "action": 78
+        },
+        {
+          "seed": 3,
+          "uid": 9,
+          "floor": 12,
+          "action": 107
+        },
+        {
+          "seed": 3,
+          "uid": 9,
+          "floor": 16,
+          "action": 129
+        },
+        {
+          "seed": 3,
+          "uid": 9,
+          "floor": 16,
+          "action": 146
+        },
+        {
+          "seed": 42,
+          "uid": 10,
+          "floor": 1,
+          "action": 11
+        },
+        {
+          "seed": 42,
+          "uid": 10,
+          "floor": 5,
+          "action": 41
+        },
+        {
+          "seed": 42,
+          "uid": 10,
+          "floor": 5,
+          "action": 44
+        },
+        {
+          "seed": 42,
+          "uid": 10,
+          "floor": 6,
+          "action": 57
+        },
+        {
+          "seed": 42,
+          "uid": 10,
+          "floor": 8,
+          "action": 77
+        },
+        {
+          "seed": 42,
+          "uid": 10,
+          "floor": 10,
+          "action": 98
+        },
+        {
+          "seed": 42,
+          "uid": 10,
+          "floor": 11,
+          "action": 117
+        },
+        {
+          "seed": 42,
+          "uid": 10,
+          "floor": 11,
+          "action": 120
+        }
+      ]
+    },
+    {
+      "id": "anger",
+      "acquisitions": [
+        {
+          "seed": 2,
+          "uid": 12,
+          "source": "card_reward",
+          "floor": 3,
+          "action": 43
+        },
+        {
+          "seed": 3,
+          "uid": 12,
+          "source": "card_reward",
+          "floor": 2,
+          "action": 35
+        },
+        {
+          "seed": 3,
+          "uid": 15,
+          "source": "card_reward",
+          "floor": 7,
+          "action": 66
+        }
+      ],
+      "plays": [
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 4,
+          "action": 50
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 5,
+          "action": 65
+        },
+        {
+          "seed": 2,
+          "uid": 14,
+          "floor": 5,
+          "action": 74
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 6,
+          "action": 87
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 6,
+          "action": 93
+        },
+        {
+          "seed": 2,
+          "uid": 15,
+          "floor": 6,
+          "action": 102
+        },
+        {
+          "seed": 2,
+          "uid": 16,
+          "floor": 6,
+          "action": 108
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 6,
+          "action": 110
+        },
+        {
+          "seed": 2,
+          "uid": 15,
+          "floor": 6,
+          "action": 115
+        },
+        {
+          "seed": 2,
+          "uid": 16,
+          "floor": 6,
+          "action": 121
+        },
+        {
+          "seed": 2,
+          "uid": 17,
+          "floor": 6,
+          "action": 122
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 6,
+          "action": 125
+        },
+        {
+          "seed": 2,
+          "uid": 17,
+          "floor": 6,
+          "action": 126
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 7,
+          "action": 140
+        },
+        {
+          "seed": 2,
+          "uid": 18,
+          "floor": 7,
+          "action": 150
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 7,
+          "action": 154
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 7,
+          "action": 159
+        },
+        {
+          "seed": 2,
+          "uid": 18,
+          "floor": 7,
+          "action": 160
+        },
+        {
+          "seed": 2,
+          "uid": 21,
+          "floor": 7,
+          "action": 167
+        },
+        {
+          "seed": 2,
+          "uid": 20,
+          "floor": 7,
+          "action": 168
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 7,
+          "action": 172
+        },
+        {
+          "seed": 2,
+          "uid": 23,
+          "floor": 7,
+          "action": 175
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 8,
+          "action": 186
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 11,
+          "action": 211
+        },
+        {
+          "seed": 2,
+          "uid": 17,
+          "floor": 11,
+          "action": 215
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 11,
+          "action": 216
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 14,
+          "action": 230
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 14,
+          "action": 248
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 16,
+          "action": 267
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 16,
+          "action": 271
+        },
+        {
+          "seed": 2,
+          "uid": 19,
+          "floor": 16,
+          "action": 284
+        },
+        {
+          "seed": 2,
+          "uid": 20,
+          "floor": 16,
+          "action": 285
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 16,
+          "action": 293
+        },
+        {
+          "seed": 2,
+          "uid": 23,
+          "floor": 16,
+          "action": 297
+        },
+        {
+          "seed": 2,
+          "uid": 22,
+          "floor": 16,
+          "action": 303
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 16,
+          "action": 304
+        },
+        {
+          "seed": 2,
+          "uid": 21,
+          "floor": 16,
+          "action": 307
+        },
+        {
+          "seed": 2,
+          "uid": 19,
+          "floor": 16,
+          "action": 312
+        },
+        {
+          "seed": 2,
+          "uid": 20,
+          "floor": 16,
+          "action": 313
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 21,
+          "action": 350
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 24,
+          "action": 393
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 24,
+          "action": 400
+        },
+        {
+          "seed": 2,
+          "uid": 25,
+          "floor": 24,
+          "action": 405
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 25,
+          "action": 417
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 25,
+          "action": 442
+        },
+        {
+          "seed": 2,
+          "uid": 23,
+          "floor": 25,
+          "action": 447
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 27,
+          "action": 463
+        },
+        {
+          "seed": 2,
+          "uid": 24,
+          "floor": 27,
+          "action": 477
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 27,
+          "action": 479
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 29,
+          "action": 508
+        },
+        {
+          "seed": 2,
+          "uid": 25,
+          "floor": 29,
+          "action": 520
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 29,
+          "action": 521
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 31,
+          "action": 548
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 33,
+          "action": 579
+        },
+        {
+          "seed": 2,
+          "uid": 25,
+          "floor": 33,
+          "action": 583
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 33,
+          "action": 591
+        },
+        {
+          "seed": 2,
+          "uid": 27,
+          "floor": 33,
+          "action": 608
+        },
+        {
+          "seed": 2,
+          "uid": 26,
+          "floor": 33,
+          "action": 612
+        },
+        {
+          "seed": 2,
+          "uid": 25,
+          "floor": 33,
+          "action": 617
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 33,
+          "action": 622
+        },
+        {
+          "seed": 2,
+          "uid": 29,
+          "floor": 33,
+          "action": 623
+        },
+        {
+          "seed": 2,
+          "uid": 25,
+          "floor": 33,
+          "action": 626
+        },
+        {
+          "seed": 2,
+          "uid": 28,
+          "floor": 33,
+          "action": 631
+        },
+        {
+          "seed": 2,
+          "uid": 30,
+          "floor": 33,
+          "action": 632
+        },
+        {
+          "seed": 2,
+          "uid": 27,
+          "floor": 33,
+          "action": 638
+        },
+        {
+          "seed": 2,
+          "uid": 26,
+          "floor": 33,
+          "action": 643
+        },
+        {
+          "seed": 2,
+          "uid": 25,
+          "floor": 33,
+          "action": 644
+        },
+        {
+          "seed": 2,
+          "uid": 28,
+          "floor": 33,
+          "action": 649
+        },
+        {
+          "seed": 2,
+          "uid": 29,
+          "floor": 33,
+          "action": 650
+        },
+        {
+          "seed": 2,
+          "uid": 31,
+          "floor": 33,
+          "action": 651
+        },
+        {
+          "seed": 2,
+          "uid": 33,
+          "floor": 33,
+          "action": 655
+        },
+        {
+          "seed": 2,
+          "uid": 35,
+          "floor": 33,
+          "action": 656
+        },
+        {
+          "seed": 2,
+          "uid": 27,
+          "floor": 33,
+          "action": 661
+        },
+        {
+          "seed": 2,
+          "uid": 30,
+          "floor": 33,
+          "action": 662
+        },
+        {
+          "seed": 3,
+          "uid": 11,
+          "floor": 7,
+          "action": 55
+        },
+        {
+          "seed": 3,
+          "uid": 11,
+          "floor": 10,
+          "action": 77
+        },
+        {
+          "seed": 3,
+          "uid": 14,
+          "floor": 10,
+          "action": 80
+        },
+        {
+          "seed": 3,
+          "uid": 14,
+          "floor": 12,
+          "action": 99
+        },
+        {
+          "seed": 3,
+          "uid": 11,
+          "floor": 12,
+          "action": 100
+        },
+        {
+          "seed": 3,
+          "uid": 11,
+          "floor": 12,
+          "action": 109
+        },
+        {
+          "seed": 3,
+          "uid": 17,
+          "floor": 12,
+          "action": 110
+        },
+        {
+          "seed": 3,
+          "uid": 16,
+          "floor": 12,
+          "action": 114
+        },
+        {
+          "seed": 3,
+          "uid": 14,
+          "floor": 16,
+          "action": 127
+        },
+        {
+          "seed": 3,
+          "uid": 11,
+          "floor": 16,
+          "action": 128
+        },
+        {
+          "seed": 3,
+          "uid": 17,
+          "floor": 16,
+          "action": 144
+        },
+        {
+          "seed": 3,
+          "uid": 16,
+          "floor": 16,
+          "action": 148
+        },
+        {
+          "seed": 3,
+          "uid": 11,
+          "floor": 16,
+          "action": 149
+        },
+        {
+          "seed": 3,
+          "uid": 14,
+          "floor": 16,
+          "action": 150
+        },
+        {
+          "seed": 3,
+          "uid": 20,
+          "floor": 16,
+          "action": 156
+        },
+        {
+          "seed": 3,
+          "uid": 18,
+          "floor": 16,
+          "action": 157
+        },
+        {
+          "seed": 3,
+          "uid": 19,
+          "floor": 16,
+          "action": 161
+        },
+        {
+          "seed": 3,
+          "uid": 14,
+          "floor": 16,
+          "action": 165
+        },
+        {
+          "seed": 3,
+          "uid": 17,
+          "floor": 16,
+          "action": 166
+        }
+      ]
+    },
+    {
+      "id": "armaments",
+      "acquisitions": [
+        {
+          "seed": 2,
+          "uid": 21,
+          "source": "card_reward",
+          "floor": 21,
+          "action": 367
+        },
+        {
+          "seed": 3,
+          "uid": 11,
+          "source": "card_reward",
+          "floor": 1,
+          "action": 17
+        }
+      ],
+      "plays": [
+        {
+          "seed": 2,
+          "uid": 21,
+          "floor": 24,
+          "action": 377
+        },
+        {
+          "seed": 2,
+          "uid": 21,
+          "floor": 24,
+          "action": 398
+        },
+        {
+          "seed": 2,
+          "uid": 21,
+          "floor": 25,
+          "action": 428
+        },
+        {
+          "seed": 2,
+          "uid": 21,
+          "floor": 27,
+          "action": 456
+        },
+        {
+          "seed": 2,
+          "uid": 20,
+          "floor": 29,
+          "action": 518
+        },
+        {
+          "seed": 2,
+          "uid": 20,
+          "floor": 31,
+          "action": 536
+        },
+        {
+          "seed": 2,
+          "uid": 20,
+          "floor": 33,
+          "action": 599
+        },
+        {
+          "seed": 2,
+          "uid": 20,
+          "floor": 33,
+          "action": 606
+        },
+        {
+          "seed": 2,
+          "uid": 20,
+          "floor": 33,
+          "action": 647
+        },
+        {
+          "seed": 3,
+          "uid": 11,
+          "floor": 2,
+          "action": 28
+        },
+        {
+          "seed": 3,
+          "uid": 10,
+          "floor": 7,
+          "action": 57
+        },
+        {
+          "seed": 3,
+          "uid": 10,
+          "floor": 7,
+          "action": 60
+        },
+        {
+          "seed": 3,
+          "uid": 10,
+          "floor": 10,
+          "action": 75
+        },
+        {
+          "seed": 3,
+          "uid": 10,
+          "floor": 12,
+          "action": 105
+        },
+        {
+          "seed": 3,
+          "uid": 10,
+          "floor": 16,
+          "action": 131
+        },
+        {
+          "seed": 3,
+          "uid": 10,
+          "floor": 16,
+          "action": 154
+        }
+      ]
+    },
+    {
+      "id": "body_slam",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "clash",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "cleave",
+      "acquisitions": [
+        {
+          "seed": 42,
+          "uid": 14,
+          "source": "card_reward",
+          "floor": 6,
+          "action": 66
+        }
+      ],
+      "plays": [
+        {
+          "seed": 42,
+          "uid": 14,
+          "floor": 8,
+          "action": 73
+        },
+        {
+          "seed": 42,
+          "uid": 14,
+          "floor": 10,
+          "action": 97
+        },
+        {
+          "seed": 42,
+          "uid": 14,
+          "floor": 11,
+          "action": 114
+        },
+        {
+          "seed": 42,
+          "uid": 14,
+          "floor": 11,
+          "action": 122
+        },
+        {
+          "seed": 42,
+          "uid": 14,
+          "floor": 12,
+          "action": 139
+        },
+        {
+          "seed": 42,
+          "uid": 14,
+          "floor": 14,
+          "action": 159
+        },
+        {
+          "seed": 42,
+          "uid": 14,
+          "floor": 16,
+          "action": 174
+        },
+        {
+          "seed": 42,
+          "uid": 14,
+          "floor": 16,
+          "action": 194
+        },
+        {
+          "seed": 42,
+          "uid": 14,
+          "floor": 16,
+          "action": 205
+        },
+        {
+          "seed": 42,
+          "uid": 14,
+          "floor": 16,
+          "action": 211
+        }
+      ]
+    },
+    {
+      "id": "clothesline",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "flex",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "havoc",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "headbutt",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "heavy_blade",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "iron_wave",
+      "acquisitions": [
+        {
+          "seed": 2,
+          "uid": 18,
+          "source": "card_reward",
+          "floor": 14,
+          "action": 252
+        },
+        {
+          "seed": 2,
+          "uid": 24,
+          "source": "card_reward",
+          "floor": 27,
+          "action": 486
+        },
+        {
+          "seed": 42,
+          "uid": 17,
+          "source": "card_reward",
+          "floor": 11,
+          "action": 130
+        }
+      ],
+      "plays": [
+        {
+          "seed": 2,
+          "uid": 18,
+          "floor": 16,
+          "action": 276
+        },
+        {
+          "seed": 2,
+          "uid": 18,
+          "floor": 16,
+          "action": 288
+        },
+        {
+          "seed": 2,
+          "uid": 18,
+          "floor": 16,
+          "action": 310
+        },
+        {
+          "seed": 2,
+          "uid": 18,
+          "floor": 21,
+          "action": 356
+        },
+        {
+          "seed": 2,
+          "uid": 18,
+          "floor": 24,
+          "action": 382
+        },
+        {
+          "seed": 2,
+          "uid": 18,
+          "floor": 24,
+          "action": 396
+        },
+        {
+          "seed": 2,
+          "uid": 18,
+          "floor": 25,
+          "action": 423
+        },
+        {
+          "seed": 2,
+          "uid": 18,
+          "floor": 27,
+          "action": 460
+        },
+        {
+          "seed": 2,
+          "uid": 23,
+          "floor": 29,
+          "action": 495
+        },
+        {
+          "seed": 2,
+          "uid": 17,
+          "floor": 29,
+          "action": 503
+        },
+        {
+          "seed": 2,
+          "uid": 17,
+          "floor": 31,
+          "action": 535
+        },
+        {
+          "seed": 2,
+          "uid": 23,
+          "floor": 31,
+          "action": 539
+        },
+        {
+          "seed": 2,
+          "uid": 17,
+          "floor": 33,
+          "action": 571
+        },
+        {
+          "seed": 2,
+          "uid": 23,
+          "floor": 33,
+          "action": 574
+        },
+        {
+          "seed": 2,
+          "uid": 17,
+          "floor": 33,
+          "action": 589
+        },
+        {
+          "seed": 2,
+          "uid": 23,
+          "floor": 33,
+          "action": 598
+        },
+        {
+          "seed": 2,
+          "uid": 23,
+          "floor": 33,
+          "action": 618
+        },
+        {
+          "seed": 2,
+          "uid": 17,
+          "floor": 33,
+          "action": 619
+        },
+        {
+          "seed": 2,
+          "uid": 23,
+          "floor": 33,
+          "action": 630
+        },
+        {
+          "seed": 2,
+          "uid": 17,
+          "floor": 33,
+          "action": 639
+        },
+        {
+          "seed": 2,
+          "uid": 23,
+          "floor": 33,
+          "action": 657
+        },
+        {
+          "seed": 42,
+          "uid": 17,
+          "floor": 12,
+          "action": 144
+        },
+        {
+          "seed": 42,
+          "uid": 17,
+          "floor": 14,
+          "action": 153
+        },
+        {
+          "seed": 42,
+          "uid": 17,
+          "floor": 16,
+          "action": 189
+        },
+        {
+          "seed": 42,
+          "uid": 17,
+          "floor": 16,
+          "action": 197
+        }
+      ]
+    },
+    {
+      "id": "perfected_strike",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "pommel_strike",
+      "acquisitions": [
+        {
+          "seed": 42,
+          "uid": 13,
+          "source": "card_reward",
+          "floor": 5,
+          "action": 46
+        }
+      ],
+      "plays": [
+        {
+          "seed": 42,
+          "uid": 13,
+          "floor": 6,
+          "action": 53
+        },
+        {
+          "seed": 42,
+          "uid": 13,
+          "floor": 6,
+          "action": 60
+        },
+        {
+          "seed": 42,
+          "uid": 13,
+          "floor": 6,
+          "action": 64
+        },
+        {
+          "seed": 42,
+          "uid": 13,
+          "floor": 8,
+          "action": 76
+        },
+        {
+          "seed": 42,
+          "uid": 13,
+          "floor": 10,
+          "action": 89
+        },
+        {
+          "seed": 42,
+          "uid": 13,
+          "floor": 10,
+          "action": 105
+        },
+        {
+          "seed": 42,
+          "uid": 13,
+          "floor": 11,
+          "action": 112
+        },
+        {
+          "seed": 42,
+          "uid": 13,
+          "floor": 11,
+          "action": 126
+        },
+        {
+          "seed": 42,
+          "uid": 13,
+          "floor": 12,
+          "action": 138
+        },
+        {
+          "seed": 42,
+          "uid": 13,
+          "floor": 14,
+          "action": 158
+        },
+        {
+          "seed": 42,
+          "uid": 13,
+          "floor": 16,
+          "action": 173
+        },
+        {
+          "seed": 42,
+          "uid": 13,
+          "floor": 16,
+          "action": 193
+        },
+        {
+          "seed": 42,
+          "uid": 13,
+          "floor": 16,
+          "action": 209
+        }
+      ]
+    },
+    {
+      "id": "shrug_it_off",
+      "acquisitions": [
+        {
+          "seed": 2,
+          "uid": 20,
+          "source": "card_reward",
+          "floor": 18,
+          "action": 338
+        },
+        {
+          "seed": 42,
+          "uid": 11,
+          "source": "card_reward",
+          "floor": 1,
+          "action": 24
+        }
+      ],
+      "plays": [
+        {
+          "seed": 2,
+          "uid": 20,
+          "floor": 21,
+          "action": 348
+        },
+        {
+          "seed": 2,
+          "uid": 20,
+          "floor": 24,
+          "action": 376
+        },
+        {
+          "seed": 2,
+          "uid": 20,
+          "floor": 25,
+          "action": 419
+        },
+        {
+          "seed": 2,
+          "uid": 20,
+          "floor": 25,
+          "action": 445
+        },
+        {
+          "seed": 2,
+          "uid": 20,
+          "floor": 27,
+          "action": 470
+        },
+        {
+          "seed": 2,
+          "uid": 20,
+          "floor": 27,
+          "action": 481
+        },
+        {
+          "seed": 2,
+          "uid": 19,
+          "floor": 29,
+          "action": 507
+        },
+        {
+          "seed": 2,
+          "uid": 19,
+          "floor": 29,
+          "action": 517
+        },
+        {
+          "seed": 2,
+          "uid": 19,
+          "floor": 31,
+          "action": 549
+        },
+        {
+          "seed": 2,
+          "uid": 19,
+          "floor": 33,
+          "action": 569
+        },
+        {
+          "seed": 2,
+          "uid": 19,
+          "floor": 33,
+          "action": 603
+        },
+        {
+          "seed": 2,
+          "uid": 19,
+          "floor": 33,
+          "action": 625
+        },
+        {
+          "seed": 2,
+          "uid": 19,
+          "floor": 33,
+          "action": 653
+        },
+        {
+          "seed": 42,
+          "uid": 11,
+          "floor": 5,
+          "action": 38
+        },
+        {
+          "seed": 42,
+          "uid": 11,
+          "floor": 8,
+          "action": 72
+        },
+        {
+          "seed": 42,
+          "uid": 11,
+          "floor": 10,
+          "action": 93
+        },
+        {
+          "seed": 42,
+          "uid": 11,
+          "floor": 10,
+          "action": 104
+        },
+        {
+          "seed": 42,
+          "uid": 11,
+          "floor": 11,
+          "action": 113
+        },
+        {
+          "seed": 42,
+          "uid": 11,
+          "floor": 12,
+          "action": 142
+        },
+        {
+          "seed": 42,
+          "uid": 11,
+          "floor": 14,
+          "action": 157
+        },
+        {
+          "seed": 42,
+          "uid": 11,
+          "floor": 16,
+          "action": 181
+        },
+        {
+          "seed": 42,
+          "uid": 11,
+          "floor": 16,
+          "action": 201
+        }
+      ]
+    },
+    {
+      "id": "sword_boomerang",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "thunderclap",
+      "acquisitions": [
+        {
+          "seed": 2,
+          "uid": 16,
+          "source": "card_reward",
+          "floor": 7,
+          "action": 177
+        }
+      ],
+      "plays": [
+        {
+          "seed": 2,
+          "uid": 16,
+          "floor": 8,
+          "action": 189
+        },
+        {
+          "seed": 2,
+          "uid": 16,
+          "floor": 11,
+          "action": 203
+        },
+        {
+          "seed": 2,
+          "uid": 16,
+          "floor": 14,
+          "action": 241
+        },
+        {
+          "seed": 2,
+          "uid": 16,
+          "floor": 16,
+          "action": 268
+        },
+        {
+          "seed": 2,
+          "uid": 16,
+          "floor": 16,
+          "action": 277
+        },
+        {
+          "seed": 2,
+          "uid": 16,
+          "floor": 16,
+          "action": 289
+        },
+        {
+          "seed": 2,
+          "uid": 16,
+          "floor": 16,
+          "action": 308
+        },
+        {
+          "seed": 2,
+          "uid": 16,
+          "floor": 18,
+          "action": 323
+        },
+        {
+          "seed": 2,
+          "uid": 16,
+          "floor": 21,
+          "action": 351
+        },
+        {
+          "seed": 2,
+          "uid": 16,
+          "floor": 21,
+          "action": 365
+        },
+        {
+          "seed": 2,
+          "uid": 16,
+          "floor": 24,
+          "action": 388
+        },
+        {
+          "seed": 2,
+          "uid": 16,
+          "floor": 25,
+          "action": 416
+        },
+        {
+          "seed": 2,
+          "uid": 16,
+          "floor": 27,
+          "action": 466
+        },
+        {
+          "seed": 2,
+          "uid": 16,
+          "floor": 27,
+          "action": 480
+        },
+        {
+          "seed": 2,
+          "uid": 15,
+          "floor": 29,
+          "action": 494
+        },
+        {
+          "seed": 2,
+          "uid": 15,
+          "floor": 29,
+          "action": 522
+        },
+        {
+          "seed": 2,
+          "uid": 15,
+          "floor": 31,
+          "action": 533
+        },
+        {
+          "seed": 2,
+          "uid": 15,
+          "floor": 33,
+          "action": 594
+        },
+        {
+          "seed": 2,
+          "uid": 15,
+          "floor": 33,
+          "action": 602
+        }
+      ]
+    },
+    {
+      "id": "true_grit",
+      "acquisitions": [
+        {
+          "seed": 2,
+          "uid": 11,
+          "source": "card_reward",
+          "floor": 1,
+          "action": 19
+        },
+        {
+          "seed": 42,
+          "uid": 19,
+          "source": "card_reward",
+          "floor": 14,
+          "action": 165
+        }
+      ],
+      "plays": [
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 5,
+          "action": 61
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 6,
+          "action": 88
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 6,
+          "action": 100
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 6,
+          "action": 114
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 7,
+          "action": 133
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 7,
+          "action": 149
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 8,
+          "action": 181
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 11,
+          "action": 213
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 14,
+          "action": 229
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 14,
+          "action": 247
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 16,
+          "action": 264
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 16,
+          "action": 272
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 18,
+          "action": 327
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 21,
+          "action": 360
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 24,
+          "action": 401
+        },
+        {
+          "seed": 2,
+          "uid": 11,
+          "floor": 25,
+          "action": 435
+        },
+        {
+          "seed": 2,
+          "uid": 10,
+          "floor": 29,
+          "action": 514
+        },
+        {
+          "seed": 2,
+          "uid": 10,
+          "floor": 33,
+          "action": 588
+        },
+        {
+          "seed": 2,
+          "uid": 10,
+          "floor": 33,
+          "action": 609
+        },
+        {
+          "seed": 2,
+          "uid": 10,
+          "floor": 33,
+          "action": 634
+        },
+        {
+          "seed": 42,
+          "uid": 19,
+          "floor": 16,
+          "action": 198
+        },
+        {
+          "seed": 42,
+          "uid": 19,
+          "floor": 16,
+          "action": 213
+        }
+      ]
+    },
+    {
+      "id": "twin_strike",
+      "acquisitions": [
+        {
+          "seed": 3,
+          "uid": 14,
+          "source": "buyCardSlot",
+          "floor": 5,
+          "action": 47
+        }
+      ],
+      "plays": [
+        {
+          "seed": 3,
+          "uid": 13,
+          "floor": 7,
+          "action": 52
+        },
+        {
+          "seed": 3,
+          "uid": 13,
+          "floor": 10,
+          "action": 85
+        },
+        {
+          "seed": 3,
+          "uid": 13,
+          "floor": 12,
+          "action": 95
+        },
+        {
+          "seed": 3,
+          "uid": 13,
+          "floor": 16,
+          "action": 136
+        },
+        {
+          "seed": 3,
+          "uid": 13,
+          "floor": 16,
+          "action": 140
+        },
+        {
+          "seed": 3,
+          "uid": 13,
+          "floor": 16,
+          "action": 160
+        }
+      ]
+    },
+    {
+      "id": "warcry",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "wild_strike",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "battle_trance",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "blood_for_blood",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "bloodletting",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "burning_pact",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "carnage",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "combust",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "dark_embrace",
+      "acquisitions": [
+        {
+          "seed": 3,
+          "uid": 13,
+          "source": "buyCardSlot",
+          "floor": 4,
+          "action": 44
+        }
+      ],
+      "plays": []
+    },
+    {
+      "id": "disarm",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "dropkick",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "dual_wield",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "entrench",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "evolve",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "feel_no_pain",
+      "acquisitions": [
+        {
+          "seed": 3,
+          "uid": 16,
+          "source": "card_reward",
+          "floor": 10,
+          "action": 87
+        },
+        {
+          "seed": 42,
+          "uid": 12,
+          "source": "buyCardSlot",
+          "floor": 2,
+          "action": 28
+        }
+      ],
+      "plays": []
+    },
+    {
+      "id": "fire_breathing",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "flame_barrier",
+      "acquisitions": [
+        {
+          "seed": 2,
+          "uid": 14,
+          "source": "card_reward",
+          "floor": 5,
+          "action": 77
+        },
+        {
+          "seed": 2,
+          "uid": 17,
+          "source": "card_reward",
+          "floor": 11,
+          "action": 219
+        },
+        {
+          "seed": 42,
+          "uid": 18,
+          "source": "card_reward",
+          "floor": 12,
+          "action": 147
+        }
+      ],
+      "plays": [
+        {
+          "seed": 2,
+          "uid": 17,
+          "floor": 16,
+          "action": 305
+        },
+        {
+          "seed": 2,
+          "uid": 14,
+          "floor": 18,
+          "action": 330
+        },
+        {
+          "seed": 2,
+          "uid": 17,
+          "floor": 21,
+          "action": 362
+        },
+        {
+          "seed": 2,
+          "uid": 14,
+          "floor": 24,
+          "action": 394
+        },
+        {
+          "seed": 2,
+          "uid": 17,
+          "floor": 24,
+          "action": 403
+        },
+        {
+          "seed": 2,
+          "uid": 14,
+          "floor": 24,
+          "action": 407
+        },
+        {
+          "seed": 2,
+          "uid": 14,
+          "floor": 27,
+          "action": 476
+        },
+        {
+          "seed": 2,
+          "uid": 16,
+          "floor": 33,
+          "action": 582
+        },
+        {
+          "seed": 2,
+          "uid": 13,
+          "floor": 33,
+          "action": 635
+        }
+      ]
+    },
+    {
+      "id": "ghostly_armor",
+      "acquisitions": [
+        {
+          "seed": 2,
+          "uid": 13,
+          "source": "card_reward",
+          "floor": 4,
+          "action": 57
+        }
+      ],
+      "plays": [
+        {
+          "seed": 2,
+          "uid": 13,
+          "floor": 5,
+          "action": 70
+        },
+        {
+          "seed": 2,
+          "uid": 13,
+          "floor": 6,
+          "action": 86
+        },
+        {
+          "seed": 2,
+          "uid": 13,
+          "floor": 7,
+          "action": 137
+        },
+        {
+          "seed": 2,
+          "uid": 13,
+          "floor": 7,
+          "action": 158
+        },
+        {
+          "seed": 2,
+          "uid": 13,
+          "floor": 8,
+          "action": 184
+        },
+        {
+          "seed": 2,
+          "uid": 13,
+          "floor": 11,
+          "action": 207
+        },
+        {
+          "seed": 2,
+          "uid": 13,
+          "floor": 14,
+          "action": 234
+        },
+        {
+          "seed": 2,
+          "uid": 13,
+          "floor": 16,
+          "action": 262
+        },
+        {
+          "seed": 2,
+          "uid": 13,
+          "floor": 16,
+          "action": 280
+        },
+        {
+          "seed": 2,
+          "uid": 13,
+          "floor": 16,
+          "action": 292
+        },
+        {
+          "seed": 2,
+          "uid": 13,
+          "floor": 16,
+          "action": 302
+        },
+        {
+          "seed": 2,
+          "uid": 13,
+          "floor": 24,
+          "action": 386
+        },
+        {
+          "seed": 2,
+          "uid": 13,
+          "floor": 27,
+          "action": 471
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 29,
+          "action": 509
+        },
+        {
+          "seed": 2,
+          "uid": 12,
+          "floor": 31,
+          "action": 551
+        }
+      ]
+    },
+    {
+      "id": "hemokinesis",
+      "acquisitions": [
+        {
+          "seed": 42,
+          "uid": 16,
+          "source": "card_reward",
+          "floor": 10,
+          "action": 108
+        }
+      ],
+      "plays": [
+        {
+          "seed": 42,
+          "uid": 16,
+          "floor": 11,
+          "action": 116
+        },
+        {
+          "seed": 42,
+          "uid": 16,
+          "floor": 11,
+          "action": 127
+        },
+        {
+          "seed": 42,
+          "uid": 16,
+          "floor": 12,
+          "action": 143
+        },
+        {
+          "seed": 42,
+          "uid": 16,
+          "floor": 14,
+          "action": 154
+        },
+        {
+          "seed": 42,
+          "uid": 16,
+          "floor": 16,
+          "action": 177
+        },
+        {
+          "seed": 42,
+          "uid": 16,
+          "floor": 16,
+          "action": 190
+        },
+        {
+          "seed": 42,
+          "uid": 16,
+          "floor": 16,
+          "action": 210
+        }
+      ]
+    },
+    {
+      "id": "infernal_blade",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "inflame",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "intimidate",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "metallicize",
+      "acquisitions": [
+        {
+          "seed": 2,
+          "uid": 15,
+          "source": "card_reward",
+          "floor": 6,
+          "action": 129
+        },
+        {
+          "seed": 2,
+          "uid": 22,
+          "source": "card_reward",
+          "floor": 24,
+          "action": 412
+        }
+      ],
+      "plays": [
+        {
+          "seed": 2,
+          "uid": 15,
+          "floor": 7,
+          "action": 141
+        },
+        {
+          "seed": 2,
+          "uid": 15,
+          "floor": 8,
+          "action": 185
+        },
+        {
+          "seed": 2,
+          "uid": 15,
+          "floor": 11,
+          "action": 205
+        },
+        {
+          "seed": 2,
+          "uid": 15,
+          "floor": 14,
+          "action": 235
+        },
+        {
+          "seed": 2,
+          "uid": 15,
+          "floor": 16,
+          "action": 266
+        },
+        {
+          "seed": 2,
+          "uid": 15,
+          "floor": 18,
+          "action": 326
+        },
+        {
+          "seed": 2,
+          "uid": 15,
+          "floor": 21,
+          "action": 349
+        },
+        {
+          "seed": 2,
+          "uid": 15,
+          "floor": 24,
+          "action": 391
+        },
+        {
+          "seed": 2,
+          "uid": 15,
+          "floor": 25,
+          "action": 425
+        },
+        {
+          "seed": 2,
+          "uid": 22,
+          "floor": 25,
+          "action": 431
+        },
+        {
+          "seed": 2,
+          "uid": 15,
+          "floor": 27,
+          "action": 469
+        },
+        {
+          "seed": 2,
+          "uid": 22,
+          "floor": 27,
+          "action": 474
+        },
+        {
+          "seed": 2,
+          "uid": 14,
+          "floor": 29,
+          "action": 497
+        },
+        {
+          "seed": 2,
+          "uid": 21,
+          "floor": 29,
+          "action": 502
+        },
+        {
+          "seed": 2,
+          "uid": 21,
+          "floor": 31,
+          "action": 538
+        },
+        {
+          "seed": 2,
+          "uid": 14,
+          "floor": 31,
+          "action": 543
+        },
+        {
+          "seed": 2,
+          "uid": 21,
+          "floor": 33,
+          "action": 573
+        },
+        {
+          "seed": 2,
+          "uid": 14,
+          "floor": 33,
+          "action": 578
+        }
+      ]
+    },
+    {
+      "id": "power_through",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "pummel",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "rage",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "rampage",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "reckless_charge",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "rupture",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "searing_blow",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "second_wind",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "seeing_red",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "sentinel",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "sever_soul",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "shockwave",
+      "acquisitions": [
+        {
+          "seed": 2,
+          "uid": 23,
+          "source": "card_reward",
+          "floor": 25,
+          "action": 449
+        }
+      ],
+      "plays": [
+        {
+          "seed": 2,
+          "uid": 22,
+          "floor": 29,
+          "action": 523
+        },
+        {
+          "seed": 2,
+          "uid": 22,
+          "floor": 33,
+          "action": 620
+        }
+      ]
+    },
+    {
+      "id": "spot_weakness",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "uppercut",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "whirlwind",
+      "acquisitions": [
+        {
+          "seed": 42,
+          "uid": 15,
+          "source": "card_reward",
+          "floor": 8,
+          "action": 83
+        }
+      ],
+      "plays": []
+    },
+    {
+      "id": "barricade",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "berserk",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "bludgeon",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "brutality",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "corruption",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "demon_form",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "double_tap",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "exhume",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "feed",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "fiend_fire",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "immolate",
+      "acquisitions": [
+        {
+          "seed": 2,
+          "uid": 19,
+          "source": "card_reward",
+          "floor": 16,
+          "action": 316
+        }
+      ],
+      "plays": [
+        {
+          "seed": 2,
+          "uid": 19,
+          "floor": 18,
+          "action": 328
+        },
+        {
+          "seed": 2,
+          "uid": 19,
+          "floor": 18,
+          "action": 334
+        },
+        {
+          "seed": 2,
+          "uid": 19,
+          "floor": 21,
+          "action": 354
+        },
+        {
+          "seed": 2,
+          "uid": 19,
+          "floor": 24,
+          "action": 384
+        },
+        {
+          "seed": 2,
+          "uid": 19,
+          "floor": 24,
+          "action": 404
+        },
+        {
+          "seed": 2,
+          "uid": 19,
+          "floor": 25,
+          "action": 430
+        },
+        {
+          "seed": 2,
+          "uid": 19,
+          "floor": 25,
+          "action": 438
+        },
+        {
+          "seed": 2,
+          "uid": 18,
+          "floor": 29,
+          "action": 493
+        },
+        {
+          "seed": 2,
+          "uid": 18,
+          "floor": 29,
+          "action": 525
+        },
+        {
+          "seed": 2,
+          "uid": 18,
+          "floor": 31,
+          "action": 550
+        },
+        {
+          "seed": 2,
+          "uid": 18,
+          "floor": 31,
+          "action": 553
+        },
+        {
+          "seed": 2,
+          "uid": 18,
+          "floor": 33,
+          "action": 570
+        }
+      ]
+    },
+    {
+      "id": "impervious",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "juggernaut",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "limit_break",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "offering",
+      "acquisitions": [],
+      "plays": []
+    },
+    {
+      "id": "reaper",
+      "acquisitions": [],
+      "plays": []
+    }
+  ]
+}

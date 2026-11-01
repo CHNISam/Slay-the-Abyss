@@ -1,0 +1,28 @@
+{
+  "acceptedBase": "cec690c1701af121e370facde5c1ca2ad9beb99e",
+  "scope": "Only the original reviewed three MaxHP glyph additions and one core module classification over accepted PR313 sources; accepted UI/source/goldens unchanged.",
+  "files": {
+    "data/presentation/ui_theme.json": {
+      "path": "data/presentation/ui_theme.json",
+      "beforeSha256": "77dcf24a1f1b128d069413feaa55e97c69e7c83272c49afe4ff72119a92da7bc",
+      "afterSha256": "3e50b8b44d7afee5c542c0552608c27f1dc0d4a0d3e87fde2d0b8a104e494fdf",
+      "edits": [
+        {
+          "before": "        \"note\": \"Reuse the approved event glyph for the opening boon; dedicated relic artwork and native acceptance remain pending.\"\n      }\n    },\n",
+          "after": "        \"note\": \"Reuse the approved event glyph for the opening boon; dedicated relic artwork and native acceptance remain pending.\"\n      },\n      \"pear\": 102005,\n      \"mango\": 102005,\n      \"lees_waffle\": 102005\n    },\n"
+        }
+      ]
+    },
+    "config/architecture.json": {
+      "path": "config/architecture.json",
+      "beforeSha256": "0c15a29fa24a4284eb0760b750356b658eb02e28b71d23b46839520777222cdb",
+      "afterSha256": "01c0e67dc5c791f9aeaf93afd3cd659ee93357958ac7ce45a474ce1cf720aaca",
+      "edits": [
+        {
+          "before": "    \"abyss_node_ui_shop\": \"ui\",\n    \"abyss_battle_potion_popup\": \"ui\"\n  },\n",
+          "after": "    \"abyss_node_ui_shop\": \"ui\",\n    \"abyss_battle_potion_popup\": \"ui\",\n    \"abyss_max_hp_relics\": \"core\"\n  },\n"
+        }
+      ]
+    }
+  }
+}

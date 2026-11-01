@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "repo": "CHNISam/Slay-the-Abyss",
+  "pr": 257,
+  "failedHead": "9ba8e7e487bfd7c69cbd3363785eb1a052d339fc",
+  "runId": 40540556781,
+  "fixBase": "7f6ded371f208881bf40c90ea84cc7721a123e15",
+  "status": "local-fix-remote-current-head-pending",
+  "rootCause": "Trace recorder indexes original.__index as a table after the P0 strict native fixture changed it to a function",
+  "jobs": [
+    {"id": 122317468761, "name": "engineering-posix (1/4)", "step": "POSIX JavaScript regression shard", "failingTest": "presentation responsibilities preserve the frozen trace contract", "milliseconds": 5167.043923},
+    {"id": 122317469301, "name": "rules (1/8)", "step": "JavaScript regression shard", "failingTest": "presentation responsibilities preserve the frozen trace contract", "milliseconds": 5528.4789},
+    {"id": 122317469066, "name": "rules (6/8)", "step": "Lua regression shard", "failingFixture": "tests/lua/presentation_responsibilities_trace.lua", "milliseconds": 7521}
+  ],
+  "localRawLogs": [
+    {"file": "build/pr257-ci-40540556781/posix1.log", "bytes": 143257, "sha256": "d255cf36584535f08b72bda9dce6dcd0d688b93b08e1c47af4a604141c9bc958"},
+    {"file": "build/pr257-ci-40540556781/rules1.log", "bytes": 107862, "sha256": "aa249afc4a08a8f863cbfa74de485b072ea1cc756b71ecfa1eb843fbb4037eda"},
+    {"file": "build/pr257-ci-40540556781/rules6.log", "bytes": 219555, "sha256": "993cf76290dd5d20a3a10a3ad44b705b7358ea9cc4ba48e79bb28519ccd1e496"}
+  ],
+  "redMilliseconds": 1434.0403,
+  "finalLocalTests": [
+    {"name": "frozen text", "milliseconds": 1692.7653, "count": 361, "hash": 1837256485},
+    {"name": "frozen ordered native writes", "milliseconds": 24258.292, "count": 72915, "hash": 148113441},
+    {"name": "strict native recorder contract", "milliseconds": 730.0612}
+  ],
+  "fixtureBudgetMilliseconds": 30000,
+  "productLuaChanged": false,
+  "guiUsed": false,
+  "fullQualityVerified": false
+}

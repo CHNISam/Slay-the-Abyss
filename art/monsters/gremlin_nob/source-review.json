@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "gremlin_nob",
+  "sourceSha256": "fe35e72f2d2416f5b713157ab3481f8bbca4780086ae80438399227deb0d4032",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    67,
+    11,
+    1244,
+    1242
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "8db209679ccfc12bd9e3275e2f2cb3d34ba46f8719def8e726f9e21c95612729",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "7eac7a0b4f26edaf7a1a4361c7428dd369dd2c52ca8630a8dbcf5f97c0065a83",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Original grey face/paired short horns consistent with family; thick inverted-trapezoid torso, large shoulders, broad feet and one low short stone hammer distinguish Fat belly/Mad giant forearms.",
+    "One handhandlehead continuous; other closed fist plausible. Two arms/legs/feet and horns intact, no extras.",
+    "Hammer carried rear-right rather than brief left is documented composition deviation, not anatomy/identity failure. Small warm marks not firecloud; no STS red giant copy.",
+    "Large masses and hammer silhouette readable106/127; small warm marks/detail not reliable tiny."
+  ],
+  "costLimits": [
+    "Preserve proportions, armour/hammer silhouettes and connections before facets/muscle/wrap microdetail.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserve; tight intact margins downstream6% inset contain allowed; no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only, no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

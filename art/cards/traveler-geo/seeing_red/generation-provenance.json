@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "card_id": "seeing_red",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T18:30:33.365Z",
+    "endUtc": "2026-10-29T18:31:25.767Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Calm upright open-eyed Lumine, settled shoulders, low safe sword grip and relaxed emptyhand. No rage/fire/HPstrain/heal/strength/energyicons/UI/enemy/contact. Actual flower/whiteblue/blackgold identity clear at tiny scale. Renewal is balanced reset/readiness only and may read as a generic ready portrait; energy2 and exhaust remain text. Fine detail remains; native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/seeing_red/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "e99b90891dbc72e09f895f2ff36cd5a345ff27f6763e638ac9b7ead2cee7f525",
+    "bytes": 1885660,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/seeing_red/prompt.txt",
+    "sha256": "41fca408cd8324dde90338efd1eb0ac323818c37ff522eff5df467b5e316472c"
+  }
+}

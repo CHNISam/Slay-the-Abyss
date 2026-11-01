@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {loadContent,validateContent} from '../scripts/validate-data.mjs';
+const large=d=>d.enemies.enemies.find(e=>e.id==='spike_slime_l');
+const setup=()=>{const d=loadContent('data'),e=large(d);Object.assign(e.ai,{splitIntent:'spike_slime_l_split',splitEnemy:'spike_slime_m',splitCount:2,splitHpDivisor:2});if(!e.intents.some(i=>i.id===e.ai.splitIntent))e.intents.push({id:e.ai.splitIntent,kind:'split',effects:[]});return d;};
+test('playable Large declares exact bounded split and a real medium child',()=>{const d=loadContent('data'),e=large(d);assert.equal(e.ai.splitCount,2);assert.equal(e.ai.splitHpDivisor,2);assert.equal(e.ai.splitEnemy,'spike_slime_m');assert.equal(e.intents.find(i=>i.id===e.ai.splitIntent)?.kind,'split');assert.deepEqual(validateContent(d),[]);});
+test('source split policy is valid',()=>assert.deepEqual(validateContent(setup()),[]));
+for(const [field,value]of [['splitIntent',undefined],['splitIntent','spike_slime_l_1'],['splitEnemy','missing'],['splitEnemy','spike_slime_l'],['splitCount',1],['splitCount',3],['splitHpDivisor',3]])test('reject invalid split '+field+' '+value,()=>{const d=setup();large(d).ai[field]=value;if(value===undefined)delete large(d).ai[field];assert.ok(validateContent(d).some(e=>e.includes(field)));});
+test('split intent cannot contain effects',()=>{const d=setup();large(d).intents.at(-1).effects=[{op:'damage',value:99}];assert.ok(validateContent(d).some(e=>e.includes('effects')));});
+test('medium cannot acquire unsupported recursive split',()=>{const d=setup(),e=d.enemies.enemies.find(e=>e.id==='spike_slime_m');e.intents.push({id:'invented_split',kind:'split',effects:[]});assert.ok(validateContent(d).some(e=>e.includes('matching AI')));});
+test('playable encounters fit five UI slots including retained split parent',()=>{const d=setup();d.enemies.encounters.find(e=>e.id==='large_spike').enemies=['spike_slime_l','spike_slime_l'];assert.ok(validateContent(d).some(e=>e.includes('five')));});

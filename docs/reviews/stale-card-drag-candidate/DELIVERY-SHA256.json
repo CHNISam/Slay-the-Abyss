@@ -1,0 +1,7 @@
+{
+  "candidate.patch": "a321996743d786872a9d056e01f2d075148d8e273eb00504e000f97e2d1b6584",
+  "REPORT.md": "bec18413ce400bafebf722b5ef33be9d414ce5b12daacbd21fd5f06a7b6ce2b9",
+  "REPRODUCE.md": "fd99376f3ed0dd77f047819477f457844d82f6a632a5f1204507acb1080467e9",
+  "evidence/apply-check.log": "5e6322e08ee44419528bed0994845c78a96914042778dce7fdd59e0d22180b3e",
+  "context/ref-identity.json": "b790990eba177a53b2d48bae8908b0e26d8f37dd23692dd27008df4ea5134bbd"
+}

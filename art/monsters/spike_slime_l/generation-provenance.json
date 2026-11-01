@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "spike_slime_l",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:03:28.246Z",
+    "endUtc": "2026-10-29T20:04:33.247Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "assetRelativePath": "../spike_slime_s/source.png",
+      "role": "actual smallspike family source material/exact3attachedstone continuity, not flat silhouette",
+      "actuallyPassed": true,
+      "sha256": "a8fdfc4494153a489ea3cad18ff5359b012533d8a0c594604c0eed9098214a52",
+      "actualDimensions": [
+        1254,
+        1254
+      ],
+      "availability": "reference-not-included; identity retained by SHA256 and role"
+    },
+    {
+      "repositoryPath": "art/cards/traveler-geo/armaments/source.png",
+      "role": "approved painterly style-only, not objects/anatomy",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "actualDimensions": [
+        1881,
+        836
+      ]
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 933894,
+      "sha256": "ba20922386cfc664b3c4362113c2c54fd9ed5eca4acecc754f74307d4c9ef08d"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 3094,
+      "sha256": "37241f860c045a8eede1ce8f07c0193c4cc0dcf69bb97be3f159f8c482295a90"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 13393,
+      "sha256": "d211d5767a91163fc891b081abd0e09186c6f94ea10d2943c857adabb1e34f26"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 17864,
+      "sha256": "c650fff761273ef79ae6dfd96f48ecfe6e636d08185ac91ff62f0bfb8ca8c54b"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": "Original large bluegray thickgel, TWO unequal body rises/saddle plus THREE basal lobes, EXACTLY3attached broadbluntstones; not acidcore/green or scaled medium",
+  "inspection": {
+    "authorFull": "inspected",
+    "containSizes": [
+      106,
+      127
+    ],
+    "observation": "Full+106/127/4x inspected: exact3attached broadbluntstones, unequal bluegel left/right rises+saddle and3distinct basal lobes. Twinbodyrises subtler under dominantstones than acidL: flagged independentreview, not selfasserted perfect. Alpha>16bbox(21,220,1236,1062), intact but right18pxmargin less6percent. Rawsource unchanged, no crop/stretch. Native unverified."
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "card_id": "ghostly_armor",
+  "displayName": "及时招架",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "ghostly_armor/generation-provenance.json",
+      "sha256": "d970aa3482a63b1683ebe4c2f4cf66a6f15d0d622e8f6d75bbfc64338944e4a4",
+      "bytes": 2861
+    },
+    "preview-source-144x64.png": {
+      "path": "ghostly_armor/preview-source-144x64.png",
+      "sha256": "d4cbfd3a4e3f168c0464cb465cc7fbbe37f79037f6404477290e04e8d19fc885",
+      "bytes": 19564
+    },
+    "prompt.txt": {
+      "path": "ghostly_armor/prompt.txt",
+      "sha256": "1b65e16eda40df19bf4e27a66cd3a20d8c5208dec2d651c912bce320b5796db5",
+      "bytes": 3061
+    },
+    "source.png": {
+      "path": "ghostly_armor/source.png",
+      "sha256": "af03b421e138ff963ace2b89265e9e7de640848750f403ed710e8cb739159230",
+      "bytes": 1969281
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "ghostly_armor",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "block",
+        "value": 10
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-09",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

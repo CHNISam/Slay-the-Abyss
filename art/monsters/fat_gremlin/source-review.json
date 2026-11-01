@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "fat_gremlin",
+  "sourceSha256": "31133c8ca9fffc135ab26d96904c698ddf3cbfa2372d5877dc7dce305c8cb3b5",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    47,
+    64,
+    1224,
+    1207
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "698f245eb3d75dc16bfb3858a3100f728c902a4f5d114b3f508981a5f8010b40",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "3371a8a668c6a28ca26950128615cd4adaca67399b646c91465f9e58280ceb93",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Original grey face/paired short horns/ears consistent with actual Mad/Sneaky family, no STS/Hilichurl mask identity.",
+    "Squat pear belly/short legs, one low short mace, round shoulder pad and free hand on belly differentiate Mad narrow waist/huge forearms and Sneaky slender blade silhouette beyond scaling/color.",
+    "Mace/grip/arm continuous, free-hand fingers plausible; two feet, horns and all appendages intact. Pear shape and low mace survive106/127.",
+    "Ochre-orange cloth rather than pure yellow is minor palette drift, recorded."
+  ],
+  "costLimits": [
+    "Prioritize belly/short-leg proportions, mace connection and silhouette before skin facets/fingers/wraps.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserve; tight intact margins downstream6% inset contain allowed; no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only; no native production or whole-roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

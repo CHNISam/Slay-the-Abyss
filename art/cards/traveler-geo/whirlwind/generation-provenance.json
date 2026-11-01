@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "card_id": "whirlwind",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T18:37:02.406Z",
+    "completedObservedAt": "2026-10-29T18:37:57Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "c5f70ec860f33958fdff025e4f729a06705a4cbfeffe72a2ea5c3239c7401af1",
+      "bytes": 2067279
+    },
+    "prompt.txt": {
+      "sha256": "d627f5e6fde8f4fb285da26a7bec2a127478ae7095da0a2282ede2e0812d1fd6",
+      "bytes": 3455
+    },
+    "preview-source-144x64.png": {
+      "sha256": "5a3df7db81cc0a0003c0f1e1dbb8a1d585ee7f8f096aee4e4e752ec7cd967d13",
+      "bytes": 19900
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions preserved despite requested size"
+  },
+  "intent": {
+    "name": "岩潮叠嶂",
+    "mechanics": "spend all remaining X energy, repeat damageAll5 X times; upgraded8",
+    "mainAction": "one Lumine and held sword initiate overlapping low warm physical Geo-toned wave fronts across three separate foes",
+    "identityCarriers": [
+      "blonde bob and white flower",
+      "connected white-blue original costume and gold-dark waist"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and144x64: one recognizable flower/costume Lumine upperleft, one held normal sword, multiple clearly low parallel curved fronts and three separate dark foes. More warm dust/chips than requested but not particle field; no rock construct tornado or persistent wall. Identity smaller but flower whiteblue silhouette reads. Independent review pending.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

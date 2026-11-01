@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "identity": "stretchy-geo-fungus",
+  "source": {
+    "repoPath": "art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/source.png",
+    "sha256": "87b232b4e24af0744883c01c1f0f97f3e8db119db9a4004f5d1ab6e1237c33fc",
+    "bytes": 853011,
+    "size": [
+      1254,
+      1254
+    ],
+    "bytesUnmodified": true,
+    "action": "add unchanged generated source"
+  },
+  "sourceDirectionApprovedByUser": false,
+  "nativeReview": "Root viewed actual127px4x comparison and accepted recognizable simplified test candidate for staging only",
+  "nativeOwnerAcceptance": false,
+  "method": "Manual broad rocky cap facets, radial gills, curving pale stem and friendly eyes. No source sampling, fitting, pixel mosaic, masks, bitmap import, new renderer or image generation.",
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "native": {
+    "native-art.json": {
+      "sha256": "70f27bf94a3d0defe1969467e1dfa9cb1c5af097446b922a64c6e91ed9007fff",
+      "bytes": 369436
+    },
+    "native-art.lua": {
+      "sha256": "9a6adddfe286c7de0cee1c3b04d80b1af29e321030c5d93c059685a5c46665eb",
+      "bytes": 117482
+    }
+  },
+  "originalEvidence": {
+    "nativeReportSha256": "dbb459d56e09dce793183b94e460cc519fbd7018e630d2888d20cc0bb40652d2",
+    "generationProvenanceSha256": "c536a5cca386c5761dc66421330426c544d63fc63188754b729b79a4aec973f2"
+  },
+  "generation": {
+    "asset": "stretchy-geo-fungus",
+    "enemy_id": "green_louse",
+    "identity": "伸缩岩蕈兽",
+    "generation_mode": "built-in image_gen imagegen",
+    "generation_calls": 1,
+    "repair_calls": 0,
+    "source_is_unchanged_raw": true,
+    "model": "unknown, not exposed",
+    "seed": "unknown, not exposed",
+    "raw_source_sha256": "87b232b4e24af0744883c01c1f0f97f3e8db119db9a4004f5d1ab6e1237c33fc",
+    "prompt_file": "prompt.txt",
+    "prompt_sha256": "654c1027313c40fa47d1ed49f50529a12fb08471e9b21c841ceaac3fa4259107",
+    "reference_urls": {
+      "image": "https://staticg.sportskeeda.com/editor/2022/11/e94bc-16681959513090-1920.jpg",
+      "page": "https://www.sportskeeda.com/esports/how-awaken-stretchy-geo-fungus-potential-7-moves-genshin-impact",
+      "role": "Reference-only screenshot of original game; retains third-party rights. Not generated project source.",
+      "archive_api": "HTTP403; not retried"
+    },
+    "reference_file_sha256": "abe3b814f0545c4576f283d8c1bee28604dbc9030deb25d0ecb25fae9ba2a56f",
+    "style_reference": "../../pyro-abyss-mage-sample.png",
+    "style_reference_sha256": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64",
+    "pixel_qa": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox_128": [
+        121,
+        66,
+        1168,
+        1186
+      ],
+      "alpha_zero_pixels": 1042542,
+      "edge_alpha_max": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "previews": "QA derivatives only: crop visible alpha bbox >=128 and contain inside88%; raw source unchanged."
+    },
+    "status": "SOURCE_CANDIDATE_ONLY; not converted/wired/device tested; no owner acceptance."
+  },
+  "identityReferenceMetadata": {
+    "image": "https://staticg.sportskeeda.com/editor/2022/11/e94bc-16681959513090-1920.jpg",
+    "page": "https://www.sportskeeda.com/esports/how-awaken-stretchy-geo-fungus-potential-7-moves-genshin-impact",
+    "role": "Reference-only screenshot of original game; retains third-party rights. Not generated project source.",
+    "archive_api": "HTTP403; not retried"
+  },
+  "rights": "AI-assisted game-IP derivative; no game-IP sublicense, commercial clearance or reference redistribution permission. Native Lua embeds pinned exporter/runtime material; retain notices and assess code separately from art."
+}

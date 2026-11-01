@@ -1,0 +1,103 @@
+{
+  "name": "ART_Capacity",
+  "script": "ART_Capacity_Probe",
+  "showCursor": true,
+  "outputName": "abyss-capacity-longest",
+  "controls": [
+    {
+      "name": "Card01",
+      "kind": "container",
+      "size": [
+        180,
+        240
+      ],
+      "position": [
+        0,
+        0
+      ],
+      "script": "ART_Capacity_01"
+    },
+    {
+      "name": "Status",
+      "kind": "text",
+      "position": [
+        0,
+        300
+      ],
+      "size": [
+        1100,
+        40
+      ],
+      "text": {
+        "content": "容量验收 longest / 1卡 / 15动态控件 / 总数22",
+        "fontSize": 24,
+        "backgroundOpacity": 0,
+        "colour": "#ECE6DA",
+        "align": "centre"
+      }
+    },
+    {
+      "name": "Plate",
+      "kind": "image",
+      "position": [
+        0,
+        -285
+      ],
+      "size": [
+        240,
+        40
+      ],
+      "image": 100001,
+      "colour": "#A8732A"
+    },
+    {
+      "name": "Label",
+      "kind": "text",
+      "position": [
+        0,
+        -285
+      ],
+      "size": [
+        240,
+        40
+      ],
+      "text": {
+        "content": "点击检查",
+        "fontSize": 24,
+        "backgroundOpacity": 0,
+        "align": "centre"
+      }
+    },
+    {
+      "name": "Confirm",
+      "kind": "cursorArea",
+      "position": [
+        0,
+        -285
+      ],
+      "size": [
+        240,
+        40
+      ]
+    },
+    {
+      "name": "Metrics",
+      "kind": "text",
+      "position": [
+        0,
+        -330
+      ],
+      "size": [
+        1000,
+        40
+      ],
+      "text": {
+        "content": "客户端帧间隔采样中（10秒）",
+        "fontSize": 18,
+        "backgroundOpacity": 0,
+        "colour": "#ECE6DA",
+        "align": "centre"
+      }
+    }
+  ]
+}

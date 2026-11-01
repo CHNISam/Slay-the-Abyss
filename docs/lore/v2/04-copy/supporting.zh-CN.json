@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 2,
+  "locale": "zh-CN",
+  "status": "provisional_supporting_copy",
+  "kind": "candidate_content_not_runtime_schema",
+  "merchant": {
+    "encounter": "转过一道石廊，荧看到一块旧毯子，上面摆着卷册和古物。毯子后坐着一位老人，像是早就知道会有客人来到这里。",
+    "greet": "路不好走吧？来，看看有没有用得上的。",
+    "purchaseSuccess": "眼光不错。",
+    "insufficientGold": "这可不够啊，小姑娘。",
+    "originHint": "做生意嘛，总得知道哪条路安全。",
+    "leave": "前面可不像这里太平。一路小心。"
+  },
+  "combatIntros": {
+    "looter": "石廊尽头，一道人影突然冲了出来。那人蒙着脸，目光却始终盯着荧腰间的钱袋。",
+    "cultist": "火光映在岩壁上。一名披着灰袍的人正在低声祈祷，手中的火焰随着祷词愈发明亮。察觉到荧的脚步，他缓缓转过身来。"
+  },
+  "eventCopy": {
+    "cleric": {
+      "intro": "一位披着长袍的陌生人拦住了去路。\n\n「哎呀，旅行者！伤口要治吗？或者有什么不想再带着的招式？我都能帮上忙。」\n\n他笑着指了指身旁的价目表。\n\n「当然，得收一点金币。」",
+      "choices": [
+        "heal",
+        "purify",
+        "leave"
+      ]
+    },
+    "purifier": {
+      "intro": "破损的石龛静静立在路旁，表面的古老纹路仍散发着微光。\n\n当荧靠近时，一股平静的力量从中传来，仿佛能够让人放下一些不再需要的战斗方式。",
+      "choices": [
+        "pray",
+        "leave"
+      ]
+    }
+  },
+  "renderPolicy": "display only if existing capability/approved UI budget permits; player choice/cost/outcome supersedes flavor",
+  "unapprovedFeatures": [
+    "merchant dialog tree",
+    "new event odds",
+    "new NPC mechanics",
+    "extra card effects"
+  ]
+}

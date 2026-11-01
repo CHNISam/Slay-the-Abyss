@@ -1,0 +1,62 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "zipSha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
+  "scope": "Guardian Sharp Hide THORNS path only; no certified PC binary or live acceptance",
+  "files": {
+    "powers/SharpHidePower.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/SharpHidePower.java",
+      "sha256": "a7cf449a907ca34569059aca1310619deb597d32cdd84201815d024614ff576a"
+    },
+    "actions/common/DamageAction.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/DamageAction.java",
+      "sha256": "c5649fc04cbcadffa617e5c52f1a6f879f88cb1a90a543d5a0a05ebf950578ec"
+    },
+    "actions/AbstractGameAction.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/AbstractGameAction.java",
+      "sha256": "cf0e5dbdfdf3f0c567c3527b839070718e19d836bb62364e8fa5f973b5ecdccb"
+    },
+    "actions/GameActionManager.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/GameActionManager.java",
+      "sha256": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3"
+    },
+    "monsters/exordium/TheGuardian.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/TheGuardian.java",
+      "sha256": "40571fa4c941d70c1814b0c0ff5cffa7d8933e24b49d95f2b531a3dc05598d56"
+    },
+    "characters/AbstractPlayer.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
+    },
+    "core/AbstractCreature.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b"
+    },
+    "powers/BufferPower.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/BufferPower.java",
+      "sha256": "c37a54fe614dd9588e298e9d2de0d283bb45c31b58f8aeae7447676093502b60"
+    },
+    "powers/IntangiblePlayerPower.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/IntangiblePlayerPower.java",
+      "sha256": "62ca9eecfd78e5b5a018ef069147d36bd58463b9754c8359d5dfb710bb6c52c8"
+    },
+    "potions/FairyPotion.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/FairyPotion.java",
+      "sha256": "c292f97254f11ca34e0792b3899be966418d32ea5e8ce3e18cbcbaa5f4500e25"
+    },
+    "relics/TungstenRod.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/TungstenRod.java",
+      "sha256": "690106967f973f2a478b48bb0b5561023474289b99d8a65cd30437e2265fe09a"
+    }
+  },
+  "contracts": {
+    "sharpHideAmountA0": 3,
+    "onUseCardType": "ATTACK",
+    "damageType": "THORNS",
+    "deadOwnerCancels": false,
+    "postCombatRetainedActionType": "DAMAGE",
+    "eventStatus": "sharp_hide",
+    "intangibleBeforeBlock": true,
+    "bufferBeforeRod": true,
+    "sameFourArgumentRetaliateStatus": "thorns"
+  }
+}

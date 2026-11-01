@@ -1,0 +1,122 @@
+{
+  "status": "offline-implemented-platform-pending",
+  "priority": "P1",
+  "blocksCurrentMilestone": false,
+  "requiredBeforeRelease": true,
+  "tasks": [
+    "TASK-4",
+    "TASK-38"
+  ],
+  "baseline": "20aff96403729f57cb41905709e67af75d876a01",
+  "codeCommit": "79244ee30d1c3f528ae6264db472adaee4d8689d",
+  "pullRequest": "https://github.com/CHNISam/Slay-the-Abyss/pull/207",
+  "candidate": {
+    "path": ".artifacts/mobile-fullbleed-79244ee/abyss-mobile-79244ee.gil",
+    "sha256": "1d2aeb6c56ae384a53818006e57bca55745ed8d9f48eeb9470a1b88ff8e00b45",
+    "liveWriteEnabled": false,
+    "independentAudit": ".artifacts/mobile-fullbleed-79244ee/audit/audit.json",
+    "auditPassed": true,
+    "matchingModules": 65,
+    "totalModules": 65,
+    "controls": 2824,
+    "maximumDirectChildren": 60,
+    "staticErrors": 0,
+    "staticWarnings": 35,
+    "hashUnchangedByAudit": true
+  },
+  "savedGeometry": {
+    "report": ".artifacts/mobile-fullbleed-79244ee/viewport-saved-geometry.json",
+    "scope": "native saved fields only; no device rendering",
+    "deviceStates": 4,
+    "nativeHostClientRootAndBackdrop": {
+      "anchorMin": [
+        0,
+        0
+      ],
+      "anchorMax": [
+        1,
+        1
+      ],
+      "sizeDelta": [
+        0,
+        0
+      ]
+    },
+    "contentStage": {
+      "anchorMin": [
+        0.5,
+        0.5
+      ],
+      "anchorMax": [
+        0.5,
+        0.5
+      ],
+      "sizeDelta": [
+        1280,
+        720
+      ]
+    },
+    "sharedBackdropFirstSibling": true,
+    "opaqueUnmaskedImage": true
+  },
+  "regression": {
+    "baselineGenerator": {
+      "exit": 1,
+      "passed": 1,
+      "failed": 1
+    },
+    "fixedGenerator": {
+      "exit": 0,
+      "passed": 2,
+      "failed": 0
+    },
+    "luaViewport": {
+      "exit": 0,
+      "devices": 9,
+      "repeatedResizesPerDevice": 3
+    },
+    "luaGameHost": {
+      "exit": 0,
+      "passed": 15
+    },
+    "canonicalCheck": {
+      "status": "INTERRUPTED_TO_SERIALIZE_WITH_CI",
+      "command": "npm run check",
+      "javascript": {
+        "tests": 1366,
+        "passed": 1247,
+        "skipped": 119,
+        "failed": 0
+      },
+      "completedLuaFixtures": 43,
+      "discoveredLuaFixtures": 285,
+      "reason": "M3 CI 40174178038 started on the same machine after this local check; stopped own process to serialize full verification",
+      "log": ".artifacts/mobile-fullbleed-79244ee/logs/check.log"
+    }
+  },
+  "uiAcceptance": {
+    "command": "npm run verify:ui -- <candidate>",
+    "exit": 1,
+    "partialScreens": 6,
+    "pendingScreens": 5,
+    "reason": "same-candidate in-game review remains incomplete"
+  },
+  "platform": {
+    "officialImport": "NOT_TESTED",
+    "officialDevicePreview": "NOT_TESTED",
+    "playtest": "NOT_TESTED",
+    "physicalPhone": "NOT_TESTED",
+    "notchAndSafeArea": "NOT_TESTED",
+    "touchInput": "NOT_TESTED",
+    "fps": "NOT_MEASURED",
+    "reason": "user explicitly chose offline validation only this turn; arrange an input-device window later",
+    "noMouseKeyboardOrForegroundControlThisTurn": true
+  },
+  "ownership": {
+    "freshClaim": "REJECTED_MIGRATION_PAUSED",
+    "regularCommitHook": "REJECTED_NO_SESSION_RECEIPT",
+    "prOwnershipCheck": "FAILED",
+    "execution": "one-turn minimal-scope exception after user instructed continue in response to the disclosed conflict; no persistent hook or coordination configuration changes",
+    "qualityCi": "Final exact-head results tracked on PR207; local interruption is not a passing check"
+  }
+}

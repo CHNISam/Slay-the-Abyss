@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "gremlin_leader",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:48:38.330Z",
+    "endUtc": "2026-10-29T20:49:58.457Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none-exact-raw-copy",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "sha256": "2644de629bf224464503c7dbe340cfc6b9f6fb40dc2bd5c9543586453be57b75",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "Actual own-project grey-face and short-horn family identity plus painted style; not Mad body proportions or pose.",
+      "actuallyPassed": true,
+      "path": "../mad_gremlin/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1174554,
+      "sha256": "6df7d679a7bbdb95128738278f3bece208942bbe22e09135268a4524d428e3d0"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2003,
+      "sha256": "998299c6f080502b69bebebbaf35ccf43e37fa1f2032107b2a157689f1c5a03c"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 17176,
+      "sha256": "4c1431b8f02005e568ad709fff4e240c48c9b386c9335f57535cce0afe28ccd7"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 22977,
+      "sha256": "6e4d32707dabb4e78687f559a6d9b9074827faddccdfc9bda073c175af48c9dd"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "design": "Original taller slim grey short-horn imp commander, one stone shoulder plate, short broad banner-shaped back panel, low pointing hand and rear short blade",
+  "alpha": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "meaningfulBBoxAlphaGt16": [
+      33,
+      38,
+      1233,
+      1223
+    ],
+    "edgeClipping": "no meaningful appendage edge cut observed; insetcontain iftightmargin"
+  },
+  "inspection": {
+    "fullOriginal": true,
+    "contain106": true,
+    "contain127": true,
+    "nearest4x106": true,
+    "nearest4x127": true,
+    "observations": "Full source, 106/127 px and 4x inspected. Actual own-family grey face and horns remain; slimmer forearms and taller legs distinguish Mad. One connected low pointing hand, one coherent rear blade grip, attached shoulder and back plates. Back panel taller than ideal short brief but not a long flag. Entire silhouette intact; inset contain needed for tight margins. No official Hilichurl identity."
+  }
+}

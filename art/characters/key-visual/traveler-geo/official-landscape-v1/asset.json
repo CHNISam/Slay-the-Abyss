@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "assetId": "traveler-geo.official-landscape.v1",
+  "characterId": "traveler",
+  "classId": "ironclad",
+  "role": "menu-and-character-selection-background",
+  "intendedSlots": [
+    "dot-a.menu.traveler",
+    "dot-a.select.large.traveler.ironclad"
+  ],
+  "sourceSize": [
+    1200,
+    675
+  ],
+  "logicalSize": [
+    480,
+    270
+  ],
+  "referenceDisplay": [
+    1280,
+    720
+  ],
+  "aspectRatio": "16:9",
+  "resize": "one LANCZOS resize; no crop, recolor, AI generation or composition change",
+  "primitiveCount": 13201,
+  "imageAssetId": 100001,
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "algorithmCommit": "fdc76f28393babb7b960e09014ee43db36575c03",
+  "algorithm": "greedy maximal aligned rectangles with dynamic thresholds",
+  "parameters": {
+    "std": 3,
+    "bits": 8,
+    "dynamic": true,
+    "m2": 2,
+    "m3": 3,
+    "r": 2,
+    "t1": 30,
+    "t2": 12,
+    "flat": 12
+  },
+  "approval": {
+    "status": "visual-direction-accepted",
+    "date": "2026-10-29",
+    "scope": [
+      "offline actual-Lua rendering appearance"
+    ],
+    "approvedPreviewSha256": "27d6f2692183a4d3d0a401e2520d730a57ae89e234da677c4fefe611e6238cb8",
+    "note": "Owner accepts this official-image direction for current release; performance and native integration are separate gates."
+  },
+  "runtime": {
+    "enabled": false,
+    "templateIndexId": null,
+    "hostRequired": "dedicated background container; existing single-image heroSlots are not a primitive-group host",
+    "battleAllowed": false,
+    "creation": "full export is synchronous; do not mount directly to existing UI root",
+    "adapter": {
+      "path": "runtime/background_adapter.lua",
+      "data": "runtime/background_data.lua",
+      "defaultBatch": 64,
+      "completeBuildTicksAtDefault": 207,
+      "offlineLifecycleTests": 19,
+      "productionRegistration": "pending",
+      "releaseTraversal": "synchronous; real cost unmeasured"
+    }
+  },
+  "verification": {
+    "blockCount": 13201,
+    "upstreamReconstructionChangedPixels": 0,
+    "jsonVsLuaFieldsEqual": true,
+    "jsonVsLuaPreviewChangedPixels": {
+      "1x": 0,
+      "2x": 0
+    },
+    "luaVsUpstreamRasterChangedPixels": {
+      "1x": 23984,
+      "2x": 47968
+    },
+    "rasterDifference": "fixed editor includes right/bottom polygon endpoints; preserve geometry rather than shrink to fake matching",
+    "gil": "not-built",
+    "officialImport": "not-run",
+    "pc": "not-run",
+    "physicalAndroid": "not-run",
+    "performance": "not-measured"
+  },
+  "production": {
+    "targetCount": 1,
+    "expansionAllowed": false,
+    "next": "minimum dimension/lifecycle integration; no more fitting experiments for current release"
+  },
+  "files": {
+    "source.webp": {
+      "sha256": "a6cbdfbc71ab5bac40f6a126fef4093d4270edcb9ff61000d1fc0622c4d95045",
+      "bytes": 47220
+    },
+    "native-art.json": {
+      "sha256": "808bde1065f4cb636aac13d3db5488aa67597ffb51ad578696bd7642742f3753",
+      "bytes": 4632366
+    },
+    "native-art.lua": {
+      "sha256": "fc0e4c50c0ed03a7a790731df5f5e10076d1418db615c41784210e9677c24ce3",
+      "bytes": 7566742
+    },
+    "blocks.json": {
+      "sha256": "22f298a26c75904cbaa48c487d440f1814451537e30d6080ca383276d67e426b",
+      "bytes": 891715
+    },
+    "preview-native.png": {
+      "sha256": "e23d1daac5e7046f9119edbd6179fd16fa31abd245c24d395adfd1af31a91a43",
+      "bytes": 81155
+    },
+    "preview-native-2x.png": {
+      "sha256": "27d6f2692183a4d3d0a401e2520d730a57ae89e234da677c4fefe611e6238cb8",
+      "bytes": 107596
+    },
+    "runtime/background_adapter.lua": {
+      "sha256": "5cbaca64eeac8c7765640f7116b953bd70a3175b18e2bf665fcf0b2e35ef9f5a",
+      "bytes": 7944
+    },
+    "runtime/background_data.lua": {
+      "sha256": "c5f4429f6e664ba8f18d79f440a87167cd7ec6c1adad36fd41e2342414e72397",
+      "bytes": 1103361
+    }
+  }
+}

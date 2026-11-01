@@ -1,0 +1,27 @@
+{
+ "isError": false,
+ "result": {
+  "name": "Abyss_GeoRuins_Spike",
+  "file": "F:\\New folder\\.worktrees\\art-scene-spike\\build\\miliastra\\scenes\\Abyss_GeoRuins_Spike.gia",
+  "installedTo": null,
+  "count": 7,
+  "entityIds": [
+   1078010000,
+   1078010006
+  ],
+  "bounds": {
+   "min": [
+    -8.0386,
+    -2.398275,
+    -5.6591499999999995
+   ],
+   "max": [
+    8.141075,
+    2.398275,
+    7.2231250000000005
+   ]
+  },
+  "next": "Not installed. Copy the file into BeyondLocal/Beyond_Local_Export before importing."
+ },
+ "images": []
+}

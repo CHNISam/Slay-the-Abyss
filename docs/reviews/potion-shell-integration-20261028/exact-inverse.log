@@ -1,0 +1,14 @@
+✔ approved UI layer binds complete current sources and restores exactly the unchanged PR302 base (59.739296ms)
+✔ historical materialization consumes both all 26 original sources and every new UI consumer (42.263544ms)
+✔ historical replay inverses bind every current source and exactly recover the accepted formal presentation (41.420114ms)
+✔ current Task77 source reverses only its owned edits and preserves the complete accepted confirmation/UI base (10.820132ms)
+✔ accepted UI source layers recover the original immutable formal bindings and reject incomplete or duplicated changes (41.439433ms)
+✔ new controls guide offers same-run controls only, not later acts, keys or persistent continuation (1.270423ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 491.957188

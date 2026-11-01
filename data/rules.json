@@ -1,0 +1,75 @@
+{
+  "version": "0.1.0",
+  "player": {
+    "maxHp": 80,
+    "energyPerTurn": 3,
+    "drawPerTurn": 5,
+    "maxHand": 10,
+    "startingGold": 99,
+    "startingRelics": [
+      "burning_blood"
+    ],
+    "potionSlots": 3
+  },
+  "map": {
+    "floors": 17,
+    "generatedRows": 15,
+    "bossFloor": 16,
+    "bossTreasureFloor": 17,
+    "restFloor": 15,
+    "treasureFloor": 9,
+    "nodeTypes": [
+      "combat",
+      "elite",
+      "camp",
+      "shop",
+      "event",
+      "treasure",
+      "boss"
+    ]
+  },
+  "camp": {
+    "healPercent": 30,
+    "upgradeCount": 1
+  },
+  "events": {
+    "poolMode": "restricted-seven",
+    "golden_shrine": { "gold": 100, "curseGold": 275, "curse": "regret" },
+    "goop": { "damage": 11, "gold": 75, "lossMin": 20, "lossMax": 50 },
+    "golden_wing": { "damage": 7, "goldMin": 50, "goldMax": 80, "attackThreshold": 10 },
+    "shining_light": { "damagePercent": 20, "upgradeCount": 2 },
+    "purifier": {
+      "removeCost": 0
+    },
+    "cleric": {
+      "minGold": 35,
+      "healCost": 35,
+      "healPercent": 25,
+      "removeCost": 50
+    }
+  },
+  "shop": {
+    "cardCommon": 50,
+    "cardUncommon": 75,
+    "cardRare": 150,
+    "relic": 150,
+    "removeCard": 75,
+    "removeCardIncrement": 25
+  },
+  "rewards": {
+    "normalGold": 15,
+    "eliteGold": 30,
+    "bossGold": 100,
+    "cardChoices": 3
+  },
+  "combat": {
+    "blockReset": "owner_turn_start",
+    "vulnerablePercent": 150,
+    "weakPercent": 75,
+    "frailPercent": 75,
+    "rounding": "floor_after_modifiers",
+    "enemyAI": "intent_cycle",
+    "statusDurationTick": "round_end",
+    "poisonBypassesBlock": true
+  }
+}

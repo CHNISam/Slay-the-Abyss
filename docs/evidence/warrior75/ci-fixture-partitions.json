@@ -1,0 +1,337 @@
+[
+  {
+    "suite": "diagnostic_reward_protocol",
+    "originalSha256": "0fb49745846f02fda2ca210ced5322c39392ecce8f4e6d959c6bd85d3e650083",
+    "caseCount": 50,
+    "ranges": [
+      [
+        1,
+        6,
+        null,
+        null
+      ],
+      [
+        7,
+        12,
+        null,
+        null
+      ],
+      [
+        13,
+        18,
+        null,
+        null
+      ],
+      [
+        19,
+        24,
+        null,
+        null
+      ],
+      [
+        25,
+        30,
+        null,
+        null
+      ],
+      [
+        31,
+        36,
+        null,
+        null
+      ],
+      [
+        37,
+        42,
+        null,
+        null
+      ],
+      [
+        43,
+        48,
+        null,
+        null
+      ],
+      [
+        49,
+        50,
+        null,
+        null
+      ]
+    ],
+    "bodyChange": "Only registration selection;Growing80-card inner loop partitioned1..80,base/up both retained",
+    "helper": "tests\\lua\\support\\diagnostic_reward_protocol_cases.lua",
+    "helperSha256": "4b6f1decc73f62076c87c56200974dd005cea8b33275620b1ff1d369bbbbf0cb",
+    "coverageAudit": "All original cases/seeds/paths covered exactly once (80-card case partitioned into8 disjoint batches, both versions per card)."
+  },
+  {
+    "suite": "growing_card_text",
+    "originalSha256": "9611f5a0d66f2bb260a165ed20f0b13aa03675b3cde88865033e5c34a6118fc4",
+    "caseCount": 11,
+    "ranges": [
+      [
+        1,
+        3,
+        null,
+        null
+      ],
+      [
+        4,
+        6,
+        null,
+        null
+      ],
+      [
+        7,
+        9,
+        null,
+        null
+      ],
+      [
+        11,
+        11,
+        null,
+        null
+      ],
+      [
+        10,
+        10,
+        1,
+        10
+      ],
+      [
+        10,
+        10,
+        11,
+        20
+      ],
+      [
+        10,
+        10,
+        21,
+        30
+      ],
+      [
+        10,
+        10,
+        31,
+        40
+      ],
+      [
+        10,
+        10,
+        41,
+        50
+      ],
+      [
+        10,
+        10,
+        51,
+        60
+      ],
+      [
+        10,
+        10,
+        61,
+        70
+      ],
+      [
+        10,
+        10,
+        71,
+        80
+      ]
+    ],
+    "bodyChange": "Only registration selection;Growing80-card inner loop partitioned1..80,base/up both retained",
+    "helper": "tests\\lua\\support\\growing_card_text_cases.lua",
+    "helperSha256": "e96db6e7a02dc4d0b605cff0e6acef6357ba3a43a943a5bfb0546fc161094d48",
+    "coverageAudit": "All original cases/seeds/paths covered exactly once (80-card case partitioned into8 disjoint batches, both versions per card)."
+  },
+  {
+    "suite": "node_ui",
+    "originalSha256": "f3717bab67fc3b1a7aef6343f0591f57a4e5a1027a5da33bf190bf6ad48d0024",
+    "caseCount": 40,
+    "ranges": [
+      [
+        1,
+        5,
+        null,
+        null
+      ],
+      [
+        6,
+        10,
+        null,
+        null
+      ],
+      [
+        11,
+        15,
+        null,
+        null
+      ],
+      [
+        16,
+        20,
+        null,
+        null
+      ],
+      [
+        21,
+        25,
+        null,
+        null
+      ],
+      [
+        26,
+        30,
+        null,
+        null
+      ],
+      [
+        31,
+        35,
+        null,
+        null
+      ],
+      [
+        36,
+        40,
+        null,
+        null
+      ]
+    ],
+    "bodyChange": "Only registration selection;Growing80-card inner loop partitioned1..80,base/up both retained",
+    "helper": "tests\\lua\\support\\node_ui_cases.lua",
+    "helperSha256": "3ee8cb9a2d928f774bb1b09ba903869464ee171f1ce0407bba3371a825459729",
+    "coverageAudit": "All original cases/seeds/paths covered exactly once (80-card case partitioned into8 disjoint batches, both versions per card)."
+  },
+  {
+    "suite": "play_area_coordinates",
+    "originalSha256": "35cd29707ef5f7138733ab3ad99c0ffbe6c6bf6335da886dc9784767cadee0fa",
+    "caseCount": 31,
+    "ranges": [
+      [
+        1,
+        4,
+        null,
+        null
+      ],
+      [
+        5,
+        8,
+        null,
+        null
+      ],
+      [
+        9,
+        12,
+        null,
+        null
+      ],
+      [
+        13,
+        16,
+        null,
+        null
+      ],
+      [
+        17,
+        20,
+        null,
+        null
+      ],
+      [
+        21,
+        24,
+        null,
+        null
+      ],
+      [
+        25,
+        28,
+        null,
+        null
+      ],
+      [
+        29,
+        31,
+        null,
+        null
+      ]
+    ],
+    "bodyChange": "Only registration selection;Growing80-card inner loop partitioned1..80,base/up both retained",
+    "helper": "tests\\lua\\support\\play_area_coordinates_cases.lua",
+    "helperSha256": "077c0a5c7ae39990a1b512e830afe902104c794acc2a25810b7129f2cc723cbe",
+    "coverageAudit": "All original cases/seeds/paths covered exactly once (80-card case partitioned into8 disjoint batches, both versions per card)."
+  },
+  {
+    "suite": "boss_reward_rarity",
+    "originalSha256": "9f19279de2d76cdaaee745babd369654869a1db81504c3ac0e33c31717165254",
+    "seedRanges": [
+      [
+        1,
+        32
+      ],
+      [
+        33,
+        64
+      ],
+      [
+        65,
+        96
+      ],
+      [
+        97,
+        128
+      ]
+    ],
+    "allRareCoverage": "Original all-rare count assertion retained in every batch, stronger than the original once-over128 check",
+    "helperSha256": "3afb25853fdb6ae77f302f57514abafe708e71781f5e5d7d703e6f0a1e41bf66",
+    "coverageAudit": "All original cases/seeds/paths covered exactly once (80-card case partitioned into8 disjoint batches, both versions per card)."
+  },
+  {
+    "suite": "gremlin_gang_selection",
+    "firstIndexRanges": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        4,
+        4
+      ],
+      [
+        5,
+        5
+      ],
+      [
+        6,
+        6
+      ],
+      [
+        7,
+        7
+      ]
+    ],
+    "pathsPerBatch": 210,
+    "totalPaths": 1680,
+    "perPath": "original4draws,caps,oracle equality,staged RNG and rejected-constructor assertions unchanged",
+    "aggregateProof": "Eight disjoint first-index ranges cover Cartesian8x7x6x5;each actual tuple equals independent oracle;full oracle unique354 checked in each batch;partial first-slot frequencies checked210 per original index",
+    "originalSha256": "d8e8c972fd6f1b94b06f94c2175144f79795c2943d52816b6b95c16b8baba5ba",
+    "helperSha256": "d5113e89df74ee1aa35e13d7068baa1bd5fbb80e6f5d1da3c47b8ee065644040",
+    "coverageAudit": "All original cases/seeds/paths covered exactly once (80-card case partitioned into8 disjoint batches, both versions per card)."
+  }
+]

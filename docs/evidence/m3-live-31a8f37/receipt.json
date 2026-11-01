@@ -1,0 +1,120 @@
+{
+  "sourceCommit": "31a8f371b53b9b55f03f2e0a7af7f21488c2cd71",
+  "candidateSha256": "8cec5746b51bdac99cb747f2bd146d364d30f31fa3ac4d04852834fa7273d042",
+  "officialSaveId": "1073741845",
+  "officialCopySha256": "6b6210a12e0a926b0b421a378ff825c0784b12a422c42d725c014c7b3213df7d",
+  "nativeSession": "2026/10/24_19:31:08",
+  "nativeLogSha256": "d3083a8c48ed2798bb032309bf642570ab80daab62b918d73ab2baa63ad18e4c",
+  "printCount": 106,
+  "ready": [
+    {
+      "recordIndex": 2,
+      "elapsedSeconds": "1",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_UI ready",
+      "clientScript": true
+    }
+  ],
+  "scriptFailurePrints": [],
+  "automationDriverPresent": false,
+  "physicalControlsFromShop": true,
+  "firstBattleInputAttribution": "User-assisted setup and battle; do not attribute the complete first battle to agent input.",
+  "normalSeed": "not recorded by production host; no seed assertion",
+  "files": [
+    {
+      "path": "shop-before.png",
+      "sha256": "02a642e0ccbec8b1d0d61a321833007a41c270656d34adf82c70fd8b8f8e9001",
+      "bytes": 421185
+    },
+    {
+      "path": "potion-owned.png",
+      "sha256": "0d2de920da919bd1f05dc1d10ba422a0fa9d7b7ced8630f04eb721b7d9481ef8",
+      "bytes": 209285
+    },
+    {
+      "path": "potion-selected.png",
+      "sha256": "64617ecff6cc34d3f3b310a2aa6243db1e7b1d0751013d0aacdc88c094771f5f",
+      "bytes": 219830
+    },
+    {
+      "path": "potion-discarded.png",
+      "sha256": "8d20eac0a16fc44528e8645273049aafdbdc31ff82fc80e29ba5f0a828ff8157",
+      "bytes": 204032
+    },
+    {
+      "path": "potion-rebought.png",
+      "sha256": "480676e8b879486890dc20c4ce0bbb0d386e29190c3553299f94d40bfc4d42ad",
+      "bytes": 346024
+    },
+    {
+      "path": "battle-before.png",
+      "sha256": "df3ecf4288b70b97a08a4a966430e965121fbc9d3b44800d2ca3d558ed5d037b",
+      "bytes": 302023
+    },
+    {
+      "path": "battle-after.png",
+      "sha256": "515d5ffbd8ecb19f59cffe3c65be5c6ec7aa008572f839e3c99b1aac7c39d0b5",
+      "bytes": 274001
+    },
+    {
+      "path": "empty-repeat.png",
+      "sha256": "515d5ffbd8ecb19f59cffe3c65be5c6ec7aa008572f839e3c99b1aac7c39d0b5",
+      "bytes": 274001
+    },
+    {
+      "path": "settlement.png",
+      "sha256": "72249232a82daeed94dad8c4cb8f64bdd56244e0b5b273459b17903afd3cb8dd",
+      "bytes": 803909
+    },
+    {
+      "path": "editor-returned.png",
+      "sha256": "dbf85eba062ec3338a9180e022ac3df674e768746197804c5294d47bd8091f1a",
+      "bytes": 2066972
+    },
+    {
+      "path": "native-log.json",
+      "sha256": "adb21649cf65a532114ba31a7031c79e080c0b4e02de3d9b5594126e5702e634",
+      "bytes": 27509
+    },
+    {
+      "path": "native-log.gia",
+      "sha256": "d3083a8c48ed2798bb032309bf642570ab80daab62b918d73ab2baa63ad18e4c",
+      "bytes": 17740
+    },
+    {
+      "path": "candidate-audit.json",
+      "sha256": "e000fe341581d82d5ee76b971546f8190cf8c47232cfa435c87fefc20f1ed2ff",
+      "bytes": 26439
+    },
+    {
+      "path": "official-audit.json",
+      "sha256": "000d6141ca4bbf40586297b99058ff46272dea18ed94c2abf2a9eca8e1b4405f",
+      "bytes": 26440
+    },
+    {
+      "path": "candidate-graph-audit.json",
+      "sha256": "f2ed03518fa4529b0a642903ee24e68877a67b4169c9c804cd9cba1acbdc782f",
+      "bytes": 2155
+    },
+    {
+      "path": "official-graph-audit.json",
+      "sha256": "29b1cca4344aca05950bfcfdfb1a79ae9094626af126ec4d27ddea7f564d08b7",
+      "bytes": 2404
+    },
+    {
+      "path": "official-graph-differences.json",
+      "sha256": "2a10fdddfcb78cd0b6dc66cf4053dfc71afaaa77919f81513a2725df4250e6b2",
+      "bytes": 431
+    }
+  ],
+  "skillRuntime": {
+    "version": "0.1.0",
+    "liveWriteEnabled": false,
+    "check": "resources, schemas, get_capabilities response and clean stop; no live input performed by new helper yet"
+  },
+  "strictOfficialGraphPayloadPassed": false,
+  "uiOverallAcceptancePassed": false,
+  "scope": "Normal shop purchase/discard/same-ID replacement, carry across rooms, lethal potion use and empty-slot retry; not all potions, full belt, all launch content or M3 completion."
+}

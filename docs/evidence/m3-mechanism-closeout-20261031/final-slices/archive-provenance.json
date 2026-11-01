@@ -1,0 +1,164 @@
+{
+  "final-slices/review-chaos.json": {
+    "originalPath": "m3-review-chaos-shared-chain.json",
+    "originalSha256": "1fd93f74c1ba494b83bf2398c6f0998a29bb3a09a23563b600d1b071cc989172",
+    "originalBytes": 8893,
+    "encoding": "exact original bytes"
+  },
+  "final-slices/review-card-consumers.json": {
+    "originalPath": "m3-review-cardrng-consumers.json",
+    "originalSha256": "1b293369a43100dc8c3a503645761c71d1d8937a91eb817c44413908c1ba57bb",
+    "originalBytes": 2595,
+    "encoding": "exact original bytes"
+  },
+  "final-slices/review-merchant.json": {
+    "originalPath": "m3-review-merchant-rng-chain.json",
+    "originalSha256": "66a59b57775dd4a42ca92ac3c2fb9f118a4e5527c74778c92493963318756fa6",
+    "originalBytes": 7126,
+    "encoding": "exact original bytes"
+  },
+  "final-slices/review-secret.json": {
+    "originalPath": "m3-review-secret-candidate-insertion.json",
+    "originalSha256": "ecfbdc1d488b778ef5b0b43cb146292dac7c5c6eaff2cefc5db1331fbf00f37c",
+    "originalBytes": 3192,
+    "encoding": "exact original bytes"
+  },
+  "final-slices/review-deep-breath.json": {
+    "originalPath": "m3-review-deep-breath-source-fix.json",
+    "originalSha256": "04f33664103933e8f69dcab7112f09b5e46a027d2af54ce5aa2183df78d04236",
+    "originalBytes": 4385,
+    "encoding": "exact original bytes"
+  },
+  "final-slices/review-five-effects.json": {
+    "originalPath": "m3-review-colorless-five-effects.json",
+    "originalSha256": "85dfe04355acbdad7fddfd48251082bd84c52a3c726ba20dfc05d79eb270f65e",
+    "originalBytes": 2441,
+    "encoding": "exact original bytes"
+  },
+  "final-slices/review-five-d2-rejected.json": {
+    "originalPath": "m3-review-colorless-five-effects-d2-rejected-historical.json",
+    "originalSha256": "8d426e9d65b3e6cb8d7d1ef2e0094bf40e88e5075ea31d41dedb297c542d8c8e",
+    "originalBytes": 4231,
+    "encoding": "exact original bytes"
+  },
+  "final-slices/review-deep-928-rejected.json": {
+    "originalPath": "m3-review-colorless-five-effects-928-rejected-historical.json",
+    "originalSha256": "7eb921558bbf006d541b3cdb6488be245911eb8ff91204756fe6b0da3f056795",
+    "originalBytes": 5626,
+    "encoding": "exact original bytes"
+  },
+  "closing-audits/final-offline-ac-reconciliation.json": {
+    "originalPath": "m3-final-offline-ac-reconciliation.json",
+    "originalSha256": "e545502b1f53ef5c9d6c5b01def4a8ec8bb8bf28eac07c5a802db4bd7ee4ebff",
+    "originalBytes": 12306,
+    "encoding": "exact original bytes"
+  },
+  "prior-ci-d3/result.json": {
+    "originalPath": "m3-full-closeout/aux2-ci-result.json",
+    "originalSha256": "c67ca6ebc16775584e23ab052ae0e6c0d7426dac0455b147113cf53f2a788fb6",
+    "originalBytes": 3754,
+    "encoding": "exact original bytes"
+  },
+  "closing-audits/initial-ac-audit.json.gz": {
+    "originalPath": "m3-final-ac-audit.json",
+    "originalSha256": "2b42c64015f5f27ed6b3e2a24a100b1d7440c71916096fe2dc8ca7ead6d59f6b",
+    "originalBytes": 49244,
+    "encoding": "gzip, decompression restores exact original bytes"
+  },
+  "closing-audits/event-dependency-audit.json.gz": {
+    "originalPath": "m3-residual-event-dependency-audit.json",
+    "originalSha256": "7e93519e02348fc44d45d775d61f771e2a87e1105eeec22995b9ea3f456dbc27",
+    "originalBytes": 31213,
+    "encoding": "gzip, decompression restores exact original bytes"
+  },
+  "closing-audits/dependency39-effect-map.json.gz": {
+    "originalPath": "m3-dependency39-effect-map.json",
+    "originalSha256": "d918b729895a5203d666b6df528a43a7fddba58d7bcd9132842e73f78432e165",
+    "originalBytes": 19675,
+    "encoding": "gzip, decompression restores exact original bytes"
+  },
+  "final-slices/author-chaos.json.gz": {
+    "originalPath": "m3-chaos-shared-chain-report.json",
+    "originalSha256": "0451d4da75d03b65b7f0f362df29cafcfb9f05d7a2cc8ae758c99b866966cbc7",
+    "originalBytes": 6800,
+    "encoding": "gzip, decompression restores exact original bytes"
+  },
+  "final-slices/author-merchant.json.gz": {
+    "originalPath": "m3-merchant-proof/report.json",
+    "originalSha256": "a3b4f2e720bbdfa04a0b6a407b69432822807888f96c254d5a8f7cabd8235157",
+    "originalBytes": 8531,
+    "encoding": "gzip, decompression restores exact original bytes"
+  },
+  "final-slices/author-secret.json.gz": {
+    "originalPath": "m3-secret-candidate-insertion-report.json",
+    "originalSha256": "2ce2570744a5bb986e12d9140ffb2dbbd78a6631c1a5cf31b7755844e3cd143b",
+    "originalBytes": 8862,
+    "encoding": "gzip, decompression restores exact original bytes"
+  },
+  "final-slices/author-deep-928-superseded.json.gz": {
+    "originalPath": "m3-deep-breath-source-fix.json",
+    "originalSha256": "81e3a2e5d836b149d8041e350f4c1ac5f72f7cf2547fe4beff2accdc6707231a",
+    "originalBytes": 6782,
+    "encoding": "gzip, decompression restores exact original bytes"
+  },
+  "final-slices/author-deep-order.json.gz": {
+    "originalPath": "m3-deep-breath-effect-order-fix.json",
+    "originalSha256": "dba17014af9496f5bc6b4b7b874ee65a3d789b4be17abcba943ae37baae7b01f",
+    "originalBytes": 6485,
+    "encoding": "gzip, decompression restores exact original bytes"
+  },
+  "final-logs/deep-original-source-red.log.gz": {
+    "originalPath": "m3-deep-breath-red.log",
+    "originalSha256": "d6e9fec9067c8d096948fc7a0eb1af0fa45287bf771b4e796d6985edf3271a0d",
+    "originalBytes": 1646,
+    "encoding": "gzip, decompression restores exact original bytes"
+  },
+  "final-logs/deep-order-source-red.log.gz": {
+    "originalPath": "m3-deep-breath-effect-order-red.log",
+    "originalSha256": "a4d460f7d973b118789187d1dbc65b666e37103c750c44ce950a7b01cb4bc961",
+    "originalBytes": 1432,
+    "encoding": "gzip, decompression restores exact original bytes"
+  },
+  "final-logs/secret-source-red.log.gz": {
+    "originalPath": "m3-secret-production-red.log",
+    "originalSha256": "13f8db7ba57a5328c4e29069808cf374647423cad72db3adb7e9f9bd044b9006",
+    "originalBytes": 1385,
+    "encoding": "gzip, decompression restores exact original bytes"
+  },
+  "final-logs/focused.log.gz": {
+    "originalPath": "m3-full-closeout/final-batch-focused.log",
+    "originalSha256": "1bf8a1a8d265eddf9564fdcecf26db9de3237af1b70180859bc38a49178b30eb",
+    "originalBytes": 6850,
+    "encoding": "gzip, decompression restores exact original bytes"
+  },
+  "final-logs/old-colorless.log.gz": {
+    "originalPath": "m3-full-closeout/final-batch-old-colorless.log",
+    "originalSha256": "6c436ad0d5df1673b31683ba9f64d3fec0ae529b40a17c4d079bcd698840e86e",
+    "originalBytes": 210,
+    "encoding": "gzip, decompression restores exact original bytes"
+  },
+  "final-logs/engineering.log.gz": {
+    "originalPath": "m3-full-closeout/final-batch-engineering.log",
+    "originalSha256": "1284247c43ea915eb066cf572d11aed293c52221e415699f53537c7413c97eee",
+    "originalBytes": 1500,
+    "encoding": "gzip, decompression restores exact original bytes"
+  },
+  "final-logs/guidance.log.gz": {
+    "originalPath": "m3-full-closeout/final-batch-guidance.log",
+    "originalSha256": "f92b518669b619889cdbf136d3fec58804ff0826e3f1e2696a7dffcd1dec9789",
+    "originalBytes": 383,
+    "encoding": "gzip, decompression restores exact original bytes"
+  },
+  "final-logs/syntax.log.gz": {
+    "originalPath": "m3-full-closeout/final-batch-syntax.log",
+    "originalSha256": "133a449591a5368d4bfde79adea8947932f4918233f7fa45d5fbd6e5734dc32d",
+    "originalBytes": 103,
+    "encoding": "gzip, decompression restores exact original bytes"
+  },
+  "final-logs/backlog.log.gz": {
+    "originalPath": "m3-full-closeout/final-batch-backlog.log",
+    "originalSha256": "81286e3625ae638c0b2e1e5d82da994cd2f0b7b50780c324ea29d6d99af71e07",
+    "originalBytes": 283,
+    "encoding": "gzip, decompression restores exact original bytes"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "card_id": "dual_wield",
+  "displayName": "再演剑势",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "dual_wield/generation-provenance.json",
+      "sha256": "6d37d0a667ef4469d15e3ed6ca9993eb1297cade4c5105132363c4ee45694443",
+      "bytes": 2021
+    },
+    "preview-contain-144x64.png": {
+      "path": "dual_wield/preview-contain-144x64.png",
+      "sha256": "fabf09132aa28788bec3c91dd03d1e3b046b4a34b814bcd595790239d50cee0f",
+      "bytes": 17766
+    },
+    "prompt.txt": {
+      "path": "dual_wield/prompt.txt",
+      "sha256": "8c474d2e84ce6bc0aad123bfaf1d9724298e3766c7725d6f02fb0f95e957b9cd",
+      "bytes": 3265
+    },
+    "source.png": {
+      "path": "dual_wield/source.png",
+      "sha256": "974ecc21195dc0edc0b7e71a8249a220214dda737e7a84ba8b44810cfffeb731",
+      "bytes": 1921082
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "dual_wield",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "dualWield",
+        "value": 1
+      }
+    ],
+    "target": "NONE"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-08",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

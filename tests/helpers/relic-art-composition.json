@@ -1,0 +1,240 @@
+{
+  "schemaVersion": 1,
+  "currentCommit": "ae32156a9428d21fe3822d43482bc2993b273ada",
+  "targets": {
+    "relic": {
+      "commit": "0410610f4e825b467a90658b2d2257eeab04c4b5",
+      "files": {
+        "config/architecture.json": {
+          "beforeSha256": "ff613c358d468b61a6206520a24aad047f7b8fd69dec36bec46e8406031a6881",
+          "afterSha256": "b2b91dde4c584331e11f2917f3da03608497761847f475edeac895e905bcf5ee",
+          "beforeLines": 524,
+          "afterLines": 530,
+          "hunks": [
+            {
+              "at": 198,
+              "beforeAt": 198,
+              "before": [],
+              "after": [
+                "    \"abyss_menu_background\": \"ui\",",
+                "    \"abyss_menu_background_asset\": \"ui\","
+              ]
+            },
+            {
+              "at": 280,
+              "beforeAt": 278,
+              "before": [
+                "    \"abyss_card_flow\": \"ui\""
+              ],
+              "after": [
+                "    \"abyss_card_flow\": \"ui\",",
+                "    \"abyss_card_art_runtime\": \"ui\",",
+                "    \"abyss_traveler_portraits\": \"platform\",",
+                "    \"abyss_traveler_portrait_assets\": \"ui\",",
+                "    \"abyss_ready_card_binding\": \"ui\""
+              ]
+            }
+          ]
+        },
+        "scripts/verify-launch-content.mjs": {
+          "beforeSha256": "a9b9745f0a0e454a40ca4241d32bdf96007aa999b9a7d64f20284bacca261115",
+          "afterSha256": "2ab6b4c9ce3455f12589fad2f010dca5855f0bc96411d47a5e81cbdb46ed8417",
+          "beforeLines": 363,
+          "afterLines": 363,
+          "hunks": [
+            {
+              "at": 75,
+              "beforeAt": 75,
+              "before": [
+                "    for (const name of ['abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme'])"
+              ],
+              "after": [
+                "    for (const name of ['abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])"
+              ]
+            }
+          ]
+        },
+        "src/lua/abyss_game_ui.lua": {
+          "beforeSha256": "e1d5fc6f9687a1e892fa842d2e995f99549242fe8b4dc196decea3b356e09edf",
+          "afterSha256": "b5a05a8426fe147bfa95b16792dcbd0e5c7f360dad4d678d13f9834253f62918",
+          "beforeLines": 841,
+          "afterLines": 848,
+          "hunks": [
+            {
+              "at": 448,
+              "beforeAt": 448,
+              "before": [],
+              "after": [
+                "        if platform.background then platform.background:sync(self.mode,self.characterOpen,self.settlementRequested or self.settlementBusy) end",
+                "        if platform.portraits then platform.portraits:sync(self.mode,self.characterOpen,self.settlementRequested or self.settlementBusy,self.run and self.run.character) end"
+              ]
+            },
+            {
+              "at": 637,
+              "beforeAt": 635,
+              "before": [],
+              "after": [
+                "        if platform.background then platform.background:tick() end",
+                "        if platform.portraits then platform.portraits:tick() end"
+              ]
+            },
+            {
+              "at": 665,
+              "beforeAt": 661,
+              "before": [],
+              "after": [
+                "        if platform.background then platform.background:release() end",
+                "        if platform.portraits then platform.portraits:release() end",
+                "        if platform.cardArt then platform.cardArt.clear() end"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "art": {
+      "commit": "1bfca626",
+      "files": {
+        "config/architecture.json": {
+          "beforeSha256": "e7143d88785c45ea827532e04089c399516ca8c6759b7aaebb0535bec740b003",
+          "afterSha256": "b2b91dde4c584331e11f2917f3da03608497761847f475edeac895e905bcf5ee",
+          "beforeLines": 482,
+          "afterLines": 530,
+          "hunks": [
+            {
+              "at": 2,
+              "beforeAt": 2,
+              "before": [],
+              "after": [
+                "    \"abyss_relic_card_rewards\": \"core\",",
+                "    \"abyss_boss_relics\": \"core\",",
+                "    \"abyss_uncommon_relics\": \"core\",",
+                "    \"abyss_rare_relics\": \"core\",",
+                "    \"abyss_shop_relics\": \"core\",",
+                "    \"abyss_nodes_rare_camp\": \"core\",",
+                "    \"abyss_relic_choices\": \"core\",",
+                "    \"abyss_relic_pending\": \"core\",",
+                "    \"abyss_relic_pending_ui\": \"ui\","
+              ]
+            },
+            {
+              "at": 288,
+              "beforeAt": 279,
+              "before": [],
+              "after": [
+                "    {\"from\":\"abyss_uncommon_relics\",\"to\":\"abyss_run\",\"reason\":\"Meat on the Bone delegates raw victory healing to the initialized Run health owner while the room is still in combat, preserving one shared Magic Flower/Bloom modifier pass.\"},",
+                "    {\"from\":\"abyss_relic_card_rewards\",\"to\":\"abyss_run\",\"reason\":\"Card reward commands invoke the initialized Run transaction and permanent inventory only when selecting or claiming; never during module initialization.\"},",
+                "{\"from\":\"abyss_actor\",\"to\":\"abyss_rare_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_actor\",\"to\":\"abyss_uncommon_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_actor\",\"to\":\"abyss_shop_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_card_actions\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_build_actions\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_living_wall\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_event_transform_context\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_transform_card\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_card_capability\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_run\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_potion_random\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_card_pool\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_relic_hooks\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_card_actions\",\"to\":\"abyss_rare_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_card_actions\",\"to\":\"abyss_shop_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_exhaust\",\"to\":\"abyss_rare_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_rare_relics\",\"to\":\"abyss_card_actions\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_rare_relics\",\"to\":\"abyss_discard\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_choices\",\"to\":\"abyss_run\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_choices\",\"to\":\"abyss_card_pool\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_choices\",\"to\":\"abyss_relic_hooks\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_choices\",\"to\":\"abyss_shop_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_hooks\",\"to\":\"abyss_shop_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_hooks\",\"to\":\"abyss_boss_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_hooks\",\"to\":\"abyss_rare_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_hooks\",\"to\":\"abyss_uncommon_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_pending\",\"to\":\"abyss_run\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_pending\",\"to\":\"abyss_uncommon_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_pending\",\"to\":\"abyss_relic_choices\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_pending\",\"to\":\"abyss_boss_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_shop_relics\",\"to\":\"abyss_relic_choices\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_shop_relics\",\"to\":\"abyss_potion_random\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_shop_relics\",\"to\":\"abyss_card_actions\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_shop_relics\",\"to\":\"abyss_power_schedule\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_shop_relics\",\"to\":\"abyss_potion_discovery\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_uncommon_relics\",\"to\":\"abyss_potion_health\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_uncommon_relics\",\"to\":\"abyss_actor\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},"
+              ]
+            }
+          ]
+        },
+        "scripts/verify-launch-content.mjs": {
+          "beforeSha256": "f219845a506b1384f7aaa72f0cfa25202c086d4fb4326dc5c123d3347c7a5e72",
+          "afterSha256": "2ab6b4c9ce3455f12589fad2f010dca5855f0bc96411d47a5e81cbdb46ed8417",
+          "beforeLines": 356,
+          "afterLines": 363,
+          "hunks": [
+            {
+              "at": 199,
+              "beforeAt": 199,
+              "before": [
+                "    const channels = card.type === 'curse' ? [...(curseEvents[card.id] ?? []),"
+              ],
+              "after": [
+                "    const bellCurse = card.id === 'curse_of_the_bell';",
+                "    const channels = bellCurse ? ['relic:calling_bell', 'explicit:Run.obtainCard']",
+                "      : card.type === 'curse' ? [...(curseEvents[card.id] ?? []),"
+              ]
+            },
+            {
+              "at": 208,
+              "beforeAt": 206,
+              "before": [],
+              "after": [
+                "    if (bellCurse) {",
+                "      check(card.sourceId === 'CurseOfTheBell' && definition?.sourceId === card.sourceId,",
+                "        'generatedCards/curse_of_the_bell: source ID drift');",
+                "      check(card.unremovable === true, 'generatedCards/curse_of_the_bell: unremovable boundary omitted');",
+                "    }"
+              ]
+            },
+            {
+              "at": 215,
+              "beforeAt": 208,
+              "before": [
+                "      check(Boolean(card.naturalAcquisitionLimitation?.includes('explicit event')), `generatedCards/${card.id}: missing explicit acquisition boundary`);"
+              ],
+              "after": [
+                "      check(Boolean(card.naturalAcquisitionLimitation?.includes(bellCurse ? 'Calling Bell' : 'explicit event')), `generatedCards/${card.id}: missing explicit acquisition boundary`);"
+              ]
+            }
+          ]
+        },
+        "src/lua/abyss_game_ui.lua": {
+          "beforeSha256": "de356a0a6fcbde4c59d791da8dd3c0f5a047dbf122c74968b154c27931f4f159",
+          "afterSha256": "b5a05a8426fe147bfa95b16792dcbd0e5c7f360dad4d678d13f9834253f62918",
+          "beforeLines": 846,
+          "afterLines": 848,
+          "hunks": [
+            {
+              "at": 76,
+              "beforeAt": 76,
+              "before": [
+                "        cursor = platform.cursorEvents, controller = controller })"
+              ],
+              "after": [
+                "        cursor = platform.cursorEvents, controller = controller,",
+                "        available=function(map)return Nodes.available(self.run,map)end })"
+              ]
+            },
+            {
+              "at": 244,
+              "beforeAt": 243,
+              "before": [],
+              "after": [
+                "        elseif require('abyss_relic_pending').owner(run)then self.mode='node'"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 1,
+  "baseline": "9293405dfa07be95c632ac1a15cc4ebc2fb3034b",
+  "node": "v24.18.0",
+  "sourceSha256": {
+    "src/lua/abyss_combat.lua": "fcbb4003e4876b2f8cf98e84cd180a7cc97802feb4003893f34a4e03e65aec20",
+    "src/lua/abyss_combat_enemy_setup.lua": "0658659c21ce31a044b5b74cc3a0695fa1a81d4606879651068b928a773f715b",
+    "src/lua/abyss_combat_catalog.lua": "3a82ccf1d73efc1274826b4093fcead3a62a663dc2968bed953059ec1c22b72d"
+  },
+  "canonicalComparison": {
+    "scope": "All stored state fields and table reference aliases from public Combat.new, Combat.prepareEncounter and Combat.new(preparedEncounter); unregistered and registered Colorless input. Includes events, queue fields and full RNG words/counters. Metatables are not serialized.",
+    "snapshots": [
+      {
+        "pair": 0,
+        "bytes": 558835,
+        "sha256": "523c3e709e9e8ad670276fbb9e31025383fda17698099eecdaf816b858208939",
+        "byteEqual": true
+      },
+      {
+        "pair": 1,
+        "bytes": 558835,
+        "sha256": "523c3e709e9e8ad670276fbb9e31025383fda17698099eecdaf816b858208939",
+        "byteEqual": true
+      },
+      {
+        "pair": 2,
+        "bytes": 558835,
+        "sha256": "523c3e709e9e8ad670276fbb9e31025383fda17698099eecdaf816b858208939",
+        "byteEqual": true
+      },
+      {
+        "pair": 3,
+        "bytes": 558835,
+        "sha256": "523c3e709e9e8ad670276fbb9e31025383fda17698099eecdaf816b858208939",
+        "byteEqual": true
+      }
+    ]
+  },
+  "allocationScope": "Counts tables newly created by abyss_copy only, not total Lua allocations or memory. Copy call count unchanged. Unregistered prepareEncounter: 2106 -> 1871 tables; registered prepareEncounter: 1847 unchanged; real battle: 1795/1801 unchanged. Two catalog constructions still occur for prepared events.",
+  "performance": {
+    "scope": "abyss_copy table allocations and os.clock for 10 public prepareEncounter calls per input mode; 4 alternating pairs, independent Fengari VM per sample",
+    "samples": [
+      {
+        "pair": 0,
+        "mode": "old",
+        "allocations": [
+          "CATALOG_COPY_ALLOCATIONS false|1795|2106|115|113",
+          "CATALOG_COPY_ALLOCATIONS true|1801|1847|75|72"
+        ],
+        "times": [
+          "CATALOG_PREPARE_SECONDS false|0.1664503",
+          "CATALOG_PREPARE_SECONDS true|0.1455088"
+        ],
+        "stateSha256": "523c3e709e9e8ad670276fbb9e31025383fda17698099eecdaf816b858208939"
+      },
+      {
+        "pair": 0,
+        "mode": "new",
+        "allocations": [
+          "CATALOG_COPY_ALLOCATIONS false|1795|1871|115|113",
+          "CATALOG_COPY_ALLOCATIONS true|1801|1847|75|72"
+        ],
+        "times": [
+          "CATALOG_PREPARE_SECONDS false|0.153015",
+          "CATALOG_PREPARE_SECONDS true|0.1564778"
+        ],
+        "stateSha256": "523c3e709e9e8ad670276fbb9e31025383fda17698099eecdaf816b858208939"
+      },
+      {
+        "pair": 1,
+        "mode": "new",
+        "allocations": [
+          "CATALOG_COPY_ALLOCATIONS false|1795|1871|115|113",
+          "CATALOG_COPY_ALLOCATIONS true|1801|1847|75|72"
+        ],
+        "times": [
+          "CATALOG_PREPARE_SECONDS false|0.1568925",
+          "CATALOG_PREPARE_SECONDS true|0.1547302"
+        ],
+        "stateSha256": "523c3e709e9e8ad670276fbb9e31025383fda17698099eecdaf816b858208939"
+      },
+      {
+        "pair": 1,
+        "mode": "old",
+        "allocations": [
+          "CATALOG_COPY_ALLOCATIONS false|1795|2106|115|113",
+          "CATALOG_COPY_ALLOCATIONS true|1801|1847|75|72"
+        ],
+        "times": [
+          "CATALOG_PREPARE_SECONDS false|0.180111",
+          "CATALOG_PREPARE_SECONDS true|0.1421569"
+        ],
+        "stateSha256": "523c3e709e9e8ad670276fbb9e31025383fda17698099eecdaf816b858208939"
+      },
+      {
+        "pair": 2,
+        "mode": "old",
+        "allocations": [
+          "CATALOG_COPY_ALLOCATIONS false|1795|2106|115|113",
+          "CATALOG_COPY_ALLOCATIONS true|1801|1847|75|72"
+        ],
+        "times": [
+          "CATALOG_PREPARE_SECONDS false|0.1647657",
+          "CATALOG_PREPARE_SECONDS true|0.1438899"
+        ],
+        "stateSha256": "523c3e709e9e8ad670276fbb9e31025383fda17698099eecdaf816b858208939"
+      },
+      {
+        "pair": 2,
+        "mode": "new",
+        "allocations": [
+          "CATALOG_COPY_ALLOCATIONS false|1795|1871|115|113",
+          "CATALOG_COPY_ALLOCATIONS true|1801|1847|75|72"
+        ],
+        "times": [
+          "CATALOG_PREPARE_SECONDS false|0.1793306",
+          "CATALOG_PREPARE_SECONDS true|0.1503483"
+        ],
+        "stateSha256": "523c3e709e9e8ad670276fbb9e31025383fda17698099eecdaf816b858208939"
+      },
+      {
+        "pair": 3,
+        "mode": "new",
+        "allocations": [
+          "CATALOG_COPY_ALLOCATIONS false|1795|1871|115|113",
+          "CATALOG_COPY_ALLOCATIONS true|1801|1847|75|72"
+        ],
+        "times": [
+          "CATALOG_PREPARE_SECONDS false|0.150452",
+          "CATALOG_PREPARE_SECONDS true|0.1499411"
+        ],
+        "stateSha256": "523c3e709e9e8ad670276fbb9e31025383fda17698099eecdaf816b858208939"
+      },
+      {
+        "pair": 3,
+        "mode": "old",
+        "allocations": [
+          "CATALOG_COPY_ALLOCATIONS false|1795|2106|115|113",
+          "CATALOG_COPY_ALLOCATIONS true|1801|1847|75|72"
+        ],
+        "times": [
+          "CATALOG_PREPARE_SECONDS false|0.1703295",
+          "CATALOG_PREPARE_SECONDS true|0.1410772"
+        ],
+        "stateSha256": "523c3e709e9e8ad670276fbb9e31025383fda17698099eecdaf816b858208939"
+      }
+    ],
+    "caution": "Four alternating pairs are local Fengari observations, not platform performance. Report timings alongside all pairs; no universal speedup claim."
+  },
+  "regressions": [
+    {
+      "file": "tests/lua/combat_catalog.lua",
+      "status": "passed",
+      "exitCode": 0
+    },
+    {
+      "file": "tests/lua/run_card_catalog_owned_registration.lua",
+      "status": "passed",
+      "exitCode": 0
+    },
+    {
+      "file": "tests/lua/run_prepared_profiles_compatibility.lua",
+      "status": "passed",
+      "exitCode": 0
+    },
+    {
+      "file": "tests/lua/run_prepared_v4_compatibility.lua",
+      "status": "passed",
+      "exitCode": 0
+    },
+    {
+      "file": "tests/lua/run_room_misc_ownership.lua",
+      "status": "passed",
+      "exitCode": 0
+    },
+    {
+      "file": "tests/lua/encounter_formation_combat.lua",
+      "status": "passed",
+      "exitCode": 0
+    },
+    {
+      "file": "tests/lua/colorless_catalog_execution.lua",
+      "status": "passed",
+      "exitCode": 0
+    },
+    {
+      "file": "tests/lua/colorless_cards.lua",
+      "status": "passed",
+      "exitCode": 0
+    },
+    {
+      "file": "tests/lua/act3_transient.lua",
+      "status": "passed",
+      "exitCode": 0
+    }
+  ]
+}

@@ -1,0 +1,437 @@
+{
+  "group_name": "Abyss_Geo_Card_Spike",
+  "canvas": {
+    "width": 180.0,
+    "height": 240.0
+  },
+  "mask": {
+    "enabled": false,
+    "position": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "size": {
+      "x": 180.0,
+      "y": 240.0
+    },
+    "shape_type": 1
+  },
+  "elements": [
+    {
+      "type": "rectangle",
+      "relative": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "size": {
+        "width": 148.0,
+        "height": 208.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "name": "1",
+      "is_background": false,
+      "image_asset_ref": 100001,
+      "packed_color": 4287270812
+    },
+    {
+      "type": "rectangle",
+      "relative": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "size": {
+        "width": 144.0,
+        "height": 204.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "name": "2",
+      "is_background": false,
+      "image_asset_ref": 100001,
+      "packed_color": 4280032807
+    },
+    {
+      "type": "rectangle",
+      "relative": {
+        "x": 0.0,
+        "y": 87.0
+      },
+      "size": {
+        "width": 144.0,
+        "height": 30.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "name": "3",
+      "is_background": false,
+      "image_asset_ref": 100001,
+      "packed_color": 4280756790
+    },
+    {
+      "type": "rectangle",
+      "relative": {
+        "x": 0.0,
+        "y": 40.0
+      },
+      "size": {
+        "width": 144.0,
+        "height": 64.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "name": "4",
+      "is_background": false,
+      "image_asset_ref": 100001,
+      "packed_color": 4283312943
+    },
+    {
+      "type": "rectangle",
+      "relative": {
+        "x": 0.0,
+        "y": 40.0
+      },
+      "size": {
+        "width": 26.0,
+        "height": 26.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 45.0
+      },
+      "name": "5",
+      "is_background": false,
+      "image_asset_ref": 100001,
+      "packed_color": 4289229610
+    },
+    {
+      "type": "rectangle",
+      "relative": {
+        "x": 0.0,
+        "y": 40.0
+      },
+      "size": {
+        "width": 20.0,
+        "height": 20.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 45.0
+      },
+      "name": "6",
+      "is_background": false,
+      "image_asset_ref": 100001,
+      "packed_color": 4293965904
+    },
+    {
+      "type": "triangle",
+      "relative": {
+        "x": 0.0,
+        "y": 40.0
+      },
+      "size": {
+        "width": 12.0,
+        "height": 18.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "name": "7",
+      "is_background": false,
+      "image_asset_ref": 100003,
+      "packed_color": 4294301594
+    },
+    {
+      "type": "rectangle",
+      "relative": {
+        "x": 0.0,
+        "y": -1.0
+      },
+      "size": {
+        "width": 144.0,
+        "height": 18.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "name": "8",
+      "is_background": false,
+      "image_asset_ref": 100001,
+      "packed_color": 4279440411
+    },
+    {
+      "type": "textbox",
+      "relative": {
+        "x": 0.0,
+        "y": 87.0
+      },
+      "size": {
+        "width": 148.0,
+        "height": 22.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "name": "card-title",
+      "is_background": false,
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "anchor_min": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "anchor_max": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "textbox": {
+        "text": "打击",
+        "font_size": 17,
+        "auto_size": true,
+        "min_font_size": 14,
+        "outline_enabled": false,
+        "visible": true,
+        "packed_color": 4293715674,
+        "packed_bg_color": 16777215,
+        "packed_outline_color": 858993459,
+        "align_h": 1,
+        "align_v": 1,
+        "style_id": 260326
+      },
+      "packed_color": 4293715674
+    },
+    {
+      "type": "textbox",
+      "relative": {
+        "x": 0.0,
+        "y": -1.0
+      },
+      "size": {
+        "width": 144.0,
+        "height": 18.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "name": "card-type",
+      "is_background": false,
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "anchor_min": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "anchor_max": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "textbox": {
+        "text": "攻击",
+        "font_size": 14,
+        "auto_size": true,
+        "min_font_size": 14,
+        "outline_enabled": false,
+        "visible": true,
+        "packed_color": 4289308053,
+        "packed_bg_color": 16777215,
+        "packed_outline_color": 858993459,
+        "align_h": 1,
+        "align_v": 1,
+        "style_id": 260326
+      },
+      "packed_color": 4289308053
+    },
+    {
+      "type": "textbox",
+      "relative": {
+        "x": 0.0,
+        "y": -54.0
+      },
+      "size": {
+        "width": 132.0,
+        "height": 92.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "name": "card-description",
+      "is_background": false,
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "anchor_min": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "anchor_max": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "textbox": {
+        "text": "造成 6 点伤害。",
+        "font_size": 15,
+        "auto_size": true,
+        "min_font_size": 14,
+        "outline_enabled": false,
+        "visible": true,
+        "packed_color": 4293715674,
+        "packed_bg_color": 16777215,
+        "packed_outline_color": 858993459,
+        "align_h": 1,
+        "align_v": 1,
+        "style_id": 260326
+      },
+      "packed_color": 4293715674
+    },
+    {
+      "type": "ellipse",
+      "relative": {
+        "x": -64.0,
+        "y": 94.0
+      },
+      "size": {
+        "rx": 23.0,
+        "ry": 23.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "name": "12",
+      "is_background": false,
+      "image_asset_ref": 100002,
+      "packed_color": 4294301594
+    },
+    {
+      "type": "ellipse",
+      "relative": {
+        "x": -64.0,
+        "y": 94.0
+      },
+      "size": {
+        "rx": 22.0,
+        "ry": 22.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "name": "13",
+      "is_background": false,
+      "image_asset_ref": 100002,
+      "packed_color": 4279177495
+    },
+    {
+      "type": "ellipse",
+      "relative": {
+        "x": -64.0,
+        "y": 94.0
+      },
+      "size": {
+        "rx": 20.0,
+        "ry": 20.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "name": "14",
+      "is_background": false,
+      "image_asset_ref": 100002,
+      "packed_color": 4293503291
+    },
+    {
+      "type": "textbox",
+      "relative": {
+        "x": -64.0,
+        "y": 94.0
+      },
+      "size": {
+        "width": 40.0,
+        "height": 40.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "name": "card-cost",
+      "is_background": false,
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "anchor_min": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "anchor_max": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "textbox": {
+        "text": "1",
+        "font_size": 22,
+        "auto_size": true,
+        "min_font_size": 14,
+        "outline_enabled": false,
+        "visible": true,
+        "packed_color": 4280952352,
+        "packed_bg_color": 16777215,
+        "packed_outline_color": 858993459,
+        "align_h": 1,
+        "align_v": 1,
+        "style_id": 260326
+      },
+      "packed_color": 4280952352
+    }
+  ]
+}

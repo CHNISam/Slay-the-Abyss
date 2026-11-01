@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "card_id": "body_slam",
+  "displayName": "格挡反击",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "body_slam/generation-provenance.json",
+      "sha256": "97ad4871a6a3dcaef3f1dcb0b0870147608545567c3ae5e3088d485301e98fd3",
+      "bytes": 1885
+    },
+    "preview-contain-144x64.png": {
+      "path": "body_slam/preview-contain-144x64.png",
+      "sha256": "ad3dd01d29c8f95df96ab347da35b52643f9bdbe04ce1a5ce9499c099ef23a64",
+      "bytes": 20243
+    },
+    "prompt.txt": {
+      "path": "body_slam/prompt.txt",
+      "sha256": "cb633370323ea9f8f91a61766e7e5a80c7bbd90a1d5c8df0aedf0fbbaca08b5c",
+      "bytes": 2899
+    },
+    "source.png": {
+      "path": "body_slam/source.png",
+      "sha256": "3fcf03ef72dc63be51204fd4e151512ec74e2d235beb77c7f348361c06acc39f",
+      "bytes": 1963284
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "body_slam",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damageEqualToBlock"
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-02",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

@@ -1,0 +1,76 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "scope": "Independent A0 component plans/callbacks, not shared damage integration or original-PC/native execution",
+  "files": {
+    "monsters/ending/CorruptHeart.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/ending/CorruptHeart.java",
+      "sha256": "dbb4fedf22a0a68ab1a8b365af7022c61d12c2a3f7d1b60b3662cd49dd64a7db"
+    },
+    "powers/BeatOfDeathPower.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/BeatOfDeathPower.java",
+      "sha256": "1d184c4cf13e244980e715ef8e19e48a07bb0dfc265ca382e9fff344a6e09c9d"
+    },
+    "powers/InvinciblePower.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/InvinciblePower.java",
+      "sha256": "867243138178bfae4ed506bab3c4e013734efd96756b7e21ee347f3b576e9bb1"
+    },
+    "powers/PainfulStabsPower.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/PainfulStabsPower.java",
+      "sha256": "36cdd08ddbabf3121bcdc22c85fa184676c4d1a2a9b608349f904e6f2775a97c"
+    },
+    "actions/common/MakeTempCardInDrawPileAction.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/MakeTempCardInDrawPileAction.java",
+      "sha256": "c00b2da9c82d6e5fed1f638312a2af46dcd586bcd76e963f859e4417629ac2fe"
+    },
+    "actions/utility/UseCardAction.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/utility/UseCardAction.java",
+      "sha256": "90213939af6d7ec83dea01bb2feef4ba762a93400dc1535732e2eebcdb6cab0f"
+    },
+    "actions/GameActionManager.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/GameActionManager.java",
+      "sha256": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3"
+    },
+    "actions/common/DamageAction.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/DamageAction.java",
+      "sha256": "c5649fc04cbcadffa617e5c52f1a6f879f88cb1a90a543d5a0a05ebf950578ec"
+    },
+    "cards/CardGroup.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/CardGroup.java",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8"
+    },
+    "core/AbstractCreature.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b"
+    },
+    "monsters/AbstractMonster.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/AbstractMonster.java",
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f"
+    },
+    "vfx/cardManip/ShowCardAndAddToDrawPileEffect.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/cardManip/ShowCardAndAddToDrawPileEffect.java",
+      "sha256": "d2b573fb3488c551a4039e68a5c487b76a60fdbcfecaf5bf7254ed9bc8417433"
+    }
+  },
+  "contracts": {
+    "hp": 750,
+    "hpDraws": 1,
+    "invincible": 300,
+    "beat": 1,
+    "multiDamage": 2,
+    "multiHits": 12,
+    "singleDamage": 40,
+    "debuffs": 2,
+    "invinciblePriority": 99,
+    "reset": "owner atStartOfTurn before queued poison",
+    "firstMove": "debilitate",
+    "primaryEveryRoll": true,
+    "booleanEveryAttackPair": true,
+    "painfulStabsAmount": -1,
+    "integratedBattle": false
+  },
+  "authoredInputs": {
+    "tests/fixtures/heart-oracle.py": "a3632bac26a0003837e75899a4c2ca9fab9cc9b65c235fafc8fbd39149daa464",
+    "tools/oracles/sts1_combat_gold.py": "7c0c70dd7dbed02bc0107e5ec0efcdb7892bf14cdb61a5ddc3a127eaeb50c0a8",
+    "tests/fixtures/heart-vectors.lua": "1c14a18742cb93f82e34dc39dbc10ba472174e98f5d5a52f233bc832b9bb91e0"
+  }
+}

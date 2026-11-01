@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "aeubanks/sts",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenanceBoundary": "Fixed decompiled source, not PC-binary or native acceptance; cached bytes rehashed against pinned GitHub blob IDs. No Java source bodies shipped.",
+  "sources": [
+    {
+      "path": "events/shrines/Designer.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/shrines/Designer.java",
+      "gitBlobSha": "c032e8026abd9a75f69d7dee52f0a705cf165805",
+      "sha256": "7639cee73c978915f5ae64779c319cb2225db1a579e5e90c5c0ca5b62c88f065",
+      "byteLength": 16590
+    },
+    {
+      "path": "events/city/KnowingSkull.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/city/KnowingSkull.java",
+      "gitBlobSha": "1b182b2f7bc5c9839a42f58e19969c045b7fa1ed",
+      "sha256": "a9a324bbb561d36bb6bfa308e1e660488361ef200a64e39a75e1e4f8800013c3",
+      "byteLength": 7785
+    },
+    {
+      "path": "events/shrines/Nloth.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/shrines/Nloth.java",
+      "gitBlobSha": "face63ecc18f19a118d172b50db886ff177508c2",
+      "sha256": "6f8e3f9a9269fe64970a0ca8c71990cc5752edc8cb14282f032ceac14dbaa3b2",
+      "byteLength": 5493
+    },
+    {
+      "path": "relics/NlothsGift.java",
+      "gitBlobSha": "544ae415be6e8fe10243406c4dca8dcaa31bbf53",
+      "sha256": "94981b2c8cfa81a343a727235998e5afd3a307eff2e3ced2719c9783f7ef4237",
+      "byteLength": 732,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/NlothsGift.java"
+    }
+  ]
+}

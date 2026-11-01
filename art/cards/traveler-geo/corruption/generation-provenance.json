@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "card_id": "corruption",
+  "status": "candidate-source-only-after-one-targeted-repair",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "attemptCount": 2,
+    "selectedAttempt": 2,
+    "selectedPrompt": "prompt-repair.txt",
+    "sourcePostprocessing": "none"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "mechanicEvidence": {
+    "data": "corruption1 makes Skills free, exhaust on play; no immediate damage/HP cost",
+    "runtimeRead": [
+      "src/lua/abyss_corruption.lua onDraw skill nonnegative turnCost=0",
+      "src/lua/abyss_combat.lua played skill with corruption enters exhaust flow"
+    ]
+  },
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Selected targeted repair: tight determined upperbody Lumine, open hand releases three plain irregular nonrectangular cloth scraps, other hand holds one ordinary sword low. Actual costume intact/identity clear. Plain dark teal backdrop, no ruins, travelbundle, evil, injury or contact. Release and forward commitment fill window. Skills free/onplay exhaust remains textual, reserve metaphor only. Candidate for independent root review, no owner/native/runtime approval."
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/corruption/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "133c0f264b0709ebb9dc92924e980508df74259e3d8d6bb47d432572462cefb8",
+    "bytes": 1990832,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/corruption/prompt.txt",
+    "sha256": "cfd0937759b0482f476723f7604cb0121e347d4ae7345120f6c25ac95cc9bb9d"
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "rejected-source-preserved-privately",
+      "generation": {
+        "tool": "builtin image_gen",
+        "model": "unknown-not-exposed",
+        "seed": "unknown-not-exposed",
+        "startUtc": "2026-10-29T18:50:29.377Z",
+        "endUtc": "2026-10-29T18:51:26.622Z",
+        "requestedSize": [
+          2304,
+          1024
+        ],
+        "attemptCount": 1,
+        "cost": "unknown-not-reported"
+      },
+      "prompt": {
+        "path": "art/cards/traveler-geo/corruption/prompt.txt",
+        "sha256": "cfd0937759b0482f476723f7604cb0121e347d4ae7345120f6c25ac95cc9bb9d"
+      },
+      "source": {
+        "path": "art/cards/traveler-geo/corruption/source.png",
+        "dimensions": [
+          1881,
+          836
+        ],
+        "sha256": "4cee1ffc72ac36a894a71a02d98966aad1e0c2e80ac26c92b55e10eeebeaa459",
+        "bytes": 1939457,
+        "postprocessing": "none"
+      },
+      "rejectionReason": "Unintended full ruins panorama violates economical simple background; small bundle departure reads travel rather than all-in skill commitment. Root and source worker rejected composition."
+    },
+    {
+      "tool": "builtin image_gen",
+      "model": "unknown-not-exposed",
+      "seed": "unknown-not-exposed",
+      "startUtc": "2026-10-29T18:55:05.839Z",
+      "endUtc": "2026-10-29T18:55:46.069Z",
+      "requestedSize": [
+        2304,
+        1024
+      ],
+      "attempt": 2,
+      "status": "candidate-returned-after-targeted-repair",
+      "promptPath": "prompt-repair.txt",
+      "reason": "Root-requested tight upperbody commitment/release replacing failed ruins/travel panorama",
+      "cost": "unknown-not-reported",
+      "promptSha256": "09a686c70c0bde37d98d17b60999ab07ac7386ad7cae1fe765769299dc0390e1"
+    }
+  ],
+  "selectedPrompt": {
+    "path": "art/cards/traveler-geo/corruption/prompt-repair.txt",
+    "sha256": "09a686c70c0bde37d98d17b60999ab07ac7386ad7cae1fe765769299dc0390e1"
+  }
+}

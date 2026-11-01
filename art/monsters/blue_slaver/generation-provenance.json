@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "blue_slaver",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T19:52:22.479Z",
+    "endUtc": "2026-10-29T19:53:11.706Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none-exact-raw-copy",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "sha256": "534976f100a3edf8a424faa5064062025cc8e753d277c52e914cd4d4546069bf",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "painted-style-and-human-scale-only-not-identity",
+      "actuallyPassed": true,
+      "path": "../looter/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1003417,
+      "sha256": "114416652a6902e8a90275b45d6bcc4f20f4de567acc8d4bd705f615d7a43db4"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2764,
+      "sha256": "2fa98fd0712d7bdc0123bdb65defb6b7fa994826e9c6a9f6f77721406b4c1399"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 14716,
+      "sha256": "2d8924c618c6e5f3d6094054bf25f5c825b3c17cef8901f7a7b6346bf6615ba0"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 19773,
+      "sha256": "44ef1893ce9071ae2205182e0b66b430042bf744b4d0e74d986ea1ab179d8d8c"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "design": "Original slender tan human indigo long triangular split coat, one low short J-hookpole, other hand compact gathered wide clothrope, left-facing side step",
+  "alpha": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "meaningfulBBoxAlphaGt16": [
+      78,
+      32,
+      1208,
+      1224
+    ],
+    "edgeClipping": "no meaningful appendage edge cut observed"
+  },
+  "inspection": {
+    "fullOriginal": true,
+    "contain106": true,
+    "contain127": true,
+    "nearest4x106": true,
+    "nearest4x127": true,
+    "observations": "Full106127and4x inspected: human face and natural skin, narrow indigo triangular coat, one continuous hookpole with credible grip and other clothloop hand; boots arms objects all intact. Pole longer than requested halfheight but not whip/scythe, simple hook readable. Source-only candidate; no invented bind effect or captive."
+  }
+}

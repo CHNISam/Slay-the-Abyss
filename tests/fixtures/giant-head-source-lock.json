@@ -1,0 +1,173 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "repository": "https://github.com/aeubanks/sts",
+  "scope": "Third-party decompiled source facts, independently implemented A0; not original-PC execution",
+  "files": [
+    {
+      "path": "monsters/beyond/GiantHead.java",
+      "gitBlob": "a30689ed3ae69259a28e67c32200d070a391452b",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/GiantHead.java",
+      "sha256": "f2425b1842e2de74a723530b9d5038a8f025b47a4b63bbb4eeb86356b1c3b38c",
+      "bytes": 7206
+    },
+    {
+      "path": "powers/SlowPower.java",
+      "gitBlob": "544454fe67b5878ba2c47a29710eac8090e729b9",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/SlowPower.java",
+      "sha256": "e42cd2a674f0215cb6b6d6b054321192e412f59d8ef9582103e15c82437d3e79",
+      "bytes": 2087
+    },
+    {
+      "path": "actions/utility/UseCardAction.java",
+      "gitBlob": "6efc08986e3a6b71648ee7f6f95d77ee1a2e52d6",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/utility/UseCardAction.java",
+      "sha256": "90213939af6d7ec83dea01bb2feef4ba762a93400dc1535732e2eebcdb6cab0f",
+      "bytes": 5830
+    },
+    {
+      "path": "actions/common/ApplyPowerAction.java",
+      "gitBlob": "1a6af352c02e06ecec4db87dd5e2f57d43d35b91",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/ApplyPowerAction.java",
+      "sha256": "f64ce8511f961a1990f1909e2c55654fa6dbf1dc2f4f1f3d3a7156c2ec2a9d47",
+      "bytes": 10553
+    },
+    {
+      "path": "dungeons/TheBeyond.java",
+      "gitBlob": "e0d7db4bbf8d052be8d5070074fd300b413e6ea1",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/TheBeyond.java",
+      "sha256": "dbc559c7a80e98197f0d9d61e76cffa737dab9a9f21981bc535671523152d46b",
+      "bytes": 7645
+    },
+    {
+      "path": "monsters/AbstractMonster.java",
+      "gitBlob": "4784e38e7afff5980736e2b5c718e62a0c838c47",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/AbstractMonster.java",
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f",
+      "bytes": 47762
+    },
+    {
+      "path": "characters/AbstractPlayer.java",
+      "gitBlob": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+      "bytes": 98339
+    },
+    {
+      "path": "cards/AbstractCard.java",
+      "gitBlob": "bc88307d010bdd37cf55a4b60b79209fa78b0aa6",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/AbstractCard.java",
+      "sha256": "bcd472ececfd8ce4150ccd4eb6dd07a2e2dc43e139196fe00de34705cf1a2a61",
+      "bytes": 116908
+    },
+    {
+      "path": "powers/VulnerablePower.java",
+      "gitBlob": "b640e3a168668ec3967c513946a620689be0252f",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/VulnerablePower.java",
+      "sha256": "354b0dffa4f9763b9933266e3dfa96f561841b96c251f3f336693991a91dd191",
+      "bytes": 3402
+    },
+    {
+      "path": "cards/DamageInfo.java",
+      "gitBlob": "8cae84b2d3f73198745a901aac61716d2a13b99c",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/DamageInfo.java",
+      "sha256": "cc16469d78473a1d37bf18a152014d9d1625859a5a7bd0923387f4ee8d942a5a",
+      "bytes": 5670
+    },
+    {
+      "path": "actions/GameActionManager.java",
+      "gitBlob": "1662da8de2aeb42044b385f03d0c801750904b13",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/GameActionManager.java",
+      "sha256": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3",
+      "bytes": 22667
+    },
+    {
+      "path": "powers/AbstractPower.java",
+      "gitBlob": "70347e8e642e8c45e6c6aadbe6e34f0472220c18",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/AbstractPower.java",
+      "sha256": "37a6e97bc1a7a3d0cbfe93fd07e9f809690f7c02f24fd45ec34892466b6e0f9f",
+      "bytes": 12197
+    },
+    {
+      "path": "helpers/MonsterHelper.java",
+      "gitBlob": "a81763abf681642be66cbd935cc99d2126e822f4",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+      "sha256": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1",
+      "bytes": 42809
+    },
+    {
+      "path": "monsters/MonsterGroup.java",
+      "gitBlob": "7096970a151840489a3fba89806e6391e0d82d76",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/MonsterGroup.java",
+      "sha256": "535770201b8aa8de01b52b185979af537f11ad0862e7d3e71ebb20cc64234221",
+      "bytes": 10226
+    },
+    {
+      "path": "rooms/MonsterRoomElite.java",
+      "gitBlob": "bb938c13a8ad71f710b75bb7c50eab07a2bba686",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/MonsterRoomElite.java",
+      "sha256": "c5207d745f383e1de615e613da8e5c8f832e237444c3b757d85a61f8b3f5ee3f",
+      "bytes": 4609
+    },
+    {
+      "path": "rooms/AbstractRoom.java",
+      "gitBlob": "c2a1a029a9f59b1b94026dff46d4155824b85f86",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/AbstractRoom.java",
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05",
+      "bytes": 33565
+    },
+    {
+      "path": "actions/common/RollMoveAction.java",
+      "gitBlob": "01731f966b9b6f8c3815b246cd02cf75eb5d2153",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/RollMoveAction.java",
+      "sha256": "c938d4b4a9183b39e91c1c54c79085ddf7b2bea082af14895b9a1a00a100fc50",
+      "bytes": 498
+    },
+    {
+      "path": "actions/common/DamageAction.java",
+      "gitBlob": "ea89aeab60af8a7c297495de3cd8eb82d7130232",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/DamageAction.java",
+      "sha256": "c5649fc04cbcadffa617e5c52f1a6f879f88cb1a90a543d5a0a05ebf950578ec",
+      "bytes": 4424
+    }
+  ],
+  "contracts": {
+    "hp": 500,
+    "hpDraws": 1,
+    "openingCountdown": 5,
+    "openingActions": 4,
+    "glareWeak": 1,
+    "countDamage": 13,
+    "ramp": [
+      30,
+      35,
+      40,
+      45,
+      50,
+      55,
+      60
+    ],
+    "aiPrimaryDrawsPerRoll": 1,
+    "maxOpeningRepetition": 2,
+    "slowInitialAmount": 0,
+    "slowHook": "onAfterUseCard",
+    "slowEnqueue": "BOTTOM ApplyPowerAction",
+    "slowDamageType": "NORMAL",
+    "slowFloat": "binary32 before final floor",
+    "slowReset": "atEndOfRound; retain Power at amount zero",
+    "sourceEncounter": "Giant Head",
+    "sourceMonsterId": "GiantHead",
+    "tier": "elite"
+  },
+  "independentModel": {
+    "generator": "tools/oracles/sts1_giant_head.py",
+    "generatorSha256LF": "50a25f4a4c9ed41027245966078016d36e8a04736e1bf90ddf7dd4882ff749c0",
+    "fixture": "tests/fixtures/giant-head-vectors.lua",
+    "sha256LF": "c716e246addab058caffab1b225a115dd48c720eac37b6955dfebf823a86511f",
+    "dependencies": [
+      {
+        "path": "tools/oracles/sts1_combat_gold.py",
+        "sha256LF": "7c0c70dd7dbed02bc0107e5ec0efcdb7892bf14cdb61a5ddc3a127eaeb50c0a8"
+      }
+    ]
+  }
+}

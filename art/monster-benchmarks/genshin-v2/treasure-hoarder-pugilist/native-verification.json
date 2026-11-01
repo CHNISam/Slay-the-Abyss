@@ -1,0 +1,116 @@
+{
+  "controls": 578,
+  "primitiveCounts": {
+    "ellipse": 5,
+    "rectangle": 60,
+    "triangle": 513
+  },
+  "semanticPlanes": 110,
+  "contain": {
+    "canvasInsetFractionPerSide": 0.06,
+    "extentFraction": 0.88,
+    "sourceAlphaCropped": false,
+    "groundAnchor": null,
+    "sourceComparisonResample": "Pillow affine BICUBIC at8x then LANCZOS reduce; exact6% source-space no crop",
+    "existingWholeCanvasPaddingZeroPreviewsNotReplaced": true,
+    "sourceCanvasAspectPreserved": true,
+    "sourceScaleIn106": 0.07438596491228071,
+    "sourceCanvasBoundsIn106": [
+      6.36,
+      6.36,
+      99.64,
+      99.64
+    ]
+  },
+  "serializationClosure": [
+    {
+      "x": 4.9971195693387926e-05,
+      "y": 4.9971195693387926e-05,
+      "width": 5.2627764249635334e-05,
+      "height": 5.618078666813631e-05,
+      "rotation": 5.456525303770832e-05,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    },
+    {
+      "x": 0.0,
+      "y": 0.0,
+      "width": 0.0,
+      "height": 0.0,
+      "rotation": 0.0,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    }
+  ],
+  "strictJsonVsLiteralReplay": {
+    "106px-1x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "106px-4x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "127px-1x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "127px-4x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    }
+  },
+  "visualReview": {
+    "inspected": [
+      "actual immutable source1254x1254",
+      "identity-reference.png",
+      "source and native106px4x",
+      "source and native127px1x",
+      "comparison127px4x",
+      "comparison106px1x"
+    ],
+    "identity": "OUR close-cropped masked boxer, black sleeveless vest, large structured waist guard, olive trousers, two raised fists and both full feet",
+    "remainingDifferences": [
+      "Flatter angular broad skin/cloth planes",
+      "Finger wraps, knee motifs and head shading simplified",
+      "Chest emblem simplified to open native annulus and curl",
+      "Fine soft painted transitions omitted"
+    ],
+    "rootReview": "pending",
+    "ownerNativeAcceptance": false,
+    "decision": "Bounded candidate only; one initial and one focused repair used; stop for root review"
+  },
+  "qualityStatus": "SOURCE-RECOGNIZABLE-SIMPLIFIED-CANDIDATE-PENDING-ROOT-REVIEW; technical-replay-PASS; not platform acceptance",
+  "independentVerification": {
+    "identity": "treasure-hoarder-pugilist",
+    "controls": 578,
+    "exactFields": [
+      "type",
+      "x",
+      "y",
+      "width",
+      "height",
+      "rotation",
+      "rotationX",
+      "rotationY",
+      "color",
+      "opacity",
+      "zIndex"
+    ],
+    "allFieldsEqual": true,
+    "actualPinnedRendererParity": {
+      "106": {
+        "changedPixels": 0,
+        "maxChannelDelta": 0
+      },
+      "127": {
+        "changedPixels": 0,
+        "maxChannelDelta": 0
+      }
+    },
+    "sourceHashMatches": true,
+    "galleryImages": 0,
+    "masks": 0
+  },
+  "runtimeWired": false
+}

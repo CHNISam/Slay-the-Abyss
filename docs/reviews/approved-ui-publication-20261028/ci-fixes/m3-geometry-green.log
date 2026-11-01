@@ -1,0 +1,14 @@
+✔ Main short operation strip remains at original top700 with native text height (13.369843ms)
+✔ Main runtime preserves source slots and portrait silhouettes without changing battle state (3214.696231ms)
+✔ Main end-turn is the original long bronze hexagon, not an invented sword button (4.123836ms)
+✔ Main unique Boss center screen slot preserves core actor IDs and real target commands (3334.509552ms)
+✔ PR256 and PR268 theme changes are exactly the reviewed visual fields, with all rule and art-layout values retained (5.318769ms)
+✔ first UI batch keeps visual enemy slots, actual target hitboxes, lock colours and original hand-return cancellation aligned (3956.043884ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10829.338704

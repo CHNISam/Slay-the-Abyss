@@ -1,0 +1,110 @@
+{
+  "mirror": "purewhitelove/ButterflyGame",
+  "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+  "sources": [
+    {
+      "path": "杀戮尖塔原码/events/shrines/GoldShrine.java",
+      "blob": "22e1ee260a216673eae76d7d5ada4caf2e2b499c",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/events/shrines/GoldShrine.java",
+      "independent_blob_verified": true
+    },
+    {
+      "path": "杀戮尖塔原码/cards/curses/Regret.java",
+      "blob": "f8d952467eefb802fe536757e59c3016d2a6e9d6",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/curses/Regret.java",
+      "independent_blob_verified": true
+    },
+    {
+      "path": "杀戮尖塔原码/actions/common/LoseHPAction.java",
+      "blob": "b17ea693ee62134f4d7f10d56e72f4c25d5fd460",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/common/LoseHPAction.java",
+      "independent_blob_verified": true
+    },
+    {
+      "path": "杀戮尖塔原码/actions/common/DiscardAtEndOfTurnAction.java",
+      "blob": "0b27f3c0b64a487bd497d5220c7fcbe982aa1f82",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/common/DiscardAtEndOfTurnAction.java",
+      "independent_blob_verified": true
+    },
+    {
+      "path": "杀戮尖塔原码/actions/GameActionManager.java",
+      "blob": "931cded5ae1aed78771e0a5389e8358946b78f8f",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/GameActionManager.java",
+      "independent_blob_verified": true
+    },
+    {
+      "path": "杀戮尖塔原码/characters/AbstractPlayer.java",
+      "blob": "a543883e0b4b6d32723ec1ebd00b4d632296b231",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/characters/AbstractPlayer.java",
+      "independent_blob_verified": true
+    },
+    {
+      "path": "杀戮尖塔原码/cards/CardGroup.java",
+      "blob": "c68b25ad094b8cc04a0e380db8e67a1fb1f3bfe4",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/CardGroup.java",
+      "independent_blob_verified": true
+    },
+    {
+      "path": "杀戮尖塔原码/dungeons/Exordium.java",
+      "blob": "4da51b8f6bbddbdd30eed7d28645037c784da0c6",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/dungeons/Exordium.java",
+      "independent_blob_verified": true
+    },
+    {
+      "path": "杀戮尖塔原码/dungeons/AbstractDungeon.java",
+      "blob": "0b56f48444f990fec0225747f19125eab17233af",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/dungeons/AbstractDungeon.java",
+      "independent_blob_verified": true
+    },
+    {
+      "path": "杀戮尖塔原码/cards/AbstractCard.java",
+      "blob": "28010e74c3a9c7c97ca6cd3fd0654a451735172b",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/AbstractCard.java",
+      "independent_blob_verified": true
+    },
+    {
+      "path": "杀戮尖塔原码/actions/utility/UseCardAction.java",
+      "blob": "3069a750b5c07b1a1c8aebfcf021984cad9a8a5a",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/utility/UseCardAction.java",
+      "independent_blob_verified": true
+    },
+    {
+      "path": "杀戮尖塔原码/powers/EvolvePower.java",
+      "blob": "eefb75f9bb3876a790672fcc1b63c35e4bb42b89",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/powers/EvolvePower.java",
+      "independent_blob_verified": true
+    },
+    {
+      "path": "杀戮尖塔原码/rooms/AbstractRoom.java",
+      "blob": "cbd3b988e267bbf5dc8c4fd981ccc201e8bcec9e",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/rooms/AbstractRoom.java",
+      "independent_blob_verified": true
+    },
+    {
+      "path": "杀戮尖塔原码/screens/DeathScreen.java",
+      "blob": "0dcb52bf576a4ac264fb273f8bdec1570617133f",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/screens/DeathScreen.java",
+      "independent_blob_verified": true
+    },
+    {
+      "path": "杀戮尖塔原码/cards/red/GhostlyArmor.java",
+      "blob": "f5e9b0354ebcd18235fb1505260865a8dbb9b9ac",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/GhostlyArmor.java",
+      "independent_blob_verified": true
+    },
+    {
+      "path": "杀戮尖塔原码/cards/red/Carnage.java",
+      "blob": "14bb88f1823207254d84e932f9dc5bdad853169b",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Carnage.java",
+      "independent_blob_verified": true
+    },
+    {
+      "path": "杀戮尖塔原码/actions/utility/ExhaustAllEtherealAction.java",
+      "blob": "c475ce1427a0283e80289e616de4c4329b2e0605",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/utility/ExhaustAllEtherealAction.java",
+      "independent_blob_verified": true
+    }
+  ],
+  "official_target_jar_hash": null,
+  "status": "FIXED_MIRROR_VERIFIED; STRICT_PC_PARITY_UNVERIFIED"
+}

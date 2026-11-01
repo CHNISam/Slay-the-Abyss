@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "card_id": "spot_weakness",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T18:37:57.255Z",
+    "endUtc": "2026-10-29T18:38:49.515Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Close alert Lumine profile right observes one hooded foe raised woodenclub left, no contact/hit/enemy Weak/eye beam/reticle/UI. Actual flower/whiteblue/blackgold identity clear at tiny size. Raised attackintent reads, underarm opening subtler than brief; conditional selfStrength remains text. Low-right sword hilt does not contact enemy. Fine detail remains; native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/spot_weakness/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "bfab01457272f4a9fcd604903146f5c7f58f62d89608755f0a8447497f93b577",
+    "bytes": 2011501,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/spot_weakness/prompt.txt",
+    "sha256": "afcf391ca01af44f482b57a6456de4873f4641c56f87f8f8d88c6f47c4f8d96b"
+  }
+}

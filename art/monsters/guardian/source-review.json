@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "repositoryHead": "ebfdfde4a21054c30272cc6a58abb7d9007fde3e",
+  "enemy_id": "guardian",
+  "sourceSha256": "2a8eab5ace3937a0256835628c8c614487378659e76de72b776a74902906030a",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY_WITH_MARGIN_CAUTION",
+  "hardDefects": [],
+  "inspection": {
+    "fullSource": "inspected actual pixels",
+    "previews": [
+      {
+        "size": 106,
+        "sha256": "6cec74b3b7abbc7474ef9051e5fa31d62cc0b2d4072c77f083aaaf459021c192",
+        "actual1xAndNearest4x": "inspected",
+        "verdict": "pass source readability"
+      },
+      {
+        "size": 127,
+        "sha256": "8f35de3fa4e1d49df7287f163913d4174edc55f2220f8f4b354268fbc6a5a648",
+        "actual1xAndNearest4x": "inspected",
+        "verdict": "pass source readability"
+      },
+      {
+        "size": 173,
+        "sha256": "1aa519608515d47e9cfba02bccccced79704a0c4120a898c200cc8483e6cc416",
+        "actual1xAndNearest4x": "inspected",
+        "verdict": "pass source readability"
+      }
+    ]
+  },
+  "findings": [
+    "Original ancient construct: closed stone plate torso with square seal, bronze circular joints and subtle violet fissures. Does not reproduce STS blue spiral torso, green chevron face or floating gold segmented arms.",
+    "Left-facing head/torso, broad heavy shoulders, lowered spread arms and planted separate feet read. Both arm joint chains are continuous; fists/stone digits and foot plates appear intact, not visibly clipped. No detached or duplicated limb.",
+    "Clear elbow/torso and leg negative gaps at all three sizes; stone/bronze value masses retain mechanical identity. Chest square remains visible; fine stone cracks/violet fissures are diminished at106 and not a reliable tiny-size identity cue.",
+    "Meaningful alpha>16 bbox (10,146,1250,1199), with zero >16 border pixels: intact but only 4px right margin and10px left. At106px contain, near-edge fists leave under1px right clearance. Preserve whole canvas; downstream use inset contain if native stroke/antialias extent needs safety, never crop or zoom to fill.",
+    "No ground plane or shadow; planted pose is an illustration, not runtime ground alignment. Current runtime centers square portraits."
+  ],
+  "costLimits": [
+    "Broad stone and bronze masses are the useful native priorities; many stone chips/facet gradients, fine fissures and joint highlights risk costly no-contribution primitives.",
+    "Need actual native refined comparison: source PNG count/bytes cannot establish runtime cost or performance."
+  ],
+  "referenceReview": {
+    "guardian-steam.jpg": "viewed actual STS gameplay; only stance/mass/negative-space principles reused",
+    "looter-gameplay-candidate.webp": "excluded as mislabeled slaver"
+  },
+  "identityEvidence": [
+    "data/enemies.json guardian is boss with offense/defense shift cycle; stone/bronze seal construct is consistent with original final-seal defender lore.",
+    "docs/lore/v2/02-characters/GUARDIANS_AND_OTHERS.md: ancient seal defender corrupted/unable to distinguish friend from foe; image adds no resurrection or new mechanics."
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "nextGate": "Actual native refined candidate, battle intent/HP layering, PC+Android multi-enemy performance and repeated start/end cleanup remain untested; TASK-25.3 not complete.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

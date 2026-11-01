@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "cultist",
+  "sourceSha256": "7d7b5fddd7c3080d028fd3f8aedf928e6d1911630f7c31ab912407efb8422ab2",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    182,
+    32,
+    1093,
+    1222
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "file": "preview-contain-106.png",
+      "sha256": "9917ad326a1333a67ee004893260bef84596b8770855ac93dddb81b91023c584",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "file": "preview-contain-127.png",
+      "sha256": "31431b0ec18c439742f2a65aad97dc9a4c547e62ecae8b3afb04d000500dd8a1",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Human face, tense down-left gaze, grey-brown bell robe and small cupped flame are clear. No STS bird head/mask or copied identity.",
+    "Two hands/wrists connect plausibly, elbows/sleeves continuous; feet separate under robe. Human+fire+robe survive106/127, while fine expression/fingers do not.",
+    "Matches first-pair faceted painted vocabulary. No visible clipped appendage or anatomy hard defect."
+  ],
+  "costLimits": [
+    "Prioritize large silhouette/value masses and connected anatomy. Fine cloth facets, shell cracks, fingers/toes and glints do not justify uncontrolled native primitive counts.",
+    "Source PNG bytes and these offline previews do not establish native cost or performance."
+  ],
+  "framing": "Preserve whole source; use downstream inset contain for intact tight margins if needed. No fake ground-anchor promise; runtime uses centered square portraits.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "No native production authorized by this review. TASK25.3 device/performance/layering/cleanup gates remain pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

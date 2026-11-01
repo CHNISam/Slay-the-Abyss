@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "centurion",
+  "sourceSha256": "0bffe96aa39a3b957a6203040fe13b09f723066a26fa783c9990f9a210938d53",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    73,
+    30,
+    1214,
+    1229
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "b45ad9c0ce169bba5e4d4fb1d7eaf1e780566535ffa898d93ffd59fbe1c5badc",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "ad243542234f61743df344be87331c5e71028fe5e4c819a093120641d61c64b2",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Original broad-shouldered human in grey stone armour/old bronze/dark red cloth, trapezoid chest and one low short wide spear, attached forearm plate. No Roman crest or copied STS appearance/second ally.",
+    "Spearhead/shaft/gripping hand continuous; other forearm/fist plausible. Two arms, legs and intact boots, no duplicated/detached appendage.",
+    "Armour mass/spear line/two-foot stance readable106/127; elaborate armour facets not reliable tiny."
+  ],
+  "costLimits": [
+    "Preserve spear continuity, broad armour masses and leg gaps before dense overlapping plates/facets/trim glints.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserve; tight intact margins downstream6% inset contain allowed; no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only; no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

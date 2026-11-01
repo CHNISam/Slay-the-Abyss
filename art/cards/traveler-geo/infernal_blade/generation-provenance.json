@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "card_id": "infernal_blade",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T18:06:15.189Z",
+    "endUtc": "2026-10-29T18:07:32.121Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Fresh high angled controlled guard/technique trial, one connected normal sword and gripping hand, empty other hand balancing. No memory/repeat trace, enemy/contact/damage/flame/cards/UI or permanent weapon change. Actual flower/blonde/whiteblue/blackgold Lumine identity clear. Random attack generation, free-this-turn and exhaust remain text; distinct from Dual Wield by new poised line without replay arc. Fine detail remains; native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/infernal_blade/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "67887ae642dbe6b6198b50de61561b302c7c2fe5bd8481639fe31bf180dac12b",
+    "bytes": 1916059,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/infernal_blade/prompt.txt",
+    "sha256": "a062bb4966b802379b110850692d7ac0897f0f4bb17892a5c7ce531bfc9f6bce"
+  }
+}

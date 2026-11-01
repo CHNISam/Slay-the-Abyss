@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "inflame",
+  "displayName": "剑术精进",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "inflame/generation-provenance.json",
+      "sha256": "81210fb917be1a31b7de6b3caa0f18684b3a8f86553e0d865549433a594c24dc",
+      "bytes": 2809
+    },
+    "preview-source-144x64.png": {
+      "path": "inflame/preview-source-144x64.png",
+      "sha256": "5c15f862097828f60808c4e56280918ac6c931d4cf36b7498e10deb72f784d94",
+      "bytes": 18641
+    },
+    "prompt.txt": {
+      "path": "inflame/prompt.txt",
+      "sha256": "b8be1175af20a79e08bbe9246161ec6812bd2ac0144a127a528f5069dca78525",
+      "bytes": 2781
+    },
+    "source.png": {
+      "path": "inflame/source.png",
+      "sha256": "d4f7338823f718ca53d2a2b89157a38153cb42e4158e32df33d0e9a41e03ca21",
+      "bytes": 1929032
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "inflame",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "gainStatus",
+        "status": "strength",
+        "value": 2
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-10",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

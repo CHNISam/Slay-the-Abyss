@@ -1,0 +1,10 @@
+✔ competition host projection preserves the original history/interaction witness and rejects drift (11.712291ms)
+✔ historical replay inputs bind every changed build, host and version source, including the deleted module (10.971707ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 284.748693

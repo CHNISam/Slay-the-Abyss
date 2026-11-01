@@ -1,0 +1,332 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "boundary": "Synthetic post-assignment RNG states; not complete map or native acceptance.",
+  "cases": [
+    {
+      "seed": "0",
+      "warmup": 0,
+      "eliteCount": 1,
+      "before": {
+        "words": [
+          "8f780810af31a493",
+          "d1f9a22af8e83383"
+        ],
+        "counter": 0
+      },
+      "selectionIndex": 0,
+      "afterSelection": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "roll": 0,
+      "afterBoost": {
+        "words": [
+          "56d6714ba8506ef6",
+          "9253c52fcfbd932b"
+        ],
+        "counter": 2
+      },
+      "next99": 52,
+      "continuation": {
+        "words": [
+          "9253c52fcfbd932b",
+          "6151e5f6a4a2df86"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "seed": "1",
+      "warmup": 7,
+      "eliteCount": 4,
+      "before": {
+        "words": [
+          "0b86d4640c4c5ec2",
+          "8de30ea50ab309e5"
+        ],
+        "counter": 7
+      },
+      "selectionIndex": 0,
+      "afterSelection": {
+        "words": [
+          "8de30ea50ab309e5",
+          "b463e00d661948c3"
+        ],
+        "counter": 8
+      },
+      "roll": 0,
+      "afterBoost": {
+        "words": [
+          "b463e00d661948c3",
+          "6b05d8b2ad42be66"
+        ],
+        "counter": 9
+      },
+      "next99": 8,
+      "continuation": {
+        "words": [
+          "6b05d8b2ad42be66",
+          "d9d56d691df959c2"
+        ],
+        "counter": 10
+      }
+    },
+    {
+      "seed": "2",
+      "warmup": 14,
+      "eliteCount": 4,
+      "before": {
+        "words": [
+          "a4267694d07561fb",
+          "1eda11ec5c055ad1"
+        ],
+        "counter": 14
+      },
+      "selectionIndex": 0,
+      "afterSelection": {
+        "words": [
+          "1eda11ec5c055ad1",
+          "f0942ae8e16656c7"
+        ],
+        "counter": 15
+      },
+      "roll": 1,
+      "afterBoost": {
+        "words": [
+          "f0942ae8e16656c7",
+          "18604deff9492c6c"
+        ],
+        "counter": 16
+      },
+      "next99": 33,
+      "continuation": {
+        "words": [
+          "18604deff9492c6c",
+          "9c8496582f5dc026"
+        ],
+        "counter": 17
+      }
+    },
+    {
+      "seed": "4",
+      "warmup": 21,
+      "eliteCount": 4,
+      "before": {
+        "words": [
+          "f5707ad940c0bcb4",
+          "0cb9158c6ce7c0ac"
+        ],
+        "counter": 21
+      },
+      "selectionIndex": 3,
+      "afterSelection": {
+        "words": [
+          "0cb9158c6ce7c0ac",
+          "956943e055219263"
+        ],
+        "counter": 22
+      },
+      "roll": 2,
+      "afterBoost": {
+        "words": [
+          "956943e055219263",
+          "5fe640ee86a0b7a9"
+        ],
+        "counter": 23
+      },
+      "next99": 94,
+      "continuation": {
+        "words": [
+          "5fe640ee86a0b7a9",
+          "3aa5a171f205ac3b"
+        ],
+        "counter": 24
+      }
+    },
+    {
+      "seed": "42",
+      "warmup": 28,
+      "eliteCount": 4,
+      "before": {
+        "words": [
+          "dca3487de1d46860",
+          "e5fcd5993f7210af"
+        ],
+        "counter": 28
+      },
+      "selectionIndex": 0,
+      "afterSelection": {
+        "words": [
+          "e5fcd5993f7210af",
+          "07af06c040b7f66a"
+        ],
+        "counter": 29
+      },
+      "roll": 3,
+      "afterBoost": {
+        "words": [
+          "07af06c040b7f66a",
+          "2ecc7ee175cce2ac"
+        ],
+        "counter": 30
+      },
+      "next99": 66,
+      "continuation": {
+        "words": [
+          "2ecc7ee175cce2ac",
+          "494310161df91640"
+        ],
+        "counter": 31
+      }
+    },
+    {
+      "seed": "-1",
+      "warmup": 35,
+      "eliteCount": 4,
+      "before": {
+        "words": [
+          "ab89e9fb94d85824",
+          "237144cecd5f4b0c"
+        ],
+        "counter": 35
+      },
+      "selectionIndex": 1,
+      "afterSelection": {
+        "words": [
+          "237144cecd5f4b0c",
+          "7532ea30553de3f7"
+        ],
+        "counter": 36
+      },
+      "roll": 0,
+      "afterBoost": {
+        "words": [
+          "7532ea30553de3f7",
+          "3125234da76d8141"
+        ],
+        "counter": 37
+      },
+      "next99": 73,
+      "continuation": {
+        "words": [
+          "3125234da76d8141",
+          "5c3d610c7af86681"
+        ],
+        "counter": 38
+      }
+    },
+    {
+      "seed": "65537",
+      "warmup": 42,
+      "eliteCount": 4,
+      "before": {
+        "words": [
+          "e3f03ec654b11fbf",
+          "0a48909882134681"
+        ],
+        "counter": 42
+      },
+      "selectionIndex": 3,
+      "afterSelection": {
+        "words": [
+          "0a48909882134681",
+          "8a92b6bea822ba86"
+        ],
+        "counter": 43
+      },
+      "roll": 1,
+      "afterBoost": {
+        "words": [
+          "8a92b6bea822ba86",
+          "cc9b0ca30281b2e4"
+        ],
+        "counter": 44
+      },
+      "next99": 75,
+      "continuation": {
+        "words": [
+          "cc9b0ca30281b2e4",
+          "195dc1909c91d533"
+        ],
+        "counter": 45
+      }
+    },
+    {
+      "seed": "2780424839485660359",
+      "warmup": 49,
+      "eliteCount": 4,
+      "before": {
+        "words": [
+          "546fb1cdbf1ff00a",
+          "5e043fb9d9963793"
+        ],
+        "counter": 49
+      },
+      "selectionIndex": 1,
+      "afterSelection": {
+        "words": [
+          "5e043fb9d9963793",
+          "ecb458c3fd9cf4e0"
+        ],
+        "counter": 50
+      },
+      "roll": 3,
+      "afterBoost": {
+        "words": [
+          "ecb458c3fd9cf4e0",
+          "6e5ced2ebacdfb87"
+        ],
+        "counter": 51
+      },
+      "next99": 19,
+      "continuation": {
+        "words": [
+          "6e5ced2ebacdfb87",
+          "e3163d29eb368207"
+        ],
+        "counter": 52
+      }
+    }
+  ],
+  "health": [
+    {
+      "maxHp": 1,
+      "increase": 0
+    },
+    {
+      "maxHp": 2,
+      "increase": 1
+    },
+    {
+      "maxHp": 3,
+      "increase": 1
+    },
+    {
+      "maxHp": 61,
+      "increase": 15
+    },
+    {
+      "maxHp": 62,
+      "increase": 16
+    },
+    {
+      "maxHp": 63,
+      "increase": 16
+    },
+    {
+      "maxHp": 176,
+      "increase": 44
+    },
+    {
+      "maxHp": 185,
+      "increase": 46
+    },
+    {
+      "maxHp": 200,
+      "increase": 50
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "fire_breathing",
+  "displayName": "逆势反攻",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "fire_breathing/generation-provenance.json",
+      "sha256": "03b17c84d9cf0d0e34e8c270b36ede83ae48da154dd0b35cc6c8cf8a98af5e85",
+      "bytes": 2556
+    },
+    "preview-contain-144x64.png": {
+      "path": "fire_breathing/preview-contain-144x64.png",
+      "sha256": "fe16afa1c89e647f011cb6f9bd3315e6e797cd41b6b200258b58a81760cf2dea",
+      "bytes": 20771
+    },
+    "prompt.txt": {
+      "path": "fire_breathing/prompt.txt",
+      "sha256": "be102abec83b81f1c242e8d3a74f4b72f9d667c3ce5010a1265285694952063e",
+      "bytes": 3777
+    },
+    "source.png": {
+      "path": "fire_breathing/source.png",
+      "sha256": "051f38fdbd6d2c1aa398f8c00462cf26de11913bbc8c9c179cbccce8beb0d186",
+      "bytes": 1986559
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "fire_breathing",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "gainStatus",
+        "value": 6,
+        "status": "fire_breathing"
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-09",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

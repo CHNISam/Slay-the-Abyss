@@ -1,0 +1,47 @@
+{
+  "reviewedCommits": [
+    "66834507de8f902633b441081950cf38a2a0ae05",
+    "822febf73c028bbb1f9630628bf76307066c6983"
+  ],
+  "worktree": "/workspace/m3-sword-random-oracle",
+  "verdict": "approved",
+  "findings": [],
+  "scope": "Narrow independent source/oracle/public-entry/negative/partition review; only main six tests and one representative heavy case rerun.",
+  "sourceReview": {
+    "identity": "Read cached fixed original sources and SHA256/Git blob verified all ten receipts. Correct card action is AttackDamageRandomEnemyAction, not separately locked DamageRandomEnemyAction.",
+    "ordering": "Card queues3/4 bottom actions. Each action independently selects ordered eligible monsters using cardRandomRng and puts DamageAction on top. Singleton still draws random(0,0). Damage victory clears remaining untyped attack actions, so no post-clear RNG.",
+    "independentExpected": "Python generator imports only established independent XS128 Stream; hardcoded source damage3, count3/4 and controlled HP scenarios. No production catalog/effect/random function used to form expected. 24 distinct cases and68 hits; full bound/value/word/counter before-after plus target and HP vectors.",
+    "public": "Actual Run.obtainCard requested upgrade/masterUID, real startCombat finds matching deckUid instance and Run.play handles cost/discard/reward. Hand/HP/isDying/status/block/energy/floor preconditions explicitly controlled; no natural route/acquisition claim. UI uses real Host/BattleUI listeners with separately disclosed fixture setup.",
+    "negative": "Precise fixed-target, omitted singleton draw and extra post-death draw mutants fail intended assertions. Stale/unknown UID reject full-state atomically. UI old release/endDrag/click cannot play next remapped card; fresh action remains usable.",
+    "partition": "Eight exact LF nonempty wrappers call actual helper seed x upgraded; actual collector registers24 callable callbacks with exact IDs and no duplicates. Each helper execution invokes original unchanged Lua witness with default30s. Original oracle, fixtures, receipts and Lua bytes unchanged by scheduling commit.",
+    "budget": "No runner timeout/timing table/threshold edits. unknownJsMs10000 is CI planning weight, not actual Lua timeout; split replaces one110s unit with eight3-case units. Timing measurements remain author Linux evidence and are not invented Windows weights.",
+    "history": "Pure tests/evidence/attributes and helper split; no production/old150+49 changes. TEST_ADDED correctly stated."
+  },
+  "verification": [
+    {
+      "command": "node --test --test-concurrency=1 tests/sword-random-oracle.test.mjs",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 6950.6352
+    },
+    {
+      "command": "node --test --test-name-pattern='Sword case 0/base/kill_reselect$' tests/sword-random-0-base.test.mjs",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4672.836218
+    },
+    {
+      "command": "git diff --check ca838ef 822febf7",
+      "status": "passed"
+    }
+  ],
+  "limitations": [
+    "Did not redundantly rerun all24 cases after registration-only split; accepted original29/29 log for unchanged evidence implementation.",
+    "Controlled no-power/block/revival/escape projection; explicit replay raw seed is not natural floor RNG lifecycle.",
+    "No natural acquisition/device/official import/current ready evidence.",
+    "Final integrated head/base and required CI remain separately bound."
+  ],
+  "sourceModifiedByReviewer": false
+}

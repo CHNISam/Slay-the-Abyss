@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "card_id": "warcry",
+  "displayName": "调整战术",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "warcry/generation-provenance.json",
+      "sha256": "9028befe22ab49fa2ce74c367a9e794ed0f7817787a37eafcb748df155f98641",
+      "bytes": 2855
+    },
+    "preview-source-144x64.png": {
+      "path": "warcry/preview-source-144x64.png",
+      "sha256": "ee9e0275ef97adb133421f3b837df6f56381b347b48d782e191f28edc81659e2",
+      "bytes": 18506
+    },
+    "prompt.txt": {
+      "path": "warcry/prompt.txt",
+      "sha256": "312533adbcbc2be3c39d7a8eadf9b8677802c5594a8cabc3317c382ffae6bc10",
+      "bytes": 2767
+    },
+    "source.png": {
+      "path": "warcry/source.png",
+      "sha256": "a3166687ab2410ac8ede91b31d650f56e669092f52659d46d688579210883da4",
+      "bytes": 1954235
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "warcry",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "draw",
+        "value": 1
+      },
+      {
+        "op": "handToDraw"
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-05",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

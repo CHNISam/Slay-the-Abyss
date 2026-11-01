@@ -1,0 +1,72 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenance": "Pinned community decompilation mirror; not authenticated PC binary execution",
+  "sources": [
+    {
+      "path": "events/city/Nest.java",
+      "gitBlobSha": "9431405244afd0f8e9699987a832a26980738921",
+      "sha256": "02bb7cd3bc072d2ed88a278fffdcd8115f2af4ace461ba54a7d3ad5784b777e2",
+      "size": 3783,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/city/Nest.java"
+    },
+    {
+      "path": "cards/DamageInfo.java",
+      "gitBlobSha": "8cae84b2d3f73198745a901aac61716d2a13b99c",
+      "sha256": "cc16469d78473a1d37bf18a152014d9d1625859a5a7bd0923387f4ee8d942a5a",
+      "size": 5670,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/DamageInfo.java"
+    },
+    {
+      "path": "cards/colorless/RitualDagger.java",
+      "gitBlobSha": "07a8a93a0c41a84ceb126caaea9346e07d71c562",
+      "sha256": "6e1838912d80e7146058b93b15739cbdfdfd08930b070756df2fe015ba4021fd",
+      "size": 1739,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/colorless/RitualDagger.java"
+    },
+    {
+      "path": "vfx/cardManip/ShowCardAndObtainEffect.java",
+      "gitBlobSha": "1905199265294006a78eaeeb56e4ec75048236ff",
+      "sha256": "1daffc2b13c79a1ddb10fcce995cf18980e917a576dba6db3751dccffa892e52",
+      "size": 4473,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/cardManip/ShowCardAndObtainEffect.java"
+    }
+  ],
+  "behavior": {
+    "sourceId": "Nest",
+    "ascension": 0,
+    "stages": [
+      "intro",
+      "choice",
+      "result"
+    ],
+    "choices": {
+      "intro": [
+        "continue"
+      ],
+      "choice": [
+        "gold",
+        "dagger"
+      ],
+      "result": [
+        "leave"
+      ]
+    },
+    "gold": 99,
+    "damage": {
+      "amount": 6,
+      "owner": null,
+      "type": "NORMAL"
+    },
+    "card": "RitualDagger",
+    "daggerOrder": [
+      "construct fresh RitualDagger",
+      "NORMAL damage",
+      "ShowCardAndObtainEffect",
+      "onObtainCard",
+      "permanent deck insertion"
+    ],
+    "resultRequiresSeparateLeave": true,
+    "gameplayRngDraws": 0
+  },
+  "implementationBoundary": "Nodes owns the command transaction and fatal transition. Shared normal-damage and permanent-obtain hooks are reused, including the integrated Lizard Tail/Fairy/Mark owner. Molten Egg now upgrades the real Ritual Dagger through the shared post-damage permanent-obtain hook; frozen source values and ordering remain unchanged. Unlock tracking and audiovisual timing are not implemented. Native acceptance NOT_RUN."
+}

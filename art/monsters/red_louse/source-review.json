@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "red_louse",
+  "sourceSha256": "d68a3c0ec240124678891e09395329047a66321173f8a58eb14f2f547d2c7b5e",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    82,
+    346,
+    1187,
+    971
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "file": "preview-106.png",
+      "sha256": "52551b688073592f0286e069054f915dd62ccfd0123ab54dfed8dadaa9bde9b3",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "file": "preview-127.png",
+      "sha256": "ba33456d07aac1c2c44c737b63f88daafc76308f9ffc0a1586c6e3db70595070",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Low wide brick-red beetle shell and broad serrated horn intact, original identity distinct from STS louse.",
+    "Six legs observed: near front x90–430, near middle650–880, near rear930–1130; far front tucked beneath head420–580 (split toe belongs to one foot), far middle wedge805–865 partly occluded by near middle, far rear1070–1190 with visible ankle/foot. No apparent seventh/eighth disconnected foot.",
+    "Full source and106/127 preserve shell/horn/leg relation; small far feet naturally overlap more. Repair output reviewed; no additional framing repair needed."
+  ],
+  "costLimits": [
+    "Prioritize large silhouette/value masses and connected anatomy. Fine cloth facets, shell cracks, fingers/toes and glints do not justify uncontrolled native primitive counts.",
+    "Source PNG bytes and these offline previews do not establish native cost or performance."
+  ],
+  "framing": "Preserve whole source; use downstream inset contain for intact tight margins if needed. No fake ground-anchor promise; runtime uses centered square portraits.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "No native production authorized by this review. TASK25.3 device/performance/layering/cleanup gates remain pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

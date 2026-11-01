@@ -1,0 +1,58 @@
+{
+  "reviewedCommit": "7f22bdd52f97bbc7261057da8aba3035d7774108",
+  "baseCommit": "243ae1bd888d33e500cdd868932cc09b6cb9131c",
+  "worktree": "/workspace/m3-parity-contract",
+  "verdict": "PASS",
+  "findings": [],
+  "scope": "Independent narrow review of six test-only files; no production/source changes.",
+  "checks": [
+    {
+      "item": "Approved public help removal",
+      "result": "Both runMenu and exitPanel help are required hidden, direct/click callback denied, controller focus ineligible, command enabled predicate false, and controller Confirm denied. This validates removal rather than restoring the old public guide path."
+    },
+    {
+      "item": "State conservation and aliases",
+      "result": "Helper snapshots the mutable run/map graph through Combat.copy, preserving only shared read-only run.data. same() checks table alias structure with seen mapping and both key directions; run/map identity, modal flags and guide visibility are separately checked. It does not alias the mutable run/map snapshot to current state."
+    },
+    {
+      "item": "Internal fixture boundary",
+      "result": "internalGuideFixture is explicitly named/commented as fixture-only setup, asserts an existing exit/menu layer, sets controlsOpen/guide visibility and refreshes. It does not override production helpers, public callbacks, controller records or eligibility. Assertions about dormant guide isolation do not claim supported public access."
+    },
+    {
+      "item": "Existing meaningful assertions",
+      "result": "PC return-to-current scroll and floor/node conservation, map object identity, controller focus and navigation, layered outside dismissal, cancel, confirm modal isolation, settlement busy/requested rejection and exactly-once settle remain. Only obsolete public-help-success expectations are replaced with the approved hidden contract plus explicit guide preconditions."
+    },
+    {
+      "item": "Controller echo preservation",
+      "result": "Current boundary test first uses legitimate guide-close controller Confirm, then explicitly reseeds the dormant guide and checks same-frame pointer echo is consumed. This retains a real controller activation boundary instead of fabricating a public help action."
+    },
+    {
+      "item": "Budgets and wrappers",
+      "result": "No runner or timeout changes; wrappers continue plain runLua at the existing default 30000ms. No test removals, helper aliases to public routes, fixture/hash rewrites or hidden skip flags."
+    },
+    {
+      "item": "Author negative controls",
+      "result": "Author report records hiding removed -> expected visibility assertion RED, and explicit help availability rejection removed -> expected direct/stale rejection RED. These were inspected as author evidence, not independently rerun or attributed to reviewer."
+    }
+  ],
+  "independentValidation": [
+    {
+      "command": "git diff 7f22bdd^ 7f22bdd --check",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --quiet 7f22bdd^ 7f22bdd -- src scripts config data",
+      "result": "PASS; production source/data/config/scripts unchanged"
+    },
+    {
+      "command": "node --test --test-concurrency=1 tests/menu-input-boundaries-current.test.mjs",
+      "result": "PASS 1/1, zero skip, 3617ms case / 3791ms process; original budget unchanged"
+    }
+  ],
+  "authorValidationRead": "/workspace/cloud-reports/m3-parity-contract-result.json; 7/7 focused batch and two negative controls reported. Not recounted as independent reruns.",
+  "limits": [
+    "No broad suite repeated.",
+    "No official, device or release acceptance implied.",
+    "Current worktree untracked build entry existed before review; reviewer made no source/test edits."
+  ]
+}

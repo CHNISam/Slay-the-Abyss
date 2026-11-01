@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "card_id": "rampage",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T18:21:28.436Z",
+    "endUtc": "2026-10-29T18:23:12.845Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Controlled calm confident Lumine halfbody, one normal held sword and one contact on one left slime. No immediate multi-hit/duplicate hero/weapon growth, later same-card same-combat scaling stays text. Actual flower/whiteblue/blackgold identity clear at tiny size, no legfocus. Fine detail remains; native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/rampage/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "c200f52a70527dfbf48c55b10864d81a460cf7ccd6e77ed56aa4eb4860540501",
+    "bytes": 1930613,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/rampage/prompt.txt",
+    "sha256": "586e9348162aa503e79ee5a2a16a39b05f298b79bb53fde14bdf1ca13e6bf4e6"
+  }
+}

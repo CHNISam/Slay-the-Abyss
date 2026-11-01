@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "tool": "built-in image_gen.imagegen",
+  "dateUtc": "2026-10-30",
+  "model": "unknown-not-exposed",
+  "seed": "unknown-not-exposed",
+  "exactPrompt": "prompt.txt",
+  "sourceSha256": "f6ed0bc296c82912fb8720b7e2b8827b6e217f70ae1119d3138937c5f77442ba",
+  "rawPreserved": true,
+  "references": [
+    {
+      "page_url": "https://wiki.hoyolab.com/pc/genshin/entry/2214?lang=en-us",
+      "image_url": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/03/04/35428890/f7231cfde37a6dc9d6431c6520ab31de_8412928126485511837.png",
+      "role": "HoYoWiki small Dendro Slime three-pose reference; NOT large flower species",
+      "sha256": "ecb2a44610a015c9bb1c27107a5993ce8e38481c90eab39ebccf7ec31e523f27",
+      "pixels_visually_inspected": true,
+      "availability": "URL and hash only; third-party image excluded"
+    }
+  ],
+  "rights": "Genshin identities and third-party references retain original rights. AI-assisted derivative source study, not project-original character IP. No commercial clearance, sublicense, or public reference-image redistribution permission claimed. Reference pixels are NOT included.",
+  "styleReferences": [
+    {
+      "repositoryPath": "art/monster-benchmarks/genshin-v1/pyro-abyss-mage/source.png",
+      "role": "style only, not identity/anatomy",
+      "sha256": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64"
+    },
+    {
+      "repositoryPath": "art/monster-benchmarks/genshin-v1/stonehide-lawachurl/source.png",
+      "role": "style only, not identity/anatomy",
+      "sha256": "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40"
+    }
+  ]
+}

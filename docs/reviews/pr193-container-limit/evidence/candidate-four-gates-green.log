@@ -1,0 +1,12 @@
+✔ deck overlay and close remain inside approved canvas safe areas at every device scale (13.632852ms)
+✔ exit geometry follows theme and safe device scaling without oversized containers (20.387389ms)
+✔ complete native interface respects MCP per-container import limits (26.074616ms)
+✔ feedback uses a fixed non-interactive native pool within the per-parent platform limit (6.116107ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 385.249023

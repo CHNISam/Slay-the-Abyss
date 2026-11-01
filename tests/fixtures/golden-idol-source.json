@@ -1,0 +1,266 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenance": "Audited raw fixed ZIP members and independent Python integer/IEEE32 oracle; not original PC binary execution.",
+  "files": {
+    "events/exordium/GoldenIdolEvent.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/exordium/GoldenIdolEvent.java",
+      "sha256": "3b3cab0799bb027281f7e4784d83efc9c9f6771bf56d039a1d0694e7d02351aa"
+    },
+    "relics/GoldenIdol.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/GoldenIdol.java",
+      "sha256": "063065e1da41f27eb786b89935bd0ec32be4c7e93b59fa693eb2c92a3bb16dd4"
+    },
+    "rewards/RewardItem.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/rewards/RewardItem.java",
+      "sha256": "4287fb3caf3a6ad04fd7c09d1d272bc7e98ceecf4a4d599131c3a68467f75859"
+    },
+    "rooms/AbstractRoom.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/AbstractRoom.java",
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05"
+    },
+    "characters/AbstractPlayer.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
+    },
+    "core/AbstractCreature.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b"
+    },
+    "relics/AbstractRelic.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/AbstractRelic.java",
+      "sha256": "e4b5a8e6dda41cb9b25f75c5777f03e84da245247d1dac5d3070727fc8d24167"
+    },
+    "relics/Circlet.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Circlet.java",
+      "sha256": "b8038556fcc22e49a8f3489b0f2e79ad69fae10c50500b4863d94e131387652c"
+    },
+    "cards/curses/Injury.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/curses/Injury.java",
+      "sha256": "07245c69c17efe1a5768563be1718b9c39fd80c8ba541db14260e6e3d7bc446e"
+    },
+    "relics/Omamori.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Omamori.java",
+      "sha256": "9a4ec0639162f5031e74587dcf5ad191209dd92f2063d4747495ccb265d5cf6f"
+    },
+    "relics/CeramicFish.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/CeramicFish.java",
+      "sha256": "bf8a18d2488d17304a0c9bd153c42898065aa00cbecb424cd1e59e66b2d6fa1c"
+    },
+    "relics/DarkstonePeriapt.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/DarkstonePeriapt.java",
+      "sha256": "629f1f8d4bd033da581468b7f4a9a7c63051d3cec6cb8f6d6c0b2e3d3736efde"
+    },
+    "relics/TungstenRod.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/TungstenRod.java",
+      "sha256": "690106967f973f2a478b48bb0b5561023474289b99d8a65cd30437e2265fe09a"
+    },
+    "relics/LizardTail.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/LizardTail.java",
+      "sha256": "9ee5bd6aad4aa34a4d79cdd69f97160913b71d0f9e727f9ae8d7b26e2f281b90"
+    },
+    "relics/Torii.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Torii.java",
+      "sha256": "981540a0d16dcfe5f7738b0539c9df603d1ae22fffa93f4b28170d3e737a2e62"
+    },
+    "potions/FairyPotion.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/FairyPotion.java",
+      "sha256": "c292f97254f11ca34e0792b3899be966418d32ea5e8ce3e18cbcbaa5f4500e25"
+    },
+    "relics/Ectoplasm.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Ectoplasm.java",
+      "sha256": "717861865521c87b8b3dfbfd94a33a336ee968ce728a1f011f87dafb9471a7d7"
+    },
+    "dungeons/Exordium.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/Exordium.java",
+      "sha256": "93808b9da69b76da6b8f0471cc3533fa113fa28298939bbc48eb55566a976c08"
+    },
+    "dungeons/AbstractDungeon.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26"
+    },
+    "helpers/EventHelper.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/EventHelper.java",
+      "sha256": "e4d91b07439a081d5e5730944d601773a844ddd152e85abc72bb3797d777f41b"
+    },
+    "random/Random.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/random/Random.java",
+      "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172"
+    },
+    "vfx/cardManip/ShowCardAndObtainEffect.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/cardManip/ShowCardAndObtainEffect.java",
+      "sha256": "1daffc2b13c79a1ddb10fcce995cf18980e917a576dba6db3751dccffa892e52"
+    },
+    "cards/DamageInfo.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/DamageInfo.java",
+      "sha256": "cc16469d78473a1d37bf18a152014d9d1625859a5a7bd0923387f4ee8d942a5a"
+    }
+  },
+  "contracts": {
+    "sourceId": "Golden Idol",
+    "canonicalId": "golden_idol",
+    "trapOrder": [
+      "injury",
+      "damage",
+      "max_hp"
+    ],
+    "immediateOwner": true,
+    "damageType": "NORMAL",
+    "damageOwner": null,
+    "damageRounding": "truncate f32(maxHp * .25f)",
+    "maxLossRounding": "max(1, truncate f32(maxHp * .08f))",
+    "goldBonus": "base + JavaRound(f32(base * .25f)); freeze at ordinary GOLD offer creation outside TreasureRoom",
+    "noBonus": [
+      "STOLEN_GOLD",
+      "TreasureRoom",
+      "direct gainGold"
+    ],
+    "duplicate": "Circlet / existing Circlet counter increment"
+  },
+  "roundingOracle": [
+    {
+      "maxHp": 1,
+      "damage": 0,
+      "maxLoss": 1
+    },
+    {
+      "maxHp": 3,
+      "damage": 0,
+      "maxLoss": 1
+    },
+    {
+      "maxHp": 6,
+      "damage": 1,
+      "maxLoss": 1
+    },
+    {
+      "maxHp": 7,
+      "damage": 1,
+      "maxLoss": 1
+    },
+    {
+      "maxHp": 12,
+      "damage": 3,
+      "maxLoss": 1
+    },
+    {
+      "maxHp": 13,
+      "damage": 3,
+      "maxLoss": 1
+    },
+    {
+      "maxHp": 39,
+      "damage": 9,
+      "maxLoss": 3
+    },
+    {
+      "maxHp": 80,
+      "damage": 20,
+      "maxLoss": 6
+    },
+    {
+      "maxHp": 89,
+      "damage": 22,
+      "maxLoss": 7
+    },
+    {
+      "maxHp": 16777219,
+      "damage": 4194305,
+      "maxLoss": 1342177
+    },
+    {
+      "maxHp": 2147483647,
+      "damage": 536870912,
+      "maxLoss": 171798688
+    }
+  ],
+  "goldOracle": [
+    {
+      "base": 0,
+      "bonus": 0
+    },
+    {
+      "base": 1,
+      "bonus": 0
+    },
+    {
+      "base": 2,
+      "bonus": 1
+    },
+    {
+      "base": 3,
+      "bonus": 1
+    },
+    {
+      "base": 10,
+      "bonus": 3
+    },
+    {
+      "base": 14,
+      "bonus": 4
+    },
+    {
+      "base": 18,
+      "bonus": 5
+    },
+    {
+      "base": 19,
+      "bonus": 5
+    },
+    {
+      "base": 20,
+      "bonus": 5
+    },
+    {
+      "base": 25,
+      "bonus": 6
+    },
+    {
+      "base": 35,
+      "bonus": 9
+    },
+    {
+      "base": 95,
+      "bonus": 24
+    },
+    {
+      "base": 98,
+      "bonus": 25
+    },
+    {
+      "base": 105,
+      "bonus": 26
+    },
+    {
+      "base": 16777219,
+      "bonus": 4194305
+    }
+  ],
+  "missingDependencies": [
+    "tungsten_rod/lizard_tail: held owners reject NORMAL damage until real shared hooks exist",
+    "darkstone_periapt: held owner rejects Injury obtain until real shared curse obtain hook exists",
+    "Default restricted-seven source admission, full campaign, dedicated art/platform/live acceptance remain incomplete."
+  ],
+  "naturalRoute": {
+    "seed": "16",
+    "floor": 1,
+    "mode": "full",
+    "unknownRoll": 0.9665967226028442,
+    "selectionRoll": 0.8865886926651001,
+    "selectionIndex": 2,
+    "eligibleNormalCount": 9,
+    "eventRng": {
+      "words": [
+        "ccb954bc7af860a2",
+        "2ab98db97070fe1b"
+      ],
+      "counter": 1
+    },
+    "selectionRng": {
+      "words": [
+        "b83dec7de1ade519",
+        "4e3c229549c53a82"
+      ],
+      "counter": 3
+    }
+  }
+}

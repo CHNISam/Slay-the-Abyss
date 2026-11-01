@@ -1,0 +1,733 @@
+{
+  "relics": [
+{"id":"bottled_tornado","sourceId":"Bottled Tornado","name":"瓶装旋风","description":"拾取时选择一张能力牌。每场战斗开始时将它放入手牌。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"sundial","sourceId":"Sundial","name":"日晷","description":"每洗牌3次，获得2点能量。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"kunai","sourceId":"Kunai","name":"苦无","description":"每回合每打出3张攻击牌，获得1点敏捷。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"blue_candle","sourceId":"Blue Candle","name":"蓝蜡烛","description":"你可以打出诅咒牌。每打出一张诅咒牌，失去1点生命并消耗它。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"eternal_feather","sourceId":"Eternal Feather","name":"永恒羽毛","description":"每进入一个休息处，你的牌组每有5张牌，回复3点生命。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"strike_dummy","sourceId":"StrikeDummy","name":"打击木偶","description":"名称中带有打击的牌额外造成3点伤害。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"singing_bowl","sourceId":"Singing Bowl","name":"颂钵","description":"在卡牌奖励中，你可以选择增加2点生命上限来代替拿牌。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"matryoshka","sourceId":"Matryoshka","name":"套娃","description":"接下来打开的两个非首领宝箱额外包含一件遗物。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"ink_bottle","sourceId":"InkBottle","name":"墨水瓶","description":"每打出10张牌，抽1张牌。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"ornamental_fan","sourceId":"Ornamental Fan","name":"精致折扇","description":"每回合每打出3张攻击牌，获得4点格挡。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"bottled_lightning","sourceId":"Bottled Lightning","name":"瓶装闪电","description":"拾取时选择一张技能牌。每场战斗开始时将它放入手牌。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"gremlin_horn","sourceId":"Gremlin Horn","name":"地精之角","description":"每有一名敌人死亡，获得1点能量并抽1张牌；最后一名敌人死亡不触发。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"horn_cleat","sourceId":"HornCleat","name":"船夹板","description":"每场战斗的第二回合开始时，获得14点格挡。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"letter_opener","sourceId":"Letter Opener","name":"开信刀","description":"每回合每打出3张技能牌，对所有敌人造成5点伤害。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"question_card","sourceId":"Question Card","name":"问号牌","description":"卡牌奖励额外包含一张可供选择的牌。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"bottled_flame","sourceId":"Bottled Flame","name":"瓶装火焰","description":"拾取时选择一张攻击牌。每场战斗开始时将它放入手牌。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"shuriken","sourceId":"Shuriken","name":"手里剑","description":"每回合每打出3张攻击牌，获得1点力量。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"meat_on_the_bone","sourceId":"Meat on the Bone","name":"带骨肉","description":"战斗胜利时，如果你的生命不高于一半，回复12点生命。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"mummified_hand","sourceId":"Mummified Hand","name":"干瘪之手","description":"每打出一张能力牌，一张随机手牌的本回合费用变为0。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"mercury_hourglass","sourceId":"Mercury Hourglass","name":"水银沙漏","description":"每回合开始时，对所有敌人造成3点伤害。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"self_forming_clay","sourceId":"Self Forming Clay","name":"自成型黏土","description":"每次在战斗中失去生命时，下回合开始时获得3点格挡。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"paper_frog","sourceId":"Paper Frog","name":"纸青蛙","description":"有易伤的敌人受到的攻击伤害增加75%。","rarity":"uncommon","trigger":"hooks","effects":[]},
+{"id":"ginger","sourceId":"Ginger","name":"生姜","description":"你不会陷入虚弱。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"bird_faced_urn","sourceId":"Bird Faced Urn","name":"鸟面瓮","description":"每当你打出能力牌时，回复2点生命。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"unceasing_top","sourceId":"Unceasing Top","name":"不休陀螺","description":"在你的回合中，每当你的手牌为空时，抽1张牌。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"torii","sourceId":"Torii","name":"鸟居","description":"每当你受到不多于5点的未被格挡的攻击伤害，将其减少为1点。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"stone_calendar","sourceId":"StoneCalendar","name":"石历","description":"在第7回合结束时，对所有敌人造成52点伤害。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"shovel","sourceId":"Shovel","name":"铲子","description":"你可以在休息处挖掘，获得一件遗物。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"winged_greaves","sourceId":"WingedGreaves","name":"飞翼短靴","description":"在地图上选择下一个房间时可无视路径，共可使用3次。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"thread_and_needle","sourceId":"Thread and Needle","name":"针线","description":"每场战斗开始时，获得4层多层护甲。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"turnip","sourceId":"Turnip","name":"萝卜","description":"你不会陷入脆弱。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"ice_cream","sourceId":"Ice Cream","name":"冰淇淋","description":"未使用的能量可以保留到下一回合。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"calipers","sourceId":"Calipers","name":"外卡钳","description":"在你的回合开始时，只失去15点格挡。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"prayer_wheel","sourceId":"Prayer Wheel","name":"转经轮","description":"普通敌人额外掉落一份卡牌奖励。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"girya","sourceId":"Girya","name":"壶铃","description":"你可以在休息处锻炼，最多3次。每次使你在战斗开始时获得1点力量。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"dead_branch","sourceId":"Dead Branch","name":"枯木树枝","description":"每当你消耗一张牌时，将一张随机牌加入手牌。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"du_vu_doll","sourceId":"Du-Vu Doll","name":"巫毒娃娃","description":"每场战斗开始时，牌组中每有一张诅咒牌便获得1点力量。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"pocketwatch","sourceId":"Pocketwatch","name":"怀表","description":"若你在回合中打出不超过3张牌，下回合开始时额外抽3张牌。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"incense_burner","sourceId":"Incense Burner","name":"香炉","description":"每6回合获得1层无实体，回合计数跨战斗保留。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"gambling_chip","sourceId":"Gambling Chip","name":"赌博筹码","description":"每场战斗开始时，你可以弃掉任意张手牌，然后抽取等量的牌。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"peace_pipe","sourceId":"Peace Pipe","name":"宁静烟斗","description":"你可以在休息处从牌组中移除一张牌。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"captains_wheel","sourceId":"CaptainsWheel","name":"舵盘","description":"在第3回合开始时，获得18点格挡。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"magic_flower","sourceId":"Magic Flower","name":"魔法花","description":"战斗中回复的生命增加50%。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"charons_ashes","sourceId":"Charon's Ashes","name":"卡戎之灰","description":"每当你消耗一张牌时，对所有敌人造成3点伤害。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"champion_belt","sourceId":"Champion Belt","name":"冠军腰带","description":"每当你使敌人陷入易伤时，同时使其虚弱1回合。","rarity":"rare","trigger":"hooks","effects":[]},
+{"id":"velvet_choker","sourceId":"Velvet Choker","name":"天鹅绒颈圈","description":"每回合获得1点能量，每回合最多打出6张牌。","rarity":"boss","trigger":"hooks","effects":[]},
+{"id":"runic_dome","sourceId":"Runic Dome","name":"符文圆顶","description":"每回合获得1点能量，看不到敌人的意图。","rarity":"boss","trigger":"hooks","effects":[]},
+{"id":"snecko_eye","sourceId":"Snecko Eye","name":"异蛇之眼","description":"每回合多抽2张牌；战斗开始时获得混乱。","rarity":"boss","trigger":"hooks","effects":[]},
+{"id":"pandoras_box","sourceId":"Pandora's Box","name":"潘多拉魔盒","description":"将所有初始打击和防御变为随机职业牌。","rarity":"boss","trigger":"hooks","effects":[]},
+{"id":"cursed_key","sourceId":"Cursed Key","name":"诅咒钥匙","description":"每回合获得1点能量；打开非首领宝箱时获得诅咒。","rarity":"boss","trigger":"hooks","effects":[]},
+{"id":"busted_crown","sourceId":"Busted Crown","name":"破损王冠","description":"每回合获得1点能量；卡牌奖励少2张候选。","rarity":"boss","trigger":"hooks","effects":[]},
+{"id":"ectoplasm","sourceId":"Ectoplasm","name":"灵体外质","description":"每回合获得1点能量；不能再获得金币。","rarity":"boss","trigger":"hooks","effects":[]},
+{"id":"tiny_house","sourceId":"Tiny House","name":"小屋","description":"随机升级1张牌，增加5点生命上限，获得50金币、1瓶药水和1次卡牌奖励。","rarity":"boss","trigger":"hooks","effects":[]},
+{"id":"philosophers_stone","sourceId":"Philosopher's Stone","name":"贤者之石","description":"每回合获得1点能量；每名敌人获得1点力量。","rarity":"boss","trigger":"hooks","effects":[]},
+{"id":"astrolabe","sourceId":"Astrolabe","name":"星盘","description":"变换3张卡牌，变换后的牌得到升级。","rarity":"boss","trigger":"hooks","effects":[]},
+{"id":"empty_cage","sourceId":"Empty Cage","name":"空鸟笼","description":"移除2张卡牌。","rarity":"boss","trigger":"hooks","effects":[]},
+{"id":"runic_pyramid","sourceId":"Runic Pyramid","name":"符文金字塔","description":"回合结束时不丢弃手牌。","rarity":"boss","trigger":"hooks","effects":[]},
+{"id":"calling_bell","sourceId":"Calling Bell","name":"召唤之钟","description":"获得钟之诅咒，并获得普通、罕见、稀有遗物各1件。","rarity":"boss","trigger":"hooks","effects":[]},
+{"id":"mark_of_pain","sourceId":"Mark of Pain","name":"苦痛印记","description":"每回合获得1点能量；战斗开始时将2张伤口洗入抽牌堆。","rarity":"boss","trigger":"hooks","effects":[]},
+{"id":"runic_cube","sourceId":"Runic Cube","name":"符文立方体","description":"每次失去生命时抽1张牌。","rarity":"boss","trigger":"hooks","effects":[]},
+{"id":"sling","sourceId":"Sling","name":"投石带","description":"精英战斗开始时获得2点力量。","rarity":"shop","trigger":"hooks","effects":[]},
+{"id":"hand_drill","sourceId":"HandDrill","name":"手钻","description":"攻击打破敌人格挡时，给予其2层易伤。","rarity":"shop","trigger":"hooks","effects":[]},
+{"id":"toolbox","sourceId":"Toolbox","name":"工具箱","description":"战斗开始时，从3张随机无色牌中选1张加入手牌。","rarity":"shop","trigger":"hooks","effects":[]},
+{"id":"chemical_x","sourceId":"Chemical X","name":"化学物X","description":"X费牌的效果额外结算2点X。","rarity":"shop","trigger":"hooks","effects":[]},
+{"id":"orrery","sourceId":"Orrery","name":"星系仪","description":"取得时获得5份卡牌奖励，每份可选择1张牌或跳过。","rarity":"shop","trigger":"hooks","effects":[]},
+{"id":"dollys_mirror","sourceId":"DollysMirror","name":"多利之镜","description":"取得时，复制牌组中的1张牌。","rarity":"shop","trigger":"hooks","effects":[]},
+{"id":"orange_pellets","sourceId":"OrangePellets","name":"橙色药丸","description":"同一回合内使用攻击、技能、能力各1张时，移除自身所有减益。","rarity":"shop","trigger":"hooks","effects":[]},
+{"id":"prismatic_shard","sourceId":"PrismaticShard","name":"棱彩碎片","description":"战斗卡牌奖励可出现所有颜色的牌；非故障机器人且无充能球槽时获得1个槽位。","rarity":"shop","trigger":"hooks","effects":[]},
+{"id":"clockwork_souvenir","sourceId":"ClockworkSouvenir","name":"发条纪念品","description":"战斗开始时获得1层人工制品。","rarity":"shop","trigger":"hooks","effects":[]},
+{"id":"frozen_eye","sourceId":"Frozen Eye","name":"冰冻之眼","description":"查看抽牌堆时，显示真实抽牌顺序。","rarity":"shop","trigger":"hooks","effects":[]},
+{"id":"the_abacus","sourceId":"TheAbacus","name":"算盘","description":"每次洗牌时获得6点格挡。","rarity":"shop","trigger":"hooks","effects":[]},
+{"id":"medical_kit","sourceId":"Medical Kit","name":"医疗箱","description":"状态牌可以打出，打出后消耗。","rarity":"shop","trigger":"hooks","effects":[]},
+{"id":"cauldron","sourceId":"Cauldron","name":"大锅","description":"取得时获得5瓶随机药水，可逐瓶领取或放弃。","rarity":"shop","trigger":"hooks","effects":[]},
+{"id":"strange_spoon","sourceId":"Strange Spoon","name":"奇怪的勺子","description":"打出后将被消耗的牌有50%概率改为弃置；不影响其他方式的消耗。","rarity":"shop","trigger":"hooks","effects":[]},
+{"id":"brimstone","sourceId":"Brimstone","name":"硫磺","description":"每回合开始时，你获得2点力量，所有敌人获得1点力量。","rarity":"shop","trigger":"hooks","effects":[]},
+    {
+      "id": "fossilized_helix", "sourceId": "FossilizedHelix", "name": "螺旋化石",
+      "description": "每场战斗开始时获得1层缓冲，抵消下一次正数生命损失；完全格挡的伤害不消耗缓冲。",
+      "rarity": "rare", "trigger": "hooks", "effects": []
+    },
+    {
+      "id": "pantograph", "sourceId": "Pantograph", "name": "缩放仪",
+      "description": "首领战开始时回复25点生命。",
+      "rarity": "uncommon", "trigger": "hooks", "effects": []
+    },
+    {
+      "id": "sacred_bark",
+      "sourceId": "SacredBark",
+      "name": "神圣树皮",
+      "description": "药水的有效数值翻倍，包括已持有的药水。不会增加熵之酿的生成次数、烟雾弹的逃离次数，也不会重复全手升级、弃抽、消耗或姿态转换；选牌药水仍为三选一，选中牌获得2份。",
+      "rarity": "boss",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "white_beast_statue",
+      "sourceId": "White Beast Statue",
+      "name": "白兽雕像",
+      "description": "战斗后的药水掉落几率变为100%；房间已有4项奖励时仍不会生成药水。",
+      "rarity": "uncommon",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "pear",
+      "sourceId": "Pear",
+      "name": "梨",
+      "description": "取得时增加10点生命上限并回复10生命。",
+      "rarity": "uncommon",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "mango",
+      "sourceId": "Mango",
+      "name": "芒果",
+      "description": "取得时增加14点生命上限并回复14生命。",
+      "rarity": "rare",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "old_coin",
+      "sourceId": "Old Coin",
+      "name": "古旧钱币",
+      "description": "取得时获得300金币。禁止获得金币的效果仍会生效。",
+      "rarity": "rare",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "frozen_egg",
+      "sourceId": "Frozen Egg 2",
+      "name": "冰冻胎石",
+      "description": "每当你获得一张能力牌时，将其升级。",
+      "rarity": "uncommon",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "coffee_dripper",
+      "sourceId": "Coffee Dripper",
+      "name": "咖啡滤杯",
+      "description": "每回合开始时额外获得1点能量。无法在营地休息。",
+      "rarity": "boss",
+      "trigger": "turn_start",
+      "effects": [
+        {
+          "op": "energy",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "fusion_hammer",
+      "sourceId": "Fusion Hammer",
+      "name": "聚变之锤",
+      "description": "每回合开始时额外获得1点能量。无法在营地升级卡牌；其他来源的升级仍有效。",
+      "rarity": "boss",
+      "trigger": "turn_start",
+      "effects": [
+        {
+          "op": "energy",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "mark_of_bloom",
+      "sourceId": "Mark of the Bloom",
+      "name": "绽放印记",
+      "description": "你无法再恢复生命。最大生命的增加仍然生效，但不会因此恢复当前生命。",
+      "rarity": "special",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "membership_card",
+      "name": "会员卡",
+      "rarity": "shop",
+      "trigger": "shop",
+      "effects": []
+    },
+    {
+      "id": "courier",
+      "name": "快递员",
+      "rarity": "uncommon",
+      "trigger": "shop",
+      "effects": []
+    },
+    {
+      "id": "smiling_mask",
+      "name": "微笑面具",
+      "rarity": "common",
+      "trigger": "shop",
+      "effects": []
+    },
+    {
+      "id": "burning_blood",
+      "name": "余烬之心",
+      "rarity": "starter",
+      "trigger": "combat_end",
+      "effects": [
+        {
+          "op": "heal",
+          "value": 6
+        }
+      ]
+    },
+    {
+      "id": "anchor",
+      "name": "石锚",
+      "rarity": "common",
+      "trigger": "combat_start",
+      "effects": [
+        {
+          "op": "block",
+          "value": 10
+        }
+      ]
+    },
+    {
+      "id": "vajra",
+      "name": "裂岩杵",
+      "rarity": "common",
+      "trigger": "combat_start",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "status": "strength",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "bag_of_preparation",
+      "name": "备战袋",
+      "rarity": "common",
+      "trigger": "combat_start",
+      "effects": [
+        {
+          "op": "draw",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "lantern",
+      "name": "启程灯",
+      "rarity": "common",
+      "trigger": "combat_start",
+      "effects": [
+        {
+          "op": "energy",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "oddly_smooth_stone",
+      "name": "光滑岩片",
+      "rarity": "common",
+      "trigger": "combat_start",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "status": "dexterity",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "bronze_scales",
+      "name": "铜鳞",
+      "rarity": "common",
+      "trigger": "combat_start",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "status": "thorns",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "black_star",
+      "sourceId": "Black Star",
+      "name": "黑星",
+      "description": "精英敌人额外掉落1件遗物。额外遗物不会是营火遗物。",
+      "rarity": "boss",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "black_blood",
+      "name": "深燃之心",
+      "description": "替换余烬之心。每场战斗胜利后回复12点生命。",
+      "rarity": "boss",
+      "trigger": "combat_end",
+      "replaces": "burning_blood",
+      "effects": [
+        {
+          "op": "heal",
+          "value": 12
+        }
+      ]
+    },
+    {
+      "id": "slavers_collar",
+      "name": "缚岩项圈",
+      "description": "在精英和首领战斗中，每回合开始时额外获得1点能量。",
+      "rarity": "boss",
+      "trigger": "turn_start",
+      "encounterTiers": [
+        "elite",
+        "boss"
+      ],
+      "effects": [
+        {
+          "op": "energy",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "sozu",
+      "name": "静泉竹筒",
+      "description": "每回合开始时额外获得1点能量。无法再获得药水，已有药水仍可使用。",
+      "rarity": "boss",
+      "trigger": "turn_start",
+      "blocksPotions": true,
+      "effects": [
+        {
+          "op": "energy",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "omamori",
+      "sourceId": "Omamori",
+      "name": "护符",
+      "description": "阻止接下来2次诅咒获得。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "ceramic_fish",
+      "sourceId": "CeramicFish",
+      "name": "陶鱼",
+      "description": "每获得一张永久卡牌，获得9金币。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "potion_belt",
+      "sourceId": "Potion Belt",
+      "name": "药水腰带",
+      "description": "取得时增加2个药水槽。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "meal_ticket",
+      "sourceId": "MealTicket",
+      "name": "餐券",
+      "description": "每次进入商店回复15生命。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "maw_bank",
+      "sourceId": "MawBank",
+      "name": "聚财罐",
+      "description": "每次进入房间获得12金币；在商店消费后失效。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "blood_vial",
+      "sourceId": "Blood Vial",
+      "name": "血瓶",
+      "description": "每场战斗开始时回复2生命。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "bag_of_marbles",
+      "sourceId": "Bag of Marbles",
+      "name": "弹珠袋",
+      "description": "每场战斗开始时对所有敌人施加1回合易伤。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "orichalcum",
+      "sourceId": "Orichalcum",
+      "name": "奥利哈钢",
+      "description": "回合结束时若没有格挡，获得6格挡。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "strawberry",
+      "sourceId": "Strawberry",
+      "name": "草莓",
+      "description": "取得时增加7点生命上限并回复7生命。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "regal_pillow",
+      "sourceId": "Regal Pillow",
+      "name": "皇家枕头",
+      "description": "休息额外回复15生命。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "toy_ornithopter",
+      "sourceId": "Toy Ornithopter",
+      "name": "玩具扑翼机",
+      "description": "每使用一瓶药水回复5生命。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "whetstone",
+      "sourceId": "Whetstone",
+      "name": "磨刀石",
+      "description": "取得时随机升级2张攻击牌。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "war_paint",
+      "sourceId": "War Paint",
+      "name": "战纹涂料",
+      "description": "取得时随机升级2张技能牌。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "happy_flower",
+      "sourceId": "Happy Flower",
+      "name": "快乐小花",
+      "description": "每过3个回合，获得1点能量；计数跨战斗保留。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "ancient_tea_set",
+      "sourceId": "Ancient Tea Set",
+      "name": "古茶具",
+      "description": "进入营地后，下场战斗首回合额外获得2点能量。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "art_of_war",
+      "sourceId": "Art of War",
+      "name": "兵法",
+      "description": "若本回合没有使用攻击牌，下回合额外获得1点能量。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "boot",
+      "sourceId": "Boot",
+      "name": "靴子",
+      "description": "攻击造成1至4点未被格挡的伤害时，改为5点。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "akabeko",
+      "sourceId": "Akabeko",
+      "name": "赤牛",
+      "description": "每场战斗首次攻击额外造成8点伤害。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "pen_nib",
+      "sourceId": "Pen Nib",
+      "name": "钢笔尖",
+      "description": "每打出10张攻击牌，第10张造成双倍伤害。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "nunchaku",
+      "sourceId": "Nunchaku",
+      "name": "双节棍",
+      "description": "每打出10张攻击牌，获得1点能量。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "preserved_insect",
+      "sourceId": "PreservedInsect",
+      "name": "昆虫标本",
+      "description": "精英战斗开始时，敌人当前生命降至其生命上限的75%。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "red_skull",
+      "sourceId": "Red Skull",
+      "name": "红头骨",
+      "description": "生命不高于上限一半时，战斗中获得3点力量。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "centennial_puzzle",
+      "sourceId": "Centennial Puzzle",
+      "name": "百年积木",
+      "description": "每场战斗首次失去生命时，抽3张牌。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "tiny_chest",
+      "sourceId": "Tiny Chest",
+      "name": "小宝箱",
+      "description": "每进入第4个未知房间，该房间变为宝箱。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "juzu_bracelet",
+      "sourceId": "Juzu Bracelet",
+      "name": "念珠",
+      "description": "未知房间不会转为普通战斗。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "dream_catcher",
+      "sourceId": "Dream Catcher",
+      "name": "捕梦网",
+      "description": "每次休息后，获得一次普通卡牌奖励。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "warped_tongs",
+      "sourceId": "WarpedTongs",
+      "name": "扭曲夹钳",
+      "description": "每回合抽牌后，随机升级1张手牌；仅本场战斗生效。",
+      "rarity": "special",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "spirit_poop",
+      "sourceId": "Spirit Poop",
+      "name": "灵体便便",
+      "description": "一份来自篝火的特殊礼物；结算分数减少1。",
+      "rarity": "special",
+      "trigger": "hooks",
+      "effects": [],
+      "scoreModifier": -1
+    },
+    {
+      "id": "circlet",
+      "sourceId": "Circlet",
+      "name": "圆环",
+      "description": "遗物池耗尽时获得；重复取得仅增加计数，不另占遗物栏。",
+      "rarity": "special",
+      "trigger": "hooks",
+      "effects": [],
+      "stackable": true
+    },
+    {
+      "id": "darkstone_periapt",
+      "sourceId": "Darkstone Periapt",
+      "name": "黑石护符",
+      "description": "每当一张诅咒牌实际加入永久牌组，最大生命增加6，并按治疗规则回复6生命。",
+      "rarity": "uncommon",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "red_mask",
+      "sourceId": "Red Mask",
+      "name": "绯红仪面",
+      "description": "每场战斗开始时，对所有敌人施加1回合虚弱：普通攻击伤害减少25%。",
+      "rarity": "special",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "toxic_egg",
+      "sourceId": "Toxic Egg 2",
+      "name": "淬毒胎石",
+      "description": "每当你获得一张技能牌时，将其升级。",
+      "rarity": "uncommon",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "molten_egg",
+      "sourceId": "Molten Egg 2",
+      "name": "熔火胎石",
+      "description": "每当你获得一张攻击牌时，将其升级。",
+      "rarity": "uncommon",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "tungsten_rod",
+      "sourceId": "TungstenRod",
+      "name": "钨钢短杖",
+      "description": "每次将要失去生命时，失去的生命值减少1。",
+      "rarity": "rare",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "golden_idol",
+      "sourceId": "Golden Idol",
+      "name": "鎏金神像",
+      "description": "非宝箱的金币奖励额外增加25%（额外金额四舍五入）；直接金币和被盗金币不加成。",
+      "rarity": "special",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "neows_lament",
+      "sourceId": "NeowsBlessing",
+      "name": "远古悲叹",
+      "description": "前3场战斗开始时，将所有初始敌人的当前生命设为1；不改变最大生命。",
+      "rarity": "special",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "snake_skull",
+      "sourceId": "Snake Skull",
+      "name": "异蛇头骨",
+      "description": "每当你对其他目标施加中毒时，额外施加1层中毒。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "data_disk",
+      "sourceId": "DataDisk",
+      "name": "数据磁盘",
+      "description": "每场战斗开始时，获得1层集中。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "damaru",
+      "sourceId": "Damaru",
+      "name": "手摇鼓",
+      "description": "每个你的回合开始时，获得1层真言。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "lizard_tail",
+      "sourceId": "Lizard Tail",
+      "name": "蜥蜴尾巴",
+      "description": "受到致命伤害时，基础治疗量为生命上限一半（向下取整，至少1点）。每局仅一次；仙灵药水优先，绽放印记阻止复活且不消耗次数。",
+      "rarity": "rare",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "odd_mushroom",
+      "sourceId": "Odd Mushroom",
+      "name": "奇怪蘑菇",
+      "description": "你处于易伤时，普通攻击的额外伤害由50%降低为25%。",
+      "rarity": "special",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "lees_waffle",
+      "sourceId": "Lee's Waffle",
+      "name": "李家华夫饼",
+      "description": "取得时增加7点生命上限，然后回复生命至上限。",
+      "rarity": "shop",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {"id": "cultist_mask", "sourceId": "CultistMask", "name": "邪教徒头饰", "description": "战斗开始时发出邪教徒的叫声；没有额外属性。", "rarity": "special", "trigger": "hooks", "effects": []},
+    {"id": "face_of_cleric", "sourceId": "FaceOfCleric", "name": "圣职者之脸", "description": "每场战斗结束后，生命上限增加1，并按治疗规则回复1点生命。", "rarity": "special", "trigger": "hooks", "effects": []},
+    {"id": "gremlin_mask", "sourceId": "GremlinMask", "name": "地精容貌", "description": "每场战斗开始时，获得1层虚弱。", "rarity": "special", "trigger": "combat_start", "effects": [{"op": "gainStatus", "status": "weak", "value": 1}]},
+    {"id": "nloths_mask", "sourceId": "NlothsMask", "name": "恩洛斯的饥饿之脸", "description": "下次打开非首领宝箱时，移除其中第一件遗物奖励；只触发一次。", "rarity": "special", "trigger": "hooks", "effects": []},
+    {"id": "ssserpent_head", "sourceId": "SsserpentHead", "name": "长蛇之首", "description": "进入问号房时，在房间转类与事件抽取前获得50金币；问号房变为战斗等房间仍会获得。", "rarity": "special", "trigger": "hooks", "effects": []},
+    {"id": "nloths_gift", "sourceId": "Nloth's Gift", "name": "恩洛斯的礼物", "description": "房间卡牌稀有权重中的稀有权重乘以3；不改变稀有度偏移或额外消耗随机数。", "rarity": "special", "trigger": "hooks", "effects": []},
+    {"id": "bloody_idol", "sourceId": "Bloody Idol", "name": "血色神像", "description": "每当你获得金币时，回复5点生命。", "rarity": "special", "trigger": "hooks", "effects": [], "replaces": "golden_idol"},
+    {"id": "mutagenic_strength", "sourceId": "MutagenicStrength", "name": "突变力量", "description": "每场战斗开始时获得3点力量，在第一回合结束时失去3点力量。", "rarity": "special", "trigger": "hooks", "effects": []},
+    {"id": "necronomicon", "sourceId": "Necronomicon", "name": "死灵之书", "description": "每回合第一次打出本回合费用至少2的攻击牌时，将其再打出一次。取得时获得死灵诅咒。", "rarity": "special", "trigger": "hooks", "effects": []},
+    {"id": "enchiridion", "sourceId": "Enchiridion", "name": "圣书", "description": "每场战斗开始时，生成一张随机能力牌加入手牌，本回合费用为0。", "rarity": "special", "trigger": "hooks", "effects": []},
+    {"id": "nilrys_codex", "sourceId": "Nilry's Codex", "name": "尼利宝典", "description": "每回合结束时，从三张随机牌中选择至多一张洗入抽牌堆。", "rarity": "special", "trigger": "hooks", "effects": []}
+  ]
+}

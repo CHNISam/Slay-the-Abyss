@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "chosen",
+  "sourceSha256": "72bd1a5fa9eef60992ab0a341f8db027e9b31e1b2890cd1a43a9b188a9bc0440",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    248,
+    13,
+    935,
+    1241
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "6aa561417bfe4b4213652b2f6568df1ae2d38334b3dab881916fd27236217b14",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "cd4b47affd3b72aa32f5e44caddda77d690bfeb18b3c5ac1bc9aae633c80c761",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Flat cracked bone-white mask has no beak. Angular purple short cape, exposed forearms and one horizontal open palm distinguish Cultist human face/grey bell robe/flame.",
+    "Two arm/hand chains and two boots coherent and intact. No extra limb, fire or copied bird-head identity.",
+    "Mask/cape/palm/narrow-body relation readable106/127; small cracks/fingers not dependable tiny."
+  ],
+  "costLimits": [
+    "Preserve mask/cape/palm shapes and connected anatomy before fine cracks/folds/fingers.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserved; tight intact vertical margins need downstream6% inset contain, no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only; no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

@@ -1,0 +1,966 @@
+{
+  "sourceHash": "d3083a8c48ed2798bb032309bf642570ab80daab62b918d73ab2baa63ad18e4c",
+  "bytes": 17740,
+  "recordCount": 106,
+  "printCount": 106,
+  "ignoredRecords": 0,
+  "matchedPrints": 106,
+  "prints": [
+    {
+      "recordIndex": 0,
+      "elapsedSeconds": "1",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_UI init Color=table",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 1,
+      "elapsedSeconds": "1",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_UI viewport_ready",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 2,
+      "elapsedSeconds": "1",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_UI ready",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 3,
+      "elapsedSeconds": "135",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO prologue_rumble id=40224 instance=1748",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 4,
+      "elapsedSeconds": "137",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO prologue_crack id=50928 instance=1749",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 5,
+      "elapsedSeconds": "140",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO prologue_rise id=50926 instance=1750",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 6,
+      "elapsedSeconds": "269",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK play source=- target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 7,
+      "elapsedSeconds": "269",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO card_play id=50916 instance=1753",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 8,
+      "elapsedSeconds": "269",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 9,
+      "elapsedSeconds": "269",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO block_gain id=50940 instance=1754",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 10,
+      "elapsedSeconds": "270",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 11,
+      "elapsedSeconds": "270",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO card_play id=50916 instance=1755",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 12,
+      "elapsedSeconds": "270",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK damage source=player target=spike_slime_s_1 amount=6",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 13,
+      "elapsedSeconds": "270",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO hit id=40313 instance=1756",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 14,
+      "elapsedSeconds": "271",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK play source=- target=1 amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 15,
+      "elapsedSeconds": "271",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO card_play id=50916 instance=1757",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 16,
+      "elapsedSeconds": "271",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK damage source=player target=spike_slime_s_1 amount=6",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 17,
+      "elapsedSeconds": "271",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO hit id=40313 instance=1758",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 18,
+      "elapsedSeconds": "271",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK death source=- target=spike_slime_s_1 amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 19,
+      "elapsedSeconds": "271",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO enemy_die id=20092 instance=1759",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 20,
+      "elapsedSeconds": "272",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 21,
+      "elapsedSeconds": "272",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO turn id=50926 instance=1761",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 22,
+      "elapsedSeconds": "273",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK intent source=acid_slime_m_2 target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 23,
+      "elapsedSeconds": "274",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK damage source=acid_slime_m_2 target=player amount=2",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 24,
+      "elapsedSeconds": "274",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO hurt id=50936 instance=1762",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 25,
+      "elapsedSeconds": "274",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK cards_created source=acid_slime_m_2 target=- amount=1",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 26,
+      "elapsedSeconds": "274",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 27,
+      "elapsedSeconds": "274",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO turn id=50926 instance=1763",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 28,
+      "elapsedSeconds": "281",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK play source=- target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 29,
+      "elapsedSeconds": "281",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO card_play id=50916 instance=1764",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 30,
+      "elapsedSeconds": "282",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 31,
+      "elapsedSeconds": "282",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO block_gain id=50940 instance=1765",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 32,
+      "elapsedSeconds": "282",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK play source=- target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 33,
+      "elapsedSeconds": "282",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO card_play id=50916 instance=1766",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 34,
+      "elapsedSeconds": "282",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 35,
+      "elapsedSeconds": "282",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO block_gain id=50940 instance=1767",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 36,
+      "elapsedSeconds": "283",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK play source=- target=2 amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 37,
+      "elapsedSeconds": "283",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO card_play id=50916 instance=1768",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 38,
+      "elapsedSeconds": "283",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=6",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 39,
+      "elapsedSeconds": "283",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO hit id=40313 instance=1769",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 40,
+      "elapsedSeconds": "284",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 41,
+      "elapsedSeconds": "284",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO turn id=50926 instance=1771",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 42,
+      "elapsedSeconds": "285",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK intent source=acid_slime_m_2 target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 43,
+      "elapsedSeconds": "285",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK damage source=acid_slime_m_2 target=player amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 44,
+      "elapsedSeconds": "285",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO block_hit id=50937 instance=1772",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 45,
+      "elapsedSeconds": "286",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 46,
+      "elapsedSeconds": "286",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 47,
+      "elapsedSeconds": "286",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO turn id=50926 instance=1773",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 48,
+      "elapsedSeconds": "297",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK play source=- target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 49,
+      "elapsedSeconds": "297",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO card_play id=50916 instance=1774",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 50,
+      "elapsedSeconds": "297",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 51,
+      "elapsedSeconds": "297",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO block_gain id=50940 instance=1775",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 52,
+      "elapsedSeconds": "298",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK play source=- target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 53,
+      "elapsedSeconds": "298",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO card_play id=50916 instance=1776",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 54,
+      "elapsedSeconds": "298",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 55,
+      "elapsedSeconds": "298",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO block_gain id=50940 instance=1777",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 56,
+      "elapsedSeconds": "299",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK play source=- target=2 amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 57,
+      "elapsedSeconds": "299",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO card_play id=50916 instance=1778",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 58,
+      "elapsedSeconds": "299",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=6",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 59,
+      "elapsedSeconds": "299",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO hit id=40313 instance=1779",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 60,
+      "elapsedSeconds": "300",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 61,
+      "elapsedSeconds": "300",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO turn id=50926 instance=1781",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 62,
+      "elapsedSeconds": "301",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK intent source=acid_slime_m_2 target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 63,
+      "elapsedSeconds": "302",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK damage source=acid_slime_m_2 target=player amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 64,
+      "elapsedSeconds": "302",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO block_hit id=50937 instance=1782",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 65,
+      "elapsedSeconds": "302",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK cards_created source=acid_slime_m_2 target=- amount=1",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 66,
+      "elapsedSeconds": "302",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK block_reset source=- target=player amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 67,
+      "elapsedSeconds": "302",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 68,
+      "elapsedSeconds": "302",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO turn id=50926 instance=1783",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 69,
+      "elapsedSeconds": "305",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK play source=- target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 70,
+      "elapsedSeconds": "305",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO card_play id=50916 instance=1784",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 71,
+      "elapsedSeconds": "305",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK block source=player target=player amount=5",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 72,
+      "elapsedSeconds": "305",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO block_gain id=50940 instance=1785",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 73,
+      "elapsedSeconds": "308",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK play source=- target=2 amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 74,
+      "elapsedSeconds": "308",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO card_play id=50916 instance=1786",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 75,
+      "elapsedSeconds": "309",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=6",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 76,
+      "elapsedSeconds": "309",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO hit id=40313 instance=1787",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 77,
+      "elapsedSeconds": "309",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK play source=- target=2 amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 78,
+      "elapsedSeconds": "309",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO card_play id=50916 instance=1788",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 79,
+      "elapsedSeconds": "310",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=6",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 80,
+      "elapsedSeconds": "310",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO hit id=40313 instance=1789",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 81,
+      "elapsedSeconds": "326",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK enemy_turn source=- target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 82,
+      "elapsedSeconds": "326",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO turn id=50926 instance=1791",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 83,
+      "elapsedSeconds": "327",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK intent source=acid_slime_m_2 target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 84,
+      "elapsedSeconds": "328",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK damage source=acid_slime_m_2 target=player amount=5",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 85,
+      "elapsedSeconds": "328",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO hurt id=50936 instance=1792",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 86,
+      "elapsedSeconds": "328",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK reshuffle source=- target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 87,
+      "elapsedSeconds": "328",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK player_turn source=- target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 88,
+      "elapsedSeconds": "328",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO turn id=50926 instance=1793",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 89,
+      "elapsedSeconds": "331",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK play source=- target=2 amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 90,
+      "elapsedSeconds": "331",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO card_play id=50916 instance=1794",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 91,
+      "elapsedSeconds": "331",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=6",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 92,
+      "elapsedSeconds": "331",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO hit id=40313 instance=1795",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 93,
+      "elapsedSeconds": "332",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK death source=- target=acid_slime_m_2 amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 94,
+      "elapsedSeconds": "332",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO enemy_die id=20092 instance=1796",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 95,
+      "elapsedSeconds": "332",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK victory source=- target=- amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 96,
+      "elapsedSeconds": "332",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO victory id=50919 instance=1797",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 97,
+      "elapsedSeconds": "532",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO merchant_buy id=50940 instance=1798",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 98,
+      "elapsedSeconds": "640",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO merchant_buy id=50940 instance=1803",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 99,
+      "elapsedSeconds": "976",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK damage source=player target=red_louse_1 amount=12",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 100,
+      "elapsedSeconds": "976",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO hit id=40313 instance=1805",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 101,
+      "elapsedSeconds": "977",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK death source=- target=red_louse_1 amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 102,
+      "elapsedSeconds": "977",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_AUDIO enemy_die id=20092 instance=1806",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 103,
+      "elapsedSeconds": "977",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_FEEDBACK potion source=- target=1 amount=0",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 104,
+      "elapsedSeconds": "1093",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_UI settlement_requested defeat",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 105,
+      "elapsedSeconds": "1094",
+      "sessionLabel": "2026/10/24_19:31:08",
+      "graphId": "1073741825",
+      "entityId": "1094713345",
+      "text": "ABYSS_SETTLEMENT_DEFEAT"
+    }
+  ],
+  "nextOffset": null,
+  "scope": "Experimental observed local debug-log format. Only explicit print records are decoded, not graph trace literals. Missing prints do not prove code did not execute; logging subscription can omit events. File authenticity and candidate association must be established independently.",
+  "gameplay": "partial-log-evidence"
+}

@@ -1,0 +1,138 @@
+[
+  {
+    "id": "sentinel",
+    "path": "cards/red/Sentinel.java",
+    "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Sentinel.java",
+    "sha256": "d7f1a30872a8831fbb036a02c1bac6baa68592ec95878d965ea53e96385b7b5c",
+    "gitBlob": "4cf6afc9da2b5bcc4faaf1d1bf8a7890f93adef4",
+    "bytes": 2000
+  },
+  {
+    "id": "ExhaustAction",
+    "path": "actions/common/ExhaustAction.java",
+    "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/common/ExhaustAction.java",
+    "sha256": "73b13ca058f11dd174ec9ef968352c2c4de5aa2ee37570b12eeb902262e965f3",
+    "gitBlob": "2cef9bc5ae6518733ad8aeb5e4ef2456ff4a5ff8",
+    "bytes": 4841
+  },
+  {
+    "id": "DrawCardAction",
+    "path": "actions/common/DrawCardAction.java",
+    "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/common/DrawCardAction.java",
+    "sha256": "44cef61d87ec973e209a57594d614e2a7f6774773fb6a8b8659a294150b52e2e",
+    "gitBlob": "f92d634a9c518e3912437e228ae5e741f3faacdd",
+    "bytes": 5624
+  },
+  {
+    "id": "FiendFireAction",
+    "path": "actions/unique/FiendFireAction.java",
+    "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/unique/FiendFireAction.java",
+    "sha256": "7281b5a3a49b4f919b5984ea65d70f9c8162d3166d9ba75cf7fa592680039bbc",
+    "gitBlob": "49a09df4a3f95424ece25f9d20e374bb579a9889",
+    "bytes": 1838
+  },
+  {
+    "id": "BlockPerNonAttackAction",
+    "path": "actions/unique/BlockPerNonAttackAction.java",
+    "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/unique/BlockPerNonAttackAction.java",
+    "sha256": "2a081d6343c667186091d9552a479f669f73fdd17a80f70c6321cb0b2b5dbeae",
+    "gitBlob": "952a2814ddcca7a8621f7d4b3a113bcc0c48f1eb",
+    "bytes": 2074
+  },
+  {
+    "id": "FeelNoPainPower",
+    "path": "powers/FeelNoPainPower.java",
+    "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/powers/FeelNoPainPower.java",
+    "sha256": "99491dfc8ebc32ff659795a6ba7c658b8838f25d5b8fd136e5c2641febf7c36c",
+    "gitBlob": "e6c16ac755d2426ff45b82612dc64d51433c128b",
+    "bytes": 1651
+  },
+  {
+    "id": "DarkEmbracePower",
+    "path": "powers/DarkEmbracePower.java",
+    "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/powers/DarkEmbracePower.java",
+    "sha256": "ed8fbed66baa2bf26be20828801ccafe6faad40a6607891deec259fb977481a4",
+    "gitBlob": "ad021bcbae4a826f2be10e5ab05170726bf3a353",
+    "bytes": 2002
+  },
+  {
+    "id": "juggernaut",
+    "path": "cards/red/Juggernaut.java",
+    "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Juggernaut.java",
+    "sha256": "d6618db3fd9cb580ff5b9c99a2b619ffd8a0448cc41a70cc070338de469227b8",
+    "gitBlob": "bb70b853aa0efb624752c363754ad9e164940ad3",
+    "bytes": 1815
+  },
+  {
+    "id": "ExhaustAllNonAttackAction",
+    "path": "actions/unique/ExhaustAllNonAttackAction.java",
+    "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/unique/ExhaustAllNonAttackAction.java",
+    "sha256": "07b9d730af7eec74ac5a9f998097c46a059653dcef2aae4d61ba304e6684491e",
+    "gitBlob": "211bb6ce0e08cd9598e261bd8a1528962490c808",
+    "bytes": 1891
+  },
+  {
+    "id": "ExhaustSpecificCardAction",
+    "path": "actions/common/ExhaustSpecificCardAction.java",
+    "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/common/ExhaustSpecificCardAction.java",
+    "sha256": "0a8a8b5de4b1db98df39ab736ec109b779891bab2e05f835836ff006cc5d43b0",
+    "gitBlob": "30b0b986e3cd7b1e3b957b228c2eebaa52fcccb8",
+    "bytes": 1702
+  },
+  {
+    "id": "burning_pact",
+    "path": "cards/red/BurningPact.java",
+    "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/BurningPact.java",
+    "sha256": "b7ea89390c81cb6fc9e1036502c8d49ba7a0c561b7d1536f94c421c8f79e4070",
+    "gitBlob": "5b99eb181e68b70b16b97d4b31849a3e181ab3d9",
+    "bytes": 1841
+  },
+  {
+    "id": "fiend_fire",
+    "path": "cards/red/FiendFire.java",
+    "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/FiendFire.java",
+    "sha256": "bdcb0bcd2f1ad7e295232275393ea73f2b40ea729d3d2daadef0849866dcc61d",
+    "gitBlob": "affc1a2f34f108396d8726897a78c8226157990a",
+    "bytes": 1774
+  },
+  {
+    "id": "CardGroup",
+    "path": "cards/CardGroup.java",
+    "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/CardGroup.java",
+    "sha256": "e0be13845c3ef51d89749b5826c81bab3b48d9c12307d5f4329294475ba86561",
+    "gitBlob": "c68b25ad094b8cc04a0e380db8e67a1fb1f3bfe4",
+    "bytes": 58620
+  },
+  {
+    "id": "second_wind",
+    "path": "cards/red/SecondWind.java",
+    "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/SecondWind.java",
+    "sha256": "80abdd7147a752e4f3d42ab2b330b055e37aa43473458752c80a4698a78377f9",
+    "gitBlob": "8d4fa9ac7e82417b572900ef3f31ddae8748a28e",
+    "bytes": 1681
+  },
+  {
+    "id": "UseCardAction",
+    "path": "actions/utility/UseCardAction.java",
+    "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/utility/UseCardAction.java",
+    "sha256": "f4dd74db285f6952c727a45a1b445f96053ac5ca86082f237fb2d62689979e4f",
+    "gitBlob": "3069a750b5c07b1a1c8aebfcf021984cad9a8a5a",
+    "bytes": 7771
+  },
+  {
+    "id": "CorruptionPower",
+    "path": "powers/CorruptionPower.java",
+    "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/powers/CorruptionPower.java",
+    "sha256": "853fb0355a3c13c74c0d028c1e7e78cfe88ef9be2af463d411f4dc4a5c1ccf49",
+    "gitBlob": "3ee36d89fb9a03f588d1e5bb421321c3d6a617bd",
+    "bytes": 1903
+  },
+  {
+    "id": "GameActionManager",
+    "path": "actions/GameActionManager.java",
+    "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/GameActionManager.java",
+    "sha256": "52c359a5b977ac55d80d7c7fbfe94570a94e75a91e985d98dea2a9fcac6aa478",
+    "gitBlob": "931cded5ae1aed78771e0a5389e8358946b78f8f",
+    "bytes": 29916
+  }
+]

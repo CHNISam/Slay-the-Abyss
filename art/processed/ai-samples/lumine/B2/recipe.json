@@ -1,0 +1,26 @@
+{
+  "asset": "lumine",
+  "route": "B2",
+  "source": "art/source/lumine_geo_portrait.png",
+  "body": "lumine/B/primitive.lua first 512 shapes",
+  "face": "lumine-face/B/primitive.lua",
+  "faceSourceCrop": [
+    570,
+    190,
+    790,
+    390
+  ],
+  "faceCanvas": [
+    88,
+    80
+  ],
+  "faceOffsetInBody": [
+    128,
+    60
+  ],
+  "bodyBudget": 512,
+  "faceBudget": 256,
+  "whiteBases": 2,
+  "runtimeControls": 939,
+  "gia": "Use B/asset.gia; B2 patch clipping is Lua only"
+}

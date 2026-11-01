@@ -1,0 +1,158 @@
+{
+  "sourceCommit": "12647ab90484bc1fa6d9cbc5745e5cd6bdb8ee73",
+  "candidate": "F:\\New folder\\.artifacts\\m1-handoff-12647ab\\abyss-m1-12647ab.gil",
+  "sha256": "c7db532b36af66a2e1b6c516e23d4b7ae34d56d0b0414f38a391b08e8116fb0f",
+  "baseMap": "F:/New folder/.artifacts/live-acceptance-61425e4/scene-safe/abyss-scene-safe-61425e4-v2.gil",
+  "baseSha256": "2911ed9484cce2bd43d961a519da53f1eb5fb0cac1d60ef6f23ac6f8da4ddfad",
+  "liveWriteEnabled": false,
+  "localCheck": {
+    "source": "bbc6b0945183b9bdbb7d83189a09427b605c5339",
+    "exitCode": 0,
+    "javascript": {
+      "total": 697,
+      "passed": 579,
+      "skipped": 118,
+      "failed": 0
+    },
+    "lua": "All discovered suites passed",
+    "python": {
+      "total": 16,
+      "passed": 15,
+      "skipped": 1
+    },
+    "finalBuilderDelta": {
+      "passed": 36,
+      "failed": 0,
+      "log": ".artifacts/m1-audit/builder-final-targeted.log"
+    }
+  },
+  "readback": {
+    "modules": 30,
+    "byteIdentical": 30,
+    "ui": {
+      "expectedCount": 1664,
+      "actualCount": 1664,
+      "expectedMaxChildren": 50,
+      "actualMaxChildren": 50,
+      "shellNodesExcluded": "Native interface container/root are outside interface.controls; counts use source controls scope."
+    },
+    "staticErrors": 0,
+    "staticWarnings": 17,
+    "issues": []
+  },
+  "graphPayload": {
+    "ok": true,
+    "graphs": [
+      {
+        "graphId": "1073741825",
+        "ok": true
+      }
+    ],
+    "issues": []
+  },
+  "sceneChecks": [
+    {
+      "name": "cameras equal base",
+      "pass": true
+    },
+    {
+      "name": "factions equal base",
+      "pass": true
+    },
+    {
+      "name": "respawn equal base",
+      "pass": true
+    },
+    {
+      "name": "points equal base",
+      "pass": true
+    },
+    {
+      "name": "classes equal base",
+      "pass": true
+    },
+    {
+      "name": "level equal base",
+      "pass": true
+    },
+    {
+      "name": "fixedView explicit",
+      "pass": true
+    },
+    {
+      "name": "single player",
+      "pass": true
+    },
+    {
+      "name": "hostile pairs only 1 and 3",
+      "pass": true
+    },
+    {
+      "name": "spawn and respawn same existing preset",
+      "pass": true
+    },
+    {
+      "name": "all entity identities and graph mounts equal base",
+      "pass": true
+    },
+    {
+      "name": "one settlement graph with same real id and server type",
+      "pass": true
+    },
+    {
+      "name": "settlement mounted enabled on stage",
+      "pass": true
+    },
+    {
+      "name": "input base unchanged",
+      "pass": true
+    },
+    {
+      "name": "candidate unchanged by readback",
+      "pass": true
+    },
+    {
+      "name": "production source manifest has exactly 30 unique modules",
+      "pass": true
+    },
+    {
+      "name": "cleanup removed only obsolete red slaver and sentry modules",
+      "pass": true
+    },
+    {
+      "name": "cleanup expected list matches actual source manifest",
+      "pass": true
+    },
+    {
+      "name": "cleanup before inventory equals manifest plus exactly removed modules",
+      "pass": true
+    },
+    {
+      "name": "cleanup after inventory matches source manifest",
+      "pass": true
+    },
+    {
+      "name": "embedded candidate inventory independently matches source manifest",
+      "pass": true
+    },
+    {
+      "name": "abyss_red_slaver_ai removal response acknowledged and succeeded",
+      "pass": true
+    },
+    {
+      "name": "abyss_sentry_ai removal response acknowledged and succeeded",
+      "pass": true
+    }
+  ],
+  "officialImport": "NOT_TESTED",
+  "playtest": "NOT_TESTED",
+  "physicalSpawnSafety": "NOT_TESTED",
+  "mobileTouch": "NOT_TESTED",
+  "uiAcceptance": "NOT_PASSED",
+  "evidence": {
+    "sourceReadback": ".artifacts/m1-audit/candidate-readback-12647ab/audit.json",
+    "graphPayload": ".artifacts/m1-audit/graph-payload-12647ab/graph-payload-audit.json",
+    "scene": ".artifacts/m1-audit/platform/12647ab/integrated-scene-readback.json",
+    "cleanup": ".artifacts/m1-candidate-12647ab/script-cleanup.json"
+  }
+}

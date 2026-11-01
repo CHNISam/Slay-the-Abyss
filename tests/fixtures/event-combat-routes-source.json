@@ -1,0 +1,203 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "scope": "Fixed decompiled mirror interpretation; original Java is workspace-only. No authenticated PC binary, natural play or native acceptance.",
+  "sources": [
+    {
+      "path": "events/exordium/DeadAdventurer.java",
+      "encoding": "utf-8",
+      "sha": "8fee3cc721e2ae4e757f8d99e93d5a6a1eba9d4b",
+      "display_url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/exordium/DeadAdventurer.java",
+      "display_title": "DeadAdventurer.java",
+      "sha256": "359b1281b82dea46d7bc62b6fae61925e0d15adf241a9d5a6b57da54fd149559"
+    },
+    {
+      "path": "events/city/Colosseum.java",
+      "encoding": "utf-8",
+      "sha": "020f06f67113e90009e9a891828fe44f2e65f35b",
+      "display_url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/city/Colosseum.java",
+      "display_title": "Colosseum.java",
+      "sha256": "fb4c3a2557e49f1cffbe38f64b0d0b738bc9ac380896ba92bc6ff6824a44194f"
+    },
+    {
+      "path": "events/city/MaskedBandits.java",
+      "encoding": "utf-8",
+      "sha": "4966a012aa1dd63c2a0d6835d6dbad0cba04f1eb",
+      "display_url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/city/MaskedBandits.java",
+      "display_title": "MaskedBandits.java",
+      "sha256": "f76b87d99d51e49fbcaa8a435ea883b22786ac4cba138f3cc989f9aa5b708c36"
+    },
+    {
+      "path": "monsters/city/BanditBear.java",
+      "encoding": "utf-8",
+      "sha": "c4a30770171d591f8ed4d71f3434e4e82f3c1781",
+      "display_url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/BanditBear.java",
+      "display_title": "BanditBear.java",
+      "sha256": "b351aa8ffd0227380596eb6475b0fbb2a1e03bc6671ffa43cd003b5d9498187f"
+    },
+    {
+      "path": "monsters/city/BanditPointy.java",
+      "encoding": "utf-8",
+      "sha": "6cb825f72ef8d82e6a537ed4e7cbab444040737b",
+      "display_url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/BanditPointy.java",
+      "display_title": "BanditPointy.java",
+      "sha256": "d76238513f00ad9f6c73e884a655b12c31ca30f9cbeac673b7671686492a6c4f"
+    },
+    {
+      "path": "monsters/city/BanditLeader.java",
+      "encoding": "utf-8",
+      "sha": "04fc12d099fc41dccc642d0cbf63b4cdef1f0c14",
+      "display_url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/BanditLeader.java",
+      "display_title": "BanditLeader.java",
+      "sha256": "f79ea7c226047384ebd2e1d0e13bc1db1211daccd34848cd5aae836133143ffb"
+    },
+    {
+      "path": "monsters/exordium/Lagavulin.java",
+      "encoding": "utf-8",
+      "sha": "57e7a86b61d31b9fba03000ae31e9ae433e1122d",
+      "display_url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/Lagavulin.java",
+      "display_title": "Lagavulin.java",
+      "sha256": "818b6a5681e30ca6681b035a1dedca477b2f626c873d98f320a58e6d2ed09e87"
+    },
+    {
+      "path": "events/AbstractImageEvent.java",
+      "encoding": "utf-8",
+      "sha": "ee5ebef8ad8dc3316e5fc89b7631bab8d9dd49e7",
+      "display_url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/AbstractImageEvent.java",
+      "display_title": "AbstractImageEvent.java",
+      "sha256": "438f8c014c563c51f2f14d8f98839e71a7c4a45db314d9b36be8c76ba0b2d92f"
+    },
+    {
+      "path": "screens/CombatRewardScreen.java",
+      "encoding": "utf-8",
+      "sha": "b14151ac95f94dea592226932495d8d225ea4640",
+      "display_url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/screens/CombatRewardScreen.java",
+      "display_title": "CombatRewardScreen.java",
+      "sha256": "7929ca75599e96c076f9abe2c90576a606c87984174328d10533ada8ee37e70b"
+    },
+    {
+      "path": "helpers/MonsterHelper.java",
+      "sha256": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1",
+      "source": "existing pinned-method workspace evidence"
+    },
+    {
+      "path": "rooms/AbstractRoom.java",
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05",
+      "source": "existing pinned-method workspace evidence"
+    },
+    {
+      "path": "rooms/EventRoom.java",
+      "sha256": "66ffb50ba3410cbd7fd55ea7b5f8c896f40689c34c584d48a2640dde432f172f",
+      "source": "existing pinned-method workspace evidence"
+    },
+    {
+      "path": "events/AbstractEvent.java",
+      "sha256": "4527717d367f8f7e9a11bb3be30361ffaa92aff1b49e581ce060b179b0797c13",
+      "source": "existing pinned-method workspace evidence"
+    },
+    {
+      "path": "characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+      "source": "existing pinned-method workspace evidence"
+    },
+    {
+      "path": "rewards/RewardItem.java",
+      "sha256": "5fd7ed0b337e453b187bcf684fed442d74bcd93fc6a4e09268682a57f5ce46fc",
+      "source": "existing pinned-method workspace evidence; incrementGold 154..160 and applyGoldBonus 100..119"
+    }
+  ],
+  "contract": {
+    "dead": {
+      "chanceStart": 25,
+      "chanceRamp": 25,
+      "rewards": [
+        "GOLD",
+        "NOTHING",
+        "RELIC"
+      ],
+      "constructorOrder": [
+        "misc nextLong Java48 shuffle",
+        "misc integer 0..2"
+      ],
+      "sourceEncounters": [
+        "3 Sentries",
+        "Gremlin Nob",
+        "Lagavulin Event"
+      ],
+      "searchGold": 30,
+      "fightGold": [
+        25,
+        35
+      ],
+      "fightEliteTrigger": true,
+      "fightExtraEliteDrop": false,
+      "mergedGoldBonus": "incrementGold recomputes round((encounterGold + remaining30) * .25f), not separately rounded offers"
+    },
+    "colosseum": {
+      "first": [
+        "Colosseum Slavers",
+        "rewardAllowed false",
+        "potion attempt then discard",
+        "no cards",
+        "reopen",
+        "extra preBattlePrep shuffle"
+      ],
+      "second": [
+        "Colosseum Nobs",
+        "rare relic",
+        "uncommon relic",
+        "100 gold",
+        "eliteTrigger"
+      ],
+      "reseedBetweenBattles": false
+    },
+    "bandits": {
+      "constructorActors": [
+        "bandit_pointy",
+        "bandit_leader",
+        "bandit_bear"
+      ],
+      "constructorHpDraws": 3,
+      "gold": [
+        25,
+        35
+      ],
+      "fixedRelic": "Red Mask or held-mask Circlet",
+      "payAllGold": true,
+      "payStages": [
+        "paid_1",
+        "paid_2",
+        "paid_3",
+        "end"
+      ],
+      "pennyTargets": "cosmetic MathUtils, not misc"
+    },
+    "awakeLagavulin": {
+      "hp": [
+        109,
+        111
+      ],
+      "initialBlock": 0,
+      "metallicize": 0,
+      "firstMove": "siphon",
+      "debuff": -1,
+      "attack": 18,
+      "cycle": [
+        "siphon",
+        "attack",
+        "attack"
+      ],
+      "openingAiDraws": 1,
+      "laterAiDrawsPerTurn": 1
+    }
+  },
+  "acceptance": {
+    "module": "COMPOSED_COMPONENT_TESTS_PASSED",
+    "publicIntegration": "CONTROLLED_RUN_NODES_ROUTES_PASSED; COMPLETE_OUTCOMES_PENDING_RELIC_DEPENDENCIES",
+    "naturalPlay": "NOT_RUN",
+    "nativeDevice": "NOT_RUN",
+    "remainingSourceDependencies": [
+      "Magic Flower",
+      "HornCleat"
+    ]
+  }
+}

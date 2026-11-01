@@ -1,0 +1,278 @@
+{
+  "officialSave": "1073741843",
+  "officialCopySha256": "bac2f183e47955dcf96a1eb1daa142f5e02725f13d6cfebca97a5151a61c9c14",
+  "modules": [
+    {
+      "name": "abyss_data",
+      "actual": "f4d92f8978b7fc690a49c356b0e68301c018ca06e36e6766c24e3bca62c47e05",
+      "expected": "f4d92f8978b7fc690a49c356b0e68301c018ca06e36e6766c24e3bca62c47e05",
+      "equal": true
+    },
+    {
+      "name": "abyss_map_layout",
+      "actual": "62dd2fee62fb342fdd6e0cfb94804e62c228ce3fbbdecb64bacb6fda82db9d8e",
+      "expected": "62dd2fee62fb342fdd6e0cfb94804e62c228ce3fbbdecb64bacb6fda82db9d8e",
+      "equal": true
+    },
+    {
+      "name": "abyss_narrative",
+      "actual": "a190f16474d0e5603710c38a2bf3c5e8700a0ce94f584fd47f24ca10477639db",
+      "expected": "a190f16474d0e5603710c38a2bf3c5e8700a0ce94f584fd47f24ca10477639db",
+      "equal": true
+    },
+    {
+      "name": "abyss_presentation",
+      "actual": "f07e975860e5240b30e316bd6b3dd408b640d184dc40f775ca568a9d6cf44625",
+      "expected": "f07e975860e5240b30e316bd6b3dd408b640d184dc40f775ca568a9d6cf44625",
+      "equal": true
+    },
+    {
+      "name": "abyss_theme",
+      "actual": "2140e826856266afab1da0a0f7245ad3cb7b9edd8b721235665db576ec9b6e03",
+      "expected": "2140e826856266afab1da0a0f7245ad3cb7b9edd8b721235665db576ec9b6e03",
+      "equal": true
+    },
+    {
+      "name": "abyss_acid_slime_s_ai",
+      "actual": "c100602f15af332ef85d4b8897e10a97442b5924fe59b1d2e4eb938bc24ba204",
+      "expected": "c100602f15af332ef85d4b8897e10a97442b5924fe59b1d2e4eb938bc24ba204",
+      "equal": true
+    },
+    {
+      "name": "abyss_actor",
+      "actual": "606fe3498355bf1f1aee03c671d07cbc73bcedd6fba24ead619ba7e28b34a935",
+      "expected": "606fe3498355bf1f1aee03c671d07cbc73bcedd6fba24ead619ba7e28b34a935",
+      "equal": true
+    },
+    {
+      "name": "abyss_battle_ui",
+      "actual": "90db7cbd367848b614223b172802f1e6d0d20f0bf53c956c68bea7ea57eb99da",
+      "expected": "90db7cbd367848b614223b172802f1e6d0d20f0bf53c956c68bea7ea57eb99da",
+      "equal": true
+    },
+    {
+      "name": "abyss_bgm",
+      "actual": "c202344ab9a923f46be97603858c25e30f893a3c68fac1d3d091b9c4cd440525",
+      "expected": "c202344ab9a923f46be97603858c25e30f893a3c68fac1d3d091b9c4cd440525",
+      "equal": true
+    },
+    {
+      "name": "abyss_blue_slaver_ai",
+      "actual": "b7d21d343d44b931b078243f18194171e3dccd75ba875bd177a277a4d28e6132",
+      "expected": "b7d21d343d44b931b078243f18194171e3dccd75ba875bd177a277a4d28e6132",
+      "equal": true
+    },
+    {
+      "name": "abyss_combat",
+      "actual": "5712df6a3ff7990ad07057c4e76b4d15fc98d2d187f579f0b2d3138bacca6399",
+      "expected": "5712df6a3ff7990ad07057c4e76b4d15fc98d2d187f579f0b2d3138bacca6399",
+      "equal": true
+    },
+    {
+      "name": "abyss_deck_ui",
+      "actual": "c6c3572b259a92f69926b5416041ba660cc8982e602a0b3bb7daead1e1a38e47",
+      "expected": "c6c3572b259a92f69926b5416041ba660cc8982e602a0b3bb7daead1e1a38e47",
+      "equal": true
+    },
+    {
+      "name": "abyss_effects",
+      "actual": "50aceb0e2cb83a7b486d6667207d3a4cfeeed9cd4004530830b1c2214cdd3eb0",
+      "expected": "50aceb0e2cb83a7b486d6667207d3a4cfeeed9cd4004530830b1c2214cdd3eb0",
+      "equal": true
+    },
+    {
+      "name": "abyss_enemy_ai",
+      "actual": "207293da418e7e8356f740124a59e6570719e3c7758ba7b7ad297f2114f81bb0",
+      "expected": "207293da418e7e8356f740124a59e6570719e3c7758ba7b7ad297f2114f81bb0",
+      "equal": true
+    },
+    {
+      "name": "abyss_events",
+      "actual": "5b67f1d1741011b0787006a0e056f7363793164f5b788e23db0b417e59c150ba",
+      "expected": "5b67f1d1741011b0787006a0e056f7363793164f5b788e23db0b417e59c150ba",
+      "equal": true
+    },
+    {
+      "name": "abyss_feedback",
+      "actual": "c70931c7478c2d693c50db77e59735be1bfe31c8e4fd24fdaca4c7b5ae5ea8c6",
+      "expected": "c70931c7478c2d693c50db77e59735be1bfe31c8e4fd24fdaca4c7b5ae5ea8c6",
+      "equal": true
+    },
+    {
+      "name": "abyss_game_ui",
+      "actual": "4dc0983433e505d4d6e08ccbdec88acc887782924c3aad2621d9dd8d56653083",
+      "expected": "4dc0983433e505d4d6e08ccbdec88acc887782924c3aad2621d9dd8d56653083",
+      "equal": true
+    },
+    {
+      "name": "abyss_gremlin_nob_ai",
+      "actual": "a33ba959aa080c2e37adb2c6d1255eb582af77e1b5b8957fff4a75c545a8c6ee",
+      "expected": "a33ba959aa080c2e37adb2c6d1255eb582af77e1b5b8957fff4a75c545a8c6ee",
+      "equal": true
+    },
+    {
+      "name": "abyss_guardian_ai",
+      "actual": "bcb5f6c0792722bc85427281fb59a456f47a298f6e430bf039328ea8ff2badf7",
+      "expected": "bcb5f6c0792722bc85427281fb59a456f47a298f6e430bf039328ea8ff2badf7",
+      "equal": true
+    },
+    {
+      "name": "abyss_inventory",
+      "actual": "f9f4c65728eae2891da31a124b687fa06a5c192b0f933137f88aa7b3f8961056",
+      "expected": "f9f4c65728eae2891da31a124b687fa06a5c192b0f933137f88aa7b3f8961056",
+      "equal": true
+    },
+    {
+      "name": "abyss_jaw_worm_ai",
+      "actual": "26be5aac1d0174ee0a238e22cdd5ca8813a5534e2d0a604d521c70d9f4361583",
+      "expected": "26be5aac1d0174ee0a238e22cdd5ca8813a5534e2d0a604d521c70d9f4361583",
+      "equal": true
+    },
+    {
+      "name": "abyss_map",
+      "actual": "b10f77f63455d0466d6c936a231b95e38440b0e0c790e6da77b56e14e884e130",
+      "expected": "b10f77f63455d0466d6c936a231b95e38440b0e0c790e6da77b56e14e884e130",
+      "equal": true
+    },
+    {
+      "name": "abyss_map_ui",
+      "actual": "970e3f54e6d5284a2ce896c65db6a45ee165e6d6426868d9f1abaee3e8fb87f5",
+      "expected": "970e3f54e6d5284a2ce896c65db6a45ee165e6d6426868d9f1abaee3e8fb87f5",
+      "equal": true
+    },
+    {
+      "name": "abyss_node_ui",
+      "actual": "69748103f0fa2e68d4ef1ab52810661184fd764a93a1fd31df1078f2824cde07",
+      "expected": "69748103f0fa2e68d4ef1ab52810661184fd764a93a1fd31df1078f2824cde07",
+      "equal": true
+    },
+    {
+      "name": "abyss_nodes",
+      "actual": "227261b352b936fa23af83e6f4b5aabe67512ca14005f62c23c1cbec2c7cafa8",
+      "expected": "227261b352b936fa23af83e6f4b5aabe67512ca14005f62c23c1cbec2c7cafa8",
+      "equal": true
+    },
+    {
+      "name": "abyss_random",
+      "actual": "2104296392c6cc52e4813eb05c4138319de0297a3b72c30598fba8ad4dbf4c93",
+      "expected": "2104296392c6cc52e4813eb05c4138319de0297a3b72c30598fba8ad4dbf4c93",
+      "equal": true
+    },
+    {
+      "name": "abyss_red_slaver_ai",
+      "actual": "3b46f147effecf60debbccd4f293cdc81832692227308ba2226e12b35760b91f",
+      "expected": "3b46f147effecf60debbccd4f293cdc81832692227308ba2226e12b35760b91f",
+      "equal": true
+    },
+    {
+      "name": "abyss_run",
+      "actual": "b612d9e3f13651a6accac584338c8e3a5222a6f9ddb00b33b48538b05b7f09d8",
+      "expected": "b612d9e3f13651a6accac584338c8e3a5222a6f9ddb00b33b48538b05b7f09d8",
+      "equal": true
+    },
+    {
+      "name": "abyss_sentry_ai",
+      "actual": "72db97c39b83eabe25ec5329129598d6b3946611ed15aed2c22e9e0c79f0e2cb",
+      "expected": "72db97c39b83eabe25ec5329129598d6b3946611ed15aed2c22e9e0c79f0e2cb",
+      "equal": true
+    },
+    {
+      "name": "abyss_ui",
+      "actual": "34ac19a3e3e706134b83d88ac0e37bdbcf63e1ab28b447b866eab8a509db1018",
+      "expected": "34ac19a3e3e706134b83d88ac0e37bdbcf63e1ab28b447b866eab8a509db1018",
+      "equal": true
+    },
+    {
+      "name": "abyss_unknown",
+      "actual": "06fd62a6f679f0cee51e42c47314735b39420001e97952cca81db4656dc4128e",
+      "expected": "06fd62a6f679f0cee51e42c47314735b39420001e97952cca81db4656dc4128e",
+      "equal": true
+    },
+    {
+      "name": "abyss_viewport",
+      "actual": "7d7fc4973b47c60ced3915d930fec57ac6c16ea3f7f5dee6d588fbf2aed5be0a",
+      "expected": "7d7fc4973b47c60ced3915d930fec57ac6c16ea3f7f5dee6d588fbf2aed5be0a",
+      "equal": true
+    },
+    {
+      "name": "abyss_acid_slime_m_ai",
+      "actual": "e275b82b4da6f2d37e62f6b288b2e98823c3a125e2cb447088f80a98bda583d2",
+      "expected": "e275b82b4da6f2d37e62f6b288b2e98823c3a125e2cb447088f80a98bda583d2",
+      "equal": true
+    },
+    {
+      "name": "abyss_event_pool",
+      "actual": "3e05f9b827b4a638586128a1066653744ee3f65112e63345ba57d6c09433aacd",
+      "expected": "3e05f9b827b4a638586128a1066653744ee3f65112e63345ba57d6c09433aacd",
+      "equal": true
+    },
+    {
+      "name": "abyss_fungi_beast_ai",
+      "actual": "736b296bc6150db5424affc358be518ee5411fb83485e6c6efd4b6f6a6e7aadf",
+      "expected": "736b296bc6150db5424affc358be518ee5411fb83485e6c6efd4b6f6a6e7aadf",
+      "equal": true
+    },
+    {
+      "name": "abyss_louse_ai",
+      "actual": "a321b56a78b22f7b0b3770190acf16232217a721e19cf275bb24372f207ae38c",
+      "expected": "a321b56a78b22f7b0b3770190acf16232217a721e19cf275bb24372f207ae38c",
+      "equal": true
+    },
+    {
+      "name": "abyss_numbers",
+      "actual": "c65422fc6a2661f96067b6135c848a34b4255caba2f505ef2b651e67b77e81d8",
+      "expected": "c65422fc6a2661f96067b6135c848a34b4255caba2f505ef2b651e67b77e81d8",
+      "equal": true
+    },
+    {
+      "name": "abyss_randomxs128",
+      "actual": "11104d5e2f1158566d2db6abbe4a358df9d02526edfff5632147e79d04d99986",
+      "expected": "11104d5e2f1158566d2db6abbe4a358df9d02526edfff5632147e79d04d99986",
+      "equal": true
+    },
+    {
+      "name": "abyss_spike_slime_m_ai",
+      "actual": "234caee12229e1a9c693e8cda5ad19534e0334ad9eb391894d07470b956dc3b5",
+      "expected": "234caee12229e1a9c693e8cda5ad19534e0334ad9eb391894d07470b956dc3b5",
+      "equal": true
+    },
+    {
+      "name": "abyss_sts_random",
+      "actual": "6728ffa86944e578852ad9dfc4c5a23d825e917e2d24ab12f93fc1730a6d24ac",
+      "expected": "6728ffa86944e578852ad9dfc4c5a23d825e917e2d24ab12f93fc1730a6d24ac",
+      "equal": true
+    },
+    {
+      "name": "abyss_potion_rewards",
+      "actual": "ee1844d566e5256cca7425d1e596d44bbd5f26e48b3ea3c01c56d37cfdab6a3d",
+      "expected": "ee1844d566e5256cca7425d1e596d44bbd5f26e48b3ea3c01c56d37cfdab6a3d",
+      "equal": true
+    },
+    {
+      "name": "abyss_shop",
+      "actual": "82ff3a6cca54eaa440047cd02134e52142ff84242c88a395f39c14bf7ed401a3",
+      "expected": "82ff3a6cca54eaa440047cd02134e52142ff84242c88a395f39c14bf7ed401a3",
+      "equal": true
+    },
+    {
+      "name": "abyss_shop_price",
+      "actual": "53095e7d7a4deaac3e9dfe0f2d5a2d39849805e43f8383232e518af7f588fb70",
+      "expected": "53095e7d7a4deaac3e9dfe0f2d5a2d39849805e43f8383232e518af7f588fb70",
+      "equal": true
+    },
+    {
+      "name": "abyss_m2_policy",
+      "actual": "f126eae72664048f781d40d8dd40029adf7ecb161874361719ad557184c471aa",
+      "expected": "f126eae72664048f781d40d8dd40029adf7ecb161874361719ad557184c471aa",
+      "equal": true
+    },
+    {
+      "name": "abyss_m2_driver",
+      "actual": "5f4705194e10394cf831fbd1976725a6f020a51886834680b15f987947f59bc9",
+      "expected": "5f4705194e10394cf831fbd1976725a6f020a51886834680b15f987947f59bc9",
+      "equal": true
+    }
+  ],
+  "count": 45,
+  "ok": true
+}

@@ -1,0 +1,53 @@
+{
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "python": "3.13.12",
+  "dependencies": {
+    "fastapi": "0.159.1",
+    "pillow": "11.3.0",
+    "pydantic": "2.14.1",
+    "uvicorn": "0.54.0"
+  },
+  "cardId": "strike",
+  "canvas": [
+    180.0,
+    240.0
+  ],
+  "controls": 15,
+  "images": 11,
+  "nativeTextboxes": 4,
+  "staticImageIds": [
+    100001,
+    100002,
+    100003
+  ],
+  "checks": [
+    "JSON/Lua normalized element round-trip",
+    "GIA image count/asset/geometry independent reader",
+    "GIA native UTF-8 textbox payloads",
+    "GIA native textbox centers/sizes independent reader",
+    "Y-up center conversion",
+    "DRAW_ORDER complete",
+    "minimum font 14"
+  ],
+  "platformCompile": "not run",
+  "saveImport": "not run",
+  "devicePlaytest": "not run",
+  "imageTemplateIndex": null,
+  "textboxTemplateIndex": null,
+  "sha256": {
+    "ui_theme.json": "05d964a66e7e7972df82a123dd73e6fc8513be5aa599e8d4674fe8ddb1c69f05",
+    "cards.json": "a18bb2b45ae0d7099ca83eb6996efbbf2bd008547e0e03f1d3a3e3ecac0ee40f",
+    "card.source.json": "6290ab544b16b161d743b485719b9d62a49b5a1dc9e7b408b1bfd1c25b6f639f",
+    "card.json": "670b09a201d7067530bcd511ad81684690ae2d09e6f6494ae5aac5bdea8b10fb",
+    "card.lua": "ca9f4043918ed043071df1554820e445c4c893de5d841c9eb444965e77654ae1",
+    "card.gia": "558e1c1ba6dba57313b4bcf15378db76561a220dc1ea2242202062890cdfc034",
+    "card.png": "6248e99c7ca25359eb5e31a2da78fbf3f9ea4eaf4b6e2fdb10ba6c9c25b3c72d"
+  },
+  "compatibilityCandidate": {
+    "hypothesis": "Short native textboxes may not contain a full font line; internal padding is undocumented",
+    "change": "Only card-title height 22 -> 40 and card-type height 18 -> 40; same center/font/style/layers",
+    "reference": "Parent-supplied real-device screenshot: cost height40/font22 and description height92/font15 visible; title/type missing",
+    "candidateDevicePlaytest": "not run; parent must confirm title/type appear",
+    "comparisonInputSha256": "e9385519caa62fa1dba6e4c2ce386d306b3eaa616de37afe7ef883fbe2539bde"
+  }
+}

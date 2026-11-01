@@ -1,0 +1,17 @@
+{
+  "totalDifferences": 167,
+  "layoutDifferences": 44,
+  "omittedExplicitZero": 121,
+  "otherDifferences": [
+    {
+      "path": "$.graphValues.0.exposed",
+      "expected": false
+    },
+    {
+      "path": "$.graphValues.0.structId",
+      "expected": "0"
+    }
+  ],
+  "strictPayloadAuditPassed": false,
+  "note": "Supplemental diagnostic only. Original strict audit failure preserved; no defaults added to production auditor."
+}

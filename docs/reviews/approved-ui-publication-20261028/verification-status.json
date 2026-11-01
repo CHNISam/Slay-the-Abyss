@@ -1,0 +1,75 @@
+{
+  "recordedAt": "2026-10-28T16:59:19Z",
+  "upstreamDevelop": "0763d2e7a4137a1f35d6a214922cb3ca938aa53c",
+  "preRebaseHead": "d6a08811d83e2133a58c7675da1287bfb9fe7f70",
+  "rebasedSourceHead": "d5284bcc82654f23a2643683ceeecda05e730548",
+  "rebase": "six UI commits, linear, zero overlap with the 15 upstream CI/task-documentation paths; all 25 source/history manifest hashes unchanged",
+  "localRuntime": "Node v24.22.1; not hosted Node 24.18.0",
+  "completeCheckAttempts": [
+    {
+      "startedAt": "2026-10-28T16:37:34.810Z",
+      "head": "d6a08811d83e2133a58c7675da1287bfb9fe7f70",
+      "status": "interrupted_inconclusive",
+      "exitCode": null,
+      "evidence": {
+        "head": "d6a08811d83e2133a58c7675da1287bfb9fe7f70",
+        "startedAt": "2026-10-28T16:37:34.810Z",
+        "status": "interrupted_inconclusive",
+        "terminalExitCode": null,
+        "reason": "exec-server transport disconnected; original tracked process 81152 subsequently unknown; log stopped at 2026-10-28T16:39:34Z beyond the next file's three original 30-second Lua budgets; no complete test or process exit marker",
+        "originalLog": "/tmp/sta-ui-complete-check-20261028.log",
+        "notEvidenceOf": "PASS or code-test FAIL"
+      },
+      "log": "complete-check-attempt1.log"
+    },
+    {
+      "startedAt": "2026-10-28T16:42:41.161898+00:00",
+      "head": "d6a08811d83e2133a58c7675da1287bfb9fe7f70",
+      "status": "interrupted_inconclusive",
+      "exitCode": null,
+      "lastHeartbeatAt": "2026-10-28T16:54:23.299806+00:00",
+      "livenessObservation": {
+        "at": "2026-10-28T16:59:19Z",
+        "lock": "FREE",
+        "terminalExitMarker": false
+      },
+      "reason": "Tracked execution session no longer existed; stale wrapper metadata still says running, but its cross-command file lock is free. No terminal test summary or exit code. This is not PASS or a code assertion failure.",
+      "log": "complete-check-attempt2.log"
+    }
+  ],
+  "postRebaseResults": {
+    "ciPortableContracts": "12/12 pass",
+    "finalPotionAndApprovedInverseEntry": "11/11 pass (9 shell/Main/Map plus 2 inverse entry)",
+    "completeInverseContracts": "6/6 pass",
+    "network": "pass",
+    "syntax": "pass",
+    "architecture": "221 modules / 1265 edges, pass",
+    "luaStatic": "73 existing diagnostics, zero new; render <=10, scoped <=15, 432 responsibility measurements; pass",
+    "ciPowerShellRegression": {
+      "status": "blocked_environment",
+      "test": "tests/ci-downloads.test.mjs:27",
+      "observedResult": "initial combined run 14 pass / 1 fail; failed at first PowerShell execution, status null",
+      "minimalProbe": {
+        "command": "pwsh -NoProfile -Command $PSVersionTable.PSVersion.ToString()",
+        "status": null,
+        "errorCode": "ENOENT"
+      },
+      "action": "No installation, test skip, timeout change or test change; let hosted full Quality execute the actual runtime."
+    }
+  },
+  "pending": [
+    "exact published head hosted Full Quality and inventory",
+    "official texture/tint pixels",
+    "same-candidate official import/ready",
+    "same-candidate PC and physical-phone UI/performance",
+    "verify:ui on the actual candidate"
+  ],
+  "logs": {
+    "post-rebase-short.log": "2762bc93b1f606df19a9fe4b9bf0f796907c29a6528f20062b090f1d9ff15d70",
+    "complete-check-attempt2.log": "6ee518dd531a979fbf7b6ce5d73182008e5cdb2d863177e7885c06b0e664047d",
+    "complete-check-attempt1.log": "1ef1ccb7feea4980e1160a48de9e996da976c16272537efcdfb008460a6f30d0",
+    "post-rebase-inverse.log": "ba10d1190b28c777fdada78df995d39bb86e8b96ec0cbba8f55798cc0ac9918e",
+    "shell-only-compare.svg": "1e410a4596bc8515be52790069e2f5fd6c78e36123c6213368186b00cf1c26d9",
+    "shell-only-compare.png": "f3adc2c5be6f5be4f71d29a2df7d1b56a2aca59a583ab2bf5a822442ab947ffc"
+  }
+}

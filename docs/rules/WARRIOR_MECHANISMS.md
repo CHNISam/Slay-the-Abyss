@@ -1,0 +1,48 @@
+# 战士七张机制牌实验切片
+
+仅`abyss_warrior_cards.withFoundationCards(data)`或实验Ironclad profile启用，不修改原始JSON或默认战士内容门禁。原有37张战士定义及状态/诅咒ID原样保留，七张重写为源行为，标记experimental。不是完整75张战士卡池或实机验收。
+
+固定社区镜像：[aeubanks/sts@319009d5df0a82d9fb0f23cc22322286c6a87ec0](https://github.com/aeubanks/sts/tree/319009d5df0a82d9fb0f23cc22322286c6a87ec0)，未认证正版PC二进制。只按事实独立实现，不复制原方法体。
+
+## 选择与能力
+
+Clash 0费14/18伤，使用前整手只能有攻击牌，状态/诅咒也会阻止。True Grit 1费7/9盾，随后耗1手牌：基础随机，升级指定且不能选零；余手0无动作，余手1自动耗而不抽随机数，余手至少2基础才消耗cardRandomRng。Warcry 0费、消耗，先抽1/2，随后置顶1张手牌，最后自身消耗；余手1自动路径仍调用cardRandomRng.random(0)，与True Grit不同。
+
+`abyss_hand_choice.begin(state,mode,1,Queue)`返回true或pause，后者保留pendingHandChoice和单调choiceSerial。mode仅exhaust_random/exhaust_choose/put_on_deck。choose(state,uids,token)验证整个手牌顺序、身份、升级、回合、唯一UID与token后移动一张；选择期间不得选择cardInUse。调用方必须用整图事务包choose与Queue.resume，状态中不存函数。
+
+Dark Embrace、Feel No Pain、Sentinel、Necronomicurse及数据上声明的其他exhaust触发未实现时明确拒绝，不能把移堆当成完整消耗联动。当前没有假冒的随机弃牌事件，不触发Tactician/Reflex。
+
+Metallicize 1费3/4强度，atEndOfTurnPreEndTurnCards排固定格挡，早于Regret等轮末卡，不能加敏捷/乘脆弱。Demon Form 3费2/3强度，在玩家下次atStartOfTurnPostDraw排力量，出牌当前回合不立即增长，NoDraw不取消该能力。
+
+## X费与吸血
+
+Whirlwind源cost=-1，5/8的逐敌NORMAL伤害矩阵在使用时计算并复用。X数量优先energyOnUse快照，否则当前能量；Chemical X额外2，即使X0。effect>0才排攻击并在非free时消耗执行当时的全部能量，effect0不耗。Necronomicon按energyOnUse>=2判X牌门槛，不能把Chemical X加出的轮数算入门槛；复制保持快照且free。未支持这些遗物时须明确隔离。
+
+Reaper 2费4/5、消耗，使用VampireDamageAllEnemiesAction按怪物列表依次攻击并汇总lastDamageTaken（扣盾等处理后的伤害与伤前HP取小），过杀和打盾不多回血。总伤害大于0时才追加独立HealAction到队尾；UseCard处置和既有反伤先执行，玩家死亡不能被提前回血救活。胜利清队列保留Heal，最终受maxHp与治疗相关钩子约束。
+
+不能用fixed=true模拟已计算的NORMAL伤害，后者仍应触发Thorns/Curl Up等正常攻击反应。
+
+## 源文件SHA256
+
+```text
+cards/red/Clash.java e83d33cc4f13377da5adc1b920735029999ff9dc7633ff48c2adeb52d1814cf7
+cards/red/TrueGrit.java d9870c916ea4369e7c44bee7016850bc539baa62e02c7dec6f70b2eff80ffd0c
+cards/red/Warcry.java 42edc73d742c5660e16660712d9be082ccefd52e64ee2995804a34462fc0ed90
+cards/red/Metallicize.java 002257e2b11d5f2ace7f26c78c983662c4a69c51e40f1f697b3d638fd1bd9c66
+cards/red/Whirlwind.java 80076a6e31cd7bb196ea7fa4fafdd2302772f3d2b32ce39776dbca5ebfb33ab0
+cards/red/DemonForm.java 6dc5c54d3abd004966b1b645f5fba251b048e09325d7ea5b7ee2a1be4023d285
+cards/red/Reaper.java bd1a1a8472f765a8ae9a946ab738ba53c2b55863481feb6f06f5f521a9b9bb1f
+actions/common/ExhaustAction.java 10fd566a420d2549c3705a564ca6274da189eacad7df1872ddf2867af936f510
+actions/common/PutOnDeckAction.java 16f2ab8615f93267325ea98a9d1ea6e38b79e79c4aa72c4284efbb1ec4c567af
+powers/MetallicizePower.java 6f35d8908bde5eb6f470845d27dd6e739fe76fb7c3c5d6d83ff48d7864c9e30f
+powers/DemonFormPower.java f33afd9cca41bba6824f42115b4b0110ed9856cf2ce825f4bc57461151d8ee65
+actions/unique/WhirlwindAction.java 80438c28161227043e2a489cd9da373947d1d6d2646fa07e41b2c4ad902aa96e
+actions/unique/VampireDamageAllEnemiesAction.java dfb7849ff7a7f55e3c111e5e7a8b87f0b362eb467afa113a435ed0bd25e7e048
+monsters/AbstractMonster.java f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f
+actions/utility/UseCardAction.java 90213939af6d7ec83dea01bb2feef4ba762a93400dc1535732e2eebcdb6cab0f
+actions/GameActionManager.java a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3
+```
+
+## 验证状态
+
+共享层已接入显式experimental Ironclad Profile；warrior_choices.lua 13组、warrior_cards.lua 35组真实出牌回归均通过。包括基本/升级、X=0依然触发出牌反应、伤害矩阵不随中途力量/易伤重算、收割在UseCard/Sharp Hide后按实际HP损失治疗、选择恢复失败的原引用回滚。默认生产JSON的七张牌保持原门禁。GameUI职业选择与消耗/置顶已通过离线闭环测试；完整卡池、Corruption费用与通用消耗回调、自然构筑及平台验收仍未完成。

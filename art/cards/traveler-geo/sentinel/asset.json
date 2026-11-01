@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "card_id": "sentinel",
+  "displayName": "后援守势",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "sentinel/generation-provenance.json",
+      "sha256": "e86dbca536abbe8a066e58c8cef3506213fbf56a6d6a22c59b62c3cb61279a61",
+      "bytes": 2799
+    },
+    "preview-source-144x64.png": {
+      "path": "sentinel/preview-source-144x64.png",
+      "sha256": "5cf4ea2dc115a4ea28df47635533b9f4a129d039aae58c19757e3cd3c85b22c6",
+      "bytes": 19257
+    },
+    "prompt.txt": {
+      "path": "sentinel/prompt.txt",
+      "sha256": "5ab42db0fec3a4f30a67e8785fcca00eee7237a88f7785dfdf81cc3b76a71c76",
+      "bytes": 2513
+    },
+    "source.png": {
+      "path": "sentinel/source.png",
+      "sha256": "09060a13c723dec77386a508a771875f661c257d0cc8a8eca20ae5e8015444b6",
+      "bytes": 1908450
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "sentinel",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "block",
+        "value": 5
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-13",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

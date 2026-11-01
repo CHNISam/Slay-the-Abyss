@@ -1,0 +1,676 @@
+{
+  "scope": "ISOLATED_A0_ACT1_COMPLETE_GENERATED_MAP_COORDINATES_EDGES_ROOMS",
+  "status": "PASS",
+  "candidateGolden": {
+    "status": "PASS",
+    "matches": 12,
+    "requested": 12,
+    "oracle": {
+      "url": "https://github.com/Ru5ty0ne/sts_map_oracle",
+      "release": "v1.1.0",
+      "revision": "ea5200f21fa566de77ec14b6155b3bf3756dccbf",
+      "executableSha256": "add3b40d49dd5e2e371818bdc9ebfa991344b494732b0698ecaf392ecb0f3660",
+      "reportedVersion": "sts_map_oracle 1.0.0",
+      "scope": {
+        "act": 1,
+        "ascension": 0,
+        "height": 15,
+        "width": 7,
+        "pathDensity": 6
+      },
+      "evidenceBoundary": "Third-party black-box reference; not original-game verification or a license to reuse source code."
+    },
+    "records": [
+      {
+        "seed": "0",
+        "status": "MATCH",
+        "diff": {
+          "missingNodes": [],
+          "extraNodes": [],
+          "typeMismatches": [],
+          "missingEdges": [],
+          "extraEdges": []
+        },
+        "invariantErrors": []
+      },
+      {
+        "seed": "1",
+        "status": "MATCH",
+        "diff": {
+          "missingNodes": [],
+          "extraNodes": [],
+          "typeMismatches": [],
+          "missingEdges": [],
+          "extraEdges": []
+        },
+        "invariantErrors": []
+      },
+      {
+        "seed": "42",
+        "status": "MATCH",
+        "diff": {
+          "missingNodes": [],
+          "extraNodes": [],
+          "typeMismatches": [],
+          "missingEdges": [],
+          "extraEdges": []
+        },
+        "invariantErrors": []
+      },
+      {
+        "seed": "313",
+        "status": "MATCH",
+        "diff": {
+          "missingNodes": [],
+          "extraNodes": [],
+          "typeMismatches": [],
+          "missingEdges": [],
+          "extraEdges": []
+        },
+        "invariantErrors": []
+      },
+      {
+        "seed": "65535",
+        "status": "MATCH",
+        "diff": {
+          "missingNodes": [],
+          "extraNodes": [],
+          "typeMismatches": [],
+          "missingEdges": [],
+          "extraEdges": []
+        },
+        "invariantErrors": []
+      },
+      {
+        "seed": "673465884448",
+        "status": "MATCH",
+        "diff": {
+          "missingNodes": [],
+          "extraNodes": [],
+          "typeMismatches": [],
+          "missingEdges": [],
+          "extraEdges": []
+        },
+        "invariantErrors": []
+      },
+      {
+        "seed": "2780424839485660359",
+        "status": "MATCH",
+        "diff": {
+          "missingNodes": [],
+          "extraNodes": [],
+          "typeMismatches": [],
+          "missingEdges": [],
+          "extraEdges": []
+        },
+        "invariantErrors": []
+      },
+      {
+        "seed": "123456789",
+        "status": "MATCH",
+        "diff": {
+          "missingNodes": [],
+          "extraNodes": [],
+          "typeMismatches": [],
+          "missingEdges": [],
+          "extraEdges": []
+        },
+        "invariantErrors": []
+      },
+      {
+        "seed": "-17",
+        "status": "MATCH",
+        "diff": {
+          "missingNodes": [],
+          "extraNodes": [],
+          "typeMismatches": [],
+          "missingEdges": [],
+          "extraEdges": []
+        },
+        "invariantErrors": []
+      },
+      {
+        "seed": "20261023",
+        "status": "MATCH",
+        "diff": {
+          "missingNodes": [],
+          "extraNodes": [],
+          "typeMismatches": [],
+          "missingEdges": [],
+          "extraEdges": []
+        },
+        "invariantErrors": []
+      },
+      {
+        "seed": "600",
+        "status": "MATCH",
+        "diff": {
+          "missingNodes": [],
+          "extraNodes": [],
+          "typeMismatches": [],
+          "missingEdges": [],
+          "extraEdges": []
+        },
+        "invariantErrors": []
+      },
+      {
+        "seed": "200",
+        "status": "MATCH",
+        "diff": {
+          "missingNodes": [],
+          "extraNodes": [],
+          "typeMismatches": [],
+          "missingEdges": [],
+          "extraEdges": []
+        },
+        "invariantErrors": []
+      }
+    ],
+    "propertySeedRuns": 0,
+    "platformCompile": "NOT_EXECUTED",
+    "saveImport": "NOT_EXECUTED",
+    "realClient": "NOT_EXECUTED"
+  },
+  "candidateProperties": {
+    "status": "PASS",
+    "requested": 128,
+    "executed": 128,
+    "passed": 128,
+    "failed": 0,
+    "executionErrors": 0,
+    "examples": [],
+    "scope": "Structural invariants only; not quota/algorithm parity or platform evidence."
+  },
+  "productionGolden": {
+    "status": "FAIL",
+    "matches": 0,
+    "requested": 12,
+    "statuses": [
+      {
+        "seed": "0",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "1",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "42",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "313",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "65535",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "673465884448",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "2780424839485660359",
+        "status": "UNSUPPORTED_PROJECT_SEED"
+      },
+      {
+        "seed": "123456789",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "-17",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "20261023",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "600",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "200",
+        "status": "MISMATCH"
+      }
+    ],
+    "fullDiff": "production-full-map-diff.json"
+  },
+  "inputs": [
+    {
+      "file": "tools/candidates/sts1_map_rooms.lua",
+      "sha256": "84fc2f87ab110a659a711673d5332db2f219750a85eb553f2f4e66e97dbc70c9"
+    },
+    {
+      "file": "tools/candidates/sts1_map_topology.lua",
+      "sha256": "9b0823fe98fd662bcae2dced720f31ed0796fd067494d10dd51033763f0192d9"
+    },
+    {
+      "file": "tools/candidates/sts_random.lua",
+      "sha256": "774bc8f58d5cf7c07d38e22864533f69b79e223d1425d1434b4cc8c144cdecc2"
+    },
+    {
+      "file": "tools/candidates/libgdx_randomxs128.lua",
+      "sha256": "90005b366bab7d40ef4faef061c92ddeb2e028342ba8da00b5dc36c97517943f"
+    },
+    {
+      "file": "tests/sts1-map-room-candidate.test.mjs",
+      "sha256": "62317575d9e47e20a43619b1c17f6542f50f5abbbf8856651117eb1e0869c204"
+    },
+    {
+      "file": "tests/fixtures/sts1/maps/manifest.json",
+      "sha256": "a79023a778a3d6629c66ecd90822bd93e83c320fd13fd701eaf9860f38084ff7"
+    }
+  ],
+  "candidateRecords": [
+    {
+      "seed": "0",
+      "quotaCount": 50,
+      "quotas": {
+        "shop": 3,
+        "camp": 6,
+        "elite": 4,
+        "event": 11
+      },
+      "nodes": 54,
+      "edges": 62,
+      "topologyState": {
+        "words": [
+          "8405befd7f385f06",
+          "3d972d4c8c7afb4b"
+        ],
+        "counter": 102
+      },
+      "randomState": {
+        "words": [
+          "c20d00f3dfe73b44",
+          "6ad30afb8fe051ee"
+        ],
+        "counter": 102
+      },
+      "fallbackCount": 1,
+      "outputSha256": "1f57a6701e44d59e02a5fb5647dada997d80521cd5a4355406ad98f8b550f417"
+    },
+    {
+      "seed": "1",
+      "quotaCount": 49,
+      "quotas": {
+        "shop": 2,
+        "camp": 6,
+        "elite": 4,
+        "event": 11
+      },
+      "nodes": 52,
+      "edges": 66,
+      "topologyState": {
+        "words": [
+          "c5556edf98b7a25d",
+          "623ffeb17398a898"
+        ],
+        "counter": 93
+      },
+      "randomState": {
+        "words": [
+          "2c7bc9fa91a39fb1",
+          "2c785bcabc95e4a6"
+        ],
+        "counter": 93
+      },
+      "fallbackCount": 1,
+      "outputSha256": "1b901aaff22fa34e2df606931cda6cc58445a9536a0d322e0f21bb438b5da956"
+    },
+    {
+      "seed": "42",
+      "quotaCount": 52,
+      "quotas": {
+        "shop": 3,
+        "camp": 6,
+        "elite": 4,
+        "event": 11
+      },
+      "nodes": 55,
+      "edges": 65,
+      "topologyState": {
+        "words": [
+          "7b6a57721dfc305a",
+          "640d8bfcf108fd63"
+        ],
+        "counter": 94
+      },
+      "randomState": {
+        "words": [
+          "c7bcf80ed711ace7",
+          "16826f61e7d3b7f8"
+        ],
+        "counter": 94
+      },
+      "fallbackCount": 0,
+      "outputSha256": "49a5dd75389dc3af343f014c5b5a196d43242cb142fc2dab0258fa04ac7d3297"
+    },
+    {
+      "seed": "313",
+      "quotaCount": 59,
+      "quotas": {
+        "shop": 3,
+        "camp": 7,
+        "elite": 5,
+        "event": 13
+      },
+      "nodes": 63,
+      "edges": 71,
+      "topologyState": {
+        "words": [
+          "425c9e8e02254f06",
+          "3f80ec8c26f3fa58"
+        ],
+        "counter": 98
+      },
+      "randomState": {
+        "words": [
+          "ab0048b0657fd1b9",
+          "4986126034cb13b5"
+        ],
+        "counter": 98
+      },
+      "fallbackCount": 0,
+      "outputSha256": "d49f60bc40bc072efbce48642b421e44d31fc9ce1d5e6617c948057877a27026"
+    },
+    {
+      "seed": "65535",
+      "quotaCount": 60,
+      "quotas": {
+        "shop": 3,
+        "camp": 7,
+        "elite": 5,
+        "event": 13
+      },
+      "nodes": 64,
+      "edges": 70,
+      "topologyState": {
+        "words": [
+          "8394a17228c18984",
+          "3dd8e51721d8d46a"
+        ],
+        "counter": 95
+      },
+      "randomState": {
+        "words": [
+          "9a3ff520e7c2499e",
+          "af5fb416bc3584ce"
+        ],
+        "counter": 95
+      },
+      "fallbackCount": 0,
+      "outputSha256": "62a9a7d8ca880fc01b14806b2d26b79192320dc248ee7aeee98e9fc3bb046038"
+    },
+    {
+      "seed": "673465884448",
+      "quotaCount": 58,
+      "quotas": {
+        "shop": 3,
+        "camp": 7,
+        "elite": 5,
+        "event": 13
+      },
+      "nodes": 62,
+      "edges": 69,
+      "topologyState": {
+        "words": [
+          "cf86e0d23e84378e",
+          "d2b1696616909ebd"
+        ],
+        "counter": 98
+      },
+      "randomState": {
+        "words": [
+          "4fe562c1c8e42b04",
+          "d2efed008e6537b7"
+        ],
+        "counter": 98
+      },
+      "fallbackCount": 2,
+      "outputSha256": "2a34f4e44dca84abf4be107cb2d15cf38bc6fae9986d69115294983d7303bae1"
+    },
+    {
+      "seed": "2780424839485660359",
+      "quotaCount": 51,
+      "quotas": {
+        "shop": 3,
+        "camp": 6,
+        "elite": 4,
+        "event": 11
+      },
+      "nodes": 54,
+      "edges": 64,
+      "topologyState": {
+        "words": [
+          "630e5730826f0eba",
+          "182f6ad12d06d045"
+        ],
+        "counter": 94
+      },
+      "randomState": {
+        "words": [
+          "dfea50da2eea9a37",
+          "3d74ba389cdab142"
+        ],
+        "counter": 94
+      },
+      "fallbackCount": 2,
+      "outputSha256": "a32c7d50ecbff6322bdda81da98bd66c562e0c9d6134b090d41842cfb287177a"
+    },
+    {
+      "seed": "123456789",
+      "quotaCount": 56,
+      "quotas": {
+        "shop": 3,
+        "camp": 7,
+        "elite": 4,
+        "event": 12
+      },
+      "nodes": 59,
+      "edges": 70,
+      "topologyState": {
+        "words": [
+          "3600c4afed45a156",
+          "884bd11e6853b678"
+        ],
+        "counter": 94
+      },
+      "randomState": {
+        "words": [
+          "548aadf4423bf651",
+          "4ba571fcd959369b"
+        ],
+        "counter": 94
+      },
+      "fallbackCount": 1,
+      "outputSha256": "84ef1de2d502185a9ace1b297ecb69dfbb1ea08f1201ba1325579bbb2480e632"
+    },
+    {
+      "seed": "-17",
+      "quotaCount": 59,
+      "quotas": {
+        "shop": 3,
+        "camp": 7,
+        "elite": 5,
+        "event": 13
+      },
+      "nodes": 64,
+      "edges": 73,
+      "topologyState": {
+        "words": [
+          "7b3435253666d2af",
+          "51769cb5fc8cbf5f"
+        ],
+        "counter": 92
+      },
+      "randomState": {
+        "words": [
+          "a22df559e935c881",
+          "bf2eea8dc1b4d718"
+        ],
+        "counter": 92
+      },
+      "fallbackCount": 1,
+      "outputSha256": "8be2bc698f98edf29deacc00f26dbc25c37c1a43918e91de4be243aa06f8acc6"
+    },
+    {
+      "seed": "20261023",
+      "quotaCount": 56,
+      "quotas": {
+        "shop": 3,
+        "camp": 7,
+        "elite": 4,
+        "event": 12
+      },
+      "nodes": 60,
+      "edges": 66,
+      "topologyState": {
+        "words": [
+          "638ab23f2f2eb69f",
+          "b18985eb9ae26091"
+        ],
+        "counter": 91
+      },
+      "randomState": {
+        "words": [
+          "f4321bb28fe9eb67",
+          "53dedc9cf2ed2e48"
+        ],
+        "counter": 91
+      },
+      "fallbackCount": 0,
+      "outputSha256": "ecba7098449cde218049ffb235f950fbf87f16d54f9759054a4309c5a962a324"
+    },
+    {
+      "seed": "600",
+      "quotaCount": 51,
+      "quotas": {
+        "shop": 3,
+        "camp": 6,
+        "elite": 4,
+        "event": 11
+      },
+      "nodes": 55,
+      "edges": 63,
+      "topologyState": {
+        "words": [
+          "3a32c5b2e818d9e2",
+          "ac426ad8251b58e5"
+        ],
+        "counter": 96
+      },
+      "randomState": {
+        "words": [
+          "b9c828a7c0a846cf",
+          "bebcbeec9977dd41"
+        ],
+        "counter": 96
+      },
+      "fallbackCount": 1,
+      "outputSha256": "ffb485f26659a8f130907d17ce9ff8800f552df86c1edf84cb49670bea23915f"
+    },
+    {
+      "seed": "200",
+      "quotaCount": 57,
+      "quotas": {
+        "shop": 3,
+        "camp": 7,
+        "elite": 5,
+        "event": 13
+      },
+      "nodes": 59,
+      "edges": 70,
+      "topologyState": {
+        "words": [
+          "c3f53b6a0823e65f",
+          "66a2879bb0f15c1c"
+        ],
+        "counter": 93
+      },
+      "randomState": {
+        "words": [
+          "5ec7f061c73f0cb1",
+          "26b5c20abc0ffb8c"
+        ],
+        "counter": 93
+      },
+      "fallbackCount": 1,
+      "outputSha256": "0451f0a8dd5231669de2503a2d1d7e6a6dc1f1f864edd59ed95463fff79827ed"
+    }
+  ],
+  "targetPcBinary": "NOT_AUTHENTICATED",
+  "compiled": "NOT_EXECUTED",
+  "saveImport": "NOT_EXECUTED",
+  "realClient": "NOT_EXECUTED",
+  "caveat": "Unchanged third-party captured golden is not original-game verification. Production remains a separate failing comparison.",
+  "sourceBase": "6e8714f0b3fe3f7e57a4e5bcff4a003a99e1cb40",
+  "artifacts": "F:/New folder/.artifacts/m3-map-room-6e8714f",
+  "sources": [
+    {
+      "rawResponse": "dungeons-AbstractDungeon.java.response.json",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java",
+      "gitBlob": "9059f4da5c8002e9645bf38f200e5527d1212ac0",
+      "contentSha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26"
+    },
+    {
+      "rawResponse": "dungeons-Exordium.java.response.json",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/Exordium.java",
+      "gitBlob": "dffde662864871956ca9fac5dbf45784b45fdc30",
+      "contentSha256": "93808b9da69b76da6b8f0471cc3533fa113fa28298939bbc48eb55566a976c08"
+    },
+    {
+      "rawResponse": "jdk8-Collections.java.response.json",
+      "url": "https://github.com/openjdk/jdk8u/blob/jdk8u412-b08/jdk/src/share/classes/java/util/Collections.java",
+      "gitBlob": "3ab4c5ec0681ccce557bafbabea38e10dc4c1cf0",
+      "contentSha256": "da9060bf94e798187704cbb765f9f2969728cedc6546bb8d2611639287ae3211"
+    },
+    {
+      "rawResponse": "libgdx-RandomXS128.java.response.json",
+      "url": "https://github.com/libgdx/libgdx/blob/3b1fda1fc2e1f6b3c74851471870062d871ed16f/gdx/src/com/badlogic/gdx/math/RandomXS128.java",
+      "gitBlob": "a6a0b38676f11d54d01a4fdeb056c42f003c6820",
+      "contentSha256": "f450836e4ac58e93b5a8fb45c67710755b134675c671a11718fd04439e11fc71"
+    },
+    {
+      "rawResponse": "map-RoomTypeAssigner.java.response.json",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/map/RoomTypeAssigner.java",
+      "gitBlob": "0ed07566f6823206b3aa4754538eb602d3fe930b",
+      "contentSha256": "c1a741535f9e2c9bbdabbfce37618d7d7b7c2a34ceb6bffcb6153fa8070c7c08"
+    }
+  ],
+  "verification": {
+    "roomRed": {
+      "passed": 0,
+      "reason": "missing complete room candidate after sandbox retry",
+      "failed": 15
+    },
+    "roomGreen": {
+      "passed": 15,
+      "failed": 0
+    },
+    "unchangedTopologyAndRng": {
+      "passed": 40,
+      "failed": 0
+    },
+    "logs": [
+      {
+        "file": "room-red.log",
+        "sha256": "a08967fad2215aa32587ad4bd7e01ff622164eb318e3853112510178942d97a4"
+      },
+      {
+        "file": "room-green.log",
+        "sha256": "528726f307647f35bbe4a935e4634084ff8ead7248dddc29ccf36295b153520f"
+      },
+      {
+        "file": "room-regression.log",
+        "sha256": "6809226142cb0c4d492d8a62ba35610b3f80b8f68d27275276f36a07e1d07d23"
+      },
+      {
+        "file": "room-evidence.log",
+        "sha256": "970c5f711ea649f62e8b5188ba82e782483e554d7474b93f9c3ae7dcbdbadffe"
+      }
+    ]
+  }
+}

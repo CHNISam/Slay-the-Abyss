@@ -1,0 +1,42 @@
+✖ Designer source options and negative transactions execute through public Nodes commands (1764.985081ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1892.137355
+
+✖ failing tests:
+
+test at tests/designer-public-option-matrix.test.mjs:4:1
+✖ Designer source options and negative transactions execute through public Nodes commands (1764.985081ms)
+  AssertionError [ERR_ASSERTION]: PASS Designer public 1 selected adjustment full and punch
+  PASS Designer public 2 random adjustment cleanup full and punch
+  ...events-final/tests/lua/designer_public_option_matrix.lua:7: true ~= false
+  stack traceback:
+    [JS]: in function 'assert'
+    ...events-final/tests/lua/designer_public_option_matrix.lua:7: in upvalue 'eq'
+    ...events-final/tests/lua/designer_public_option_matrix.lua:16: in upvalue 'reject'
+    ...events-final/tests/lua/designer_public_option_matrix.lua:65: in local 'fn'
+    ...events-final/tests/lua/designer_public_option_matrix.lua:30: in local 'test'
+    ...events-final/tests/lua/designer_public_option_matrix.lua:57: in main chunk
+    [JS]: in function 'dofile'
+    (command line):1: in main chunk
+
+
+  1 !== 0
+
+      at TestContext.<anonymous> (file:///workspace/m3-events-final/tests/designer-public-option-matrix.test.mjs:6:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,452 @@
+{
+  "schemaVersion": 1,
+  "task": "TASK-4.21",
+  "base": "2d06741de47f2a65eb2772705e33064c16ccdce3",
+  "commit": "db4014c59c70e207a54ce8022176b9a1ca0c3347",
+  "worktree": "/workspace/mobile-loading-audit",
+  "common_git": "/workspace/m3-integration/.git",
+  "status": "COMMITTED_NOT_PUSHED_INDEPENDENT_REVIEW_PASS_PENDING_INTEGRATION_CI",
+  "changes": [
+    {
+      "path": "src/lua/abyss_map_ui.lua",
+      "behavior": "模块弱键缓存按native control记录最后实际成功尺寸和无native回指的fx/view token；同值同owner跳过，pooled handle跨fx/controller接管重写，尝试前清旧承诺；原呼吸/位置/滚动/输入保持。"
+    },
+    {
+      "path": "src/lua/abyss_battle_render_actors.lua",
+      "behavior": "每次install创建弱键缓存，图片按native控件、imageSource与真实id缓存，文本按控件和字符串缓存；width用本次计算字符串避免原生读回。死句柄仍触达原setter守卫。透明度/粒子/位置/尺寸仍按原路径执行。"
+    },
+    {
+      "path": "src/lua/abyss_battle_input_state.lua",
+      "behavior": "picture原封不动return SetImage结果，供缓存识别false拒绝并重试。"
+    },
+    {
+      "path": "tests/lua/mobile_render_write_cache.lua",
+      "behavior": "七个focused场景覆盖300相同值去重、尺寸/文本/图片变化、新native控件、新view绑定、source变更、setter false/throw重试、expired句柄守卫、实际battle adapter失败恢复。"
+    }
+  ],
+  "red_green": {
+    "baseline_red_log": "/workspace/cloud-reports/mobile-loading-cache-red.log",
+    "baseline_result": "旧实现5个测试按预期失败：稳定地图重复提交、失败后应去重、意图使用原生text读回。",
+    "adapter_red_log": "/workspace/cloud-reports/mobile-loading-adapter-red.log",
+    "adapter_result": "移除picture return的一行修复后，真实battle adapter拒绝重试测试失败；恢复后通过。",
+    "green_log": "/workspace/cloud-reports/mobile-loading-cache-green.log",
+    "green_result": "7个定向用例通过；实际GameUI fixture进入cultist验证SetImage首次false后第二次成功，第三次不重复。"
+  },
+  "comparison": {
+    "construct_ui": {
+      "before": {
+        "offline_elapsed_ms": 977.807852,
+        "counts": {
+          "SetAnchoredPosition": 27,
+          "SetAnchoredPosition_same": 6,
+          "SetAsLastSibling": 1,
+          "SetLocalScale": 10,
+          "SetSizeDelta": 15,
+          "SetSizeDelta_same": 6,
+          "SetVisible": 577,
+          "SetVisible_same": 190,
+          "construct": 13969,
+          "require": 185,
+          "require_cached": 137,
+          "require_cold": 48,
+          "text": 253,
+          "text_same": 151
+        }
+      },
+      "after": {
+        "offline_elapsed_ms": 977.034186,
+        "counts": {
+          "SetAnchoredPosition": 27,
+          "SetAnchoredPosition_same": 6,
+          "SetAsLastSibling": 1,
+          "SetLocalScale": 10,
+          "SetSizeDelta": 15,
+          "SetSizeDelta_same": 6,
+          "SetVisible": 577,
+          "SetVisible_same": 190,
+          "construct": 13969,
+          "require": 185,
+          "require_cached": 137,
+          "require_cold": 48,
+          "text": 253,
+          "text_same": 151
+        }
+      }
+    },
+    "menu_idle_300": {
+      "before": {
+        "offline_elapsed_ms": 81.629589,
+        "counts": {
+          "SetAnchoredPosition": 252,
+          "SetAnchoredPosition_same": 101,
+          "SetLocalScale": 480,
+          "SetLocalScale_same": 92
+        }
+      },
+      "after": {
+        "offline_elapsed_ms": 80.0549,
+        "counts": {
+          "SetAnchoredPosition": 252,
+          "SetAnchoredPosition_same": 101,
+          "SetLocalScale": 480,
+          "SetLocalScale_same": 92
+        }
+      }
+    },
+    "start_geo": {
+      "before": {
+        "offline_elapsed_ms": 710.810195,
+        "counts": {
+          "SetAnchoredPosition": 313,
+          "SetAnchoredPosition_same": 215,
+          "SetAsLastSibling": 7,
+          "SetAsLastSibling_same": 6,
+          "SetImage": 138,
+          "SetImage_same": 91,
+          "SetLocalScale": 23,
+          "SetLocalScale_same": 15,
+          "SetSizeDelta": 591,
+          "SetSizeDelta_same": 449,
+          "SetVisible": 2741,
+          "SetVisible_same": 2269,
+          "refresh": 4,
+          "render": 7,
+          "require": 479,
+          "require_cached": 448,
+          "require_cold": 31,
+          "text": 609,
+          "text_same": 403
+        }
+      },
+      "after": {
+        "offline_elapsed_ms": 742.308272,
+        "counts": {
+          "SetAnchoredPosition": 313,
+          "SetAnchoredPosition_same": 215,
+          "SetAsLastSibling": 7,
+          "SetAsLastSibling_same": 6,
+          "SetImage": 138,
+          "SetImage_same": 91,
+          "SetLocalScale": 23,
+          "SetLocalScale_same": 15,
+          "SetSizeDelta": 345,
+          "SetSizeDelta_same": 203,
+          "SetVisible": 2741,
+          "SetVisible_same": 2269,
+          "refresh": 4,
+          "render": 7,
+          "require": 479,
+          "require_cached": 448,
+          "require_cold": 31,
+          "text": 609,
+          "text_same": 403
+        }
+      }
+    },
+    "map_idle_300": {
+      "before": {
+        "offline_elapsed_ms": 707.697206,
+        "counts": {
+          "SetSizeDelta": 15000,
+          "SetSizeDelta_same": 13800
+        }
+      },
+      "after": {
+        "offline_elapsed_ms": 436.642114,
+        "counts": {
+          "SetSizeDelta": 1200
+        }
+      }
+    },
+    "enter_battle": {
+      "before": {
+        "offline_elapsed_ms": 177.085211,
+        "counts": {
+          "SetAnchoredPosition": 159,
+          "SetAnchoredPosition_same": 65,
+          "SetAsLastSibling": 13,
+          "SetAsLastSibling_same": 7,
+          "SetImage": 17,
+          "SetImage_same": 9,
+          "SetLocalScale": 46,
+          "SetLocalScale_same": 15,
+          "SetSizeDelta": 131,
+          "SetSizeDelta_same": 64,
+          "SetVisible": 916,
+          "SetVisible_same": 679,
+          "actor_instantiate": 1,
+          "construct": 35,
+          "fontSize": 20,
+          "fontSize_same": 10,
+          "refresh": 1,
+          "render": 2,
+          "require": 687,
+          "require_cached": 675,
+          "require_cold": 12,
+          "text": 325,
+          "text_same": 212
+        }
+      },
+      "after": {
+        "offline_elapsed_ms": 165.601509,
+        "counts": {
+          "SetAnchoredPosition": 159,
+          "SetAnchoredPosition_same": 65,
+          "SetAsLastSibling": 13,
+          "SetAsLastSibling_same": 7,
+          "SetImage": 16,
+          "SetImage_same": 8,
+          "SetLocalScale": 46,
+          "SetLocalScale_same": 15,
+          "SetSizeDelta": 131,
+          "SetSizeDelta_same": 64,
+          "SetVisible": 916,
+          "SetVisible_same": 679,
+          "actor_instantiate": 1,
+          "construct": 35,
+          "fontSize": 20,
+          "fontSize_same": 10,
+          "refresh": 1,
+          "render": 2,
+          "require": 687,
+          "require_cached": 675,
+          "require_cold": 12,
+          "text": 324,
+          "text_same": 211
+        }
+      }
+    },
+    "battle_idle_300": {
+      "before": {
+        "offline_elapsed_ms": 544.043217,
+        "counts": {
+          "SetAnchoredPosition": 4800,
+          "SetAnchoredPosition_same": 3365,
+          "SetImage": 300,
+          "SetImage_same": 300,
+          "SetLocalScale": 3600,
+          "SetLocalScale_same": 2785,
+          "SetSizeDelta": 2400,
+          "SetSizeDelta_same": 2185,
+          "SetVisible": 2100,
+          "SetVisible_same": 2100,
+          "require": 900,
+          "require_cached": 900,
+          "text": 300,
+          "text_same": 300
+        }
+      },
+      "after": {
+        "offline_elapsed_ms": 535.804691,
+        "counts": {
+          "SetAnchoredPosition": 4800,
+          "SetAnchoredPosition_same": 3365,
+          "SetLocalScale": 3600,
+          "SetLocalScale_same": 2785,
+          "SetSizeDelta": 2400,
+          "SetSizeDelta_same": 2185,
+          "SetVisible": 2100,
+          "SetVisible_same": 2100,
+          "require": 900,
+          "require_cached": 900
+        }
+      }
+    },
+    "battle_map_preview_10": {
+      "before": {
+        "offline_elapsed_ms": 3071.14647,
+        "counts": {
+          "SetAnchoredPosition": 6620,
+          "SetAnchoredPosition_same": 6328,
+          "SetAsLastSibling": 490,
+          "SetAsLastSibling_same": 478,
+          "SetImage": 1060,
+          "SetImage_same": 1040,
+          "SetLocalScale": 1860,
+          "SetLocalScale_same": 1798,
+          "SetSizeDelta": 7680,
+          "SetSizeDelta_same": 7478,
+          "SetVisible": 40530,
+          "SetVisible_same": 40048,
+          "actor_destroy": 10,
+          "actor_instantiate": 10,
+          "construct": 350,
+          "fontSize": 800,
+          "fontSize_same": 800,
+          "refresh": 40,
+          "render": 100,
+          "require": 19300,
+          "require_cached": 19300,
+          "text": 12700,
+          "text_same": 9470
+        }
+      },
+      "after": {
+        "offline_elapsed_ms": 3378.452306,
+        "counts": {
+          "SetAnchoredPosition": 6620,
+          "SetAnchoredPosition_same": 6328,
+          "SetAsLastSibling": 490,
+          "SetAsLastSibling_same": 478,
+          "SetImage": 1050,
+          "SetImage_same": 1030,
+          "SetLocalScale": 1860,
+          "SetLocalScale_same": 1798,
+          "SetSizeDelta": 5682,
+          "SetSizeDelta_same": 5480,
+          "SetVisible": 40530,
+          "SetVisible_same": 40048,
+          "actor_destroy": 10,
+          "actor_instantiate": 10,
+          "construct": 350,
+          "fontSize": 800,
+          "fontSize_same": 800,
+          "refresh": 40,
+          "render": 100,
+          "require": 19300,
+          "require_cached": 19300,
+          "text": 12690,
+          "text_same": 9460
+        }
+      }
+    }
+  },
+  "confirmed_call_reduction": {
+    "map_idle_300_SetSizeDelta": {
+      "before": 15000,
+      "after": 1200,
+      "removed": 13800,
+      "note": "剩余1200保留可达节点呼吸尺寸变化；并非跳过动画。"
+    },
+    "battle_idle_300_text": {
+      "before": 300,
+      "after": 0
+    },
+    "battle_idle_300_SetImage": {
+      "before": 300,
+      "after": 0
+    }
+  },
+  "validation": [
+    {
+      "command": "npm run build:data && npm run build:ui",
+      "result": "PASS in isolated base worktree"
+    },
+    {
+      "command": "node scripts/map-ui-layout.mjs",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/test-lua.mjs tests/lua/mobile_render_write_cache.lua",
+      "result": "PASS seven cases",
+      "log": "/workspace/cloud-reports/mobile-loading-cache-green.log"
+    },
+    {
+      "command": "node scripts/test-lua.mjs tests/lua/m3_map_input_acceptance.lua",
+      "result": "PASS exit0",
+      "log": "/workspace/cloud-reports/mobile-loading-m3_map_input_acceptance.log"
+    },
+    {
+      "command": "node scripts/test-lua.mjs tests/lua/monster_intent_particle_game_ui.lua",
+      "result": "PASS exit0",
+      "log": "/workspace/cloud-reports/mobile-loading-monster_intent_particle_game_ui.log"
+    },
+    {
+      "command": "node scripts/test-lua.mjs tests/lua/intent_face_clearance.lua",
+      "result": "PASS exit0",
+      "log": "/workspace/cloud-reports/mobile-loading-intent_face_clearance.log"
+    },
+    {
+      "command": "node scripts/test-lua.mjs tests/lua/grid_lifecycle_contract.lua",
+      "result": "PASS exit0",
+      "log": "/workspace/cloud-reports/mobile-loading-grid_lifecycle_contract.log"
+    },
+    {
+      "command": "node scripts/test-lua.mjs tests/lua/act2_intent_ui.lua",
+      "result": "PASS exit0",
+      "log": "/workspace/cloud-reports/mobile-loading-act2_intent_ui.log"
+    },
+    {
+      "command": "npm run check:native-ui-contract",
+      "result": "PASS 4/4",
+      "log": "/workspace/cloud-reports/mobile-loading-native-contract.log"
+    },
+    {
+      "command": "npm run check:architecture",
+      "result": "PASS 318 modules,1838 edges"
+    },
+    {
+      "command": "npm run check:lua-static",
+      "result": "BLOCKED environment missing Luacheck; no install or threshold changes"
+    },
+    {
+      "command": "node scripts/check-engineering.mjs",
+      "result": "BLOCKED environment missing Luacheck; no measured modules",
+      "log": "/workspace/cloud-reports/mobile-loading-engineering.log"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS before commit"
+    }
+  ],
+  "boundaries": [
+    "未改主题JS、背景、actor生命周期、Backlog任务或门槛。",
+    "actor覆盖页重建继续作为待验项，不在本批修复。",
+    "所有计数/耗时来自Linux Node24 Fengari mock离线运行，非手机/GPU/FPS/P95；不能声称用户卡顿已解决或设备性能不足。",
+    "普通build flags全off，与生产候选原生资源成本有边界；需同候选手机实测。",
+    "未跑整套测试，未推送，待root独立复审与集成。"
+  ],
+  "evidence_files": {
+    "mobile-loading-diagnostic.lua": "033c478c38a3a53fa921ee07cd97b1fd7be53657e2bd73a5ae21ad7d0ee2686c",
+    "mobile-loading-diagnostic-before.log": "2fe85898196ddf716a01d40d0dc66eb0f93d6f0971c45f93dad8f1dbe6915b46",
+    "mobile-loading-diagnostic-after.log": "f5724c2a15b91b0ef1f9398679b9c62b2c92161ebe597dd4df2386aa8742a981",
+    "mobile-loading-cache-red.log": "aff79d4a90d13851f14541685c148f122c6733cbfa298b86a7b48bc419e2aec6",
+    "mobile-loading-adapter-red.log": "c1ed849d6515d1b963f392c37b638c48a985f7c81be8346b3183aaeb1942dfc5",
+    "mobile-loading-cache-green.log": "afb330d6b3e21f1910f63975e52d5922e2b558f0ee2662c4c1c3429c55351182"
+  },
+  "initial_commit": "12e035c1e35d51b67dcecf83d727fe843f23ae91",
+  "review_followup": {
+    "issue": "Important: fx缓存不是native最后writer；Map42→1→42共享pooled box会陈旧命中。已独立复现，并修正。",
+    "changes": "Map roomSizes模块weak-key表按native control记录最后成功size和空owner token；token无native回指；新fx/view接管会写。每次setter尝试前删除旧promise，失败不缓存。所有Map icon/ring SetSizeDelta路径均由roomSize统一管理。",
+    "new_test": "tests/lua/mobile_map_size_ownership.lua",
+    "red": [
+      "/workspace/cloud-reports/mobile-loading-map-ownership-red.log",
+      "/workspace/cloud-reports/mobile-map-size-ownership-red.log",
+      "/workspace/cloud-reports/mobile-map-size-failure-red.log"
+    ],
+    "green": [
+      "/workspace/cloud-reports/mobile-loading-map-ownership-green.log",
+      "/workspace/cloud-reports/mobile-map-size-ownership-green.log",
+      "/workspace/cloud-reports/mobile-loading-cache-green-v2.log",
+      "/workspace/cloud-reports/mobile-loading-mapinput-v2.log"
+    ],
+    "results": "原probe、3项实际ownership回归、原7项缓存回归、地图输入合同全部PASS；架构PASS 318modules/1838edges；git diff --check PASS。",
+    "final_counts_log": "/workspace/cloud-reports/mobile-loading-diagnostic-final.log",
+    "final_counts": "地图idle300仍1200 SetSizeDelta；战斗idle300 text/SetImage仍0；actor生命周期未改。",
+    "independent_review": "已发独审agent请求重审1cbf08db，尚未作通过声明。"
+  },
+  "commits": [
+    "12e035c1e35d51b67dcecf83d727fe843f23ae91",
+    "1cbf08dbb56ffd3438ef0d3e791169ec13ec8166",
+    "db4014c59c70e207a54ce8022176b9a1ca0c3347"
+  ],
+  "intent_failure_followup": {
+    "issue": "独审确认intent image/text与map同根因：失败setter可能已部分应用，旧成功promise必须撤销。",
+    "implementation": "intentPicture尝试dependencies.picture前intentImages[control]=nil；文本属性实际写入前intentTexts[value]=nil；成功返回后才登记。只增两行生产代码。",
+    "red_log": "/workspace/cloud-reports/mobile-loading-intent-promise-red.log",
+    "green_log": "/workspace/cloud-reports/mobile-loading-intent-promise-green.log",
+    "coverage": "新增3项：图片A→部分B returnfalse→A；图片A→部分B throw→A；文本6→部分7 throw→6。10项focused缓存场景全部通过。",
+    "independent_probes_replayed": [
+      "/workspace/cloud-reports/mobile-loading-intent-failed-promise-green.log",
+      "/workspace/cloud-reports/mobile-loading-intent-text-promise-green.log"
+    ],
+    "other_checks": [
+      "monster_intent_particle_game_ui PASS",
+      "check:architecture PASS 318 modules/1838edges",
+      "git diff --check PASS"
+    ],
+    "counts_log": "/workspace/cloud-reports/mobile-loading-diagnostic-final-v3.log",
+    "counts": "地图300idle1200 SetSizeDelta；战斗300idle text/SetImage 0，未改变actor生命周期。",
+    "review_status": "独立复审db4014c59c70e207a54ce8022176b9a1ca0c3347 PASS，两项Important均解决；报告 /workspace/cloud-reports/mobile-loading-independent-review.json。集成CI和手机实测仍待完成。"
+  }
+}

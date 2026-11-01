@@ -1,0 +1,19 @@
+{
+  "normalization": "Readable logs expand tabs to 4-column stops and remove trailing whitespace only. Deterministic gzip archives preserve the exact original failure output including whitespace; errors and stack frames remain in readable logs.",
+  "logs": [
+    {
+      "readable": "price-red.txt",
+      "rawArchive": "price-red.txt.raw.gz",
+      "rawSha256": "792a0ec4758a5da62a06917d429aa7cd1951054354c6ffa49a28ef0326d57c26",
+      "rawArchiveSha256": "f277e146e331b9cb08694ba8c1da59440ab4809be019ab1ee11bc2e7cf8854d1",
+      "readableSha256": "e27ce928332dce75bd4377d03e556c41f732ec879dedddb3b64fba771725c7e5"
+    },
+    {
+      "readable": "infeasible-grid-red.txt",
+      "rawArchive": "infeasible-grid-red.txt.raw.gz",
+      "rawSha256": "d50206c543674b6dc85368b95265905196a051731bbcb049cf2e56caf565bb81",
+      "rawArchiveSha256": "5f668e8b1baae3a01d368c92b3aef3acc910f4513db1331b5e05671477949401",
+      "readableSha256": "4353706d6b1910917571e9d993bda5b8369f55e6865ba7cee701976f3d892f5a"
+    }
+  ]
+}

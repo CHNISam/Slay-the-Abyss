@@ -1,0 +1,38 @@
+{
+  "scope": "Toxic Egg only; local production-entry components, not whole relic pool or platform acceptance",
+  "sourceBase": "cfba9b0b",
+  "businessBase": "2349400c",
+  "runtime": "Node v24.18.0, project fixed portable tool; npm ci --offline --ignore-scripts",
+  "red": [
+    {"fixture": "toxic_egg_obtain.lua", "phase": "before definition and implementation", "passed": 0, "failed": 3, "reason": "actual Run.obtainRelic returned relic_content_unavailable", "milliseconds": 1513},
+    {"fixture": "toxic_egg_obtain.lua", "phase": "current definition with actual cfba9b0b hook preloaded in build probe", "passed": 1, "failed": 2, "reason": "actual permanent Skill upgrade and onEquip upgrade false != true", "milliseconds": 1695},
+    {"fixture": "toxic_egg_eligibility.lua", "passed": 1, "failed": 2, "reason": "actual restricted initial shop and treasure allowed Egg at destination floor49", "milliseconds": 1424},
+    {"fixture": "toxic_egg_event_ui.lua", "reason": "actual oracle-seed3 Madness+ displayed cost1 instead of0", "milliseconds": 1883},
+    {"fixture": "toxic_egg_obtain.lua", "phase": "ordinary successful upgrade preview dispatch", "passed": 3, "failed": 1, "reason": "3 callback dispatches instead of source continue's2", "milliseconds": 1910}
+  ],
+  "greenObservationsDuringDevelopment": [
+    {"fixture": "toxic_egg_obtain.lua", "passed": 4, "failed": 0, "milliseconds": 1889},
+    {"fixture": "toxic_egg_battle.lua", "status": 0, "milliseconds": 2240},
+    {"fixture": "toxic_egg_rest.lua", "status": 0, "milliseconds": 1103},
+    {"fixture": "toxic_egg_shop.lua", "status": 0, "milliseconds": 1355},
+    {"fixture": "toxic_egg_events.lua", "status": 0, "milliseconds": 1399},
+    {"fixture": "toxic_egg_madness.lua", "status": 0, "milliseconds": 826},
+    {"fixture": "toxic_egg_eligibility.lua", "passed": 3, "failed": 0, "milliseconds": 1362},
+    {"fixture": "toxic_egg_ui.lua", "status": 0, "milliseconds": 2453},
+    {"fixture": "toxic_egg_event_ui.lua", "status": 0, "milliseconds": 1416},
+    {"fixture": "toxic_egg_profiles.lua", "status": 0, "milliseconds": 1960},
+    {"fixture": "toxic_egg_equip_rollback.lua", "status": 0, "milliseconds": 1170},
+    {"fixture": "act3_winding_outcomes.lua", "status": 0, "milliseconds": 3625, "scope": "original full outcomes, Toxic negative replaced by real positive; other negatives retained"},
+    {"fixture": "sensory_stone_outcomes.lua", "status": 0, "milliseconds": 4759, "scope": "original full outcomes, Toxic negative replaced by real positive; other negatives retained"}
+  ],
+  "source": {"lock": "tests/fixtures/toxic-egg-source.json", "auditedZipMembers": 7, "readonlyOracleCheck": "PASS", "jsTestsPassed": 2, "authenticatedPcBinary": "not_run"},
+  "engineering": {"architecture": {"status": "PASS", "modules": 157, "edges": 916}, "luacheck": {"status": "PASS", "version": "1.2.0", "beforeWarnings": 105, "afterWarnings": 104, "newExemptions": 0, "mapping": "docs/reviews/toxic-egg-luacheck-remap.json"}},
+  "poolAndRng": {"cardPoolProductionFileChanged": false, "completeRelicQueuesChanged": false, "ordinaryColorlessPoolSize": 35, "fullEventRelicAcquisitionSeed": "8", "eventMadnessUiOracleSeed": "3", "qualificationMaximumFloor": 48},
+  "remaining": [
+    "This is a log of targeted development runs, not a claim that a full suite ran on this containing commit. Parent final combined Quality still required.",
+    "Ordinary treasure/shop relic candidates remain their pre-existing restricted supported sets; original full distributions are not certified.",
+    "Pre-existing Dream Catcher context omits act for non-Egg random upgrade chance in Act2/3; this slice preserves existing sampling/consumption rather than expanding that fix.",
+    "Other two Eggs, Question Card, Busted Crown, Singing Bowl and all other missing relic effects remain unimplemented.",
+    "Whole natural campaign, dedicated relic art, candidate export/import and official/client/device evidence not run."
+  ]
+}

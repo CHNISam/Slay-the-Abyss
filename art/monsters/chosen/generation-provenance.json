@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "chosen",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:44:42.201Z",
+    "endUtc": "2026-10-29T20:45:48.292Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "assetRelativePath": "../taskmaster/source.png",
+      "role": "actual reviewed repaired original source painterly cloth/ceramic material handling/light only; not commander hood, square shoulders, ochre costume or weapon",
+      "actuallyPassed": true,
+      "sha256": "40baac763a8214de793e16eb89997346d59bf97b085728d089d93d5a300197e0",
+      "actualDimensions": [
+        1254,
+        1254
+      ],
+      "availability": "reference-not-included; identity retained by SHA256 and role"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 677846,
+      "sha256": "72bd1a5fa9eef60992ab0a341f8db027e9b31e1b2890cd1a43a9b188a9bc0440"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2491,
+      "sha256": "0b478f492d2de39a3cc820f6e185f52ef8c7ebfa66261e0e1864f3b133eb678d"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 9826,
+      "sha256": "6aa561417bfe4b4213652b2f6568df1ae2d38334b3dab881916fd27236217b14"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 13001,
+      "sha256": "cd4b47affd3b72aa32f5e44caddda77d690bfeb18b3c5ac1bc9aae633c80c761"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": "Original thin cursed humanoid with cracked flat full ceramic mask, short angular purple cape, exposed forearms and one horizontal open palm; no birdhead/fire/cultist bellrobe",
+  "inspection": {
+    "authorFull": "inspected",
+    "containSizes": [
+      106,
+      127
+    ],
+    "observation": "Actual full1061274x inspected: flat bonewhite cracked full mask/no beak, purple short angular cape, exposed pale forearms, one horizontal open palm, slender body and two whole feet; no fire/grey bellrobe. Alpha>16bbox(248,13,935,1241), tight13px vertical margin but whole silhouette intact; downstream inset contain if needed, never crop. Raw bytes unchanged."
+  }
+}

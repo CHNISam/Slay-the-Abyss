@@ -1,0 +1,293 @@
+-- Enemy-specific decision state; all values and intent references come from data.
+local M = {}
+local Awakened=require('abyss_awakened_one')
+local Nemesis=require('abyss_nemesis')
+local Reptomancer=require("abyss_reptomancer")
+local Darklings=require('abyss_darklings')
+local Act3Bosses=require("abyss_act3_bosses")
+local Act1Bosses=require("abyss_act1_bosses")
+local Actors = require("abyss_actor")
+local Events = require("abyss_events")
+local Guardian = require("abyss_guardian_ai")
+local JawWorm = require("abyss_jaw_worm_ai")
+local GremlinNob = require("abyss_gremlin_nob_ai")
+local BlueSlaver = require("abyss_blue_slaver_ai")
+local RedSlaver = require("abyss_red_slaver_ai")
+local AcidSlimeS = require("abyss_acid_slime_s_ai")
+local Sentry = require("abyss_sentry_ai")
+local SpikeSlimeM = require("abyss_spike_slime_m_ai")
+local AcidSlimeM = require("abyss_acid_slime_m_ai")
+local FungiBeast = require("abyss_fungi_beast_ai")
+local Louse = require("abyss_louse_ai")
+local Looter = require("abyss_looter_ai")
+local Act2 = require("abyss_act2_ai")
+local Act3 = require('abyss_act3_ai')
+local GiantHead = require('abyss_giant_head')
+local Act2Powers = require('abyss_act2_powers')
+local Act4=require('abyss_act4_enemies')
+local EventEnemies=require('abyss_event_combat_enemies')
+
+local function select(enemy, id)
+    for i, intent in ipairs(enemy.intents) do
+        if intent.id == id then enemy.intentIndex = i; return end
+    end
+    error("unknown AI intent: " .. tostring(id))
+end
+
+-- A fixed attack may still queue rollMove, consuming a primary draw even though
+-- its decision ignores the value. Source contract: TASK-15-spike-slime-s-ai.md.
+local function rollAttack(state, enemy, random)
+    random(state, enemy.ai.rollRange)
+    select(enemy, enemy.ai.attackIntent)
+end
+
+-- Constructor-only sampling must precede the next actor and all opening rolls.
+function M.prepare(state, enemy, random)
+    if Darklings.owns(enemy)then return Darklings.prepare(state,enemy,random)end
+    if Awakened.owns(enemy)then Awakened.prepare(state)end
+    if enemy.ai and enemy.ai.kind == "louse" then Louse.prepare(state, enemy, random) end
+end
+
+function M.preBattle(state, enemy, random)
+    if Act4.owns(enemy)then return Act4.preBattle(state,enemy)end
+    if Darklings.owns(enemy)then return Darklings.preBattle(Actors,state,enemy)end
+    if Awakened.owns(enemy)then return Awakened.preBattle(Actors,state,enemy)end
+    if enemy.ai and enemy.ai.kind=='giant_head' then return GiantHead.preBattle(Actors,state,enemy) end
+    if Reptomancer.owns(enemy)then return Reptomancer.preBattle(Actors,state,enemy)end
+    if enemy.ai and enemy.ai.kind=="act3_boss" then return Act3Bosses.preBattle(state,enemy) end
+    if enemy.ai and enemy.ai.kind=='jaw_worm'then return JawWorm.preBattle(state,enemy,Actors)end
+    if enemy.ai and enemy.ai.kind == 'act3' then return Act3.preBattle(state,enemy) end
+    if enemy.ai and enemy.ai.kind == 'act2' then return Act2.preBattle(state,enemy) end
+    if enemy.ai and enemy.ai.kind == "looter" then Looter.preBattle(state, enemy, Actors.applyPower) end
+    if enemy.ai and enemy.ai.kind == "louse" then Louse.preBattle(state, enemy, random, Actors.applyPower) end
+end
+
+function M.initialize(state, enemy, random)
+    if EventEnemies.owns(enemy)then return EventEnemies.initialize(state,enemy,random)end
+    if Act4.owns(enemy)then return Act4.initialize(state,enemy,random)end
+    if Darklings.owns(enemy)then return Darklings.initialize(state,enemy,random)end
+    if Awakened.owns(enemy)then return Awakened.initialize(state,enemy,random)end
+    if enemy.ai and enemy.ai.kind=='giant_head' then return GiantHead.initialize(state,enemy,random) end
+    if enemy.ai and enemy.ai.kind=='nemesis'then return Nemesis.initialize(state,enemy,random)end
+    if Reptomancer.owns(enemy)then return Reptomancer.initialize(state,enemy,random)end
+    if enemy.ai and enemy.ai.kind=="act3_boss" then return Act3Bosses.initialize(state,enemy,random) end
+    if enemy.ai and enemy.ai.kind=="act1_boss" then return Act1Bosses.initialize(state,enemy,random) end
+    if enemy.ai and enemy.ai.kind == 'act3' then return Act3.initialize(state,enemy,random) end
+    if enemy.ai and enemy.ai.kind == 'act2' then return Act2.initialize(state,enemy,random) end
+    if enemy.ai and enemy.ai.kind == "looter" then return Looter.initialize(state, enemy, random) end
+    if not enemy.ai then return end -- legacy enemies retain the declared cycle
+    if enemy.ai.kind == "rolled_attack" or enemy.ai.kind == "opening_roll_attack" then return rollAttack(state, enemy, random) end
+    if enemy.ai.kind == "shield_gremlin" then
+        random(state, enemy.ai.rollRange)
+        select(enemy, enemy.ai.protectIntent)
+        return
+    end
+    if enemy.ai.kind == "mad_gremlin" then
+        rollAttack(state, enemy, random)
+        Actors.applyPower(state, enemy, "angry", enemy.ai.angryStacks, enemy)
+        return
+    end
+    if enemy.ai.kind == "charge_then_attack" then
+        -- Wizard's inherited init rolls once although getMove fixes Charge.
+        -- Its later charge/attack transitions use SetMove, not RollMove.
+        random(state, enemy.ai.rollRange)
+        enemy.aiCharge = enemy.ai.initialCharge
+        select(enemy, enemy.ai.chargeIntent)
+        return
+    end
+    if enemy.ai.kind == "jaw_worm" then return JawWorm.initialize(state, enemy, random) end
+    if enemy.ai.kind == "gremlin_nob" then return GremlinNob.initialize(state, enemy, random) end
+    if enemy.ai.kind == "blue_slaver" then return BlueSlaver.initialize(state, enemy, random) end
+    if enemy.ai.kind == "red_slaver" then return RedSlaver.initialize(state, enemy, random) end
+    if enemy.ai.kind == "acid_slime_s" then return AcidSlimeS.initialize(state, enemy, random) end
+    if enemy.ai.kind == "sentry" then return Sentry.initialize(state, enemy, random, Actors.applyPower) end
+    if enemy.ai.kind == "spike_slime_m" or enemy.ai.kind == "spike_slime_l" then return SpikeSlimeM.initialize(state, enemy, random) end
+    if enemy.ai.kind == "acid_slime_m" or enemy.ai.kind == "acid_slime_l" then return AcidSlimeM.initialize(state, enemy, random) end
+    if enemy.ai.kind == "fungi_beast" then return FungiBeast.initialize(state, enemy, random, Actors.applyPower) end
+    if enemy.ai.kind == "louse" then return Louse.initialize(state, enemy, random) end
+    if enemy.ai.kind == "ritual_then_attack" then
+        -- Inherited init calls rollMove even though the first move is Ritual.
+        random(state, enemy.ai.rollRange)
+        enemy.aiPhase, enemy.ritualSkipRound = "opening", true
+        select(enemy, enemy.ai.ritualIntent)
+        return
+    end
+    if enemy.ai.kind == "guardian" then
+        -- Guardian inherits the opening roll, but later actions and mode
+        -- changes set moves directly and must not consume further AI draws.
+        random(state, enemy.ai.rollRange)
+        return Guardian.initialize(state, enemy)
+    end
+    assert(enemy.ai.kind == "sleep_then_cycle", "unsupported enemy AI")
+    -- Lagavulin inherits the opening roll even though getMove fixes Sleep.
+    random(state, enemy.ai.rollRange)
+    enemy.aiPhase, enemy.aiTurns, enemy.aiCycle = "sleep", 0, 1
+    select(enemy, enemy.ai.sleepIntent)
+    Actors.block(state, enemy, enemy.ai.sleepBlock, true)
+end
+
+-- Both large slimes share the source damage override, not their turn RNG policy.
+local function slimeDamaged(state, enemy)
+    if enemy.hp <= 0 or enemy.splitTriggered or enemy.hp > enemy.maxHp / enemy.ai.splitHpDivisor then return end
+    enemy.splitTriggered = true
+    select(enemy, enemy.ai.splitIntent)
+    Events.emit(state, "enemy_interrupt", {enemy=enemy.id, id=enemy.ai.splitIntent})
+end
+
+function M.hpLost(state, enemy, before, damageCall)
+    if enemy.ai and enemy.ai.kind=="act1_boss" then return Act1Bosses.hpLost(state,enemy,before,damageCall) end
+    if enemy.ai and (enemy.ai.kind == "spike_slime_l" or enemy.ai.kind == "acid_slime_l") then
+        -- The source damage override runs even on blocked/zero damage. Start
+        -- powers invoke this hook only on real HP loss, not on a plain turn.
+        if damageCall or enemy.hp < before then slimeDamaged(state, enemy) end
+        return
+    end
+    if enemy.ai and enemy.ai.kind == "guardian" then return Guardian.hpLost(state, enemy, before) end
+    if enemy.aiPhase ~= "sleep" or enemy.hp >= before or enemy.hp <= 0 then return end
+    enemy.aiPhase = "stunned"
+    select(enemy, enemy.ai.stunnedIntent)
+    Events.emit(state, "enemy_wake", { enemy = enemy.id, reason = "hp_loss" })
+end
+
+function M.advance(state, enemy, random)
+    if EventEnemies.owns(enemy)then return EventEnemies.advance(state,enemy,random)end
+    if Act4.owns(enemy)then return Act4.advance(state,enemy,random)end
+    if enemy.ai and enemy.ai.kind=='giant_head' then return GiantHead.advance(state,enemy,random) end
+    if enemy.ai and enemy.ai.kind=='nemesis'then return Nemesis.advance(state,enemy,random)end
+    if Reptomancer.owns(enemy)then return Reptomancer.advance(state,enemy,random)end
+    if enemy.ai and enemy.ai.kind == 'act3' then return Act3.advance(state,enemy,random) end
+    if enemy.ai and enemy.ai.kind == 'act2' then return Act2.advance(state,enemy,random) end
+    if not enemy.ai then
+        enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1
+    elseif enemy.ai.kind == "rolled_attack" then return rollAttack(state, enemy, random)
+    elseif enemy.ai.kind == "opening_roll_attack" or enemy.ai.kind == "mad_gremlin" then select(enemy, enemy.ai.attackIntent)
+    elseif enemy.ai.kind == "shield_gremlin" then
+        -- Protect chooses its next move from the living group. Once Bash is
+        -- selected, later actions set Bash directly and never roll again.
+        if enemy.intents[enemy.intentIndex].id == enemy.ai.protectIntent then
+            local alive = 0
+            for _, ally in ipairs(state.enemies) do if Actors.isActive(ally) then alive = alive + 1 end end
+            select(enemy, alive > 1 and enemy.ai.protectIntent or enemy.ai.attackIntent)
+        else select(enemy, enemy.ai.attackIntent) end
+    elseif enemy.ai.kind == "charge_then_attack" then
+        if enemy.intents[enemy.intentIndex].id == enemy.ai.chargeIntent then
+            enemy.aiCharge = enemy.aiCharge + 1
+        end
+        select(enemy, enemy.aiCharge == enemy.ai.chargeLimit and enemy.ai.attackIntent or enemy.ai.chargeIntent)
+    elseif enemy.ai.kind == "jaw_worm" then return JawWorm.advance(state, enemy, random)
+    elseif enemy.ai.kind == "gremlin_nob" then return GremlinNob.advance(state, enemy, random)
+    elseif enemy.ai.kind == "blue_slaver" then return BlueSlaver.advance(state, enemy, random)
+    elseif enemy.ai.kind == "red_slaver" then return RedSlaver.advance(state, enemy, random)
+    elseif enemy.ai.kind == "acid_slime_s" then return AcidSlimeS.advance(state, enemy)
+    elseif enemy.ai.kind == "sentry" then return Sentry.advance(state, enemy, random)
+    elseif enemy.ai.kind == "spike_slime_m" or enemy.ai.kind == "spike_slime_l" then return SpikeSlimeM.advance(state, enemy, random)
+    elseif enemy.ai.kind == "acid_slime_m" or enemy.ai.kind == "acid_slime_l" then return AcidSlimeM.advance(state, enemy, random)
+    elseif enemy.ai.kind == "fungi_beast" then return FungiBeast.advance(state, enemy, random)
+    elseif enemy.ai.kind == "louse" then return Louse.advance(state, enemy, random)
+    elseif enemy.ai.kind == "ritual_then_attack" then
+        -- Both Ritual and Strike enqueue RollMoveAction; its result is ignored.
+        random(state, enemy.ai.rollRange)
+        enemy.aiPhase = "attacking"
+        select(enemy, enemy.ai.attackIntent)
+    elseif enemy.ai.kind == "guardian" then return Guardian.advance(state, enemy)
+    elseif enemy.aiPhase == "sleep" then
+        enemy.aiTurns = enemy.aiTurns + 1
+        if enemy.aiTurns < enemy.ai.sleepTurns then
+            random(state, enemy.ai.rollRange)
+            Actors.block(state, enemy, enemy.ai.sleepBlock, true)
+        else
+            -- Natural third sleep uses SetMove, not RollMove.
+            enemy.aiPhase = "awake"
+            select(enemy, enemy.ai.awakeCycle[enemy.aiCycle])
+            Events.emit(state, "enemy_wake", { enemy = enemy.id, reason = "sleep_complete" })
+        end
+    elseif enemy.aiPhase == "stunned" then
+        random(state, enemy.ai.rollRange)
+        enemy.aiPhase = "awake"
+        select(enemy, enemy.ai.awakeCycle[enemy.aiCycle])
+    else
+        random(state, enemy.ai.rollRange)
+        enemy.aiCycle = enemy.aiCycle % #enemy.ai.awakeCycle + 1
+        select(enemy, enemy.ai.awakeCycle[enemy.aiCycle])
+    end
+end
+
+-- Only these source-verified policies enqueue RollMoveAction during takeTurn.
+-- That action has no owner-death guard and survives while another enemy lives.
+-- Acid S sets its next move directly instead; do not invent a queued roll.
+local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true, ritual_then_attack=true, sleep_then_cycle=true, spike_slime_m=true, spike_slime_l=true, acid_slime_m=true, acid_slime_l=true, fungi_beast=true, louse=true }
+function M.afterAction(state, enemy, random, executedIntent)
+    if EventEnemies.owns(enemy)then return EventEnemies.afterAction(state,enemy,random)end
+    if Act4.owns(enemy)then return Act4.afterAction(state,enemy,random,executedIntent)end
+    if Darklings.owns(enemy)then return Darklings.afterAction(state,enemy,random)end
+    if Awakened.owns(enemy)then return Awakened.afterAction(state,enemy,random)end
+    if enemy.ai and enemy.ai.kind=='giant_head' then return GiantHead.advance(state,enemy,random) end
+    if enemy.ai and enemy.ai.kind=='nemesis'then return Nemesis.advance(state,enemy,random)end
+    if Reptomancer.owns(enemy)then return Reptomancer.advance(state,enemy,random)end
+    if enemy.ai and enemy.ai.kind=="act3_boss" then return Act3Bosses.afterAction(state,enemy,random,executedIntent) end
+    if enemy.ai and enemy.ai.kind=="act1_boss" then return Act1Bosses.afterAction(state,enemy,random,executedIntent) end
+    if enemy.ai and enemy.ai.kind == 'act3' then return Act3.afterAction(state,enemy,random) end
+    if enemy.ai and enemy.ai.kind == 'act2' then return Act2.afterAction(state,enemy,random,executedIntent) end
+    if enemy.ai and enemy.ai.kind == "looter" then return Looter.afterAction(state, enemy) end
+    -- Acid's split queues child init only. Its ordinary attack may have been
+    -- interrupted by Thorns, so inspect the captured payload, not current intent.
+    if enemy.ai and enemy.ai.kind == "acid_slime_l" and executedIntent.kind == "split" then return end
+    if enemy.hp > 0 or (enemy.ai and queuedRoll[enemy.ai.kind]) then
+        M.advance(state, enemy, random)
+    end
+end
+
+-- Ritual's first suppression and Strength growth belong to the shared round
+-- boundary, after every living enemy's action and end-of-turn effects.
+function M.endRound(state)
+    for _, enemy in ipairs(state.enemies) do
+        if Actors.isActive(enemy) and enemy.ai and enemy.ai.kind == "ritual_then_attack" then
+            if enemy.ritualSkipRound then
+                enemy.ritualSkipRound = false
+            elseif (enemy.statuses.ritual or 0) > 0 then
+                Actors.status(state, enemy, "strength", enemy.statuses.ritual)
+            end
+        end
+    end
+end
+
+function M.cardReactions(state, card)
+    GremlinNob.beforeCard(state, card)
+    local reactions=Guardian.cardReactions(state, card)
+    if card.type~='attack' and not card.dontTriggerOnUseCard then reactions.hex=state.player.statuses.hex or 0 end
+    return reactions
+end
+
+function M.afterCard(state,reactions)
+    Act2Powers.afterCard(state,reactions,Actors)
+    Guardian.afterCard(state,reactions)
+end
+
+function M.flush(state, actingSource)
+    for _, enemy in ipairs(state.enemies) do
+        if enemy.ai and enemy.ai.kind == "guardian" then Guardian.flush(state, enemy, actingSource) end
+    end
+end
+
+function M.beforeAction(state, enemy, random, executedIntent)
+    if Awakened.owns(enemy)then return Awakened.beforeAction(enemy,executedIntent)end
+    if enemy.ai and enemy.ai.kind=="act3_boss" then return Act3Bosses.beforeAction(state,enemy,executedIntent) end
+    if enemy.ai and enemy.ai.kind=='nemesis'then return Nemesis.beforeAction(state,enemy)end
+    if enemy.ai and enemy.ai.kind=="act1_boss" then return Act1Bosses.beforeAction(state,enemy,executedIntent) end
+    if enemy.ai and enemy.ai.kind=='act3' then return Act3.beforeAction(state,enemy,random,executedIntent) end
+    if enemy.ai and enemy.ai.kind=='act2' then Act2.beforeAction(state,enemy,random,executedIntent) end
+    if enemy.ai and enemy.ai.kind == "looter" then return Looter.beforeAction(state, enemy, random, executedIntent) end
+    if enemy.ai and enemy.ai.kind == "red_slaver" then RedSlaver.beforeAction(enemy) end
+    if enemy.ai and enemy.ai.kind == "charge_then_attack" and enemy.intents[enemy.intentIndex].id == enemy.ai.attackIntent then
+        enemy.aiCharge = 0 -- Reset before damage, including lethal retaliation.
+    end
+    if enemy.ai and enemy.ai.kind == "guardian" then Guardian.beforeAction(state, enemy) end
+end
+
+function M.afterEffects(state, source)
+    if source.ai and source.ai.kind=='nemesis'then return Nemesis.afterEffects(Actors,state,source)end
+    if source.ai and source.ai.kind=="act1_boss" then return Act1Bosses.afterEffects(state,source) end
+    if source.ai and source.ai.kind == "guardian" then Guardian.afterEffects(state, source) end
+end
+
+return M

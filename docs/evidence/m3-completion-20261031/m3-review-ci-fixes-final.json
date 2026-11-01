@@ -1,0 +1,71 @@
+{
+  "verdict": "PASS",
+  "blockingFindings": [],
+  "reviewedCommit": "6b957f29944826840dc1ac6cabe374ecad8b74c1",
+  "parent": "690a4a5797a6973985f04bf2c4e8f2136b848f8e",
+  "finalCherryPick": "2f2ed4f5346cce314bfd663c789da3d5c3d588f7",
+  "scope": "12文件窄审计；只读源码，轻量定向检查，不重跑整套，不修改共享final",
+  "productionEquivalence": {
+    "choice": "独立脚本读取父/提交版本，将M.new内view还原self、buttonState还原face后与父版本逐字节相等；M.new之前的代码完全一致。方法隐式self保留，闭包仍引用原构造实例；正常receiver调用的选择/confirm/freshness/触摸token/遮罩逻辑无行为变化。",
+    "potion": "独立脚本把paintPotionContents函数体重新内联调用点后，与父版完整模块逐字节相等。保持同一face/item/tones，以及四种状态内GetChild/SetVisible/text/picture/tint调用顺序。新增trace测试实跑90组合通过。"
+  },
+  "contracts": [
+    {
+      "files": "common-relic-equipment",
+      "assessment": "强化：保留8项终标记，锚定整行，并逐项比对8个PASS标题/顺序，含receipt UID与rollback，不是减case或只改计数。"
+    },
+    {
+      "files": "lowpoly-select-flags",
+      "assessment": "旧测试把premium非selected边框当整套gold chrome，与现有rarity语义冲突。新测试覆盖5种rarity、同一个face legacy/premium/legacy切换以及false/true/false选择，明确配置reset、边框/可见frame、标题带/规则、角色标志、暗色art well，并先确保premium/legacy选中色可区分。保留语义约束；未给实现新增gold行为。"
+    },
+    {
+      "files": "native-monster-actor-template/native-ui-theme",
+      "assessment": "只允许既有生产host的精确尾层resourceHints、hp/gold及各单一focusable cursorArea，完整其他树仍deepEqual；standalone不许出现host热点；60直接子控件capacity不变。新增缺失/额外/改名/加buy/取消focusable/换层序负例。expected几何由公共theme合同推导，未从待验证实际tree复制。"
+    },
+    {
+      "files": "game_ui_potion_discard/potion_belt_ui",
+      "assessment": "按既有preview->confirm产品流程核验，保留真实买入后的金币/slot/sold断言，新增preview无扣款/无替换、cancel及旧confirm无效、重复confirm不再扣款、满槽拒绝和其他slot不变。未跳过交易。"
+    },
+    {
+      "files": "native_ui_parity",
+      "assessment": "PC继续隐藏next/previous，允许既有focus；新增实际scroll后focus归零且Run/Map/floor/currentNode不变。不是只刷新visibility expected。"
+    },
+    {
+      "files": "official_background_errors",
+      "assessment": "重开期望由1改2有独立生产合同依据：abyss_traveler_portraits.pause既有注释明确usable-only cache、failed在scene boundary release后可retry、不得逐帧retry；begin仍拒绝failed直到release。新测试仍约束每帧不重试、重开恰好一次、失败无live残留、关闭后无背景重试及后续全部engine-destroy/release失败边界。"
+    },
+    {
+      "files": "potion-shell-trace-equivalence",
+      "assessment": "新增测试采用父版原实现作独立ordered-path/write oracle，5种item×6种owner×3种palette=90组合，4种state逐项比较，异常路径/字段立即拒绝；已实跑通过。"
+    }
+  ],
+  "mergeCompatibility": {
+    "finalFilesMatch": "git diff 6b957f2 2f2ed4f -- 全12文件为空，cherry后的文件与被审提交一致。",
+    "help": "此提交不改abyss_game_ui/help合同；final仍存在exit/runMenu help隐藏及kind=help/run_help直接false的门禁。没有重启help入口。resourceHints仅HP/gold只读热点，与help门禁不同。",
+    "mapXY": "此提交不改abyss_map_ui或abyss_battle_card_view；final c6c4561的XY/横向drag取消及移动瞄准改动保留。更新native_ui_parity只验证focus恢复，不删XY acceptance或touch guards。",
+    "otherGuards": "未改CI配置、切片、timeout、source hashes、architecture门禁或变更capacity。"
+  },
+  "freshVerification": [
+    {
+      "check": "父/提交源码的choice变量规范化、potion helper内联精确还原",
+      "result": "PASS"
+    },
+    {
+      "command": "node --test tests/potion-shell-trace-equivalence.test.mjs",
+      "result": "1/1 PASS，90种原/新native调用轨迹一致"
+    },
+    {
+      "command": "node --test tests/native-ui-theme.test.mjs",
+      "result": "5/5 PASS"
+    },
+    {
+      "command": "node --test --test-name-pattern='^battle stage identity contract rejects' tests/native-monster-actor-template.test.mjs",
+      "result": "1/1 PASS，包含精确host热点及变异负例"
+    },
+    {
+      "command": "node --test --test-name-pattern='^pure UI palette preserves' tests/lowpoly-select-flags.test.mjs",
+      "result": "1/1 PASS"
+    }
+  ],
+  "limits": "未重跑整套，也未把静态等价/定向通过冒充最终所有CI、官方runtime或实体设备验证。game/potion完整既有Lua、native parity、background error完整脚本本次以源码审查为主，交由主控集中最终回归。未发现需要阻塞合并的行为回退或放宽门禁。"
+}

@@ -1,0 +1,107 @@
+{
+  "controls": 590,
+  "primitiveCounts": {
+    "ellipse": 29,
+    "triangle": 561
+  },
+  "semanticPlanes": 193,
+  "contain": {
+    "canvasInsetFractionPerSide": 0.06,
+    "extentFraction": 0.88,
+    "sourceAlphaCropped": false,
+    "groundAnchor": null,
+    "sourceComparisonResample": "Pillow affine BICUBIC at8x then LANCZOS reduce; exact6% source-space no crop",
+    "existingWholeCanvasPaddingZeroPreviewsNotReplaced": true
+  },
+  "serializationClosure": [
+    {
+      "x": 5.0886723045096005e-05,
+      "y": 5.0886723034437864e-05,
+      "width": 9.474904913986393e-05,
+      "height": 9.837836549841938e-05,
+      "rotation": 5.399854828169737e-05,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    },
+    {
+      "x": 0.0,
+      "y": 0.0,
+      "width": 0.0,
+      "height": 0.0,
+      "rotation": 0.0,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    }
+  ],
+  "strictJsonVsLiteralReplay": {
+    "106px-1x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "106px-4x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "127px-1x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "127px-4x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    }
+  },
+  "visualReview": {
+    "inspected": [
+      "actual OUR source pixels",
+      "actual archived reference pixels",
+      "actual gameplay reference",
+      "native127px4x",
+      "source/native106px1x",
+      "source/native127px1x",
+      "source/native127px4x"
+    ],
+    "identity": "OUR single orange eye in round ancient gear head; brown armor and pale chest surround; twin orange pylon caps; orange vent slots and mechanical markings; ringed forearms and massive fists; narrow waist and separated full crouched mechanical biped. No substitute stock gallery or Grader redesign.",
+    "remainingDifferences": [
+      "Flatter large planes instead of rich painterly facets",
+      "Curved armor and joints more angular",
+      "Small ancient carvings and material details simplified",
+      "No polished or pixel-identical art claim"
+    ],
+    "ownerNativeAcceptance": false,
+    "rootReview": "pending"
+  },
+  "qualityStatus": "SOURCE-RECOGNIZABLE-SIMPLIFIED-CANDIDATE-PENDING-ROOT-REVIEW; technical parity PASS; not owner native/platform/device approved",
+  "independentVerification": {
+    "identity": "ruin-guard",
+    "controls": 590,
+    "exactFields": [
+      "type",
+      "x",
+      "y",
+      "width",
+      "height",
+      "rotation",
+      "rotationX",
+      "rotationY",
+      "color",
+      "opacity",
+      "zIndex"
+    ],
+    "allFieldsEqual": true,
+    "actualPinnedRendererParity": {
+      "106": {
+        "changedPixels": 0,
+        "maxChannelDelta": 0
+      },
+      "127": {
+        "changedPixels": 0,
+        "maxChannelDelta": 0
+      }
+    },
+    "sourceHashMatches": true,
+    "galleryImages": 0,
+    "masks": 0
+  },
+  "runtimeWired": false
+}

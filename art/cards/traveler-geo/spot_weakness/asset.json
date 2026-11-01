@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "card_id": "spot_weakness",
+  "displayName": "洞察破绽",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "spot_weakness/generation-provenance.json",
+      "sha256": "32bee8cd47c1edac74da5bd4ad044a249e33d3f1f5d2d96a1381eb161fe8f61d",
+      "bytes": 2030
+    },
+    "preview-contain-144x64.png": {
+      "path": "spot_weakness/preview-contain-144x64.png",
+      "sha256": "65f95848140beeddb6255081c0fc67bd976ac6275fac335bc62628c47849f7df",
+      "bytes": 19291
+    },
+    "prompt.txt": {
+      "path": "spot_weakness/prompt.txt",
+      "sha256": "afcf391ca01af44f482b57a6456de4873f4641c56f87f8f8d88c6f47c4f8d96b",
+      "bytes": 3273
+    },
+    "source.png": {
+      "path": "spot_weakness/source.png",
+      "sha256": "bfab01457272f4a9fcd604903146f5c7f58f62d89608755f0a8447497f93b577",
+      "bytes": 2011501
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "spot_weakness",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "spotWeakness",
+        "value": 3
+      }
+    ],
+    "target": "SELF_AND_ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-14",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

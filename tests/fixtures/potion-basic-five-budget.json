@@ -1,0 +1,79 @@
+{
+  "base": "28869011c26bcead7f925e78f00dbda454daa231",
+  "originalFile": "tests/lua/potion_basic_five.lua",
+  "headerSha256LF": "d9039cd70437ac46c9e780b479dd5248fee57223b8f72406a7e7e8d714e31162",
+  "originalBodySha256LF": {
+    "production": "a87b44bd3b6c89aab2414b3b408cf8ea2603a02c0a89249ed1c5f791e3ea75a4",
+    "refusals": "cdc4634bfe1c4b9be6e964685dd7145148ce3daaf360c8cbdfb01d10d2ab2673",
+    "overflow": "986f05159ab3f479af75fedeefeba5057e48ee081fc690e1a3288d0aebed0074"
+  },
+  "originalInputs": {
+    "production": [
+      "swift_potion",
+      "weak_potion",
+      "fear_potion",
+      "ancient_potion",
+      "liquid_bronze"
+    ],
+    "refusals": [
+      "swift_potion",
+      "weak_potion",
+      "fear_potion",
+      "ancient_potion",
+      "liquid_bronze"
+    ],
+    "overflow": [
+      "ancient_potion",
+      "artifact",
+      "liquid_bronze",
+      "thorns",
+      "weak_potion",
+      "weak",
+      "fear_potion",
+      "vulnerable"
+    ]
+  },
+  "slices": [
+    {
+      "file": "potion_basic_five.lua",
+      "marker": "LUA_POTION_BASIC_FIVE_PASS",
+      "section": "production",
+      "logicalGroup": "basic-production",
+      "logicalCount": 1,
+      "count": 1
+    },
+    {
+      "file": "potion_basic_five_refusals_a.lua",
+      "marker": "LUA_POTION_BASIC_FIVE_REFUSALS_A_PASS",
+      "section": "refusals",
+      "logicalGroup": "basic-refusals",
+      "logicalCount": 1,
+      "count": 1
+    },
+    {
+      "file": "potion_basic_five_refusals_b.lua",
+      "marker": "LUA_POTION_BASIC_FIVE_REFUSALS_B_PASS",
+      "section": "refusals",
+      "logicalGroup": "basic-refusals",
+      "logicalCount": 1,
+      "count": 1
+    },
+    {
+      "file": "potion_basic_five_overflow.lua",
+      "marker": "LUA_POTION_BASIC_FIVE_OVERFLOW_PASS",
+      "section": "overflow",
+      "logicalGroup": "basic-refusals",
+      "logicalCount": 1,
+      "count": 1
+    }
+  ],
+  "unchangedSha256LF": {
+    "tests/lua/potion_basic_five_draw.lua": "4bcf735c58fd8a493a50e3a05b00293213a1b1042b332df30d6b6b86d3733468",
+    "tests/lua/potion_basic_five_status.lua": "06ef74a6a1d8e75ecdf74fdeaccc54348efbcd0f0b38c83bd832c12ee0f2ea74",
+    "tests/lua/potion_basic_five_acquisition.lua": "da0816c93622ecd23be6451ba78128b0fad23fa3318b1b7e0fce8eb4970ae42c",
+    "tests/lua/support/potion_basic_five_fixture.lua": "35676b2a2063bc69bc6104487b09ff97f760a924625a0ae6a668feb5fbdc6938"
+  },
+  "originalLogicalGroups": 11,
+  "originalAcquisitionGroups": 1,
+  "defaultLuaTimeoutMilliseconds": 30000
+}

@@ -1,0 +1,230 @@
+{
+  "runtimeSource": "0982b39451af00f2a19d27dbc503a0b6e4695ac5",
+  "driverSource": "4010d04",
+  "candidateSha256": "5a8f78e436db6f8666d65844042f881881c6430d59f636c7a45e8b91a0f0ae67",
+  "kind": "normal-rule public-command autoplay, explicit initial seed42; no inventory/HP/gold/navigation fixture",
+  "officialSave": "1073741861",
+  "sourcePreflight": "official-client-autoplay-4010-before-play.json:62/62 before play",
+  "runId": "8922e9e8-0d1f-4e75-b86d-cf58225a1278",
+  "clientScriptLogRequested": true,
+  "printCount": 5481,
+  "statusPrintsTruncated": true,
+  "boundary": "Full raw GIA preserved; complete untruncated action/stop/ledger/deck prefix responses preserved separately. Commands certify controller execution, not physical touch.",
+  "expectations": {
+    "passed": false,
+    "met": 7,
+    "of": 8,
+    "firstNotMet": {
+      "expect": "print \"ABYSS_UI settlement_requested victory\"",
+      "met": false,
+      "found": "never printed",
+      "after": [
+        "2: ABYSS_RUN seed=42 source=explicit",
+        "2: ABYSS_AUDIO prologue_rumble id=40224 instance=1272",
+        "2: M2_ACTION {\"action\":\"start\",\"configuredSeed\":42,\"details\":{\"testConfigurationSeed\":42},\"index\":1,\"mode\":\"menu\",\"ok\":true",
+        "2: M2_LEDGER_DECK {\"configuredSeed\":42,\"event\":\"after_start\",\"first\":1,\"items\":[{\"cardId\":\"strike\",\"uid\":1,\"upgraded\":false",
+        "2: M2_LEDGER_DECK {\"configuredSeed\":42,\"event\":\"after_start\",\"first\":6,\"items\":[{\"cardId\":\"defend\",\"uid\":6,\"upgraded\":false"
+      ]
+    },
+    "results": [
+      {
+        "expect": "print \"ABYSS_UI ready\"",
+        "met": true,
+        "t": 2
+      },
+      {
+        "expect": "print \"M2_DRIVER_READY\"",
+        "met": true,
+        "t": 2
+      },
+      {
+        "expect": "print \"ABYSS_RUN seed=42\"",
+        "met": true,
+        "t": 2
+      },
+      {
+        "expect": "print \"ABYSS_UI settlement_requested victory\"",
+        "met": false,
+        "found": "never printed",
+        "after": [
+          "2: ABYSS_RUN seed=42 source=explicit",
+          "2: ABYSS_AUDIO prologue_rumble id=40224 instance=1272",
+          "2: M2_ACTION {\"action\":\"start\",\"configuredSeed\":42,\"details\":{\"testConfigurationSeed\":42},\"index\":1,\"mode\":\"menu\",\"ok\":true",
+          "2: M2_LEDGER_DECK {\"configuredSeed\":42,\"event\":\"after_start\",\"first\":1,\"items\":[{\"cardId\":\"strike\",\"uid\":1,\"upgraded\":false",
+          "2: M2_LEDGER_DECK {\"configuredSeed\":42,\"event\":\"after_start\",\"first\":6,\"items\":[{\"cardId\":\"defend\",\"uid\":6,\"upgraded\":false"
+        ]
+      },
+      {
+        "expect": "no print \"ABYSS_UI failed\"",
+        "met": true
+      },
+      {
+        "expect": "no print \"ABYSS_UI boot_failed\"",
+        "met": true
+      },
+      {
+        "expect": "no print \"ABYSS_W75_FIXTURE\"",
+        "met": true
+      },
+      {
+        "expect": "no fault in a client script",
+        "met": true
+      }
+    ],
+    "note": "Not everything expected was printed. The screenshots still have to be looked at for what a print cannot say."
+  },
+  "actionCount": 354,
+  "allCommandsAccepted": true,
+  "stop": {
+    "floor": 16,
+    "phase": "defeat",
+    "reason": "normal_run_defeat",
+    "seed": 42,
+    "time": 570.91800000002
+  },
+  "lastLedger": {
+    "actions": 354,
+    "combat": {
+      "block": 0.0,
+      "energy": 0.0,
+      "hp": 0.0,
+      "phase": "defeat",
+      "turn": 14
+    },
+    "configuredSeed": 42,
+    "elapsedSeconds": 338.11999999999,
+    "event": "stopped",
+    "floor": 16,
+    "gold": 133.0,
+    "hp": 0.0,
+    "mapFloor": 16,
+    "maxHp": 80,
+    "mode": "defeat",
+    "nextDeckUid": 20,
+    "node": {
+      "complete": false,
+      "id": "f16_l4",
+      "type": "boss"
+    },
+    "phase": "defeat",
+    "record": 372,
+    "seed": 22539,
+    "time": 570.91800000002,
+    "victories": 8
+  },
+  "actualOutcome": "Defeat floor16/17, eight victories, HP0/80, gold133, deck18; manually confirmed ordinary defeat settlement. No completed-run claim.",
+  "playedCardIds": [
+    "bash",
+    "cleave",
+    "defend",
+    "feel_no_pain",
+    "flame_barrier",
+    "hemokinesis",
+    "iron_wave",
+    "pommel_strike",
+    "shrug_it_off",
+    "strike",
+    "true_grit",
+    "whirlwind"
+  ],
+  "acquiredCardIds": [
+    "bash",
+    "cleave",
+    "defend",
+    "feel_no_pain",
+    "flame_barrier",
+    "hemokinesis",
+    "iron_wave",
+    "pommel_strike",
+    "shrug_it_off",
+    "strike",
+    "true_grit",
+    "whirlwind"
+  ],
+  "manualInputs": [
+    "skip/finish prologue",
+    "ordinary defeat End and Settle after driver stopped"
+  ],
+  "diagnosis": "Test policy never used its three legally obtained potions. Next driver adds public BattleUI bottle use; product data/rules unchanged.",
+  "strictAcceptance": "pending",
+  "files": [
+    {
+      "path": "autoplay-4010d04-actions.json.gz",
+      "sha256": "97600ce80a8b6219cda166d44862ed39dbbe7cd0ceebeac24de45af681020de7",
+      "bytes": 17043,
+      "originalSha256": "7c6264feb18509b3fedfcaa037e61295b9b433b2be70260149cebeeb4745caac"
+    },
+    {
+      "path": "autoplay-4010d04-stop.json.gz",
+      "sha256": "91b20958dc1f24f56cbc257ef23d5f2df401a2ff6868114e87acf7b00d6d251e",
+      "bytes": 2413,
+      "originalSha256": "afd3b63afbccf831863fc53dbffa6cb1dff0a17cc2ff6efd445c7fc4a920532d"
+    },
+    {
+      "path": "autoplay-4010d04-ledger.json.gz",
+      "sha256": "0d30661c5ddc864d08056fa3ba0257affeeda8a821e64701829606ae78f1d200",
+      "bytes": 23143,
+      "originalSha256": "45f30dad6d54ac79fd4da246918261b904e3ea6e685daa83d919a9c64bd9fe2c"
+    },
+    {
+      "path": "autoplay-4010d04-deck.json.gz",
+      "sha256": "6230e65b59ff7e88424a996f9d1b14e2f865de23cc4c98079935d6e23869d944",
+      "bytes": 22708,
+      "originalSha256": "58930ed6d2099491fcb02770edf15941370e066ddf18bd723b081a292bc7305f"
+    },
+    {
+      "path": "autoplay-4010d04-defeat-status.json.gz",
+      "sha256": "54ec888ad6cec31ac39830f33a7590f9e0b8be21c5a78f9d115450765921b198",
+      "bytes": 55543,
+      "originalSha256": "709de652934fb624fae02298f0136514ae528368554333dc9a4ed598865d907b"
+    },
+    {
+      "path": "autoplay-4010d04-defeat-log.gia.gz",
+      "sha256": "167f4a53ef5d01c92c85229794ecc24fe97bf538faf4c071c3ba2445ba34685c",
+      "bytes": 86836,
+      "originalSha256": "a6aa690005703be02b06fc0473e428036e219a379795bf2085358218ba8b496d"
+    },
+    {
+      "path": "screens/autoplay-4010d04-209-autoplay-enrage-focus-1.png",
+      "sha256": "bb5f73613c398188c29891b29d1e3b40f7195734a437118dba0b4b6fe9d31141",
+      "bytes": 252474,
+      "originalSha256": "bb5f73613c398188c29891b29d1e3b40f7195734a437118dba0b4b6fe9d31141"
+    },
+    {
+      "path": "screens/autoplay-4010d04-211-autoplay-enrage-progress-1.png",
+      "sha256": "0d5f498c1a5b9ef29269de0e76acc4b77c0ee6e2d146117eec18c3f5d1654ae3",
+      "bytes": 225074,
+      "originalSha256": "0d5f498c1a5b9ef29269de0e76acc4b77c0ee6e2d146117eec18c3f5d1654ae3"
+    },
+    {
+      "path": "screens/autoplay-4010d04-212-autoplay-enrage-progress-1.png",
+      "sha256": "dd6d4fb7b1debe8d2fc720989daceae99a78c37f6add081122d718e5ea5b5568",
+      "bytes": 298070,
+      "originalSha256": "dd6d4fb7b1debe8d2fc720989daceae99a78c37f6add081122d718e5ea5b5568"
+    },
+    {
+      "path": "screens/autoplay-4010d04-213-autoplay-enrage-progress-1.png",
+      "sha256": "c7e9828cc24c3fe9a983b6c5aa86835ce5dfca523a00ac31f58241ce959736af",
+      "bytes": 270971,
+      "originalSha256": "c7e9828cc24c3fe9a983b6c5aa86835ce5dfca523a00ac31f58241ce959736af"
+    },
+    {
+      "path": "screens/autoplay-4010d04-215-autoplay-enrage-focus-1.png",
+      "sha256": "03d2e07cf63650d16a40de847e709010f646d59fc0a75253fdc39759ddef51bd",
+      "bytes": 314934,
+      "originalSha256": "03d2e07cf63650d16a40de847e709010f646d59fc0a75253fdc39759ddef51bd"
+    },
+    {
+      "path": "screens/autoplay-4010d04-216-autoplay-enrage-settle-defeat-1.png",
+      "sha256": "0898e149deb81bec4d0809f335861a6650025d050acb6b29bd52b4ba303d0085",
+      "bytes": 300849,
+      "originalSha256": "0898e149deb81bec4d0809f335861a6650025d050acb6b29bd52b4ba303d0085"
+    },
+    {
+      "path": "official-client-autoplay-4010-before-play.json",
+      "sha256": "86de947fd4b4685ee2bfccb67632112648b72a6958a5a7882c4f55f66d28b62f",
+      "bytes": 36801,
+      "originalSha256": "86de947fd4b4685ee2bfccb67632112648b72a6958a5a7882c4f55f66d28b62f"
+    }
+  ]
+}

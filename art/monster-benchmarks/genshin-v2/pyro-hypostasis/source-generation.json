@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "identity": "pyro-hypostasis",
+  "provenanceType": "Sanitized original retained generation record; no new generation or altered source",
+  "originalRecordSha256": "0f8e4dc1719420b70f84ad6c3bc22da81efa98394956e0ca7dd8fa85fe222f58",
+  "exactPromptFiles": {
+    "prompt.txt": {
+      "sha256": "6ac3fb7f7ec5c10a6d5b253eb4714ec5d5faa61c0439fd41f4e03759e9beb3f1",
+      "bytes": 2084,
+      "textUnmodified": true
+    }
+  },
+  "originalGenerationRecord": {
+    "asset": "pyro-hypostasis",
+    "chinese_name": "无相之火",
+    "generation_mode": "built-in image_gen imagegen only",
+    "generation_calls": 1,
+    "repairs": 0,
+    "source_is_unchanged_raw": true,
+    "model": "unknown (not exposed by built-in tool)",
+    "seed": "unknown (not exposed by built-in tool)",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "aspect_ratio": "1254:1254",
+    "mode": "RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "alpha_bbox_any": [
+      57,
+      58,
+      1196,
+      1172
+    ],
+    "alpha_bbox_128": [
+      111,
+      61,
+      1184,
+      1131
+    ],
+    "alpha_zero_pixels": 570993,
+    "alpha_nonzero_pixels": 1001523,
+    "reference_urls": {
+      "page": "https://gi.yatta.moe/en/archive/monster/20040601/pyro-hypostasis",
+      "archive_api": "https://gi.yatta.moe/api/v2/en/monster",
+      "archive_image": "https://gi.yatta.moe/assets/UI/monster/UI_MonsterIcon_Effigy_Fire.png",
+      "gameplay_page": "https://www.gamerbraves.com/guide-genshin-impact-core-of-the-apparatus/",
+      "gameplay_image": "https://gamerbraves.sgp1.cdn.digitaloceanspaces.com/2022/06/3.-genshin-core-cube.jpg",
+      "archive_name_verified": "Pyro Hypostasis",
+      "archive_id": "20040601",
+      "archive_icon_sha256": "0e28d5b11d77e1af707192cf8dea7778b134ebfbb79f37aefb6ee5e6a7a2cb68",
+      "gameplay_sha256": "d2becdc3171ebf8f1e0dc849e085b7d8606fa1ecfbe6f4b229d5f881f8bdf1e7"
+    },
+    "style_references": [
+      "../../stonehide-lawachurl-sample.png",
+      "../../dendro-slime-sample.png"
+    ],
+    "previews": "Alpha-bbox crop, aspect-preserving contain in 88% of square (6% transparent margin each side), no edit to source. 106,127,173 actual pixels and nearest 4x.",
+    "status": "source candidate only, native conversion pending; no Owner/runtime/device acceptance claim",
+    "style_reference_sha256": {
+      "stonehide-lawachurl-sample.png": "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40",
+      "dendro-slime-sample.png": "f6ed0bc296c82912fb8720b7e2b8827b6e217f70ae1119d3138937c5f77442ba"
+    },
+    "raw_source_sha256": "fe8be2360fe2c35f78883214f00463bed1acfbb43f62eb68caa8c9c6c79b963a"
+  },
+  "sanitization": "Private working paths and generated output locations removed or replaced by leaf filename; prompts preserved byte-for-byte. No reference pixels included; metadata does not imply redistribution rights.",
+  "approvalBoundary": "Historical source/native approval values retain their original meaning; not current device or final-art acceptance"
+}

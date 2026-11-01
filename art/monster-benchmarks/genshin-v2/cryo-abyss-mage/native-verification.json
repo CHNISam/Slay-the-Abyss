@@ -1,0 +1,110 @@
+{
+  "controls": 599,
+  "primitiveCounts": {
+    "ellipse": 4,
+    "triangle": 595
+  },
+  "semanticPlanes": 91,
+  "contain": {
+    "canvasInsetFractionPerSide": 0.06,
+    "extentFraction": 0.88,
+    "sourceAlphaCropped": false,
+    "groundAnchor": null,
+    "sourceComparisonResample": "Pillow affine BICUBIC at8x then LANCZOS reduce; exact6% source-space no crop",
+    "existingWholeCanvasPaddingZeroPreviewsNotReplaced": true
+  },
+  "serializationClosure": [
+    {
+      "x": 4.989490174978073e-05,
+      "y": 4.98949017426753e-05,
+      "width": 9.1253247177292e-05,
+      "height": 8.081352501587702e-05,
+      "rotation": 5.445922300850725e-05,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    },
+    {
+      "x": 0.0,
+      "y": 0.0,
+      "width": 0.0,
+      "height": 0.0,
+      "rotation": 0.0,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    }
+  ],
+  "strictJsonVsLiteralReplay": {
+    "106px-1x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "106px-4x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "127px-1x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "127px-4x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    }
+  },
+  "exactFieldParityFromActualStrippedLua": {
+    "x": true,
+    "y": true,
+    "width": true,
+    "height": true,
+    "rotation": true,
+    "rotationX": true,
+    "rotationY": true,
+    "color": true,
+    "opacity": true,
+    "zIndex": true,
+    "type": true,
+    "luaMask": true
+  },
+  "luaOptionalSnapshot": {
+    "rawExportSha256": "6c451367f5047fb82bb2f252546c8c5240996bde5353be9c789061f0c5164afd",
+    "rawExportBytes": 467109,
+    "removedBytes": 349195,
+    "runtimeLiteralUnchanged": true
+  },
+  "runtimeIntegrationContract": {
+    "canvas": [
+      106,
+      106
+    ],
+    "requiresXYZRotation": true,
+    "preserveRGBA": true,
+    "requiresSourceOverZIndexOrder": true,
+    "nativePrimitivesOnly": true,
+    "noGalleryMonsterImage": true,
+    "actualBinding": "not implemented; private art task only"
+  },
+  "preservedEvidenceNote": "Selected fields from the original hash-identified report; original parity evidence is not new source-pixel equivalence. No claim that the simplified native scene is pixel-identical to source.",
+  "independentVerification": {
+    "pinnedReaderParse": true,
+    "jsonLuaExactFields": [
+      "type",
+      "x",
+      "y",
+      "width",
+      "height",
+      "rotation",
+      "rotationX",
+      "rotationY",
+      "color",
+      "opacity",
+      "zIndex"
+    ],
+    "canvas": [
+      106,
+      106
+    ],
+    "galleryImages": 0,
+    "textboxes": 0
+  },
+  "originalNativeReportSha256": "6199be7b54eb3095529c1d4c8099238d0477dd0b781a8837c9da8b5f53ef270d"
+}

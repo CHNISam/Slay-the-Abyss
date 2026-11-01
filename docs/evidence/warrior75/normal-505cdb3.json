@@ -1,0 +1,181 @@
+{
+  "sourceCommit": "505cdb35f59bfd44f4497b61a543c30653ad1512",
+  "kind": "normal runtime, real pointer input, clock seed65477, no inventory/HP/navigation fixtures",
+  "candidateSha256": "779a6e933fb28d66e349ea3e9d487fe7905e9b5c8c847ee8ad577ff22b2effbd",
+  "officialSave": "1073741857",
+  "sourcePreflight": "official-client-normal-505cdb3-before-play.json",
+  "runId": "37098b3e-6124-43f3-bcda-5f6f013e4574",
+  "clientScriptLogRequested": true,
+  "printCount": 125,
+  "automatedExpectations": {
+    "passed": false,
+    "met": 7,
+    "of": 8,
+    "firstNotMet": {
+      "expect": "print \"ABYSS_FEEDBACK enemy_attack\"",
+      "met": false,
+      "found": "never printed",
+      "after": [
+        "133: ABYSS_FEEDBACK play source=- target=1 amount=0",
+        "133: ABYSS_AUDIO player_action id=40313 instance=1032",
+        "133: ABYSS_FEEDBACK damage source=player target=acid_slime_s_1 amount=6",
+        "133: ABYSS_AUDIO hit id=40106 instance=1033",
+        "163: ABYSS_FEEDBACK play source=- target=1 amount=0"
+      ]
+    },
+    "results": [
+      {
+        "expect": "print \"ABYSS_UI ready\"",
+        "met": true,
+        "t": 1
+      },
+      {
+        "expect": "print \"ABYSS_RUN seed=\"",
+        "met": true,
+        "t": 38
+      },
+      {
+        "expect": "print \"ABYSS_FEEDBACK play\"",
+        "met": true,
+        "t": 133
+      },
+      {
+        "expect": "print \"ABYSS_FEEDBACK enemy_attack\"",
+        "met": false,
+        "found": "never printed",
+        "after": [
+          "133: ABYSS_FEEDBACK play source=- target=1 amount=0",
+          "133: ABYSS_AUDIO player_action id=40313 instance=1032",
+          "133: ABYSS_FEEDBACK damage source=player target=acid_slime_s_1 amount=6",
+          "133: ABYSS_AUDIO hit id=40106 instance=1033",
+          "163: ABYSS_FEEDBACK play source=- target=1 amount=0"
+        ]
+      },
+      {
+        "expect": "no print \"ABYSS_UI failed\"",
+        "met": true
+      },
+      {
+        "expect": "no print \"ABYSS_UI boot_failed\"",
+        "met": true
+      },
+      {
+        "expect": "no print \"ABYSS_W75_FIXTURE\"",
+        "met": true
+      },
+      {
+        "expect": "no fault in a client script",
+        "met": true
+      }
+    ],
+    "note": "Not everything expected was printed. The screenshots still have to be looked at for what a print cannot say."
+  },
+  "automatedFailure": "expected nonexistent feedback name enemy_attack; actual emitted name enemy_turn. Original failure7/8 retained. No client script fault was found by the runner.",
+  "observations": [
+    "First normal battle: Acid Slime S9 + Spike Slime M29, natural A0 HP/AI; Strike6, Bash8/Vulnerable2, Strike9; Defend5, one enemy attack dealt3 HP after Block5.",
+    "Played actual generated Slimed: energy3->2 and exhaust count0->1.",
+    "First victory healed77->80, manually claimed14 gold99->113, naturally offered Iron Wave / Thunderclap / Power Through; claimed Power Through, permanent deck10->11.",
+    "Floor2 legal shop purchases Armaments49 then Iron Wave52, gold113->64->12, deck11->12->13. No Debug funding.",
+    "Floor3 Jaw Worm41: natural Power Through draw/play, two Wound created in hand before Block15, paid1 energy; Iron Wave Block5 then damage7 against Vulnerable.",
+    "Natural Armaments draw/play: Block5 then real modal selects one Strike, becomes9 damage; Strike+ against Vulnerable dealt13, absorbed6 Block then lost7 HP."
+  ],
+  "limits": [
+    "900-second runner ended during second battle, before its victory; no 17-floor clear claim.",
+    "Base Power Through/Armaments/Iron Wave and Strike+ observed only; no all75 natural acquisition claim.",
+    "Colorless shop unavailable slots remain a separate source-pool gap; no whole-shop acceptance.",
+    "505 evidence predates Anger/DualWield stat-copy correction098 and cannot certify newer runtime."
+  ],
+  "strictAcceptance": "pending",
+  "files": [
+    {
+      "path": "normal-505cdb3-status.json.gz",
+      "sha256": "9e13b6949d941bf41fb0bb18a09bbc5dd6d5d7ebef0b37bb3604d59eecabaeda",
+      "bytes": 4046,
+      "originalSha256": "7e15f5eaef54d58efcf521de9eeb3675077e2b5e51e6e04c6c65f80fc7e4a08e"
+    },
+    {
+      "path": "normal-505cdb3-log.gia.gz",
+      "sha256": "e3ee420b6f8a03bd1a5101107049ee0b0b98e37012de0ad6b080378b16dff0fa",
+      "bytes": 1682,
+      "originalSha256": "3d44410f70f11886cb5e0fe533ee4ff4434ed376ed0545f268b1e5f2359826ce"
+    },
+    {
+      "path": "screens/normal-505cdb3-107-normal505-first-node-1.png",
+      "sha256": "8b1ce68571f6098e6779883237c9ca6cd629ff68dcc2931623fe77abd1f8d495",
+      "bytes": 275926,
+      "originalSha256": "8b1ce68571f6098e6779883237c9ca6cd629ff68dcc2931623fe77abd1f8d495"
+    },
+    {
+      "path": "screens/normal-505cdb3-123-normal505-exhaust-slimed-1.png",
+      "sha256": "18b451473a77cf4e469f6f1ef842bb63b94f5c98223e78e4f1fd6e3486e9b6dd",
+      "bytes": 229672,
+      "originalSha256": "18b451473a77cf4e469f6f1ef842bb63b94f5c98223e78e4f1fd6e3486e9b6dd"
+    },
+    {
+      "path": "screens/normal-505cdb3-128-normal505-reward-1.png",
+      "sha256": "cf07ae04d5ee38dc9eec510600c076766adb58293773f67632c080652ae9685d",
+      "bytes": 90149,
+      "originalSha256": "cf07ae04d5ee38dc9eec510600c076766adb58293773f67632c080652ae9685d"
+    },
+    {
+      "path": "screens/normal-505cdb3-130-normal505-card-offer-1.png",
+      "sha256": "f3af5ec02e7514361d7b5ca4282d6d1d467c871dead66a212c79a1ac2975ca0f",
+      "bytes": 192051,
+      "originalSha256": "f3af5ec02e7514361d7b5ca4282d6d1d467c871dead66a212c79a1ac2975ca0f"
+    },
+    {
+      "path": "screens/normal-505cdb3-131-normal505-take-power-1.png",
+      "sha256": "3e69e2204e298dbd77efee558d5680cc09010b6f473c5227b11336efe78acd09",
+      "bytes": 72575,
+      "originalSha256": "3e69e2204e298dbd77efee558d5680cc09010b6f473c5227b11336efe78acd09"
+    },
+    {
+      "path": "screens/normal-505cdb3-134-normal505-buy-armaments-1.png",
+      "sha256": "5d5f574b746d0b1799d808b78fc6228708c2a3037165d74cbb5865fe7e88dcdf",
+      "bytes": 378043,
+      "originalSha256": "5d5f574b746d0b1799d808b78fc6228708c2a3037165d74cbb5865fe7e88dcdf"
+    },
+    {
+      "path": "screens/normal-505cdb3-135-normal505-buy-wave-1.png",
+      "sha256": "5b04f58546bf77efaeb0a22872a0b3b3402d93d1e2edd8b78ff256d75440a5f6",
+      "bytes": 350176,
+      "originalSha256": "5b04f58546bf77efaeb0a22872a0b3b3402d93d1e2edd8b78ff256d75440a5f6"
+    },
+    {
+      "path": "screens/normal-505cdb3-138-normal505-next-battle-1.png",
+      "sha256": "6e56fac6e383ecae147563a8c3b81b2cd8e80c08ba8ee08d2629e1900cdd3920",
+      "bytes": 258105,
+      "originalSha256": "6e56fac6e383ecae147563a8c3b81b2cd8e80c08ba8ee08d2629e1900cdd3920"
+    },
+    {
+      "path": "screens/normal-505cdb3-140-normal505-wounds-block-1.png",
+      "sha256": "8a5d0452fc64b69012a3978effe75007bc198e1506014c42654f36da77f46e0a",
+      "bytes": 262723,
+      "originalSha256": "8a5d0452fc64b69012a3978effe75007bc198e1506014c42654f36da77f46e0a"
+    },
+    {
+      "path": "screens/normal-505cdb3-150-normal505-wavehit-1.png",
+      "sha256": "3770f2dad853f70e75b3e141789aabce0e86035fa05c6860c67904b88ecd2a6e",
+      "bytes": 186129,
+      "originalSha256": "3770f2dad853f70e75b3e141789aabce0e86035fa05c6860c67904b88ecd2a6e"
+    },
+    {
+      "path": "screens/normal-505cdb3-155-normal505-armaments-modal-1.png",
+      "sha256": "99a89c080c1cada32b06e3796270e14f19e77fc62c3e7676d3369ae227c8e778",
+      "bytes": 178231,
+      "originalSha256": "99a89c080c1cada32b06e3796270e14f19e77fc62c3e7676d3369ae227c8e778"
+    },
+    {
+      "path": "screens/normal-505cdb3-156-normal505-upgrade-strike-1.png",
+      "sha256": "c4975b4f2a16499b590432382d15de96c4fd17aefaa322f1d650da9b1fed4c0d",
+      "bytes": 237155,
+      "originalSha256": "c4975b4f2a16499b590432382d15de96c4fd17aefaa322f1d650da9b1fed4c0d"
+    },
+    {
+      "path": "screens/normal-505cdb3-158-normal505-strike-plus-hit-1.png",
+      "sha256": "f066e0a571465af9310a8a62c9565e265faebfd91f3636c5a0a43a2b7348989e",
+      "bytes": 192981,
+      "originalSha256": "f066e0a571465af9310a8a62c9565e265faebfd91f3636c5a0a43a2b7348989e"
+    }
+  ]
+}

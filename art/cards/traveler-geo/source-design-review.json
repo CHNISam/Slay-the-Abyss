@@ -1,0 +1,763 @@
+{
+  "reviewScope": "Independent source-design candidate visual review only; not Owner approval, native redraw, runtime or device acceptance",
+  "reviewer": "independent-source-design-reviewer",
+  "reviewedAtUtc": "2026-10-29T19:20:56Z",
+  "method": "Viewed actual full PNG and actual 144x64 preview for each entry; checked data/cards.json and data/presentation/traveler.zh-CN.json; compared approved armaments/cleave/heavy_blade source standard and prior batch compositions.",
+  "records": [
+    {
+      "cardId": "strike",
+      "verdict": "PASS",
+      "sourceSha256": "a7dc3facc320b1c5b36d3d220e33b4ace98ea441d46d4023c0a7c538a18679aa",
+      "previewSha256": "5e3719be1b7063d07266c7dcdd1a5af5e864d6565fbfef88959bb24a7b723118",
+      "previewPath": "art/cards/traveler-geo/strike/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Single horizontal point hit; specific Lumine waist/skirt identity. Hilt outside/behind crop, not visibly detached."
+    },
+    {
+      "cardId": "defend",
+      "verdict": "PASS",
+      "sourceSha256": "5e21b58bb6841348a25411d387cc1128823ad653b7860988aab6cceb75dcfc87",
+      "previewSha256": "17fe7fb60350f06ce623dd4e4efb076c42f51ca0a601367e12b299f92d8b8dfe",
+      "previewPath": "art/cards/traveler-geo/defend/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Connected grip and held guard; defensive self-only posture with recognizable costume."
+    },
+    {
+      "cardId": "bash",
+      "verdict": "PASS",
+      "sourceSha256": "022f81c8375e8886956332de56b1c63b0284b83c63217377f71e349de4ddae22",
+      "previewSha256": "f5fd729de1601a4e5b0a45cbd74385c12479489618e6d93aa0a7f52b5ee1f9cb",
+      "previewPath": "art/cards/traveler-geo/bash/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Reviewed repaired overhead edge-hit opening armor, not old strike duplicate; head/flower/back outfit identity."
+    },
+    {
+      "cardId": "anger",
+      "verdict": "PASS",
+      "sourceSha256": "e83ec7a32c82c2e48a23081f6dd861dc4bc6713151fba792eb890078b2e44427",
+      "previewSha256": "8c5a46c38e931276eb674134e6af63300b0211b00e52717ca7b656d9f49a3afb",
+      "previewPath": "art/cards/traveler-geo/anger/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Forward single sword strike; Lumine face/flowers/outfit; discard-copy mechanic need not mean extra combat hits."
+    },
+    {
+      "cardId": "body_slam",
+      "verdict": "PASS",
+      "sourceSha256": "3fcf03ef72dc63be51204fd4e151512ec74e2d235beb77c7f348361c06acc39f",
+      "previewSha256": "ad3dd01d29c8f95df96ab347da35b52643f9bdbe04ce1a5ce9499c099ef23a64",
+      "previewPath": "art/cards/traveler-geo/body_slam/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Distinct close forearm/body counter with coherent contact on one opponent; block scaling left to text."
+    },
+    {
+      "cardId": "clash",
+      "verdict": "PASS",
+      "sourceSha256": "a58a66442d3df85876e16eafd3b27b73bfe8c687d4b41a806ddc76769da6c6d2",
+      "previewSha256": "9b530229dd824e5f141a54375d294163939a289baa9d10d3f6a172f31cea58ef",
+      "previewPath": "art/cards/traveler-geo/clash/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Full-body committed side-view lunge into one slime; coherent grip/blade and distinct framing."
+    },
+    {
+      "cardId": "clothesline",
+      "verdict": "PASS",
+      "sourceSha256": "a434c61705587c8bbaab5110e7c81c6c271ee65a75eea5cccf45c85975fbec5d",
+      "previewSha256": "ad7da5807c3470316d220f7ef4310ee82fca425ee09392c1176bc0eb81d93b2f",
+      "previewPath": "art/cards/traveler-geo/clothesline/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Blade presses armed forearm, suppressing one enemy attack; both weapon connections readable."
+    },
+    {
+      "cardId": "flex",
+      "verdict": "PASS",
+      "sourceSha256": "e717d5a2a47bd5efc32fc61d55e1bd98de335154ce932351764c679d3dae21c6",
+      "previewSha256": "52a6ddf6feb4ea2225925f217ff5027d199015ecfb75e410390c393db8c2fbf1",
+      "previewPath": "art/cards/traveler-geo/flex/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Self-only coiled preparation, clenched hand and lowered sword; plausible blade occlusion behind skirt."
+    },
+    {
+      "cardId": "havoc",
+      "verdict": "PASS",
+      "sourceSha256": "a094433a8272a6517b6f928246cc4bf67800bc5a19fb8d319b94eb192994899d",
+      "previewSha256": "2ec7018b784bda953898f7e54acc99dc8334ac88358e23bae63d7da079344e71",
+      "previewPath": "art/cards/traveler-geo/havoc/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "High-angle stance change with coherent held sword; no fabricated guaranteed attack outcome."
+    },
+    {
+      "cardId": "headbutt",
+      "verdict": "PASS",
+      "sourceSha256": "8e59ccd99b01ce71535a7db5a219cebb9831a8610e9b5133e7cd7221aa450572",
+      "previewSha256": "26d0c8d272fe9ac116965695dc6aafaf82a7cb05a6e1d4955089df015f9ef2c6",
+      "previewPath": "art/cards/traveler-geo/headbutt/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Backward-reaching sword counter to one pursuer; coherent contact and Lumine identity."
+    },
+    {
+      "cardId": "iron_wave",
+      "verdict": "PASS",
+      "sourceSha256": "4beedcb5b196d12970fa2d8be59faaf40ab6a4b43c7c750f8489e847c18c8f10",
+      "previewSha256": "f2efeec7c9bfe1490050824c74f352bbee2a1b4410f3869b97a85d0346d642b1",
+      "previewPath": "art/cards/traveler-geo/iron_wave/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Crossed blades intercept incoming weapon while own blade reaches one opponent; both connections hold."
+    },
+    {
+      "cardId": "perfected_strike",
+      "verdict": "PASS",
+      "sourceSha256": "652a74943042a7e27765d959c1f198e0178b1c5a21cb067b1c26eec605a7dbf5",
+      "previewSha256": "50b856f8c1b726a9c4e3ea9b98b57e2017610ab00dc4ec6ed7fa95cee31139cf",
+      "previewPath": "art/cards/traveler-geo/perfected_strike/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Wide front-facing lunge and single-target edge contact; related but sufficiently distinct from clash."
+    },
+    {
+      "cardId": "pommel_strike",
+      "verdict": "PASS",
+      "sourceSha256": "4bebd8693cb4dac9edbf16b8581a3878252c19c03dc47db8b805f96bd7aa80fe",
+      "previewSha256": "b726ccf727015e1f70df5db729853a548ce8ee581e3723cb2530d02a2ab57c79",
+      "previewPath": "art/cards/traveler-geo/pommel_strike/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Close pommel contact on one target; continuous sword geometry and Lumine costume identity."
+    },
+    {
+      "cardId": "shrug_it_off",
+      "verdict": "PASS",
+      "sourceSha256": "6dce70baa5a5c9402ec313be16df2cdbdd4a7ed33780fd251a3236d2541870f1",
+      "previewSha256": "78d7f2a33bfcca82c00c674dd5b9221b005f7b87b6878b4e16851c2c3e6c8100",
+      "previewPath": "art/cards/traveler-geo/shrug_it_off/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Calm guarded self-only posture and held sword, distinct from attack scenes."
+    },
+    {
+      "cardId": "sword_boomerang",
+      "verdict": "PASS",
+      "sourceSha256": "36e775bb2a9e74cf5de34b08716899e5b420e98606422a74b4f2e110fdbc3440",
+      "previewSha256": "dcd296a8b9d44439a1a4c1c7063cb0c200c40a269cb3366dc039ba1442ae7cc0",
+      "previewPath": "art/cards/traveler-geo/sword_boomerang/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Broad circular motion trail; only foreground foe has definite sword contact. Nonblocking ring/AoE ambiguity, not guaranteed-all-target depiction."
+    },
+    {
+      "cardId": "thunderclap",
+      "verdict": "PASS",
+      "sourceSha256": "a6bd90525de1ae3fa3c976638e8833751ed30832c6cf3bea2e50ae3f2def9d80",
+      "previewSha256": "34e701ee19837993467547e61c645a06e1021e4386cf1624971476fc5c51fa26",
+      "previewPath": "art/cards/traveler-geo/thunderclap/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Low warm sweep reaches three foes; multi-target pressure with no Electro lightning."
+    },
+    {
+      "cardId": "true_grit",
+      "verdict": "PASS",
+      "sourceSha256": "d3256b9e8b5fadf368f7805b26c19c8cb349bb935073510fc7894dddabe51dd2",
+      "previewSha256": "a05d0b68ad55b2aee56b3428e6c378cd958d46e3fcaeb55781774000a55b3903",
+      "previewPath": "art/cards/traveler-geo/true_grit/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Planted feet; coherent specific boot knee/ankle geometry plus white/blue petals and partial black/gold waist, not color-only identity."
+    },
+    {
+      "cardId": "twin_strike",
+      "verdict": "PASS",
+      "sourceSha256": "3bc5a5c926b3eb2cdcb9e760755749af8211d92f71422982a79fc30c9356b97d",
+      "previewSha256": "13d40ed411907991c3dd93ac95bd01013df1a0e0460111158b107b843abd0ed4",
+      "previewPath": "art/cards/traveler-geo/twin_strike/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "One held sword and two spatially separated contact ticks on same enemy; blue trailing arc does not require extra limb or single magical-hit reading."
+    },
+    {
+      "cardId": "warcry",
+      "verdict": "PASS",
+      "sourceSha256": "a3166687ab2410ac8ede91b31d650f56e669092f52659d46d688579210883da4",
+      "previewSha256": "ee9e0275ef97adb133421f3b837df6f56381b347b48d782e191f28edc81659e2",
+      "previewPath": "art/cards/traveler-geo/warcry/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Thoughtful Lumine portrait matches localized tactics name; coherent hand, no unintended attack."
+    },
+    {
+      "cardId": "wild_strike",
+      "verdict": "PASS",
+      "sourceSha256": "107ba40ca01aac467a1ca18244fc06b40e805f1fa344e9553e760e96629ad937",
+      "previewSha256": "753ab9542703de395cdc9ac16eae872fcc48f6c103f5dd13bc91387aba5865a3",
+      "previewPath": "art/cards/traveler-geo/wild_strike/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Overextended single-target lunge and coherent grip/contact, no HP self-injury; distinct rear-three-quarter attack framing."
+    },
+    {
+      "cardId": "battle_trance",
+      "verdict": "PASS",
+      "sourceSha256": "b43d82bd984776081fa99464803abb460f14885e8bf889e155edce36a5d32825",
+      "previewSha256": "6546fffa10101bada1bac981f54e5899a427cc8c0216387844c23caa79eb034e",
+      "previewPath": "art/cards/traveler-geo/battle_trance/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Upright closed-eye centered concentration, not slumped sleeping; specific Lumine face/flower/outfit identity."
+    },
+    {
+      "cardId": "blood_for_blood",
+      "verdict": "PASS",
+      "sourceSha256": "14dcbfd918aa072327858dfc3240134c8258fa43e8862739830f6cce1103855a",
+      "previewSha256": "095cd05345922de7f6c23f843b7c8f45d82e218de76c67bd6b3150407164a711",
+      "previewPath": "art/cards/traveler-geo/blood_for_blood/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Bandaged upper arm and soiled skirt establish prior injury, then single-target sword counter; not new self-damage."
+    },
+    {
+      "cardId": "bloodletting",
+      "verdict": "PASS",
+      "sourceSha256": "37ceff78295cfd6b13d3a77430becdfd83f70321ebd4bdba0baa7fc29a7f5304",
+      "previewSha256": "20a22458ae9ca8f53a5ec473fdff073c2c33d1883d8124206b2d002dd41897fa",
+      "previewPath": "art/cards/traveler-geo/bloodletting/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Sweat, strained expression and bent posture with small warm chest/hand glimmer read as exertion for energy; no healing icon or restorative beam."
+    },
+    {
+      "cardId": "burning_pact",
+      "verdict": "PASS",
+      "sourceSha256": "e461da57b3e6554ccf6f379ff6988f933af71ef4c57923b3e90e40f7b75b3ed6",
+      "previewSha256": "e5ca4995904452ea0c8d61eb135b0153de255a9a17390f4bb00f4b9eaca6456d",
+      "previewPath": "art/cards/traveler-geo/burning_pact/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Unmarked irregular paper is relinquished/disintegrating with small embers, not card UI or enemy-directed fire attack; coherent open hand and costume identity."
+    },
+    {
+      "cardId": "carnage",
+      "verdict": "PASS",
+      "sourceSha256": "f6a6f67d9775421be463c629c27f55a81c9a7f95f38b13c454fb606ef1b35375",
+      "previewSha256": "fcae2ce1e8eb55bc429b53d95b3f11e66a3289316379a67dde3d00079787fb93",
+      "previewPath": "art/cards/traveler-geo/carnage/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Rear-three-quarter opening strike on one exposed armored torso; continuous grip/blade/contact, Lumine head/flower/back costume. Distinct raised-enemy-arm opening, no gratuitous gore."
+    },
+    {
+      "cardId": "combust",
+      "verdict": "PASS",
+      "sourceSha256": "b68711b7d61d37080598378a86a01592b875efbc25277425554d9af870b73f29",
+      "previewSha256": "bce307cdc957ea73260787800b9bfb240e630181895d3e41ed3fc29666f1bff7",
+      "previewPath": "art/cards/traveler-geo/combust/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Centered determined Lumine with warm outward pressure among four foes; no closed protective shield, healing or definite Pyro flames. Multiple foes are compatible with all-enemy mechanics; exact HP cost/period left to text."
+    },
+    {
+      "cardId": "dark_embrace",
+      "verdict": "PASS",
+      "sourceSha256": "34e073bb15b1d0658e20208640485036e0bc072a274957dfe6dcd1f5afdf0ebb",
+      "previewSha256": "dbe7e23066ec01537a7da8a48a6b9231c0e520d90ee1843586bf78d5c96ccad5",
+      "previewPath": "art/cards/traveler-geo/dark_embrace/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Alert Lumine turning toward new opening as dark scraps recede; adaptable/reactive mood, no literal ghost embrace or enemy damage. Specific flower/hair/garb identity and coherent partial hand."
+    },
+    {
+      "cardId": "disarm",
+      "verdict": "PASS",
+      "sourceSha256": "92d421cd46144544a252594559892f650695b7d3135cd1163cf3397b62e21ce7",
+      "previewSha256": "89351f45fb09f87c4896bac284538cdd5ff94de87dcf7a6099ea44b7eddc2446",
+      "previewPath": "art/cards/traveler-geo/disarm/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Open hand controls enemy wrist while enemy retains sword grip; own sword held down away from opponent. Non-damaging suppression rather than severing weapon/limb, clear anatomy and connections."
+    },
+    {
+      "cardId": "dual_wield",
+      "verdict": "PASS",
+      "sourceSha256": "974ecc21195dc0edc0b7e71a8249a220214dda737e7a84ba8b44810cfffeb731",
+      "previewSha256": "fabf09132aa28788bec3c91dd03d1e3b046b4a34b814bcd595790239d50cee0f",
+      "previewPath": "art/cards/traveler-geo/dual_wield/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Rehearsed single held sword with replaying blue motion arc; coherent grip, specific Lumine identity. No false two-sword equipment or guaranteed damage target; copying remains text."
+    },
+    {
+      "cardId": "entrench",
+      "verdict": "PASS",
+      "sourceSha256": "17ebd5f40e86c3b20d2daf58d8cc63418b18423d3bfe2b4be357ec5ae795b584",
+      "previewSha256": "859117ee3750cf5e83ea8e9b37653adbbbbbf12e7d4272cbdbe63550723f5d26",
+      "previewPath": "art/cards/traveler-geo/entrench/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Close reinforced guard: free hand braces sword hand across body, continuous grip/guard/blade. Lumine flower/collar/black-gold waist and white-blue garments; no false attack or new persistent construct."
+    },
+    {
+      "cardId": "evolve",
+      "verdict": "PASS",
+      "sourceSha256": "bd072b4eae6d81074e22306405dd2e36afed5b94b184ee4b064c95db1cc400e3",
+      "previewSha256": "6f4941bfbe578dca7b4ed08722277d084019ae502661ff13660218e581360b47",
+      "previewPath": "art/cards/traveler-geo/evolve/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Seated alert Lumine adjusts sleeve/forearm in adversity; coherent two-arm relationship, not sleeping/healing/transformation. Recognizable flowers/hair/garb; status-triggered draw is left to text."
+    },
+    {
+      "cardId": "dropkick",
+      "verdict": "PASS",
+      "sourceSha256": "a656046b6c437a1996cb7c0f78577d88ab767d390309c012738845d1a7ebe311",
+      "previewSha256": "eb821a01f02934381eb10fbf9512a195a67fddc42abc75078f252c7db0449bed",
+      "previewPath": "art/cards/traveler-geo/dropkick/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Reviewed actual safe non-contact upper-body pre-action source, not rejected kick request. Alert forward lean and ready held sword convey noticing an opening/follow-up; coherent Lumine identity and grip. No false heal, self-damage, target multiplicity or conditional-resource guarantee. Hit and vulnerable-dependent resource gain remain text. Rejected no-output request is not a failed source image."
+    },
+    {
+      "cardId": "feel_no_pain",
+      "verdict": "PASS",
+      "sourceSha256": "eda3ea8a27eec5e05dcde90e4249587c67ee4573ab1b467e88ae37a8ca2a325b",
+      "previewSha256": "28e296d2797232543e325b5e66cefd98d8249f6899ad6914c143e836a2b0454d",
+      "previewPath": "art/cards/traveler-geo/feel_no_pain/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Resolute braced forearm as spent scrap recedes, clear Lumine head/flower/garb; no false healing, attack target or literal pain immunity. Exhaust-trigger block left to text."
+    },
+    {
+      "cardId": "fire_breathing",
+      "verdict": "PASS",
+      "sourceSha256": "051f38fdbd6d2c1aa398f8c00462cf26de11913bbc8c9c179cbccce8beb0d186",
+      "previewSha256": "fe16afa1c89e647f011cb6f9bd3315e6e797cd41b6b200258b58a81760cf2dea",
+      "previewPath": "art/cards/traveler-geo/fire_breathing/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Bright broad pressure flows from extended hand/body toward multiple recoiling foes; mouth has no emitted flame or breath stream. Reads as multi-target counterpressure, not literal Pyro breath; coherent held sword and anatomy."
+    },
+    {
+      "cardId": "flame_barrier",
+      "verdict": "PASS",
+      "sourceSha256": "8abdbe55cb86f6dda546ae49a54a9b48996406d44068a015672f9ac9b49f0584",
+      "previewSha256": "b80a216af63fa5df9a8608c04555b1f270d969de424267c1e39ffddbf8bb22b5",
+      "previewPath": "art/cards/traveler-geo/flame_barrier/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Reviewed current repaired source: enemy straight blade is continuously attached to guard/grip and meets upright held blade. Coherent two-hand defense, contact sparks and Lumine identity; no inherited bent-blade failure or false Pyro."
+    },
+    {
+      "cardId": "ghostly_armor",
+      "verdict": "PASS",
+      "sourceSha256": "af03b421e138ff963ace2b89265e9e7de640848750f403ed710e8cb739159230",
+      "previewSha256": "d4cbfd3a4e3f168c0464cb465cc7fbbe37f79037f6404477290e04e8d19fc885",
+      "previewPath": "art/cards/traveler-geo/ghostly_armor/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Solid visible Lumine intercepts incoming connected spearhead with held blade; clear timely defensive posture, no invisibility or ghost transformation. Own grip/weapon continuity holds."
+    },
+    {
+      "cardId": "hemokinesis",
+      "verdict": "PASS",
+      "sourceSha256": "922fa81616629e9a74c42652807033ce5c04a40ebc284298d885ddc7a59a176e",
+      "previewSha256": "6ec4e3a0632ad16dd0e6ca711f23f0571ffe83a4c87e6e721db346f3dd4ab217",
+      "previewPath": "art/cards/traveler-geo/hemokinesis/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Close committed single sword attack with tense expression and raised exertive arm; continuous held blade contacts one opponent. No literal self-cut, gore or extra target; recognizable Lumine head/garb."
+    },
+    {
+      "cardId": "infernal_blade",
+      "verdict": "PASS",
+      "sourceSha256": "67887ae642dbe6b6198b50de61561b302c7c2fe5bd8481639fe31bf180dac12b",
+      "previewSha256": "7faba9e503bffe507d35631e990f606e03d15709b41fd22f5458150fbe0746e5",
+      "previewPath": "art/cards/traveler-geo/infernal_blade/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Raised held sword and exploratory preparation posture, no target contact or permanent fire weapon. Clear Lumine identity, connected grip/guard/blade and coherent open supporting hand."
+    },
+    {
+      "cardId": "inflame",
+      "verdict": "PASS",
+      "sourceSha256": "d4f7338823f718ca53d2a2b89157a38153cb42e4158e32df33d0e9a41e03ca21",
+      "previewSha256": "5c15f862097828f60808c4e56280918ac6c931d4cf36b7498e10deb72f784d94",
+      "previewPath": "art/cards/traveler-geo/inflame/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Focused close sword-ready posture conveys improving sword technique/strength; self-only, no false fire or enemy damage. Grip and blade continuous, specific Lumine identity clear."
+    },
+    {
+      "cardId": "intimidate",
+      "verdict": "PASS",
+      "sourceSha256": "550652eba768202eab04c8eaaf25bc1aa4ac64c901b348612fb04e5979e7447c",
+      "previewSha256": "7c2449cd36e048a8f572cda247f031de9053628a0923736ece3f7c59001670a6",
+      "previewPath": "art/cards/traveler-geo/intimidate/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Upright composed Lumine faces three foreground foes with lowered weapons/hesitant crouches; no contact, impact or damage burst. Clearly multi-foe suppression, coherent full-body stance and held sword."
+    },
+    {
+      "cardId": "metallicize",
+      "verdict": "PASS",
+      "sourceSha256": "de4af2704de0e6327618b1ee85d4f94c5a08a0d573f6fc96027efe159c9cdc67",
+      "previewSha256": "19cace859549aba8b6dc0785f602d85337a66473bd16c9a417e96d4dbd5da5ec",
+      "previewPath": "art/cards/traveler-geo/metallicize/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Calm maintained sword-ready watch posture; specific Lumine head/flower/garb, coherent grip and single sword. No literal metallic transformation, false damage target or healing; recurring block timing remains text."
+    },
+    {
+      "cardId": "power_through",
+      "verdict": "PASS",
+      "sourceSha256": "8de6f2fa52a0ce02e50348222bc5d563c4a7d4729218c00afd3023667698be4e",
+      "previewSha256": "38cab903a32a73612fa92e0036d2a58518bc60f73584ffdc62aa9e937ee43014",
+      "previewPath": "art/cards/traveler-geo/power_through/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Reinforced forearm guard resists incoming dark pressure; coherent interlocked arm relationships and Lumine identity. No blood, cut or explicit HP loss; Wound-card drawback remains text."
+    },
+    {
+      "cardId": "pummel",
+      "verdict": "PASS",
+      "sourceSha256": "91c1baf35b1bd9addb16ec3e9d3549f47419ad04f2f8be2174768bba286e34d1",
+      "previewSha256": "d88e6ed0587325ba2f730a0536b2a47001e87e5ae89d7da34fbf76094b8c7ed8",
+      "previewPath": "art/cards/traveler-geo/pummel/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "One held continuous real sword and several thin motion traces/contact marks against one armored foe, not several weapons or targets. Fast repeated single-enemy swordplay readable at thumbnail; exact hit count remains text."
+    },
+    {
+      "cardId": "rage",
+      "verdict": "PASS",
+      "sourceSha256": "586a43fb6cba3f7f4698b631651f24b499e46ce201dae95488ba5a3a14445805",
+      "previewSha256": "1342d59f72e08e852b5f9aa88543643d6dc998e11a029eeb375a9d3e7d524fad",
+      "previewPath": "art/cards/traveler-geo/rage/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Low held sword readiness balanced with raised free guard hand and stable coiled stance; coherent anatomy and Lumine identity. No rage transformation, false damage contact or extra target."
+    },
+    {
+      "cardId": "rampage",
+      "verdict": "PASS",
+      "sourceSha256": "c200f52a70527dfbf48c55b10864d81a460cf7ccd6e77ed56aa4eb4860540501",
+      "previewSha256": "3dfbe4fe550e1282b0b18cea26aa6504229688eb15760f36fb8b07cbd830329a",
+      "previewPath": "art/cards/traveler-geo/rampage/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "One held blade contacts one slime at one current hit; adjacent surface marks do not imply simultaneous extra attacks. Clear Lumine and grip, future within-combat scaling left to text."
+    },
+    {
+      "cardId": "reckless_charge",
+      "verdict": "PASS",
+      "sourceSha256": "db0d87aeec02e3ebb60a4a09c85f0b56c7b97fc598df4ec829c9c5aab44dce73",
+      "previewSha256": "2ce3e00105791021088c03bfa62b88925f24216b8bb2a25691e34b6af9d6a212",
+      "previewPath": "art/cards/traveler-geo/reckless_charge/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Alert forward rushing single-target strike with connected foreshortened sword; no present self-stun, unconsciousness or multiple-target hit. Specific Lumine identity clear."
+    },
+    {
+      "cardId": "rupture",
+      "verdict": "PASS",
+      "sourceSha256": "8dcc23295795187e89dce228d01eb9379016ec25189a43e3ae2127c143143de8",
+      "previewSha256": "c5f212f16b0123d6e0da9e5a5ab1ba79757886f8c1076caa9a345ab128aaba35",
+      "previewPath": "art/cards/traveler-geo/rupture/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Determined bracer-strap tightening with coherent hand/strap/wrist relationship; no healing, blood magic or literal self-wounding. Lumine identity clear; HP-loss-trigger strength remains text."
+    },
+    {
+      "cardId": "searing_blow",
+      "verdict": "PASS",
+      "sourceSha256": "9b19a1d65a7ccbd130d201c09fa305ff70f17d93841319edfa6f2f303ae6f253",
+      "previewSha256": "0c99bc149ce047d53d66c38c72b993cd3691686de5725a438121fc94b5d3c428",
+      "previewPath": "art/cards/traveler-geo/searing_blow/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Continuous single-handed grip/guard/blade into one armor contact. Blade broadens toward foreground under strong perspective, but short one-hand hilt and overall relationship do not establish a claymore; no major weapon defect. Low viewpoint and armor seam contact distinguish composition."
+    },
+    {
+      "cardId": "second_wind",
+      "verdict": "PASS",
+      "sourceSha256": "06f76388d0b79ac4ede6009f1c3d41ee70b99ee2f3fbed3e00bdecaf393b2f89",
+      "previewSha256": "c427caed0255272f497cc109a557fc91afddf3013a59b501da0f479b8ad81de7",
+      "previewPath": "art/cards/traveler-geo/second_wind/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Back-view Lumine releases several spent scraps while retaining raised defensive sword; coherent open hand and grip, no enemy damage or healing. Exhaust-all-nonattacks/block conversion suggested without card UI."
+    },
+    {
+      "cardId": "seeing_red",
+      "verdict": "PASS",
+      "sourceSha256": "e99b90891dbc72e09f895f2ff36cd5a345ff27f6763e638ac9b7ead2cee7f525",
+      "previewSha256": "952bd040509fa61953645281d0cdf1ca5d99ac26e29cf685b2a4593152e5f0df",
+      "previewPath": "art/cards/traveler-geo/seeing_red/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Calm upright reset/readiness with lowered held sword and open free hand; no HP cost, injury, literal red rage or fire. Clear Lumine identity; energy quantity left to text."
+    },
+    {
+      "cardId": "sentinel",
+      "verdict": "PASS",
+      "sourceSha256": "09060a13c723dec77386a508a771875f661c257d0cc8a8eca20ae5e8015444b6",
+      "previewSha256": "5cf4ea2dc115a4ea28df47635533b9f4a129d039aae58c19757e3cd3c85b22c6",
+      "previewPath": "art/cards/traveler-geo/sentinel/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Low braced guard with continuous held sword, no enemy strike or glowing energy payout. Exhaust-conditional energy not presented as guaranteed on play; specific Lumine identity."
+    },
+    {
+      "cardId": "sever_soul",
+      "verdict": "PASS",
+      "sourceSha256": "6a3326d09bfa0a1458eebb80f0766276e5ecd3ea640ac6f8f163d0642c103b05",
+      "previewSha256": "ee77c79f5aa3799eb2fb6eea3f1aca15a583f084db1661f3e932ea4068c6d832",
+      "previewPath": "art/cards/traveler-geo/sever_soul/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "One committed single-target sword attack with free hand opened behind, relinquished defense rather than literal severed soul/gore. Blade continuation behind foreground arm is aligned/plausibly occluded; no major connection defect."
+    },
+    {
+      "cardId": "shockwave",
+      "verdict": "PASS",
+      "sourceSha256": "b3f1e14dc83e33d63a805f4d46a10064913e722b0d5f288a6661090589f67fb5",
+      "previewSha256": "da85b8a7aa1ba492fafee9cc23080f4355cfbff7897d572528cad387e3ac49a1",
+      "previewPath": "art/cards/traveler-geo/shockwave/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Lumine faces three faltering foes with bowed heads, low weapons and broken guard posture; no damage contact, impact marks or blast. Coherent held sword and specific identity; weakness/vulnerability compatible."
+    },
+    {
+      "cardId": "spot_weakness",
+      "verdict": "PASS",
+      "sourceSha256": "bfab01457272f4a9fcd604903146f5c7f58f62d89608755f0a8447497f93b577",
+      "previewSha256": "65f95848140beeddb6255081c0fc67bd976ac6275fac335bc62628c47849f7df",
+      "previewPath": "art/cards/traveler-geo/spot_weakness/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Focused Lumine watches foe winding up raised club, own held weapon stays clear. Clearly observes impending attack without enemy debuff beam/damage; conditional self-strength left to text."
+    },
+    {
+      "cardId": "uppercut",
+      "verdict": "PASS",
+      "sourceSha256": "7abb088f5abaa5823b4294d58da0ed892153059a6f148eb918fd599c71ee81fa",
+      "previewSha256": "05b8bd69aade1619131b989bdd01c1c78c982b0bf231459bb444ea9e06513c44",
+      "previewPath": "art/cards/traveler-geo/uppercut/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "One rising held sword makes one high armor contact, enemy leans/recoils with coherent retained weapon; no airborne stun-launch. Clear Lumine identity and single-target structure."
+    },
+    {
+      "cardId": "whirlwind",
+      "verdict": "PASS",
+      "sourceSha256": "c5f70ec860f33958fdff025e4f729a06705a4cbfeffe72a2ea5c3239c7401af1",
+      "previewSha256": "5a3df7db81cc0a0003c0f1e1dbb8a1d585ee7f8f096aee4e4e752ec7cd967d13",
+      "previewPath": "art/cards/traveler-geo/whirlwind/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Several distinct low warm rocky wave fronts sweep through three foes; repeated all-target action rather than persistent wall/Anemo tornado. Lumine and held sword connected. Small debris is a future native-economy concern, not source design failure or performance acceptance."
+    },
+    {
+      "cardId": "barricade",
+      "verdict": "PASS",
+      "sourceSha256": "6572023b045ea2ab1f5344f107d6c115f7bb8d419b8f8d372689e97f62e3e3e2",
+      "previewSha256": "8b94acee5af353bc76af7cac310ed60d7d7a2fa88320ea4001d373a0fa9642e8",
+      "previewPath": "art/cards/traveler-geo/barricade/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Lumine calmly maintains existing worn stone defense with hand resting on its top; no erupting attack/new raised construct. Retained-defense metaphor compatible with preserving block; coherent hand/sword and identity."
+    },
+    {
+      "cardId": "berserk",
+      "verdict": "PASS",
+      "sourceSha256": "0108c7d2cb65f2939f284dbbed671e206742de9d333df1c2a1f9b7e129094e39",
+      "previewSha256": "bea12e8dc98b42977a13a9f88a4302eee8aa404cdaf7195d508cee135b9606cf",
+      "previewPath": "art/cards/traveler-geo/berserk/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Open guard and raised normal held sword convey committed risk/readiness; no injury, literal rage transformation or attack target. Recurring energy and vulnerable duration remain text."
+    },
+    {
+      "cardId": "bludgeon",
+      "verdict": "PASS",
+      "sourceSha256": "822b68984a0bbc800e29d33ff2927efe011cf0cafa485da6033e7412307e5731",
+      "previewSha256": "a3ad1e6f3854ebd83a7e00592a632d467a038cc63413a9f9e1f90a1241306f1b",
+      "previewPath": "art/cards/traveler-geo/bludgeon/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "One normal single-handed blade makes one forceful edge contact on armored target; intact grip/guard/blade and no giant club/claymore. High-angle committed attack distinct from level thrusts; clear Lumine identity."
+    },
+    {
+      "cardId": "brutality",
+      "verdict": "PASS",
+      "sourceSha256": "9a30cab4e654a83c5530e9446c58053fa38253ffdb02f70ecad7a62396887fe8",
+      "previewSha256": "1a3b3113d589a76c34c26b15bb862eb452fa0d0a65ae90720e1cf7748a99e6c1",
+      "previewPath": "art/cards/traveler-geo/brutality/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Sweat and tense forward resolve while gripping cloth convey ongoing exertion; coherent hand/cloth and recognizable Lumine. No gore, literal cruelty/healing or falsely guaranteed immediate attack."
+    },
+    {
+      "cardId": "demon_form",
+      "verdict": "PASS",
+      "sourceSha256": "3827b49c022630fc5ecf2753437376310092c1079388ade9b4bc8fdfe5c837f0",
+      "previewSha256": "a02edac0a3566a69b710e3477743b5a69ff012253b77c876b4de1ffb89ce0243",
+      "previewPath": "art/cards/traveler-geo/demon_form/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Composed upright Lumine with vertically held normal sword conveys growing mastery/readiness; no literal demon transformation or immediate attack. Grip/blade and identity coherent; recurring strength timing left to text."
+    },
+    {
+      "cardId": "double_tap",
+      "verdict": "PASS",
+      "sourceSha256": "0ce4d7ce74eec1878829ba1121092d7db72cc8d43d2c0415beb4490d093aec1d",
+      "previewSha256": "7d9cdcc86575948b39e9dde663ac78b004c4d8ffe32e5960a7ede9f2d75fa3c7",
+      "previewPath": "art/cards/traveler-geo/double_tap/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "One real connected held sword accompanied by two separated blue rehearsal trails, no enemy hit. Fits preparing repeated next attack without extra limbs/weapons or falsely immediate damage."
+    },
+    {
+      "cardId": "exhume",
+      "verdict": "PASS",
+      "sourceSha256": "0bec70814030e4cbbdcfd0da2fc7e68c4956e47f4fb6ad7ffe76fef9ebe3d91e",
+      "previewSha256": "9aff22a5370a41b42f2a457dade830b094bab4113f03689433cc83d380a7e45f",
+      "previewPath": "art/cards/traveler-geo/exhume/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Lumine retrieves one worn unmarked paper scrap with coherent pinch grip; clear material recovery direction and no corpse resurrection, card UI or healing. Head/flower/garb identity remains visible."
+    },
+    {
+      "cardId": "corruption",
+      "verdict": "PASS",
+      "sourceSha256": "133c0f264b0709ebb9dc92924e980508df74259e3d8d6bb47d432572462cefb8",
+      "previewSha256": "a9301a49772bc5d7259b17f8c0960d638aeb3251e0c6ef6fd9d30ce08aca702d",
+      "previewPath": "art/cards/traveler-geo/corruption/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Reviewed repaired tight upper-body release source SHA 133c0f264b0709ebb9dc92924e980508df74259e3d8d6bb47d432572462cefb8, not old panorama. Deliberate open-hand relinquishing of spent scraps with sword retained; coherent identity and hand/weapon relationships, no attacking target or literal corruption transformation. Skill-free/exhaust rules remain text."
+    },
+    {
+      "cardId": "feed",
+      "verdict": "PASS",
+      "sourceSha256": "b3ea69b6935321142db548b1228eabc66fac5832d6f04b521b9093945aca7a23",
+      "previewSha256": "939bb7d5ce8d05ab148c6676f6a46fdfc7e7a1b5944b9d665996809361c74a47",
+      "previewPath": "art/cards/traveler-geo/feed/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Single sword attack against a collapsing/bowed foe; no eating, vampiric transfer or guaranteed heal on each hit. Coherent Lumine and weapon connection. Actual source dimensions verified 1882x836 and left unchanged; whole source retained in preview."
+    },
+    {
+      "cardId": "fiend_fire",
+      "verdict": "PASS",
+      "sourceSha256": "e1d3d35e0d559a55870635d9e66a149b258331c7e821da7ae34f550d38f54afa",
+      "previewSha256": "cef0967cc255e1a4d7c9641f781335f26926642722b8f7a118427409de0118cb",
+      "previewPath": "art/cards/traveler-geo/fiend_fire/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "One real held sword with repeated curved trail/contact scars concentrated on one foe, spent scraps behind; no AoE or literal fire conversion. Coherent anatomy/identity and blade contact."
+    },
+    {
+      "cardId": "immolate",
+      "verdict": "PASS",
+      "sourceSha256": "c24ab9cc4e84b3af3f1b96704576b78725e40eeff464cd6562be1a5737f141ab",
+      "previewSha256": "10b308f14b4b4078c9d2f236777f66e3ea8a95a2317734ac03a0a9d5b9836195",
+      "previewPath": "art/cards/traveler-geo/immolate/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "One broad horizontal warm impact crosses three foes; single all-target action, no own HP-burn depiction or literal self-immolation. Continuous held sword, clear Lumine identity."
+    },
+    {
+      "cardId": "impervious",
+      "verdict": "PASS",
+      "sourceSha256": "588d1157c55370dee77080ce930279a4e63e03ae0e91146f1a21ea1dae6c0c02",
+      "previewSha256": "e392072e3167a7d7823c0fa34c8fa61b813df13ed72e36cc46a5b584b6750e34",
+      "previewPath": "art/cards/traveler-geo/impervious/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Low kneeling planted guard with held upright sword and reinforced crossed forearm; coherent anatomy/identity. No permanent invincibility aura, transformation or enemy damage; finite block remains text."
+    },
+    {
+      "cardId": "juggernaut",
+      "verdict": "PASS",
+      "sourceSha256": "a71fcd2a992e8e5750cdf66e335cb269102e0609805710c24dd58e4b8282fb94",
+      "previewSha256": "31c8ca8e94b341dc485cce267613211d247fea4f0e123465dbed9fbd1d47d9e1",
+      "previewPath": "art/cards/traveler-geo/juggernaut/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Raised free forearm guard accompanies single held sword contact on one slime; no AoE or required incoming strike depicted. Clear Lumine identity and connected weapon; random selection/block-gain trigger left to text."
+    },
+    {
+      "cardId": "limit_break",
+      "verdict": "PASS",
+      "sourceSha256": "d1b5831bbe8435a3097a8224249170e53925251eee4487cfb408e79ec5d5260c",
+      "previewSha256": "8c31d7b015445cd6752aa0c813a0b2406136df69eed592e7cb2c6be025aab36e",
+      "previewPath": "art/cards/traveler-geo/limit_break/preview-contain-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Controlled one-sword mastery pose with coherent grip and open supporting hand; no extra weapons, immediate enemy damage or literal transformation. Strength doubling remains text."
+    },
+    {
+      "cardId": "offering",
+      "verdict": "PASS",
+      "sourceSha256": "10108e7937964715bb5796f81981a744350622683a350ea5fa7d7c30c6a198bc",
+      "previewSha256": "65c8285c77dddef7b207b9d542b3fb23fcd8663003e6a17617e84b24ef755de0",
+      "previewPath": "art/cards/traveler-geo/offering/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Sweat, strained upward resolve and open hands with restrained warm resource glimmers; no enemy target/attack, gore or sacrifice victim. Coherent Lumine identity and hands; HP/resource quantities remain text."
+    },
+    {
+      "cardId": "reaper",
+      "verdict": "PASS",
+      "sourceSha256": "e284772dfb50f07ba51babcfb271083c7e3a52eb0828842eb2eb3b1a2968373a",
+      "previewSha256": "b53be733b10d4ad957b906756eddcaa110d8848af3e72958a93d707ab3e72ae5",
+      "previewPath": "art/cards/traveler-geo/reaper/preview-source-144x64.png",
+      "reviewedFullSource": true,
+      "reviewed144x64": true,
+      "reason": "Broad low rocky sweep reaches three foes, with restrained warm curl returning near held sword/forearm. No blood, souls, full-health guarantee or single-target-only relationship; coherent weapon and Lumine identity."
+    }
+  ],
+  "summary": {
+    "verifiedNewCandidates": 72,
+    "selectedSourceVerdict": "72 PASS as source-design candidates only",
+    "referenceSourcesViewed": [
+      "armaments",
+      "cleave",
+      "heavy_blade"
+    ],
+    "ownerAcceptance": false,
+    "nativeOrRuntimeAcceptance": false,
+    "repairAndBlockHistory": [
+      {
+        "cardId": "bash",
+        "history": "Root reported original strike-duplicate rejected; reviewed only selected overhead edge-hit repair."
+      },
+      {
+        "cardId": "flame_barrier",
+        "history": "Author reported first bent-enemy-blade source rejected; reviewed selected intact straight-blade repair."
+      },
+      {
+        "cardId": "corruption",
+        "history": "Author/root quarantined first competing ruins panorama; reviewed selected tight upper-body release repair."
+      },
+      {
+        "cardId": "dropkick",
+        "history": "Original kick request blocked with no output; reviewed genuinely different non-contact upper-body pre-action source. No-output request not counted as failed image."
+      }
+    ],
+    "nonblockingCaveats": [
+      "Sword Boomerang broad circular motion may resemble ring, but only one definite contact and no guaranteed all-enemy hit.",
+      "Searing Blow foreground blade broadening is perspective, not clear claymore.",
+      "Whirlwind/Reaper debris/native redraw economy unverified; no cost or performance conclusion.",
+      "Secondary rule conditions, quantities and timings often remain in card text rather than pictograms."
+    ]
+  }
+}

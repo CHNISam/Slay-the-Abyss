@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "assetRole": "genshin-identity-source-direction-benchmark-only",
+  "identity": "Dendro Slime / 草史莱姆 (small species)",
+  "directionEnemyId": "acid_slime_m",
+  "runtimeBinding": "none",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "sourceAlphaBBox": [
+    0,
+    19,
+    1225,
+    1230
+  ],
+  "approvals": {
+    "ownerSourceDirection": true,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "performance": "unmeasured; source PNG bytes are not runtime load or official capacity",
+  "previewRecipe": "Full original square canvas LANCZOS RGBA resize to 106/127. No crop/stretch/trim or added margin. Source bytes immutable. Not native antialiasing or crop safety proof. Future native candidate must test inset/idle extrema.",
+  "files": {
+    "generation-provenance.json": {
+      "sha256": "a3ff3c6c6cfbe8ca9afca4f6815a474341ad7ee40f1690a67e0f8d9a29c1e4d2",
+      "bytes": 1642
+    },
+    "historical-source-review.json": {
+      "sha256": "1dec01286a913d552be238bcf6f6b923d45569b802f0efc5c6a9888893b98517",
+      "bytes": 1798
+    },
+    "owner-direction.json": {
+      "sha256": "addc8273a19a8adec5121e6c9ff57e30082e73598785716c6ac45ffc8969dbf0",
+      "bytes": 369
+    },
+    "preview-contain-106.png": {
+      "sha256": "ce57f9ff0e8cbbcb144c1d445028ce9f389b350c719a50f9f92e46e2c0696fc2",
+      "bytes": 15256
+    },
+    "preview-contain-127.png": {
+      "sha256": "1450e9d8c27dad95dcf671638704f435905a07bfea35583a4f1eaa44bab4c8c0",
+      "bytes": 20476
+    },
+    "prompt.txt": {
+      "sha256": "638de887174048ba98787a651c189e118218ef15e2dfa393140f1ee0e25281d1",
+      "bytes": 1814
+    },
+    "source.png": {
+      "sha256": "f6ed0bc296c82912fb8720b7e2b8827b6e217f70ae1119d3138937c5f77442ba",
+      "bytes": 1014472
+    }
+  },
+  "mappingLimit": "Official small Dendro Slime identity serves project medium-slime mechanics ID; does not invent an official medium or poison species."
+}

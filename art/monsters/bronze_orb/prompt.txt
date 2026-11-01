@@ -1,0 +1,12 @@
+Use case: stylized-concept.
+Create one original compact ancient bronze flying mechanism on a true transparent square canvas, requested 1024 × 1024. Keep every wing and core edge inside comfortable margins. No floor, shadow pool, scenery, text, UI, glow or particles.
+
+The supplied ancient guard is a painted material reference only: substantial broad matte surfaces, dull old bronze, dark teal recesses and three or four large value groups. Do not copy its stone armor, humanoid limbs, head or crouched body.
+
+Bronze Orb / 青铜浮核 is a FLATTENED ROUND BRONZE CORE, wider than tall, with TWO ASYMMETRIC BROAD SHORT WINGS. The center front is one CLOSED SOLID OVAL PLATE with a few large beveled planes. No eye, pupil, hole, lens, mouth, glowing center or official emblem. Dull old bronze is the dominant material, not pale rock.
+
+One short broad wing extends from the left side, slightly higher and angled forward-left. The right wing is shorter, wider and tilts slightly downward-back. Both are solid thick curved bronze plates, attached through simple visible dark teal joint blocks. They are not full rings, open stone arcs, bird feathers or many orbiting fragments. No third wing. Keep the core and two wings clearly connected as one compact assembly.
+
+The whole object leans slightly LEFT and appears quietly suspended in empty transparent space; no hover beam, pedestal, speed lines or environment. At 106 and 127 pixels, the flat bronze center, closed plate and two unequal short wings should be unmistakable. It must differ from a round stone sphere with protective arcs, a tall Sentry, and a humanoid Guardian.
+
+Use broad old-bronze planes with charcoal-dark teal recesses and one modest warm-ivory edge highlight. Matte mature painted game art, economical three or four values, a few large wear patches only. No dense bolts, engraved runes, fine cracks, glossy photorealism, weapon, extra limbs or detached component.

@@ -1,0 +1,23 @@
+✔ approved unit details retain complete information and command priority (4106.055407ms)
+✔ Main energy orb keeps the approved 88 diameter and exact scaled reference center (33.276257ms)
+✔ energy uses the official element picture and centered white digits with same-size drop shadow (2.538653ms)
+✔ real battle energy readout keeps zero overcharge spending and reward visibility intact (2632.264902ms)
+✔ Main top bar preserves all five physical circular potion slots with official bottles and no old text row (18.263652ms)
+✔ Main potion popup is a compact anchored effect card with explicit use and discard actions (2.396198ms)
+✔ Main potion runtime preserves explicit actions, stale ownership, and the real Potion Belt fifth slot (6426.335377ms)
+✔ Main host isolates the small potion card controller scope and keeps global inventory off battle (4074.126003ms)
+✔ Main popup initial dismiss remains centered on the entire canvas before first render (1.784828ms)
+✔ Main popup action labels retain a native text line inside the source small visual buttons (1.338546ms)
+✔ Main short operation strip remains at original top700 with native text height (13.225327ms)
+✔ Main runtime preserves source slots and portrait silhouettes without changing battle state (2886.858615ms)
+✔ Main end-turn is the original long bronze hexagon, not an invented sword button (4.088106ms)
+✔ Main unique Boss center screen slot preserves core actor IDs and real target commands (3058.023248ms)
+✔ one through five actor encounters and supported boss groups retain visible compound intentions without covering notice or potions (5733.155013ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 29535.308402

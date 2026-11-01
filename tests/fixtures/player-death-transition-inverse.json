@@ -1,0 +1,433 @@
+{
+  "baseHead": "6795160ef93625f35ac61841f2a92d83524e8414",
+  "files": {
+    "config/luacheck-baseline.json": {
+      "beforeSha256": "617cafa21ba3891f144b7b89659d0f20227cc8642fadb5cbc59975d3bd1355a1",
+      "afterSha256": "83b73860c247c0e277a52cfc4d467845beffb1d70078db1420ced79e70a1834f",
+      "hunks": [
+        {
+          "at": 92,
+          "before": [
+            "      \"line\": 171,"
+          ],
+          "after": [
+            "      \"line\": 172,"
+          ]
+        },
+        {
+          "at": 95,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 122\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 123\""
+          ]
+        },
+        {
+          "at": 99,
+          "before": [
+            "      \"line\": 193,"
+          ],
+          "after": [
+            "      \"line\": 194,"
+          ]
+        },
+        {
+          "at": 102,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 122\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 123\""
+          ]
+        },
+        {
+          "at": 106,
+          "before": [
+            "      \"line\": 401,"
+          ],
+          "after": [
+            "      \"line\": 409,"
+          ]
+        },
+        {
+          "at": 109,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 122\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 123\""
+          ]
+        },
+        {
+          "at": 113,
+          "before": [
+            "      \"line\": 643,"
+          ],
+          "after": [
+            "      \"line\": 656,"
+          ]
+        },
+        {
+          "at": 116,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 122\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 123\""
+          ]
+        },
+        {
+          "at": 120,
+          "before": [
+            "      \"line\": 711,"
+          ],
+          "after": [
+            "      \"line\": 729,"
+          ]
+        },
+        {
+          "at": 123,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 122\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 123\""
+          ]
+        }
+      ]
+    },
+    "data/presentation/ui_theme.json": {
+      "beforeSha256": "c7dfa243f51c07274a92ab6f31eb1e88efbde968960e7e638901457db151aa54",
+      "afterSha256": "94e6cf1a988b049a0502fd83ae5be0e8ea06f112a8082c85f5fc5542c4a8da92",
+      "hunks": [
+        {
+          "at": 206,
+          "before": [],
+          "after": [
+            "    \"playerDeath\": 0.7,"
+          ]
+        }
+      ]
+    },
+    "scripts/game-ui-layout.mjs": {
+      "beforeSha256": "6f475c9306cbdf54a8d594be011d844c2c2310c364c828132ccf6f57b4def889",
+      "afterSha256": "37f7b76195790906033f8516b15685732bb56ceea019de012ef9d05fea84fce5",
+      "hunks": [
+        {
+          "at": 98,
+          "before": [],
+          "after": [
+            "        { ...plate('deathShade', layout.backdrop, color.backdrop), visible: false },"
+          ]
+        }
+      ]
+    },
+    "scripts/ui-layout.mjs": {
+      "beforeSha256": "ba84d8cafbee22932039c989069c238e58214c913875103e926d150b8469ed0c",
+      "afterSha256": "8dcea2e8ee771b4ed52e09986f4a7aaac50d3a1b48648b0223ce55132fb23129",
+      "hunks": [
+        {
+          "at": 337,
+          "before": [],
+          "after": [
+            "    { ...panel('deathShade', 0, 0, width, height, c.backdrop), visible: false },"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_actions.lua": {
+      "beforeSha256": "38da79cc3785f5cad7ba6319eeefda04232bbda6871d13abc6d4da3ef5a70675",
+      "afterSha256": "9d58b05c3c7926523b7f785abe2b2fcbf066f5b97938b656474feee2c70955f4",
+      "hunks": [
+        {
+          "at": 146,
+          "before": [],
+          "after": [
+            "        self.feedback:cancel()"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_render_hud.lua": {
+      "beforeSha256": "dec8efd1f59adf26fcd243b687ad5478826ea61f28afc5c267c6746101081aa3",
+      "afterSha256": "32e112d1fd5b5dc83dbf48aaaf86d67154c5f55c71036e5b6f0479676bf3094f",
+      "hunks": [
+        {
+          "at": 107,
+          "before": [
+            "        dependencies.show(\"hero\", frame.fighting)"
+          ],
+          "after": [
+            "        dependencies.show(\"hero\", frame.fighting and not owner.feedback.deaths.player)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_feedback.lua": {
+      "beforeSha256": "614526dbb6d3a35f8a8d83a2c2aa083010ff59ad9a95365dcc335e2d22eba172",
+      "afterSha256": "d47e183353e2a98f91084233606157b3e2fcfd24dbf36fd2be36c03a998c6244",
+      "hunks": [
+        {
+          "at": 90,
+          "before": [],
+          "after": [
+            "    if kind == \"player_death\" then return T.playerDeath end"
+          ]
+        },
+        {
+          "at": 150,
+          "before": [
+            "        if all then names[#names + 1] = \"sweep\" end"
+          ],
+          "after": [
+            "        if all then names[#names + 1] = \"sweep\" names[#names + 1] = \"deathShade\" end"
+          ]
+        },
+        {
+          "at": 268,
+          "before": [
+            "        else banner(\"旅途暂歇\", true) sound(\"defeat\") end"
+          ],
+          "after": [
+            "        else",
+            "            banner(\"旅途暂歇\", true)",
+            "            local shade = overlay:GetChild(\"deathShade\")",
+            "            tint(shade, C.backdrop, 0)",
+            "            shade:SetVisible(true)",
+            "            if not self.deaths.player then sound(\"defeat\") end",
+            "        end"
+          ]
+        },
+        {
+          "at": 315,
+          "before": [
+            "            sound(Theme.deathSound[victim and victim.definitionId] or \"enemy_die\")"
+          ],
+          "after": [
+            "            sound(d.target == \"player\" and \"defeat\" or Theme.deathSound[victim and victim.definitionId] or \"enemy_die\")"
+          ]
+        },
+        {
+          "at": 317,
+          "before": [],
+          "after": [
+            "        if d.target == \"player\" then self.poses.player = nil overlay:SetAsLastSibling() end"
+          ]
+        },
+        {
+          "at": 402,
+          "before": [
+            "        elseif kind == \"death\" then"
+          ],
+          "after": [
+            "        elseif kind == \"death\" or kind == \"player_death\" then"
+          ]
+        },
+        {
+          "at": 448,
+          "before": [],
+          "after": [
+            "            -- A committed defeat, not a transient zero-HP frame, owns player death.",
+            "            -- Revival can cross zero during damage without ending the battle.",
+            "            if entry.kind == \"defeat\" then",
+            "                self.queue[#self.queue + 1] = {kind = \"player_death\", detail = {target = \"player\"}, frame = previous}",
+            "            end"
+          ]
+        },
+        {
+          "at": 613,
+          "before": [
+            "            ink, flash, alpha = C.goldBright, 1 - easeOut(p), 1 - easeIn(p)"
+          ],
+          "after": [
+            "            ink, flash, alpha = id == \"player\" and C.danger or C.goldBright, 1 - easeOut(p), 1 - easeIn(p)"
+          ]
+        },
+        {
+          "at": 619,
+          "before": [
+            "            tint(impact, C.geo, (1 - p) * 0.8)"
+          ],
+          "after": [
+            "            tint(impact, id == \"player\" and C.danger or C.geo, (1 - p) * 0.8)"
+          ]
+        },
+        {
+          "at": 690,
+          "before": [],
+          "after": [
+            "                if self.current.kind == \"defeat\" then",
+            "                    tint(overlay:GetChild(\"deathShade\"), C.backdrop, easeIn(age / T.banner))",
+            "                end"
+          ]
+        },
+        {
+          "at": 714,
+          "before": [
+            "            for id in pairs(ids) do paint(id, dt, shakes) end"
+          ],
+          "after": [
+            "            -- A newly entered player death starts now, not at the beginning of a stalled frame.",
+            "            local effectDt = self.current and self.current.kind == \"player_death\" and math.min(dt, self.elapsed) or dt",
+            "            for id in pairs(ids) do paint(id, effectDt, shakes) end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_game_ui.lua": {
+      "beforeSha256": "92ea87eed2f4bbdf74ba35e28a5c980cf8a53023cffba62fe5d580573aa8e9f4",
+      "afterSha256": "400375891c34b7c52c06227570263f9f83d4cc177e8ca3d60f8e8f7bc5c55520",
+      "hunks": [
+        {
+          "at": 204,
+          "before": [
+            "    -- scales controls; it never hides them or gates input."
+          ],
+          "after": [
+            "    -- scales controls. A defeat veil bridges battle/results before actions unlock."
+          ]
+        },
+        {
+          "at": 225,
+          "before": [],
+          "after": [
+            "        local shade = menu:GetChild(\"deathShade\")",
+            "        local alpha = m.deathReveal and 1 - easeOut(clamp(m.t / T.slow)) or 0",
+            "        shade.imageColor = platform.color(C.backdrop.r, C.backdrop.g, C.backdrop.b, math.floor(255 * alpha))",
+            "        shade:SetVisible(alpha > 0)",
+            "        if alpha == 0 then m.deathReveal = nil end"
+          ]
+        },
+        {
+          "at": 266,
+          "before": [
+            "        if m.mode ~= mode then m.t, m.mode = 0, mode end"
+          ],
+          "after": [
+            "        if m.mode ~= mode then",
+            "            m.t, m.mode = 0, mode",
+            "            m.deathReveal = defeat and self.battleUI.feedback.deaths.player or nil",
+            "        end"
+          ]
+        },
+        {
+          "at": 340,
+          "before": [],
+          "after": [
+            "        elseif self.motion.deathReveal then scope='blocked'"
+          ]
+        },
+        {
+          "at": 615,
+          "before": [],
+          "after": [
+            "        if self.motion.deathReveal then return false,\"result_revealing\" end"
+          ]
+        },
+        {
+          "at": 661,
+          "before": [],
+          "after": [
+            "        self.battleUI.feedback:cancel()"
+          ]
+        },
+        {
+          "at": 712,
+          "before": [],
+          "after": [
+            "        if self.motion.deathReveal then return false,\"result_revealing\" end"
+          ]
+        },
+        {
+          "at": 721,
+          "before": [],
+          "after": [
+            "        if self.motion.deathReveal then return false,\"result_revealing\" end"
+          ]
+        },
+        {
+          "at": 778,
+          "before": [],
+          "after": [
+            "        if self.battleUI.busy and self.battleUI.feedback.deaths.player then bgm:update(\"defeat\") end"
+          ]
+        },
+        {
+          "at": 826,
+          "before": [],
+          "after": [
+            "            if menuAction and self.motion.deathReveal then return false end"
+          ]
+        }
+      ]
+    },
+    "tests/lua/support/game_ui_fixture.lua": {
+      "beforeSha256": "7949e73a0a0087939ff9768b7770b1469b8ff585407da1494be23f95aa2d241e",
+      "afterSha256": "da8cee301e6215e10082a8d27ef50a472a1653bb42a8dafa529e35121fa46b97",
+      "hunks": [
+        {
+          "at": 165,
+          "before": [
+            "        for _ = 1, 400 do if not root.ui or not root.ui.battleUI.busy then break end root.ui:update(0.05) end",
+            "        assert(not root.ui or not root.ui.battleUI.busy)"
+          ],
+          "after": [
+            "        -- High-level clicks wait for presentation, including the defeat-page reveal.",
+            "        -- Frame/gesture suites call listeners directly to assert the locked interval.",
+            "        for _ = 1, 400 do",
+            "            if not root.ui or not root.ui.battleUI.busy and not root.ui.motion.deathReveal then break end",
+            "            root.ui:update(0.05)",
+            "        end",
+            "        assert(not root.ui or not root.ui.battleUI.busy and not root.ui.motion.deathReveal)"
+          ]
+        }
+      ]
+    },
+    "tests/ui-layout.test.mjs": {
+      "beforeSha256": "ece15d654918e5a63d1698bd1a47eeba0c09b039d3072ea59b2d699955fa6943",
+      "afterSha256": "05c66d61bc6a5f5d9628735356605871b5ce2c9b574539f39924ca58472d49a1",
+      "hunks": [
+        {
+          "at": 17,
+          "before": [
+            "  // Polish adds exactly one shared area sweep; every other effect reuses the per-actor pool."
+          ],
+          "after": [
+            "  // One shared area sweep and one fixed death veil; other effects reuse the actor pool."
+          ]
+        },
+        {
+          "at": 22,
+          "before": [
+            "  assert.equal(overlay.children.length, 4);"
+          ],
+          "after": [
+            "  const shade = overlay.children.find(c => c.name === 'deathShade');",
+            "  assert.equal(shade.visible, false);",
+            "  assert.deepEqual(shade.size, theme.canvas.base);",
+            "  assert.deepEqual(shade.colour, theme.color.backdrop);",
+            "  assert.equal(overlay.children.length, 5);"
+          ]
+        }
+      ]
+    },
+    "tests/lua/support/battle_gesture_fixture.lua": {
+      "beforeSha256": "64407f8ea32f7591ce65cb25a675acee5e499581155942ee448ca4c300691715",
+      "afterSha256": "134616d268298a4d3337ca5e65af2af3568a06c3cb3382e4e0fb8e0fcf3a9868",
+      "hunks": [
+        {
+          "at": 29,
+          "before": [
+            "        for _=1,400 do if not ui.busy then return end; host:update(0.05) end",
+            "        assert(not ui.busy,\"feedback remained stuck\")"
+          ],
+          "after": [
+            "        for _=1,400 do if not ui.busy and not host.motion.deathReveal then return end; host:update(0.05) end",
+            "        assert(not ui.busy and not host.motion.deathReveal,\"feedback remained stuck\")"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sources": {
+    "events/exordium/Mushrooms.java": "0cd9d3b4b9b17a69daada1aba5b5d6e4c60ccf8937673d10c395db4ebfd0f31b",
+    "helpers/MonsterHelper.java": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1",
+    "relics/OddMushroom.java": "bae781f3cce6428879fe784abf29a41ca26d6251a83d02e44530ef972d19edcb",
+    "powers/VulnerablePower.java": "354b0dffa4f9763b9933266e3dfa96f561841b96c251f3f336693991a91dd191"
+  },
+  "contracts": {
+    "eligibility": "Act1 floor > 6",
+    "formation": [
+      [
+        "fungi_beast",
+        -450,
+        30
+      ],
+      [
+        "fungi_beast",
+        -145,
+        20
+      ],
+      [
+        "fungi_beast",
+        180,
+        15
+      ]
+    ],
+    "constructAt": "first_fight_choice",
+    "rewardAt": "second_fight_choice",
+    "gold": [
+      20,
+      30
+    ],
+    "specialRelic": "Odd Mushroom",
+    "duplicate": "Circlet",
+    "heal": "floor(float32(float32(currentMaxHp)*0.25)) before permanent Parasite obtain",
+    "vulnerable": {
+      "player": 1.25,
+      "enemy": 1.5,
+      "type": "NORMAL"
+    }
+  },
+  "boundary": "PC binary/native/natural full campaign NOT_RUN; fixed community mirror source only."
+}

@@ -1,0 +1,44 @@
+{
+  "kind": "offline-normal-rule-campaign",
+  "platformVerified": false,
+  "dataModified": false,
+  "sourceCommit": "243ae1bd888d33e500cdd868932cc09b6cb9131c",
+  "sourceDirty": false,
+  "startedAt": "2026-10-31T16:59:03.482Z",
+  "policy": "warrior75-visible-state-v1",
+  "policySha256": "5a0055c523c4ccc16db573756c87a32bd0797fddb072165830a24d45bc5d0e5b",
+  "driverSha256": "bed113604921fdaaab939b9958fb939918ca3d305ee22f83ad150794522fb9df",
+  "eventCardPolicySha256": "05ba80bf35eac1a6c7c6533f36bd383c9ee7605e7ea455ca342118d34b70da47",
+  "relicChoicePolicySha256": "ed73d98fd30ef6b95bb103991af56a612cd79c2363ba0ef4db68ef49c1a946b7",
+  "resetVerificationKind": "fresh-Run-construction-only; not Host restart",
+  "runs": [
+    {
+      "seed": 2,
+      "status": "victory",
+      "floor": 34,
+      "hp": 30,
+      "ending": "two_act_complete",
+      "actions": 669,
+      "newRunConstructionResetVerified": true,
+      "artifact": "seed-2.json.gz"
+    },
+    {
+      "seed": 3,
+      "status": "defeat",
+      "floor": 16,
+      "hp": 0,
+      "actions": 170,
+      "newRunConstructionResetVerified": true,
+      "artifact": "seed-3.json.gz"
+    },
+    {
+      "seed": 42,
+      "status": "defeat",
+      "floor": 16,
+      "hp": 0,
+      "actions": 216,
+      "newRunConstructionResetVerified": true,
+      "artifact": "seed-42.json.gz"
+    }
+  ]
+}

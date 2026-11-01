@@ -1,0 +1,110 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "archiveSha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
+  "files": {
+    "dungeons/AbstractDungeon.java": {
+      "bytes": 115023,
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+      "gitBlob": "9059f4da5c8002e9645bf38f200e5527d1212ac0"
+    },
+    "dungeons/Exordium.java": {
+      "bytes": 9354,
+      "sha256": "93808b9da69b76da6b8f0471cc3533fa113fa28298939bbc48eb55566a976c08",
+      "gitBlob": "dffde662864871956ca9fac5dbf45784b45fdc30"
+    },
+    "dungeons/TheCity.java": {
+      "bytes": 8194,
+      "sha256": "16a79d6922e3f2eaeb72c09beb177682319fda6b85302470c8d955b673260e3b",
+      "gitBlob": "f4681bc8c8a242d26bfc64564cca959d7cffd956"
+    },
+    "dungeons/TheBeyond.java": {
+      "bytes": 7645,
+      "sha256": "dbc559c7a80e98197f0d9d61e76cffa737dab9a9f21981bc535671523152d46b",
+      "gitBlob": "e0d7db4bbf8d052be8d5070074fd300b413e6ea1"
+    },
+    "rooms/MonsterRoomElite.java": {
+      "bytes": 4609,
+      "sha256": "c5207d745f383e1de615e613da8e5c8f832e237444c3b757d85a61f8b3f5ee3f",
+      "gitBlob": "bb938c13a8ad71f710b75bb7c50eab07a2bba686"
+    },
+    "characters/AbstractPlayer.java": {
+      "bytes": 98339,
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+      "gitBlob": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7"
+    },
+    "actions/unique/IncreaseMaxHpAction.java": {
+      "bytes": 1042,
+      "sha256": "2d2b806662ccbb693e4a37503d9af59270243d1175b63976d1f63cc7d0faf0ae",
+      "gitBlob": "1b347a0c88bdbadfa399b9a51564d6746a096a03"
+    },
+    "core/AbstractCreature.java": {
+      "bytes": 42311,
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b",
+      "gitBlob": "bee5f7d0d955528b69007376cc0465ed60e577c6"
+    },
+    "rewards/RewardItem.java": {
+      "bytes": 20082,
+      "sha256": "4287fb3caf3a6ad04fd7c09d1d272bc7e98ceecf4a4d599131c3a68467f75859",
+      "gitBlob": "a23c192d58c6304acd76505da7365490636f1f31"
+    },
+    "powers/RegenerateMonsterPower.java": {
+      "bytes": 1467,
+      "sha256": "666ddc2424c5760133cb1f09ff066f410d218e26a809dedb6a35fe54800ab392",
+      "gitBlob": "354e19f9ca375c53f9bcff30a0d317c36d28fcd4"
+    },
+    "powers/MetallicizePower.java": {
+      "bytes": 1516,
+      "sha256": "6f35d8908bde5eb6f470845d27dd6e739fe76fb7c3c5d6d83ff48d7864c9e30f",
+      "gitBlob": "4d7467df6070c0a219d481d81b3d10030f76045d"
+    },
+    "screens/CombatRewardScreen.java": {
+      "bytes": 13558,
+      "sha256": "7929ca75599e96c076f9abe2c90576a606c87984174328d10533ada8ee37e70b",
+      "gitBlob": "b14151ac95f94dea592226932495d8d225ea4640"
+    }
+  },
+  "contract": {
+    "selectionOrder": [
+      "source_y",
+      "source_x"
+    ],
+    "selectionStream": "existing post-room-assignment mapRng",
+    "selectionDraw": "random(0, eliteCount - 1), including eliteCount=1",
+    "selectionEligibility": "isFinalActAvailable && !hasEmeraldKey",
+    "boostDraw": "same continuous mapRng.random(0, 3), once per marked room entry",
+    "boostTiming": "entry after monster pre-battle actions are queued",
+    "boosts": [
+      {
+        "roll": 0,
+        "power": "Strength",
+        "amount": "act + 1"
+      },
+      {
+        "roll": 1,
+        "action": "IncreaseMaxHpAction",
+        "amount": "MathUtils.round(float32(maxHealth * 0.25f)); increase max HP then heal same amount"
+      },
+      {
+        "roll": 2,
+        "power": "Metallicize",
+        "amount": "act * 2 + 2"
+      },
+      {
+        "roll": 3,
+        "power": "RegenerateMonster",
+        "amount": "1 + act * 2; no decay"
+      }
+    ],
+    "targets": "current initial monster group; not future summons",
+    "greenConsumesRelic": false,
+    "rewardConditions": "final act available, no emerald key, marked elite room and nonempty rewards",
+    "smokeBoundary": "room prepares drops, but openCombat(smoked=true) does not expose item rewards"
+  },
+  "boundary": {
+    "component": "caller-supplied source-map/qualification/real-victory binding only",
+    "naturalAcquisition": "NOT_IMPLEMENTED_BY_COMPONENT",
+    "mapRngPersistence": "CALLER_REQUIRED",
+    "monsterRegenRouting": "CALLER_REQUIRED",
+    "platformAcceptance": "NOT_RUN"
+  }
+}

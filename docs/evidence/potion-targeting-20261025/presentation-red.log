@@ -1,0 +1,225 @@
+
+> slay-the-abyss@0.1.0 test:presentation
+> python -m unittest discover -s tests -p test_*.py -v
+
+test_damage_need_not_be_first_number_and_all_occurrences_are_preserved (test_growing_card_text.GrowingCardTextTests.test_damage_need_not_be_first_number_and_all_occurrences_are_preserved) ... ok
+test_live_tokens_cover_exactly_modifiable_damage_and_block_values (test_growing_card_text.GrowingCardTextTests.test_live_tokens_cover_exactly_modifiable_damage_and_block_values) ... ok
+test_preserved_damage_token_still_requires_valid_numeric_path (test_growing_card_text.GrowingCardTextTests.test_preserved_damage_token_still_requires_valid_numeric_path) ... ok
+test_unknown_source_does_not_mutate_or_make_backup (test_platform_focus_patch.FocusPatchTests.test_unknown_source_does_not_mutate_or_make_backup) ... ok
+test_embedded_cards_match_source_and_presentation (test_prototype_cards.PrototypeCardTests.test_embedded_cards_match_source_and_presentation) ... 
+  test_embedded_cards_match_source_and_presentation (test_prototype_cards.PrototypeCardTests.test_embedded_cards_match_source_and_presentation) (card='bash') ... FAIL
+  test_embedded_cards_match_source_and_presentation (test_prototype_cards.PrototypeCardTests.test_embedded_cards_match_source_and_presentation) (card='clothesline') ... FAIL
+  test_embedded_cards_match_source_and_presentation (test_prototype_cards.PrototypeCardTests.test_embedded_cards_match_source_and_presentation) (card='thunderclap') ... FAIL
+  test_embedded_cards_match_source_and_presentation (test_prototype_cards.PrototypeCardTests.test_embedded_cards_match_source_and_presentation) (card='uppercut') ... FAIL
+  test_embedded_cards_match_source_and_presentation (test_prototype_cards.PrototypeCardTests.test_embedded_cards_match_source_and_presentation) (card='shockwave') ... FAIL
+test_bounded_pair_and_surrounding_ordinary_effects (test_shockwave_presentation.ShockwavePresentationTests.test_bounded_pair_and_surrounding_ordinary_effects) ... ok
+test_malformed_pair_is_not_silently_rendered (test_shockwave_presentation.ShockwavePresentationTests.test_malformed_pair_is_not_silently_rendered) ... ok
+test_nested_group_rejected_even_in_unreachable_condition (test_shockwave_presentation.ShockwavePresentationTests.test_nested_group_rejected_even_in_unreachable_condition) ... ok
+test_real_variants_keep_original_text_cost_name_and_indices (test_shockwave_presentation.ShockwavePresentationTests.test_real_variants_keep_original_text_cost_name_and_indices) ... FAIL
+test_unmarked_contract_and_unknown_fields_are_unchanged (test_shockwave_presentation.ShockwavePresentationTests.test_unmarked_contract_and_unknown_fields_are_unchanged) ... ok
+test_base_upgrade_and_inputs_unchanged (test_traveler_presentation.PresentationTests.test_base_upgrade_and_inputs_unchanged) ... ok
+test_cli_rejects_symlink_output_alias_when_supported (test_traveler_presentation.PresentationTests.test_cli_rejects_symlink_output_alias_when_supported) ... skipped 'Windows account lacks symlink privilege; hardlink alias is tested separately'
+test_cli_stdout_errors_and_no_input_overwrite (test_traveler_presentation.PresentationTests.test_cli_stdout_errors_and_no_input_overwrite) ... ok
+test_cost_upgrade_inherits_effects (test_traveler_presentation.PresentationTests.test_cost_upgrade_inherits_effects) ... ok
+test_invalid_templates (test_traveler_presentation.PresentationTests.test_invalid_templates) ... ok
+test_missing_unknown_duplicate_and_bad_fields (test_traveler_presentation.PresentationTests.test_missing_unknown_duplicate_and_bad_fields) ... ok
+test_nested_numeric_and_negative_values (test_traveler_presentation.PresentationTests.test_nested_numeric_and_negative_values) ... ok
+test_repository_class_pool_and_status_integration (test_traveler_presentation.PresentationTests.test_repository_class_pool_and_status_integration) ... ok
+test_semantics_change_needs_explicit_upgrade_template (test_traveler_presentation.PresentationTests.test_semantics_change_needs_explicit_upgrade_template) ... ok
+test_status_cost_sentinel_is_blank_and_other_negative_costs_reject (test_traveler_presentation.PresentationTests.test_status_cost_sentinel_is_blank_and_other_negative_costs_reject) ... ok
+test_unknown_effect_contract_and_invalid_numeric_rejected (test_traveler_presentation.PresentationTests.test_unknown_effect_contract_and_invalid_numeric_rejected) ... ok
+test_x_cost (test_traveler_presentation.PresentationTests.test_x_cost) ... ok
+
+======================================================================
+FAIL: test_embedded_cards_match_source_and_presentation (test_prototype_cards.PrototypeCardTests.test_embedded_cards_match_source_and_presentation) (card='bash')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "F:\New folder\.worktrees\potion-targeting\tests\test_prototype_cards.py", line 41, in test_embedded_cards_match_source_and_presentation
+    self.assertEqual(by_id[card['id']], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['bas[31 chars]2', '\u5bf9\u76ee\u6807\u9020\u6210 8 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 2 \u5c42\u6613\u4f24\u3002', '2', '\u5bf9\u76ee\u6807\u9020\u6210 10 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 3 \u5c42\u6613\u4f24\u3002'] != ['bas[31 chars]2', '\u5bf9\u76ee\u6807\u9020\u6210 8 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 2 \u56de\u5408\u6613\u4f24\u3002', '2', '\u5bf9\u76ee\u6807\u9020\u6210 10 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 3 \u56de\u5408\u6613\u4f24\u3002']
+
+First differing element 5:
+'\u5bf9\u76ee\u6807\u9020\u6210 8 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 2 \u5c42\u6613\u4f24\u3002'
+'\u5bf9\u76ee\u6807\u9020\u6210 8 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 2 \u56de\u5408\u6613\u4f24\u3002'
+
+  ['bash',
+   '\u7834\u9632\u65a9',
+   'attack',
+   'basic',
+   '2',
+-  '\u5bf9\u76ee\u6807\u9020\u6210 8 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 2 \u5c42\u6613\u4f24\u3002',
+?                     ^
+
++  '\u5bf9\u76ee\u6807\u9020\u6210 8 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 2 \u56de\u5408\u6613\u4f24\u3002',
+?                     ^^
+
+   '2',
+-  '\u5bf9\u76ee\u6807\u9020\u6210 10 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 3 \u5c42\u6613\u4f24\u3002']
+?                      ^
+
++  '\u5bf9\u76ee\u6807\u9020\u6210 10 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 3 \u56de\u5408\u6613\u4f24\u3002']
+?                      ^^
+
+
+======================================================================
+FAIL: test_embedded_cards_match_source_and_presentation (test_prototype_cards.PrototypeCardTests.test_embedded_cards_match_source_and_presentation) (card='clothesline')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "F:\New folder\.worktrees\potion-targeting\tests\test_prototype_cards.py", line 41, in test_embedded_cards_match_source_and_presentation
+    self.assertEqual(by_id[card['id']], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['clo[40 chars]', '\u5bf9\u76ee\u6807\u9020\u6210 12 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 2 \u5c42\u865a\u5f31\u3002', '2', '\u5bf9\u76ee\u6807\u9020\u6210 14 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 3 \u5c42\u865a\u5f31\u3002'] != ['clo[40 chars]', '\u5bf9\u76ee\u6807\u9020\u6210 12 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 2 \u56de\u5408\u865a\u5f31\u3002', '2', '\u5bf9\u76ee\u6807\u9020\u6210 14 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 3 \u56de\u5408\u865a\u5f31\u3002']
+
+First differing element 5:
+'\u5bf9\u76ee\u6807\u9020\u6210 12 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 2 \u5c42\u865a\u5f31\u3002'
+'\u5bf9\u76ee\u6807\u9020\u6210 12 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 2 \u56de\u5408\u865a\u5f31\u3002'
+
+  ['clothesline',
+   '\u538b\u5236\u65a9',
+   'attack',
+   'common',
+   '2',
+-  '\u5bf9\u76ee\u6807\u9020\u6210 12 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 2 \u5c42\u865a\u5f31\u3002',
+?                      ^
+
++  '\u5bf9\u76ee\u6807\u9020\u6210 12 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 2 \u56de\u5408\u865a\u5f31\u3002',
+?                      ^^
+
+   '2',
+-  '\u5bf9\u76ee\u6807\u9020\u6210 14 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 3 \u5c42\u865a\u5f31\u3002']
+?                      ^
+
++  '\u5bf9\u76ee\u6807\u9020\u6210 14 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 3 \u56de\u5408\u865a\u5f31\u3002']
+?                      ^^
+
+
+======================================================================
+FAIL: test_embedded_cards_match_source_and_presentation (test_prototype_cards.PrototypeCardTests.test_embedded_cards_match_source_and_presentation) (card='thunderclap')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "F:\New folder\.worktrees\potion-targeting\tests\test_prototype_cards.py", line 41, in test_embedded_cards_match_source_and_presentation
+    self.assertEqual(by_id[card['id']], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['thu[45 chars]\u5bf9\u6bcf\u4e2a\u654c\u4eba\u9020\u6210 4 \u70b9\u4f24\u5bb3\uff0c\u5e76\u5404\u65bd\u52a0 1 \u5c42\u6613\u4f24\u3002', '1', '\u5bf9\u6bcf\u4e2a\u654c\u4eba\u9020\u6210 7 \u70b9\u4f24\u5bb3\uff0c\u5e76\u5404\u65bd\u52a0 1 \u5c42\u6613\u4f24\u3002'] != ['thu[45 chars]\u5bf9\u6bcf\u4e2a\u654c\u4eba\u9020\u6210 4 \u70b9\u4f24\u5bb3\uff0c\u5e76\u5404\u65bd\u52a0 1 \u56de\u5408\u6613\u4f24\u3002', '1', '\u5bf9\u6bcf\u4e2a\u654c\u4eba\u9020\u6210 7 \u70b9\u4f24\u5bb3\uff0c\u5e76\u5404\u65bd\u52a0 1 \u56de\u5408\u6613\u4f24\u3002']
+
+First differing element 5:
+'\u5bf9\u6bcf\u4e2a\u654c\u4eba\u9020\u6210 4 \u70b9\u4f24\u5bb3\uff0c\u5e76\u5404\u65bd\u52a0 1 \u5c42\u6613\u4f24\u3002'
+'\u5bf9\u6bcf\u4e2a\u654c\u4eba\u9020\u6210 4 \u70b9\u4f24\u5bb3\uff0c\u5e76\u5404\u65bd\u52a0 1 \u56de\u5408\u6613\u4f24\u3002'
+
+  ['thunderclap',
+   '\u6a2a\u626b\u7834\u9632',
+   'attack',
+   'common',
+   '1',
+-  '\u5bf9\u6bcf\u4e2a\u654c\u4eba\u9020\u6210 4 \u70b9\u4f24\u5bb3\uff0c\u5e76\u5404\u65bd\u52a0 1 \u5c42\u6613\u4f24\u3002',
+?                        ^
+
++  '\u5bf9\u6bcf\u4e2a\u654c\u4eba\u9020\u6210 4 \u70b9\u4f24\u5bb3\uff0c\u5e76\u5404\u65bd\u52a0 1 \u56de\u5408\u6613\u4f24\u3002',
+?                        ^^
+
+   '1',
+-  '\u5bf9\u6bcf\u4e2a\u654c\u4eba\u9020\u6210 7 \u70b9\u4f24\u5bb3\uff0c\u5e76\u5404\u65bd\u52a0 1 \u5c42\u6613\u4f24\u3002']
+?                        ^
+
++  '\u5bf9\u6bcf\u4e2a\u654c\u4eba\u9020\u6210 7 \u70b9\u4f24\u5bb3\uff0c\u5e76\u5404\u65bd\u52a0 1 \u56de\u5408\u6613\u4f24\u3002']
+?                        ^^
+
+
+======================================================================
+FAIL: test_embedded_cards_match_source_and_presentation (test_prototype_cards.PrototypeCardTests.test_embedded_cards_match_source_and_presentation) (card='uppercut')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "F:\New folder\.worktrees\potion-targeting\tests\test_prototype_cards.py", line 41, in test_embedded_cards_match_source_and_presentation
+    self.assertEqual(by_id[card['id']], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['upp[56 chars]\uff0c\u518d\u65bd\u52a0 1 \u5c42\u865a\u5f31\u548c 1 \u5c42\u6613\u4f24\u3002', '2', '\u5bf9\u76ee\u6807\u9020\u6210 13 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 2 \u5c42\u865a\u5f31\u548c 2 \u5c42\u6613\u4f24\u3002'] != ['upp[56 chars]\uff0c\u518d\u65bd\u52a0 1 \u56de\u5408\u865a\u5f31\u548c 1 \u56de\u5408\u6613\u4f24\u3002', '2', '\u5bf9\u76ee\u6807\u9020\u6210 13 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 2 \u56de\u5408\u865a\u5f31\u548c 2 \u56de\u5408\u6613\u4f24\u3002']
+
+First differing element 5:
+'\u5bf9\u76ee\u6807\u9020\u6210 13 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 1 \u5c42\u865a\u5f31\u548c 1 \u5c42\u6613\u4f24\u3002'
+'\u5bf9\u76ee\u6807\u9020\u6210 13 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 1 \u56de\u5408\u865a\u5f31\u548c 1 \u56de\u5408\u6613\u4f24\u3002'
+
+  ['uppercut',
+   '\u6311\u5251\u7834\u52bf',
+   'attack',
+   'uncommon',
+   '2',
+-  '\u5bf9\u76ee\u6807\u9020\u6210 13 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 1 \u5c42\u865a\u5f31\u548c 1 \u5c42\u6613\u4f24\u3002',
+?                      ^      ^
+
++  '\u5bf9\u76ee\u6807\u9020\u6210 13 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 1 \u56de\u5408\u865a\u5f31\u548c 1 \u56de\u5408\u6613\u4f24\u3002',
+?                      ^^      ^^
+
+   '2',
+-  '\u5bf9\u76ee\u6807\u9020\u6210 13 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 2 \u5c42\u865a\u5f31\u548c 2 \u5c42\u6613\u4f24\u3002']
+?                      ^      ^
+
++  '\u5bf9\u76ee\u6807\u9020\u6210 13 \u70b9\u4f24\u5bb3\uff0c\u518d\u65bd\u52a0 2 \u56de\u5408\u865a\u5f31\u548c 2 \u56de\u5408\u6613\u4f24\u3002']
+?                      ^^      ^^
+
+
+======================================================================
+FAIL: test_embedded_cards_match_source_and_presentation (test_prototype_cards.PrototypeCardTests.test_embedded_cards_match_source_and_presentation) (card='shockwave')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "F:\New folder\.worktrees\potion-targeting\tests\test_prototype_cards.py", line 41, in test_embedded_cards_match_source_and_presentation
+    self.assertEqual(by_id[card['id']], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['sho[49 chars]\u65bd\u52a0 3 \u5c42\u865a\u5f31\u548c 3 \u5c42\u6613\u4f24\u3002\u6253\u51fa\u540e\u6d88\u8017\u672c\u724c\u3002', '2', '\u4e3a\u6bcf\u4e2a\u654c\u4eba\u65bd\u52a0 5 \u5c42\u865a\u5f31[13 chars]\u672c\u724c\u3002'] != ['sho[49 chars]\u65bd\u52a0 3 \u56de\u5408\u865a\u5f31\u548c 3 \u56de\u5408\u6613\u4f24\u3002\u6253\u51fa\u540e\u6d88\u8017\u672c\u724c\u3002', '2', '\u4e3a\u6bcf\u4e2a\u654c\u4eba\u65bd\u52a0 5 \u56de[17 chars]\u672c\u724c\u3002']
+
+First differing element 5:
+'\u4e3a\u6bcf\u4e2a\u654c\u4eba\u65bd\u52a0 3 \u5c42\u865a\u5f31\u548c 3 \u5c42\u6613\u4f24\u3002\u6253\u51fa\u540e\u6d88\u8017\u672c\u724c\u3002'
+'\u4e3a\u6bcf\u4e2a\u654c\u4eba\u65bd\u52a0 3 \u56de\u5408\u865a\u5f31\u548c 3 \u56de\u5408\u6613\u4f24\u3002\u6253\u51fa\u540e\u6d88\u8017\u672c\u724c\u3002'
+
+  ['shockwave',
+   '\u9707\u6151\u654c\u9635',
+   'skill',
+   'uncommon',
+   '2',
+-  '\u4e3a\u6bcf\u4e2a\u654c\u4eba\u65bd\u52a0 3 \u5c42\u865a\u5f31\u548c 3 \u5c42\u6613\u4f24\u3002\u6253\u51fa\u540e\u6d88\u8017\u672c\u724c\u3002',
+?             ^      ^
+
++  '\u4e3a\u6bcf\u4e2a\u654c\u4eba\u65bd\u52a0 3 \u56de\u5408\u865a\u5f31\u548c 3 \u56de\u5408\u6613\u4f24\u3002\u6253\u51fa\u540e\u6d88\u8017\u672c\u724c\u3002',
+?             ^^      ^^
+
+   '2',
+-  '\u4e3a\u6bcf\u4e2a\u654c\u4eba\u65bd\u52a0 5 \u5c42\u865a\u5f31\u548c 5 \u5c42\u6613\u4f24\u3002\u6253\u51fa\u540e\u6d88\u8017\u672c\u724c\u3002']
+?             ^      ^
+
++  '\u4e3a\u6bcf\u4e2a\u654c\u4eba\u65bd\u52a0 5 \u56de\u5408\u865a\u5f31\u548c 5 \u56de\u5408\u6613\u4f24\u3002\u6253\u51fa\u540e\u6d88\u8017\u672c\u724c\u3002']
+?             ^^      ^^
+
+
+======================================================================
+FAIL: test_real_variants_keep_original_text_cost_name_and_indices (test_shockwave_presentation.ShockwavePresentationTests.test_real_variants_keep_original_text_cost_name_and_indices)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "F:\New folder\.worktrees\potion-targeting\tests\test_shockwave_presentation.py", line 24, in test_real_variants_keep_original_text_cost_name_and_indices
+    self.assertEqual(result, dict(id='shockwave', name='\u9707\u6151\u654c\u9635', cost='2', upgradeCost='2',
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        text='\u4e3a\u6bcf\u4e2a\u654c\u4eba\u65bd\u52a0 3 \u5c42\u865a\u5f31\u548c 3 \u5c42\u6613\u4f24\u3002\u6253\u51fa\u540e\u6d88\u8017\u672c\u724c\u3002',
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        upgradeText='\u4e3a\u6bcf\u4e2a\u654c\u4eba\u65bd\u52a0 5 \u5c42\u865a\u5f31\u548c 5 \u5c42\u6613\u4f24\u3002\u6253\u51fa\u540e\u6d88\u8017\u672c\u724c\u3002'))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'id'[40 chars]2', 'text': '\u4e3a\u6bcf\u4e2a\u654c\u4eba\u65bd\u52a0 3 \u56de\u5408\u865a\u5f31\u548c 3 \u56de\u5408\u6613\u4f24\u3002\u6253\u51fa\u540e\u6d88\u8017\u672c\u724c\u3002',[65 chars]\u672c\u724c\u3002'} != {'id'[40 chars]2', 'upgradeCost': '2', 'text': '\u4e3a\u6bcf\u4e2a\u654c\u4eba\u65bd\u52a0 3 \u5c42\u865a\u5f31[61 chars]\u672c\u724c\u3002'}
+  {'cost': '2',
+   'id': 'shockwave',
+   'name': '\u9707\u6151\u654c\u9635',
+-  'text': '\u4e3a\u6bcf\u4e2a\u654c\u4eba\u65bd\u52a0 3 \u56de\u5408\u865a\u5f31\u548c 3 \u56de\u5408\u6613\u4f24\u3002\u6253\u51fa\u540e\u6d88\u8017\u672c\u724c\u3002',
+?                     ^^      ^^
+
++  'text': '\u4e3a\u6bcf\u4e2a\u654c\u4eba\u65bd\u52a0 3 \u5c42\u865a\u5f31\u548c 3 \u5c42\u6613\u4f24\u3002\u6253\u51fa\u540e\u6d88\u8017\u672c\u724c\u3002',
+?                     ^      ^
+
+   'upgradeCost': '2',
+-  'upgradeText': '\u4e3a\u6bcf\u4e2a\u654c\u4eba\u65bd\u52a0 5 \u56de\u5408\u865a\u5f31\u548c 5 \u56de\u5408\u6613\u4f24\u3002\u6253\u51fa\u540e\u6d88\u8017\u672c\u724c\u3002'}
+?                            ^^      ^^
+
++  'upgradeText': '\u4e3a\u6bcf\u4e2a\u654c\u4eba\u65bd\u52a0 5 \u5c42\u865a\u5f31\u548c 5 \u5c42\u6613\u4f24\u3002\u6253\u51fa\u540e\u6d88\u8017\u672c\u724c\u3002'}
+?                            ^      ^
+
+
+----------------------------------------------------------------------
+Ran 22 tests in 2.038s
+
+FAILED (failures=6, skipped=1)

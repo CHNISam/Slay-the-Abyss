@@ -1,0 +1,70 @@
+ABYSS_RUN seed=1 source=explicit
+PASS 50ms tap remains selected without delayed help or suppressed next click
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+PASS first enemy tap after released Bash applies exactly once
+ABYSS_RUN seed=1 source=explicit
+PASS stationary EndDrag on card cancels its pending help
+ABYSS_RUN seed=1 source=explicit
+PASS stationary EndDrag on dragLayer cancels its pending help
+ABYSS_RUN seed=1 source=explicit
+PASS short tap cancels help in no_coordinates C-mode
+ABYSS_RUN seed=1 source=explicit
+PASS short tap cancels help in unplayable C-mode
+ABYSS_RUN seed=1 source=explicit
+PASS short tap cancels help in no_touch_id C-mode
+ABYSS_RUN seed=1 source=explicit
+PASS a genuine 350ms hold still opens help and releases without playing
+ABYSS_RUN seed=1 source=explicit
+PASS genuine hold still opens help in no_coordinates C-mode
+ABYSS_RUN seed=1 source=explicit
+PASS genuine hold still opens help in unplayable C-mode
+ABYSS_RUN seed=1 source=explicit
+PASS keyword hover is still read-only and closes on exit
+ABYSS_RUN seed=1 source=explicit
+PASS foreign Up and EndDrag do not cancel the live card hold
+ABYSS_RUN seed=1 source=explicit
+PASS same touch on another card cannot cancel the held source
+ABYSS_RUN seed=1 source=explicit
+PASS coordinate-free old card release preserves newer keyword-card help
+ABYSS_RUN seed=1 source=explicit
+PASS old card release cannot cancel a newer hover tooltip
+ABYSS_RUN seed=1 source=explicit
+PASS resize cancels held help even without release callbacks
+ABYSS_RUN seed=1 source=explicit
+PASS stale old touch after resize cannot cancel a new hold on the same slot
+ABYSS_RUN seed=1 source=explicit
+PASS same-slot card UID replacement invalidates held help without a render
+ABYSS_RUN seed=1 source=explicit
+PASS deck interruption cancels help and old release but a new tap still works
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+PASS exit cancellation blocks old help and allows a fresh Bash target tap
+ABYSS_RUN seed=1 source=explicit
+PASS turn identity change cancels pending card help
+ABYSS_RUN seed=1 source=explicit
+PASS combat identity change cancels pending card help
+ABYSS_RUN seed=1 source=explicit
+PASS run identity change cancels pending card help
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+PASS movement cancels pending help and keeps drag targeting functional
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+PASS release immediately before the deadline cannot fire before a delayed Click
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+PASS nonfinite coordinates retain cancellable C-mode: NaN
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+PASS nonfinite coordinates retain cancellable C-mode: Infinity
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+PASS nonfinite coordinates retain cancellable C-mode: -Infinity
+ABYSS_RUN seed=1 source=explicit
+PASS battle_phase invalidates held help without a render
+ABYSS_RUN seed=1 source=explicit
+PASS run_phase invalidates held help without a render
+ABYSS_RUN seed=1 source=explicit
+PASS old coordinate-free release preserves newer hover on the same control
+LUA_CARD_HELP_RELEASE 31 passed; 0 failed

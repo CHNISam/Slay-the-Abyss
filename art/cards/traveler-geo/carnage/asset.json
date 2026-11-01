@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "card_id": "carnage",
+  "displayName": "抓住战机",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "carnage/generation-provenance.json",
+      "sha256": "30f9f188882f1223fa5a8459a479ce9e36e0125d4cda225a469f12f0fe69a4a0",
+      "bytes": 1962
+    },
+    "preview-contain-144x64.png": {
+      "path": "carnage/preview-contain-144x64.png",
+      "sha256": "fcae2ce1e8eb55bc429b53d95b3f11e66a3289316379a67dde3d00079787fb93",
+      "bytes": 20004
+    },
+    "prompt.txt": {
+      "path": "carnage/prompt.txt",
+      "sha256": "9e34c18815e91364e288d5fb74b36e30ab31e190d915526515e35a0e454840a0",
+      "bytes": 3107
+    },
+    "source.png": {
+      "path": "carnage/source.png",
+      "sha256": "f6a6f67d9775421be463c629c27f55a81c9a7f95f38b13c454fb606ef1b35375",
+      "bytes": 1957534
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "carnage",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damage",
+        "value": 20
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-07",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

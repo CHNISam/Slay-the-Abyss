@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "fungi_beast",
+  "sourceSha256": "627ba7a9314ff099aedb1d02db82f03b77de9696bd6ec353cdd9b9c6c3f7b646",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    37,
+    174,
+    1229,
+    1111
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "c0995e9714016ad1362f8903406477f7d16643044dcdf18734d33fcd94e24b72",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "9118961f7150b622e604f23d8add645b831d1e1557767007053a3bf22f7c980e",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Exactly three asymmetric broad grey-purple/beige-rim mushroom caps attached coherently to low brown mammal; face visible below cap.",
+    "Four paws accounted: far front left, near front center, far rear underbelly partly occluded, near rear right. No extra/detached paw; full caps, muzzle, toes and tail intact.",
+    "Three cap silhouettes remain readable106/127, distinct from rockjaw stone backplates, no copied STS pig/sporecloud identity."
+  ],
+  "costLimits": [
+    "Preserve connected anatomy, important prop count and large silhouette/value masses before fine facets/fur/fingers/glints.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserve; intact tight margins downstream6% inset contain allowed; no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only, no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

@@ -1,0 +1,396 @@
+{
+  "sourceCommit": "277c2a8b044c01762fc7822541fcb0feef0bb996",
+  "candidate": {
+    "sha256Before": "04c0e28c40bab1e67620566a5eb3ad4ac19f7f53206a0effe317f0d0351fe6ac",
+    "sha256After": "04c0e28c40bab1e67620566a5eb3ad4ac19f7f53206a0effe317f0d0351fe6ac",
+    "path": "F:\\New folder\\.artifacts\\audio-richness-integrated-20261025\\audio\\wmvmlqzae-0\\working.gil"
+  },
+  "modules": [
+    {
+      "name": "abyss_data",
+      "actualSha256": "5e3560e5d399db157b1f26b472b2834d186d2d0865819c9a8e098f1f30783a13",
+      "expectedSha256": "5e3560e5d399db157b1f26b472b2834d186d2d0865819c9a8e098f1f30783a13",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_map_layout",
+      "actualSha256": "619c85496eef8d88790709ab9fbbd0466527773440d2e5bc015bdab3167acb57",
+      "expectedSha256": "619c85496eef8d88790709ab9fbbd0466527773440d2e5bc015bdab3167acb57",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_narrative",
+      "actualSha256": "a190f16474d0e5603710c38a2bf3c5e8700a0ce94f584fd47f24ca10477639db",
+      "expectedSha256": "a190f16474d0e5603710c38a2bf3c5e8700a0ce94f584fd47f24ca10477639db",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_presentation",
+      "actualSha256": "f07e975860e5240b30e316bd6b3dd408b640d184dc40f775ca568a9d6cf44625",
+      "expectedSha256": "f07e975860e5240b30e316bd6b3dd408b640d184dc40f775ca568a9d6cf44625",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_theme",
+      "actualSha256": "1d0d83928916aa10fe69cc462c044faea5a9aa64af6b542589ab97894bdf4e1a",
+      "expectedSha256": "1d0d83928916aa10fe69cc462c044faea5a9aa64af6b542589ab97894bdf4e1a",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_acid_slime_s_ai",
+      "actualSha256": "c100602f15af332ef85d4b8897e10a97442b5924fe59b1d2e4eb938bc24ba204",
+      "expectedSha256": "c100602f15af332ef85d4b8897e10a97442b5924fe59b1d2e4eb938bc24ba204",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_actor",
+      "actualSha256": "b4ced083fef23eb0e107475d4a66cf8463fa72bcb92169c84dcf8b08f8dfec9c",
+      "expectedSha256": "b4ced083fef23eb0e107475d4a66cf8463fa72bcb92169c84dcf8b08f8dfec9c",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_battle_ui",
+      "actualSha256": "03e3f22efdfbdfa4c007798022c577d48776b4f454bce767d3b6b70f112fa209",
+      "expectedSha256": "03e3f22efdfbdfa4c007798022c577d48776b4f454bce767d3b6b70f112fa209",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_bgm",
+      "actualSha256": "c202344ab9a923f46be97603858c25e30f893a3c68fac1d3d091b9c4cd440525",
+      "expectedSha256": "c202344ab9a923f46be97603858c25e30f893a3c68fac1d3d091b9c4cd440525",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_blue_slaver_ai",
+      "actualSha256": "b7d21d343d44b931b078243f18194171e3dccd75ba875bd177a277a4d28e6132",
+      "expectedSha256": "b7d21d343d44b931b078243f18194171e3dccd75ba875bd177a277a4d28e6132",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_combat",
+      "actualSha256": "ed0c89e1c7f9a810af60c4885cc15edea2185c09e99c5f7af06ca00442f81dae",
+      "expectedSha256": "ed0c89e1c7f9a810af60c4885cc15edea2185c09e99c5f7af06ca00442f81dae",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_deck_ui",
+      "actualSha256": "c6c3572b259a92f69926b5416041ba660cc8982e602a0b3bb7daead1e1a38e47",
+      "expectedSha256": "c6c3572b259a92f69926b5416041ba660cc8982e602a0b3bb7daead1e1a38e47",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_effects",
+      "actualSha256": "31ba6f4215241e6fd31a09c7b9958280b295e8b9bb94a2ede09cd369aaddea21",
+      "expectedSha256": "31ba6f4215241e6fd31a09c7b9958280b295e8b9bb94a2ede09cd369aaddea21",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_enemy_ai",
+      "actualSha256": "6e0ed0d2ec2c705a40cbd73c207716018abbf9dee27ae17e6247a25c6e0e2b3b",
+      "expectedSha256": "6e0ed0d2ec2c705a40cbd73c207716018abbf9dee27ae17e6247a25c6e0e2b3b",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_events",
+      "actualSha256": "5b67f1d1741011b0787006a0e056f7363793164f5b788e23db0b417e59c150ba",
+      "expectedSha256": "5b67f1d1741011b0787006a0e056f7363793164f5b788e23db0b417e59c150ba",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_feedback",
+      "actualSha256": "9975658f8b8254631e96698c10283dba31048a3465d05f2c91269d6cabe6ea9a",
+      "expectedSha256": "9975658f8b8254631e96698c10283dba31048a3465d05f2c91269d6cabe6ea9a",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_game_ui",
+      "actualSha256": "5742c76bb0337beafc01e15a2bebf29886648adcf9baff93ad08d1a6c664c153",
+      "expectedSha256": "5742c76bb0337beafc01e15a2bebf29886648adcf9baff93ad08d1a6c664c153",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_gremlin_nob_ai",
+      "actualSha256": "a33ba959aa080c2e37adb2c6d1255eb582af77e1b5b8957fff4a75c545a8c6ee",
+      "expectedSha256": "a33ba959aa080c2e37adb2c6d1255eb582af77e1b5b8957fff4a75c545a8c6ee",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_guardian_ai",
+      "actualSha256": "bcc0534cb53e8a9c8c1570d9c5b9536565a8be62951d22281dce4c1748b1244f",
+      "expectedSha256": "bcc0534cb53e8a9c8c1570d9c5b9536565a8be62951d22281dce4c1748b1244f",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_inventory",
+      "actualSha256": "640237619a98363b502d88643a853ddd4f8ed19f1b1675f8d76598e02d95190c",
+      "expectedSha256": "640237619a98363b502d88643a853ddd4f8ed19f1b1675f8d76598e02d95190c",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_jaw_worm_ai",
+      "actualSha256": "26be5aac1d0174ee0a238e22cdd5ca8813a5534e2d0a604d521c70d9f4361583",
+      "expectedSha256": "26be5aac1d0174ee0a238e22cdd5ca8813a5534e2d0a604d521c70d9f4361583",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_map",
+      "actualSha256": "b10f77f63455d0466d6c936a231b95e38440b0e0c790e6da77b56e14e884e130",
+      "expectedSha256": "b10f77f63455d0466d6c936a231b95e38440b0e0c790e6da77b56e14e884e130",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_map_ui",
+      "actualSha256": "fb1fa3e43507dafb863a327c5dff504b0aa73b281564fb48163c5a5aa9dc3a8d",
+      "expectedSha256": "fb1fa3e43507dafb863a327c5dff504b0aa73b281564fb48163c5a5aa9dc3a8d",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_node_ui",
+      "actualSha256": "699f3b6443f88c2afdec0298675cef5c265c18955d667c89b0817a8d959b6eb2",
+      "expectedSha256": "699f3b6443f88c2afdec0298675cef5c265c18955d667c89b0817a8d959b6eb2",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_nodes",
+      "actualSha256": "600d088d590fbf7ae663ba7bc27212139d0e652faec5a8ba1fa8db9f304ac2cf",
+      "expectedSha256": "600d088d590fbf7ae663ba7bc27212139d0e652faec5a8ba1fa8db9f304ac2cf",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_random",
+      "actualSha256": "2104296392c6cc52e4813eb05c4138319de0297a3b72c30598fba8ad4dbf4c93",
+      "expectedSha256": "2104296392c6cc52e4813eb05c4138319de0297a3b72c30598fba8ad4dbf4c93",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_red_slaver_ai",
+      "actualSha256": "3b46f147effecf60debbccd4f293cdc81832692227308ba2226e12b35760b91f",
+      "expectedSha256": "3b46f147effecf60debbccd4f293cdc81832692227308ba2226e12b35760b91f",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_run",
+      "actualSha256": "4db2cbe07c3906b0197d2bfb90fc1d35b57aaa976059076fedcdafad50429597",
+      "expectedSha256": "4db2cbe07c3906b0197d2bfb90fc1d35b57aaa976059076fedcdafad50429597",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_sentry_ai",
+      "actualSha256": "72db97c39b83eabe25ec5329129598d6b3946611ed15aed2c22e9e0c79f0e2cb",
+      "expectedSha256": "72db97c39b83eabe25ec5329129598d6b3946611ed15aed2c22e9e0c79f0e2cb",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_ui",
+      "actualSha256": "b416c72a0707dfd16405ac877f021d23fea56bf5ee7cb63fc67c11f990860d4c",
+      "expectedSha256": "b416c72a0707dfd16405ac877f021d23fea56bf5ee7cb63fc67c11f990860d4c",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_unknown",
+      "actualSha256": "06fd62a6f679f0cee51e42c47314735b39420001e97952cca81db4656dc4128e",
+      "expectedSha256": "06fd62a6f679f0cee51e42c47314735b39420001e97952cca81db4656dc4128e",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_viewport",
+      "actualSha256": "7d7fc4973b47c60ced3915d930fec57ac6c16ea3f7f5dee6d588fbf2aed5be0a",
+      "expectedSha256": "7d7fc4973b47c60ced3915d930fec57ac6c16ea3f7f5dee6d588fbf2aed5be0a",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_acid_slime_m_ai",
+      "actualSha256": "e275b82b4da6f2d37e62f6b288b2e98823c3a125e2cb447088f80a98bda583d2",
+      "expectedSha256": "e275b82b4da6f2d37e62f6b288b2e98823c3a125e2cb447088f80a98bda583d2",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_event_pool",
+      "actualSha256": "3e05f9b827b4a638586128a1066653744ee3f65112e63345ba57d6c09433aacd",
+      "expectedSha256": "3e05f9b827b4a638586128a1066653744ee3f65112e63345ba57d6c09433aacd",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_fungi_beast_ai",
+      "actualSha256": "736b296bc6150db5424affc358be518ee5411fb83485e6c6efd4b6f6a6e7aadf",
+      "expectedSha256": "736b296bc6150db5424affc358be518ee5411fb83485e6c6efd4b6f6a6e7aadf",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_louse_ai",
+      "actualSha256": "a321b56a78b22f7b0b3770190acf16232217a721e19cf275bb24372f207ae38c",
+      "expectedSha256": "a321b56a78b22f7b0b3770190acf16232217a721e19cf275bb24372f207ae38c",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_numbers",
+      "actualSha256": "c65422fc6a2661f96067b6135c848a34b4255caba2f505ef2b651e67b77e81d8",
+      "expectedSha256": "c65422fc6a2661f96067b6135c848a34b4255caba2f505ef2b651e67b77e81d8",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_randomxs128",
+      "actualSha256": "11104d5e2f1158566d2db6abbe4a358df9d02526edfff5632147e79d04d99986",
+      "expectedSha256": "11104d5e2f1158566d2db6abbe4a358df9d02526edfff5632147e79d04d99986",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_spike_slime_m_ai",
+      "actualSha256": "234caee12229e1a9c693e8cda5ad19534e0334ad9eb391894d07470b956dc3b5",
+      "expectedSha256": "234caee12229e1a9c693e8cda5ad19534e0334ad9eb391894d07470b956dc3b5",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_sts_random",
+      "actualSha256": "6728ffa86944e578852ad9dfc4c5a23d825e917e2d24ab12f93fc1730a6d24ac",
+      "expectedSha256": "6728ffa86944e578852ad9dfc4c5a23d825e917e2d24ab12f93fc1730a6d24ac",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_looter_ai",
+      "actualSha256": "5566c57d23211f580b7296023e79a074240a36667122437ac5790a2d9bb73d66",
+      "expectedSha256": "5566c57d23211f580b7296023e79a074240a36667122437ac5790a2d9bb73d66",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_merchant",
+      "actualSha256": "65c4b0de0640ae1515d94496b331ef3559859fd47183f28ce5e12ba74bebfa82",
+      "expectedSha256": "65c4b0de0640ae1515d94496b331ef3559859fd47183f28ce5e12ba74bebfa82",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_new_run_seed",
+      "actualSha256": "bbf281ef43af3b17264a930615a26bc51fc1d34394d8d857911c5fffe7ec1f2d",
+      "expectedSha256": "bbf281ef43af3b17264a930615a26bc51fc1d34394d8d857911c5fffe7ec1f2d",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_potion_discard_ui",
+      "actualSha256": "5c2849f37fe0ce59e471e428483eefe9bfe56e059bfab695fcc5af19e6889f72",
+      "expectedSha256": "5c2849f37fe0ce59e471e428483eefe9bfe56e059bfab695fcc5af19e6889f72",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_potion_rewards",
+      "actualSha256": "f836310969b61ebb6f8754571b88eb010cbf4e5d14c7e09684a44d0f179a80d1",
+      "expectedSha256": "f836310969b61ebb6f8754571b88eb010cbf4e5d14c7e09684a44d0f179a80d1",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_prologue",
+      "actualSha256": "b7248c4d837fa085c4990db89c4fda3c2855d680c14eeed6a2f8878b0e1202da",
+      "expectedSha256": "b7248c4d837fa085c4990db89c4fda3c2855d680c14eeed6a2f8878b0e1202da",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_shop",
+      "actualSha256": "82ff3a6cca54eaa440047cd02134e52142ff84242c88a395f39c14bf7ed401a3",
+      "expectedSha256": "82ff3a6cca54eaa440047cd02134e52142ff84242c88a395f39c14bf7ed401a3",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_shop_price",
+      "actualSha256": "53095e7d7a4deaac3e9dfe0f2d5a2d39849805e43f8383232e518af7f588fb70",
+      "expectedSha256": "53095e7d7a4deaac3e9dfe0f2d5a2d39849805e43f8383232e518af7f588fb70",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    }
+  ],
+  "ui": {
+    "expectedCount": 2339,
+    "actualCount": 2339,
+    "expectedMaxChildren": 58,
+    "actualMaxChildren": 58,
+    "shellNodesExcluded": "Native interface container/root are outside interface.controls; counts use source controls scope."
+  },
+  "bgmEnabled": true,
+  "parameters": [
+    {
+      "section": 7,
+      "name": "nativeBgmEnabled",
+      "type": 4,
+      "code": 5,
+      "value": true,
+      "encodedHex": "3a2e12106e617469766542676d456e61626c6564180422120806100122070801a206020804d206020801380640065005"
+    },
+    {
+      "section": 8,
+      "name": "nativeBgmEnabled",
+      "type": 4,
+      "code": 5,
+      "value": true,
+      "encodedHex": "422e12106e617469766542676d456e61626c6564180422120806100122070801a206020804d206020801380640065005"
+    }
+  ],
+  "graphSummary": [
+    {
+      "name": "_GSTS_ABYSS_SETTLEMENT",
+      "nodeCount": 22,
+      "editorCount": 72
+    },
+    {
+      "name": "_GSTS_ABYSS_BGM",
+      "nodeCount": 83,
+      "editorCount": 258
+    }
+  ],
+  "auditOk": true,
+  "staticErrors": 0,
+  "staticWarnings": 32,
+  "focusedTests": {
+    "feedback": 17,
+    "nodeUi": 39
+  },
+  "adoption": "USER_APPROVED_DIRECT_INTEGRATION_NO_AUDITION_GATE",
+  "officialImport": "NOT_TESTED",
+  "playtest": "NOT_TESTED",
+  "audio": "NOT_TESTED",
+  "liveWriteEnabled": false
+}

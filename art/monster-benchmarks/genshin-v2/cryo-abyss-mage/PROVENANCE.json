@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "identity": "cryo-abyss-mage",
+  "source": {
+    "repoPath": "art/monster-benchmarks/genshin-v2/cryo-abyss-mage/source.png",
+    "sha256": "e1d86f8eb89d6ba5a678b06266599c698344a9c966c99451926d40b7d0da4c74",
+    "bytes": 998372,
+    "size": [
+      1254,
+      1254
+    ],
+    "bytesUnmodified": true,
+    "action": "add unchanged raw generated source"
+  },
+  "sourceDirectionApprovedByUser": false,
+  "sourceApprovalScope": "No user source approval established here; do not infer it from root review",
+  "nativeReview": "root-reviewed simplified test candidate (parent attestation)",
+  "nativeOwnerAcceptance": false,
+  "method": "Hand-authored Cryo source-space semantic material planes, triangulated with pinned editor XYZ projection; no source pixel sampling, source contour tracing, fitting, gallery substitution, new renderer or dependencies",
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "native": {
+    "native-art.json": {
+      "sha256": "1095c12c9278441d8a3356f517c62842fd0665005ce8010535c7e8e30ecd76fe",
+      "bytes": 369498
+    },
+    "native-art.lua": {
+      "sha256": "c0f08f33f2164bedbaf859d387d0bf2c5293593ad626aeb298207e3cb24ca6aa",
+      "bytes": 117914
+    }
+  },
+  "originalEvidence": {
+    "nativeReportSha256": "6199be7b54eb3095529c1d4c8099238d0477dd0b781a8837c9da8b5f53ef270d",
+    "generationProvenanceSha256": "742481ad7bc4dd7273fbaf586cbb861ef514c02c786e8f57f590995f41b0f061"
+  },
+  "generation": {
+    "tool": "built-in image_gen according to retained provenance",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "note": "No generation or conversion performed in staging; existing raw PNG preserved."
+  },
+  "identityReferenceMetadata": {
+    "urls": [
+      "https://cdn.shopify.com/s/files/1/0747/5317/9944/files/Genshin_Impact_Cryo_Abyss_Mage.png?v=1745307765",
+      "https://genshinfans.com/blogs/news/genshi-abyss-mage",
+      "https://upload-os-bbs.hoyolab.com/upload/2022/09/10/248396070/8072e133f6b910b2810e975470524e47_8767253408768969478.jpg",
+      "https://www.hoyolab.com/article/8729953"
+    ],
+    "recordedHashes": [
+      "14ab00d521a1ac921a2bb4af29c39f2e99cf2df3a00ce062830c63183556a89c",
+      "16430e832307dc121c0312f93f4d5c9b166279f7eb642d74e404e7356ea780ea",
+      "363934a2e4014fcbb592c157a201e69c4dcff8c29de39cca870b5dbc846dd7d2",
+      "72ebc502d52eb271efcdfee06989a53296fe9ce515d5da94fb1e3828d5d19336",
+      "742481ad7bc4dd7273fbaf586cbb861ef514c02c786e8f57f590995f41b0f061",
+      "be7532a7130c7bf9ebfc6769080093da6a4f3f104752e56dbd94c701442e17ae",
+      "cbebbc6845c63ad906c14a33de5e20777a3cf0d709ac8667b69b9a2308eda384",
+      "e1d86f8eb89d6ba5a678b06266599c698344a9c966c99451926d40b7d0da4c74",
+      "eed7957c2b511f445357883a9f75a34cee242e7c50b4decddb16565a13241285",
+      "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64",
+      "fe982b347696cb8e1bc8d4ec60415c607445a6a0b792a0cc45ea630731ec0dbb"
+    ],
+    "note": "Reference metadata only. No third-party reference pixels included or redistributed; hashes do not imply rights clearance."
+  },
+  "rights": "AI-assisted game-IP derivative. No game-IP sublicense, commercial clearance, or third-party-reference redistribution permission. Native Lua embeds pinned exporter/runtime material; retain existing notices and assess code license separately from art."
+}

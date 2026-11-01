@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "automaton",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T21:04:17.712Z",
+    "endUtc": "2026-10-29T21:05:33.090Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "assetRelativePath": "../sentry/source.png",
+      "role": "Actual reviewed original source for broad painterly metal/stone material and light only; not narrow stele, top notch, cyan light or arm stubs.",
+      "actuallyPassed": true,
+      "sha256": "b4313791a2360d6f056f47b9c9b5373568dc12019faf3876a4cac48d222463b8",
+      "actualDimensions": [
+        1254,
+        1254
+      ],
+      "availability": "reference-not-included; identity retained by SHA256 and role"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1445330,
+      "sha256": "6960b6ad6caed1fb234e154e234893d3d211e059d7f81792b254017a433a1109"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2674,
+      "sha256": "1911cd1535bcdc2d5d431487ab8590d3654fadcf35e47f48252701f2ed673f5a"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 17753,
+      "sha256": "5c714386b5938a47f68e0ce881cd7b7c283fd62002e121ce23cabcc91666212d"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 23932,
+      "sha256": "2afddd5d06afa41b9b1f6967ecffcf3cc65f7a4e7f6bb7983fc3a70e0ec95421"
+    },
+    "preview-contain-173.png": {
+      "path": "preview-contain-173.png",
+      "bytes": 39709,
+      "sha256": "b3d4bf799db14f867f77ff538d44c2a51610c9b52b4d919c5d58e17951414094"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": "Original closed bronze prism cabin, two thick short capped column arms, dark teal joints and two short forked feet; not Guardian stone shoulders or STS spherical robot.",
+  "inspection": {
+    "authorFull": "inspected",
+    "containSizes": [
+      106,
+      127,
+      173
+    ],
+    "observation": "Full and 106/127/173 px plus 4× inspected. Closed bronze prism cabin, two capped short column arms, dark teal joints and two short forked feet are clear. No sphere body, stone shoulders, fingers or companions. Some painted bronze texture persists despite smooth-surface prompt; no native cost claim. Alpha >16 bbox (48,61,1208,1206), complete silhouette. Raw source bytes unchanged."
+  }
+}

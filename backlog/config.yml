@@ -1,6 +1,6 @@
-project_name: "Slay the Abyss"
+project_name: "杀戮原塔2"
 default_status: "To Do"
-statuses: ["To Do", "In Progress", "Done"]
+statuses: ["To Do", "In Progress", "Blocked", "Done"]
 labels: []
 date_format: yyyy-mm-dd
 max_column_width: 20
@@ -11,6 +11,6 @@ remote_operations: true
 auto_commit: false
 filesystem_only: false
 bypass_git_hooks: false
-check_active_branches: true
+check_active_branches: false
 active_branch_days: 30
 task_prefix: "task"

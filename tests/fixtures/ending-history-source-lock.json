@@ -1,0 +1,15 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenance": "Pinned community decompilation mirror, read from the local archive; not authenticated PC binary execution. Independent Lua implementation, no Java bodies or game assets shipped.",
+  "archiveSha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
+  "requiredWins": ["IRONCLAD", "THE_SILENT", "DEFECT"],
+  "standardRun": "!isDailyRun && !isTrial && !seedSet",
+  "seededRunsMayUseExistingFinalActQualification": true,
+  "neowSpiritsAreVictoryHistory": false,
+  "sources": [
+    {"path": "core/Settings.java", "sha256": "fa4f458ed2d268ac3c849e720b11f052ef0ef25132c20aea93d3d46a6e6ae2b5", "gitBlobSha": "fb77287954c3bdbf5ea0a9fafa31f9ab3bde89bf", "size": 29043},
+    {"path": "core/CardCrawlGame.java", "sha256": "ad06c2d2f13ad66843b5304b6c05fb6019ddc7e92359e95302f35ee540317846", "gitBlobSha": "6f15eb15977a40bcb6e95598513a3073310eacd3", "size": 55212},
+    {"path": "rooms/VictoryRoom.java", "sha256": "ad25537bf9650c868796a0284e7affd48fc7d3ba6e2937b63a9dc3418f885e17", "gitBlobSha": "0041fc15629057abf93dc3f119b020345a2e1b37", "size": 1513},
+    {"path": "events/beyond/SpireHeart.java", "sha256": "787e99aa08e203e6f77abd1ff2d876dfddfe2f17f32ee7a8f745e4a4e52f78aa", "gitBlobSha": "61df25b0a6f3f71fc03ef99ddecfd749be449147", "size": 9722}
+  ]
+}

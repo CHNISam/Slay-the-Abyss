@@ -1,0 +1,291 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { auditRoadmap, auditPriorities, auditQueueOwners, auditMilestoneScope, auditCompetitionRoster, readTaskHeader } from '../scripts/verify-backlog-roadmap.mjs';
+
+const competitionTitles = ['M3｜岩系旅行者第一幕与第二幕核心闭环验收', 'M4｜前两幕首局UI、输入、音画与性能'];
+const competitionDecision = '最终选择仅岩系旅行者（Ironclad）完整玩通第一幕与第二幕并正常结算。';
+const competitionScope = (decision = competitionDecision) => `# 比赛范围\n\n## 2026-10-29 比赛单角色收敛决策\n\n${decision}\n`;
+
+const milestone = { 'm-2': 'M1', 'm-5': 'M4' };
+const task = (id, extra = {}) => ({ id, status: 'To Do', milestone: 'm-5', assignees: ['@Codex'], ...extra });
+test('CLI-written inline and block lists retain owner, milestone and parent identity', () => {
+  for (const assignee of ['assignee: ["@Codex"]', "assignee:\r\n  - '@Codex'"]) {
+    const parsed = readTaskHeader(`---\r\nid: TASK-10.5.1\r\nstatus: In Progress\r\n${assignee}\r\nmilestone: m-2\r\nparent_task_id: TASK-10.5\r\nlabels: []\r\n---\r\n`);
+    assert.deepEqual(parsed.assignees, ['@Codex']);
+    assert.equal(parsed.milestone, 'm-2');
+    assert.equal(parsed.parentTaskId, 'TASK-10.5');
+  }
+});
+test('a newly registered launch task cannot disappear from the roadmap', () => {
+  const errors = auditRoadmap([task('TASK-4.2')], '### M4\n- TASK-4：总验收', milestone);
+  assert.ok(errors.some(e => e.includes('TASK-4.2') && e.includes('排期')));
+});
+test('an unowned or malformed owner fails even when the task is scheduled', () => {
+  for (const assignees of [[], ['--plan']]) {
+    assert.ok(auditRoadmap([task('TASK-4.2', { assignees })], '### M4\n- TASK-4.2：背景', milestone).some(e => e.includes('负责人')));
+  }
+});
+test('wrong milestone section and unknown milestone fail', () => {
+  assert.ok(auditRoadmap([task('TASK-4.2')], '### M1\n- TASK-4.2：背景', milestone).length);
+  assert.ok(auditRoadmap([task('TASK-4.2', { milestone: 'missing' })], '', milestone).length);
+});
+test('active children of a completed launch slice still require their own milestone', () => {
+  const tasks = [task('TASK-10.5', { status: 'Done', milestone: 'm-2' }),
+    task('TASK-10.5.1', { milestone: null, parentTaskId: 'TASK-10.5' })];
+  assert.ok(auditRoadmap(tasks, '', milestone).some(e => e.includes('TASK-10.5.1') && e.includes('里程碑')));
+});
+test('completed slices and optional work do not become new launch blockers', () => {
+  assert.deepEqual(auditRoadmap([task('TASK-25.1', { status: 'Done', assignees: [] }),
+    task('TASK-45', { milestone: null, assignees: [] })], '', milestone), []);
+});
+test('valid launch tasks pass with exact IDs in their milestone section', () => {
+  assert.deepEqual(auditRoadmap([task('TASK-4.2')], '### M4\n- TASK-4.2：背景', milestone), []);
+});
+test('scheduled launch roots remain audited after both milestone and owner are lost', () => {
+  const errors = auditRoadmap([task('TASK-47', { milestone: null, assignees: [] })],
+    '### M3\n- TASK-47：首发清单', milestone);
+  assert.ok(errors.some(error => error.includes('TASK-47') && error.includes('里程碑')));
+  assert.ok(errors.some(error => error.includes('TASK-47') && error.includes('负责人')));
+});
+test('milestone headings can include a human-readable explanation', () => {
+  assert.deepEqual(auditRoadmap([task('TASK-4.2')], '### M4 达到正式作品品质\n- TASK-4.2：背景', milestone), []);
+});
+
+import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { verifyBacklogRoadmap, verifyMilestoneScope } from '../scripts/verify-backlog-roadmap.mjs';
+
+test('roadmap phase headings support an adjacent ASCII pipe without confusing phase prefixes', () => {
+  assert.deepEqual(auditRoadmap([task('TASK-4.2')], '### M4|达到正式作品品质\n- TASK-4.2：背景', milestone), []);
+  for (const heading of ['M40', 'M4x', 'M4other']) {
+    assert.ok(auditRoadmap([task('TASK-4.2')], `### ${heading}\n- TASK-4.2：背景`, milestone)
+      .some(error => error.includes('排期')));
+  }
+});
+
+test('CLI milestone titles use phase identity rather than one display separator', t => {
+  const root = mkdtempSync(join(tmpdir(), 'backlog-roadmap-title-'));
+  t.after(() => rmSync(root, { recursive: true, force: true }));
+  for (const directory of ['backlog/tasks', 'backlog/completed', 'backlog/milestones', 'docs']) {
+    mkdirSync(join(root, directory), { recursive: true });
+  }
+  writeFileSync(join(root, 'backlog/tasks/task-4.2.md'), '---\nid: TASK-4.2\nstatus: To Do\npriority: medium\nmilestone: m-5\nassignee: ["@Codex"]\n---\n');
+  writeFileSync(join(root, 'docs/MILESTONES.md'), '### M4\n- TASK-4.2：背景\n');
+  for (const newline of ['\n', '\r\n']) for (const quote of ['', '"', "'"]) {
+    for (const title of ['M4｜正式作品品质', 'M4|正式作品品质', 'M4 正式作品品质', 'M4：正式作品品质', 'M4: 正式作品品质', 'M4']) {
+      writeFileSync(join(root, 'backlog/milestones/m-5.md'), ['---', 'id: m-5', `title: ${quote}${title}${quote}`, '---', ''].join(newline));
+      assert.deepEqual(verifyBacklogRoadmap(root), [], `${quote}${title}${quote}, newline=${JSON.stringify(newline)}`);
+    }
+    for (const title of ['M40', 'M4x', 'M4other']) {
+      writeFileSync(join(root, 'backlog/milestones/m-5.md'), ['---', 'id: m-5', `title: ${quote}${title}${quote}`, '---', ''].join(newline));
+      assert.ok(verifyBacklogRoadmap(root).some(error => error.includes('里程碑')), title);
+    }
+  }
+});
+
+function backlogFixture(t, entries, roadmap = '') {
+  const root = mkdtempSync(join(tmpdir(), 'backlog-id-'));
+  t.after(() => rmSync(root, { recursive: true, force: true }));
+  for (const directory of ['backlog/tasks', 'backlog/completed', 'backlog/milestones', 'docs']) {
+    mkdirSync(join(root, directory), { recursive: true });
+  }
+  for (const [i, title] of competitionTitles.entries()) {
+    writeFileSync(join(root, `backlog/milestones/m-${i + 4}.md`), `---\nid: m-${i + 4}\ntitle: ${title}\n---\n`);
+  }
+  writeFileSync(join(root, 'docs/SCOPE.md'), competitionScope());
+  writeFileSync(join(root, 'docs/MILESTONES.md'), roadmap);
+  for (const [path, id, status = 'Done', metadata = ''] of entries) {
+    const priority = /^priority:/m.test(metadata) ? '' : 'priority: medium\n';
+    writeFileSync(join(root, path), `---\nid: ${id}\ntitle: 中文任务标题\nstatus: ${status}\n${priority}${metadata}---\n`);
+  }
+  return root;
+}
+
+const diagnosticPath = 'backlog/tasks/task-52.1 - 修复旧路线诊断的领奖步骤.md';
+const hudPath = 'backlog/tasks/task-52.1 - 领取药水后立即刷新顶部药水栏.md';
+const completedPath = 'backlog/completed/task-52.1 - 已完成切片.md';
+const launchMetadata = 'milestone: m-5\nassignee: ["@Codex"]\n';
+for (const [name, entries] of [
+  ['two active tasks', [[diagnosticPath, 'TASK-52.1', 'In Progress', launchMetadata], [hudPath, 'TASK-52.1', 'To Do', launchMetadata]]],
+  ['the two Done TASK-52.1 slices in the active directory', [[diagnosticPath, 'TASK-52.1'], [hudPath, 'TASK-52.1']]],
+  ['active and completed tasks', [[diagnosticPath, 'TASK-52.1', 'In Progress', launchMetadata], [completedPath, 'TASK-52.1']]],
+  ['two completed tasks', [[completedPath, 'TASK-52.1'], ['backlog/completed/task-52.1 - 另一历史切片.md', 'TASK-52.1']]],
+  ['all three colliding files', [[diagnosticPath, 'TASK-52.1'], [hudPath, 'TASK-52.1'], [completedPath, 'TASK-52.1']]],
+]) {
+  test(`duplicate identity reports the ID and every file for ${name}`, t => {
+    const root = backlogFixture(t, entries, '### M4\n- TASK-52.1：测试排期\n');
+    const errors = verifyBacklogRoadmap(root);
+    assert.ok(errors.some(error => /重复/.test(error) && error.includes('TASK-52.1')), errors.join('\n'));
+    for (const [path] of entries) assert.ok(errors.some(error => error.includes(path)), `Missing file: ${path}`);
+  });
+}
+
+test('duplicate identity follows native case, numeric padding and unprefixed ID semantics', t => {
+  for (const [first, second, canonical] of [
+    ['TASK-52.1', 'task-52.1', 'TASK-52.1'],
+    ['TASK-52.1', 'TASK-052.01', 'TASK-52.1'],
+    ['TASK-52.1', '052.001', 'TASK-52.1'],
+    ['Feature-ABC', 'FEATURE-abc', 'FEATURE-ABC'],
+    ['BUG-002.000', 'bug-2.0', 'BUG-2.0'],
+  ]) {
+    const root = backlogFixture(t, [[diagnosticPath, first], [completedPath, second]]);
+    const errors = verifyBacklogRoadmap(root);
+    assert.ok(errors.some(error => /重复/.test(error) && error.includes(canonical)), `${first} / ${second}: ${errors}`);
+    for (const path of [diagnosticPath, completedPath]) assert.ok(errors.some(error => error.includes(path)), path);
+  }
+});
+
+test('distinct prefixes, exact numeric segments and nonnumeric IDs remain valid', t => {
+  const ids = ['TASK-52.1', 'TASK-52.2', 'BUG-52.1', 'Feature-ABC', 'Feature-DEF',
+    'TASK-9007199254740992', 'TASK-9007199254740993', 'TASK-52.10'];
+  const entries = ids.map((id, i) => [`backlog/tasks/task-${i} - 中文标题.md`, id]);
+  entries.push(['backlog/completed/task-53 - 历史记录.md', 'TASK-53']);
+  assert.deepEqual(verifyBacklogRoadmap(backlogFixture(t, entries)), []);
+});
+
+test('completed records participate only in identity checks, not active launch scheduling', t => {
+  const root = backlogFixture(t, [
+    ['backlog/completed/task-53 - 旧记录.md', 'TASK-53', 'Closed', 'milestone: archived-milestone\nassignee: []\n'],
+    ['backlog/tasks/task-54 - 当前任务.md', 'TASK-54', 'In Progress', launchMetadata],
+  ], '### M4\n- TASK-54：当前任务\n');
+  assert.deepEqual(verifyBacklogRoadmap(root), []);
+});
+
+test('an active child still needs metadata when its launch parent is in completed', t => {
+  const root = backlogFixture(t, [
+    ['backlog/completed/task-53 - 已完成首发任务.md', 'TASK-53', 'Done', 'milestone: archived-milestone\n'],
+    ['backlog/tasks/task-53.1 - 活动子任务.md', 'TASK-53.1', 'In Progress', 'parent_task_id: TASK-53\n'],
+  ]);
+  const errors = verifyBacklogRoadmap(root);
+  assert.ok(errors.some(error => error.startsWith('TASK-53.1:') && error.includes('里程碑')), errors.join('\n'));
+  assert.ok(errors.some(error => error.startsWith('TASK-53.1:') && error.includes('负责人')), errors.join('\n'));
+  assert.equal(errors.length, 2, 'Only the active child is audited; the historical parent is not rescheduled');
+});
+
+test('the existing command exits nonzero and names both Done files on a duplicate ID', t => {
+  const root = backlogFixture(t, [[diagnosticPath, 'TASK-52.1'], [hudPath, 'TASK-52.1']]);
+  const script = fileURLToPath(new URL('../scripts/verify-backlog-roadmap.mjs', import.meta.url));
+  const result = spawnSync(process.execPath, [script], { cwd: root, encoding: 'utf8' });
+  assert.ifError(result.error);
+  assert.equal(result.status, 1, result.stdout + result.stderr);
+  assert.match(result.stderr, /TASK-52\.1/);
+  for (const path of [diagnosticPath, hudPath]) assert.ok(result.stderr.includes(path), path);
+});
+
+test('priority is read from the actual CLI header', () => {
+  assert.equal(readTaskHeader('---\nid: TASK-1\npriority: high\n---\n').priority, 'high');
+});
+
+test('every current task needs a configured priority, including Done and optional tasks', () => {
+  for (const status of ['To Do', 'In Progress', 'Blocked', 'Done']) {
+    for (const priority of [null, '', 'urgent', undefined]) {
+      assert.match(auditPriorities([task('TASK-1', { status, priority, milestone: null })]).join('\n'), /TASK-1.*优先级/);
+    }
+  }
+  assert.deepEqual(auditPriorities(['high', 'medium', 'low'].map((priority, i) => task(`TASK-${i}`, { priority }))), []);
+});
+
+test('High is a bounded current queue rather than a label for all important work', () => {
+  const high = Array.from({ length: 6 }, (_, i) => task(`TASK-${i}`, { priority: 'high' }));
+  assert.deepEqual(auditPriorities(high.slice(0, 5)), []);
+  const errors = auditPriorities(high);
+  assert.match(errors.join('\n'), /6.*超过5项/);
+  for (const entry of high) assert.ok(errors[0].includes(entry.id));
+  assert.match(auditPriorities([task('TASK-9', { priority: 'high', status: 'Done' })]).join('\n'), /TASK-9.*已完成/);
+});
+
+test('the existing CLI fails on a missing priority and an overcrowded High queue', t => {
+  const entries = Array.from({ length: 6 }, (_, i) => [`backlog/tasks/task-${i}.md`, `TASK-${i}`, 'To Do', 'priority: high\n']);
+  const root = backlogFixture(t, entries);
+  // One intentionally malformed record reproduces the GUI No Priority bucket.
+  writeFileSync(join(root, 'backlog/tasks/no-priority.md'), '---\nid: TASK-99\nstatus: Done\n---\n');
+  const script = fileURLToPath(new URL('../scripts/verify-backlog-roadmap.mjs', import.meta.url));
+  const result = spawnSync(process.execPath, [script], { cwd: root, encoding: 'utf8' });
+  assert.ifError(result.error);
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /TASK-99.*优先级/);
+  assert.match(result.stderr, /6.*超过5项/);
+});
+
+test('M3 and M4 enforce the confirmed Traveler-only two-act competition scope', () => {
+  const valid = competitionTitles;
+  assert.deepEqual(auditMilestoneScope(valid), []);
+  for (const stale of ['M3｜第一幕首发内容齐备', 'M3｜四职业第一幕核心闭环验收',
+    'M3｜第一幕与第二幕核心闭环验收', 'M3｜岩系旅行者第一幕与第二幕内容齐备', 'M3｜两职业第一幕与第二幕核心闭环验收', 'M3｜岩系旅行者与雷电将军第一幕与第二幕核心闭环验收',
+    'M3｜四职业第一幕与第二幕核心闭环验收', 'M3｜八职业第一幕与第二幕核心闭环验收',
+    'M3｜四职业及第一至隐藏第四幕内容齐备与通关验收', `${valid[0]}与四职业`, `${valid[0]}与八职业`,
+    `${valid[0]}与全职业`, `${valid[0]}与第三幕`, `${valid[0]}与隐藏第四幕`]) {
+    assert.match(auditMilestoneScope([stale, valid[1]]).join('\n'), /M3.*范围/, stale);
+  }
+  for (const stale of ['M4｜第一幕首局UI、输入、音画与性能', 'M4｜全职业与全章节正式作品品质',
+    `${valid[1]}与第三幕`, `${valid[1]}与第四幕`, `${valid[1]}与四职业`, `${valid[1]}与八职业`, `${valid[1]}与全职业`]) {
+    assert.match(auditMilestoneScope([valid[0], stale]).join('\n'), /M4.*范围/, stale);
+  }
+  for (const part of ['前两幕', '首局', 'UI', '输入', '音画', '性能']) {
+    assert.match(auditMilestoneScope([valid[0], valid[1].replace(part, '')]).join('\n'), /M4.*范围/, part);
+  }
+  for (const part of ['岩系旅行者', '第一幕', '第二幕', '核心闭环']) {
+    assert.match(auditMilestoneScope([valid[0].replace(part, ''), valid[1]]).join('\n'), /M3.*范围/, part);
+  }
+  for (const index of [0, 1]) {
+    const stage = index === 0 ? /M3.*范围/ : /M4.*范围/;
+    assert.match(auditMilestoneScope(valid.filter((_, i) => i !== index)).join('\n'), stage);
+    assert.match(auditMilestoneScope([...valid, valid[index]]).join('\n'), stage);
+  }
+});
+
+test('the public milestone is bound only to Traveler and preserves superseded history separately', () => {
+  assert.deepEqual(auditCompetitionRoster(competitionScope()), []);
+  assert.deepEqual(auditCompetitionRoster(competitionScope().replaceAll('\n', '\r\n')), []);
+  for (const source of ['', `${competitionDecision}\n${competitionDecision}`,
+    competitionDecision.replace('岩系旅行者（Ironclad）', '芙宁娜'),
+    competitionDecision.replace('仅岩系旅行者（Ironclad）', '岩系旅行者（Ironclad）与雷电将军'),
+    competitionDecision.replace('仅岩系旅行者（Ironclad）', '仅雷电将军'),
+    competitionDecision.replace('仅', ''),
+    competitionDecision.replace('（Ironclad）', ''),
+    competitionDecision.replace('第一幕与第二幕', '第一幕'),
+    competitionDecision.replace('第一幕与第二幕', '四幕')]) {
+    assert.match(auditCompetitionRoster(competitionScope(source)).join('\n'), /M3.*职业合同/, source);
+  }
+  assert.match(auditCompetitionRoster(competitionDecision).join('\n'), /职业合同/, 'An unscoped sentence is not the current decision');
+  assert.match(auditCompetitionRoster(`${competitionScope()}\n${competitionScope()}`).join('\n'), /职业合同/, 'Duplicate current sections are ambiguous');
+  const history = `\n## 2026-10-28 比赛范围收缩决策（历史，已被10/29覆盖）\n最终选择岩系旅行者与雷电将军两职业完整玩通两幕。\n## 历史与Alpha/Dev\n四职业、八角色及第三/四幕代码、卡池和证据保留。\n${competitionDecision}\n`;
+  assert.match(auditCompetitionRoster(competitionScope(competitionDecision.replace('岩系旅行者（Ironclad）', '芙宁娜')) + history).join('\n'), /职业合同/,
+    'Historical Traveler mentions must not rescue a wrong current roster');
+  assert.deepEqual(auditCompetitionRoster(competitionScope() + history), [], 'Historical rosters are not the current contract');
+  assert.match(auditCompetitionRoster(history).join('\n'), /职业合同/, 'The superseded pair cannot stand in for a current policy');
+});
+
+test('the actual repository milestone and named frozen-roster decision pass together', () => {
+  assert.deepEqual(verifyMilestoneScope(fileURLToPath(new URL('..', import.meta.url))), []);
+});
+
+test('the existing CLI accepts Traveler-only and rejects restored or substituted public rosters', t => {
+  const root = backlogFixture(t, []);
+  const script = fileURLToPath(new URL('../scripts/verify-backlog-roadmap.mjs', import.meta.url));
+  const run = () => spawnSync(process.execPath, [script], { cwd: root, encoding: 'utf8' });
+  const valid = run();
+  assert.ifError(valid.error);
+  assert.equal(valid.status, 0, valid.stdout + valid.stderr);
+  assert.match(valid.stdout, /仅岩系旅行者前两幕规划范围检查通过/);
+  assert.match(valid.stdout, /不认证运行时准入、平台或实机/);
+  for (const source of [competitionDecision.replace('岩系旅行者（Ironclad）', '芙宁娜'), competitionDecision.replace('仅岩系旅行者（Ironclad）', '岩系旅行者（Ironclad）与雷电将军')]) {
+    writeFileSync(join(root, 'docs/SCOPE.md'), competitionScope(source) + `\n## 历史与Alpha/Dev\n${competitionDecision}\n`);
+    const invalid = run();
+    assert.ifError(invalid.error);
+    assert.equal(invalid.status, 1, invalid.stdout + invalid.stderr);
+    assert.match(invalid.stderr, /M3.*职业合同/);
+  }
+});
+
+test('unfinished optional work needs an owner; historical Done records do not', () => {
+  for (const status of ['To Do', 'In Progress', 'Blocked']) {
+    for (const assignees of [[], [''], ['--append-plan']]) {
+      assert.match(auditQueueOwners([task('TASK-26', { status, milestone: null, assignees })]).join('\n'), /TASK-26.*负责人/);
+    }
+  }
+  assert.deepEqual(auditQueueOwners([task('TASK-26', { milestone: null }), task('TASK-2', { status: 'Done', assignees: [] })]), []);
+});

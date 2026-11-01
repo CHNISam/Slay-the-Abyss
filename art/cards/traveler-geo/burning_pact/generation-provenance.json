@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "card_id": "burning_pact",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T17:34:25.488Z",
+    "completedAt": "2026-10-29T17:34:53Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-costume-head-flower-and-normal-one-handed-sword-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "e461da57b3e6554ccf6f379ff6988f933af71ef4c57923b3e90e40f7b75b3ed6",
+      "bytes": 1870474
+    },
+    "prompt.txt": {
+      "sha256": "023b5e26fcc9213f4ec404a045c1df791dda505c38126ff0aa0e0806e0b19bbe",
+      "bytes": 2924
+    },
+    "preview-source-144x64.png": {
+      "sha256": "e5ca4995904452ea0c8d61eb135b0153de255a9a17390f4bb00f4b9eaca6456d",
+      "bytes": 19162
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions retained unchanged despite requested size"
+  },
+  "intent": {
+    "name": "弃旧筹新",
+    "mechanics": "exhaustChoose 1 then draw 2; upgraded draw 3",
+    "mainAction": "one open gloved hand deliberately releases one irregular old-plan remnant with tiny ember edge",
+    "identityCarriers": [
+      "connected original white-blue shoulder and sleeve",
+      "gold arched waist over dark cutouts",
+      "white-blue petal skirt"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and 144x64: connected Lumine white-blue shoulder gold/dark waist and petal costume readable right, one anatomically connected open palm releases unmarked irregular paper scrap with tiny warm embers, no frame text fireattack or enemy. Independent review pending.",
+    "independentReview": "pending",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

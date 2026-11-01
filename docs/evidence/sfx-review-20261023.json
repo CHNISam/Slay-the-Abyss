@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-23",
+  "auditionSource": "cf5f03009dfa6245cb1375a99e4516ef4036e7da",
+  "session": "2026-10-23 23:18:48",
+  "logSha256": "fb99c7ba3641158409cde7e505b5559f64aa3395f482038325df1070fea5f05a",
+  "logBytes": 22412,
+  "printCount": 149,
+  "execution": {
+    "requested": 46,
+    "serverApplied": 46,
+    "deathPlays": 18,
+    "deathPresentationTriggers": 18,
+    "scriptErrorPrints": [],
+    "bgm": [
+      {
+        "at": 162,
+        "text": "ABYSS_BGM_APPLIED stop"
+      },
+      {
+        "at": 248,
+        "text": "ABYSS_BGM_APPLIED battle id=10044"
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "code": "A1",
+      "id": 40305,
+      "playCount": 5,
+      "final": {
+        "at": 204,
+        "volume": 65,
+        "rating": "待定",
+        "comment": "尾音过长"
+      }
+    },
+    {
+      "code": "A2",
+      "id": 40309,
+      "playCount": 3,
+      "final": {
+        "at": 185,
+        "volume": 65,
+        "rating": "淘汰",
+        "comment": ""
+      }
+    },
+    {
+      "code": "A3",
+      "id": 40313,
+      "playCount": 3,
+      "final": {
+        "at": 217,
+        "volume": 65,
+        "rating": "喜欢",
+        "comment": ""
+      }
+    },
+    {
+      "code": "A4",
+      "id": 40317,
+      "playCount": 1,
+      "final": {
+        "rating": "未明确评级",
+        "comment": "",
+        "volume": null
+      }
+    },
+    {
+      "code": "A5",
+      "id": 40221,
+      "playCount": 2,
+      "final": {
+        "at": 305,
+        "volume": 65,
+        "rating": "淘汰",
+        "comment": ""
+      }
+    },
+    {
+      "code": "A6",
+      "id": 40224,
+      "playCount": 2,
+      "final": {
+        "at": 308,
+        "volume": 65,
+        "rating": "喜欢",
+        "comment": ""
+      }
+    },
+    {
+      "code": "A7",
+      "id": 51044,
+      "playCount": 2,
+      "final": {
+        "at": 331,
+        "volume": 65,
+        "rating": "待定",
+        "comment": ""
+      }
+    },
+    {
+      "code": "A8",
+      "id": 51049,
+      "playCount": 10,
+      "final": {
+        "at": 344,
+        "volume": 65,
+        "rating": "淘汰",
+        "comment": "尾音过长"
+      }
+    },
+    {
+      "code": "D1",
+      "id": 20092,
+      "playCount": 4,
+      "final": {
+        "at": 471,
+        "volume": 65,
+        "rating": "喜欢",
+        "comment": "满足"
+      }
+    },
+    {
+      "code": "D2",
+      "id": 20109,
+      "playCount": 5,
+      "final": {
+        "at": 404,
+        "volume": 65,
+        "rating": "喜欢",
+        "comment": "刺耳"
+      }
+    },
+    {
+      "code": "D3",
+      "id": 20117,
+      "playCount": 7,
+      "final": {
+        "at": 417,
+        "volume": 65,
+        "rating": "喜欢",
+        "comment": "刺耳"
+      }
+    },
+    {
+      "code": "D4",
+      "id": 20139,
+      "playCount": 2,
+      "final": {
+        "at": 384,
+        "volume": 65,
+        "rating": "待定",
+        "comment": "刺耳"
+      }
+    }
+  ],
+  "decisions": {
+    "normalAttack": {
+      "code": "A3",
+      "id": 40313,
+      "status": "USER_LIKED"
+    },
+    "geoImpact": {
+      "code": "A6",
+      "id": 40224,
+      "status": "USER_LIKED"
+    },
+    "defaultDeath": {
+      "code": "D1",
+      "id": 20092,
+      "status": "USER_LIKED_SATISFYING"
+    },
+    "alternativeDeaths": [
+      {
+        "code": "D2",
+        "id": 20109,
+        "status": "LIKED_BUT_SHARP_REVIEW_BEFORE_TYPE_ASSIGNMENT"
+      },
+      {
+        "code": "D3",
+        "id": 20117,
+        "status": "LIKED_BUT_SHARP_REVIEW_BEFORE_TYPE_ASSIGNMENT"
+      }
+    ],
+    "battleMusic": {
+      "id": 10044,
+      "status": "USER_ACCEPTED_FOR_NOW",
+      "volume": 45
+    },
+    "enemyTypePolicy": "Prefer deterministic type-based selection; D1 fallback. D2/D3 require timbre/level review. No RNG changes.",
+    "futureMusic": "Optional scene/act variation through the existing native BGM graph; no new player."
+  },
+  "limitations": [
+    "No recording; subjective listening established by user feedback, not by log prints.",
+    "All logged playback volumes were 65; equal numbers do not prove loudness matching.",
+    "Six-hit sequence and hit/death combination used rejected A8, mixed with D3. Approved A3/A6 repetition is not verified.",
+    "No A0/D0 playback records; old/new comparison is not evidenced.",
+    "Type-to-sound assignments are not settled; catalog labels B/C/D do not establish creature timbre.",
+    "The audition did not modify formal bindings or saves; the approved source integration now changes only hit/enemy_die IDs, and official saves remain unchanged."
+  ],
+  "integrationStatus": "Theme IDs selected for source integration; full-game audio verification pending",
+  "auditionControllerSha256": "860c6a5bb09299bf314c2a41c98180f7005e26858aac3707860fca103ac0ae13"
+}

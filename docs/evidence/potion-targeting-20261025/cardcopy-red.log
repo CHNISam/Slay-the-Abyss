@@ -1,0 +1,23 @@
+PASS S03/S04 poison 6 loses 6..1 HP across six owner turns, bypassing retained block and attack modifiers
+ABYSS_RUN seed=1 source=explicit
+PASS S05 poison stacks before the next owner turn without immediate HP loss
+PASS S06 weak2 and vulnerable2 change duration rather than percentage stacking
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+PASS S09/S10 frail applies to card block, dexterity precedes percentage, fixed bottle stays12
+PASS P12 thrown group policy does not request a single enemy or enter production data
+ABYSS_RUN seed=1 source=explicit
+PASS S07 duration intent says turns before it is applied
+ABYSS_RUN seed=1 source=explicit
+PASS S08 current poison detail updates amount and next tick without a stale value
+ABYSS_RUN seed=1 source=explicit
+PASS S07 card keywords retain battle-long versus temporary duration before play
+Lua fixture tests/lua/potion_status_rules.lua: 3281 ms
+...trees\potion-targeting\tests\lua\potion_status_rules.lua:72: bash/text must explain duration
+stack traceback:
+	[JS]: in function 'assert'
+	...trees\potion-targeting\tests\lua\potion_status_rules.lua:72: in local 'fn'
+	...trees\potion-targeting\tests\lua\potion_status_rules.lua:6: in local 'test'
+	...trees\potion-targeting\tests\lua\potion_status_rules.lua:68: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk

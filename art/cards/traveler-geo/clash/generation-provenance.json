@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "card_id": "clash",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T17:10:16.771Z",
+    "endUtc": "2026-10-29T17:10:55.971Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Connected full Lumine figure in a strong planted low lunge, one gloved gripping hand to continuous one-handed sword and one slime contact. No extra blades, hits, targets, block or UI. Character costume and whole-body force remain readable at tiny size; finer folds/hair may require native economy refinement. A thrust-like single hit rather than a sweeping cut still conveys all-in attack. Native economy/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/clash/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "a58a66442d3df85876e16eafd3b27b73bfe8c687d4b41a806ddc76769da6c6d2",
+    "bytes": 1886344,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/clash/prompt.txt",
+    "sha256": "5400f47208c6369836a5e6fe4e35fa7481cddb484949fefe354b407fd2d7e83f"
+  }
+}

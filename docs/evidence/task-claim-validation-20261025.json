@@ -1,0 +1,249 @@
+{
+  "realGit": true,
+  "schema": 2,
+  "migration": {
+    "localSharedHooksInstalled": true,
+    "externalUnknown": true,
+    "reservations": 38,
+    "status": "paused"
+  },
+  "integrationBaseline": "c05332be41e607ef4284c9459bc1990ef5000a05",
+  "suiteDiscovered": 23,
+  "fullQuality": {
+    "reason": "prior full jobs ended; will run current PR head alone through native queue",
+    "status": "pending exact PR head CI after worktree-base fix"
+  },
+  "isolatedBaseline": {
+    "fixture": "tests/lua/card_help_release.lua",
+    "failed": 0,
+    "elapsedMs": 13010,
+    "unchangedBudgetMs": 30000,
+    "priorFailure": "40153191516 ETIMEDOUT while two full jobs ran; retained, not relabeled as passed",
+    "passed": 31
+  },
+  "implementationBaseline": "3ed8bf4b88a950c4736ec2d68e83f141d415c4db",
+  "guarantees": "Cooperating unique sessions, synchronized UTC clocks, ordinary non-force CAS pushes. External machines remain unknown; no claim of complete migration.",
+  "localChecks": [
+    "changed JavaScript syntax passed",
+    "verify-backlog-roadmap passed",
+    "git diff --check passed",
+    "npm ci --ignore-scripts passed"
+  ],
+  "checkedAt": "2026-10-25T03:11:53.0129065Z",
+  "runs": [
+    {
+      "failed": 0,
+      "sourceCommit": "c069df1bc03f84e8527b989267dcd5d2d21ee773",
+      "durationMs": 213887.8317,
+      "tests": 14,
+      "command": "node --test --test-concurrency=1 tests/remote-task-claim.test.mjs",
+      "passed": 14,
+      "runtimeSha256": "5366c866d93dc181a111fd2717ef504a6ee3b79d26bd2c61cd287cfc58c2d628",
+      "testsSha256": "eab3d412b1e97ba27b6a2991ed061d47d6363f05eaacdb94525a3a0b17cf661d",
+      "skipped": 0
+    },
+    {
+      "failed": 0,
+      "sourceCommit": "717d8965b9bfb50035b42e49cce12d316e92571a",
+      "durationMs": 48910.9305,
+      "tests": 2,
+      "command": "node --test --test-name-pattern=conflicting upstream|scope expansion tests/remote-task-claim.test.mjs",
+      "passed": 2,
+      "runtimeSha256": "48563ecd124fd7def5319d6c284ed01075b77d245d6e82b042b4527d670c6e80",
+      "testsSha256": "11c3ab7fb708222bb1db81e466cc7a8ce8907d4e77bda61c79671afed27b6de7",
+      "skipped": 0
+    },
+    {
+      "tests": 3,
+      "failed": 0,
+      "testsSha256": "65d1e36c588a074d93cffd357019482064be498e7ae0015bedab5636167f2dcd",
+      "runtimeSha256": "f78b8f95d056b6f819e71b9e3daf8a2511c838999303fa8105c0f645f9eb19bf",
+      "passed": 3,
+      "command": "node --test --test-name-pattern=\"child executor|controlled worktree|conflicting upstream\" tests/remote-task-claim.test.mjs",
+      "skipped": 0,
+      "durationMs": 56138.1491
+    }
+  ],
+  "previousQuality": {
+    "run": "https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40155852981",
+    "head": "2999bc89837ac78ecba5787f6dc8d3521ab99e04",
+    "note": "All jobs including 15 real Git cases passed. Superseded by the worktree base fix; not evidence for the next head.",
+    "status": "SUCCESS"
+  },
+  "reconciliation": {
+    "integrationBaseline": "66f3afb23500c77d3e437cce37583073c6d4c5c8",
+    "runtimeSha256": "bc6dba10e4b0b9123206cb6649de1f077d18516ae6a27d4f9253afa0ea7a9de3",
+    "testsSha256": "cc798c35b04a1c92f8dc8144d548a0cffb7d4b15509c8982a3269f130bc57711",
+    "uniqueCasesPassedAcrossPartitions": 23,
+    "singleFullRunPassed": false,
+    "partitions": [
+      {
+        "command": "node --test --test-concurrency=1 tests/remote-task-claim.test.mjs",
+        "completedPassingCases": 16,
+        "localLog": "build/claims-final.log",
+        "status": "interrupted by guarded-run renewal TLS failure; no complete suite summary",
+        "reason": "schannel failed to receive handshake; guard terminated child rather than continue without remote ownership"
+      },
+      {
+        "command": "node --test --test-concurrency=1 --test-name-pattern='interrupted executor|unknown external executors|claim then controlled|released installation|remote loss during|child executor|conflicting upstream' tests/remote-task-claim.test.mjs",
+        "passed": 7,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 138675.1516,
+        "localLog": "build/claims-remaining.log",
+        "status": "passed, including post-command remote ownership confirmation",
+        "transport": "process-only http.sslBackend=openssl; certificate checks and all ownership gates retained"
+      }
+    ],
+    "redEvidence": [
+      "Original migration commands absent: three real Git failures before implementation",
+      "Creating an approved new target failed after CAS because controller cwd was checked against the uncreated target",
+      "Ordinary recover actually granted session b an unrelated feat/escape claim without group restrictions",
+      "A future file path actually permitted allowed/hidden.lua before exact-file matching",
+      "Actual executor could not resume its authorized dirty target after release",
+      "Actual executor could not modify its next stage after a handoff snapshot",
+      "Consumer check actually passed after its external owners handoff fingerprint changed"
+    ],
+    "review": "Independent read-only review found the creation, recovery, exact-file and handoff defects; final static re-review found no remaining must-fix issue. Not a substitute for tests.",
+    "lightChecks": [
+      "changed JavaScript syntax passed",
+      "Backlog roadmap verification passed",
+      "git diff --check passed"
+    ],
+    "currentHeadCI": {
+      "head": "1b94ec5ed976b3181b7b4c47517991d9ffff3f7b",
+      "run": "https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40163823617",
+      "status": "SUCCESS",
+      "jobs": [
+        "ownership",
+        "check",
+        "presentation"
+      ],
+      "note": "Server-side complete job results; gh formatted per-step log excerpts are partial and not a complete fixture-count source."
+    },
+    "businessSources": "six M3 source trees, warrior75 and root business edits remain untouched; no automatic business adoption, quarantine resolution or migration-open",
+    "closeout": {
+      "pr": 203,
+      "merged": "518299ca48a31e9316efbc8224da041e8772a32f",
+      "mergedAt": "2026-10-25T05:30:55Z",
+      "installedRuntimeSha256": "bc6dba10e4b0b9123206cb6649de1f077d18516ae6a27d4f9253afa0ea7a9de3",
+      "lease": "released",
+      "cleanOwnedTree": "removed after exact head, merge and verified bundle checks",
+      "archive": ".artifacts/task55-pr203-1b94ec5",
+      "migration": "paused; original38 reservations retained; other unknowns retained",
+      "business": "Designated M3 session adopted fresh develop tree; six sources read-only. User explicitly authorized this round13 shared paths, keeping M2/engineering trees and indexes read-only; not a fresh old-executor release."
+    }
+  },
+  "hookGitContext": {
+    "problem": "Actual M3 git commit hook inherited GIT_INDEX_FILE; foreign source reads used the executing index and falsely reported source drift. All six complete source snapshots were byte-identical.",
+    "fix": "Only sourceSnapshot foreign git children receive a copied environment with git rev-parse --local-env-vars removed case-insensitively; parent environment and remoteClient authentication unchanged.",
+    "red": "One real installed-hook commit test failed with Source snapshot fingerprint drift before fix; build-hook-red.log",
+    "green": "Real hook commit succeeds and preserves source index bytes/full snapshots; actual source drift and wrong session still rejected; build-hook-full.log first case passed41591ms. Full24 local run in progress; exact current-head CI required before integration.",
+    "runtimeSha256": "5b519abee8ab0355d38cc80aebf460c1275b83aa0db26fe461de54f3ef94f934",
+    "testsSha256": "7ec84472ba676094f22923618e94d568196b363511229c84aadebcada0c36854",
+    "review": "Independent read-only review found no protection/auth environment regression; real remote authentication is not separately certified by this test.",
+    "business": "M3 final stage lease temporarily released without advancing cursor; staged source preserved. Candidate artifact generation reads frozen M3 source and writes ignored outputs only. No old source/index cleanup, no hooks bypass."
+  },
+  "boundedScopeExtension": {
+    "pr": 205,
+    "head": "5715df893a02ce10820d85f2527892716a643e3d",
+    "merged": "20aff96403729f57cb41905709e67af75d876a01",
+    "mergedAt": "2026-10-25T07:37:37Z",
+    "currentHeadCI": {
+      "run": 40172058510,
+      "status": "SUCCESS",
+      "jobs": [
+        {
+          "name": "ownership",
+          "conclusion": "SUCCESS"
+        },
+        {
+          "name": "presentation",
+          "conclusion": "SUCCESS"
+        },
+        {
+          "name": "check",
+          "conclusion": "SUCCESS"
+        }
+      ]
+    },
+    "fullQuality": {
+      "bytes": 1143801,
+      "luaFixtures": 290,
+      "uniqueLuaFixtures": 284,
+      "counts": [
+        "2026-10-25T07:22:04.8494294Z ℹ tests 1364",
+        "2026-10-25T07:22:04.8494710Z ℹ pass 1245",
+        "2026-10-25T07:22:04.8494888Z ℹ fail 0",
+        "2026-10-25T07:22:04.8495233Z ℹ skipped 119"
+      ]
+    },
+    "local": "New real Git scope extension regression 1 pass/0skip; source-only parked groups, no active stage edits, completed stages/source identity/executor/modules/old paths preserved.",
+    "scopeAmendments": [
+      "one reproduced upstream178-card-face regression file",
+      "two entrypoint docs explicitly requested by user for desktop input coordination",
+      "seven reproduced stale regression oracles; original full coverage, failure ownership, RNG, permanent UID and next-battle assertions retained",
+      "Quality runtime and unique toolchain doc only: same-host original-budget Node24 recovery proven for three timeouts"
+    ],
+    "globalMigration": "paused and externalUnknown retained; no bulk reservation resolution",
+    "finalIntegrationWindow": {
+      "generation": 25,
+      "paths": 127,
+      "upstreamBase": "c1cb78e8fcbeead0c8439477c39b75f9f4429e8f",
+      "calibratedSource": "3e9873220cf5aa055799992c906ade0daf167f63",
+      "local": "17 Lua entrypoints and12 Node layout cases passed; no skips/time-budget changes",
+      "ci": "Prior exact e1 head failed first on original potion timeout, then on stale Lua oracles; replacement head full CI pending"
+    },
+    "finalRuntimeWindow": {
+      "generation": 28,
+      "paths": 129,
+      "thirdAttempt": {
+        "run": 40179995339,
+        "head": "16473302ad60033b7df015bd03c603a24a4a5cfe",
+        "conclusion": "cancelled",
+        "job": 121128863013,
+        "annotation": "The job has exceeded the maximum execution time of 45m0s",
+        "node": {
+          "tests": 1387,
+          "pass": 1268,
+          "fail": 0,
+          "skip": 119
+        },
+        "completedLuaFixtures": 260,
+        "uniqueCompletedLuaFixtures": 254,
+        "lastCompletedLua": "tests/lua/potion_status_rules.lua",
+        "timeouts": [
+          "battle_ui.lua:60000ms",
+          "card_help_release.lua:30000ms",
+          "living_wall.lua:30000ms"
+        ],
+        "raw": "build/m3-ci-third-timeout-raw.log",
+        "sameHostNode24": {
+          "runtime": "v24.18.0",
+          "systemNodeUnchanged": true,
+          "source": "16473302ad60033b7df015bd03c603a24a4a5cfe",
+          "originalFixtureBudgets": true,
+          "results": [
+            {
+              "file": "living_wall",
+              "exit": 0,
+              "elapsedMs": 18267
+            },
+            {
+              "file": "card_help_release",
+              "exit": 0,
+              "elapsedMs": 20229
+            },
+            {
+              "file": "battle_ui",
+              "exit": 0,
+              "elapsedMs": 48674
+            }
+          ]
+        },
+        "systemNode": "v22.22.1 unchanged"
+      },
+      "mutation": "CI uses exact Node24.18.0; game source, platform candidate and system/MCP Node unchanged; no budget/assertion changes"
+    }
+  }
+}

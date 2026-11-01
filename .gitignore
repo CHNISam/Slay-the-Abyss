@@ -1,0 +1,17 @@
+# Local / temp
+.backlog-ui.log
+*.log
+node_modules/
+tools/vendor/
+build/
+__pycache__/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/settings.json
+
+.dream-loop/

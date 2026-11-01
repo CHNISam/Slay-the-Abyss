@@ -1,0 +1,52 @@
+local H=dofile('tests/helpers/act2_choice_events.lua')
+local eq,same,test=H.eq,H.same,H.test
+local function last(setup)
+    local r,m=H.fixture('cursed_tome',setup)
+    assert(H.Nodes.chooseEvent(r,'read'));eq(r.hp,80);eq(r.nodeFlow.event.stage,'page_1')
+    for _,hp in ipairs({79,77,74})do assert(H.Nodes.chooseEvent(r,'continue'));eq(r.hp,hp)end
+    eq(r.nodeFlow.event.stage,'last_page');return r,m
+end
+test('Tome exact no-cost Read, mandatory 1/2/3 pages, stop3 and separate Leave',function()
+    local r,m=H.fixture('cursed_tome');local before=H.snapshot(r)
+    local e=H.Nodes.view(r,m).node.event;eq(e.options[1].choice,'read');eq(e.options[2].choice,'leave');same(r,before)
+    H.reject(r,'continue',nil,'invalid_event_choice');assert(H.Nodes.chooseEvent(r,'read'));eq(r.hp,80)
+    H.reject(r,'leave',nil,'invalid_event_choice');H.reject(r,'stop',nil,'invalid_event_choice')
+    for _,hp in ipairs({79,77,74})do assert(H.Nodes.chooseEvent(r,'continue'));eq(r.hp,hp)end
+    assert(H.Nodes.chooseEvent(r,'stop'));eq(r.hp,71);eq(r.nodeFlow.event.damageTaken,9);eq(r.phase,'node')
+    assert(H.Nodes.chooseEvent(r,'leave'));eq(r.phase,'map');same(r.miscRng,before.miscRng);same(r.relicPool,before.relicPool)
+end)
+test('Tome final10 draws source order once; selected missing dependency only blocks later claim',function()
+    local r,m=last();local before=H.snapshot(r);local expected=H.R.cloneState(r.miscRng)
+    local sources={'Necronomicon','Enchiridion',"Nilry's Codex"};local selected=sources[H.R.randomInt(expected,2)+1]
+    assert(H.Nodes.chooseEvent(r,'obtain'));eq(r.hp,64);eq(r.nodeFlow.event.damageTaken,16);eq(r.nodeFlow.event.stage,'reward')
+    eq(r.nodeFlow.event.book.sourceId,selected);same(r.miscRng,expected);same(r.eventRng,before.eventRng);same(r.relicPool,before.relicPool)
+    H.reject(r,'obtain',nil,'invalid_event_choice');H.reject(r,'leave',nil,'invalid_event_choice')
+    local id=r.nodeFlow.event.book.id;local original=H.removeDefinition(r,'relics',id)
+    H.reject(r,'claim',nil,'relic_content_unavailable');eq(r.hp,64);eq(r.nodeFlow.event.stage,'reward')
+    r.data=original;assert(H.Nodes.chooseEvent(r,'skip'));eq(r.nodeFlow.event.stage,'result');eq(r.hp,64)
+    assert(H.Nodes.chooseEvent(r,'leave'));eq(r.phase,'map');same(r.relics,before.relics)
+    local e=H.Nodes.view(r,m).node;assert(e)
+end)
+test('Tome singleton/all-owned fallback still consumes one misc draw and Circlet can be claimed exactly once',function()
+    local r=last(function(s)s.relics={'necronomicon','enchiridion','nilrys_codex'}end)
+    local expected=H.R.cloneState(r.miscRng);H.R.randomInt(expected,0)
+    assert(H.Nodes.chooseEvent(r,'obtain'));eq(r.nodeFlow.event.book.sourceId,'Circlet');same(r.miscRng,expected)
+    assert(H.Nodes.chooseEvent(r,'claim'));eq(r.nodeFlow.event.obtainedRelicId,'circlet');eq(r.relicCounters.circlet,1)
+    H.reject(r,'claim',nil,'invalid_event_choice');assert(H.Nodes.chooseEvent(r,'leave'));eq(r.phase,'map')
+end)
+test('Tome late last-page draw exception rolls back final cost only, not committed earlier pages',function()
+    local r=last();local before=H.snapshot(r);local old=H.R.randomInt
+    H.R.randomInt=function(rng,max)old(rng,max);error('Tome late draw')end
+    local ok,why=H.Nodes.chooseEvent(r,'obtain');H.R.randomInt=old
+    eq(ok,false);eq(why,'transaction_failed');same(r,before);eq(r.hp,74);eq(r.nodeFlow.event.damageTaken,6)
+    assert(H.Nodes.chooseEvent(r,'obtain'));eq(r.hp,64)
+end)
+test('Tome HP-loss uses Tungsten and fatal/Fairy boundaries without altering requested metric',function()
+    local r=H.fixture('cursed_tome',function(s)s.relics={'tungsten_rod'}end)
+    assert(H.Nodes.chooseEvent(r,'read'));assert(H.Nodes.chooseEvent(r,'continue'));eq(r.hp,80);eq(r.nodeFlow.event.damageTaken,1)
+    r=H.fixture('cursed_tome',function(s)s.hp=1 end);assert(H.Nodes.chooseEvent(r,'read'))
+    local ok,why=H.Nodes.chooseEvent(r,'continue');assert(ok);eq(why,'defeat');eq(r.phase,'defeat');eq(r.hp,0)
+    r=H.fixture('cursed_tome',function(s)s.hp=1;s.potions={'fairy_in_a_bottle'}end)
+    assert(H.Nodes.chooseEvent(r,'read'));assert(H.Nodes.chooseEvent(r,'continue'));eq(r.hp,24);eq(r.phase,'node');eq(r.potions[1],nil)
+end)
+H.finish('CURSED_TOME_EVENT')

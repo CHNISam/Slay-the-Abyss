@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "shield_gremlin",
+  "sourceSha256": "44c0562c1c1db3dfbc6beedacf7878d50641008f0a0d7c63b30320c461d5b1d4",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    98,
+    86,
+    1228,
+    1190
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY_WITH_OCCLUSION_CAVEAT",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "8819bdc81dd693b44b688a6e3779fbe49ddb8abf0ba154ec645808d5d8420bab",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "9a2d3ee704a5367af01f9006e44e4edfb0e1c7957afb8af9dd02269b0f3736ba",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Original grey family face and two horns visible to right of thick wood/stone shield; shield does not erase identity. Oval rather than literal half-round shape is documented minor deviation.",
+    "Left leg shaft mostly hidden behind shield, ankle/whole foot plausibly emerge below; right thigh/shin/whole foot clear. Not two fully exposed legs, but no floating or extra foot.",
+    "Two hands hold same wood handle, near arm continuous, far arm occluded behind shield. Contacts plausible, no added detached hand.",
+    "Shield/visible family head and two separated feet readable106/127; tiny fingers and face expression not reliable. Contours intact."
+  ],
+  "costLimits": [
+    "Preserve wood/stone value masses, handle/hand contacts, visible horns/face and foot separation before facets/woodgrain/fingers.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserve; tight intact margins downstream6% inset contain allowed; no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only, no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

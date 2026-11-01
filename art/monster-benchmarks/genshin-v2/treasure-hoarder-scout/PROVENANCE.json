@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "identity": "treasure-hoarder-scout",
+  "source": {
+    "repoPath": "art/monster-benchmarks/genshin-v2/treasure-hoarder-scout/source.png",
+    "sha256": "3e3d5d56f931e211e9b5d1c8e979344898fc18261f651efc4abe813181daa560",
+    "bytes": 864403,
+    "size": [
+      1254,
+      1254
+    ],
+    "bytesUnmodified": true,
+    "action": "add unchanged generated source"
+  },
+  "sourceDirectionApprovedByUser": false,
+  "nativeReview": "Root viewed actual127px4x comparison and accepted recognizable simplified test candidate for staging only",
+  "nativeOwnerAcceptance": false,
+  "method": "Manual broad semantic Scout planes, blond spiked hair, face bandana, short white sleeves, khaki cropped trousers, black boots, OUR left-facing unarmed pose and connected hands. No source sampling, fitting, pixel mosaic, masks, bitmap import, new renderer or image generation.",
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "native": {
+    "native-art.json": {
+      "sha256": "26afaf6f9c28ed6794ef9cc733bc1300ea7c46f33d89c7112e02ce00eb97f166",
+      "bytes": 356728
+    },
+    "native-art.lua": {
+      "sha256": "3ecb802b59cd821616d76b81b3d17c99d97f990dcc9496ee3aaf279693e77da1",
+      "bytes": 113221
+    }
+  },
+  "originalEvidence": {
+    "nativeReportSha256": "e95072d98ff0cdd696a70aa5e0316362f9fdbbbcc24919aab125ea597f38df0c",
+    "generationProvenanceSha256": "b04b4bf98954294616c31247a194583dce174c690d9e102f9e0a72f7f4a0dfea"
+  },
+  "generation": {
+    "asset": "treasure-hoarder-scout",
+    "generation_mode": "built-in image_gen imagegen only",
+    "generation_calls": 1,
+    "repairs": 0,
+    "source_is_unchanged_raw": true,
+    "model": "unknown (not exposed by built-in tool)",
+    "seed": "unknown (not exposed by built-in tool)",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "alpha_bbox_any": [
+      19,
+      1,
+      1200,
+      1254
+    ],
+    "alpha_bbox_128": [
+      185,
+      11,
+      1147,
+      1234
+    ],
+    "alpha_zero_pixels": 1158567,
+    "reference_urls": {
+      "page": "https://wiki.hoyolab.com/pc/genshin/entry/2202?lang=en-us",
+      "api": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=2202",
+      "image": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/03/09/35428890/676bfb45cac59d0b2409e1dedadf85d6_7932671173996478165.png",
+      "sha256": "45ab2151bdd74e57663949f177d7395694b97c2e02fa2d51ba40f2b47599d4e6"
+    },
+    "style_references": {
+      "pyro-abyss-mage-sample.png": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64",
+      "stonehide-lawachurl-sample.png": "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40"
+    },
+    "previews": "Unmodified full source canvas aspect-preserving contain inside 86% of 106/127 square with 7% transparent margin; nearest 4x. Source never cropped/edited.",
+    "status": "source candidate only; native conversion pending; no Owner/runtime/device acceptance",
+    "source_sha256": "3e3d5d56f931e211e9b5d1c8e979344898fc18261f651efc4abe813181daa560"
+  },
+  "identityReferenceMetadata": {
+    "page": "https://wiki.hoyolab.com/pc/genshin/entry/2202?lang=en-us",
+    "api": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=2202",
+    "image": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/03/09/35428890/676bfb45cac59d0b2409e1dedadf85d6_7932671173996478165.png",
+    "sha256": "45ab2151bdd74e57663949f177d7395694b97c2e02fa2d51ba40f2b47599d4e6"
+  },
+  "rights": "AI-assisted game-IP derivative; no game-IP sublicense, commercial clearance or reference redistribution permission. Native Lua embeds pinned exporter/runtime material; retain notices and assess code separately from art."
+}

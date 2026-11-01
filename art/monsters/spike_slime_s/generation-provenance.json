@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "spike_slime_s",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T19:48:54.091Z",
+    "endUtc": "2026-10-29T19:49:57.588Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none-exact-raw-copy",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "sha256": "5de3f90d5301baf8fb601e44e2d5c502f2badddbe61eb66cd253b17b1a6a0a37",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "actual-gel-family-style-and-flatbody-economy-only-not-greenpalette-or-core",
+      "actuallyPassed": true,
+      "path": "../acid_slime_s/source.png"
+    },
+    {
+      "sha256": "534976f100a3edf8a424faa5064062025cc8e753d277c52e914cd4d4546069bf",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "painted-style-only-not-identity",
+      "actuallyPassed": true,
+      "path": "../looter/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 769697,
+      "sha256": "a8fdfc4494153a489ea3cad18ff5359b012533d8a0c594604c0eed9098214a52"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2527,
+      "sha256": "46e3691262cfa2d250eab0ff9c6a8c7ec4af1e57bc860ed41a6613a52e676a5b"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 10560,
+      "sha256": "b8d14eeddeecd75ea22d014d34524501c595b4b75601d5900e87ea07118e16f3"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 13952,
+      "sha256": "ed4d8afabd8c6fef2436a438c0e99ab3d8016021d72080a0724c44b92626437e"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "design": "Original darkblue-gray flat drop gel with one left nub and exactly3 broad external blunt graystone wedges, no side lobes or enclosed pale core",
+  "alpha": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "meaningfulBBoxAlphaGt16": [
+      59,
+      323,
+      1212,
+      984
+    ],
+    "edgeClipping": "no meaningful appendage edge cut observed"
+  },
+  "inspection": {
+    "fullOriginal": true,
+    "contain106": true,
+    "contain127": true,
+    "nearest4x106": true,
+    "nearest4x127": true,
+    "observations": "Full106/127and4x inspected: exactly3 broad connected stone wedges count, low continuous darkblue gel base with left nub/no sidelobes. Matte planes slightly more faceted than minimal economy; no extra detached stones or field. Whole outline intact tight but reasonable margins, inset contain optional; native cost unmeasured."
+  }
+}

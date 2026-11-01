@@ -1,0 +1,44 @@
+...folder\.worktrees\potion-targeting\tests\lua\node_ui.lua:724: shop must explain potion target before purchase
+ok node UI 1 - forge sounds only after upgrade succeeds; refresh and repeated confirm are silent
+ok node UI 2 - rest and treasure sound once per action and audio errors cannot undo a committed action
+stack traceback:
+ok node UI 3 - node resource count includes bottles beyond an empty first slot
+	[JS]: in function 'assert'
+ok node UI 4 - shop shelf shows five colored and two unavailable colorless cards without pages
+ok node UI 5 - unaffordable goods turn the price red, grey the card and explain without charging
+ok node UI 6 - shop relic row shows sourced effect text and buys through Nodes
+ok node UI 7 - removal service selects a uid first, confirms with the core price and is spent for the shop
+ok node UI 8 - removal service shows shortfall and empty-deck diagnostic without opening the picker
+ok node UI 9 - an external removal invalidates a selected removal before charging gold
+ok node UI 10 - merchant opens with the scene narration once per run, then greets, and stays out of the way
+	...folder\.worktrees\potion-targeting\tests\lua\node_ui.lua:724: in local 'fn'
+	...folder\.worktrees\potion-targeting\tests\lua\node_ui.lua:12: in local 'test'
+	...folder\.worktrees\potion-targeting\tests\lua\node_ui.lua:719: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk
+ok node UI 11 - merchant reaction sounds are requested only for sales and refusals
+ok node UI 12 - merchant never appears outside a shop
+ok node UI 13 - camp shows rest healing projection and forge count; full health disables rest only when forging is possible
+ok node UI 14 - camp rest heals once through Nodes and holds the result until continue
+ok node UI 15 - forge previews the real before/after card and commits only the confirmed uid
+ok node UI 16 - forge with two upgrades keeps the committed picker and stamps upgraded instances
+ok node UI 17 - Purifier prays for free through the picker and shows the removal result
+ok node UI 18 - Cleric options show sourced costs, disabled reasons and the healing result
+ok node UI 19 - Cleric purify is cancellable, charges once and leaves shop removal count unchanged
+ok node UI 20 - Cleric stale affordability is revalidated by Nodes without consuming the event
+ok node UI 21 - treasure opens visually first, then grants the actual relic once
+ok node UI 22 - gold treasure explains the fallback and is claimed through Nodes
+ok node UI 23 - hidden input, external completion and a replaced run reject stale commands
+ok node UI 24 - a held result belongs to its run; a fresh run renders safely and restart resets navigation
+ok node UI 25 - hover down up and exit paint the real framed button without executing a command
+ok node UI 26 - primary press uses white ink and drag-out or end-drag restores the complete button
+ok node UI 27 - disabled and selected results cannot be overridden by hover or retain a pressed scale
+ok node UI 28 - rerender and modal hiding cancel pending button visuals
+ok node UI 29 - foreign touches cannot release or move a pressed visual to another button
+ok node UI 30 - button listeners bind once and click-only hosts retain the existing C fallback
+ok node UI 31 - upgrade shrine picker cancel consumes nothing; confirmation upgrades UID and holds a readable result
+ok node UI 32 - Goop shows real leave loss, applies it once and reports asset changes
+ok node UI 33 - Golden Wing commits seven damage before picker; cancel cannot refund or charge it again
+ok node UI 34 - Shining Light shows fixed damage and permanent upgraded names in its result
+ok node UI 35 - Golden Shrine exposes complete costs, permanent curse result and repeat safety
+Lua fixture tests/lua/node_ui.lua: 13374 ms

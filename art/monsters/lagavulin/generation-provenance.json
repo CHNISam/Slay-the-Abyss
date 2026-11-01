@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "lagavulin",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:19:43.759Z",
+    "endUtc": "2026-10-29T20:20:45.998Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none-exact-raw-copy",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "sha256": "2a8eab5ace3937a0256835628c8c614487378659e76de72b776a74902906030a",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "actual-ownproject-stonebronze-materialfamily-and-paintedstyle-only-not-tall-bodygeometry",
+      "actuallyPassed": true,
+      "path": "../guardian/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1373372,
+      "sha256": "43c03d9aa18ab003e0318d9a14892baa7af5d79de20963c97991c0bd1dde8e69"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2408,
+      "sha256": "60f5c02fb62f26e031fbe1e4949b7d18c26419f87fe24df0c3c4a3c057a78039"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 16369,
+      "sha256": "fbd65a14de7895b2953b7b2323cc3a849005aa0ea30a68e02b1cd04cb4e6b98f"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 22142,
+      "sha256": "bb5d7ddef625cf1d16661f64ab8793814fe51ed2d4c520ad0e1f7facf8d8372f"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "design": "Original lowcrouched ancientguard ovalbody with3closedshieldplates/headinuppernotch/2feet/1shortextendedarm, coldgray oldbronze darkteal",
+  "alpha": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "meaningfulBBoxAlphaGt16": [
+      18,
+      240,
+      1238,
+      1044
+    ],
+    "edgeClipping": "no meaningful appendage edge cut observed"
+  },
+  "inspection": {
+    "fullOriginal": true,
+    "contain106": true,
+    "contain127": true,
+    "nearest4x106": true,
+    "nearest4x127": true,
+    "observations": "Full1061274x inspected: lowoval3shield envelope distinctly different guardian tallrobot, attached smallhead notch,2shortfeet and1connected arm emerging left. No tentacles weapon or floatingplate. Arm longer/bulkier than justextended brief but coherent; stonewear moredetailed than ideal broadplanes, nativecost unknown. Intacttightmargins requireinsetcontain."
+  }
+}

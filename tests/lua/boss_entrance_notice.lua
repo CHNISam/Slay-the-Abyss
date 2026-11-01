@@ -1,0 +1,16 @@
+local F=dofile('tests/lua/support/game_ui_fixture.lua')
+local host,root=F.fixture()
+assert(F.start(host));assert(require('abyss_run').startCombat(host.run,'cultist_solo'))
+local panel=root:GetChild('battlePanel')
+local notice=panel:GetChild('notice')
+local narrative=require('abyss_narrative').flow.bossEntrance.full
+local function boss()
+ host.run.combat=F.Combat.new(F.Data,{enemies={'guardian'},deck={'strike'},seed=42})
+ host:refresh();assert(notice.text==narrative,'new boss shows entrance once')
+end
+boss();host:update(1);assert(notice.text==narrative,'entrance remains readable initially')
+host:update(6);assert(notice.text=='','entrance must expire during idle battle')
+host:refresh();assert(notice.text=='','same boss refresh must not replay entrance')
+boss();notice.text='当前不能使用药水。';host:update(7)
+assert(notice.text=='当前不能使用药水。','expiry must not clear a newer action message')
+host:disable();print('BOSS_ENTRANCE_NOTICE_PASS')

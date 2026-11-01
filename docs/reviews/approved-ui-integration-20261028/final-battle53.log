@@ -1,0 +1,11 @@
+✔ frozen battle UI metadata preserves all 53 case bodies and six playback seeds across seven original-budget slices (12.772375ms)
+✔ battle UI seed-slice guards reject skipped/overlapping seeds, lost recursive assertions, missing markers and inert wrappers (10.066702ms)
+✔ the frozen battle UI cases execute across seven slices with all six playback seeds exactly once (104678.341528ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 104817.459264

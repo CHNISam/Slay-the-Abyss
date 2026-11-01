@@ -1,0 +1,14 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sourceArchiveSha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
+  "scope": "Orichalcum end hook/queue and existing Parasite zero-stack representation; fixed decompiled source, not PC binary execution",
+  "files": {
+    "relics/Orichalcum.java": "8ee08427f57fe1b825510271d514dfff8c258dcd6eb86be5af29c74df2e4e1e3",
+    "actions/GameActionManager.java": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3",
+    "characters/AbstractPlayer.java": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+    "powers/PlatedArmorPower.java": "686dbc797a8b2649d36a5332f45037202b17f5213481b11f5a9efd9613013df3",
+    "actions/common/ReducePowerAction.java": "c38b05e84a781f97d4f87fa8bf374ef145a7c72137e16f8a388f7a612f9425a8",
+    "rooms/AbstractRoom.java": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05",
+    "actions/common/RemoveSpecificPowerAction.java": "c6262b3ce8528f75045f9610026d524a8ae63c526547593e4549f7c5a01a1ad8"
+  }
+}

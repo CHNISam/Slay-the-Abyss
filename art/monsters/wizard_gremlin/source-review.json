@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "wizard_gremlin",
+  "sourceSha256": "a1a0899fe21be84a385deef462b931a4548ca0cd3e30a4633e464b6508b505d2",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    266,
+    36,
+    1075,
+    1215
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "76e315fbe97663a71a1f3ace58d3e37323a1ba9f9719394513f03f912b340239",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "098dd2d4cebe1d8b668818046f75302f78a131ae1b5d84a53a0ff558dc3d867e",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Actual authoritative brief followed: one grooved flat stone held by both hands at chest, broad forehead stripe, narrow grey paired-horn family body/dark-purple collar. Coordinator initial staff summary explicitly corrected; no staff/orb/hat.",
+    "Hands contact stone plausibly; arms continuous with far arm partly obscured by stone, two feet/horns intact. Elbow/body negative gap mainly near side; no extra limb.",
+    "Stone/groove and purple narrow body read106/127. Forehead stripe subtler at106, not sole tiny identity cue."
+  ],
+  "costLimits": [
+    "Preserve stone contacts/groove, family face/horns, narrow body and gaps before fingers/facets/wraps.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserve; intact tight margins downstream6% inset contain allowed; no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only; no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

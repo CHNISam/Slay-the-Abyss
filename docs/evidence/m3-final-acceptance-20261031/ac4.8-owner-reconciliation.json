@@ -1,0 +1,60 @@
+{
+  "task": "TASK-4.8",
+  "reason": "Later exact Owner copy overrides incompatible older generic wording; runtime copy unchanged; formula remains unverified.",
+  "authority": [
+    "TASK-4.17 description 2026-10-30",
+    "PR396@f5af0664",
+    "m3-remaining-offline-ac-audit peer confirmation"
+  ],
+  "before": [
+    {
+      "index": 1,
+      "text": "比赛内容的卡牌与遗物说明使用准确中文，无英文占位。",
+      "checked": true
+    },
+    {
+      "index": 2,
+      "text": "游戏内核对并保留同候选证据。",
+      "checked": false
+    },
+    {
+      "index": 3,
+      "text": "普通卡正文仅保留必要效果，打击类等身份以可发现关键词解释承接，规则标签及剑势如虹计数不变；移除常驻选敌长提示，菜单/退出弹层保留三栏操作说明入口及后续Owner指定文案，打开关闭时保持输入隔离与焦点恢复。",
+      "checked": true
+    },
+    {
+      "index": 4,
+      "text": "退出文案清晰说明本局进度无法恢复并保留取消/确认；创作者权限不是玩家等级，点赞文案不承诺未经验证的升级或存档解锁因果。",
+      "checked": false
+    }
+  ],
+  "after": [
+    {
+      "index": 1,
+      "text": "比赛内容的卡牌与遗物说明使用准确中文，无英文占位。",
+      "checked": true
+    },
+    {
+      "index": 2,
+      "text": "游戏内核对并保留同候选证据。",
+      "checked": false
+    },
+    {
+      "index": 3,
+      "text": "普通卡正文仅保留必要效果，打击类等身份以可发现关键词解释承接，规则标签及剑势如虹计数不变；移除常驻选敌长提示，菜单/退出弹层保留三栏操作说明入口及后续Owner指定文案，打开关闭时保持输入隔离与焦点恢复。",
+      "checked": true
+    },
+    {
+      "index": 4,
+      "text": "退出文案清晰说明本局进度无法恢复并保留取消/确认；区分创作者权限与玩家等级；点赞支持文案保持后发Owner TASK-4.17批准原句及追加，不声称点赞能解锁玩家存档或退出续玩。",
+      "checked": true
+    }
+  ],
+  "preserved": {
+    "firstThreeTextOrderAndChecks": true,
+    "statusAndAssignees": true,
+    "allOldNotes": true,
+    "TASK4.17Untouched": true
+  },
+  "validation": "Independent generated UI/Chinese/exit geometry focused tests; actual source copy unchanged."
+}

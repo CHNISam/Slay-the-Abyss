@@ -1,0 +1,6 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@0.11.0 check:architecture
+> node scripts/check-architecture.mjs
+
+Architecture passed: 221 modules, 1265 edges; build/architecture.json

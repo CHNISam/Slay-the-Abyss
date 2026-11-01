@@ -1,0 +1,3323 @@
+{
+  "version": "0.1.0",
+  "note": "界面主题与布局常数。设计以 1280x720（手机）为基准画布，整棵界面挂在 stage 容器下按 min(宽/1280, 高/720) 等比缩放。颜色为 #RRGGBB 或 #RRGGBBAA，生成 Lua 时转为 0-255 的 {r,g,b,a}。图片编号来自千星图片库（image_catalog），标注 verify 的选型需在编辑器或截图里核对一次。主角为旅行者（岩元素），主色取岩元素琥珀金配深岩灰蓝。规范见 docs/design/UI_DESIGN.md。 Darkstone Periapt 的102031图标明确暂复用既有光滑岩片资源；非新美术批准，原生验收未运行。",
+  "canvas": {
+    "base": [
+      1280,
+      720
+    ],
+    "devices": {
+      "pc": [
+        1600,
+        900
+      ],
+      "mobile": [
+        1280,
+        720
+      ],
+      "console": [
+        1920,
+        1080
+      ]
+    },
+    "safe": {
+      "x": 40,
+      "y": 20
+    }
+  },
+  "color": {
+    "backdrop": "#0F1117",
+    "backdropVeil": "#0F1117CC",
+    "officialBackdropVeil": "#0F111780",
+    "officialBackdropTint": "#FFFFFF",
+    "panel": "#1C1E27",
+    "panelRaised": "#272A36",
+    "buttonHover": "#353949",
+    "buttonPressedText": "#FFFFFF",
+    "buttonPressedFill": "#51412B",
+    "dangerText": "#FF8A80",
+    "panelSunken": "#13141B",
+    "line": "#3B3E4C",
+    "gold": "#E3B866",
+    "goldBright": "#F5D79A",
+    "goldDim": "#8E7448",
+    "text": "#ECE6DA",
+    "textDim": "#A9A595",
+    "textMuted": "#A9A595",
+    "textOnLight": "#2A2620",
+    "parchment": "#EFE6D2",
+    "hp": "#D2524A",
+    "topPanelHp": "#FA8072",
+    "topPanelCream": "#FFF6E2",
+    "topPanelGold": "#EFC851",
+    "topPanelRed": "#FF6563",
+    "topPanelGreen": "#7FFF00",
+    "hpGhost": "#F3E2C8",
+    "hpTrack": "#3A1F22",
+    "block": "#5FA8E8",
+    "hpShielded": "#4F86BD",
+    "energy": "#E9A93B",
+    "energyEmpty": "#4A3E2A",
+    "positive": "#7DC77A",
+    "cardValueIncrease": "#7DC77A",
+    "cardValueDecrease": "#EF7672",
+    "danger": "#E5574B",
+    "buff": "#E6A24A",
+    "debuff": "#A77BE0",
+    "focus": "#F2D9A2",
+    "cardShadow": "#00000059",
+    "cardBody": "#161820",
+    "cardWell": "#0D0E12",
+    "cardType": {
+      "attack": "#B9483F",
+      "skill": "#3F7FB9",
+      "power": "#B98A35",
+      "status": "#5C5F6B"
+    },
+    "rarity": {
+      "basic": "#34363C",
+      "common": "#8C929D",
+      "uncommon": "#3F7FC6",
+      "rare": "#D4A54A",
+      "curse": "#6B4A44"
+    },
+    "rarityBand": {
+      "basic": "#24262B",
+      "common": "#3A3E46",
+      "uncommon": "#1F4677",
+      "rare": "#5E4111",
+      "curse": "#4A322E"
+    },
+    "node": {
+      "visited": "#8E7448",
+      "current": "#FFFAEE",
+      "reachable": "#ECE6DA",
+      "locked": "#4A4F63",
+      "path": "#77707A",
+      "pathTaken": "#FFD88A"
+    },
+    "geo": "#F0B850",
+    "geoDeep": "#A8732A",
+    "vista": {
+      "sky": "#0B0E15",
+      "far": "#151A25",
+      "mid": "#1C2230",
+      "near": "#232A39",
+      "ground": "#0D1017",
+      "shade": "#000000"
+    },
+    "merchant": {
+      "hood": "#2B2A31",
+      "robe": "#3B3129",
+      "face": "#6A5644",
+      "beard": "#CFC5B0",
+      "lantern": "#F0B850"
+    },
+    "mapCanvas": {
+      "backdrop": "#0D0708",
+      "field": "#2A1013",
+      "fog": "#1A0D0E",
+      "far": "#7A8292",
+      "visitedRing": "#C99A4E66",
+      "currentRing": "#E6D3A873",
+      "visited": "#C99A4E",
+      "kind": {
+        "combat": "#C9C3B6",
+        "elite": "#E8836C",
+        "camp": "#E9C77B",
+        "shop": "#8CC4E2",
+        "event": "#BCB0E2",
+        "treasure": "#F0BC72",
+        "boss": "#E8836C"
+      }
+    },
+    "mapHeader": {
+      "shade": "#070303",
+      "border": "#6E5A42",
+      "title": "#E9C77B",
+      "ink": "#C9BDA4",
+      "legendInk": "#D9CBB0",
+      "count": "#F3ECDD",
+      "menuNormal": {
+        "fill": "#241B19",
+        "ink": "#C9BDA4",
+        "border": "#6E5A42"
+      },
+      "menuHover": {
+        "fill": "#3A2E28",
+        "ink": "#F6DFA4",
+        "border": "#E9C77B"
+      },
+      "menuPressed": {
+        "fill": "#170F0E",
+        "ink": "#F3ECDD",
+        "border": "#E9C77B"
+      }
+    },
+    "potionShell": {
+      "empty": {
+        "face": "#1A131280",
+        "border": "#6E5A42"
+      },
+      "base": "#221A17",
+      "normal": {
+        "border": "#C9A86E",
+        "light": "#3A2E28",
+        "ink": "#8CC4E2",
+        "base": "#2C231E",
+        "mid": "#312722"
+      },
+      "fire": {
+        "border": "#C8705A",
+        "light": "#4A2C24",
+        "ink": "#EE9670",
+        "base": "#33221D",
+        "mid": "#3B251F"
+      },
+      "selected": {
+        "border": "#F6DFA4",
+        "spread": "#E9C77B33",
+        "glow": "#E9C77B66"
+      }
+    }
+  },
+  "font": {
+    "display": 44,
+    "title": 34,
+    "heading": 28,
+    "body": 24,
+    "label": 22,
+    "card": 15,
+    "cardName": 14,
+    "small": 20,
+    "number": 28,
+    "cost": 20,
+    "numberLarge": 34,
+    "minimum": 14,
+    "hud": 28,
+    "reading": 28
+  },
+  "space": {
+    "xs": 4,
+    "s": 8,
+    "m": 12,
+    "l": 16,
+    "xl": 24,
+    "xxl": 32,
+    "border": 2,
+    "hairline": 1
+  },
+  "motion": {
+    "actorIdle": {"period": 3.6, "scale": 0.012, "lift": 1.2, "sway": 0.8, "maxDelta": 0.1},
+    "fast": 0.12,
+    "base": 0.2,
+    "slow": 0.35,
+    "banner": 0.9,
+    "damagePop": 0.6,
+    "hpGhostDelay": 0.25,
+    "hpGhost": 0.45,
+    "shake": 0.15,
+    "shakeAmplitude": 6,
+    "enemyActionGap": 0.45,
+    "enemyEscape": 3,
+    "playerDeath": 0.7,
+    "hitStop": 0.05,
+    "hitStopHeavy": 0.1,
+    "heavyHitDamage": 12,
+    "anticipation": 0.3,
+    "hoverLift": 76,
+    "hoverScale": 1.22
+  },
+  "sound": {
+    "card_play": 50916,
+    "player_action": 40313,
+    "action_cultist": 20171,
+    "action_jaw_worm": 20089,
+    "action_red_louse": 20080,
+    "action_green_louse": 20081,
+    "action_acid_slime_s": 20082,
+    "action_acid_slime_m": 20083,
+    "action_acid_slime_l": 20084,
+    "action_spike_slime_s": 20085,
+    "action_spike_slime_m": 20096,
+    "action_spike_slime_l": 20097,
+    "action_looter": 20146,
+    "action_blue_slaver": 20147,
+    "action_red_slaver": 20148,
+    "action_fungi_beast": 20090,
+    "action_mad_gremlin": 20149,
+    "action_sneaky_gremlin": 20150,
+    "action_fat_gremlin": 20151,
+    "action_wizard_gremlin": 20152,
+    "action_shield_gremlin": 20153,
+    "action_gremlin_nob": 20098,
+    "action_lagavulin": 20099,
+    "action_sentry": 50421,
+    "action_guardian": 50422,
+    "hit": 40106,
+    "hit_heavy": 40224,
+    "hurt": 50936,
+    "block_hit": 50420,
+    "block_gain": 50940,
+    "status": 50928,
+    "turn": 50926,
+    "enemy_die": 20092,
+    "enemy_die_human": 30004,
+    "enemy_die_magic": 50614,
+    "enemy_die_metal": 50423,
+    "enemy_die_large": 20093,
+    "victory": 50919,
+    "defeat": 50931,
+    "prologue_rumble": 40224,
+    "prologue_crack": 50928,
+    "prologue_rise": 50926,
+    "merchant_buy": 50940,
+    "merchant_deny": 50937,
+    "forge": 50418,
+    "rest": 40002,
+    "heal": 40001,
+    "treasure_open": 50214,
+    "reward": 50919,
+    "card_remove": 50928
+  },
+  "deathSound": {
+    "cultist": "enemy_die_human",
+    "looter": "enemy_die_human",
+    "blue_slaver": "enemy_die_human",
+    "red_slaver": "enemy_die_human",
+    "acid_slime_s": "enemy_die_magic",
+    "acid_slime_m": "enemy_die_magic",
+    "acid_slime_l": "enemy_die_magic",
+    "spike_slime_s": "enemy_die_magic",
+    "spike_slime_m": "enemy_die_magic",
+    "spike_slime_l": "enemy_die_magic",
+    "sentry": "enemy_die_metal",
+    "guardian": "enemy_die_metal",
+    "gremlin_nob": "enemy_die_large",
+    "lagavulin": "enemy_die_large"
+  },
+  "image": {
+    "officialBackdrops": {
+      "title": 107271,
+      "selection": 107050,
+      "act1_1": 107106,
+      "act1_2": 107107,
+      "act1_3": 107110,
+      "act2_1": 107108,
+      "act2_2": 107109,
+      "act2_3": 107105,
+      "boss1": 107280,
+      "boss2": 107279
+    },
+    "rect": 100001,
+    "disc": 106025,
+    "discSoft": 106029,
+    "ring": 100006,
+    "glow": 106056,
+    "diamond": 100004,
+    "star": 100005,
+    "glowWide": 106057,
+    "vignette": 106059,
+    "ruin": 106048,
+    "ruinWall": 106040,
+    "shards": 106041,
+    "fadeLine": 106091,
+    "beam": 106094,
+    "sparkle": 104003,
+    "twinkle": 104002,
+    "scroll": 111061,
+    "tome": 111057,
+    "coffer": 111064,
+    "merchant": 112030
+  },
+  "icon": {
+    "hp": 102018,
+    "block": 102014,
+    "gold": {
+      "id": 105077,
+      "colour": true
+    },
+    "deck": {
+      "id": 105046,
+      "colour": true,
+      "verify": true
+    },
+    "drawPile": 100149,
+    "discardPile": 100150,
+    "exhaust": 102049,
+    "map": 100128,
+    "settings": 100161,
+    "close": 100101,
+    "confirm": 100102,
+    "back": 100104,
+    "next": 100103,
+    "info": 100164,
+    "lock": 100169,
+    "upgrade": 100110,
+    "remove": 100108,
+    "intent": {
+      "attack": 102035,
+      "defend": 102036,
+      "buff": 102020,
+      "debuff": 102045,
+      "unknown": 100114,
+      "sleep": 100129,
+      "verify": true
+    },
+    "node": {
+      "combat": 102044,
+      "elite": 102034,
+      "camp": 102002,
+      "shop": 102025,
+      "event": 100114,
+      "treasure": 102028,
+      "boss": 102033
+    },
+    "status": {
+      "buffer": {"id":102036,"placeholder":true,"note":"缓冲复用批准防护图标；抵消次数以状态文字显示，设备待验。"},
+      "next_turn_block": {"id":102036,"placeholder":true,"note":"下回合格挡复用批准防护图标；层数以状态文字显示，设备待验。"},
+      "time_warp": 102024,
+      "draw_reduction": 102045,
+      "flame_barrier": 103055,
+      "evolve": 103056,
+      "fire_breathing": 103055,
+      "blur": 103066,
+      "choked": 103059,
+      "shackled": 103047,
+      "draw_next_turn": 102026,
+      "lock_on": 102035,
+      "battle_hymn": 102012,
+      "collect": 102024,
+      "energy_down": 102045,
+      "like_water": 103066,
+      "study": 102026,
+      "block_return": 103066,
+      "wrath_next_turn": 102024,
+      "draw_card_next_turn": 102026,
+      "vigor": 103047,
+      "mark": 103059,
+      "rupture": 103047,
+      "combust": 103059,
+      "brutality": 103047,
+      "berserk": 103047,
+      "energized": 102020,
+      "energized_blue": 102020,
+      "next_turn_block": 103066,
+      "after_image": 103066,
+      "thousand_cuts": 102035,
+      "envenom": 103059,
+      "rage": 103047,
+      "heat_sinks": 102026,
+      "storm": 102035,
+      "accuracy": 102012,
+      "infinite_blades": 102012,
+      "noxious_fumes": 103059,
+      "focus": 102020,
+      "bias": 102045,
+      "rushdown": 102026,
+      "mental_fortress": 103066,
+      "nirvana": 103066,
+      "mantra": 102024,
+      "devotion": 102024,
+      "metallicize": 103066,
+      "demon_form": 103047,
+      "corruption": 103059,
+      "feel_no_pain": 103066,
+      "dark_embrace": 103056,
+      "loop": 102020,
+      "electrodynamics": 102035,
+      "thievery": 105077,
+      "curl_up": 103066,
+      "spore_cloud": 103059,
+      "entangled": 102045,
+      "artifact": 103066,
+      "mode_shift": 103066,
+      "sharp_hide": 103055,
+      "strength": 103047,
+      "enrage": 103047,
+      "angry": 103047,
+      "dexterity": 103065,
+      "vulnerable": 103049,
+      "weak": 102045,
+      "frail": 103054,
+      "poison": 103059,
+      "thorns": 103055,
+      "regen": 103056,
+      "barricade": 103066,
+      "ritual": 103047,
+      "pen_nib": 103047,
+      "plated_armor": 103066,
+      "duplication": 103047,
+      "verify": true,
+      "double_tap": 103047,
+      "juggernaut": 103066,
+      "split": 100114
+    },
+    "statusReplacementNotes": {
+      "split": "原版 Split atlas 尚不可用，明确使用现有问号占位；不是原图复现。"
+    },
+    "potion": {
+      "attack_potion": 111046,
+      "skill_potion": 111048,
+      "power_potion": 111047,
+      "colorless_potion": 111047,
+      "entropic_brew": 111047,
+      "fairy_in_a_bottle": 111047,
+      "fire_potion": 111046,
+      "block_potion": 111048,
+      "strength_potion": 111046,
+      "dexterity_potion": 111047,
+      "energy_potion": 111047,
+      "poison_potion": 111048,
+      "regen_potion": 111047,
+      "swift_potion": 111047,
+      "weak_potion": 111048,
+      "fear_potion": 111046,
+      "ancient_potion": 111047,
+      "liquid_bronze": 111046,
+      "snecko_oil": 111047,
+      "elixir": 111047,
+      "gamblers_brew": 111047,
+      "liquid_memories": 111047,
+      "blood_potion": 111046,
+      "fruit_juice": 111047,
+      "blessing_of_the_forge": 111046,
+      "explosive_potion": 111046,
+      "heart_of_iron": 111048,
+      "essence_of_steel": 111048,
+      "cultist_potion": 111046,
+      "flex_potion": 111046,
+      "speed_potion": 111047,
+      "duplication_potion": 111047,
+      "distilled_chaos": 111048,
+      "smoke_bomb": 111048,
+      "empty": 106026,
+      "verify": true
+    },
+    "potionTint": {
+      "fire_potion": "#FFB09A",
+      "block_potion": "#B9DCFF",
+      "strength_potion": "#FFFFFF",
+      "dexterity_potion": "#FFFFFF",
+      "energy_potion": "#FFE7A6",
+      "poison_potion": "#BFF0B0",
+      "regen_potion": "#D8FFC8",
+      "swift_potion": "#B9DCFF",
+      "weak_potion": "#BFF0B0",
+      "fear_potion": "#FFB09A",
+      "ancient_potion": "#FFE7A6",
+      "liquid_bronze": "#F0B850",
+      "flex_potion": "#FFFFFF",
+      "speed_potion": "#FFFFFF"
+    },
+    "relic": {
+      "bloody_idol": {"id": 102028, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
+      "mutagenic_strength": {"id": 102028, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
+      "necronomicon": {"id": 102028, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
+      "enchiridion": {"id": 102028, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
+      "nilrys_codex": {"id": 102028, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
+
+      "nloths_gift": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+      "cultist_mask": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+      "face_of_cleric": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+      "gremlin_mask": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+      "nloths_mask": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+      "ssserpent_head": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+
+"bottled_tornado": {"id":102028,"placeholder":true,"note":"瓶装旋风复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"sundial": {"id":102028,"placeholder":true,"note":"日晷复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"kunai": {"id":102028,"placeholder":true,"note":"苦无复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"blue_candle": {"id":102028,"placeholder":true,"note":"蓝蜡烛复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"eternal_feather": {"id":102028,"placeholder":true,"note":"永恒羽毛复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"strike_dummy": {"id":102028,"placeholder":true,"note":"打击木偶复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"singing_bowl": {"id":102028,"placeholder":true,"note":"颂钵复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"matryoshka": {"id":102028,"placeholder":true,"note":"套娃复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"ink_bottle": {"id":102028,"placeholder":true,"note":"墨水瓶复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"ornamental_fan": {"id":102028,"placeholder":true,"note":"精致折扇复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"bottled_lightning": {"id":102028,"placeholder":true,"note":"瓶装闪电复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"gremlin_horn": {"id":102028,"placeholder":true,"note":"地精之角复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"horn_cleat": {"id":102028,"placeholder":true,"note":"船夹板复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"letter_opener": {"id":102028,"placeholder":true,"note":"开信刀复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"question_card": {"id":102028,"placeholder":true,"note":"问号牌复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"bottled_flame": {"id":102028,"placeholder":true,"note":"瓶装火焰复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"shuriken": {"id":102028,"placeholder":true,"note":"手里剑复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"meat_on_the_bone": {"id":102028,"placeholder":true,"note":"带骨肉复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"mummified_hand": {"id":102028,"placeholder":true,"note":"干瘪之手复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"mercury_hourglass": {"id":102028,"placeholder":true,"note":"水银沙漏复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"self_forming_clay": {"id":102028,"placeholder":true,"note":"自成型黏土复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"paper_frog": {"id":102028,"placeholder":true,"note":"纸青蛙复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"ginger": {"id":102028,"placeholder":true,"note":"生姜复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"bird_faced_urn": {"id":102028,"placeholder":true,"note":"鸟面瓮复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"unceasing_top": {"id":102028,"placeholder":true,"note":"不休陀螺复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"torii": {"id":102028,"placeholder":true,"note":"鸟居复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"stone_calendar": {"id":102028,"placeholder":true,"note":"石历复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"shovel": {"id":102028,"placeholder":true,"note":"铲子复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"winged_greaves": {"id":102028,"placeholder":true,"note":"飞翼短靴复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"thread_and_needle": {"id":102028,"placeholder":true,"note":"针线复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"turnip": {"id":102028,"placeholder":true,"note":"萝卜复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"ice_cream": {"id":102028,"placeholder":true,"note":"冰淇淋复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"calipers": {"id":102028,"placeholder":true,"note":"外卡钳复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"prayer_wheel": {"id":102028,"placeholder":true,"note":"转经轮复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"girya": {"id":102028,"placeholder":true,"note":"壶铃复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"dead_branch": {"id":102028,"placeholder":true,"note":"枯木树枝复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"du_vu_doll": {"id":102028,"placeholder":true,"note":"巫毒娃娃复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"pocketwatch": {"id":102028,"placeholder":true,"note":"怀表复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"incense_burner": {"id":102028,"placeholder":true,"note":"香炉复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"gambling_chip": {"id":102028,"placeholder":true,"note":"赌博筹码复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"peace_pipe": {"id":102028,"placeholder":true,"note":"宁静烟斗复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"captains_wheel": {"id":102028,"placeholder":true,"note":"舵盘复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"magic_flower": {"id":102028,"placeholder":true,"note":"魔法花复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"charons_ashes": {"id":102028,"placeholder":true,"note":"卡戎之灰复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"champion_belt": {"id":102028,"placeholder":true,"note":"冠军腰带复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"velvet_choker": {"id":102028,"placeholder":true,"note":"天鹅绒颈圈复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"runic_dome": {"id":102028,"placeholder":true,"note":"符文圆顶复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"snecko_eye": {"id":102028,"placeholder":true,"note":"异蛇之眼复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"pandoras_box": {"id":102028,"placeholder":true,"note":"潘多拉魔盒复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"cursed_key": {"id":102028,"placeholder":true,"note":"诅咒钥匙复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"busted_crown": {"id":102028,"placeholder":true,"note":"破损王冠复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"ectoplasm": {"id":102028,"placeholder":true,"note":"灵体外质复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"tiny_house": {"id":102028,"placeholder":true,"note":"小屋复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"philosophers_stone": {"id":102028,"placeholder":true,"note":"贤者之石复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"astrolabe": {"id":102028,"placeholder":true,"note":"星盘复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"empty_cage": {"id":102028,"placeholder":true,"note":"空鸟笼复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"runic_pyramid": {"id":102028,"placeholder":true,"note":"符文金字塔复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"calling_bell": {"id":102028,"placeholder":true,"note":"召唤之钟复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"mark_of_pain": {"id":102028,"placeholder":true,"note":"苦痛印记复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"runic_cube": {"id":102028,"placeholder":true,"note":"符文立方体复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"sling": {"id":102028,"placeholder":true,"note":"投石带复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"hand_drill": {"id":102028,"placeholder":true,"note":"手钻复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"toolbox": {"id":102028,"placeholder":true,"note":"工具箱复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"chemical_x": {"id":102028,"placeholder":true,"note":"化学物X复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"orrery": {"id":102028,"placeholder":true,"note":"星系仪复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"dollys_mirror": {"id":102028,"placeholder":true,"note":"多利之镜复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"orange_pellets": {"id":102028,"placeholder":true,"note":"橙色药丸复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"prismatic_shard": {"id":102028,"placeholder":true,"note":"棱彩碎片复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"clockwork_souvenir": {"id":102028,"placeholder":true,"note":"发条纪念品复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"frozen_eye": {"id":102028,"placeholder":true,"note":"冰冻之眼复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"the_abacus": {"id":102028,"placeholder":true,"note":"算盘复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"medical_kit": {"id":102028,"placeholder":true,"note":"医疗箱复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"cauldron": {"id":102028,"placeholder":true,"note":"大锅复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"strange_spoon": {"id":102028,"placeholder":true,"note":"奇怪的勺子复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"brimstone": {"id":102028,"placeholder":true,"note":"硫磺复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"fossilized_helix": {"id":102028,"placeholder":true,"note":"螺旋化石复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+"pantograph": {"id":102028,"placeholder":true,"note":"缩放仪复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
+      "white_beast_statue": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "白兽雕像沿用批准主题宝箱图标；专属美术与设备验收待完成。"
+      },
+      "pear": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "梨沿用批准主题宝箱图标；专属美术与设备验收待完成。"
+      },
+      "mango": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "芒果沿用批准主题宝箱图标；专属美术与设备验收待完成。"
+      },
+      "old_coin": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "古旧钱币沿用批准主题宝箱图标；专属美术与设备验收待完成。"
+      },
+      "frozen_egg": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "冰冻胎石沿用批准主题宝箱图标；专属美术与设备验收待完成。"
+      },
+      "coffee_dripper": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "咖啡滤杯沿用批准主题宝箱图标；专属美术与设备验收待完成。"
+      },
+      "fusion_hammer": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "聚变之锤沿用批准主题宝箱图标；专属美术与设备验收待完成。"
+      },
+      "odd_mushroom": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "奇怪蘑菇暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"
+      },
+      "black_star": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "黑星暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"
+      },
+      "lizard_tail": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "蜥蜴尾巴暂沿用批准主题现有宝箱图标；实际剩余次数由只读详情展示，专属美术与设备验收待完成。"
+      },
+      "membership_card": 102026,
+      "courier": 102007,
+      "smiling_mask": 102031,
+      "burning_blood": 102005,
+      "black_blood": 102005,
+      "slavers_collar": 102028,
+      "sozu": 102028,
+      "anchor": 102036,
+      "vajra": 102012,
+      "bag_of_preparation": 102026,
+      "lantern": 102007,
+      "oddly_smooth_stone": 102031,
+      "bronze_scales": 102015,
+      "omamori": 102028,
+      "ceramic_fish": 102031,
+      "potion_belt": 102026,
+      "meal_ticket": 102026,
+      "maw_bank": 102007,
+      "blood_vial": 102005,
+      "bag_of_marbles": 102031,
+      "orichalcum": 102036,
+      "strawberry": 102005,
+      "regal_pillow": 102026,
+      "toy_ornithopter": 102007,
+      "whetstone": 102012,
+      "war_paint": 102014,
+      "happy_flower": 102007,
+      "ancient_tea_set": 102026,
+      "art_of_war": 102012,
+      "boot": 102036,
+      "akabeko": 102012,
+      "pen_nib": 102012,
+      "nunchaku": 102012,
+      "preserved_insect": 102015,
+      "red_skull": 102005,
+      "centennial_puzzle": 102026,
+      "tiny_chest": 102026,
+      "juzu_bracelet": 102028,
+      "dream_catcher": 102028,
+      "warped_tongs": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "临时沿用主题现有图标；专属美术与实机显示待验。"
+      },
+      "mark_of_bloom": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "绽放印记暂沿用主题现有遗物图标；专属美术与设备验收待完成。"
+      },
+      "spirit_poop": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "临时沿用主题现有图标；专属美术与实机显示待验。"
+      },
+      "circlet": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "临时沿用主题现有图标；专属美术与实机显示待验。"
+      },
+      "verify": true,
+      "darkstone_periapt": 102031,
+      "red_mask": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "暂沿用现有护符图标；专属美术与设备验收待完成。"
+      },
+      "tungsten_rod": {
+        "id": 102036,
+        "placeholder": true,
+        "note": "暂沿用现有防护图标；专属美术与设备验收待完成。"
+      },
+      "toxic_egg": {
+        "id": 102031,
+        "placeholder": true,
+        "note": "暂沿用现有遗物图标；专属美术与设备验收待完成。"
+      },
+      "molten_egg": {
+        "id": 102031,
+        "placeholder": true,
+        "note": "暂沿用现有遗物图标；专属美术与设备验收待完成。"
+      },
+      "snake_skull": {
+        "id": 102031,
+        "placeholder": true,
+        "note": "异蛇头骨（Snake Skull）暂沿用主题现有遗物图标；专属美术与设备验收待完成。"
+      },
+      "data_disk": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "数据磁盘（DataDisk）暂沿用主题现有护符图标；专属美术与设备验收待完成。"
+      },
+      "damaru": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "手摇鼓（Damaru）暂沿用主题现有护符图标；专属美术与设备验收待完成。"
+      },
+      "golden_idol": {
+        "id": 105077,
+        "colour": true,
+        "note": "Use existing currency glyph for the gold-reward effect; dedicated relic art and device acceptance remain M4 pending.",
+        "placeholder": true
+      },
+      "neows_lament": {
+        "id": 100114,
+        "placeholder": true,
+        "note": "Reuse the approved event glyph for the opening boon; dedicated relic artwork and native acceptance remain pending."
+      },
+      "pear": 102005,
+      "mango": 102005,
+      "lees_waffle": 102005,
+      "sacred_bark": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "神圣树皮沿用批准主题宝箱图标；专属美术及设备验收待完成。"
+      }
+    },
+    "cardPortraits": {
+      "cleave": {
+        "id": 102012,
+        "status": "placeholder-native-icon"
+      }
+    },
+    "cardArt": {
+      "attack": 102012,
+      "skill": 102014,
+      "power": 102024,
+      "status": 100122
+    },
+    "player": {
+      "id": 105292,
+      "slot": "dot-b.battle.traveler",
+      "status": "placeholder",
+      "owner": "dot-b",
+      "note": "战斗胸像槽，约 133×133。正式资源由 Dot B 替换 id。禁止再用岩元素图标 102005。"
+    },
+    "enemy": {
+      "cultist": 112022,
+      "jaw_worm": 112038,
+      "red_louse": 112013,
+      "green_louse": 112014,
+      "acid_slime_s": 112009,
+      "acid_slime_m": 112009,
+      "acid_slime_l": 112010,
+      "spike_slime_s": 112007,
+      "spike_slime_m": 112007,
+      "spike_slime_l": 112008,
+      "looter": 112030,
+      "blue_slaver": 112031,
+      "red_slaver": 112050,
+      "fungi_beast": 112033,
+      "mad_gremlin": 112022,
+      "sneaky_gremlin": 112025,
+      "fat_gremlin": 112023,
+      "wizard_gremlin": 112024,
+      "shield_gremlin": 112025,
+      "gremlin_nob": 112037,
+      "lagavulin": 112026,
+      "sentry": 112027,
+      "guardian": 112046,
+      "verify": true,
+      "hexaghost": 112022,
+      "slime_boss": 112004,
+      "spheric_guardian": 112026,
+      "centurion": 112017,
+      "mystic": 112021,
+      "taskmaster": 112031,
+      "book_of_stabbing": 112024,
+      "snake_plant": 112033,
+      "chosen": 112025,
+      "shelled_parasite": 112014,
+      "byrd": 112065,
+      "snecko": 112037,
+      "mugger": 112030,
+      "gremlin_leader": 112020,
+      "torch_head": 112016,
+      "collector": 112022,
+      "automaton": 112027,
+      "bronze_orb": 112026,
+      "champ": 112018
+    },
+    "medallion": {
+      "camp": 105045,
+      "treasure": 105043,
+      "cardReward": 105046,
+      "shop": 105064,
+      "chestOpen": 105081,
+      "verify": true
+    },
+    "energy": {
+      "id": 103005,
+      "colour": true
+    },
+    "geo": 102005,
+    "heroSlots": {
+      "note": "可替换主视觉。Dot A 交菜单与选角立绘/小头像，Dot B 交战斗胸像。status=placeholder 时各槽使用互不相同的图库编号，未完成角色不借用旅行者图，也不把 102005 当作正式形象。正式资源到位后只改对应 id 与 status。",
+      "menu": {
+        "slot": "dot-a.menu.traveler",
+        "shares": "dot-a.select.large.traveler.ironclad",
+        "id": 105301,
+        "status": "placeholder",
+        "owner": "dot-a"
+      },
+      "large": {
+        "traveler": {
+          "ironclad": {
+            "slot": "dot-a.select.large.traveler.ironclad",
+            "id": 105301,
+            "status": "placeholder",
+            "owner": "dot-a"
+          },
+          "silent": {
+            "slot": "dot-a.select.large.traveler.anemo",
+            "id": 105302,
+            "status": "placeholder",
+            "owner": "dot-a",
+            "playable": false
+          },
+          "defect": {
+            "slot": "dot-a.select.large.traveler.electro",
+            "id": 105303,
+            "status": "placeholder",
+            "owner": "dot-a",
+            "playable": false
+          },
+          "watcher": {
+            "slot": "dot-a.select.large.traveler.dendro",
+            "id": 105304,
+            "status": "placeholder",
+            "owner": "dot-a",
+            "playable": false
+          }
+        },
+        "hutao": {
+          "slot": "dot-a.select.large.hutao",
+          "id": 105305,
+          "status": "placeholder",
+          "owner": "dot-a",
+          "playable": false
+        },
+        "arlecchino": {
+          "slot": "dot-a.select.large.arlecchino",
+          "id": 105306,
+          "status": "placeholder",
+          "owner": "dot-a",
+          "playable": false
+        },
+        "furina": {
+          "slot": "dot-a.select.large.furina",
+          "id": 105307,
+          "status": "placeholder",
+          "owner": "dot-a",
+          "playable": false
+        },
+        "raiden": {
+          "slot": "dot-a.select.large.raiden",
+          "id": 105308,
+          "status": "placeholder",
+          "owner": "dot-a",
+          "playable": false
+        }
+      },
+      "bust": {
+        "traveler": {
+          "ironclad": {
+            "slot": "dot-a.select.bust.traveler.ironclad",
+            "id": 105311,
+            "status": "placeholder",
+            "owner": "dot-a"
+          },
+          "silent": {
+            "slot": "dot-a.select.bust.traveler.anemo",
+            "id": 105316,
+            "status": "placeholder",
+            "owner": "dot-a",
+            "playable": false
+          },
+          "defect": {
+            "slot": "dot-a.select.bust.traveler.electro",
+            "id": 105317,
+            "status": "placeholder",
+            "owner": "dot-a",
+            "playable": false
+          },
+          "watcher": {
+            "slot": "dot-a.select.bust.traveler.dendro",
+            "id": 105291,
+            "status": "placeholder",
+            "owner": "dot-a",
+            "playable": false
+          }
+        },
+        "hutao": {
+          "slot": "dot-a.select.bust.hutao",
+          "id": 105312,
+          "status": "placeholder",
+          "owner": "dot-a",
+          "playable": false
+        },
+        "arlecchino": {
+          "slot": "dot-a.select.bust.arlecchino",
+          "id": 105313,
+          "status": "placeholder",
+          "owner": "dot-a",
+          "playable": false
+        },
+        "furina": {
+          "slot": "dot-a.select.bust.furina",
+          "id": 105314,
+          "status": "placeholder",
+          "owner": "dot-a",
+          "playable": false
+        },
+        "raiden": {
+          "slot": "dot-a.select.bust.raiden",
+          "id": 105315,
+          "status": "placeholder",
+          "owner": "dot-a",
+          "playable": false
+        }
+      }
+    },
+    "characterPortraits": {
+      "hutao": {
+        "id": 105312,
+        "placeholder": true,
+        "slot": "dot-a.select.bust.hutao"
+      },
+      "arlecchino": {
+        "id": 105313,
+        "placeholder": true,
+        "slot": "dot-a.select.bust.arlecchino"
+      },
+      "furina": {
+        "id": 105314,
+        "placeholder": true,
+        "slot": "dot-a.select.bust.furina"
+      },
+      "raiden": {
+        "id": 105315,
+        "placeholder": true,
+        "slot": "dot-a.select.bust.raiden"
+      },
+      "traveler": {
+        "id": 105311,
+        "placeholder": true,
+        "slot": "dot-a.select.bust.traveler.ironclad"
+      }
+    }
+  },
+  "layout": {
+    "battlePotions": {
+      "count": 5,
+      "origin": [-100, 264],
+      "step": [48, 0],
+      "size": [44, 44],
+      "helpOffset": [
+        0,
+        0
+      ],
+      "helpSize": [
+        44,
+        44
+      ],
+      "bottleSize": 32
+    },
+    "potionDiscard": {
+      "columns": [
+        -184,
+        0,
+        184
+      ],
+      "rows": [152, 48],
+      "size": [164, 96],
+      "detail": [0, -124, 688, 232],
+      "header": {
+        "note": "标题与说明分行排布：标题 30 号居上，金色细线分隔，说明 16 号在线下，杜绝叠字。",
+        "titleY": 288,
+        "ruleY": 256,
+        "ruleSize": [
+          120,
+          2
+        ],
+        "hintY": 228,
+        "textHeight": 48
+      },
+      "entryVisual": {
+        "size": [
+          34.667,
+          34.667
+        ],
+        "border": 1,
+        "origin": -82.666,
+        "step": 41.333,
+        "bottleSize": 16
+      }
+    },
+    "battleNotice": {
+      "position": [
+        0,
+        -124
+      ],
+      "size": [
+        880,
+        40
+      ],
+      "bandTop": -106.66666666666669
+    },
+    "topBar": {
+      "height": 44,
+      "y": 328,
+      "note": "左侧按 STS TopPanel 顺序 生命 → 金币 → 楼层（renderHP/renderGold/renderDungeonInfo），消耗堆仍在右；右端 408..600 留给共用的卡组/退出按钮行。",
+      "hpIcon": [-590, 24],
+      "hp": [-492, 164],
+      "goldIcon": [-382, 22],
+      "gold": [-302, 120],
+      "floorIcon": [-230, 24],
+      "floor": [-199, 38],
+      "exhaustIcon": [382, 24],
+      "exhaust": [432, 68]
+    },
+    "pileBadge": {
+      "note": "抽/弃牌堆：图标 + 角标数字 + 文字说明，数字用深底金字保证对比度。",
+      "disc": 56,
+      "height": 40,
+      "offset": [24, -20],
+      "visual": {"diameter": 36, "offset": [20, -14], "font": 20, "textWidth": 40, "stroke": 1},
+      "label": [0, 22, 88, 40]
+    },
+    "pileVisual": {
+      "note": "Combat80：抽/弃牌堆复用地图卡组圆盘（TASK-4.13）：金属圆盘+扇叠卡背+官方图标，数字为圆盘下角小圆片。",
+      "rimWidth": 3,
+      "rim": "#C9A86E",
+      "face": "#2A1F1A",
+      "card": [22, 30],
+      "cardEdge": "#8E7448",
+      "cardEdgeBright": "#E9C77B",
+      "cardFace": "#3A2A20",
+      "glyph": 16,
+      "glyphInk": "#F3ECDD"
+    },
+    "card": {
+      "size": [
+        148,
+        208
+      ],
+      "nameBand": 30,
+      "art": 64,
+      "typeLine": 18,
+      "textBox": [
+        132,
+        92
+      ],
+      "costDisc": 30,
+      "trim": {
+        "shadow": 3,
+        "costOverhang": 5,
+        "costRing": 3,
+        "keyline": 1,
+        "typeTag": [
+          60,
+          16
+        ]
+      },
+      "longTextBox": [
+        132,
+        116
+      ],
+      "longTextArt": 32,
+      "title": {
+        "position": [
+          0,
+          86
+        ],
+        "width": 100
+      },
+      "artIcon": 40
+    },
+    "hand": {
+      "note": "STS AbstractCard 手牌：牌底可沉出画面下沿（overhang），静止时整把牌落在底部约 1/4；悬停/选中由 motion.hoverLift 抬到演员脚下之上并完整露出。",
+      "y": -296,
+      "overhang": 60,
+      "maxWidth": 820,
+      "spacingMax": 140,
+      "spacingMin": 74,
+      "arcDegrees": 2.5,
+      "arcDrop": 4
+    },
+    "rewardPick": {
+      "note": "战后选牌：居中三张大牌，与底部战斗手牌分开。scale/hoverScale 与批准稿 pick.png 的 1.38/1.5 一致；step 留足缝隙，悬停放大后相邻牌不重叠。",
+      "stage": [
+        0,
+        28,
+        960,
+        452
+      ],
+      "title": [
+        0,
+        230,
+        760,
+        48
+      ],
+      "subtitle": [
+        0,
+        184,
+        760,
+        40
+      ],
+      "y": -20,
+      "step": 268,
+      "scale": 1.38,
+      "hoverScale": 1.5,
+      "hoverLift": 12,
+      "ease": 14,
+      "enterScale": 0.88,
+      "enterRise": 28,
+      "skip": [
+        0,
+        -250,
+        250,
+        52
+      ]
+    },
+    "cardDrag": {
+      "threshold": 8,
+      "playArea": [
+        0,
+        66,
+        1200,
+        272
+      ],
+      "lineY": -70,
+      "scale": 1.1,
+      "commitOverlap": 0.25,
+      "cancelY": -185,
+      "targetColumn": 220,
+      "aimDots": 14,
+      "aimDot": [
+        8,
+        24
+      ],
+      "reticlePad": 28,
+      "aimFlow": 1.6,
+      "aimBend": [
+        0.25,
+        0.2
+      ],
+      "aimRetarget": 0.12,
+      "aimLockPulse": [
+        1.25,
+        0.18,
+        0.03
+      ]
+    },
+    "energy": {
+      "position": [-534.6666666666666, -200],
+      "size": 100,
+      "note": "Main.dc.html138–144按1920→1280等比：132外径、3边圈、9内面边距、白字44与向下2阴影；README后交接要求官方元素图标；按STS EnergyPanel层级（orb层+居中cur/max数字为主），元素图标缩为内径约40%、低透明度衬底，数字先读。原生disc/discSoft分层近似圆面亮暗，不等价CSS偏心径向渐变、弧光和模糊投影；待同源实机核验。",
+      "rim": 2,
+      "faceInset": 6,
+      "elementInset": 30,
+      "numberSize": 40,
+      "shadowOffset": [
+        0,
+        -1.3333333333333333
+      ],
+      "rimColour": "#8A6A40",
+      "shellColour": "#2A1C12",
+      "faceColour": "#B8701EC0",
+      "lightColour": "#FFE9B860",
+      "elementColour": "#F6D38E38",
+      "numberColour": "#FFF8EC",
+      "shadowColour": "#3A1E06"
+    },
+    "drawPile": {
+      "position": [-568, -300],
+      "size": [
+        64,
+        64
+      ]
+    },
+    "discardPile": {
+      "position": [568, -300],
+      "size": [
+        64,
+        64
+      ]
+    },
+    "endTurn": {
+      "position": [509.33333333333326, -216],
+      "touchGap": 16,
+      "touchNote": "TASK-38.2：外观不变；弃牌堆触控区（含角标/文字）与结束回合至少隔 touchGap；结束回合保持 Main 源位置；抽/弃牌堆下移、触控区上沿截断，角标上缘落在无响应间隙。",
+      "size": [
+        186.66666666666666,
+        50.666666666666664
+      ],
+      "wedge": 14.933333333333335,
+      "innerInset": [
+        2.0,
+        1.3333333333333333
+      ],
+      "faceInset": [
+        4.666666666666667,
+        3.3333333333333335
+      ],
+      "numberSize": 24,
+      "rimColour": "#E8BE6A",
+      "innerColour": "#2A140A",
+      "faceColour": "#9A5A26",
+      "textColour": "#FFF6E0"
+    },
+    "player": {
+      "position": [
+        -353.3333333333333,
+        76.66666666666669
+      ],
+      "portrait": 133.33333333333334
+    },
+    "enemyRow": {
+      "y": 64,
+      "xFrom": 89.33333333333337,
+      "xFromFew": 89.33333333333337,
+      "fewCount": 3,
+      "xTo": 537.3333333333333,
+      "frontOffset": -44,
+      "backOffset": 36,
+      "crowdPortrait": 123.33333333333333,
+      "portrait": 126.66666666666667,
+      "bossPortrait": 173.33333333333334,
+      "zoneLeft": 33.33333333333337,
+      "zoneRight": 593.3333333333333,
+      "frontTop": 160.0,
+      "backTop": 240.0,
+      "sourceScale": 1.5,
+      "frontSourceSize": 190,
+      "backScale": 0.86
+    },
+    "nativeText": {
+      "lineHeight": 40
+    },
+    "hpBar": {
+      "size": [
+        106.66666666666667,
+        12.0
+      ]
+    },
+    "blockBadge": {
+      "size": 28,
+      "gap": 4,
+      "padding": 4
+    },
+    "statusIcon": {
+      "size": 21.333333333333332,
+      "gap": 5.333333333333333,
+      "minimumTouch": 44,
+      "perRow": 5,
+      "rows": 2
+    },
+    "statusInfo": {
+      "note": "状态/意图详情卡：左对齐信息层级（单位名 → 生命/格挡 → 增益/减益分组 → 名称与层数 + 右侧持续 → 效果 → 条件）。原生文本框低于 nativeText.lineHeight 整行不渲染，所以每个文本框都按 lineHeight 高，行距用 pitch 叠放（透明框可重叠）。一页最多 rows 项，超出按页翻，任何状态都能看到。",
+      "width": 560,
+      "pad": 16,
+      "accent": 4,
+      "header": 36,
+      "summary": 36,
+      "divider": 12,
+      "section": 32,
+      "name": 32,
+      "line": 36,
+      "entryGap": 10,
+      "footer": 36,
+      "rows": 3,
+      "sections": 2,
+      "icon": 24,
+      "gap": 10,
+      "tagWidth": 140,
+      "nameHeight": 40,
+      "delay": 0.35
+    },
+    "intent": {
+      "size": 38.666666666666664,
+      "offsetY": 104,
+      "badge": 22,
+      "valueWidth": 64,
+      "note": "攻击只写数字（含力量/虚弱/易伤修正，多段写 9×2）；其余意图在同一位置写两字类型名（防御/强化/削弱/蓄能…），颜色同图标，不写层数，避免与身上状态混淆。",
+      "portraitGap": 10.666666666666666,
+      "numberSize": 15
+    },
+    "map": {
+      "floorGap": 76,
+      "scrollStepFloors": 2,
+      "columns": 7,
+      "columnGap": 112,
+      "node": 56,
+      "bossNode": 96,
+      "viewportHeight": 550,
+      "emeraldLabel": [
+        0,
+        -24,
+        96,
+        40
+      ],
+      "emeraldIconY": 8,
+      "notice": [
+        0,
+        -324,
+        1160,
+        28
+      ],
+      "emeraldNotice": [
+        0,
+        -316,
+        1160,
+        40
+      ],
+      "presentation": {
+        "fog": [
+          [
+            -420,
+            100,
+            420,
+            440
+          ],
+          [
+            420,
+            100,
+            420,
+            440
+          ],
+          [
+            0,
+            260,
+            720,
+            100
+          ],
+          [
+            0,
+            -270,
+            720,
+            80
+          ]
+        ],
+        "tokenSize": 22,
+        "tokenOffset": [
+          -20,
+          -14
+        ],
+        "navigationX": 552,
+        "navigationY": [
+          208,
+          152
+        ],
+        "navigationSize": 48,
+        "pathWidth": 3,
+        "lockedPathWidth": 2,
+        "futureOpacity": 0.6,
+        "lockedOpacity": 0.82,
+        "farLockedOpacity": 0.5,
+        "availableScaleCap": 1.3,
+        "takenPathWidth": 10.5,
+        "farFutureOpacity": 0.2,
+        "takenOpacity": 1,
+        "nextOpacity": 1,
+        "fogOpacity": 0.45,
+        "noticeHeight": 40,
+        "typeLegend": {
+          "position": [
+            528,
+            -140
+          ],
+          "size": [
+            144,
+            360
+          ],
+          "titleY": 156,
+          "firstY": 112,
+          "rowGap": 44,
+          "iconX": -56,
+          "iconSize": 24,
+          "labelX": 16,
+          "labelWidth": 104,
+          "textHeight": 40
+        },
+        "header": {
+          "shade": [
+            0,
+            328,
+            1280,
+            64
+          ],
+          "shadeOpacity": 0.92,
+          "divider": [
+            0,
+            296,
+            1200,
+            1
+          ],
+          "titleLineLeft": [
+            -172,
+            316,
+            72,
+            1
+          ],
+          "titleLineRight": [
+            172,
+            316,
+            72,
+            1
+          ]
+        }
+      }
+    },
+    "modal": {
+      "size": [760, 680]
+    },
+    "relicView": {
+      "note": "TASK-4.7 持有遗物站位：顶栏圆形遗物盘沿 prototype topBar() 32px disc / 36 步进；详情每行为图标盘+中文名+状态签+说明，美术位绑定 icon.relic，占位图标待专属美术。",
+      "bar": { "origin": [-584, 270], "step": 38, "disc": 34, "face": 30, "icon": 24, "count": 12, "tray": [-376, 270, 456, 38], "trayBorder": 1, "more": [10, 0, 56, 40] },
+      "barNote": "STS TopPanel/RelicPanel 移植：遗物在生命/金币行正下方从左向右单排流动（F 型扫视），每个遗物盘本身就是唯一入口；不再有托盘胶囊与右上角重复的遗物按钮。超过 count 件时末位改为 +N 溢出盘，点开分页详情。",
+      "panel": [0, 0, 1160, 620],
+      "title": [0, 268, 760, 48],
+      "close": [490, 268, 88, 48],
+      "previous": [-430, -268, 200, 48],
+      "next": [430, -268, 200, 48],
+      "pageHint": [0, -268, 400, 40],
+      "columns": [-282, 282],
+      "rows": [128, -116],
+      "row": [548, 232],
+      "disc": 72,
+      "discRing": 3,
+      "icon": 44,
+      "name": [-30, 82, 290, 40],
+      "chip": [190, 82, 136, 40],
+      "description": [46, -22, 440, 160]
+    },
+    "deckView": {
+      "relicEntry": [480, 264, 72, 48],
+      "entry": [512, 316, 80, 48],
+      "title": [
+        0,
+        316,
+        760,
+        44
+      ],
+      "close": [
+        452,
+        316,
+        88,
+        48
+      ],
+      "viewport": [
+        0,
+        0,
+        1120,
+        560
+      ],
+      "browseTitle": [-427, 316, 210, 48],
+      "filters": [[-286, 316, 56, 48], [-226, 316, 56, 48], [-166, 316, 56, 48], [-106, 316, 56, 48], [-46, 316, 56, 48], [14, 316, 56, 48]],
+      "sort": [[118, 316, 140, 48], [242, 316, 96, 48], [344, 316, 96, 48]],
+      "upgradePreview": [0, -316, 220, 48],
+      "columns": 6,
+      "itemSize": [
+        148,
+        226
+      ],
+      "spacing": [
+        36,
+        0
+      ],
+      "padding": [
+        14,
+        14,
+        12,
+        40
+      ],
+      "uidHeight": 18,
+      "pressedScale": 0.96,
+      "nodeTitleWidth": 1000,
+      "previous": [
+        -430,
+        -316,
+        200,
+        48
+      ],
+      "next": [
+        430,
+        -316,
+        200,
+        48
+      ],
+      "pageHint": [
+        0,
+        -316,
+        640,
+        40
+      ],
+      "entryVisual": {
+        "size": [
+          66.667,
+          34.667
+        ],
+        "border": 1,
+        "icon": [
+          -12,
+          0,
+          16,
+          16
+        ],
+        "count": [14, 0, 48, 40]
+      }
+    },
+    "button": {
+      "primary": [
+        220,
+        60
+      ],
+      "secondary": [
+        180,
+        52
+      ],
+      "pill": [
+        128,
+        40
+      ]
+    },
+    "battleRewards": {
+      "note": "批准奖励列表构图；第四行容纳独立失金条目。列表和选牌台互斥，继续不增加逐项放弃确认。",
+      "expanded": {
+        "note": "仅五至六行独立奖励时扩展原列表面板至安全区内；保留64高按钮与批准字号，不合并绿钥匙或Black Star遗物。",
+        "stage": [0, 0, 840, 680],
+        "title": [
+          0,
+          290,
+          560,
+          48
+        ],
+        "subtitle": [
+          0,
+          238,
+          560,
+          40
+        ],
+        "rowOrigin": [
+          0,
+          168
+        ],
+        "rowStep": 68,
+        "continue": [
+          0,
+          -308
+        ],
+        "potionLabel": [
+          0,
+          -242,
+          1040,
+          48
+        ]
+      },
+      "stage": [0, 28, 840, 516],
+      "title": [
+        0,
+        242,
+        560,
+        48
+      ],
+      "subtitle": [
+        0,
+        194,
+        560,
+        40
+      ],
+      "rowOrigin": [
+        0,
+        132
+      ],
+      "rowStep": 76,
+      "rowSize": [760, 64],
+      "continue": [
+        0,
+        -190,
+        200,
+        60
+      ],
+      "return": [
+        -522,
+        -296,
+        148,
+        44
+      ],
+      "potionLabel": [
+        0,
+        -264,
+        1040,
+        64
+      ],
+      "claimPotion": [
+        0,
+        56
+      ],
+      "skipPotion": [
+        0,
+        -250
+      ]
+    },
+    "nativeControl": {
+      "origin": [
+        0,
+        0
+      ]
+    },
+    "nativeBattle": {
+      "note": "功能过渡布局，保持现有点选流程；尚未还原批准稿的战斗单位、扇形手牌、图标与动效。",
+      "backdrop": [
+        0,
+        0,
+        1260,
+        700
+      ],
+      "title": [
+        0,
+        313,
+        1160,
+        44
+      ],
+      "player": [
+        -230,
+        265,
+        700,
+        42
+      ],
+      "piles": [
+        380,
+        265,
+        400,
+        42
+      ],
+      "notice": [
+        0,
+        58,
+        1130,
+        46
+      ],
+      "statuses": [
+        0,
+        17,
+        1140,
+        35
+      ],
+      "enemy": {
+        "count": 5,
+        "origin": [
+          -472,
+          165
+        ],
+        "step": [
+          236,
+          0
+        ],
+        "size": [
+          220,
+          140
+        ],
+        "labelSize": [
+          208,
+          132
+        ]
+      },
+      "card": {
+        "count": 10,
+        "columns": 5,
+        "origin": [
+          -464,
+          -72
+        ],
+        "step": [
+          232,
+          -145
+        ],
+        "size": [
+          218,
+          140
+        ],
+        "labelSize": [
+          204,
+          132
+        ]
+      },
+      "endTurn": [
+        438,
+        -316,
+        250,
+        44
+      ],
+      "start": [
+        0,
+        -70,
+        320,
+        60
+      ],
+      "continue": [
+        0,
+        -250,
+        320,
+        60
+      ],
+      "result": [
+        0,
+        168,
+        1110,
+        130
+      ],
+      "skip": [
+        0,
+        -316,
+        250,
+        44
+      ],
+      "buttonInset": [
+        8,
+        4
+      ],
+      "potions": {
+        "count": 3,
+        "origin": [
+          -430,
+          -316
+        ],
+        "step": [
+          200,
+          0
+        ],
+        "size": [
+          180,
+          44
+        ]
+      }
+    },
+    "nativeMap": {
+      "note": "五层分页功能过渡布局；批准稿的滚动地图与节点图标待还原。",
+      "backdrop": [
+        0,
+        0,
+        1240,
+        680
+      ],
+      "title": [
+        0,
+        312,
+        1160,
+        44
+      ],
+      "notice": [
+        0,
+        263,
+        1160,
+        42
+      ],
+      "page": [
+        -180,
+        -261,
+        760,
+        40
+      ],
+      "legendPanel": [
+        410,
+        0,
+        330,
+        456
+      ],
+      "legend": [
+        410,
+        0,
+        306,
+        432
+      ],
+      "geometry": {
+        "columns": [
+          -420,
+          -180,
+          60
+        ],
+        "firstY": 192,
+        "rowGap": 96,
+        "rows": 5
+      },
+      "edgeWidth": 3,
+      "floor": [
+        -575,
+        0,
+        62,
+        44
+      ],
+      "nodeSize": [
+        214,
+        70
+      ],
+      "nodeInsetSize": [
+        208,
+        64
+      ],
+      "label": [
+        0,
+        19,
+        206,
+        24
+      ],
+      "status": [
+        0,
+        -3,
+        206,
+        20
+      ],
+      "route": [
+        0,
+        -24,
+        206,
+        20
+      ],
+      "navigation": {
+        "columns": [
+          -420,
+          -180,
+          60
+        ],
+        "y": -314,
+        "size": [
+          180,
+          48
+        ],
+        "inset": [
+          8,
+          4
+        ]
+      }
+    },
+    "nativeNode": {
+      "note": "批准稿节点构图的原生实现：共用顶栏；商店单屏卡牌货架、删牌服务格与遗物行；营地双选项与锻造升级前后对比；事件左右结构；宝箱开合。坐标为父容器中心偏移，y 向上。",
+      "backdrop": [
+        0,
+        0,
+        1240,
+        680
+      ],
+      "swipe": {
+        "note": "卡牌/遗物行横向拖动翻页：松手时水平位移达到 threshold（设计单位）且大于竖直位移才翻页。",
+        "threshold": 40
+      },
+      "topBar": {
+        "plate": [
+          0,
+          316,
+          1200,
+          48
+        ],
+        "title": [24, 316, 440, 48],
+        "hpIcon": [-588, 316, 24, 24],
+        "hp": [-490, 316, 164, 48],
+        "goldIcon": [-382, 316, 22, 22],
+        "gold": [-302, 316, 120, 48],
+        "potions": [332, 316, 160, 48],
+        "relics": [500, 264, 120, 40],
+        "deckIcon": [322, 316, 28, 28],
+        "deck": [374, 316, 68, 48]
+      },
+      "notice": [
+        0,
+        262,
+        1160,
+        40
+      ],
+      "back": [
+        -490,
+        -290,
+        180,
+        52
+      ],
+      "confirm": [
+        490,
+        -290,
+        200,
+        56
+      ],
+      "buttonInset": [
+        20,
+        8
+      ],
+      "buttonStates": {
+        "pressedScale": 0.96,
+        "normalScale": 1
+      },
+      "arrowIcon": 32,
+      "price": {
+        "size": [
+          100,
+          40
+        ],
+        "coin": 24,
+        "sale": [
+          54,
+          0,
+          40,
+          40
+        ],
+        "saleValue": [
+          0,
+          0,
+          60,
+          40
+        ]
+      },
+      "shop": {
+        "cardY": 116,
+        "columns": [
+          -460,
+          -230,
+          0,
+          230,
+          460,
+          -460,
+          -280
+        ],
+        "previous": [
+          -574,
+          116,
+          44,
+          208
+        ],
+        "next": [
+          300,
+          116,
+          44,
+          208
+        ],
+        "removal": [
+          535,
+          -145,
+          112,
+          136
+        ],
+        "removalPriceY": -236,
+        "priceY": -12,
+        "page": [
+          140,
+          20,
+          520,
+          40
+        ],
+        "relics": {
+          "y": -84,
+          "columns": [
+            -50,
+            140,
+            330
+          ],
+          "size": [
+            148,
+            56
+          ],
+          "disc": 32,
+          "priceY": -132
+        },
+        "potions": {
+          "columns": [
+            -50,
+            140,
+            330
+          ],
+          "y": -188,
+          "size": [
+            148,
+            56
+          ],
+          "priceY": -240
+        },
+        "relicPrevious": [
+          -574,
+          -122,
+          44,
+          88
+        ],
+        "relicNext": [
+          574,
+          -122,
+          44,
+          88
+        ],
+        "cardRows": [
+          116,
+          116,
+          116,
+          116,
+          116,
+          -160,
+          -160
+        ],
+        "priceRows": [
+          -12,
+          -12,
+          -12,
+          -12,
+          -12,
+          -288,
+          -288
+        ],
+        "confirm": [500, -290, 200, 56],
+        "cancel": [
+          298,
+          -290,
+          180,
+          52
+        ],
+        "hoverScale": 1.2,
+        "hoverLift": 0,
+        "hoverDuration": 0.12,
+        "detail": [
+          140,
+          -100,
+          520,
+          120
+        ]
+      },
+      "picker": {
+        "cardY": 116,
+        "columns": [
+          -410,
+          -246,
+          -82,
+          82,
+          246,
+          410
+        ],
+        "previous": [
+          -530,
+          116,
+          44,
+          208
+        ],
+        "next": [
+          530,
+          116,
+          44,
+          208
+        ],
+        "page": [
+          0,
+          -12,
+          600,
+          40
+        ],
+        "previewY": -150,
+        "before": -170,
+        "after": 170,
+        "target": 0,
+        "arrow": [
+          0,
+          -150,
+          48,
+          48
+        ],
+        "label": [
+          -350,
+          -150,
+          180,
+          80
+        ],
+        "hint": [
+          350,
+          -150,
+          180,
+          80
+        ],
+        "empty": [
+          0,
+          -150,
+          480,
+          40
+        ]
+      },
+      "camp": {
+        "medallion": [
+          0,
+          180,
+          72,
+          72
+        ],
+        "tiles": [
+          [
+            -140,
+            -30
+          ],
+          [
+            140,
+            -30
+          ]
+        ],
+        "tileSize": [
+          240,
+          240
+        ],
+        "icon": [
+          0,
+          70,
+          72,
+          72
+        ],
+        "name": [
+          0,
+          4,
+          220,
+          44
+        ],
+        "description": [
+          0,
+          -70,
+          224,
+          72
+        ]
+      },
+      "event": {
+        "plate": [
+          -370,
+          -30,
+          400,
+          420
+        ],
+        "art": [
+          -370,
+          0,
+          180,
+          180
+        ],
+        "caption": [
+          -370,
+          -200,
+          360,
+          40
+        ],
+        "name": [
+          220,
+          220,
+          720,
+          44
+        ],
+        "body": [
+          220,
+          92,
+          720,
+          200
+        ],
+        "options": {
+          "x": 220,
+          "rows": [
+            -52,
+            -134,
+            -216,
+            -298
+          ],
+          "size": [
+            720,
+            80
+          ],
+          "title": [
+            0,
+            20,
+            680,
+            40
+          ],
+          "description": [
+            0,
+            -20,
+            680,
+            40
+          ]
+        },
+        "neow": {
+          "source": "aeubanks/sts@319009d NeowEvent(ROOM)+LargeDialogOptionButton+InfiniteSpeechBubble, 1920x1080 -> 1280x720 (x*2/3-640, y*2/3-360)",
+          "figure": [0, -36, 1280, 648],
+          "npc": [383, -173],
+          "bubble": [190, 145, 300, 130],
+          "bubbleText": [190, 145, 260, 100],
+          "options": {"x": -227, "bottom": -300, "spacing": 88, "size": [593, 80], "title": [0, 20, 561, 40], "description": [0, -20, 561, 40], "note": "保留左侧底对齐构图；按钮加高以完整显示标题、奖励与代价，两行说明不与标题重叠。"}
+        }
+      },
+      "treasure": {
+        "glow": [
+          0,
+          60,
+          420,
+          420
+        ],
+        "chest": [
+          0,
+          60,
+          200,
+          200
+        ],
+        "hint": [
+          0,
+          -82,
+          600,
+          40
+        ],
+        "reward": [
+          0,
+          -126,
+          480,
+          88
+        ],
+        "rewardDisc": 56,
+        "take": [
+          0,
+          -244,
+          220,
+          56
+        ],
+        "previous": [
+          -288,
+          -126,
+          56,
+          56
+        ],
+        "next": [
+          288,
+          -126,
+          56,
+          56
+        ],
+        "page": [
+          0,
+          -60,
+          480,
+          40
+        ],
+        "bossDescription": [
+          0,
+          -190,
+          800,
+          40
+        ]
+      },
+      "forge": {
+        "columns": [
+          -450,
+          -270,
+          -90,
+          90,
+          270,
+          450
+        ],
+        "rows": [
+          124,
+          -104
+        ],
+        "page": [
+          0,
+          -242,
+          600,
+          40
+        ],
+        "previewBefore": [
+          -190,
+          30
+        ],
+        "previewAfter": [
+          190,
+          30
+        ],
+        "previewScale": 1.5,
+        "label": [
+          -190,
+          212,
+          260,
+          40
+        ],
+        "hint": [
+          190,
+          212,
+          260,
+          40
+        ],
+        "arrow": [
+          0,
+          30
+        ],
+        "hoverScale": 1.08,
+        "previous": [
+          -490,
+          -236,
+          56,
+          44
+        ],
+        "next": [
+          490,
+          -236,
+          56,
+          44
+        ]
+      },
+      "rewardList": {
+        "x": 190,
+        "rows": [
+          152,
+          56,
+          -40,
+          -136
+        ],
+        "size": [
+          620,
+          88
+        ],
+        "chest": [
+          -350,
+          40
+        ],
+        "heading": [
+          190,
+          222,
+          620,
+          40
+        ],
+        "note": [
+          190,
+          -210,
+          620,
+          40
+        ],
+        "detail": [
+          -350,
+          -60,
+          400,
+          280
+        ]
+      },
+      "roomMotion": {
+        "shakeDuration": 0.36,
+        "burstDuration": 0.16,
+        "revealDuration": 0.4,
+        "shakeAmplitude": 12,
+        "popScale": 1.25,
+        "rowStagger": 0.07,
+        "restDuration": 1.2,
+        "forgeDuration": 0.9,
+        "sparkCount": 8,
+        "sparkRadius": 160,
+        "sparkSize": 8
+      }
+    },
+    "exitMenu": {
+      "note": "全页面及牌库上方的常驻退出入口；确认后结束本局并走平台结算。局内存档需创作者 4 级，未开放前在确认框用一行小字说明。",
+      "entry": [
+        576,
+        316,
+        48,
+        48
+      ],
+      "panel": [0, 0, 760, 440],
+      "title": [-90, 172, 500, 48],
+      "message": [0, 82, 688, 96],
+      "status": [0, -44, 688, 40],
+      "cancel": [-180, -142, 320, 64],
+      "confirm": [180, -142, 320, 64],
+      "buttonInset": [
+        8,
+        4
+      ],
+      "pressedScale": 0.96,
+      "nodeNotice": [-60, 262, 1080, 40],
+      "whyText": [0, 10, 688, 40],
+      "help": [254, 172, 160, 48],
+      "rule": [0, 138, 688, 2],
+      "hierarchyNote": "TASK-4.11：页眉=标题+操作说明（互不遮挡），金线分隔；后果正文 → 小字存档说明 → 状态 → 取消/确认，逐层不重叠。",
+      "entryVisual": {
+        "diameter": 36,
+        "border": 1,
+        "lineWidth": 14,
+        "lineHeight": 1,
+        "lineStep": 4
+      }
+    },
+    "victoryEgg": {
+      "open": [0, -300, 220, 48],
+      "thanks": [0, 250, 1120, 64],
+      "status": [0, 180, 1120, 44],
+      "close": [0, -280, 220, 60]
+    },
+    "nativeMenu": {
+      "note": "主菜单与通关/失败结算，按批准稿 win.png 的徽记、大标题、四格统计、双按钮构图落地；坐标以舞台中心为原点。动效只改位置与缩放，不改可见性或输入。",
+      "backdrop": [
+        0,
+        0,
+        1240,
+        680
+      ],
+      "emblem": [
+        0,
+        226,
+        112,
+        112
+      ],
+      "emblemGlow": 48,
+      "emblemInset": 32,
+      "hero": [
+        340,
+        -30,
+        420,
+        620
+      ],
+      "title": [
+        0,
+        132,
+        1120,
+        64
+      ],
+      "tagline": [
+        0,
+        60,
+        1080,
+        80
+      ],
+      "summary": [
+        0,
+        -30,
+        1000,
+        80
+      ],
+      "start": [
+        0,
+        -128,
+        220,
+        60
+      ],
+      "subtitle": [
+        0,
+        60,
+        1080,
+        80
+      ],
+      "stats": {
+        "origin": [
+          -276,
+          -36
+        ],
+        "step": 184,
+        "size": [
+          168,
+          110
+        ],
+        "label": 30,
+        "value": -12
+      },
+      "detail": [
+        0,
+        -118,
+        1080,
+        40
+      ],
+      "resultRestart": [
+        -120,
+        -178,
+        220,
+        60
+      ],
+      "settle": [
+        120,
+        -178,
+        220,
+        60
+      ],
+      "status": [
+        0,
+        -252,
+        1080,
+        40
+      ],
+      "buttonInset": [
+        16,
+        4
+      ],
+      "reveal": {
+        "rise": 16,
+        "emblemFrom": 0.72,
+        "cardFrom": 0.88,
+        "stagger": 0.06,
+        "breathe": 2.8,
+        "breatheScale": 0.04
+      },
+      "battleSpeed": [
+        280,
+        -222,
+        220,
+        52
+      ],
+      "codeVersion": [
+        0,
+        -300,
+        1120,
+        40
+      ]
+    },
+    "vista": {
+      "note": "封印遗迹远景剪影（标题、结算与开场共用）。全部为平台图片库原生形状着色；高塔偏右，给居中的标题和按钮留出干净底面。TASK-4.2 的三维远景接入后，可在宿主隐藏本组而不动其他控件。",
+      "cover": [
+        0,
+        0,
+        2400,
+        1200
+      ],
+      "halo": [
+        360,
+        210,
+        780,
+        640
+      ],
+      "beams": [
+        [
+          296,
+          40,
+          48,
+          560
+        ],
+        [
+          430,
+          20,
+          30,
+          600
+        ]
+      ],
+      "towerBack": [
+        424,
+        -50,
+        92,
+        480
+      ],
+      "tower": [
+        360,
+        -20,
+        136,
+        540
+      ],
+      "seal": [
+        360,
+        262,
+        140,
+        140
+      ],
+      "sealCore": [
+        360,
+        262,
+        46,
+        46
+      ],
+      "shards": [
+        [
+          300,
+          300,
+          40,
+          52
+        ],
+        [
+          424,
+          306,
+          34,
+          46
+        ],
+        [
+          410,
+          214,
+          30,
+          40
+        ],
+        [
+          306,
+          222,
+          26,
+          36
+        ]
+      ],
+      "pillars": [
+        [
+          -470,
+          -122,
+          58,
+          260
+        ],
+        [
+          -394,
+          -156,
+          44,
+          190
+        ],
+        [
+          -560,
+          -170,
+          40,
+          160
+        ]
+      ],
+      "wall": [
+        -282,
+        -218,
+        220,
+        110
+      ],
+      "ground": [
+        0,
+        -330,
+        2400,
+        160
+      ],
+      "horizon": [
+        0,
+        -252,
+        1600,
+        22
+      ],
+      "motes": [
+        [
+          -220,
+          -170
+        ],
+        [
+          -70,
+          -230
+        ],
+        [
+          110,
+          -130
+        ],
+        [
+          250,
+          -205
+        ],
+        [
+          520,
+          -160
+        ],
+        [
+          -430,
+          -70
+        ]
+      ],
+      "mote": 6,
+      "drift": 46,
+      "vignette": [
+        0,
+        0,
+        1640,
+        960
+      ],
+      "breathe": 3.6
+    },
+    "prologue": {
+      "note": "开场电影化演出：黑场淡入、宽银幕黑边、遗迹镜头推拉与逐字叙事。正文按句拆自已批准的 Lore v2 开场原文，不改写；点击先显示整句、再进入下一句，右下角可跳过。",
+      "barHeight": 84,
+      "line": [
+        0,
+        -232,
+        1080,
+        56
+      ],
+      "chapter": [
+        -420,
+        318,
+        360,
+        40
+      ],
+      "hint": [
+        0,
+        -318,
+        360,
+        40
+      ],
+      "dots": {
+        "y": -292,
+        "step": 22,
+        "size": 8
+      },
+      "skip": [
+        526,
+        -318,
+        148,
+        44
+      ],
+      "hero": [
+        -210,
+        -40,
+        132,
+        132
+      ],
+      "heroGlow": 300,
+      "heroRise": 70,
+      "typeRate": 14,
+      "minBeat": 0.35,
+      "hold": 4.2,
+      "fadeIn": 0.9,
+      "fadeOut": 0.45,
+      "reveal": 0.5,
+      "move": 1.6,
+      "shake": 0.6,
+      "shakeAmplitude": 4,
+      "flash": 0.45,
+      "cameras": [
+        {
+          "from": [
+            -360,
+            -30,
+            1
+          ],
+          "to": [
+            -381,
+            -40,
+            1.06
+          ]
+        },
+        {
+          "to": [
+            -486,
+            -232,
+            1.35
+          ]
+        },
+        {
+          "to": [
+            -71,
+            -10,
+            0.92
+          ]
+        }
+      ]
+    },
+    "characterSelect": {
+      "panel": [
+        0,
+        0,
+        1280,
+        720
+      ],
+      "title": [
+        0,
+        318,
+        800,
+        40
+      ],
+      "hint": [
+        0,
+        286,
+        800,
+        26
+      ],
+      "choices": [
+        [
+          -152,
+          -278,
+          112,
+          112
+        ],
+        [
+          -24,
+          -278,
+          112,
+          112
+        ],
+        [
+          104,
+          -278,
+          112,
+          112
+        ],
+        [
+          232,
+          -278,
+          112,
+          112
+        ]
+      ],
+      "back": [
+        -520,
+        -292,
+        160,
+        64
+      ],
+      "buttonInset": [
+        16,
+        8
+      ],
+      "pressedScale": 0.96,
+      "traveler": [
+        -280,
+        -278,
+        112,
+        112
+      ],
+      "originalBack": [
+        180,
+        -164,
+        200,
+        52
+      ],
+      "confirm": [
+        490,
+        -292,
+        220,
+        72
+      ],
+      "elements": [
+        [
+          -468,
+          -170,
+          96,
+          44
+        ],
+        [
+          -360,
+          -170,
+          96,
+          44
+        ],
+        [
+          -252,
+          -170,
+          96,
+          44
+        ],
+        [
+          -144,
+          -170,
+          96,
+          44
+        ]
+      ],
+      "details": {
+        "portrait": [
+          290,
+          30,
+          440,
+          440
+        ],
+        "floor": [
+          290,
+          -176,
+          400,
+          64
+        ],
+        "portraitNote": [
+          290,
+          -224,
+          380,
+          28
+        ],
+        "name": [
+          -360,
+          176,
+          520,
+          56
+        ],
+        "hp": [
+          -470,
+          120,
+          200,
+          36
+        ],
+        "gold": [
+          -260,
+          120,
+          200,
+          36
+        ],
+        "relicTag": [
+          -360,
+          76,
+          520,
+          24
+        ],
+        "relic": [
+          -360,
+          48,
+          520,
+          32
+        ],
+        "relicText": [
+          -360,
+          16,
+          520,
+          28
+        ],
+        "rule": [
+          -360,
+          -12,
+          520,
+          2
+        ],
+        "deckTitle": [
+          -360,
+          -40,
+          520,
+          28
+        ],
+        "deckSummary": [
+          -360,
+          -72,
+          520,
+          28
+        ],
+        "deckButton": [
+          -500,
+          -130,
+          200,
+          56
+        ]
+      },
+      "note": "选角（Pan 2026-10-31 发版重排，Port First：STS CharacterSelectScreen）：无盒子杂志框；左侧名字→生命/金币→初始遗物→初始牌组摘要+『查看牌组』入口（点开为 STS 式卡面网格）；右侧立绘落在自研低多边形地景上；底部 返回/开始冒险。只剩一个可选角色/元素时不显示假选择钮。",
+      "glow": [
+        300,
+        60,
+        560,
+        560
+      ],
+      "halo": [
+        300,
+        -150,
+        420,
+        80
+      ],
+      "themes": {
+        "hutao": "#E8743B",
+        "arlecchino": "#D23A3A",
+        "furina": "#4FA8E0",
+        "raiden": "#A77BE0",
+        "ironclad": "#F0B850",
+        "silent": "#5FD3B6",
+        "defect": "#B48CF0",
+        "watcher": "#8FD14F"
+      },
+      "choiceBust": {
+        "size": 72,
+        "well": 80,
+        "labelBand": 24
+      },
+      "scrim": [
+        -330,
+        0,
+        820,
+        760
+      ],
+      "deckView": {
+        "title": [
+          0,
+          300,
+          800,
+          44
+        ],
+        "columns": 6,
+        "rows": 2,
+        "cardSize": [
+          168,
+          228
+        ],
+        "origin": [
+          -460,
+          120
+        ],
+        "step": [
+          184,
+          248
+        ],
+        "overflow": [
+          0,
+          -236,
+          800,
+          28
+        ],
+        "close": [
+          0,
+          -292,
+          200,
+          60
+        ]
+      }
+    },
+    "combatChoice": {
+      "panel": [
+        0,
+        0,
+        1120,
+        680
+      ],
+      "title": [
+        0,
+        290,
+        1040,
+        44
+      ],
+      "hint": [
+        0,
+        250,
+        1040,
+        36
+      ],
+      "status": [
+        0,
+        -242,
+        960,
+        32
+      ],
+      "origin": [
+        -432,
+        114
+      ],
+      "step": [
+        216,
+        -224
+      ],
+      "cardSize": [
+        148,
+        208
+      ],
+      "orderBadge": [0, 34, 84, 32],
+      "columns": 5,
+      "rows": 2,
+      "confirm": [
+        0,
+        -290,
+        240,
+        52
+      ],
+      "before": [
+        -420,
+        -290,
+        120,
+        52
+      ],
+      "after": [
+        420,
+        -290,
+        120,
+        52
+      ],
+      "buttonInset": [
+        16,
+        8
+      ],
+      "pressedScale": 0.96
+    },
+    "merchant": {
+      "note": "商店底部独立人物对白；右侧取消与购买同排相邻，不覆盖货架、价格或操作，购买期间可继续操作。",
+      "frame": [
+        15,
+        -300,
+        370,
+        80
+      ],
+      "box": [
+        15,
+        -300,
+        366,
+        76
+      ],
+      "portrait": [
+        -130,
+        -300,
+        64,
+        64
+      ],
+      "name": [
+        0,
+        -282,
+        180,
+        40
+      ],
+      "line": [
+        41,
+        -316,
+        250,
+        40
+      ],
+      "next": [
+        180,
+        -326,
+        14,
+        14
+      ],
+      "typeRate": 40,
+      "hold": 2.6,
+      "idle": 14,
+      "nod": 0.3,
+      "nodLift": 5,
+      "shake": 0.3,
+      "shakeAmplitude": 5,
+      "pageCharacters": 9
+    },
+    "runMenu": {
+      "panel": [460, 154, 280, 384],
+      "title": [460, 318, 252, 48],
+      "resume": [460, 254, 252, 56],
+      "help": [460, 190, 252, 56],
+      "map": [460, 126, 252, 56],
+      "rule": [460, 84, 232, 2],
+      "abandon": [460, 42, 252, 56],
+      "dismissHint": [460, -8, 260, 40],
+      "mapBack": [
+        -522,
+        -296,
+        148,
+        44
+      ]
+    },
+    "nativeGuide": {
+      "panel": [0, 0, 1080, 680],
+      "title": [0, 282, 820, 48],
+      "columns": [-344, 0, 344],
+      "close": [0, -312, 260, 48],
+      "entry": [
+        184,
+        92,
+        128,
+        48
+      ],
+      "footer": [0, -260, 1000, 40],
+      "sectionY": 8,
+      "sectionSize": [332, 496],
+      "sectionTitle": [0, 224, 300, 40],
+      "sectionRule": [0, 202, 292, 2],
+      "rowTop": 174,
+      "rowStep": 116,
+      "rowHeight": 40,
+      "rowIcon": 28,
+      "rowIconX": -140,
+      "actionX": 0,
+      "actionWidth": 240,
+      "howX": 0,
+      "howDrop": 42,
+      "howWidth": 316,
+      "dismissHint": [344, 282, 300, 40]
+    },
+    "battleUnit": {
+      "nameGap": 9.333333333333334,
+      "nameLine": 17.0,
+      "healthGap": 5.333333333333333,
+      "healthRow": 22.666666666666668,
+      "statusGap": 6.666666666666667,
+      "heroFoot": 16.666666666666668,
+      "heroNameGap": 6.666666666666667,
+      "heroNameLine": 18.0,
+      "heroHealthGap": 6.666666666666667,
+      "heroHealthWidth": 146.66666666666666,
+      "nameWidth": 173.33333333333334,
+      "badgeOffset": [
+        12.0,
+        -12.0
+      ]
+    },
+    "potionPopup": {
+      "width": 400,
+      "top": 198,
+      "padding": 16,
+      "header": 40,
+      "line": 40,
+      "gap": 12,
+      "actionHeight": 48,
+      "buttonGap": 10.666666666666666,
+      "targetWidth": 120,
+      "font": 20,
+      "minimumHeight": 180
+    },
+    "potionShell": {
+      "border": 1,
+      "focusY": 0.15,
+      "dashBorderRatio": 3,
+      "spread": 2.6666666666666665,
+      "blur": 14.666666666666666,
+      "fittedFocusY": 0.12195244297620399
+    }
+  },
+  "cardSkin": {
+    "rows": 20,
+    "bandSteps": 8,
+    "premium": {"note": "--art-cards=true only: breakthrough gold-frame palette on official native chrome, no new controls", "rarities": {"basic": ["#E3C07A", "#6B4A26", "#241A12", "#F6E3B4"], "common": ["#E3C07A", "#6B4A26", "#241A12", "#F6E3B4"], "uncommon": ["#E9CB86", "#5A4A2E", "#1E1A14", "#F8E9BE"], "rare": ["#F5D68C", "#7A5516", "#2E1F0E", "#FFF0C2"], "curse": ["#B98A6E", "#4A322E", "#2E1F1C", "#D9B49E"]}, "selected": "#FFF0C2", "well": "#F6ECD6"},
+    "roles": {
+      "traveler": {
+        "accent": "#F2A93B",
+        "image": 100005
+      },
+      "HT": {
+        "accent": "#F58258",
+        "image": 104003
+      },
+      "AR": {
+        "accent": "#F06A74",
+        "image": 100004
+      },
+      "FR": {
+        "accent": "#6CCBF6",
+        "image": 106025
+      },
+      "RD": {
+        "accent": "#A87BFF",
+        "image": 100005
+      },
+      "colorless": {
+        "accent": "#D6D0C2",
+        "image": 100006
+      },
+      "curse": {
+        "accent": "#C9877A",
+        "image": 100004
+      }
+    },
+    "rarities": {
+      "basic": [
+        "#34363C",
+        "#24262B",
+        "#1A1B1F",
+        "#4E5159"
+      ],
+      "common": [
+        "#8C929D",
+        "#4E525B",
+        "#34373E",
+        "#C4CAD3"
+      ],
+      "uncommon": [
+        "#3F7FC6",
+        "#2E64A6",
+        "#1C3F6E",
+        "#7FB8F2"
+      ],
+      "rare": [
+        "#D4A54A",
+        "#B8862E",
+        "#7A5516",
+        "#F6D68C"
+      ],
+      "curse": [
+        "#6B4A44",
+        "#4A322E",
+        "#2E1F1C",
+        "#9A7268"
+      ]
+    },
+    "text": {
+      "title": "#FFFFFF",
+      "upgrade": "#8DE08A"
+    },
+    "costTone": {
+      "down": "#8DE08A",
+      "up": "#EF7672"
+    },
+    "blocked": {
+      "veil": "#08090C80",
+      "body": "#0D0E12",
+      "edge": "#EF7672",
+      "text": "#FF9A94",
+      "inset": 3,
+      "radius": 4.5,
+      "pill": [
+        142,
+        16
+      ],
+      "pillY": 18,
+      "pillRadius": 8,
+      "stroke": 0.75,
+      "lock": [
+        7,
+        8
+      ],
+      "gap": 4,
+      "padding": 7,
+      "glyphScale": 1.35
+    }
+  }
+}

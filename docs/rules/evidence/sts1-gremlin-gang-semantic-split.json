@@ -1,0 +1,181 @@
+{
+  "baseCommit": "308c1afa07fabb00f33d909a5a27739d8ec4bbae",
+  "originalGitBytesSha256": "ceed702f6abb99e137faa3b7aa970db7f0c0c7b9fee66efee342ef36db211c73",
+  "helperPrefixByteIdentical": true,
+  "helperPrefixSha256": "52fcfdab8daff8e9ab8dd8dd87b08b615889c46f23e236b5751429e8f20665d9",
+  "unchangedSectionByteProof": [
+    {
+      "section": "exhaustiveSampler",
+      "destination": "tests/lua/gremlin_gang_selection.lua",
+      "gitBytesSha256": "35807610d60458f2090dc6fdc9b1c4b4654e9210bbedc82f8ce830cbaba5486f",
+      "byteIdentical": true
+    },
+    {
+      "section": "literalSourceVectorLoop",
+      "destination": "tests/lua/gremlin_gang.lua",
+      "gitBytesSha256": "5cbc7da3e44e84dd02e3ea1284ee5fd9a6965a97e1e10d79948154985faa19c2",
+      "byteIdentical": true
+    },
+    {
+      "section": "seededLiteralsAndLoop",
+      "destination": "tests/lua/gremlin_gang.lua",
+      "gitBytesSha256": "408dd4fd06eed1530507d1ba213f306dc3fe3dc7d55ae8885aea12bde448998a",
+      "byteIdentical": true
+    },
+    {
+      "section": "freshPool",
+      "destination": "tests/lua/gremlin_gang.lua",
+      "gitBytesSha256": "650014487abe1734884a7943e5b67cdceb05fd7529810ab2ed0ed95a10172995",
+      "byteIdentical": true
+    },
+    {
+      "section": "invalidRequestsAndRealNode",
+      "destination": "tests/lua/gremlin_gang.lua",
+      "gitBytesSha256": "f0abf7446c4ef47002df8facd39b543004920a2a837e53d96693a4ad4342bbd6",
+      "byteIdentical": true
+    },
+    {
+      "section": "fiveActorCapacity",
+      "destination": "tests/lua/gremlin_gang.lua",
+      "gitBytesSha256": "2b1fceb8f7b302b43c3be712a8c7771a875f8412f35d5b6780fe8acb23678b30",
+      "byteIdentical": true
+    },
+    {
+      "section": "all17OtherEncounterMatrix",
+      "destination": "tests/lua/gremlin_gang.lua",
+      "gitBytesSha256": "8ad5245312fae56da849afcbaf8cc9a8d4395b431ae52af9f70fc202ef3a5fa9",
+      "byteIdentical": true
+    }
+  ],
+  "loopExtraction": {
+    "frontierTestBodyByteIdentical": true,
+    "atomicInnerFailureLoopByteIdentical": true,
+    "originalFrontierEntryDomain": [
+      "normal",
+      "unknown"
+    ],
+    "actualFrontierCalls": [
+      "normal",
+      "unknown"
+    ],
+    "originalAtomicEntryDomain": [
+      "direct",
+      "normal",
+      "unknown"
+    ],
+    "actualAtomicCalls": [
+      "direct",
+      "normal",
+      "unknown"
+    ],
+    "allFourFailureKindsUnchanged": true,
+    "frontierBodySha256": "a71ef6e86720d42fec29b91db260e199db7025cfcea21396ba8d136faeabe424",
+    "atomicInnerLoopSha256": "8db79a79b7d1c38beb26961ac57b3cc2b6545d9f03171327361911802bf3fe15"
+  },
+  "partitions": [
+    {
+      "file": "tests/lua/gremlin_gang_selection.lua",
+      "groups": 1,
+      "coverage": "all1680 paths, exact original oracle/histogram/354 unique check"
+    },
+    {
+      "file": "tests/lua/gremlin_gang.lua",
+      "groups": 18,
+      "coverage": "5 literal vectors +5 seeded literals +fresh pools +4 direct failures +invalid requests +five actor capacity +all17 other encounters"
+    },
+    {
+      "file": "tests/lua/gremlin_gang_normal.lua",
+      "groups": 5,
+      "coverage": "real normal map frontier +all4 atomic failure/retry cases"
+    },
+    {
+      "file": "tests/lua/gremlin_gang_unknown.lua",
+      "groups": 5,
+      "coverage": "real unknown map frontier +all4 atomic failure/retry cases"
+    }
+  ],
+  "totalOriginalGroups": 29,
+  "exhaustivePaths": 1680,
+  "otherEncounters": 17,
+  "perFileTimeoutMs": 30000,
+  "cacheSubstitutions": false,
+  "verification": {
+    "nodeVersion": "v22.22.1",
+    "nodeBinary": "C:/Program Files/nodejs/node.exe",
+    "prerequisite": {
+      "command": "node scripts/build-lua-data.mjs",
+      "exitCode": 0,
+      "scope": "only required original data module"
+    },
+    "execution": "four explicit scripts/test-lua.mjs single-file calls in listed order, each exit checked before next; then original JS consumer",
+    "defaultPerFileTimeoutMs": 30000,
+    "fixtures": [
+      {
+        "file": "tests/lua/gremlin_gang_selection.lua",
+        "marker": "GREMLIN_GANG_SELECTION_PASS",
+        "groups": 1,
+        "exitCode": 0,
+        "elapsedMs": 2146,
+        "log": ".artifacts/gremlin_gang_selection-node22.log",
+        "logSha256": "67c7c9e46234e3627fb2a7d05d2d51e88933cadee00c38d32d0dc272f76df273"
+      },
+      {
+        "file": "tests/lua/gremlin_gang.lua",
+        "marker": "GREMLIN_GANG_PASS",
+        "groups": 18,
+        "exitCode": 0,
+        "elapsedMs": 11289,
+        "log": ".artifacts/gremlin_gang-node22.log",
+        "logSha256": "ae8849ffd3e183d19763dd39012900a1617d91cae5bab571b82a645021c79431"
+      },
+      {
+        "file": "tests/lua/gremlin_gang_normal.lua",
+        "marker": "GREMLIN_GANG_NORMAL_PASS",
+        "groups": 5,
+        "exitCode": 0,
+        "elapsedMs": 4929,
+        "log": ".artifacts/gremlin_gang_normal-node22.log",
+        "logSha256": "fed86acb5db273924f04ee5ae18549196dc3f83ac5770096ef9afaecc89f3782"
+      },
+      {
+        "file": "tests/lua/gremlin_gang_unknown.lua",
+        "marker": "GREMLIN_GANG_UNKNOWN_PASS",
+        "groups": 5,
+        "exitCode": 0,
+        "elapsedMs": 5629,
+        "log": ".artifacts/gremlin_gang_unknown-node22.log",
+        "logSha256": "7739749b6bb5e3faeb344ef7620240be8c75834d3fe609711770afc1c57f8393"
+      }
+    ],
+    "allOriginalGroupsPassed": 29,
+    "exhaustivePathsPassed": 1680,
+    "allOtherEncounterCountPassed": 17,
+    "consumer": {
+      "command": "node --test tests/gremlin-gang-data.test.mjs",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "elapsedMs": 385.4664,
+      "unchangedOriginalGitSha256": "f0bd6f1eb366ead3c825a7a617471e30509b0453d7c85181169a9ec18d808e9e",
+      "log": ".artifacts/gremlin-data-node22.log",
+      "logSha256": "2e30b9b11e797aa450af0a33f6aab093f34be4391134e154f492effce8967ff0"
+    },
+    "loggingCorrection": "initial Tee-Object failed because .artifacts did not exist; exit0 was not accepted as pass. Created directory and used ErrorActionPreference=Stop; reran only exact same authorized target list. Initial unsaved target runtimes/outcomes unknown.",
+    "testTimeoutsObserved": 0,
+    "resourcePolicy": "only after explicit exclusive local window grant; released immediately after consumer pass",
+    "fullSuiteOrBuild": false,
+    "productionChanges": false,
+    "cpuTimeAndCost": "unknown"
+  },
+  "baselineFailure": {
+    "ciRun": 40141217243,
+    "fixture": "tests/lua/gremlin_gang.lua",
+    "timeoutMs": 30000,
+    "lastPrintedOriginalGroup": 27,
+    "unprintedOriginalGroups": [
+      28,
+      29
+    ],
+    "rootRawLog": "F:/New folder/.artifacts/m3-pr197-308c1af-job-raw.log"
+  }
+}

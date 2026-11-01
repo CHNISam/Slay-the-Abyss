@@ -1,0 +1,345 @@
+# Golden evidence is byte-hashed; keep it identical on Windows and Linux.
+# Frozen independent reviews include byte-hashed logs and unified patches.
+# Preserve their Git blob bytes; patch context spaces and raw log endings
+# are evidence, not whitespace mistakes in production source.
+docs/reviews/** -text
+docs/reviews/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/reviews/**/*.patch -whitespace
+docs/reviews/**/*.log -whitespace
+docs/reviews/pr193-container-limit/REPORT.md whitespace=-blank-at-eol,cr-at-eol
+tests/fixtures/sts1/maps/*.json text eol=lf
+# The independent encounter oracle and its fixture carry byte hashes.
+tools/oracles/sts1_encounter_queue.py text eol=lf
+tests/fixtures/sts1-encounter-queue-vectors.json text eol=lf
+tools/oracles/sts1_encounter_runtime.py text eol=lf
+tests/fixtures/sts1-encounter-runtime-vectors.json text eol=lf
+# Preserve the supplied lore packet hashes on Windows checkouts.
+data/presentation/narrative.zh-CN.json text eol=lf
+docs/lore/source/** text eol=lf
+# These live evidence files are checked against their original byte hashes.
+docs/evidence/m1-live-5165a78/log-decoded.json text eol=lf
+docs/evidence/m1-live-5165a78/log-counts.json text eol=lf
+docs/evidence/m1-live-5165a78/exit-special/log-decoded.json text eol=lf
+docs/evidence/m1-live-5165a78/exit-special/log-counts.json text eol=lf
+docs/evidence/m3-live-31a8f37/*.json text eol=lf
+
+# Frozen V4 byte hashes must match on Windows as well as POSIX.
+data/original_v4/*.json text eol=lf
+
+# Generated frozen expectations are compared byte-for-byte on every OS.
+tests/lua/original_v4_*_base_*.lua text eol=lf
+tests/lua/original_v4_*_upgrade_*.lua text eol=lf
+# This chapter oracle is byte-hashed in source provenance on every OS.
+tools/oracles/sts1_chapter_queues.py text eol=lf
+
+# New independent Neow oracle is byte-hashed on Windows and POSIX.
+tools/oracles/sts1_neow.py text eol=lf
+
+# Library and Writhing source provenance authenticates exact Git blob bytes.
+# Keep these golden inputs LF in Windows core.autocrlf checkouts as well.
+tools/oracles/library-event-oracle.py text eol=lf
+tools/sts1-card-rng-oracle.py text eol=lf
+tests/fixtures/library-event-vectors.json text eol=lf
+tests/fixtures/library-event-vectors.lua text eol=lf
+tools/oracles/sts1_writhing_mass.py text eol=lf
+tools/oracles/sts1_combat_gold.py text eol=lf
+tests/fixtures/act3-writhing-mass-vectors.lua text eol=lf
+
+# Act3 completion: byte-authenticated independent scripts and golden fixtures.
+# Extend the existing LF checkout policy; do not regenerate authenticated bytes.
+tools/oracles/sts1_time_eater.py text eol=lf
+tests/fixtures/time-eater-vectors.lua text eol=lf
+tools/oracles/sts1_nemesis.py text eol=lf
+tests/fixtures/act3-nemesis-vectors.lua text eol=lf
+tools/oracles/sts1_reptomancer.py text eol=lf
+tests/fixtures/reptomancer-vectors.lua text eol=lf
+tools/oracles/sts1_darklings.py text eol=lf
+tests/fixtures/darklings-vectors.lua text eol=lf
+tools/oracles/sts1_shapes.py text eol=lf
+
+# Preserve reviewed PNG bytes in LFS; JSON/Lua remain ordinary reviewable text.
+art/cards/traveler-geo/armaments/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/armaments/preview-native.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/heavy_blade/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/heavy_blade/preview-native.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/cleave/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/cleave/preview-native.png filter=lfs diff=lfs merge=lfs -text
+
+# Exact approved UI source layer is raw-byte authenticated on every platform.
+tests/fixtures/approved-ui-latest-to-53fa.json text eol=lf
+tests/fixtures/approved-node-ui-faces-layer.json text eol=lf
+tests/fixtures/approved-ui-post-node-layer.json text eol=lf
+
+# Max-HP acquisition oracle and authored goldens retain exact LF bytes.
+tools/oracles/sts1_max_hp_relics.py text eol=lf
+tests/fixtures/max-hp-relics-source.json text eol=lf
+tests/fixtures/max-hp-relics-vectors.json text eol=lf
+tests/fixtures/max-hp-relics-vectors.lua text eol=lf
+tests/fixtures/max-hp-accepted-source-inverse.json text eol=lf
+tests/fixtures/max-hp-pr313-source-inverse.json text eol=lf
+tests/fixtures/max-hp-seed70-inventory-inverse.json text eol=lf
+# The upstream VM fixture is verified by its original Git blob on all platforms.
+tests/fixtures/image-editor-103025-checker.cjs text eol=lf
+
+# Source-design candidates only; native runtime remains unbound.
+art/cards/traveler-geo/strike/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/defend/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/bash/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/anger/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/body_slam/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/clash/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/clothesline/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/flex/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/havoc/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/headbutt/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/iron_wave/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/perfected_strike/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/pommel_strike/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/shrug_it_off/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/sword_boomerang/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/thunderclap/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/true_grit/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/twin_strike/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/warcry/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/wild_strike/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/battle_trance/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/blood_for_blood/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/bloodletting/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/burning_pact/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/carnage/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/combust/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/dark_embrace/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/disarm/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/dropkick/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/dual_wield/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/entrench/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/evolve/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/feel_no_pain/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/fire_breathing/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/flame_barrier/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/ghostly_armor/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/hemokinesis/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/infernal_blade/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/inflame/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/intimidate/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/metallicize/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/power_through/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/pummel/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/rage/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/rampage/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/reckless_charge/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/rupture/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/searing_blow/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/second_wind/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/seeing_red/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/sentinel/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/sever_soul/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/shockwave/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/spot_weakness/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/uppercut/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/whirlwind/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/barricade/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/berserk/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/bludgeon/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/brutality/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/corruption/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/demon_form/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/double_tap/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/exhume/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/feed/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/fiend_fire/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/immolate/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/impervious/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/juggernaut/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/limit_break/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/offering/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/reaper/source.png filter=lfs diff=lfs merge=lfs -text
+
+# Current Acts1–2 monster source candidates only.
+art/monsters/looter/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/guardian/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/cultist/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/jaw_worm/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/red_louse/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/green_louse/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/acid_slime_s/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/acid_slime_m/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/acid_slime_l/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/spike_slime_s/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/spike_slime_m/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/spike_slime_l/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/blue_slaver/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/red_slaver/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/fungi_beast/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/mad_gremlin/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/sneaky_gremlin/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/fat_gremlin/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/wizard_gremlin/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/shield_gremlin/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/gremlin_nob/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/lagavulin/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/sentry/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/hexaghost/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/slime_boss/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/spheric_guardian/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/centurion/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/mystic/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/taskmaster/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/book_of_stabbing/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/snake_plant/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/chosen/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/byrd/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/snecko/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/mugger/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/gremlin_leader/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/torch_head/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/collector/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/automaton/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/bronze_orb/source.png filter=lfs diff=lfs merge=lfs -text
+art/monsters/champ/source.png filter=lfs diff=lfs merge=lfs -text
+
+# Normal local card-art builds authenticate these exact frozen export bytes.
+art/cards/traveler-geo/cleave/native-art.lua -text
+art/cards/traveler-geo/cleave/native-art.json -text
+art/cards/traveler-geo/heavy_blade/native-art.lua -text
+art/cards/traveler-geo/heavy_blade/native-art.json -text
+art/cards/traveler-geo/native-source-registry.json text eol=lf
+art/cards/traveler-geo/native-runtime-registry.json text eol=lf
+
+# Additional ready-art frozen inputs; exact source bytes on every host.
+art/cards/traveler-geo/armaments/native-art.lua -text
+art/cards/traveler-geo/armaments/native-art.json -text
+art/cards/traveler-geo/runtime-candidate/*.json text eol=lf
+# New native slime source/hash/provenance must retain exact export bytes on Windows.
+art/monsters/acid_slime_m/native-art-r02/native-art.lua -text
+art/monsters/acid_slime_m/native-art-r02/native-art.json -text
+art/monsters/acid_slime_m/native-art-r02/README.md text eol=lf
+data/presentation/native-monster-art.json text eol=lf
+tests/fixtures/native-monster-art-source-layer.json text eol=lf
+art/monster-benchmarks/genshin-v1/pyro-abyss-mage/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v1/stonehide-lawachurl/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v1/geovishap-hatchling/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v1/dendro-slime/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v1/pyro-abyss-mage/native-art.json -text
+art/monster-benchmarks/genshin-v1/pyro-abyss-mage/native-art.lua -text
+art/monster-benchmarks/genshin-v1/geovishap-hatchling/native-art.json -text
+art/monster-benchmarks/genshin-v1/geovishap-hatchling/native-art.lua -text
+art/monster-benchmarks/genshin-v1/stonehide-lawachurl/native-art.json -text
+art/monster-benchmarks/genshin-v1/stonehide-lawachurl/native-art.lua -text
+art/monster-benchmarks/genshin-v2/hydro-abyss-mage/native-art.json -text
+art/monster-benchmarks/genshin-v2/hydro-abyss-mage/native-art.lua -text
+art/monster-benchmarks/genshin-v2/hydro-abyss-mage/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/cryo-abyss-mage/native-art.json -text
+art/monster-benchmarks/genshin-v2/cryo-abyss-mage/native-art.lua -text
+art/monster-benchmarks/genshin-v2/cryo-abyss-mage/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/electro-abyss-mage/native-art.json -text
+art/monster-benchmarks/genshin-v2/electro-abyss-mage/native-art.lua -text
+art/monster-benchmarks/genshin-v2/electro-abyss-mage/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/large-geo-slime/native-art.json -text
+art/monster-benchmarks/genshin-v2/large-geo-slime/native-art.lua -text
+art/monster-benchmarks/genshin-v2/large-geo-slime/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/large-hydro-slime/native-art.json -text
+art/monster-benchmarks/genshin-v2/large-hydro-slime/native-art.lua -text
+art/monster-benchmarks/genshin-v2/large-hydro-slime/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/pyro-hypostasis/native-art.json -text
+art/monster-benchmarks/genshin-v2/pyro-hypostasis/native-art.lua -text
+art/monster-benchmarks/genshin-v2/pyro-hypostasis/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/treasure-hoarder-scout/native-art.json -text
+art/monster-benchmarks/genshin-v2/treasure-hoarder-scout/native-art.lua -text
+art/monster-benchmarks/genshin-v2/treasure-hoarder-scout/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/treasure-hoarder-pugilist/native-art.json -text
+art/monster-benchmarks/genshin-v2/treasure-hoarder-pugilist/native-art.lua -text
+art/monster-benchmarks/genshin-v2/treasure-hoarder-pugilist/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/blazing-axe-mitachurl/native-art.json -text
+art/monster-benchmarks/genshin-v2/blazing-axe-mitachurl/native-art.lua -text
+art/monster-benchmarks/genshin-v2/blazing-axe-mitachurl/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/ruin-guard/native-art.json -text
+art/monster-benchmarks/genshin-v2/ruin-guard/native-art.lua -text
+art/monster-benchmarks/genshin-v2/ruin-guard/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/native-art.json -text
+art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/native-art.lua -text
+art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/native-art.json -text
+art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/native-art.lua -text
+art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/native-art.json -text
+art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/native-art.lua -text
+art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/hydro-samachurl/native-art.json -text
+art/monster-benchmarks/genshin-v2/hydro-samachurl/native-art.lua -text
+art/monster-benchmarks/genshin-v2/hydro-samachurl/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/prompt.txt text eol=lf
+art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/source-generation.json text eol=lf
+art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/prompt.txt text eol=lf
+art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/source-generation.json text eol=lf
+art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/prompt.txt text eol=lf
+art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/source-generation.json text eol=lf
+art/monster-benchmarks/genshin-v2/hydro-samachurl/prompt.txt text eol=lf
+art/monster-benchmarks/genshin-v2/hydro-samachurl/source-generation.json text eol=lf
+
+# Shared card-random oracle hashes these exact source/input bytes on every OS.
+tools/oracles/sts1_card_random_chain.py text eol=lf
+data/reference/sts1-card-pools/pools.json text eol=lf
+data/reference/sts1-card-pools/registration.json text eol=lf
+
+# Byte-authenticated victory lifecycle source identity manifest.
+tests/fixtures/victory-relic-counter-source.json text eol=lf
+tests/fixtures/smoke-victory-healing-source.json text eol=lf
+# ColorlessPotion oracle source identity and reproducible evidence bytes.
+tools/oracles/sts1_colorless_potion.py text eol=lf
+tests/fixtures/sts1-colorless-potion-vectors.json text eol=lf
+
+# Independent Snecko/Insect oracle authenticates exact model/input bytes.
+tools/oracles/sts1_snecko_insect.py text eol=lf
+tools/oracles/sts1_potion_pool.py text eol=lf
+tools/oracles/sts1_combat_shuffle.py text eol=lf
+
+# Sword random-target oracle hashes these exact independent inputs on Windows too.
+tools/oracles/sts1_sword_random.py text eol=lf
+tests/fixtures/sts1-sword-random-sources.json text eol=lf
+tests/fixtures/sts1-sword-random.json text eol=lf
+
+# Thin Sword entry contracts compare exact LF source across checkout platforms.
+tests/sword-random-*.test.mjs text eol=lf
+tests/helpers/sword-random-cases.mjs text eol=lf
+
+# Chaos chain authenticates model/input bytes across Windows checkouts.
+tools/oracles/sts1_chaos_shared_chain.py text eol=lf
+tools/oracles/sts1_potion_pool.py text eol=lf
+# Complete card identity consumers retain raw source/input hash bytes.
+tools/oracles/sts1_card_consumers.py text eol=lf
+tests/fixtures/sts1-card-consumers.json text eol=lf
+
+# Secret action oracle authenticates model and independent Stream bytes.
+tools/oracles/sts1_secret_candidate_insertion.py text eol=lf
+tools/oracles/sts1_potion_pool.py text eol=lf
+
+# Merchant chain input/generator authentication uses exact raw LF bytes.
+tools/oracles/sts1_merchant_chain.py text eol=lf
+tests/fixtures/sts1-merchant-sources.json text eol=lf
+tests/fixtures/sts1-merchant-chain.json text eol=lf
+tests/fixtures/sts1-relic-pool-vectors.json text eol=lf
+docs/rules/evidence/sts1-relic-pool-catalog.json text eol=lf
+tools/oracles/sts1_potion_pool.py text eol=lf
+tests/fixtures/economy-relic-seeds.json text eol=lf
+
+# Deep Breath independent shuffle oracle authenticates exact model bytes.
+tools/oracles/sts1_deep_breath.py text eol=lf
+tools/oracles/sts1_combat_shuffle.py text eol=lf
+# Secret registration compares exact LF source bytes, including in CRLF checkouts.
+tests/secret-candidate-skill-base-small.test.mjs text eol=lf
+tests/secret-candidate-skill-base-large.test.mjs text eol=lf
+tests/secret-candidate-skill-upgraded-small.test.mjs text eol=lf
+tests/secret-candidate-skill-upgraded-large.test.mjs text eol=lf
+tests/secret-candidate-attack-base-small.test.mjs text eol=lf
+tests/secret-candidate-attack-base-large.test.mjs text eol=lf
+tests/secret-candidate-attack-upgraded-small.test.mjs text eol=lf
+tests/secret-candidate-attack-upgraded-large.test.mjs text eol=lf
+tests/helpers/secret-candidate-insertion.mjs text eol=lf
+
+# Prismatic source-only full consumer oracle authenticates exact raw bytes.
+tools/oracles/sts1_prismatic_rewards.py text eol=lf
+tests/fixtures/sts1-prismatic-rewards.json text eol=lf
+
+# Preserve authenticated diagnostics and rendered evidence across checkout platforms.
+docs/evidence/mobile-readability-20261101/** -text

@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "hexaghost",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:31:54.306Z",
+    "endUtc": "2026-10-29T20:32:48.495Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "repositoryPath": "art/cards/traveler-geo/armaments/source.png",
+      "role": "approved broad painterly style only; no anatomy/objects",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "actualDimensions": [
+        1881,
+        836
+      ]
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1353495,
+      "sha256": "6046dfd77a0c52f3b4489bcafa796903393a946e38ff621776840570c66fb600"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2420,
+      "sha256": "e9280dd1f94834ed138c30b2e9ff4fd5e8eb016460559dfc85ceab63ab391325"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 19023,
+      "sha256": "5f517c8b9ecf7139ac130c030abda356218a3fb42fb3292139b847ee52769d46"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 25389,
+      "sha256": "1cb191a5f079bbbbc9c6262ae1999a8d467f10f921657a8da9381d60d9c96ef5"
+    },
+    "preview-contain-173.png": {
+      "path": "preview-contain-173.png",
+      "bytes": 41659,
+      "sha256": "8615571d3bed75c6216e4670c864cd32ca211dd2030f9680e404e318f89dfc11"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": "Original six broad solid flame-shaped ceramic petals around dark open core; exactly six small inset orange fires, no STS green ghost/fireballs",
+  "inspection": {
+    "authorFull": "inspected",
+    "containSizes": [
+      106,
+      127,
+      173
+    ],
+    "observation": "Exactly six ceramic flame-petals and six small orange inset fires. Open transparent central hole. Broad clear radial lobes count at106/127/173. Alpha>16bbox(47,25,1215,1215); whole tips intact, narrower top25px than requested6percent padding; downstream inset contain if needed, never crop. Rawsource unchanged."
+  }
+}

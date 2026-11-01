@@ -1,0 +1,347 @@
+<!doctype html><meta charset="utf-8"><title>共享卡面 1× 对照</title><body style="margin:20px;background:#20222b;color:#eee;font-family:Microsoft YaHei"><p>批准稿 Card.dc.html 原模板（296×416 缩为 1×）</p><div style="display:flex;margin-left:16px"><div style="width:180px;height:260px"><div style="transform:scale(.5);transform-origin:top left">
+
+<div style="position: relative; width: 296px; height: 416px; font-family: 'Noto Sans SC', sans-serif">
+  <!-- one soft shadow, one frame line, one quiet body -->
+  <div style="position: absolute; left: 0; top: 8px; width: 296px; height: 416px; border-radius: 14px; background: rgba(0,0,0,0.35)"></div>
+  <div style="position: absolute; inset: 0; border-radius: 14px; background: #8C929D; box-shadow: inset 0 0 0 1px #C4CAD3"></div>
+  <div style="position: absolute; inset: 6px; border-radius: 9px; background: linear-gradient(180deg, #161820 0%, #111217 100%)"></div>
+
+  <!-- role band behind the title -->
+  <div style="position: absolute; left: 6px; right: 6px; top: 6px; height: 56px; border-radius: 9px 9px 0 0; background: linear-gradient(180deg, #4E525B 0%, #34373E 100%)"></div>
+  <div style="position: absolute; left: 6px; right: 6px; top: 6px; height: 2px; border-radius: 9px 9px 0 0; background: #C4CAD3; opacity: 0.8"></div>
+  <div style="position: absolute; left: 6px; right: 6px; top: 60px; height: 2px; background: #C4CAD3"></div>
+
+  <!-- role emblem on the bottom edge -->
+  <div style="position: absolute; left: 132px; top: 400px; width: 32px; height: 32px; border-radius: 50%; background: #0D0E12; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 1.5px #8C929D">
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5a3.4 3.4 0 1 1 0 6.8a3.4 3.4 0 1 1 0-6.8ZM19 7.8a3.4 3.4 0 1 1 0 6.8a3.4 3.4 0 1 1 0-6.8ZM16.4 15.7a3.4 3.4 0 1 1 0 6.8a3.4 3.4 0 1 1 0-6.8ZM7.6 15.7a3.4 3.4 0 1 1 0 6.8a3.4 3.4 0 1 1 0-6.8ZM5 7.8a3.4 3.4 0 1 1 0 6.8a3.4 3.4 0 1 1 0-6.8Z" fill="#F58258" fill-rule="evenodd"></path></svg>
+  </div>
+
+  <!-- title -->
+  <div style="position: absolute; left: 60px; right: 60px; top: 12px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 27px; font-weight: 700; letter-spacing: 1px; white-space: nowrap; color: #FFFFFF; text-shadow: 0 1px 2px rgba(0,0,0,0.6)">蝶舞回身</div>
+
+  <!-- art window: the outline itself says the type — attack points down, skill is a rounded tablet, power is an arch -->
+  <div style="position: absolute; left: 14px; right: 14px; top: 64px; height: 158px; background: #F58258; clip-path: polygon(0 0, 100% 0, 100% 84%, 50% 100%, 0 84%)"></div>
+  <div style="position: absolute; left: 17px; right: 17px; top: 67px; height: 152px; background: radial-gradient(ellipse at 50% 35%, #F5825826 0%, #0B0C10 80%); clip-path: polygon(0 0, 100% 0, 100% 84%, 50% 100%, 0 84%); overflow: hidden; display: flex; align-items: center; justify-content: center">
+
+    <svg width="64" height="64" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 2 22 5 11.5 15.5 13 17l-1.5 1.5-2-2L6 20l-2-2 3.5-3.5-2-2L7 11l1.5 1.5Z" fill="#F58258" opacity="0.6"></path></svg>
+  </div>
+
+  <!-- type: centred on the art's lower edge, like every deckbuilder -->
+  <div style="position: absolute; left: 0; right: 0; top: 204px; display: flex; justify-content: center">
+    <div style="min-width: 76px; height: 28px; padding: 0 14px; box-sizing: border-box; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; letter-spacing: 4px; color: #F58258; background: #0B0C10; box-shadow: inset 0 0 0 1.5px #F58258">攻击</div>
+  </div>
+
+  <!-- rules text: shrinks to a floor, then clips with a long-press hint -->
+  <div style="position: absolute; left: 22px; right: 22px; top: 242px; bottom: 22px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden">
+    <div style="font-size: 26px; line-height: 1.5; font-weight: 500; color: #F3EEE4; text-wrap: pretty"><span style="">获得 </span><span style="font-weight: 900; color: #FFFFFF">5</span><span style=""> 点格挡。
+造成 </span><span style="font-weight: 900; color: #FFFFFF">7</span><span style=""> 点伤害。</span></div>
+  </div>
+
+
+  <!-- not playable now: the face dims, a reason pill states what is missing and by how much -->
+
+
+  <!-- cost: straddles the corner; green = cheaper this turn, red = dearer -->
+
+    <!-- changed cost: a breathing halo in the direction colour -->
+    <sc-if value="true" hint-placeholder-val="">
+      <div style="position: absolute; left: -22px; top: -22px; width: 84px; height: 84px; border-radius: 50%; animation: costHalo 1.8s ease-in-out infinite; background: radial-gradient(circle, #8DE08A66 0%, #8DE08A00 70%)"></div>
+
+    <div style="position: absolute; left: -10px; top: -10px; width: 60px; height: 60px; border-radius: 50%; background: #0D0E12; color: #8DE08A; box-shadow: inset 0 0 0 3px #8DE08A, 0 0 0 3px #0D0E12; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 700; line-height: 1">1</div>
+    <!-- changed cost: direction chevron on the ring + the printed cost, struck through -->
+
+      <!-- direction badge on the orb's lower-right; the printed cost lives in the long-press text -->
+      <div style="position: absolute; left: 30px; top: 30px; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #8DE08A; box-shadow: 0 0 0 2.5px #0D0E12" role="img" aria-label="本回合减费">
+        <svg width="14" height="14" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8L9.5 4.5" fill="none" stroke="#0D0E12" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+
+  </sc-if>
+</div>
+</div></div><div style="width:180px;height:260px"><div style="transform:scale(.5);transform-origin:top left">
+
+<div style="position: relative; width: 296px; height: 416px; font-family: 'Noto Sans SC', sans-serif">
+  <!-- one soft shadow, one frame line, one quiet body -->
+  <div style="position: absolute; left: 0; top: 8px; width: 296px; height: 416px; border-radius: 14px; background: rgba(0,0,0,0.35)"></div>
+  <div style="position: absolute; inset: 0; border-radius: 14px; background: #3F7FC6; box-shadow: inset 0 0 0 1px #7FB8F2"></div>
+  <div style="position: absolute; inset: 6px; border-radius: 9px; background: linear-gradient(180deg, #161820 0%, #111217 100%)"></div>
+
+  <!-- role band behind the title -->
+  <div style="position: absolute; left: 6px; right: 6px; top: 6px; height: 56px; border-radius: 9px 9px 0 0; background: linear-gradient(180deg, #2E64A6 0%, #1C3F6E 100%)"></div>
+  <div style="position: absolute; left: 6px; right: 6px; top: 6px; height: 2px; border-radius: 9px 9px 0 0; background: #7FB8F2; opacity: 0.8"></div>
+  <div style="position: absolute; left: 6px; right: 6px; top: 60px; height: 2px; background: #7FB8F2"></div>
+
+  <!-- role emblem on the bottom edge -->
+  <div style="position: absolute; left: 132px; top: 400px; width: 32px; height: 32px; border-radius: 50%; background: #0D0E12; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 1.5px #3F7FC6">
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5C9 6 4.5 10.5 4.5 15a7.5 7.5 0 0 0 15 0C19.5 10.5 15 6 12 1.5Z" fill="#6CCBF6" fill-rule="evenodd"></path></svg>
+  </div>
+
+  <!-- title -->
+  <div style="position: absolute; left: 60px; right: 60px; top: 12px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; letter-spacing: 1px; white-space: nowrap; color: #FFFFFF; text-shadow: 0 1px 2px rgba(0,0,0,0.6)">恰到好处的停顿</div>
+
+  <!-- art window: the outline itself says the type — attack points down, skill is a rounded tablet, power is an arch -->
+  <div style="position: absolute; left: 14px; right: 14px; top: 64px; height: 158px; background: #6CCBF6; border-radius: 22px"></div>
+  <div style="position: absolute; left: 17px; right: 17px; top: 67px; height: 152px; background: radial-gradient(ellipse at 50% 35%, #6CCBF626 0%, #0B0C10 80%); border-radius: 22px; overflow: hidden; display: flex; align-items: center; justify-content: center">
+
+    <svg width="64" height="64" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 20 5v6c0 5.2-3.4 9.3-8 11-4.6-1.7-8-5.8-8-11V5Z" fill="#6CCBF6" opacity="0.6"></path></svg>
+  </div>
+
+  <!-- type: centred on the art's lower edge, like every deckbuilder -->
+  <div style="position: absolute; left: 0; right: 0; top: 204px; display: flex; justify-content: center">
+    <div style="min-width: 76px; height: 28px; padding: 0 14px; box-sizing: border-box; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; letter-spacing: 4px; color: #6CCBF6; background: #0B0C10; box-shadow: inset 0 0 0 1.5px #6CCBF6">技能</div>
+  </div>
+
+  <!-- rules text: shrinks to a floor, then clips with a long-press hint -->
+  <div style="position: absolute; left: 22px; right: 22px; top: 242px; bottom: 22px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden">
+    <div style="font-size: 26px; line-height: 1.5; font-weight: 500; color: #F3EEE4; text-wrap: pretty"><span style="">获得 </span><span style="font-weight: 900; color: #FFFFFF">5</span><span style=""> 点格挡。
+造成 </span><span style="font-weight: 900; color: #FFFFFF">7</span><span style=""> 点伤害。</span></div>
+  </div>
+
+
+  <!-- not playable now: the face dims, a reason pill states what is missing and by how much -->
+
+
+  <!-- cost: straddles the corner; green = cheaper this turn, red = dearer -->
+
+    <!-- changed cost: a breathing halo in the direction colour -->
+    <sc-if value="true" hint-placeholder-val="">
+      <div style="position: absolute; left: -22px; top: -22px; width: 84px; height: 84px; border-radius: 50%; animation: costHalo 1.8s ease-in-out infinite; background: radial-gradient(circle, #EF767266 0%, #EF767200 70%)"></div>
+
+    <div style="position: absolute; left: -10px; top: -10px; width: 60px; height: 60px; border-radius: 50%; background: #0D0E12; color: #EF7672; box-shadow: inset 0 0 0 3px #EF7672, 0 0 0 3px #0D0E12; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 700; line-height: 1">2</div>
+    <!-- changed cost: direction chevron on the ring + the printed cost, struck through -->
+
+      <!-- direction badge on the orb's lower-right; the printed cost lives in the long-press text -->
+      <div style="position: absolute; left: 30px; top: 30px; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #EF7672; box-shadow: 0 0 0 2.5px #0D0E12" role="img" aria-label="本回合加费">
+        <svg width="14" height="14" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 7.5L6 4L9.5 7.5" fill="none" stroke="#0D0E12" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+
+  </sc-if>
+</div>
+</div></div><div style="width:180px;height:260px"><div style="transform:scale(.5);transform-origin:top left">
+
+<div style="position: relative; width: 296px; height: 416px; font-family: 'Noto Sans SC', sans-serif">
+  <!-- one soft shadow, one frame line, one quiet body -->
+  <div style="position: absolute; left: 0; top: 8px; width: 296px; height: 416px; border-radius: 14px; background: rgba(0,0,0,0.35)"></div>
+  <div style="position: absolute; inset: 0; border-radius: 14px; background: #D4A54A; box-shadow: inset 0 0 0 1px #F6D68C"></div>
+  <div style="position: absolute; inset: 6px; border-radius: 9px; background: linear-gradient(180deg, #161820 0%, #111217 100%)"></div>
+
+  <!-- role band behind the title -->
+  <div style="position: absolute; left: 6px; right: 6px; top: 6px; height: 56px; border-radius: 9px 9px 0 0; background: linear-gradient(180deg, #B8862E 0%, #7A5516 100%)"></div>
+  <div style="position: absolute; left: 6px; right: 6px; top: 6px; height: 2px; border-radius: 9px 9px 0 0; background: #F6D68C; opacity: 0.8"></div>
+  <div style="position: absolute; left: 6px; right: 6px; top: 60px; height: 2px; background: #F6D68C"></div>
+
+  <!-- role emblem on the bottom edge -->
+  <div style="position: absolute; left: 132px; top: 400px; width: 32px; height: 32px; border-radius: 50%; background: #0D0E12; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 1.5px #D4A54A">
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 1L4 13.5h6.2L8.5 23L20 9.5h-6.4Z" fill="#A87BFF" fill-rule="evenodd"></path></svg>
+  </div>
+
+  <!-- title -->
+  <div style="position: absolute; left: 60px; right: 60px; top: 12px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 27px; font-weight: 700; letter-spacing: 1px; white-space: nowrap; color: #FFFFFF; text-shadow: 0 1px 2px rgba(0,0,0,0.6)">雷光常驻</div>
+
+  <!-- art window: the outline itself says the type — attack points down, skill is a rounded tablet, power is an arch -->
+  <div style="position: absolute; left: 14px; right: 14px; top: 64px; height: 158px; background: #A87BFF; border-radius: 50% 50% 10px 10px / 34% 34% 10px 10px"></div>
+  <div style="position: absolute; left: 17px; right: 17px; top: 67px; height: 152px; background: radial-gradient(ellipse at 50% 35%, #A87BFF26 0%, #0B0C10 80%); border-radius: 50% 50% 10px 10px / 34% 34% 10px 10px; overflow: hidden; display: flex; align-items: center; justify-content: center">
+
+    <svg width="64" height="64" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6Z" fill="#A87BFF" opacity="0.6"></path></svg>
+  </div>
+
+  <!-- type: centred on the art's lower edge, like every deckbuilder -->
+  <div style="position: absolute; left: 0; right: 0; top: 204px; display: flex; justify-content: center">
+    <div style="min-width: 76px; height: 28px; padding: 0 14px; box-sizing: border-box; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; letter-spacing: 4px; color: #A87BFF; background: #0B0C10; box-shadow: inset 0 0 0 1.5px #A87BFF">能力</div>
+  </div>
+
+  <!-- rules text: shrinks to a floor, then clips with a long-press hint -->
+  <div style="position: absolute; left: 22px; right: 22px; top: 242px; bottom: 22px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden">
+    <div style="font-size: 26px; line-height: 1.5; font-weight: 500; color: #F3EEE4; text-wrap: pretty"><span style="">获得 </span><span style="font-weight: 900; color: #FFFFFF">5</span><span style=""> 点格挡。
+造成 </span><span style="font-weight: 900; color: #FFFFFF">7</span><span style=""> 点伤害。</span></div>
+  </div>
+
+
+  <!-- not playable now: the face dims, a reason pill states what is missing and by how much -->
+
+
+  <!-- cost: straddles the corner; green = cheaper this turn, red = dearer -->
+
+    <!-- changed cost: a breathing halo in the direction colour -->
+    <sc-if value="false" hint-placeholder-val="">
+      <div style="position: absolute; left: -22px; top: -22px; width: 84px; height: 84px; border-radius: 50%; animation: costHalo 1.8s ease-in-out infinite; background: radial-gradient(circle, #A87BFF66 0%, #A87BFF00 70%)"></div>
+
+    <div style="position: absolute; left: -10px; top: -10px; width: 60px; height: 60px; border-radius: 50%; background: #0D0E12; color: #A87BFF; box-shadow: inset 0 0 0 2px #A87BFF, 0 0 0 3px #0D0E12; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 700; line-height: 1">1</div>
+    <!-- changed cost: direction chevron on the ring + the printed cost, struck through -->
+
+  </sc-if>
+</div>
+</div></div><div style="width:180px;height:260px"><div style="transform:scale(.5);transform-origin:top left">
+
+<div style="position: relative; width: 296px; height: 416px; font-family: 'Noto Sans SC', sans-serif">
+  <!-- one soft shadow, one frame line, one quiet body -->
+  <div style="position: absolute; left: 0; top: 8px; width: 296px; height: 416px; border-radius: 14px; background: rgba(0,0,0,0.35)"></div>
+  <div style="position: absolute; inset: 0; border-radius: 14px; background: #34363C; box-shadow: inset 0 0 0 1px #4E5159"></div>
+  <div style="position: absolute; inset: 6px; border-radius: 9px; background: linear-gradient(180deg, #161820 0%, #111217 100%)"></div>
+
+  <!-- role band behind the title -->
+  <div style="position: absolute; left: 6px; right: 6px; top: 6px; height: 56px; border-radius: 9px 9px 0 0; background: linear-gradient(180deg, #24262B 0%, #1A1B1F 100%)"></div>
+  <div style="position: absolute; left: 6px; right: 6px; top: 6px; height: 2px; border-radius: 9px 9px 0 0; background: #4E5159; opacity: 0.8"></div>
+  <div style="position: absolute; left: 6px; right: 6px; top: 60px; height: 2px; background: #4E5159"></div>
+
+  <!-- role emblem on the bottom edge -->
+  <div style="position: absolute; left: 132px; top: 400px; width: 32px; height: 32px; border-radius: 50%; background: #0D0E12; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 1.5px #34363C">
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 2.5A9.5 9.5 0 1 0 21.5 17A7.6 7.6 0 1 1 14.5 2.5Z" fill="#F06A74" fill-rule="evenodd"></path></svg>
+  </div>
+
+  <!-- title -->
+  <div style="position: absolute; left: 60px; right: 60px; top: 12px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 27px; font-weight: 700; letter-spacing: 1px; white-space: nowrap; color: #FFFFFF; text-shadow: 0 1px 2px rgba(0,0,0,0.6)">月下之刃</div>
+
+  <!-- art window: the outline itself says the type — attack points down, skill is a rounded tablet, power is an arch -->
+  <div style="position: absolute; left: 14px; right: 14px; top: 64px; height: 158px; background: #F06A74; clip-path: polygon(0 0, 100% 0, 100% 84%, 50% 100%, 0 84%)"></div>
+  <div style="position: absolute; left: 17px; right: 17px; top: 67px; height: 152px; background: radial-gradient(ellipse at 50% 35%, #F06A7426 0%, #0B0C10 80%); clip-path: polygon(0 0, 100% 0, 100% 84%, 50% 100%, 0 84%); overflow: hidden; display: flex; align-items: center; justify-content: center">
+
+    <svg width="64" height="64" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 2 22 5 11.5 15.5 13 17l-1.5 1.5-2-2L6 20l-2-2 3.5-3.5-2-2L7 11l1.5 1.5Z" fill="#F06A74" opacity="0.6"></path></svg>
+  </div>
+
+  <!-- type: centred on the art's lower edge, like every deckbuilder -->
+  <div style="position: absolute; left: 0; right: 0; top: 204px; display: flex; justify-content: center">
+    <div style="min-width: 76px; height: 28px; padding: 0 14px; box-sizing: border-box; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; letter-spacing: 4px; color: #F06A74; background: #0B0C10; box-shadow: inset 0 0 0 1.5px #F06A74">攻击</div>
+  </div>
+
+  <!-- rules text: shrinks to a floor, then clips with a long-press hint -->
+  <div style="position: absolute; left: 22px; right: 22px; top: 242px; bottom: 22px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden">
+    <div style="font-size: 26px; line-height: 1.5; font-weight: 500; color: #F3EEE4; text-wrap: pretty"><span style="">获得 </span><span style="font-weight: 900; color: #FFFFFF">5</span><span style=""> 点格挡。
+造成 </span><span style="font-weight: 900; color: #FFFFFF">7</span><span style=""> 点伤害。</span></div>
+  </div>
+
+
+  <!-- not playable now: the face dims, a reason pill states what is missing and by how much -->
+
+    <div style="position: absolute; inset: 6px; border-radius: 9px; background: rgba(8, 9, 12, 0.5)"></div>
+    <div style="position: absolute; left: 0; right: 0; top: 168px; display: flex; justify-content: center">
+      <div style="height: 32px; padding: 0 14px; border-radius: 16px; display: flex; align-items: center; gap: 8px; background: #0D0E12; box-shadow: inset 0 0 0 1.5px #EF7672; font-size: 16px; font-weight: 700; color: #FF9A94; white-space: nowrap">
+        <svg width="14" height="16" viewBox="0 0 14 16" aria-hidden="true"><path d="M3.5 7V5a3.5 3.5 0 0 1 7 0v2M2 7h10v8H2z" fill="none" stroke="#FF9A94" stroke-width="2" stroke-linejoin="round"></path></svg>
+        <span>条件未满足</span>
+      </div>
+    </div>
+
+
+  <!-- cost: straddles the corner; green = cheaper this turn, red = dearer -->
+
+    <!-- changed cost: a breathing halo in the direction colour -->
+    <sc-if value="false" hint-placeholder-val="">
+      <div style="position: absolute; left: -22px; top: -22px; width: 84px; height: 84px; border-radius: 50%; animation: costHalo 1.8s ease-in-out infinite; background: radial-gradient(circle, #F06A7466 0%, #F06A7400 70%)"></div>
+
+    <div style="position: absolute; left: -10px; top: -10px; width: 60px; height: 60px; border-radius: 50%; background: #0D0E12; color: #F06A74; box-shadow: inset 0 0 0 2px #F06A74, 0 0 0 3px #0D0E12; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 700; line-height: 1">1</div>
+    <!-- changed cost: direction chevron on the ring + the printed cost, struck through -->
+
+  </sc-if>
+</div>
+</div></div><div style="width:180px;height:260px"><div style="transform:scale(.5);transform-origin:top left">
+
+<div style="position: relative; width: 296px; height: 416px; font-family: 'Noto Sans SC', sans-serif">
+  <!-- one soft shadow, one frame line, one quiet body -->
+  <div style="position: absolute; left: 0; top: 8px; width: 296px; height: 416px; border-radius: 14px; background: rgba(0,0,0,0.35)"></div>
+  <div style="position: absolute; inset: 0; border-radius: 14px; background: #34363C; box-shadow: inset 0 0 0 1px #4E5159"></div>
+  <div style="position: absolute; inset: 6px; border-radius: 9px; background: linear-gradient(180deg, #161820 0%, #111217 100%)"></div>
+
+  <!-- role band behind the title -->
+  <div style="position: absolute; left: 6px; right: 6px; top: 6px; height: 56px; border-radius: 9px 9px 0 0; background: linear-gradient(180deg, #24262B 0%, #1A1B1F 100%)"></div>
+  <div style="position: absolute; left: 6px; right: 6px; top: 6px; height: 2px; border-radius: 9px 9px 0 0; background: #4E5159; opacity: 0.8"></div>
+  <div style="position: absolute; left: 6px; right: 6px; top: 60px; height: 2px; background: #4E5159"></div>
+
+  <!-- role emblem on the bottom edge -->
+  <div style="position: absolute; left: 132px; top: 400px; width: 32px; height: 32px; border-radius: 50%; background: #0D0E12; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 1.5px #34363C">
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1L14.6 9.4L23 12L14.6 14.6L12 23L9.4 14.6L1 12L9.4 9.4Z" fill="#F2A93B" fill-rule="evenodd"></path></svg>
+  </div>
+
+  <!-- title -->
+  <div style="position: absolute; left: 60px; right: 60px; top: 12px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 27px; font-weight: 700; letter-spacing: 1px; white-space: nowrap; color: #FFFFFF; text-shadow: 0 1px 2px rgba(0,0,0,0.6)">防御</div>
+
+  <!-- art window: the outline itself says the type — attack points down, skill is a rounded tablet, power is an arch -->
+  <div style="position: absolute; left: 14px; right: 14px; top: 64px; height: 158px; background: #F2A93B; border-radius: 22px"></div>
+  <div style="position: absolute; left: 17px; right: 17px; top: 67px; height: 152px; background: radial-gradient(ellipse at 50% 35%, #F2A93B26 0%, #0B0C10 80%); border-radius: 22px; overflow: hidden; display: flex; align-items: center; justify-content: center">
+
+    <svg width="64" height="64" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 20 5v6c0 5.2-3.4 9.3-8 11-4.6-1.7-8-5.8-8-11V5Z" fill="#F2A93B" opacity="0.6"></path></svg>
+  </div>
+
+  <!-- type: centred on the art's lower edge, like every deckbuilder -->
+  <div style="position: absolute; left: 0; right: 0; top: 204px; display: flex; justify-content: center">
+    <div style="min-width: 76px; height: 28px; padding: 0 14px; box-sizing: border-box; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; letter-spacing: 4px; color: #F2A93B; background: #0B0C10; box-shadow: inset 0 0 0 1.5px #F2A93B">技能</div>
+  </div>
+
+  <!-- rules text: shrinks to a floor, then clips with a long-press hint -->
+  <div style="position: absolute; left: 22px; right: 22px; top: 242px; bottom: 22px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden">
+    <div style="font-size: 26px; line-height: 1.5; font-weight: 500; color: #F3EEE4; text-wrap: pretty"><span style="">获得 </span><span style="font-weight: 900; color: #FFFFFF">5</span><span style=""> 点格挡。</span></div>
+  </div>
+
+
+  <!-- not playable now: the face dims, a reason pill states what is missing and by how much -->
+
+
+  <!-- cost: straddles the corner; green = cheaper this turn, red = dearer -->
+
+    <!-- changed cost: a breathing halo in the direction colour -->
+    <sc-if value="false" hint-placeholder-val="">
+      <div style="position: absolute; left: -22px; top: -22px; width: 84px; height: 84px; border-radius: 50%; animation: costHalo 1.8s ease-in-out infinite; background: radial-gradient(circle, #F2A93B66 0%, #F2A93B00 70%)"></div>
+
+    <div style="position: absolute; left: -10px; top: -10px; width: 60px; height: 60px; border-radius: 50%; background: #0D0E12; color: #F2A93B; box-shadow: inset 0 0 0 2px #F2A93B, 0 0 0 3px #0D0E12; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 700; line-height: 1">1</div>
+    <!-- changed cost: direction chevron on the ring + the printed cost, struck through -->
+
+  </sc-if>
+</div>
+</div></div><div style="width:180px;height:260px"><div style="transform:scale(.5);transform-origin:top left">
+
+<div style="position: relative; width: 296px; height: 416px; font-family: 'Noto Sans SC', sans-serif">
+  <!-- one soft shadow, one frame line, one quiet body -->
+  <div style="position: absolute; left: 0; top: 8px; width: 296px; height: 416px; border-radius: 14px; background: rgba(0,0,0,0.35)"></div>
+  <div style="position: absolute; inset: 0; border-radius: 14px; background: #D4A54A; box-shadow: inset 0 0 0 1px #F6D68C"></div>
+  <div style="position: absolute; inset: 6px; border-radius: 9px; background: linear-gradient(180deg, #161820 0%, #111217 100%)"></div>
+
+  <!-- role band behind the title -->
+  <div style="position: absolute; left: 6px; right: 6px; top: 6px; height: 56px; border-radius: 9px 9px 0 0; background: linear-gradient(180deg, #B8862E 0%, #7A5516 100%)"></div>
+  <div style="position: absolute; left: 6px; right: 6px; top: 6px; height: 2px; border-radius: 9px 9px 0 0; background: #F6D68C; opacity: 0.8"></div>
+  <div style="position: absolute; left: 6px; right: 6px; top: 60px; height: 2px; background: #F6D68C"></div>
+
+  <!-- role emblem on the bottom edge -->
+  <div style="position: absolute; left: 132px; top: 400px; width: 32px; height: 32px; border-radius: 50%; background: #0D0E12; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 1.5px #D4A54A">
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 1 0 20a10 10 0 1 1 0-20ZM12 6a6 6 0 1 0 0 12a6 6 0 1 0 0-12Z" fill="#D6D0C2" fill-rule="evenodd"></path></svg>
+  </div>
+
+  <!-- title -->
+  <div style="position: absolute; left: 60px; right: 60px; top: 12px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 27px; font-weight: 700; letter-spacing: 1px; white-space: nowrap; color: #FFFFFF; text-shadow: 0 1px 2px rgba(0,0,0,0.6)">静心</div>
+
+  <!-- art window: the outline itself says the type — attack points down, skill is a rounded tablet, power is an arch -->
+  <div style="position: absolute; left: 14px; right: 14px; top: 64px; height: 158px; background: #D6D0C2; border-radius: 50% 50% 10px 10px / 34% 34% 10px 10px"></div>
+  <div style="position: absolute; left: 17px; right: 17px; top: 67px; height: 152px; background: radial-gradient(ellipse at 50% 35%, #D6D0C226 0%, #0B0C10 80%); border-radius: 50% 50% 10px 10px / 34% 34% 10px 10px; overflow: hidden; display: flex; align-items: center; justify-content: center">
+
+    <svg width="64" height="64" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6Z" fill="#D6D0C2" opacity="0.6"></path></svg>
+  </div>
+
+  <!-- type: centred on the art's lower edge, like every deckbuilder -->
+  <div style="position: absolute; left: 0; right: 0; top: 204px; display: flex; justify-content: center">
+    <div style="min-width: 76px; height: 28px; padding: 0 14px; box-sizing: border-box; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; letter-spacing: 4px; color: #D6D0C2; background: #0B0C10; box-shadow: inset 0 0 0 1.5px #D6D0C2">能力</div>
+  </div>
+
+  <!-- rules text: shrinks to a floor, then clips with a long-press hint -->
+  <div style="position: absolute; left: 22px; right: 22px; top: 242px; bottom: 22px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden">
+    <div style="font-size: 26px; line-height: 1.5; font-weight: 500; color: #F3EEE4; text-wrap: pretty"><span style="">获得 </span><span style="font-weight: 900; color: #FFFFFF">5</span><span style=""> 点格挡。
+造成 </span><span style="font-weight: 900; color: #FFFFFF">7</span><span style=""> 点伤害。</span></div>
+  </div>
+
+
+  <!-- not playable now: the face dims, a reason pill states what is missing and by how much -->
+
+
+  <!-- cost: straddles the corner; green = cheaper this turn, red = dearer -->
+
+    <!-- changed cost: a breathing halo in the direction colour -->
+    <sc-if value="true" hint-placeholder-val="">
+      <div style="position: absolute; left: -22px; top: -22px; width: 84px; height: 84px; border-radius: 50%; animation: costHalo 1.8s ease-in-out infinite; background: radial-gradient(circle, #8DE08A66 0%, #8DE08A00 70%)"></div>
+
+    <div style="position: absolute; left: -10px; top: -10px; width: 60px; height: 60px; border-radius: 50%; background: #0D0E12; color: #8DE08A; box-shadow: inset 0 0 0 3px #8DE08A, 0 0 0 3px #0D0E12; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 700; line-height: 1">0</div>
+    <!-- changed cost: direction chevron on the ring + the printed cost, struck through -->
+
+      <!-- direction badge on the orb's lower-right; the printed cost lives in the long-press text -->
+      <div style="position: absolute; left: 30px; top: 30px; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #8DE08A; box-shadow: 0 0 0 2.5px #0D0E12" role="img" aria-label="本回合减费">
+        <svg width="14" height="14" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8L9.5 4.5" fill="none" stroke="#0D0E12" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+
+  </sc-if>
+</div>
+</div></div></div><img src="native-1x.svg"><p>下排使用生产装配器及 Lua 皮肤状态。原生图片按几何轮廓示意；纹理抗锯齿、类型图标与发光须在客户端核对。文字保留原生最低14px与全文预算，因此插画窗沿用64高，原稿79高另见差异记录。</p></body>

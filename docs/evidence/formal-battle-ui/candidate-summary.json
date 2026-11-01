@@ -1,0 +1,14 @@
+{
+  "sourceCommit": "36900daa8b038ff0f6e2ff8e2aa80a6e71bc5f6a",
+  "sourceDirty": false,
+  "deliveryPath": "F:\\New folder\\.artifacts\\formal-battle-ui-36900daa\\battle-ui-test.gil",
+  "sha256": "438cc860cb3fe272be4315a616bba3eee001586badfd26736fa097807c3baaaf",
+  "buildId": "50eb35b3-9eb2-4f43-849d-ce7eb42cdfa1",
+  "moduleSourceReadback": { "count": 221, "allDigestsMatch": true },
+  "staticCheck": { "errors": 0, "warnings": 99, "warningReview": "not_run" },
+  "officialImport": "not_tested",
+  "playtest": "not_tested",
+  "physicalMobile": "not_tested",
+  "liveWriteEnabled": false,
+  "note": "Source frozen before test-guard-only commit 9034f30d. Existing d2e0baa candidate sources were read before skipping byte-identical modules; final full source digest readback passed. All edits are on a save copy."
+}

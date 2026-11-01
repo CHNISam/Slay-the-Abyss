@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "card_id": "dark_embrace",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T17:38:03.701Z",
+    "completedAt": "2026-10-29T17:38:41Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-costume-head-flower-and-normal-one-handed-sword-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "34e073bb15b1d0658e20208640485036e0bc072a274957dfe6dcd1f5afdf0ebb",
+      "bytes": 1963755
+    },
+    "prompt.txt": {
+      "sha256": "171acba97afbeeb84328c273bddcba49dcace6edde548d9954c5a5835eeb0a79",
+      "bytes": 2710
+    },
+    "preview-source-144x64.png": {
+      "sha256": "dbe7e23066ec01537a7da8a48a6b9231c0e520d90ee1843586bf78d5c96ccad5",
+      "bytes": 19505
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions retained unchanged despite requested size"
+  },
+  "intent": {
+    "name": "临机应变",
+    "mechanics": "gain dark_embrace power 1; each exhaust draws 1 while living, upgrade cost only",
+    "mainAction": "self turning toward new open option while old dark ribbon remnant fades behind",
+    "identityCarriers": [
+      "blonde bob and prominent white flower",
+      "amber eye",
+      "connected original white-blue shoulder and gold dark waist structure"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and 144x64: blonde flower face and white-blue gold-waist Lumine clear, torso half-turn toward cool open space; old dark remnant subordinate left. No hug tentacles fire healing cards or attack. Camera less top-down than requested, still distinct reorientation. Independent review pending.",
+    "independentReview": "pending",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

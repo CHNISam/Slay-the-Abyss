@@ -1,0 +1,17 @@
+{
+  "sourceBase": "8d216ad7b279db1e0069c0c6c4a4da92b3f1b50c",
+  "nonShellBattleTree": "strictDeepEqual",
+  "beforeBattle": {
+    "nodes": 2603,
+    "maxChildren": 60
+  },
+  "afterBattle": {
+    "nodes": 3243,
+    "maxChildren": 60
+  },
+  "currentGameTree": {
+    "nodes": 10331,
+    "maxChildren": 60
+  },
+  "scope": "Static generated-tree resources only; no FPS, official image pixels, client or phone evidence."
+}

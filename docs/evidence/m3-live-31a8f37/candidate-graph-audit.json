@@ -1,0 +1,40 @@
+{
+  "ok": true,
+  "sourceCommit": "31a8f371b53b9b55f03f2e0a7af7f21488c2cd71",
+  "candidate": {
+    "path": "F:\\New folder\\.artifacts\\m3-live-20261024\\abyss-m3-normal-31a8f37.gil",
+    "sha256Before": "8cec5746b51bdac99cb747f2bd146d364d30f31fa3ac4d04852834fa7273d042",
+    "sha256After": "8cec5746b51bdac99cb747f2bd146d364d30f31fa3ac4d04852834fa7273d042"
+  },
+  "liveWriteEnabled": false,
+  "graphs": [
+    {
+      "ok": true,
+      "graphId": "1073741825",
+      "name": "_GSTS_ABYSS_SETTLEMENT",
+      "actualRawSha256": "7d6f73302d14742a399bfdddcfee4e835d76f6c610615d444b6a187d88fd9a23",
+      "expectedRawSha256": "6894cf323a6efe0848699e580abdb2faf7515bd0487c511757e0d08d5086c771",
+      "actualSha256": "2928bf3dde73c541a81630df78820692588c64f0c728a9a10fca962e04ea593b",
+      "expectedSha256": "2928bf3dde73c541a81630df78820692588c64f0c728a9a10fca962e04ea593b",
+      "actualRoundtrip": true,
+      "expectedRoundtrip": true,
+      "issues": [],
+      "exclusions": [
+        "GraphNode.x",
+        "GraphNode.y",
+        "GraphNode.comments.x/y",
+        "NodeGraph.comments[].x/y"
+      ],
+      "scope": "All decoded NodeGraph fields and ordered arrays; no default hydration, field filtering or node renumbering beyond the listed layout coordinates.",
+      "sourceSha256": "48db63ddc8e3466046b7c795a9a8f439bb0537d9b33999a0421f08cc5045b2ad",
+      "gia": "F:\\New folder\\.artifacts\\m3-live-20261024\\normal-graph-readback\\compiler\\graph-0\\builds\\a4016a35-1815-4501-8c2f-1186e54e4ef2\\dist\\src\\main.gia",
+      "giaSha256": "de1455d6d08d9a45500667bcd0c05c680af9c7ecf212d44f45704eb8200d4832"
+    }
+  ],
+  "issues": [],
+  "externalBindings": "Signal definition IDs are resolved by the existing injector against the input. External signal definitions, stage/prefab settings and runtime behavior are not source-certified by this payload comparison.",
+  "writes": "Explicit command writes source/GIA/logs and, for single-graph compilation, an input copy inside output/compiler only. Expected injection is in memory; input is never applied or written.",
+  "officialImport": "NOT_TESTED",
+  "playtest": "NOT_TESTED",
+  "audio": "NOT_TESTED"
+}

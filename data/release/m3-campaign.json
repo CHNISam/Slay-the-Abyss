@@ -1,0 +1,1209 @@
+{
+  "schemaVersion": 1,
+  "milestone": "M3",
+  "scopeDecision": "2026-10-29 user approves Geo Traveler only for Acts1/2; future content below retains its original evidence",
+  "historicalScopeDecision": "2026-10-26 user explicitly requires all four classes and Acts1/2/3/hidden4",
+  "currentReleaseScope": {
+    "characters": [
+      "ironclad"
+    ],
+    "acts": [
+      1,
+      2
+    ],
+    "deferredCharacter": "raiden",
+    "userReportedTwoActCompletion": true,
+    "candidateBoundEvidence": "unknown; do not infer screenshots or logs",
+    "bossEligibilityPolicy": {
+      "act1": "Without persistent seen history: Guardian first. Hexaghost and Slime Boss definitions remain explicit full-source/history-qualified bindings.",
+      "act2": "Without persistent seen history: Champ first. Collector and Automaton definitions remain explicit full-source/history-qualified bindings.",
+      "boundary": "Persistent historical unlock verification is deferred TASK-53; do not claim all Bosses naturally occur in a fresh competition run."
+    },
+    "act1Bosses": [
+      {
+        "acquisition": "history-qualified boss queue; fresh competition defaults Guardian",
+        "definitionSource": "data/enemies.json",
+        "enemies": [
+          "guardian"
+        ],
+        "id": "boss_guardian",
+        "platform": "NOT_RUN",
+        "source": "The Guardian"
+      },
+      {
+        "acquisition": "history-qualified boss queue; fresh competition defaults Guardian",
+        "definitionSource": "src/lua/abyss_act1_bosses.lua",
+        "enemies": [
+          "hexaghost"
+        ],
+        "id": "boss_hexaghost",
+        "platform": "NOT_RUN",
+        "source": "Hexaghost"
+      },
+      {
+        "acquisition": "history-qualified boss queue; fresh competition defaults Guardian",
+        "definitionSource": "src/lua/abyss_act1_bosses.lua",
+        "enemies": [
+          "slime_boss"
+        ],
+        "id": "boss_slime_boss",
+        "platform": "NOT_RUN",
+        "source": "Slime Boss"
+      }
+    ]
+  },
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "baseline": "45ba918e5719614f36b6a92aeb511e76a1311608",
+  "acceptance": "INCOMPLETE",
+  "runtimeStatus": "Current competition entry admits only Geo Traveler and ends at floor34 after legal Act2 Boss treasure. Act1/Act2 normal/elite/Boss definitions, event routes and same-run transition are wired; offline normal-rule outcomes are recorded separately from controlled regressions and platform evidence. Act3/4 entries below are retained future-source history.",
+  "tasks": {
+    "inventory": "TASK-47",
+    "classes": "TASK-59",
+    "crossAct": "TASK-63",
+    "act2": "TASK-61",
+    "act3": "TASK-62",
+    "act4": "TASK-64"
+  },
+  "core": {
+    "maps": "implemented-local-tests-passed",
+    "floorIdentity": "implemented-local-tests-passed",
+    "resourceTransition": "implemented-local-tests-passed",
+    "cardRngTransition": "implemented-local-tests-passed",
+    "encounterQueues": "implemented-independent-vectors-passed",
+    "eventPoolLifecycle": "implemented-local-tests-passed",
+    "normalEndingAndDoor": "implemented-boundary-tests-passed",
+    "naturalKeyAcquisition": "IMPLEMENTED_LOCAL_RUBY_RECALL_SAPPHIRE_TREASURE_EMERALD_REWARD_NATURAL_UNVERIFIED",
+    "persistentHistoricalUnlock": "PLATFORM_UNVERIFIED",
+    "sessionHistoricalUnlock": "IMPLEMENTED_LOCAL_REAL_STANDARD_ACT3_VICTORIES_INJECTABLE_PROVIDER",
+    "sessionHistoricalEvidence": [
+      "docs/rules/ENDING_HISTORY.md",
+      "tests/lua/ending_history.lua",
+      "tests/lua/ending_history_host.lua"
+    ],
+    "hostChapterUI": "IMPLEMENTED_FORMAL_CAMPAIGN_ENTRY_LOCAL",
+    "keyAcquisitionEvidence": [
+      "tests/lua/ruby_recall.lua",
+      "tests/lua/sapphire_treasure.lua",
+      "tests/lua/emerald_entry_provenance.lua",
+      "tests/lua/emerald_key_run.lua"
+    ]
+  },
+  "acts": [
+    {
+      "act": 2,
+      "floors": [
+        18,
+        34
+      ],
+      "map": "implemented-local-only",
+      "combat": "IMPLEMENTED_LOCAL_16_QUEUE_SOURCES_3_BOSS_BINDINGS_AND_EVENT_ENEMIES",
+      "events": "IMPLEMENTED_LOCAL_ALL_13_ORDINARY_AND_SHARED_SHRINE_ONCE_ROUTES_NATURAL_PER_ITEM_PENDING",
+      "normalPlaythrough": "NOT_RUN",
+      "platform": "NOT_RUN",
+      "evidence": [
+        "tests/act2-enemies.test.mjs",
+        "tests/act2-event-content.test.mjs",
+        "tests/act2-choice-events.test.mjs",
+        "tests/event-combat-route-enemies.test.mjs"
+      ],
+      "runtimeInventory": {
+        "act": 2,
+        "bosses": [
+          {
+            "acquisition": "history-qualified boss queue; fresh competition defaults Champ",
+            "enemies": [
+              "champ"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_champ",
+            "platform": "NOT_RUN",
+            "source": "Champ"
+          },
+          {
+            "acquisition": "history-qualified boss queue; fresh competition defaults Champ",
+            "enemies": [
+              "collector"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_collector",
+            "platform": "NOT_RUN",
+            "source": "Collector"
+          },
+          {
+            "acquisition": "history-qualified boss queue; fresh competition defaults Champ",
+            "enemies": [
+              "automaton"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_automaton",
+            "platform": "NOT_RUN",
+            "source": "Automaton"
+          }
+        ],
+        "enemyDefinitions": [
+          {
+            "id": "spheric_guardian",
+            "implemented": true,
+            "source": "src/lua/abyss_act2_enemies.lua",
+            "tier": "normal"
+          },
+          {
+            "id": "centurion",
+            "implemented": true,
+            "source": "src/lua/abyss_act2_enemies.lua",
+            "tier": "normal"
+          },
+          {
+            "id": "mystic",
+            "implemented": true,
+            "source": "src/lua/abyss_act2_enemies.lua",
+            "tier": "normal"
+          },
+          {
+            "id": "taskmaster",
+            "implemented": true,
+            "source": "src/lua/abyss_act2_enemies.lua",
+            "tier": "elite"
+          },
+          {
+            "id": "book_of_stabbing",
+            "implemented": true,
+            "source": "src/lua/abyss_act2_enemies.lua",
+            "tier": "elite"
+          },
+          {
+            "id": "snake_plant",
+            "implemented": true,
+            "source": "src/lua/abyss_act2_enemies.lua",
+            "tier": "normal"
+          },
+          {
+            "id": "chosen",
+            "implemented": true,
+            "source": "src/lua/abyss_act2_enemies.lua",
+            "tier": "normal"
+          },
+          {
+            "id": "shelled_parasite",
+            "implemented": true,
+            "source": "src/lua/abyss_act2_enemies.lua",
+            "tier": "normal"
+          },
+          {
+            "id": "byrd",
+            "implemented": true,
+            "source": "src/lua/abyss_act2_enemies.lua",
+            "tier": "normal"
+          },
+          {
+            "id": "snecko",
+            "implemented": true,
+            "source": "src/lua/abyss_act2_enemies.lua",
+            "tier": "normal"
+          },
+          {
+            "id": "mugger",
+            "implemented": true,
+            "source": "src/lua/abyss_act2_enemies.lua",
+            "tier": "normal"
+          },
+          {
+            "id": "gremlin_leader",
+            "implemented": true,
+            "source": "src/lua/abyss_act2_enemies.lua",
+            "tier": "elite"
+          },
+          {
+            "id": "torch_head",
+            "implemented": true,
+            "source": "src/lua/abyss_act2_enemies.lua",
+            "tier": "normal"
+          },
+          {
+            "id": "collector",
+            "implemented": true,
+            "source": "src/lua/abyss_act2_enemies.lua",
+            "tier": "boss"
+          },
+          {
+            "id": "automaton",
+            "implemented": true,
+            "source": "src/lua/abyss_act2_enemies.lua",
+            "tier": "boss"
+          },
+          {
+            "id": "bronze_orb",
+            "implemented": true,
+            "source": "src/lua/abyss_act2_enemies.lua",
+            "tier": "normal"
+          },
+          {
+            "id": "champ",
+            "implemented": true,
+            "source": "src/lua/abyss_act2_enemies.lua",
+            "tier": "boss"
+          },
+          {
+            "channel": "event:masked_bandits:fight",
+            "id": "bandit_pointy",
+            "implemented": true,
+            "source": "src/lua/abyss_event_combat_enemies.lua",
+            "tier": "normal"
+          },
+          {
+            "channel": "event:masked_bandits:fight",
+            "id": "bandit_leader",
+            "implemented": true,
+            "source": "src/lua/abyss_event_combat_enemies.lua",
+            "tier": "normal"
+          },
+          {
+            "channel": "event:masked_bandits:fight",
+            "id": "bandit_bear",
+            "implemented": true,
+            "source": "src/lua/abyss_event_combat_enemies.lua",
+            "tier": "normal"
+          }
+        ],
+        "naturalPerItem": "NOT_COMPLETE",
+        "platform": "NOT_RUN",
+        "queueSources": [
+          {
+            "dynamic": false,
+            "enemies": [
+              "spheric_guardian"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_sphere",
+            "pool": "weak",
+            "source": "Spheric Guardian",
+            "weight": 2
+          },
+          {
+            "dynamic": false,
+            "enemies": [
+              "chosen"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_chosen",
+            "pool": "weak",
+            "source": "Chosen",
+            "weight": 2
+          },
+          {
+            "dynamic": false,
+            "enemies": [
+              "shelled_parasite"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_parasite",
+            "pool": "weak",
+            "source": "Shell Parasite",
+            "weight": 2
+          },
+          {
+            "dynamic": false,
+            "enemies": [
+              "byrd",
+              "byrd",
+              "byrd"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_byrds",
+            "pool": "weak",
+            "source": "3 Byrds",
+            "weight": 2
+          },
+          {
+            "dynamic": false,
+            "enemies": [
+              "looter",
+              "mugger"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_thieves",
+            "pool": "weak",
+            "source": "2 Thieves",
+            "weight": 2
+          },
+          {
+            "dynamic": false,
+            "enemies": [
+              "byrd",
+              "chosen"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_chosen_byrd",
+            "pool": "strong",
+            "source": "Chosen and Byrds",
+            "weight": 2
+          },
+          {
+            "dynamic": false,
+            "enemies": [
+              "sentry",
+              "spheric_guardian"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_sentry_sphere",
+            "pool": "strong",
+            "source": "Sentry and Sphere",
+            "weight": 2
+          },
+          {
+            "dynamic": false,
+            "enemies": [
+              "snake_plant"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_snake_plant",
+            "pool": "strong",
+            "source": "Snake Plant",
+            "weight": 6
+          },
+          {
+            "dynamic": false,
+            "enemies": [
+              "snecko"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_snecko",
+            "pool": "strong",
+            "source": "Snecko",
+            "weight": 4
+          },
+          {
+            "dynamic": false,
+            "enemies": [
+              "centurion",
+              "mystic"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_centurion_mystic",
+            "pool": "strong",
+            "source": "Centurion and Healer",
+            "weight": 6
+          },
+          {
+            "dynamic": false,
+            "enemies": [
+              "cultist",
+              "chosen"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_cultist_chosen",
+            "pool": "strong",
+            "source": "Cultist and Chosen",
+            "weight": 3
+          },
+          {
+            "dynamic": false,
+            "enemies": [
+              "cultist",
+              "cultist",
+              "cultist"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_cultists",
+            "pool": "strong",
+            "source": "3 Cultists",
+            "weight": 3
+          },
+          {
+            "dynamic": false,
+            "enemies": [
+              "shelled_parasite",
+              "fungi_beast"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_parasite_fungi",
+            "pool": "strong",
+            "source": "Shelled Parasite and Fungi",
+            "weight": 3
+          },
+          {
+            "dynamic": true,
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_leader",
+            "pool": "elite",
+            "source": "Gremlin Leader",
+            "weight": 1
+          },
+          {
+            "dynamic": false,
+            "enemies": [
+              "blue_slaver",
+              "taskmaster",
+              "red_slaver"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_slavers",
+            "pool": "elite",
+            "source": "Slavers",
+            "weight": 1
+          },
+          {
+            "dynamic": false,
+            "enemies": [
+              "book_of_stabbing"
+            ],
+            "entry": "Run.startRoomCombat -> abyss_act2_enemies.resolve",
+            "id": "act2_book",
+            "pool": "elite",
+            "source": "Book of Stabbing",
+            "weight": 1
+          }
+        ]
+      }
+    },
+    {
+      "act": 3,
+      "floors": [
+        35,
+        51
+      ],
+      "map": "implemented-local-only",
+      "combat": "IMPLEMENTED_LOCAL_3_WEAK_8_STRONG_3_ELITE_3_BOSS_SOURCE_FORMATIONS",
+      "events": "SEVEN_ORDINARY_MAPPINGS_LOCAL_BRIDGE_RECORDED_NATURAL_PENDING",
+      "normalPlaythrough": "NOT_RUN",
+      "platform": "NOT_RUN",
+      "evidence": [
+        "tests/lua/act3_completion_seams.lua",
+        "tests/lua/event_combat_bridge.lua"
+      ],
+      "evidenceBaseline": "d54816b5ec0a69094d609247800e8e0598017680",
+      "evidenceBoundary": "Committed enemy/EndingHistory component coverage plus event bridge GREEN recorded before this inventory sync (12.35s); final combined-HEAD and native natural playthrough remain pending."
+    },
+    {
+      "act": 4,
+      "floors": [
+        52,
+        55
+      ],
+      "map": "implemented-local-only",
+      "combat": "IMPLEMENTED_LOCAL_SHIELD_SPEAR_HEART_CONTROLLED_ROUTE",
+      "events": "NOT_APPLICABLE_FIXED_CAMP_SHOP_ELITE_BOSS_ROUTE",
+      "normalPlaythrough": "NOT_RUN",
+      "platform": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ENDING_ROUTE.md",
+        "tests/lua/ending_route_api.lua",
+        "tests/lua/ending_route_contracts.lua",
+        "tests/lua/ending_route_characters.lua"
+      ],
+      "evidenceBaseline": "53581f43",
+      "evidenceBoundary": "PR262 accepted local controlled Run/Nodes entry, combat, reward and Proceed tests. The four-class route fixture supplies historical qualification and keys and uses controlled damage; it is not natural acquisition, a normal build or native playthrough acceptance."
+    }
+  ],
+  "monsters": [
+    {
+      "act": 2,
+      "className": "BanditBear",
+      "path": "monsters/city/BanditBear.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/BanditBear.java",
+      "categoryIndexOnly": "event-only",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "Masked Bandits public event-combat route, with real event reward owner. Per-item natural/platform pending.",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "COVERAGE_RECORDED_NOT_PLATFORM",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "src/lua/abyss_event_combat_enemies.lua",
+        "src/lua/abyss_event_combat_routes.lua",
+        "tests/event-combat-route-enemies.test.mjs"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "BanditLeader",
+      "path": "monsters/city/BanditLeader.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/BanditLeader.java",
+      "categoryIndexOnly": "event-only",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "Masked Bandits public event-combat route, with real event reward owner. Per-item natural/platform pending.",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "COVERAGE_RECORDED_NOT_PLATFORM",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "src/lua/abyss_event_combat_enemies.lua",
+        "src/lua/abyss_event_combat_routes.lua",
+        "tests/event-combat-route-enemies.test.mjs"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "BanditPointy",
+      "path": "monsters/city/BanditPointy.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/BanditPointy.java",
+      "categoryIndexOnly": "event-only",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "Masked Bandits public event-combat route, with real event reward owner. Per-item natural/platform pending.",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "COVERAGE_RECORDED_NOT_PLATFORM",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "src/lua/abyss_event_combat_enemies.lua",
+        "src/lua/abyss_event_combat_routes.lua",
+        "tests/event-combat-route-enemies.test.mjs"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "BookOfStabbing",
+      "path": "monsters/city/BookOfStabbing.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/BookOfStabbing.java",
+      "categoryIndexOnly": "elite",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "BronzeAutomaton",
+      "path": "monsters/city/BronzeAutomaton.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/BronzeAutomaton.java",
+      "categoryIndexOnly": "boss",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "BronzeOrb",
+      "path": "monsters/city/BronzeOrb.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/BronzeOrb.java",
+      "categoryIndexOnly": "summon",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "Byrd",
+      "path": "monsters/city/Byrd.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/Byrd.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "Centurion",
+      "path": "monsters/city/Centurion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/Centurion.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "Champ",
+      "path": "monsters/city/Champ.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/Champ.java",
+      "categoryIndexOnly": "boss",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "Chosen",
+      "path": "monsters/city/Chosen.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/Chosen.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "GremlinLeader",
+      "path": "monsters/city/GremlinLeader.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/GremlinLeader.java",
+      "categoryIndexOnly": "elite",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "Healer",
+      "path": "monsters/city/Healer.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/Healer.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "Mugger",
+      "path": "monsters/city/Mugger.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/Mugger.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "ShelledParasite",
+      "path": "monsters/city/ShelledParasite.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/ShelledParasite.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "SnakePlant",
+      "path": "monsters/city/SnakePlant.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/SnakePlant.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "Snecko",
+      "path": "monsters/city/Snecko.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/Snecko.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "SphericGuardian",
+      "path": "monsters/city/SphericGuardian.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/SphericGuardian.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "Taskmaster",
+      "path": "monsters/city/Taskmaster.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/Taskmaster.java",
+      "categoryIndexOnly": "elite",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "TheCollector",
+      "path": "monsters/city/TheCollector.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/TheCollector.java",
+      "categoryIndexOnly": "boss",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
+    },
+    {
+      "act": 2,
+      "className": "TorchHead",
+      "path": "monsters/city/TorchHead.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/TorchHead.java",
+      "categoryIndexOnly": "summon",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
+    },
+    {
+      "act": 3,
+      "className": "AwakenedOne",
+      "path": "monsters/beyond/AwakenedOne.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/AwakenedOne.java",
+      "categoryIndexOnly": "boss",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/awakened_one.lua",
+        "tests/lua/awakened_one_presence.lua",
+        "tests/lua/awakened_one_ui.lua"
+      ]
+    },
+    {
+      "act": 3,
+      "className": "Darkling",
+      "path": "monsters/beyond/Darkling.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/Darkling.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/darklings.lua",
+        "tests/lua/darklings_ui.lua"
+      ]
+    },
+    {
+      "act": 3,
+      "className": "Deca",
+      "path": "monsters/beyond/Deca.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/Deca.java",
+      "categoryIndexOnly": "boss",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/donu_deca.lua"
+      ]
+    },
+    {
+      "act": 3,
+      "className": "Donu",
+      "path": "monsters/beyond/Donu.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/Donu.java",
+      "categoryIndexOnly": "boss",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/donu_deca.lua"
+      ]
+    },
+    {
+      "act": 3,
+      "className": "Exploder",
+      "path": "monsters/beyond/Exploder.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/Exploder.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/act3_shapes.lua",
+        "tests/lua/act3_shapes_defect_integration.lua"
+      ]
+    },
+    {
+      "act": 3,
+      "className": "GiantHead",
+      "path": "monsters/beyond/GiantHead.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/GiantHead.java",
+      "categoryIndexOnly": "elite",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/GIANT_HEAD.md",
+        "tests/lua/giant_head_ai.lua",
+        "tests/lua/giant_head_slow.lua"
+      ]
+    },
+    {
+      "act": 3,
+      "className": "Maw",
+      "path": "monsters/beyond/Maw.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/Maw.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/act3_maw_growth.lua"
+      ]
+    },
+    {
+      "act": 3,
+      "className": "Nemesis",
+      "path": "monsters/beyond/Nemesis.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/Nemesis.java",
+      "categoryIndexOnly": "elite",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT3_NEMESIS.md",
+        "tests/lua/nemesis_ai.lua",
+        "tests/lua/nemesis_runtime.lua",
+        "tests/lua/nemesis_ui.lua"
+      ]
+    },
+    {
+      "act": 3,
+      "className": "OrbWalker",
+      "path": "monsters/beyond/OrbWalker.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/OrbWalker.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/act3_orb_walker.lua"
+      ]
+    },
+    {
+      "act": 3,
+      "className": "Reptomancer",
+      "path": "monsters/beyond/Reptomancer.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/Reptomancer.java",
+      "categoryIndexOnly": "elite",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/reptomancer.lua",
+        "tests/lua/reptomancer_public.lua",
+        "tests/lua/reptomancer_run_reward_rollback.lua"
+      ]
+    },
+    {
+      "act": 3,
+      "className": "Repulsor",
+      "path": "monsters/beyond/Repulsor.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/Repulsor.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/act3_shapes.lua",
+        "tests/lua/act3_shapes_defect_integration.lua"
+      ]
+    },
+    {
+      "act": 3,
+      "className": "SnakeDagger",
+      "path": "monsters/beyond/SnakeDagger.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/SnakeDagger.java",
+      "categoryIndexOnly": "summon",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/reptomancer.lua",
+        "tests/lua/reptomancer_public.lua"
+      ]
+    },
+    {
+      "act": 3,
+      "className": "Spiker",
+      "path": "monsters/beyond/Spiker.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/Spiker.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/act3_shapes.lua",
+        "tests/lua/act3_shapes_defect_integration.lua"
+      ]
+    },
+    {
+      "act": 3,
+      "className": "SpireGrowth",
+      "path": "monsters/beyond/SpireGrowth.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/SpireGrowth.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/act3_maw_growth.lua"
+      ]
+    },
+    {
+      "act": 3,
+      "className": "TimeEater",
+      "path": "monsters/beyond/TimeEater.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/TimeEater.java",
+      "categoryIndexOnly": "boss",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/TIME_EATER.md",
+        "tests/lua/time_eater.lua"
+      ]
+    },
+    {
+      "act": 3,
+      "className": "Transient",
+      "path": "monsters/beyond/Transient.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/Transient.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/act3_transient.lua"
+      ]
+    },
+    {
+      "act": 3,
+      "className": "WrithingMass",
+      "path": "monsters/beyond/WrithingMass.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/WrithingMass.java",
+      "categoryIndexOnly": "normal-or-composition",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT3_WRITHING_MASS.md",
+        "tests/lua/act3_writhing_mass.lua",
+        "tests/lua/act3_writhing_parasite.lua"
+      ]
+    },
+    {
+      "act": 4,
+      "className": "CorruptHeart",
+      "path": "monsters/ending/CorruptHeart.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/ending/CorruptHeart.java",
+      "categoryIndexOnly": "boss",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/ending_enemy_runtime.lua",
+        "tests/lua/ending_route_characters.lua",
+        "docs/rules/CORRUPT_HEART.md"
+      ]
+    },
+    {
+      "act": 4,
+      "className": "SpireShield",
+      "path": "monsters/ending/SpireShield.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/ending/SpireShield.java",
+      "categoryIndexOnly": "elite",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/ending_enemy_runtime.lua",
+        "tests/lua/ending_route_characters.lua",
+        "docs/rules/SPIRE_PAIR.md"
+      ]
+    },
+    {
+      "act": 4,
+      "className": "SpireSpear",
+      "path": "monsters/ending/SpireSpear.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/ending/SpireSpear.java",
+      "categoryIndexOnly": "elite",
+      "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+      "parityStatus": "UNVERIFIED",
+      "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/ending_enemy_runtime.lua",
+        "tests/lua/ending_route_characters.lua",
+        "docs/rules/SPIRE_PAIR.md"
+      ]
+    }
+  ],
+  "platformStatus": "NOT_RUN",
+  "officialImport": "NOT_RUN",
+  "naturalPlaythroughs": [],
+  "authorization": "This session only: independent worktree offline development/Backlog updates exempt remote claim per explicit user reply. No global paused changes or external writers; no commit/push/merge or desktop input.",
+  "evidence": "docs/evidence/m3-cross-act-20261026.json",
+  "offlineNormalRuleEvidence": "docs/evidence/m3-normal-campaign-20261031/summary.json"
+}

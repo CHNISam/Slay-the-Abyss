@@ -1,0 +1,73 @@
+{
+  "sourceCommit": "02a572cb95895272829460230797f61e61190ddc",
+  "baseGameplaySource": "61425e472baea87a72685237e370d21897ba9f56",
+  "exitFixCommit": "5eb24cb",
+  "candidate": "F:\\New folder\\.artifacts\\exit-handoff\\abyss-exit-02a572c.gil",
+  "sha256": "410978fb65b690ad5d2fdcfb41abf13a9a6204c6247ad5e56a9e668b08c47835",
+  "fullCheck": {
+    "exitCode": 0,
+    "javascript": {
+      "total": 714,
+      "passed": 598,
+      "skipped": 116,
+      "failed": 0
+    },
+    "lua": "All discovered suites passed, including 15 exit interaction cases",
+    "python": {
+      "total": 17,
+      "passed": 16,
+      "skipped": 1
+    }
+  },
+  "readback": {
+    "ok": true,
+    "modules": 32,
+    "byteIdentical": 32,
+    "ui": {
+      "expectedCount": 1653,
+      "actualCount": 1653,
+      "expectedMaxChildren": 50,
+      "actualMaxChildren": 50,
+      "shellNodesExcluded": "Native interface container/root are outside interface.controls; counts use source controls scope."
+    },
+    "staticErrors": 0,
+    "staticWarnings": 17,
+    "issues": []
+  },
+  "graphPayload": {
+    "ok": true,
+    "issues": []
+  },
+  "references": {
+    "fullCheck": ".artifacts/live-acceptance-61425e4/exit-integrated-check.log",
+    "sourceAndUi": ".artifacts/exit-run-02a572c-audit-v2/audit.json",
+    "graph": ".artifacts/exit-run-02a572c-graph-audit/graph-payload-audit.json",
+    "manualConfirmation": ".artifacts/live-acceptance-61425e4/exit-confirmation/report.json",
+    "logAttribution": "Log filename starts before new candidate existed and can aggregate reentries. Do not attribute every print to 02a572c or infer path-specific counts; user confirmation and imported-source identity establish this acceptance."
+  },
+  "officialImport": "VERIFIED_MANUAL_IMPORT_AND_READBACK",
+  "pcExit": "PASS_USER_CONFIRMED_MAP_AND_BATTLE",
+  "mobileTouch": "NOT_TESTED",
+  "releaseGate": "NOT_PASSED",
+  "automation": {
+    "runId": "2e815bf0-87c1-427b-b22e-0fb44c663af6",
+    "state": "failed",
+    "result": "No candidate gameplay evidence; foreground browser obscured game and runner could not open editor level menu",
+    "status": ".artifacts/live-acceptance-61425e4/exit-playtest/playtests/2e815bf0-87c1-427b-b22e-0fb44c663af6/status.json"
+  },
+  "manualVerification": {
+    "source": "User confirmation in this conversation",
+    "quote": "能看到了 然后退出也成功了 这无论是从这个地图上面还是从一个战斗里面",
+    "mapExit": "PASS_USER_CONFIRMED",
+    "battleExit": "PASS_USER_CONFIRMED",
+    "mobileTouch": "NOT_SEPARATELY_VERIFIED",
+    "otherPages": "NOT_SEPARATELY_VERIFIED",
+    "cancelResume": "LOCAL_TESTS_ONLY"
+  },
+  "importedSave": {
+    "id": "1073741836",
+    "sha256": "52c1fd5ed7d2792c49ad03678d0718c6fe1ed400bc2d692d952232c1ff44860e",
+    "modulesMatch": true,
+    "uiInterfaceMatches": true
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-24",
+  "developmentBase": "76bbefade36b66c21c3c50964c8f28d8da9169a5",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "oracle": "Independent Python integer and IEEE754 interpretation of fixed source; not owned PC binary or platform execution",
+  "module": "src/lua/abyss_encounter_queue.lua",
+  "scope": {"sourceNames": true, "initialNormalCount": 16, "initialEliteCount": 10, "sharedMonsterRng": true, "rawSigned64Seed": true, "runNodesWired": false, "mapChanged": false, "contentBindingsComplete": false},
+  "verification": {
+    "node": {"command": "node --test tests/encounter-queue.test.mjs tests/event-random.test.mjs tests/native-candidate-scripts.test.mjs", "pass": 8, "fail": 0, "skip": 0, "log": ".artifacts/sts1-encounter-queue/final-node.log", "sha256": "1fc2d6aecc91022a6ea793802762ca6eeee3b24ac395f6f2da626fd29765cee6"},
+    "lua": {"command": "node scripts/test-lua.mjs tests/lua/encounter_queue.lua", "groups": 12, "fail": 0, "log": ".artifacts/sts1-encounter-queue/core.log", "sha256": "320373fc29bb2eeb5d0397ae6dec7b2383c0ea7231b45476561225f8db361550"},
+    "vectors": {"cases": 9, "everyFloatAndPostState": true, "fixture": "tests/fixtures/sts1-encounter-queue-vectors.json", "sha256": "8bf9f885a92d4d42d667ee24845b857b05819fdc8c8b51a7f9b3ef6269596276"},
+    "redLogs": [".artifacts/sts1-encounter-queue/red-vectors.log", ".artifacts/sts1-encounter-queue/red-restore-integrity.log"],
+    "fullCheck": "not run here; main thread integration responsibility",
+    "platformVerified": false
+  },
+  "limits": [
+    "Six source pool entries still have incomplete content bindings; no deletion or renormalization",
+    "No Run/Nodes/unknown-room production consumption or complete Run snapshot claim",
+    "Normal queue exhaustion rejected instead of guessing pinned source's empty-tail behavior",
+    "Boss initialization can consume shared monsterRng after queue generation and is outside this component",
+    "Snapshot verifies structural and queue constraints, not cryptographic provenance or replay authentication"
+  ],
+  "externalDelegation": false,
+  "candidateBuilt": false,
+  "imported": false
+}

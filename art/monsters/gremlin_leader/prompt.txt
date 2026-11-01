@@ -1,0 +1,10 @@
+Use case: stylized-concept.
+Create one original full-body imp commander monster on a true transparent square canvas, requested 1024 × 1024. Keep the entire head, horns, hands, feet, back plate and blade inside comfortable margins. No floor, background, text, UI or effects.
+
+The supplied Mad Gremlin is the actual own-project family reference: grey angular face and skin, two short dark horns, and chunky matte painted planes. Keep that family identity, but do not copy its large fists, oversized forearms, narrow chest or pose. This is not an official Genshin Hilichurl or a copied Slay the Spire leader.
+
+Gremlin Leader / 丘丘督军 is a taller, slimmer imp commander with an inverted-trapezoid torso, long sturdy legs, and ordinary proportional forearms. Wear one simple stone plate on a single shoulder, a muted ochre-red short waistcloth, and brown leather wraps. A broad SHORT banner-shaped back plate rises behind the opposite shoulder: one solid dark brown rectangular-trapezoid panel with a blunt notched lower edge, not a long cloth flag, text or magical symbol. The plate is attached to a simple harness, not floating.
+
+Face and body turn LEFT. The front hand points low toward the left, with one simple extended index finger and other fingers curled. The rear hand holds ONE short narrow steel blade close behind the right hip. Show a coherent grip, hilt and blade, separated from the body by a dark gap. Exactly two arms, two legs and one weapon. Feet are grounded and separated; no subordinate creature is included.
+
+At 106 and 127 pixels, the grey short-horn head, tall slim build, one shoulder plate, short broad back panel and low pointing hand should read as clear large shapes. Use three or four broad matte value groups: grey skin, dark brown harness, muted ochre-red cloth, and dull stone/steel. Minimal useful folds and facets; no fine embroidery, fur, pores or particle field. No glowing eyes, official faction mask, red giant skin, large flames, extra limbs, gore or scenery.

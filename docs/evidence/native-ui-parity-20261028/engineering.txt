@@ -1,0 +1,49 @@
+
+> slay-the-abyss@0.11.0 check:engineering
+> npm run check:architecture && npm run check:lua-static && npm run check:test-strength && npm run check:native-ui-contract
+
+
+> slay-the-abyss@0.11.0 check:architecture
+> node scripts/check-architecture.mjs
+
+Architecture passed: 214 modules, 1237 edges; build/architecture.json
+
+> slay-the-abyss@0.11.0 check:lua-static
+> node scripts/check-lua-static.mjs
+
+Luacheck 1.2.0: no new diagnostics; 74 explicit historical warnings. Battle render <=10; every scoped function <=15; 418 governed responsibility measurements.
+
+> slay-the-abyss@0.11.0 check:test-strength
+> node scripts/check-test-strength.mjs
+
+M1: killed_by_assertion (5665ms)
+M2: killed_by_assertion (3709ms)
+M3: killed_by_assertion (4127ms)
+M4: killed_by_assertion (7312ms)
+Mutation evidence: build\test-strength\615be98f-4359-4889-82ee-8dd7ef5d9196\report.json
+
+> slay-the-abyss@0.11.0 check:native-ui-contract
+> node --test --test-concurrency=1 tests/native-startup-contract.test.mjs tests/ui-mock-contract.test.mjs
+
+TAP version 13
+# Subtest: generated host starts under native capability guards and rejects the escaped startup write
+ok 1 - generated host starts under native capability guards and rejects the escaped startup write
+  ---
+  duration_ms: 2192.7569
+  type: 'test'
+  ...
+# Subtest: real UI mock factories share public argument contracts and preserve scene isolation
+ok 2 - real UI mock factories share public argument contracts and preserve scene isolation
+  ---
+  duration_ms: 798.2837
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3186.3938

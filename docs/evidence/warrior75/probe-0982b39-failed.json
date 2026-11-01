@@ -1,0 +1,138 @@
+{
+  "sourceCommit": "0982b39",
+  "probeBuildCommit": "71f7a0c",
+  "kind": "FAILED explicit native fixtures, aborted through visible exit after failure",
+  "candidateSha256": "3b9f3cb8158a8160114d8c6499cf2a0dc00b62e24412020722e6a4d1abb1022a",
+  "officialSave": "1073741858",
+  "sourcePreflight": "official-client-probe-0982b39-failed-before-play.json",
+  "runId": "1103a7aa-7df9-490b-a61a-60e64bafe4af",
+  "clientScriptLogRequested": true,
+  "expectations": {
+    "passed": false,
+    "met": 4,
+    "of": 9,
+    "firstNotMet": {
+      "expect": "print \"ABYSS_W75_NATIVE_CHANNELS all75\"",
+      "met": false,
+      "found": "never printed",
+      "after": [
+        "1: ABYSS_W75_NATIVE_CORE all six fixture suites passed; UI and natural acquisition separate",
+        "1: ok channel 1 - strike public acquisition / camp / next battle",
+        "1: ok channel 2 - defend public acquisition / camp / next battle",
+        "1: ok channel 3 - bash public acquisition / camp / next battle",
+        "1: ok channel 4 - anger public acquisition / camp / next battle"
+      ]
+    },
+    "results": [
+      {
+        "expect": "print \"ABYSS_UI ready\"",
+        "met": true,
+        "t": 1
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_CORE all six fixture suites passed\"",
+        "met": true,
+        "t": 1
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_CHANNELS all75\"",
+        "met": false,
+        "found": "never printed",
+        "after": [
+          "1: ABYSS_W75_NATIVE_CORE all six fixture suites passed; UI and natural acquisition separate",
+          "1: ok channel 1 - strike public acquisition / camp / next battle",
+          "1: ok channel 2 - defend public acquisition / camp / next battle",
+          "1: ok channel 3 - bash public acquisition / camp / next battle",
+          "1: ok channel 4 - anger public acquisition / camp / next battle"
+        ]
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_UI searing_blow+3\"",
+        "met": false,
+        "found": "never printed",
+        "after": [
+          "1: ABYSS_W75_NATIVE_CORE all six fixture suites passed; UI and natural acquisition separate",
+          "1: ok channel 1 - strike public acquisition / camp / next battle",
+          "1: ok channel 2 - defend public acquisition / camp / next battle",
+          "1: ok channel 3 - bash public acquisition / camp / next battle",
+          "1: ok channel 4 - anger public acquisition / camp / next battle"
+        ]
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_UI exhaust choice passed\"",
+        "met": false,
+        "found": "never printed",
+        "after": [
+          "1: ABYSS_W75_NATIVE_CORE all six fixture suites passed; UI and natural acquisition separate",
+          "1: ok channel 1 - strike public acquisition / camp / next battle",
+          "1: ok channel 2 - defend public acquisition / camp / next battle",
+          "1: ok channel 3 - bash public acquisition / camp / next battle",
+          "1: ok channel 4 - anger public acquisition / camp / next battle"
+        ]
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_UI selected copy passed\"",
+        "met": false,
+        "found": "never printed",
+        "after": [
+          "1: ABYSS_W75_NATIVE_CORE all six fixture suites passed; UI and natural acquisition separate",
+          "1: ok channel 1 - strike public acquisition / camp / next battle",
+          "1: ok channel 2 - defend public acquisition / camp / next battle",
+          "1: ok channel 3 - bash public acquisition / camp / next battle",
+          "1: ok channel 4 - anger public acquisition / camp / next battle"
+        ]
+      },
+      {
+        "expect": "no print \"ABYSS_UI failed\"",
+        "met": true
+      },
+      {
+        "expect": "no print \"ABYSS_UI boot_failed\"",
+        "met": true
+      },
+      {
+        "expect": "no fault in a client script",
+        "met": false,
+        "found": "1: Lua execution took too long. Please check for infinite loops.\nstack traceback:\n\tabyss_sts_random:102: in function 'xor16'\n\tabyss_sts_random:105: in function 'shuffle'\n\tabyss_combat:149: in function 'shuffle'\n\tabyss_combat:775: in function 'new'\n\tabyss_run: 88: in function <abyss_run:41>\n\tabyss_run: "
+      }
+    ],
+    "note": "Not everything expected was printed. The screenshots still have to be looked at for what a print cannot say."
+  },
+  "corePassed": [
+    "150 ordinary/up independent executions +6 combos",
+    "42 edge groups including corrected Anger and selected Dual Wield",
+    "shuffle",
+    "acquisition7",
+    "card text160",
+    "Courier6"
+  ],
+  "failure": "Lua execution watchdog in same OnInit callback after all six core suites and first4 acquisition channels; remaining71 channels/actual UI not run.",
+  "nextAction": "Same75 transactions split to one card per native update, without changing runtime rules or platform budget. New candidate0b4061c pending.",
+  "strictAcceptance": "pending",
+  "files": [
+    {
+      "path": "probe-0982b39-failed-status.json.gz",
+      "sha256": "ae65978d8ae5707e469e4657dba73b2d4e4296821761b3f0981a92ad54b20b69",
+      "bytes": 11577,
+      "originalSha256": "74c64a9494b045ab9c8393ac91dcf7d6e8ec3bac075b0923b4e05601c60dff45"
+    },
+    {
+      "path": "probe-0982b39-failed-log.gia.gz",
+      "sha256": "6e98ca0ab4365b2621b6456f706d3d0fa8e7283c15bda75079478e0df6dad030",
+      "bytes": 5533,
+      "originalSha256": "dec2cf9b33c5103124ddf4fcd82e91cac303de1520dca7248c61f40e27be855c"
+    },
+    {
+      "path": "screens/probe-0982b39-failed-166-probe098-focus-1.png",
+      "sha256": "3f611a82061b3bbfb360ee71621133aa555374c31e47e7aa312f4efefa95aae8",
+      "bytes": 236642,
+      "originalSha256": "3f611a82061b3bbfb360ee71621133aa555374c31e47e7aa312f4efefa95aae8"
+    },
+    {
+      "path": "screens/probe-0982b39-failed-168-probe098-exit-failed-start-1.png",
+      "sha256": "ef7be047e3e7bf01c2a08fc7d4ec2cb4faeb59c764945423d451d4aa98aa78e0",
+      "bytes": 131959,
+      "originalSha256": "ef7be047e3e7bf01c2a08fc7d4ec2cb4faeb59c764945423d451d4aa98aa78e0"
+    }
+  ]
+}

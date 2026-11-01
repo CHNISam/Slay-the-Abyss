@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "identity": "hydro-abyss-mage",
+  "source": {
+    "repoPath": "art/monster-benchmarks/genshin-v2/hydro-abyss-mage/source.png",
+    "sha256": "c292f0e6d201029fbd1ae33f147c7096864af155ada5201ec4808fa7eb4f3ffe",
+    "bytes": 829429,
+    "size": [
+      1254,
+      1254
+    ],
+    "bytesUnmodified": true,
+    "action": "add unchanged raw generated source"
+  },
+  "sourceDirectionApprovedByUser": false,
+  "sourceApprovalScope": "No user source approval established here; do not infer it from root review",
+  "nativeReview": "root-reviewed simplified test candidate (parent attestation)",
+  "nativeOwnerAcceptance": false,
+  "method": "manual semantic source-faithful white beak mask, dark eyes, long hood ears, blue fur, robe, two boots and connected water cage staff; no source sampling, raster import, fitting or new renderer",
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "native": {
+    "native-art.json": {
+      "sha256": "745b535578a71acf93c321fbbad18daf1b0cbdc2cb6023a7eee9be933d14cea9",
+      "bytes": 360022
+    },
+    "native-art.lua": {
+      "sha256": "09f5ca8ad95a7623134fb610263c7bec1d88684a440cb4ab6310d5bddc7fd41e",
+      "bytes": 109726
+    }
+  },
+  "originalEvidence": {
+    "nativeReportSha256": "e45a421030c55aa10d424a825c6637135758aa3c94aae36f163c0d587f3602d6",
+    "generationProvenanceSha256": "ffa2b76a7b6e2770d741c65ca5792efe91d77ed3b6e9d98c516fe06b44af7806"
+  },
+  "generation": {
+    "tool": "built-in image_gen according to retained provenance",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "note": "No generation or conversion performed in staging; existing raw PNG preserved."
+  },
+  "identityReferenceMetadata": {
+    "urls": [
+      "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2024/04/06/94675339/bc682cfd27e64841950f385775d4038e_6264640664627497011.png",
+      "https://cdn.shopify.com/s/files/1/0747/5317/9944/files/Genshin_Impact_Hydro_Abyss_Mage.png?v=1745307812",
+      "https://genshinfans.com/blogs/news/genshi-abyss-mage",
+      "https://upload-os-bbs.hoyolab.com/upload/2022/09/10/248396054/69311742de47427829869a993ed5862e_8948885400798504655.jpg",
+      "https://wiki.hoyolab.com/pc/genshin/entry/4571?lang=ja-jp",
+      "https://www.hoyolab.com/article/8733528"
+    ],
+    "recordedHashes": [
+      "363934a2e4014fcbb592c157a201e69c4dcff8c29de39cca870b5dbc846dd7d2",
+      "3f13de72c70d327ad64b86aaf3b7855f18b0d0a0594538c0a3ac61f028abccdb",
+      "41c61b6ea0e5d0237143f3529d2090a92ecb915aa25d356caa40aa4ea30c99ca",
+      "55676a04f7a73a74cff093323af562612c2090f9b677d9e090a2a3e5041c8db1",
+      "6b8e9f97cb9f4c4a7355d7431d550199dea08d77874bc5e6f1fadbb91f310f9d",
+      "abf254e7587f280921096b68129062867c7ffd80e122460261214aa698edee30",
+      "aea940d7ef03c915235ffd9b925d61bb75e981f37390f61731a85087d8e57af7",
+      "bcfcaf5fd6fde925d3ea90254a5bb0aa6d52c0142d2f8f9b72a24f2072c23777",
+      "c292f0e6d201029fbd1ae33f147c7096864af155ada5201ec4808fa7eb4f3ffe",
+      "dbe1d44a108481e6896d1ec45ae900c24f0aa931358a81eec9f61e07d175c582",
+      "ddb451f483996cd7c883e9b1be924d51f0acf6d9fe8388469223c341e32349ef",
+      "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64",
+      "ffa2b76a7b6e2770d741c65ca5792efe91d77ed3b6e9d98c516fe06b44af7806"
+    ],
+    "note": "Reference metadata only. No third-party reference pixels included or redistributed; hashes do not imply rights clearance."
+  },
+  "rights": "AI-assisted game-IP derivative. No game-IP sublicense, commercial clearance, or third-party-reference redistribution permission. Native Lua embeds pinned exporter/runtime material; retain existing notices and assess code license separately from art."
+}

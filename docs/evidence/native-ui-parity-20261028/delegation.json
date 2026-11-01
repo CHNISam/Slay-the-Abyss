@@ -1,0 +1,12 @@
+{
+  "model": "opencode/deepseek-v4.1-flash-free",
+  "variant": "max",
+  "elapsedSeconds": 197.73,
+  "completedTools": 19,
+  "failedTools": 1,
+  "input": 69293.0,
+  "cacheRead": 745984.0,
+  "reasoning": 14681.0,
+  "cost": 0.0,
+  "output": 1972.0
+}

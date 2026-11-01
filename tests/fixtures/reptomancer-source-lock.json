@@ -1,0 +1,201 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "repository": "https://github.com/aeubanks/sts",
+  "sourceKind": "Community decompilation mirror, not authenticated PC binary",
+  "retrieval": "Targeted Java file reads through GitHub connector; existing exact pinned Java cache reused; no archive/assets downloaded. Original Java stays outside product.",
+  "files": [
+    {
+      "path": "monsters/beyond/Reptomancer.java",
+      "gitBlobSha": "c5adfb8e36c7f9d8304be2ffb3737616eae55fe9",
+      "sha256": "900f81c9efb0925a47789b0a23f1cf113a3819f1bef1bcde36bdc79075527157",
+      "bytes": 10176,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/Reptomancer.java"
+    },
+    {
+      "path": "monsters/beyond/SnakeDagger.java",
+      "gitBlobSha": "80e0c82e9f58fe6163543b0fbbc04197ad1dec1d",
+      "sha256": "7d212ae48f55973be107aeaa46cb5b68c2b4168b9d30c6a76f11cc081d797cc6",
+      "bytes": 4931,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/SnakeDagger.java"
+    },
+    {
+      "path": "actions/common/SpawnMonsterAction.java",
+      "gitBlobSha": "fe2929d4752e0afc396fad7cffb1c866a564d5c1",
+      "sha256": "731309c39e9d0143f187cc4c2b391cca1983d915aa53e84b95e4ec6907fedb4a",
+      "bytes": 2637,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/SpawnMonsterAction.java"
+    },
+    {
+      "path": "powers/MinionPower.java",
+      "gitBlobSha": "daf5be8172105530f1ab6c4b2a02f45e128b1179",
+      "sha256": "7abc70ad83143aae09a783dd99b3d8b47300f19a0edb11a98af26256c49dd219",
+      "bytes": 1017,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/MinionPower.java"
+    },
+    {
+      "path": "actions/common/LoseHPAction.java",
+      "gitBlobSha": "1a6426c1aa36b349f5fd24aa003f9ebb6eb2ead0",
+      "sha256": "50c9ea9f1aef4a02ff9177d59517f61b03941e9770a23bc50bed8e3d60d69670",
+      "bytes": 1757,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/LoseHPAction.java"
+    },
+    {
+      "path": "actions/common/SuicideAction.java",
+      "gitBlobSha": "2d97ded6ee65a90e883197bd47927728069a5cae",
+      "sha256": "66dbf76651c6499205c340d7f9304b031b19fd69cfd596475af209b21aeabd04",
+      "bytes": 931,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/SuicideAction.java"
+    },
+    {
+      "path": "actions/common/MakeTempCardInDiscardAction.java",
+      "gitBlobSha": "f4f3cc0d88d8c4124ef070ccb9e0852c3cfc83f7",
+      "sha256": "78eeca2eeeaf22de9146148cdcb015b7bdd335f0529a6f62fdadba3dd4d28efd",
+      "bytes": 1968,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/MakeTempCardInDiscardAction.java"
+    },
+    {
+      "path": "cards/status/Wound.java",
+      "gitBlobSha": "0641fbd04384c3ce9ca28913b7f5d6db1c03e4be",
+      "sha256": "0ed169278ebdbf8364ac2411968654e15f14d3f1754598274509ab15c8e2f1ec",
+      "bytes": 1009,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/status/Wound.java"
+    },
+    {
+      "path": "actions/unique/FeedAction.java",
+      "gitBlobSha": "1e534f2e6ddf663cede28f9f2ca4287fc44cf0ee",
+      "sha256": "b6230b7994f75e0131772414d0e33513a3dc32755102b35c48ed22197b52482c",
+      "bytes": 1867,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/unique/FeedAction.java"
+    },
+    {
+      "path": "actions/common/ApplyPowerAction.java",
+      "gitBlobSha": "1a6af352c02e06ecec4db87dd5e2f57d43d35b91",
+      "sha256": "f64ce8511f961a1990f1909e2c55654fa6dbf1dc2f4f1f3d3a7156c2ec2a9d47",
+      "bytes": 10553,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/ApplyPowerAction.java"
+    },
+    {
+      "path": "random/Random.java",
+      "gitBlobSha": "c4b71d5645688f6e764c46c593223eb91a5249bc",
+      "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172",
+      "bytes": 2596,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/random/Random.java"
+    },
+    {
+      "path": "powers/CorpseExplosionPower.java",
+      "gitBlobSha": "8fbcc81fc86fe52a695c177748edb503674d1451",
+      "sha256": "7da1db8b92cbe48cdda233f0cd3575fde953c0540e9d62e22e8ad2b0e31ab4dd",
+      "bytes": 1779,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/CorpseExplosionPower.java"
+    },
+    {
+      "path": "helpers/MonsterHelper.java",
+      "gitBlobSha": "a81763abf681642be66cbd935cc99d2126e822f4",
+      "sha256": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1",
+      "bytes": 42809,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java"
+    },
+    {
+      "path": "monsters/AbstractMonster.java",
+      "gitBlobSha": "4784e38e7afff5980736e2b5c718e62a0c838c47",
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f",
+      "bytes": 47762,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/AbstractMonster.java"
+    },
+    {
+      "path": "monsters/MonsterGroup.java",
+      "gitBlobSha": "7096970a151840489a3fba89806e6391e0d82d76",
+      "sha256": "535770201b8aa8de01b52b185979af537f11ad0862e7d3e71ebb20cc64234221",
+      "bytes": 10226,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/MonsterGroup.java"
+    },
+    {
+      "path": "core/AbstractCreature.java",
+      "gitBlobSha": "bee5f7d0d955528b69007376cc0465ed60e577c6",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b",
+      "bytes": 42311,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java"
+    },
+    {
+      "path": "actions/GameActionManager.java",
+      "gitBlobSha": "1662da8de2aeb42044b385f03d0c801750904b13",
+      "sha256": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3",
+      "bytes": 22667,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/GameActionManager.java"
+    },
+    {
+      "path": "actions/common/DamageAction.java",
+      "gitBlobSha": "ea89aeab60af8a7c297495de3cd8eb82d7130232",
+      "sha256": "c5649fc04cbcadffa617e5c52f1a6f879f88cb1a90a543d5a0a05ebf950578ec",
+      "bytes": 4424,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/DamageAction.java"
+    },
+    {
+      "path": "actions/AbstractGameAction.java",
+      "gitBlobSha": "91144a8bcab7d0bdac1ce96a71e5edd52aacff06",
+      "sha256": "cf0e5dbdfdf3f0c567c3527b839070718e19d836bb62364e8fa5f973b5ecdccb",
+      "bytes": 2989,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/AbstractGameAction.java"
+    }
+  ],
+  "contracts": {
+    "ascension": 0,
+    "daggersPerSummon": 1,
+    "maxLivingDaggers": 4,
+    "opening": [
+      "snake_dagger(-220,115)",
+      "reptomancer(-20,10)",
+      "snake_dagger(210,75)"
+    ],
+    "openingHpDraws": 4,
+    "openingAiDraws": 3,
+    "summonSlotOrder": [
+      [
+        210,
+        75
+      ],
+      [
+        -220,
+        115
+      ],
+      [
+        180,
+        345
+      ],
+      [
+        -250,
+        335
+      ]
+    ],
+    "retainCorpses": true,
+    "differentialAiRanges": [
+      "0..99 primary",
+      "33..99 after repeated SnakeStrike",
+      "0..65 after repeated BigBite"
+    ],
+    "daggerDeath": "Explode queues ordinary25 attack then captured-currentHP self HP_LOSS, not Suicide; next RollMove remains while allies live.",
+    "leaderDeath": "TOP Suicide(true) for each other not-dying actor, reverse group order; gold0; death powers/relic callbacks are not suppressed by Minion.",
+    "presentation": "Existing Chinese names/theme/icons and 5 live-slot mapping; source HideHealthBar animation is not replicated as a new rules action."
+  },
+  "independentModel": {
+    "description": "Python integer STS Random model; three seeds, twelve full rounds, retained corpse formation and exact monsterHp/AI states, separate from product Lua/data.",
+    "files": {
+      "tools/oracles/sts1_reptomancer.py": "7664884cda6969133fed81416432eedf45eb6fa1af3f740bb2a64f3b7f0462a7",
+      "tools/oracles/sts1_combat_gold.py": "7c0c70dd7dbed02bc0107e5ec0efcdb7892bf14cdb61a5ddc3a127eaeb50c0a8",
+      "tools/oracles/sts1_shapes.py": "adaf5007c66489b7f540caf028e5a1385657c3fcc35fa3ec1121b31d9d012519",
+      "tests/fixtures/reptomancer-vectors.lua": "833bd92ce835915829310fefd468b8ada1fe6c37a1f8a42d1dddbde71065b1cd"
+    }
+  },
+  "dependencies": [
+    {
+      "commit": "be261338be099dbc5fa8f162ca9a23b316ffc3b5",
+      "scope": "Generic Run.play full lethal/reward transaction rollback; regression reptomancer_run_reward_rollback intentionally fails assigned ff08 base until this already-reviewed fix is applied. No duplicate Run.play product change in this leaf."
+    }
+  ],
+  "limits": [
+    "No original-PC binary execution/authentication.",
+    "Explicit chapter/queue/lethal-HP/long-HP fixtures are not natural campaign routes.",
+    "No native candidate, official import, desktop input, full four-act/M3 or live UI acceptance claimed.",
+    "Existing supported death/relic actions reused; no new broad relic framework or source pools/probabilities."
+  ]
+}

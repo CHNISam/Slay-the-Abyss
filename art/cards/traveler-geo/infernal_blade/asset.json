@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "card_id": "infernal_blade",
+  "displayName": "临阵试招",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "infernal_blade/generation-provenance.json",
+      "sha256": "6bb0a525455f03e532cc3864dd1d1e7f99dde1eed60eb24e2764581d41ed4a86",
+      "bytes": 2102
+    },
+    "preview-contain-144x64.png": {
+      "path": "infernal_blade/preview-contain-144x64.png",
+      "sha256": "7faba9e503bffe507d35631e990f606e03d15709b41fd22f5458150fbe0746e5",
+      "bytes": 18936
+    },
+    "prompt.txt": {
+      "path": "infernal_blade/prompt.txt",
+      "sha256": "a062bb4966b802379b110850692d7ac0897f0f4bb17892a5c7ce531bfc9f6bce",
+      "bytes": 3353
+    },
+    "source.png": {
+      "path": "infernal_blade/source.png",
+      "sha256": "67887ae642dbe6b6198b50de61561b302c7c2fe5bd8481639fe31bf180dac12b",
+      "bytes": 1916059
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "infernal_blade",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "generateAttack",
+        "value": 0
+      }
+    ],
+    "target": "NONE"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-10",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

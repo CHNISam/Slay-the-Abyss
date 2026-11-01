@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "card_id": "offering",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T19:08:04.036Z",
+    "completedObservedAt": "2026-10-29T19:09:07Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "10108e7937964715bb5796f81981a744350622683a350ea5fa7d7c30c6a198bc",
+      "bytes": 2048669
+    },
+    "prompt.txt": {
+      "sha256": "cb07e0823fd52f11e903c269a689d5234904ec9c8354dbb102a9ea7d8aeaa83a",
+      "bytes": 2597
+    },
+    "preview-source-144x64.png": {
+      "sha256": "65c8285c77dddef7b207b9d542b3fb23fcd8663003e6a17617e84b24ef755de0",
+      "bytes": 20827
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions preserved despite requested size"
+  },
+  "intent": {
+    "name": "奋力一搏",
+    "mechanics": "loseHP6 gainenergy2 draw3 upgraded5 then exhaust",
+    "mainAction": "deliberate costly upright effort releases reserve with open hands and forceful breath, no injury depiction",
+    "identityCarriers": [
+      "blonde bob and white flower",
+      "connected white-blue original costume and gold-dark waist"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and144x64: recognizable Lumine flower face intact original costume, upright tensed shoulders open eyes and two connected open palms, small sweat. Warm accents near hands brighter/angular than requested but not orb ritual or blood. No bowed chest glow, enemy or heal. Independent review pending.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

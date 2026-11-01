@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {loadContent,validateContent} from '../scripts/validate-data.mjs';
+const enemy=d=>d.enemies.enemies.find(e=>e.id==='acid_slime_m');
+const policy={kind:'acid_slime_m',spitIntent:'acid_slime_m_1',weakIntent:'acid_slime_m_2',tackleIntent:'acid_slime_m_3',rollRange:100,spitCutoff:30,tackleCutoff:70,spitChance:0.4000000059604645};
+const payloads=[[{op:'damage',value:7},{op:'makeTempCardInDiscard',card:'slimed',value:1}],[{op:'applyStatus',status:'weak',value:1}],[{op:'damage',value:10}]];
+const setup=()=>{const d=loadContent('data'),e=enemy(d);e.ai={...policy};e.hpRange={min:28,max:32};e.intents=payloads.map((effects,i)=>({id:'acid_slime_m_'+(i+1),kind:i===1?'debuff':'attack',effects:structuredClone(effects)}));return d;};
+test('playable Acid M carries all three A0 actions, sampled HP and exact Java float fallback',()=>{const d=loadContent('data'),e=enemy(d);assert.deepEqual(e.ai,policy);assert.deepEqual(e.hpRange,{min:28,max:32});assert.deepEqual(e.intents.map(i=>i.effects),payloads);assert.deepEqual(validateContent(d),[]);});
+test('bounded three-move Acid M policy is accepted',()=>assert.deepEqual(validateContent(setup()),[]));
+for(const [field,value] of [['spitIntent',undefined],['weakIntent',undefined],['tackleIntent',undefined],['spitIntent','acid_slime_m_2'],['weakIntent','acid_slime_m_1'],['tackleIntent','acid_slime_m_1'],['rollRange',0],['rollRange',65537],['rollRange',1.5],['spitCutoff',-1],['spitCutoff',70],['tackleCutoff',100],['tackleCutoff',1.5],['spitChance',undefined],['spitChance',-0.1],['spitChance',1.1],['spitChance','0.4'],['guess',1]])test('Acid policy rejects '+field+' '+value,()=>{const d=setup();enemy(d).ai[field]=value;if(value===undefined)delete enemy(d).ai[field];assert.ok(validateContent(d).some(e=>e.includes(field)));});
+for(const [label,change] of [['missing slime',a=>a.pop()],['reversed order',a=>a.reverse()],['wrong card',a=>a[1].card='dazed'],['extra slime',a=>a.push({...a[1]})]])test('corrosive attack rejects '+label,()=>{const d=setup();change(enemy(d).intents[0].effects);assert.ok(validateContent(d).some(e=>e.includes('spitIntent')));});

@@ -1,0 +1,51 @@
+[
+  {
+    "file": "GoldenWing.java",
+    "repo": "purewhitelove/ButterflyGame",
+    "ref": "fc379c875c11e008e9c10548ac8e394c301c532f",
+    "sha": "4bebe490cacf288ad25bd4042f48575cfb3b9bd2",
+    "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/events/exordium/GoldenWing.java"
+  },
+  {
+    "file": "CardHelper.java",
+    "repo": "purewhitelove/ButterflyGame",
+    "ref": "fc379c875c11e008e9c10548ac8e394c301c532f",
+    "sha": "f1528bfd5c1bf1fc1d5dc04a8718764dc59d449f",
+    "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/helpers/CardHelper.java"
+  },
+  {
+    "file": "Strike_Red.java",
+    "repo": "purewhitelove/ButterflyGame",
+    "ref": "fc379c875c11e008e9c10548ac8e394c301c532f",
+    "sha": "777580ce425672028a92fa76d0bbf2f175f08910",
+    "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Strike_Red.java"
+  },
+  {
+    "file": "Bash.java",
+    "repo": "purewhitelove/ButterflyGame",
+    "ref": "fc379c875c11e008e9c10548ac8e394c301c532f",
+    "sha": "ee10c05647bba5bc40a989f7a6c2d74206f1aad2",
+    "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Bash.java"
+  },
+  {
+    "file": "Cleave.java",
+    "repo": "purewhitelove/ButterflyGame",
+    "ref": "fc379c875c11e008e9c10548ac8e394c301c532f",
+    "sha": "65daa36c1dd3a1a550654dfefed67fdee5f87089",
+    "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Cleave.java"
+  },
+  {
+    "file": "TwinStrike.java",
+    "repo": "purewhitelove/ButterflyGame",
+    "ref": "fc379c875c11e008e9c10548ac8e394c301c532f",
+    "sha": "237ba8128a7cadce7b5a6a2291196c6dac0812ac",
+    "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/TwinStrike.java"
+  },
+  {
+    "file": "BodySlam.java",
+    "repo": "purewhitelove/ButterflyGame",
+    "ref": "fc379c875c11e008e9c10548ac8e394c301c532f",
+    "sha": "fa5197b8c1245af64a9560fe052e0b03fc6e5eb3",
+    "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/BodySlam.java"
+  }
+]

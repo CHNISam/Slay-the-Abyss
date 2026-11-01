@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "card_id": "shrug_it_off",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T17:22:16.908Z",
+    "endUtc": "2026-10-29T17:23:11.587Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Patient alert midshot left looking into empty right space. Tucked bent forearms and one guarded upright sword support self-protective waiting posture. Connected flower/blonde/whiteblue/blackgold identity readable at tiny size. No opponent, counterdamage, healing, physical cards/UI or extra action. Fine hair/costume details remain despite simplification request; native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/shrug_it_off/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "6dce70baa5a5c9402ec313be16df2cdbdd4a7ed33780fd251a3236d2541870f1",
+    "bytes": 1831450,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/shrug_it_off/prompt.txt",
+    "sha256": "b30129b280c393a71e77b4d8499863e724e15ec28432ecdc0a175c162029e730"
+  }
+}

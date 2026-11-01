@@ -1,0 +1,13 @@
+{
+  "status": "PARTIALLY_USER_AUDITIONED",
+  "catalogSource": "https://github.com/8itlab/genshin-miliastra-mcp/blob/main/src/scene/media/music.json",
+  "catalogObservedAt": "2026-10-11",
+  "cues": {
+    "map": { "id": 10040, "title": "谨慎的探索", "seconds": 57, "volume": 45, "loop": true },
+    "battle": { "id": 10044, "title": "战斗的秘仪", "seconds": 261, "volume": 45, "loop": true, "audition": "USER_ACCEPTED_2026_10_23" },
+    "elite": { "id": 10071, "title": "难逃之阵", "seconds": 256, "volume": 45, "loop": true },
+    "boss": { "id": 10140, "title": "无尽的挑战", "seconds": 323, "volume": 45, "loop": true },
+    "victory": { "id": 10152, "title": "欢笑的凯旋", "seconds": 111, "volume": 40, "loop": false },
+    "defeat": { "id": 10179, "title": "愁绪谧息", "seconds": 129, "volume": 40, "loop": false }
+  }
+}

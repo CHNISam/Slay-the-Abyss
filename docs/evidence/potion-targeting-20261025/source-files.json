@@ -1,0 +1,46 @@
+[
+  {
+    "path": "data/potions.json",
+    "sha256": "477a1e18aa9d2a8666303b72c34a7850f118091f47fdce04bcc7b93ce7b05922"
+  },
+  {
+    "path": "data/presentation/traveler.zh-CN.json",
+    "sha256": "8324a108aa86fee641fe4d4efba05fc05a9b906fc058c8a32e8d924a32b3d0b5"
+  },
+  {
+    "path": "data/presentation/ui_theme.json",
+    "sha256": "99101f5d266dcfbd0e320ab80980493c9be35e43b89385b99760aa22be10642d"
+  },
+  {
+    "path": "data/statuses.json",
+    "sha256": "ccfd626612aacedcee794dcd114f696eb33b04760502b474899502a2061a2c82"
+  },
+  {
+    "path": "scripts/battle-ui-preview.lua",
+    "sha256": "c5a600bd9363c2b104dafa94635470f2955c206bf9caf61f5274964d922fe48a"
+  },
+  {
+    "path": "scripts/ui-layout.mjs",
+    "sha256": "048fae46e8656ee9bd33504471de66af8c110bdf7158481d82eb7ec9746d6540"
+  },
+  {
+    "path": "scripts/validate-data.mjs",
+    "sha256": "7f36f8a533e678007ad34fc98eca2ee40c6054dc1a8161e3b67a60005107c688"
+  },
+  {
+    "path": "src/lua/abyss_battle_ui.lua",
+    "sha256": "110a9977706a87a56b31aca2785f395d58ff7ebb833cb84eccdc151e9888fd93"
+  },
+  {
+    "path": "src/lua/abyss_feedback.lua",
+    "sha256": "a9c1c385bbc7a4ff8663892a4d3b885a6e3916ec472532db58c8ef07f61f2280"
+  },
+  {
+    "path": "src/lua/abyss_node_ui.lua",
+    "sha256": "01e1a8ddffa069f89e7c044a699fde131c62e54d28b00bbd1851354a7649f3ac"
+  },
+  {
+    "path": "src/lua/abyss_run.lua",
+    "sha256": "c5f5246e5bcaa13d1176459a5a256c62a53f26f213f122fba23a9d031e21b7bc"
+  }
+]

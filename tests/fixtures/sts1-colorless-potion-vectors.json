@@ -1,0 +1,476 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sourceFilesSha256": {
+    "potions/AbstractPotion.java": "10b76a57d36ae4714928fe4c21ce8f352e8c0739eaa675bed5f199480886d888",
+    "potions/ColorlessPotion.java": "014768bbe8eb8f20ff6653d18bdcf00b0aa2991eaabbf9c739500d5a7d798feb",
+    "actions/unique/DiscoveryAction.java": "6d6832207fab2c93f725c990c8a12cb035cfb2b66f3e59f569bcee727d762478",
+    "dungeons/AbstractDungeon.java": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26"
+  },
+  "generatorSha256": "53447198004db8fc190af6919024295a0a7bb19baa8fe059f38a91304829704a",
+  "inputSha256": {
+    "pools.json": "bfbafb23bca2949e6db9de1d611785b0a20d0281990749ba32993f9bc0d537d7",
+    "registration.json": "f2a387be3b963ba9fac36a0305ef5add76862666f6055a1d8e058d8f33a53308"
+  },
+  "seed": "23",
+  "pool": [
+    "Madness",
+    "Thinking Ahead",
+    "Mind Blast",
+    "Metamorphosis",
+    "Jack Of All Trades",
+    "Swift Strike",
+    "Good Instincts",
+    "Master of Strategy",
+    "Magnetism",
+    "Finesse",
+    "Discovery",
+    "Chrysalis",
+    "Transmutation",
+    "Panacea",
+    "Purity",
+    "Enlightenment",
+    "Forethought",
+    "Flash of Steel",
+    "HandOfGreed",
+    "Mayhem",
+    "Apotheosis",
+    "Secret Weapon",
+    "Panache",
+    "Violence",
+    "Deep Breath",
+    "Secret Technique",
+    "Blind",
+    "The Bomb",
+    "Impatience",
+    "Dramatic Entrance",
+    "Trip",
+    "PanicButton",
+    "Sadistic Nature",
+    "Dark Shackles"
+  ],
+  "excludedHealing": [
+    "Bandage Up"
+  ],
+  "initial": {
+    "words": [
+      "c77e76236bac4799",
+      "37865107100ff2c0"
+    ],
+    "counter": 0
+  },
+  "uses": [
+    {
+      "open": {
+        "cards": [
+          "Flash of Steel",
+          "Apotheosis",
+          "Enlightenment"
+        ],
+        "attempts": [
+          {
+            "index": 17,
+            "sourceId": "Flash of Steel",
+            "accepted": true
+          },
+          {
+            "index": 20,
+            "sourceId": "Apotheosis",
+            "accepted": true
+          },
+          {
+            "index": 15,
+            "sourceId": "Enlightenment",
+            "accepted": true
+          }
+        ],
+        "after": {
+          "words": [
+            "554396ae8ea1f62d",
+            "83cd3c40bdadfb1e"
+          ],
+          "counter": 3
+        }
+      },
+      "selection": 2,
+      "selectedSourceId": "Apotheosis",
+      "selectedBaseCost": 2,
+      "retrieval": {
+        "cards": [
+          "Swift Strike",
+          "Deep Breath",
+          "The Bomb"
+        ],
+        "attempts": [
+          {
+            "index": 5,
+            "sourceId": "Swift Strike",
+            "accepted": true
+          },
+          {
+            "index": 24,
+            "sourceId": "Deep Breath",
+            "accepted": true
+          },
+          {
+            "index": 27,
+            "sourceId": "The Bomb",
+            "accepted": true
+          }
+        ],
+        "after": {
+          "words": [
+            "225a406300647ea9",
+            "384942bd22f22e91"
+          ],
+          "counter": 6
+        }
+      }
+    },
+    {
+      "open": {
+        "cards": [
+          "Dark Shackles",
+          "Apotheosis",
+          "Mind Blast"
+        ],
+        "attempts": [
+          {
+            "index": 33,
+            "sourceId": "Dark Shackles",
+            "accepted": true
+          },
+          {
+            "index": 33,
+            "sourceId": "Dark Shackles",
+            "accepted": false
+          },
+          {
+            "index": 20,
+            "sourceId": "Apotheosis",
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "sourceId": "Mind Blast",
+            "accepted": true
+          }
+        ],
+        "after": {
+          "words": [
+            "e7f6e9eb861146b8",
+            "4dda8dcdb3ae5a24"
+          ],
+          "counter": 10
+        }
+      },
+      "selection": 2,
+      "selectedSourceId": "Apotheosis",
+      "selectedBaseCost": 2,
+      "retrieval": {
+        "cards": [
+          "Impatience",
+          "Secret Weapon",
+          "Purity"
+        ],
+        "attempts": [
+          {
+            "index": 28,
+            "sourceId": "Impatience",
+            "accepted": true
+          },
+          {
+            "index": 28,
+            "sourceId": "Impatience",
+            "accepted": false
+          },
+          {
+            "index": 21,
+            "sourceId": "Secret Weapon",
+            "accepted": true
+          },
+          {
+            "index": 14,
+            "sourceId": "Purity",
+            "accepted": true
+          }
+        ],
+        "after": {
+          "words": [
+            "6d749f86ecdb1e92",
+            "e494ee222be45446"
+          ],
+          "counter": 14
+        }
+      }
+    }
+  ],
+  "trace": [
+    {
+      "phase": "open1",
+      "maximum": 33,
+      "value": 17,
+      "before": {
+        "words": [
+          "c77e76236bac4799",
+          "37865107100ff2c0"
+        ],
+        "counter": 0
+      },
+      "after": {
+        "words": [
+          "37865107100ff2c0",
+          "e14d9a6f86b7a70b"
+        ],
+        "counter": 1
+      }
+    },
+    {
+      "phase": "open1",
+      "maximum": 33,
+      "value": 20,
+      "before": {
+        "words": [
+          "37865107100ff2c0",
+          "e14d9a6f86b7a70b"
+        ],
+        "counter": 1
+      },
+      "after": {
+        "words": [
+          "e14d9a6f86b7a70b",
+          "554396ae8ea1f62d"
+        ],
+        "counter": 2
+      }
+    },
+    {
+      "phase": "open1",
+      "maximum": 33,
+      "value": 15,
+      "before": {
+        "words": [
+          "e14d9a6f86b7a70b",
+          "554396ae8ea1f62d"
+        ],
+        "counter": 2
+      },
+      "after": {
+        "words": [
+          "554396ae8ea1f62d",
+          "83cd3c40bdadfb1e"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "phase": "retrieval1",
+      "maximum": 33,
+      "value": 5,
+      "before": {
+        "words": [
+          "554396ae8ea1f62d",
+          "83cd3c40bdadfb1e"
+        ],
+        "counter": 3
+      },
+      "after": {
+        "words": [
+          "83cd3c40bdadfb1e",
+          "81c9fb37b5e9d10c"
+        ],
+        "counter": 4
+      }
+    },
+    {
+      "phase": "retrieval1",
+      "maximum": 33,
+      "value": 24,
+      "before": {
+        "words": [
+          "83cd3c40bdadfb1e",
+          "81c9fb37b5e9d10c"
+        ],
+        "counter": 4
+      },
+      "after": {
+        "words": [
+          "81c9fb37b5e9d10c",
+          "225a406300647ea9"
+        ],
+        "counter": 5
+      }
+    },
+    {
+      "phase": "retrieval1",
+      "maximum": 33,
+      "value": 27,
+      "before": {
+        "words": [
+          "81c9fb37b5e9d10c",
+          "225a406300647ea9"
+        ],
+        "counter": 5
+      },
+      "after": {
+        "words": [
+          "225a406300647ea9",
+          "384942bd22f22e91"
+        ],
+        "counter": 6
+      }
+    },
+    {
+      "phase": "open2",
+      "maximum": 33,
+      "value": 33,
+      "before": {
+        "words": [
+          "225a406300647ea9",
+          "384942bd22f22e91"
+        ],
+        "counter": 6
+      },
+      "after": {
+        "words": [
+          "384942bd22f22e91",
+          "2b9339025d68d502"
+        ],
+        "counter": 7
+      }
+    },
+    {
+      "phase": "open2",
+      "maximum": 33,
+      "value": 33,
+      "before": {
+        "words": [
+          "384942bd22f22e91",
+          "2b9339025d68d502"
+        ],
+        "counter": 7
+      },
+      "after": {
+        "words": [
+          "2b9339025d68d502",
+          "4d4b31cece018e3d"
+        ],
+        "counter": 8
+      }
+    },
+    {
+      "phase": "open2",
+      "maximum": 33,
+      "value": 20,
+      "before": {
+        "words": [
+          "2b9339025d68d502",
+          "4d4b31cece018e3d"
+        ],
+        "counter": 8
+      },
+      "after": {
+        "words": [
+          "4d4b31cece018e3d",
+          "e7f6e9eb861146b8"
+        ],
+        "counter": 9
+      }
+    },
+    {
+      "phase": "open2",
+      "maximum": 33,
+      "value": 2,
+      "before": {
+        "words": [
+          "4d4b31cece018e3d",
+          "e7f6e9eb861146b8"
+        ],
+        "counter": 9
+      },
+      "after": {
+        "words": [
+          "e7f6e9eb861146b8",
+          "4dda8dcdb3ae5a24"
+        ],
+        "counter": 10
+      }
+    },
+    {
+      "phase": "retrieval2",
+      "maximum": 33,
+      "value": 28,
+      "before": {
+        "words": [
+          "e7f6e9eb861146b8",
+          "4dda8dcdb3ae5a24"
+        ],
+        "counter": 10
+      },
+      "after": {
+        "words": [
+          "4dda8dcdb3ae5a24",
+          "5fef658cefb802f8"
+        ],
+        "counter": 11
+      }
+    },
+    {
+      "phase": "retrieval2",
+      "maximum": 33,
+      "value": 28,
+      "before": {
+        "words": [
+          "4dda8dcdb3ae5a24",
+          "5fef658cefb802f8"
+        ],
+        "counter": 11
+      },
+      "after": {
+        "words": [
+          "5fef658cefb802f8",
+          "f4ec6afa18bf6b30"
+        ],
+        "counter": 12
+      }
+    },
+    {
+      "phase": "retrieval2",
+      "maximum": 33,
+      "value": 21,
+      "before": {
+        "words": [
+          "5fef658cefb802f8",
+          "f4ec6afa18bf6b30"
+        ],
+        "counter": 12
+      },
+      "after": {
+        "words": [
+          "f4ec6afa18bf6b30",
+          "6d749f86ecdb1e92"
+        ],
+        "counter": 13
+      }
+    },
+    {
+      "phase": "retrieval2",
+      "maximum": 33,
+      "value": 14,
+      "before": {
+        "words": [
+          "f4ec6afa18bf6b30",
+          "6d749f86ecdb1e92"
+        ],
+        "counter": 13
+      },
+      "after": {
+        "words": [
+          "6d749f86ecdb1e92",
+          "e494ee222be45446"
+        ],
+        "counter": 14
+      }
+    }
+  ],
+  "boundary": "Controlled public-use fixture. Not natural acquisition, complete PC frame replay, or official device acceptance."
+}

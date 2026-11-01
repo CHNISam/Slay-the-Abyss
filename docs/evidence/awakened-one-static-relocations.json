@@ -1,0 +1,155 @@
+[
+  {
+    "before": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 166,
+      "column": 18,
+      "code": "W431",
+      "message": "shadowing upvalue 'self' on line 120"
+    },
+    "after": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 167,
+      "column": 18,
+      "code": "W431",
+      "message": "shadowing upvalue 'self' on line 121"
+    },
+    "unchangedSourceLine": "    function self:reset()"
+  },
+  {
+    "before": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 188,
+      "column": 18,
+      "code": "W431",
+      "message": "shadowing upvalue 'self' on line 120"
+    },
+    "after": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 189,
+      "column": 18,
+      "code": "W431",
+      "message": "shadowing upvalue 'self' on line 121"
+    },
+    "unchangedSourceLine": "    function self:cancel()"
+  },
+  {
+    "before": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 331,
+      "column": 18,
+      "code": "W431",
+      "message": "shadowing upvalue 'self' on line 120"
+    },
+    "after": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 332,
+      "column": 18,
+      "code": "W431",
+      "message": "shadowing upvalue 'self' on line 121"
+    },
+    "unchangedSourceLine": "    function self:start(before, battle, first, presentation, origin)"
+  },
+  {
+    "before": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 402,
+      "column": 15,
+      "code": "W211",
+      "message": "unused variable 'a'"
+    },
+    "after": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 403,
+      "column": 15,
+      "code": "W211",
+      "message": "unused variable 'a'"
+    },
+    "unchangedSourceLine": "        local a, box = actor(id)"
+  },
+  {
+    "before": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 449,
+      "column": 23,
+      "code": "W311",
+      "message": "value assigned to variable 'ix' is unused"
+    },
+    "after": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 450,
+      "column": 23,
+      "code": "W311",
+      "message": "value assigned to variable 'ix' is unused"
+    },
+    "unchangedSourceLine": "                local ix, iy, iy0 = 1, 1, 0"
+  },
+  {
+    "before": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 449,
+      "column": 27,
+      "code": "W311",
+      "message": "value assigned to variable 'iy' is unused"
+    },
+    "after": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 450,
+      "column": 27,
+      "code": "W311",
+      "message": "value assigned to variable 'iy' is unused"
+    },
+    "unchangedSourceLine": "                local ix, iy, iy0 = 1, 1, 0"
+  },
+  {
+    "before": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 468,
+      "column": 38,
+      "code": "W311",
+      "message": "value assigned to variable 'fade' is unused"
+    },
+    "after": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 469,
+      "column": 38,
+      "code": "W311",
+      "message": "value assigned to variable 'fade' is unused"
+    },
+    "unchangedSourceLine": "                local scale, wobble, fade = 1, 0, 1"
+  },
+  {
+    "before": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 522,
+      "column": 18,
+      "code": "W431",
+      "message": "shadowing upvalue 'self' on line 120"
+    },
+    "after": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 523,
+      "column": 18,
+      "code": "W431",
+      "message": "shadowing upvalue 'self' on line 121"
+    },
+    "unchangedSourceLine": "    function self:update(dt)"
+  },
+  {
+    "before": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 590,
+      "column": 18,
+      "code": "W431",
+      "message": "shadowing upvalue 'self' on line 120"
+    },
+    "after": {
+      "file": "src/lua/abyss_feedback.lua",
+      "line": 591,
+      "column": 18,
+      "code": "W431",
+      "message": "shadowing upvalue 'self' on line 121"
+    },
+    "unchangedSourceLine": "    function self:begin(...)"
+  }
+]

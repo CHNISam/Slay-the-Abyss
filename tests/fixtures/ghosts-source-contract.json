@@ -1,0 +1,68 @@
+{
+  "sourceRepository": "aeubanks/sts",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sourceTree": "7b344415731748708a75d75c917f75c883f49fd0",
+  "sources": [
+    {
+      "path": "events/city/Ghosts.java",
+      "gitBlobSha": "b5ec62ff7a5fa6b72223ee7036b2df606cbcb186",
+      "sha256": "c5a6ede0dd9fdd5f172d997dd9ac242aaab595a14b70308e9cd7ddc298d379a6",
+      "size": 3828,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/city/Ghosts.java"
+    },
+    {
+      "path": "cards/colorless/Apparition.java",
+      "gitBlobSha": "9f01ad7014d6c702b0d1245cefc73c2c67bb8cd6",
+      "sha256": "fbdac1a6f1a966c73ca62b66def0bd4e7b0d9f1348f501595c6f5929719d970b",
+      "size": 1554,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/colorless/Apparition.java"
+    },
+    {
+      "path": "core/AbstractCreature.java",
+      "gitBlobSha": "bee5f7d0d955528b69007376cc0465ed60e577c6",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b",
+      "size": 42311,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java"
+    },
+    {
+      "path": "vfx/cardManip/ShowCardAndObtainEffect.java",
+      "gitBlobSha": "1905199265294006a78eaeeb56e4ec75048236ff",
+      "sha256": "1daffc2b13c79a1ddb10fcce995cf18980e917a576dba6db3751dccffa892e52",
+      "size": 4473,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/cardManip/ShowCardAndObtainEffect.java"
+    },
+    {
+      "path": "events/AbstractImageEvent.java",
+      "gitBlobSha": "ee5ebef8ad8dc3316e5fc89b7631bab8d9dd49e7",
+      "sha256": "438f8c014c563c51f2f14d8f98839e71a7c4a45db314d9b36be8c76ba0b2d92f",
+      "size": 3542,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/AbstractImageEvent.java"
+    },
+    {
+      "path": "relics/ToxicEgg2.java",
+      "gitBlobSha": "6cc52d5ec2412e78850a8b3ac62ff11fc27721b3",
+      "sha256": "1149dee0de59c4bd756bf453daf62ecd4dba8e593193d08c941c6ac42445155d",
+      "size": 1471,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/ToxicEgg2.java"
+    }
+  ],
+  "behavior": {
+    "count": 5,
+    "cardSourceId": "Ghostly",
+    "cardId": "apparition",
+    "cost": "Cache ceil(float32(float32(entryMaxHp)*0.5f)), capped at entryMaxHp-1; subtract cached loss from current maxHp, min1, clamp currentHp only.",
+    "order": [
+      "decreaseCurrentMaxHpByCachedLoss",
+      "fiveFreshPermanentObtains",
+      "result",
+      "separateLeave"
+    ],
+    "cache80_thenFruitJuice5": {
+      "cachedLoss": 40,
+      "currentMaxHp": 85,
+      "resultMaxHp": 45
+    },
+    "seededActionRngDraws": 0
+  },
+  "boundaries": "Pinned community-decompiled mirror, not authenticated PC binary execution. A0 only. Toxic Egg upgrades, when that capability is available, belong to the existing Run acquisition hooks; no manual reward upgrade emulation. Existing Run obtain hooks own acquisition; no claim of complete generic onMasterDeckChange relic support. Native acceptance NOT_RUN; natural four-character campaign and platform acceptance NOT_RUN."
+}

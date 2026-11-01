@@ -1,0 +1,2068 @@
+{
+  "runtimeSource": "0982b39451af00f2a19d27dbc503a0b6e4695ac5",
+  "driverSource": "c6d39d3",
+  "candidateSha256": "df230f8675ccadb8bbd619f878ebe59fb02a3e00ef2f7b8ee953fdd575e95ee1",
+  "kind": "normal-rule public-command autoplay, initial explicit seed42, no HP/gold/deck/navigation fixture",
+  "officialSave": "1073741860",
+  "sourcePreflight": "official-client-autoplay-c6-before-play.json:62/62 before play",
+  "runId": "b4e96525-f8c5-4550-a911-27cfda50f547",
+  "clientScriptLogRequested": true,
+  "printCount": 1503,
+  "truncated": false,
+  "expectations": {
+    "passed": false,
+    "met": 7,
+    "of": 8,
+    "firstNotMet": {
+      "expect": "print \"ABYSS_UI settlement_requested victory\"",
+      "met": false,
+      "found": "never printed",
+      "after": [
+        "2: ABYSS_RUN seed=42 source=explicit",
+        "2: ABYSS_AUDIO prologue_rumble id=40224 instance=1108",
+        "2: M2_ACTION {\"action\":\"start\",\"configuredSeed\":42,\"details\":{\"testConfigurationSeed\":42},\"index\":1,\"mode\":\"menu\",\"ok\":true",
+        "2: M2_LEDGER_DECK {\"configuredSeed\":42,\"event\":\"after_start\",\"first\":1,\"items\":[{\"cardId\":\"strike\",\"uid\":1,\"upgraded\":false",
+        "2: M2_LEDGER_DECK {\"configuredSeed\":42,\"event\":\"after_start\",\"first\":6,\"items\":[{\"cardId\":\"defend\",\"uid\":6,\"upgraded\":false"
+      ]
+    },
+    "results": [
+      {
+        "expect": "print \"ABYSS_UI ready\"",
+        "met": true,
+        "t": 2
+      },
+      {
+        "expect": "print \"M2_DRIVER_READY\"",
+        "met": true,
+        "t": 2
+      },
+      {
+        "expect": "print \"ABYSS_RUN seed=42\"",
+        "met": true,
+        "t": 2
+      },
+      {
+        "expect": "print \"ABYSS_UI settlement_requested victory\"",
+        "met": false,
+        "found": "never printed",
+        "after": [
+          "2: ABYSS_RUN seed=42 source=explicit",
+          "2: ABYSS_AUDIO prologue_rumble id=40224 instance=1108",
+          "2: M2_ACTION {\"action\":\"start\",\"configuredSeed\":42,\"details\":{\"testConfigurationSeed\":42},\"index\":1,\"mode\":\"menu\",\"ok\":true",
+          "2: M2_LEDGER_DECK {\"configuredSeed\":42,\"event\":\"after_start\",\"first\":1,\"items\":[{\"cardId\":\"strike\",\"uid\":1,\"upgraded\":false",
+          "2: M2_LEDGER_DECK {\"configuredSeed\":42,\"event\":\"after_start\",\"first\":6,\"items\":[{\"cardId\":\"defend\",\"uid\":6,\"upgraded\":false"
+        ]
+      },
+      {
+        "expect": "no print \"ABYSS_UI failed\"",
+        "met": true
+      },
+      {
+        "expect": "no print \"ABYSS_UI boot_failed\"",
+        "met": true
+      },
+      {
+        "expect": "no print \"ABYSS_W75_FIXTURE\"",
+        "met": true
+      },
+      {
+        "expect": "no fault in a client script",
+        "met": true
+      }
+    ],
+    "note": "Not everything expected was printed. The screenshots still have to be looked at for what a print cannot say."
+  },
+  "actions": [
+    {
+      "action": "start",
+      "configuredSeed": 42,
+      "details": {
+        "testConfigurationSeed": 42
+      },
+      "index": 1,
+      "mode": "menu",
+      "ok": true,
+      "result": true,
+      "time": 1.298
+    },
+    {
+      "action": "choose_map_node",
+      "configuredSeed": 42,
+      "details": {
+        "floor": 1,
+        "id": "f1_l2",
+        "type": "combat"
+      },
+      "floor": 0,
+      "index": 2,
+      "mode": "map",
+      "ok": true,
+      "phase": "map",
+      "result": true,
+      "time": 116.987
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 2,
+        "target": 1,
+        "uid": 3
+      },
+      "floor": 1,
+      "index": 3,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 117.667,
+      "turn": 1
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 2,
+        "target": 1,
+        "uid": 3
+      },
+      "floor": 1,
+      "index": 4,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 118.335,
+      "turn": 1
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 3,
+        "target": 1,
+        "uid": 2
+      },
+      "floor": 1,
+      "index": 5,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 118.991,
+      "turn": 1
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 3,
+        "target": 1,
+        "uid": 2
+      },
+      "floor": 1,
+      "index": 6,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 119.657,
+      "turn": 1
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 3,
+        "target": 1,
+        "uid": 5
+      },
+      "floor": 1,
+      "index": 7,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 120.334,
+      "turn": 1
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 3,
+        "target": 1,
+        "uid": 5
+      },
+      "floor": 1,
+      "index": 8,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 121.004,
+      "turn": 1
+    },
+    {
+      "action": "endTurn",
+      "configuredSeed": 42,
+      "floor": 1,
+      "index": 9,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "end_turn_not_started",
+      "result": true,
+      "time": 121.667,
+      "turn": 1
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 3,
+        "target": 1,
+        "uid": 6
+      },
+      "floor": 1,
+      "index": 10,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 124.149,
+      "turn": 2
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 3,
+        "target": 1,
+        "uid": 6
+      },
+      "floor": 1,
+      "index": 11,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 124.824,
+      "turn": 2
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "bash",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 10
+      },
+      "floor": 1,
+      "index": 12,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 125.498,
+      "turn": 2
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "bash",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 10
+      },
+      "floor": 1,
+      "index": 13,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 126.162,
+      "turn": 2
+    },
+    {
+      "action": "endTurn",
+      "configuredSeed": 42,
+      "floor": 1,
+      "index": 14,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "end_turn_not_started",
+      "result": true,
+      "time": 126.858,
+      "turn": 2
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 1
+      },
+      "floor": 1,
+      "index": 15,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 129.942,
+      "turn": 3
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 1
+      },
+      "floor": 1,
+      "index": 16,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 130.592,
+      "turn": 3
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 2,
+        "target": 1,
+        "uid": 4
+      },
+      "floor": 1,
+      "index": 17,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 131.263,
+      "turn": 3
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 2,
+        "target": 1,
+        "uid": 4
+      },
+      "floor": 1,
+      "index": 18,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 131.927,
+      "turn": 3
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 7
+      },
+      "floor": 1,
+      "index": 19,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 132.597,
+      "turn": 3
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 7
+      },
+      "floor": 1,
+      "index": 20,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 133.247,
+      "turn": 3
+    },
+    {
+      "action": "endTurn",
+      "configuredSeed": 42,
+      "floor": 1,
+      "index": 21,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "end_turn_not_started",
+      "result": true,
+      "time": 133.929,
+      "turn": 3
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 2,
+        "target": 1,
+        "uid": 9
+      },
+      "floor": 1,
+      "index": 22,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 136.92,
+      "turn": 4
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 2,
+        "target": 1,
+        "uid": 9
+      },
+      "floor": 1,
+      "index": 23,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 137.57,
+      "turn": 4
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 3,
+        "target": 1,
+        "uid": 6
+      },
+      "floor": 1,
+      "index": 24,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 138.25,
+      "turn": 4
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 3,
+        "target": 1,
+        "uid": 6
+      },
+      "floor": 1,
+      "index": 25,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 138.915,
+      "turn": 4
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 5
+      },
+      "floor": 1,
+      "index": 26,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 139.568,
+      "turn": 4
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 5
+      },
+      "floor": 1,
+      "index": 27,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 140.238,
+      "turn": 4
+    },
+    {
+      "action": "endTurn",
+      "configuredSeed": 42,
+      "floor": 1,
+      "index": 28,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "end_turn_not_started",
+      "result": true,
+      "time": 140.893,
+      "turn": 4
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 2,
+        "target": 1,
+        "uid": 1
+      },
+      "floor": 1,
+      "index": 29,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 143.767,
+      "turn": 5
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 2,
+        "target": 1,
+        "uid": 1
+      },
+      "floor": 1,
+      "index": 30,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 144.432,
+      "turn": 5
+    },
+    {
+      "action": "claimGoldReward",
+      "configuredSeed": 42,
+      "floor": 1,
+      "index": 31,
+      "mode": "battle",
+      "ok": true,
+      "phase": "reward",
+      "result": true,
+      "time": 146.268,
+      "turn": 5
+    },
+    {
+      "action": "claimPotionReward",
+      "configuredSeed": 42,
+      "details": {
+        "id": "dexterity_potion",
+        "reason": "available"
+      },
+      "floor": 1,
+      "index": 32,
+      "mode": "battle",
+      "ok": true,
+      "phase": "reward",
+      "reason": 1,
+      "result": true,
+      "time": 146.933,
+      "turn": 5
+    },
+    {
+      "action": "card_reward",
+      "configuredSeed": 42,
+      "details": {
+        "index": 3,
+        "options": [
+          "shockwave",
+          "clash",
+          "shrug_it_off"
+        ]
+      },
+      "floor": 1,
+      "index": 33,
+      "mode": "battle",
+      "ok": true,
+      "phase": "reward",
+      "result": true,
+      "time": 147.598,
+      "turn": 5
+    },
+    {
+      "action": "leaveCombatRewards",
+      "configuredSeed": 42,
+      "floor": 1,
+      "index": 34,
+      "mode": "battle",
+      "ok": true,
+      "phase": "reward",
+      "result": true,
+      "time": 148.263,
+      "turn": 5
+    },
+    {
+      "action": "choose_map_node",
+      "configuredSeed": 42,
+      "details": {
+        "floor": 2,
+        "id": "f2_l3",
+        "type": "shop"
+      },
+      "floor": 1,
+      "index": 35,
+      "mode": "map",
+      "ok": true,
+      "phase": "map",
+      "result": true,
+      "time": 148.922
+    },
+    {
+      "action": "node_shopView/card5",
+      "configuredSeed": 42,
+      "details": {
+        "coverage": "buy_card",
+        "id": "feel_no_pain",
+        "method": "buyCardSlot",
+        "slot": 5
+      },
+      "floor": 2,
+      "index": 36,
+      "mode": "node",
+      "ok": true,
+      "phase": "node",
+      "result": true,
+      "time": 149.576
+    },
+    {
+      "action": "node_confirm",
+      "configuredSeed": 42,
+      "details": {
+        "method": "leaveShop"
+      },
+      "floor": 2,
+      "index": 37,
+      "mode": "node",
+      "ok": true,
+      "phase": "node",
+      "reason": "complete",
+      "result": true,
+      "time": 150.244
+    },
+    {
+      "action": "node_confirm",
+      "configuredSeed": 42,
+      "details": {
+        "continueResult": true
+      },
+      "floor": 2,
+      "index": 38,
+      "mode": "node",
+      "ok": true,
+      "phase": "map",
+      "reason": "continue",
+      "result": true,
+      "time": 150.909
+    },
+    {
+      "action": "choose_map_node",
+      "configuredSeed": 42,
+      "details": {
+        "floor": 3,
+        "id": "f3_l3",
+        "type": "event"
+      },
+      "floor": 2,
+      "index": 39,
+      "mode": "map",
+      "ok": true,
+      "phase": "map",
+      "result": true,
+      "time": 151.56
+    },
+    {
+      "action": "node_eventView/option3",
+      "configuredSeed": 42,
+      "details": {
+        "choice": "leave",
+        "method": "chooseEvent"
+      },
+      "floor": 3,
+      "index": 40,
+      "mode": "node",
+      "ok": true,
+      "phase": "node",
+      "reason": "complete",
+      "result": true,
+      "time": 152.218
+    },
+    {
+      "action": "node_confirm",
+      "configuredSeed": 42,
+      "details": {
+        "continueResult": true
+      },
+      "floor": 3,
+      "index": 41,
+      "mode": "node",
+      "ok": true,
+      "phase": "map",
+      "reason": "continue",
+      "result": true,
+      "time": 152.884
+    },
+    {
+      "action": "choose_map_node",
+      "configuredSeed": 42,
+      "details": {
+        "floor": 4,
+        "id": "f4_l3",
+        "type": "event"
+      },
+      "floor": 3,
+      "index": 42,
+      "mode": "map",
+      "ok": true,
+      "phase": "map",
+      "result": true,
+      "time": 153.541
+    },
+    {
+      "action": "node_eventView/option1",
+      "configuredSeed": 42,
+      "details": {
+        "choice": "pray",
+        "method": "chooseEvent",
+        "uid": 1
+      },
+      "floor": 4,
+      "index": 43,
+      "mode": "node",
+      "ok": true,
+      "phase": "node",
+      "result": true,
+      "time": 154.213
+    },
+    {
+      "action": "node_pickerView/card1",
+      "configuredSeed": 42,
+      "details": {
+        "uid": 1
+      },
+      "floor": 4,
+      "index": 44,
+      "mode": "node",
+      "ok": true,
+      "phase": "node",
+      "result": true,
+      "time": 154.875
+    },
+    {
+      "action": "node_confirm",
+      "configuredSeed": 42,
+      "details": {
+        "method": "chooseEvent",
+        "uid": 1
+      },
+      "floor": 4,
+      "index": 45,
+      "mode": "node",
+      "ok": true,
+      "phase": "node",
+      "reason": "complete",
+      "result": true,
+      "time": 155.54
+    },
+    {
+      "action": "node_confirm",
+      "configuredSeed": 42,
+      "details": {
+        "continueResult": true
+      },
+      "floor": 4,
+      "index": 46,
+      "mode": "node",
+      "ok": true,
+      "phase": "map",
+      "reason": "continue",
+      "result": true,
+      "time": 156.205
+    },
+    {
+      "action": "choose_map_node",
+      "configuredSeed": 42,
+      "details": {
+        "floor": 5,
+        "id": "f5_l3",
+        "type": "event"
+      },
+      "floor": 4,
+      "index": 47,
+      "mode": "map",
+      "ok": true,
+      "phase": "map",
+      "result": true,
+      "time": 156.885
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 5,
+        "target": 1,
+        "uid": 4
+      },
+      "floor": 5,
+      "index": 48,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 157.539,
+      "turn": 1
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 5,
+        "target": 1,
+        "uid": 4
+      },
+      "floor": 5,
+      "index": 49,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 158.218,
+      "turn": 1
+    },
+    {
+      "action": "endTurn",
+      "configuredSeed": 42,
+      "floor": 5,
+      "index": 50,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "end_turn_not_started",
+      "result": true,
+      "time": 158.868,
+      "turn": 1
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "feel_no_pain",
+        "handIndex": 5,
+        "target": 1,
+        "uid": 11
+      },
+      "floor": 5,
+      "index": 51,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 162.098,
+      "turn": 2
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "feel_no_pain",
+        "handIndex": 5,
+        "target": 1,
+        "uid": 11
+      },
+      "floor": 5,
+      "index": 52,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 162.75199999999,
+      "turn": 2
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "bash",
+        "handIndex": 2,
+        "target": 1,
+        "uid": 9
+      },
+      "floor": 5,
+      "index": 53,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 163.40499999999,
+      "turn": 2
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "bash",
+        "handIndex": 2,
+        "target": 1,
+        "uid": 9
+      },
+      "floor": 5,
+      "index": 54,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 164.07299999999,
+      "turn": 2
+    },
+    {
+      "action": "endTurn",
+      "configuredSeed": 42,
+      "floor": 5,
+      "index": 55,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "end_turn_not_started",
+      "result": true,
+      "time": 164.96199999999,
+      "turn": 2
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "bash",
+        "handIndex": 3,
+        "target": 2,
+        "uid": 9
+      },
+      "floor": 5,
+      "index": 56,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 167.93999999999,
+      "turn": 3
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "bash",
+        "handIndex": 3,
+        "target": 2,
+        "uid": 9
+      },
+      "floor": 5,
+      "index": 57,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 168.62099999999,
+      "turn": 3
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 1,
+        "target": 2,
+        "uid": 2
+      },
+      "floor": 5,
+      "index": 58,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 169.32099999999,
+      "turn": 3
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 1,
+        "target": 2,
+        "uid": 2
+      },
+      "floor": 5,
+      "index": 59,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 169.98299999999,
+      "turn": 3
+    },
+    {
+      "action": "endTurn",
+      "configuredSeed": 42,
+      "floor": 5,
+      "index": 60,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "end_turn_not_started",
+      "result": true,
+      "time": 170.65499999999,
+      "turn": 3
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 3,
+        "target": 2,
+        "uid": 1
+      },
+      "floor": 5,
+      "index": 61,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 173.65899999999,
+      "turn": 4
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 3,
+        "target": 2,
+        "uid": 1
+      },
+      "floor": 5,
+      "index": 62,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 174.32099999999,
+      "turn": 4
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 3,
+        "target": 2,
+        "uid": 4
+      },
+      "floor": 5,
+      "index": 63,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 174.99999999999,
+      "turn": 4
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 3,
+        "target": 2,
+        "uid": 4
+      },
+      "floor": 5,
+      "index": 64,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 175.66499999999,
+      "turn": 4
+    },
+    {
+      "action": "claimGoldReward",
+      "configuredSeed": 42,
+      "floor": 5,
+      "index": 65,
+      "mode": "battle",
+      "ok": true,
+      "phase": "reward",
+      "result": true,
+      "time": 177.47099999999,
+      "turn": 4
+    },
+    {
+      "action": "card_reward",
+      "configuredSeed": 42,
+      "details": {
+        "index": 1,
+        "options": [
+          "pommel_strike",
+          "armaments",
+          "battle_trance"
+        ]
+      },
+      "floor": 5,
+      "index": 66,
+      "mode": "battle",
+      "ok": true,
+      "phase": "reward",
+      "result": true,
+      "time": 178.14099999999,
+      "turn": 4
+    },
+    {
+      "action": "leaveCombatRewards",
+      "configuredSeed": 42,
+      "floor": 5,
+      "index": 67,
+      "mode": "battle",
+      "ok": true,
+      "phase": "reward",
+      "result": true,
+      "time": 178.80399999999,
+      "turn": 4
+    },
+    {
+      "action": "choose_map_node",
+      "configuredSeed": 42,
+      "details": {
+        "floor": 6,
+        "id": "f6_l3",
+        "type": "elite"
+      },
+      "floor": 5,
+      "index": 68,
+      "mode": "map",
+      "ok": true,
+      "phase": "map",
+      "result": true,
+      "time": 179.46599999999
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "feel_no_pain",
+        "handIndex": 3,
+        "target": 1,
+        "uid": 11
+      },
+      "floor": 6,
+      "index": 69,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 180.13399999999,
+      "turn": 1
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "feel_no_pain",
+        "handIndex": 3,
+        "target": 1,
+        "uid": 11
+      },
+      "floor": 6,
+      "index": 70,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 180.81199999999,
+      "turn": 1
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "pommel_strike",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 12
+      },
+      "floor": 6,
+      "index": 71,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 181.47999999999,
+      "turn": 1
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "pommel_strike",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 12
+      },
+      "floor": 6,
+      "index": 72,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 182.15599999999,
+      "turn": 1
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 2
+      },
+      "floor": 6,
+      "index": 73,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 182.81899999999,
+      "turn": 1
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 2
+      },
+      "floor": 6,
+      "index": 74,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 183.48299999999,
+      "turn": 1
+    },
+    {
+      "action": "endTurn",
+      "configuredSeed": 42,
+      "floor": 6,
+      "index": 75,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "end_turn_not_started",
+      "result": true,
+      "time": 184.14699999999,
+      "turn": 1
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "shrug_it_off",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 10
+      },
+      "floor": 6,
+      "index": 76,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 186.62499999999,
+      "turn": 2
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "shrug_it_off",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 10
+      },
+      "floor": 6,
+      "index": 77,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 187.28799999999,
+      "turn": 2
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 4,
+        "target": 1,
+        "uid": 6
+      },
+      "floor": 6,
+      "index": 78,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 187.93999999999,
+      "turn": 2
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 4,
+        "target": 1,
+        "uid": 6
+      },
+      "floor": 6,
+      "index": 79,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 188.60099999999,
+      "turn": 2
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 4
+      },
+      "floor": 6,
+      "index": 80,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 189.29299999999,
+      "turn": 2
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 4
+      },
+      "floor": 6,
+      "index": 81,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 189.96099999999,
+      "turn": 2
+    },
+    {
+      "action": "endTurn",
+      "configuredSeed": 42,
+      "floor": 6,
+      "index": 82,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "end_turn_not_started",
+      "result": true,
+      "time": 190.62399999999,
+      "turn": 2
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "shrug_it_off",
+        "handIndex": 5,
+        "target": 1,
+        "uid": 10
+      },
+      "floor": 6,
+      "index": 83,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 193.28599999999,
+      "turn": 3
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "shrug_it_off",
+        "handIndex": 5,
+        "target": 1,
+        "uid": 10
+      },
+      "floor": 6,
+      "index": 84,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 193.95399999999,
+      "turn": 3
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "pommel_strike",
+        "handIndex": 5,
+        "target": 1,
+        "uid": 12
+      },
+      "floor": 6,
+      "index": 85,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 194.61699999999,
+      "turn": 3
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "pommel_strike",
+        "handIndex": 5,
+        "target": 1,
+        "uid": 12
+      },
+      "floor": 6,
+      "index": 86,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 195.29299999999,
+      "turn": 3
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 8
+      },
+      "floor": 6,
+      "index": 87,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 195.97599999999,
+      "turn": 3
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 8
+      },
+      "floor": 6,
+      "index": 88,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 196.64199999999,
+      "turn": 3
+    },
+    {
+      "action": "endTurn",
+      "configuredSeed": 42,
+      "floor": 6,
+      "index": 89,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "end_turn_not_started",
+      "result": true,
+      "time": 197.30699999999,
+      "turn": 3
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 6
+      },
+      "floor": 6,
+      "index": 90,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 200.19699999999,
+      "turn": 4
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 6
+      },
+      "floor": 6,
+      "index": 91,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 200.87799999999,
+      "turn": 4
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 2,
+        "target": 1,
+        "uid": 7
+      },
+      "floor": 6,
+      "index": 92,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 201.56099999999,
+      "turn": 4
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 2,
+        "target": 1,
+        "uid": 7
+      },
+      "floor": 6,
+      "index": 93,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 202.22799999999,
+      "turn": 4
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 1
+      },
+      "floor": 6,
+      "index": 94,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 202.92999999999,
+      "turn": 4
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "strike",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 1
+      },
+      "floor": 6,
+      "index": 95,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 203.59399999999,
+      "turn": 4
+    },
+    {
+      "action": "endTurn",
+      "configuredSeed": 42,
+      "floor": 6,
+      "index": 96,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "end_turn_not_started",
+      "result": true,
+      "time": 204.27299999999,
+      "turn": 4
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "shrug_it_off",
+        "handIndex": 4,
+        "target": 1,
+        "uid": 10
+      },
+      "floor": 6,
+      "index": 97,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 207.09999999999,
+      "turn": 5
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "shrug_it_off",
+        "handIndex": 4,
+        "target": 1,
+        "uid": 10
+      },
+      "floor": 6,
+      "index": 98,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 207.76699999999,
+      "turn": 5
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "pommel_strike",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 12
+      },
+      "floor": 6,
+      "index": 99,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 208.47299999999,
+      "turn": 5
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "pommel_strike",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 12
+      },
+      "floor": 6,
+      "index": 100,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 209.14899999999,
+      "turn": 5
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 8
+      },
+      "floor": 6,
+      "index": 101,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 209.80399999999,
+      "turn": 5
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 8
+      },
+      "floor": 6,
+      "index": 102,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 210.47099999999,
+      "turn": 5
+    },
+    {
+      "action": "endTurn",
+      "configuredSeed": 42,
+      "floor": 6,
+      "index": 103,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "end_turn_not_started",
+      "result": true,
+      "time": 211.13699999998,
+      "turn": 5
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "shrug_it_off",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 10
+      },
+      "floor": 6,
+      "index": 104,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 214.20299999998,
+      "turn": 6
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "shrug_it_off",
+        "handIndex": 1,
+        "target": 1,
+        "uid": 10
+      },
+      "floor": 6,
+      "index": 105,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 214.87099999998,
+      "turn": 6
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 3,
+        "target": 1,
+        "uid": 6
+      },
+      "floor": 6,
+      "index": 106,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 215.60099999998,
+      "turn": 6
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 3,
+        "target": 1,
+        "uid": 6
+      },
+      "floor": 6,
+      "index": 107,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 216.26399999998,
+      "turn": 6
+    },
+    {
+      "action": "playSlot",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 3,
+        "target": 1,
+        "uid": 7
+      },
+      "floor": 6,
+      "index": 108,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "card_selection_rejected",
+      "result": true,
+      "time": 216.96999999998,
+      "turn": 6
+    },
+    {
+      "action": "playSelected",
+      "configuredSeed": 42,
+      "details": {
+        "cardId": "defend",
+        "handIndex": 3,
+        "target": 1,
+        "uid": 7
+      },
+      "floor": 6,
+      "index": 109,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "selected_card_not_consumed",
+      "result": true,
+      "time": 217.64199999998,
+      "turn": 6
+    },
+    {
+      "action": "endTurn",
+      "configuredSeed": 42,
+      "floor": 6,
+      "index": 110,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "reason": "end_turn_not_started",
+      "result": true,
+      "time": 218.33699999998,
+      "turn": 6
+    }
+  ],
+  "stop": {
+    "floor": 6,
+    "phase": "defeat",
+    "reason": "normal_run_defeat",
+    "seed": 42,
+    "time": 220.99399999998
+  },
+  "actualOutcome": "Defeat floor6/17, two victories, HP0/80, gold50, deck12; manually confirmed ordinary defeat settlement. Not a completed run.",
+  "manualInputs": [
+    "skip/finish prologue to enter the ruin",
+    "ordinary defeat End and Settle after driver stopped"
+  ],
+  "diagnosis": "Visible Enrage increased Nob Strength while the test policy repeatedly played defensive skills. Product rules/data were not changed; only test policy was corrected for a fresh rerun.",
+  "strictAcceptance": "pending",
+  "files": [
+    {
+      "path": "autoplay-c6d39d3-defeat-status.json.gz",
+      "sha256": "0341d2770b3f4049802a63112c47d88961fe88f9b17073ec05f7b7bb3712ce89",
+      "bytes": 41694,
+      "originalSha256": "e5e6e9fa8db17caafb48c57c289df36578eba6bb15cee2d728ffe69057121157"
+    },
+    {
+      "path": "autoplay-c6d39d3-defeat-log.gia.gz",
+      "sha256": "2008604cd99d36d490bf021eda565cd66b35d43588616e9f3c7e0cf46ac22da9",
+      "bytes": 25263,
+      "originalSha256": "be03cd80353c75d6b076275cfb4737e54cd4e63f97980655930fdae14c359e0d"
+    },
+    {
+      "path": "screens/autoplay-c6d39d3-198-autoplay-focus-1.png",
+      "sha256": "c6658a24b7a161c8dd4ecde544a9b9ec27a02a8a00d54bba3110f0cf43cce5c3",
+      "bytes": 254382,
+      "originalSha256": "c6658a24b7a161c8dd4ecde544a9b9ec27a02a8a00d54bba3110f0cf43cce5c3"
+    },
+    {
+      "path": "screens/autoplay-c6d39d3-199-autoplay-skip-prologue-1.png",
+      "sha256": "3fe4345f1edd29334bf36c668d47a94cef5bfd8aac1ad6a7d70fdd393969d4e9",
+      "bytes": 247574,
+      "originalSha256": "3fe4345f1edd29334bf36c668d47a94cef5bfd8aac1ad6a7d70fdd393969d4e9"
+    },
+    {
+      "path": "screens/autoplay-c6d39d3-200-autoplay-progress-1.png",
+      "sha256": "0e3ce49e1bc2309bf7844cdf3adebc240d65ea8c0d123e0bc25f2c4f1580c737",
+      "bytes": 145198,
+      "originalSha256": "0e3ce49e1bc2309bf7844cdf3adebc240d65ea8c0d123e0bc25f2c4f1580c737"
+    },
+    {
+      "path": "screens/autoplay-c6d39d3-201-autoplay-progress-1.png",
+      "sha256": "4f69820c144b4ede5936e4665c232e5a032487a8c2765cd273fe9e0cebe66e94",
+      "bytes": 328153,
+      "originalSha256": "4f69820c144b4ede5936e4665c232e5a032487a8c2765cd273fe9e0cebe66e94"
+    },
+    {
+      "path": "screens/autoplay-c6d39d3-202-autoplay-progress-1.png",
+      "sha256": "4faa4f316dc5a258a5d39ab607b5fd96ac32a5df59bfb1e61036bf4d2ae5f975",
+      "bytes": 306491,
+      "originalSha256": "4faa4f316dc5a258a5d39ab607b5fd96ac32a5df59bfb1e61036bf4d2ae5f975"
+    },
+    {
+      "path": "screens/autoplay-c6d39d3-203-autoplay-settle-defeat-1.png",
+      "sha256": "3a1c540d15a7a7fc6a1ed0a7c0da32584f476ddcba2861d9aa799e2cf03f83aa",
+      "bytes": 295152,
+      "originalSha256": "3a1c540d15a7a7fc6a1ed0a7c0da32584f476ddcba2861d9aa799e2cf03f83aa"
+    }
+  ]
+}

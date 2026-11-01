@@ -1,0 +1,41 @@
+{
+  "base": "a5cb4bb6",
+  "simulator": "3dff619528b1ad3689e2f96b6bcbb0c0c0e735f2",
+  "controls": 103,
+  "controlsPerCard": [
+    16,
+    16,
+    16
+  ],
+  "oldCardRectangles": {
+    "strike": 2610,
+    "defend": 2577,
+    "bash": 2556
+  },
+  "compactCardRectangles": {
+    "strike": 918,
+    "defend": 835,
+    "bash": 916
+  },
+  "oldBackground": 13201,
+  "budgetBackground": 4500,
+  "compactBackground": 2379,
+  "newArtworkImagesPerCard": 1,
+  "comparison": "Different artwork. Counts are NOT an equal-quality optimization ratio.",
+  "verified": [
+    "simulator Lua startup",
+    "click select",
+    "second click hides card",
+    "PC and mobile canvas PNG without missing assets",
+    "GIA envelope validation"
+  ],
+  "unverified": [
+    "official editor import",
+    "official ready",
+    "actual phone",
+    "FPS",
+    "cold and warm official loading",
+    "same-quality original character portrait",
+    "independent review"
+  ]
+}

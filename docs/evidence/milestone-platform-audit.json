@@ -1,0 +1,201 @@
+{
+  "capturedAt": "2026-10-22T22:24:29.693Z",
+  "sourceCommit": "77744e2",
+  "liveWriteEnabled": false,
+  "original": {
+    "mapId": "1073741825",
+    "name": "杀戮深渊",
+    "bytes": 22101,
+    "sha256Before": "6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432",
+    "sha256After": "6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432",
+    "unchanged": true,
+    "graphs": 0,
+    "uiConfigurations": 0
+  },
+  "candidate": {
+    "file": "abyss-m1-factions-script-52c4835f-script-script-script.gil",
+    "sha256": "c0b33e0671f43ecd4c89c2283dff37cb3837918bb86aba78d06b15c0268c4c46",
+    "completedSteps": 20,
+    "failed": {
+      "step": 21,
+      "tool": "scene_add_client_ui",
+      "code": "INVALID_ARGUMENT",
+      "message": "The arguments of this step are not what scene_add_client_ui takes.",
+      "details": {
+        "issues": [
+          {
+            "code": "too_big",
+            "maximum": 60,
+            "type": "array",
+            "inclusive": true,
+            "exact": false,
+            "message": "Array must contain at most 60 element(s)",
+            "path": [
+              "controls",
+              1,
+              "children",
+              1,
+              "children"
+            ]
+          }
+        ]
+      }
+    },
+    "camera": [
+      {
+        "cameraId": 1073741825,
+        "name": "自定义镜头",
+        "distance": 6,
+        "fieldOfView": 45,
+        "yawRange": [
+          null,
+          null
+        ],
+        "pitchRange": [
+          55,
+          55
+        ],
+        "fixedView": {
+          "yaw": 0,
+          "pitch": 55,
+          "ignoreCollision": true
+        }
+      }
+    ],
+    "players": {
+      "min": 1,
+      "max": 1
+    },
+    "respawnPoints": [],
+    "factions": [
+      {
+        "factionId": 1,
+        "name": "初始玩家阵营",
+        "hostileTo": [
+          3
+        ],
+        "friendlyTo": [
+          2
+        ],
+        "playerSlots": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      {
+        "factionId": 2,
+        "name": "初始物件阵营",
+        "hostileTo": [],
+        "friendlyTo": [
+          1,
+          3
+        ],
+        "playerSlots": []
+      },
+      {
+        "factionId": 3,
+        "name": "初始造物阵营",
+        "hostileTo": [
+          1
+        ],
+        "friendlyTo": [
+          2
+        ],
+        "playerSlots": []
+      }
+    ],
+    "scriptsCount": 18,
+    "staticCheck": {
+      "ok": true,
+      "errors": 0,
+      "warnings": 10,
+      "problems": [
+        {
+          "script": "abyss_game_ui",
+          "line": 40,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":setActive() is not a method of anything in the client API, nor defined in this script.",
+          "didYouMean": ":SetActive()"
+        },
+        {
+          "script": "abyss_game_ui",
+          "line": 41,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":setVisible() is not a method of anything in the client API, nor defined in this script.",
+          "didYouMean": ":SetVisible()"
+        },
+        {
+          "script": "abyss_game_ui",
+          "line": 42,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":setVisible() is not a method of anything in the client API, nor defined in this script.",
+          "didYouMean": ":SetVisible()"
+        },
+        {
+          "script": "abyss_game_ui",
+          "line": 43,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":render() is not a method of anything in the client API, nor defined in this script."
+        },
+        {
+          "script": "abyss_game_ui",
+          "line": 45,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":setNavigationEnabled() is not a method of anything in the client API, nor defined in this script."
+        },
+        {
+          "script": "abyss_game_ui",
+          "line": 46,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":render() is not a method of anything in the client API, nor defined in this script."
+        },
+        {
+          "script": "abyss_ui",
+          "line": null,
+          "severity": "warning",
+          "kind": "SCRIPT_NOT_MOUNTED",
+          "message": "No control carries this script: it never runs. scene_add_client_ui {script} puts it on the root of an interface, a control's own script on that control."
+        },
+        {
+          "script": "abyss_ui",
+          "line": 13,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":resize() is not a method of anything in the client API, nor defined in this script.",
+          "didYouMean": ":Resume()"
+        },
+        {
+          "script": "abyss_ui",
+          "line": 23,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":resize() is not a method of anything in the client API, nor defined in this script.",
+          "didYouMean": ":Resume()"
+        },
+        {
+          "script": "abyss_ui",
+          "line": 26,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":update() is not a method of anything in the client API, nor defined in this script.",
+          "didYouMean": ":OnUpdate()"
+        }
+      ]
+    },
+    "fullUiExport": "failed",
+    "officialImport": "not_run",
+    "gameplay": "not_run"
+  }
+}

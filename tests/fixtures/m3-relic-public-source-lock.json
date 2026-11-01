@@ -1,0 +1,72 @@
+{
+  "repository": "https://github.com/aeubanks/sts",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "scope": "Fetched fixed community CFR mirror; method-derived independent literal expectations, not certified PC binary/native device parity. Java sources not vendored.",
+  "files": {
+    "relics/EternalFeather.java": {
+      "sha256": "5873f80f388a6dc2832852a763497e9c6d54d42901d34e541cb8bbec5f0eef53",
+      "gitBlob": "1f030951c8263f87e91bf3f070d80137e0a01fa4",
+      "bytes": 1075
+    },
+    "relics/LetterOpener.java": {
+      "sha256": "bd0b62e40b2064af6f7415be77c575990b608a2d3ebbf4f2ae2fdf794bdceba6",
+      "gitBlob": "6943a71986368a7fe40b2cfdc8bc2dabfb0e24ed",
+      "bytes": 1786
+    },
+    "relics/HandDrill.java": {
+      "sha256": "ad963a8a161f0e956d56853895d85759eade8639bd3c8c9d27f3f4c5e1af93d5",
+      "gitBlob": "2c54062b3a49330b4d494ae4af0efacf080ce239",
+      "bytes": 1160
+    },
+    "relics/Brimstone.java": {
+      "sha256": "c2b96bf11e3531a4e22776c257cff87078952611d2afa52d5fa374418d6845c2",
+      "gitBlob": "5f3b8624ca4f3dac74ddd89aae2457354a8b9280",
+      "bytes": 1464
+    }
+  },
+  "facts": {
+    "eternal_feather": {
+      "method": "onEnterRoom(RestRoom)",
+      "cardsPerGroup": 5,
+      "healPerGroup": 3,
+      "atRestChoice": false,
+      "deckSizes": [
+        0,
+        4,
+        5,
+        9,
+        10,
+        14,
+        15
+      ],
+      "expectedEntryHeal": [
+        0,
+        0,
+        3,
+        3,
+        6,
+        6,
+        9
+      ]
+    },
+    "letter_opener": {
+      "method": "onUseCard(SKILL), atTurnStart, onVictory",
+      "skills": 3,
+      "allEnemyDamage": 5,
+      "sourceDamageType": "THORNS, null source; queued BOTTOM",
+      "turnStartCounter": 0,
+      "victoryCounter": -1
+    },
+    "hand_drill": {
+      "method": "onBlockBroken",
+      "vulnerable": 2,
+      "scheduling": "BOTTOM ApplyPowerAction after current attack; does not change the current already calculated hit"
+    },
+    "brimstone": {
+      "method": "atTurnStart",
+      "playerStrengthPerTurn": 2,
+      "eachEnemyStrengthPerTurn": 1,
+      "firstTurnIncluded": true
+    }
+  }
+}

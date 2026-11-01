@@ -1,0 +1,205 @@
+{
+  "scope": "V2 alpha byte and literal RGBA verification; no source or exporter modification",
+  "inputs": [
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/source.png",
+      "bytes": 1517359,
+      "sha256": "6b32c5e192d699c20808c3c697640275ac4b42953d6904eb51b005d8ce66a788"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/preview-source-1x.png",
+      "bytes": 18649,
+      "sha256": "8d2741b022a8bdc6e62984fbd7e908e29c490fb7b2fbce9b5bb56283cfe3ad10"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/preview-redraw-draft-1x.png",
+      "bytes": 16526,
+      "sha256": "3d5f556d42231612c9d3b5c3d48aff9ce16ea406a2be94ab333a591f1ae61fee"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/native-art.json",
+      "bytes": 2658277,
+      "sha256": "93bcf4303d370f7faac2b8289146acfe655bae6dced0abf5257e407d69f748ef"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/native-art.lua",
+      "bytes": 2794055,
+      "sha256": "ca442b6467c79a6a8d8662f31aeca52060a24f817c47763a180953feef98f0ef"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/preview-native-1x.png",
+      "bytes": 17710,
+      "sha256": "d96f7f81c436971a5d7aa78740b580a7bb237d5ac2962e51f5532dbb51f9eb80"
+    }
+  ],
+  "checker": {
+    "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/adapter/verify_alpha.py",
+    "bytes": 6648,
+    "sha256": "d29c72da90d5f792e9c8c660ea22b85a654120150d7fafdee6743c85be8de24c"
+  },
+  "counts": {
+    "literalImages": 4822,
+    "masks": 0
+  },
+  "method": "Compare exact half-open authored rectangle cells and literal row alpha to existing draft alpha; separately inspect unmodified pinned canonical PNG bytes.",
+  "images": {
+    "source.png": {
+      "mode": "RGBA",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "pixels": 1572516,
+      "zero": 603193,
+      "partial": 967360,
+      "opaque": 1963,
+      "min": 0,
+      "max": 255,
+      "nonzeroBoundsLTRB": [
+        27,
+        39,
+        1230,
+        1254
+      ]
+    },
+    "preview-source-1x.png": {
+      "mode": "RGBA",
+      "dimensions": [
+        96,
+        96
+      ],
+      "pixels": 9216,
+      "zero": 3045,
+      "partial": 5903,
+      "opaque": 268,
+      "min": 0,
+      "max": 255,
+      "nonzeroBoundsLTRB": [
+        2,
+        2,
+        94,
+        95
+      ]
+    },
+    "preview-redraw-draft-1x.png": {
+      "mode": "RGBA",
+      "dimensions": [
+        96,
+        96
+      ],
+      "pixels": 9216,
+      "zero": 3045,
+      "partial": 5903,
+      "opaque": 268,
+      "min": 0,
+      "max": 255,
+      "nonzeroBoundsLTRB": [
+        2,
+        2,
+        94,
+        95
+      ]
+    },
+    "preview-native-1x.png": {
+      "mode": "RGBA",
+      "dimensions": [
+        96,
+        96
+      ],
+      "pixels": 9216,
+      "zero": 2545,
+      "partial": 1142,
+      "opaque": 5529,
+      "min": 0,
+      "max": 255,
+      "nonzeroBoundsLTRB": [
+        2,
+        2,
+        95,
+        96
+      ]
+    }
+  },
+  "checks": {
+    "sourcePreviewAndDraftAlphaEqual": true,
+    "sceneAlphaEqualsDraft": true,
+    "literalAlphaEqualsDraft": true,
+    "literalAndSceneCoverageEqual": true,
+    "allAndOnlyNonzeroAlphaCellsIncluded": true,
+    "canonicalPNGAlphaEqualsDraft": false,
+    "canonicalPNGHasActualTransparency": true
+  },
+  "pngAlphaDifference": {
+    "pixels": 6284,
+    "maxAbsolute": 255,
+    "referenceZeroBecameNonzero": 500,
+    "referencePartialBecameOpaque": 5253,
+    "first10": [
+      {
+        "x": 37,
+        "y": 2,
+        "draft": 0,
+        "canonicalPNG": 1
+      },
+      {
+        "x": 46,
+        "y": 2,
+        "draft": 2,
+        "canonicalPNG": 3
+      },
+      {
+        "x": 47,
+        "y": 2,
+        "draft": 3,
+        "canonicalPNG": 5
+      },
+      {
+        "x": 48,
+        "y": 2,
+        "draft": 3,
+        "canonicalPNG": 6
+      },
+      {
+        "x": 49,
+        "y": 2,
+        "draft": 4,
+        "canonicalPNG": 7
+      },
+      {
+        "x": 55,
+        "y": 2,
+        "draft": 3,
+        "canonicalPNG": 7
+      },
+      {
+        "x": 56,
+        "y": 2,
+        "draft": 2,
+        "canonicalPNG": 5
+      },
+      {
+        "x": 57,
+        "y": 2,
+        "draft": 1,
+        "canonicalPNG": 3
+      },
+      {
+        "x": 58,
+        "y": 2,
+        "draft": 0,
+        "canonicalPNG": 1
+      },
+      {
+        "x": 36,
+        "y": 3,
+        "draft": 0,
+        "canonicalPNG": 4
+      }
+    ]
+  },
+  "result": "canonical_png_alpha_mismatch",
+  "sourceInspection": "Pinned PNG renderer uses closed Pillow polygon edges and source-over for adjacent rectangles; no workaround or vendor change applied.",
+  "nativeB0B1": "not_run",
+  "visualOwnerApproval": "pending",
+  "productionEnabled": false
+}

@@ -1,0 +1,93 @@
+{
+  "reviewer": "independent-campaign-full",
+  "worktree": "/workspace/m3-complete-campaign",
+  "reviewedCommit": "61cce40399952cfea90f4ff251f86d9add28c356",
+  "base": "1a38b912",
+  "verdict": "PASS",
+  "scope": [
+    "TASK-47",
+    "TASK-59",
+    "TASK-61",
+    "TASK-63",
+    "TASK-77"
+  ],
+  "passedSourceReview": [
+    "No production Lua/data pool edits in this commit. Driver only dispatches real Run/Nodes commands; no direct run/map/HP/inventory/RNG writes or debug fixture substitution found.",
+    "Policy uses current hand, current intents, current map availability and public node/card/reward offers; no future draw-order or future RNG peeking found. Logging snapshots do read RNG, but policy does not consume them.",
+    "beginNeow fresh-start history matches abyss_game_ui.lua:608 production competition fallback; new uses campaignProfile competition-two-act and freezeMapContext.",
+    "Rewards, act transitions and boss treasures use real public commands. Leaving optional unclaimed relic rewards is legal per abyss_run.lua:429 and is not inventory injection. Ending is not forced; loop terminates on genuine victory/defeat.",
+    "Frozen launch cards/generatedCards/enemies/encounters/bosses/relics/potions/events arrays compare deeply identical to base: 75/16/23/18/1/153/33/49. Existing source evidence and future-source ledger retained; current scope correctly one character, acts 1 and 2.",
+    "Inventory script is read-only: Q.rules returns copied table; A2.resolve returns bindings, without Run creation or state mutation. It enumerates definitions/bindings and is not natural admission proof.",
+    "Spirit Poop old blocker is obsolete: abyss_run_settlement.lua:16-17 forwards RelicHooks.scoreAdjustment to abyss_run_scoring.result, which forwards adjustment to Score.compute. run_score_calculator.lua:27,89 contains -1/no-clamp/two-act calculator assertions. This source supports local implementation status only.",
+    "Old evidence identity is exact: summary driverSha256 3acdab50b5665fc45f5d6d841d463a3484ed22538a826100fbeca04735e15c1f matches development/driver-before-picker-fix.lua, not original-reviewed 9176e72 driver SHA 58bd600738ebdba37fbe13a3a59d900b04ad0b1f5eb0d788c26752ef45a4961e. Both top-level gzip files byte-match archived before-fix files. Seed 2 and 3 real failed actions/status/reasons remain intact."
+  ],
+  "evidenceObserved": {
+    "seed2": {
+      "status": "driver_blocked",
+      "floor": 19,
+      "hp": 86,
+      "actions": 343,
+      "crossAct": "real advance_act command succeeded at floor17 into act2",
+      "failure": "back_to_basics choose_card purge invalid_card"
+    },
+    "seed3": {
+      "status": "driver_blocked",
+      "floor": 3,
+      "hp": 87,
+      "actions": 41,
+      "failure": "bonfire choose_card offer card_not_purgeable"
+    },
+    "correctedDriverRuns": "NOT_RUN"
+  },
+  "limitations": [
+    "No long Lua executed by this reviewer. Static review and short JS/hash/gzip checks only; reported inventory/scoring/two-act runtime PASS remain author evidence, not independently rerun here.",
+    "RestartVerified compares a new same-seed Run/Map snapshot to initial state; it is deterministic fresh factory initialization, not exercising Host victory/defeat restart UI. Existing controlled host restart evidence remains separate.",
+    "No complete natural two-act victory, actual combat defeat, second complete natural build, or complete per-item 75-card acquisition/use matrix. Existing observations remain 13 acquired and 12 played with explicit gaps.",
+    "No same-candidate official import/ready/log/screenshot, PC and physical-phone acceptance. Extra Boss natural eligibility without persistent history remains explicitly deferred; inventory is not natural/platform acceptance.",
+    "Current corrected seed2/3/42/75/505 reruns must retain all real wins, defeats and driver failures; old failed runs cannot prove new-driver completion.",
+    "backlog CLI unavailable in review environment (command not found); no Backlog state changed.",
+    "PASS is source-review approval of this delivery and 61cce40 fix, not M3 acceptance. Natural full campaign and platform gaps remain open; controller will run seed2/3 in its low-concurrency window."
+  ],
+  "checks": [
+    "git diff --check 1a38b912..9176e72 passed",
+    "node --check scripts/m3-normal-campaign.mjs passed",
+    "node --check scripts/m3-campaign-coverage.mjs passed",
+    "Node deep equality of frozen historical launch arrays passed",
+    "Old driver SHA, archived gzip bytes and failure record consistency checks passed",
+    "Increment node --check scripts/m3-normal-campaign.mjs passed",
+    "Increment git diff --check 9176e72..61cce40 passed"
+  ],
+  "mutations": "Only the requested review JSON written/updated; no repository files modified or pushed; no Lua or long campaign run.",
+  "combinedCandidateReportedByController": "828bd06",
+  "priorFindings": [
+    {
+      "id": "M3-CAMPAIGN-1",
+      "severity": "high",
+      "title": "Bonfire UID fix is unreachable because public option has no picker field",
+      "locations": [
+        "scripts/m3-normal-campaign.lua:100",
+        "src/lua/abyss_act1_events.lua:77",
+        "src/lua/abyss_act1_events.lua:205"
+      ],
+      "detail": "Driver derives any event UID only inside if choice.picker. Bonfire options return offer without picker at both choose and choose_card stages. At choose_card, the command therefore still passes nil; production requires a UID from Purge.purgeCards and returns card_not_purgeable. Seed 3 old evidence reaches exactly this mandatory stage. Current driver cannot resolve that stage and the delivery report overstates its Bonfire picker repair.",
+      "requiredFix": "Select legal public candidates for Bonfire choose_card explicitly (without submitting UID on earlier offer stage), or share the real UI event selection contract. Verify corrected seed 3 in the planned low-concurrency rerun; keep old failed artifacts.",
+      "status": "RESOLVED_BY_61cce40_SOURCE_REVIEW"
+    }
+  ],
+  "findings": [],
+  "incrementalReview": {
+    "commit": "61cce40399952cfea90f4ff251f86d9add28c356",
+    "result": "Unique source blocker resolved; no new source blocker found in narrow delta.",
+    "proof": [
+      "m3-normal-campaign.lua delegates UID resolution to m3-event-card-policy.lua for every chosen event option.",
+      "Helper returns nil when picker absent and public stage is not choose_card; at Bonfire choose_card it reads Nodes.view(...).node.event.purgeCards and selects an actual UID. Therefore earlier approach/offer remain UID-free and final offer has legal UID.",
+      "Accursed Blacksmith choose_card forge reads public node.upgradeCards; Transmogrifier choose_card change reads public event.purgeCards. Helper never writes Run/Map/card/HP/RNG.",
+      "Controlled regression source explicitly verifies no picker metadata, exactly-stage UID submission, actual production Nodes.chooseEvent success, permanent-card removal/upgrade/transformation and public leave for all three events. Map node event override is isolated to this controlled test and is not campaign natural evidence.",
+      "Wrapper hashes helper separately as eventCardPolicySha256 and explicitly labels resetVerificationKind fresh-Run-construction-only; not Host restart. Driver/output now use newRunConstructionResetVerified.",
+      "Historical gzip artifacts and old summary remain unchanged by increment; they still prove old driver failures only."
+    ],
+    "verificationBoundary": "No Lua or long driver rerun by reviewer per controller instruction. RED/GREEN runtime observation remains author evidence, with regression/source inspected independently. Seed2/3 rerun still pending and not inferred from source approval.",
+    "currentDriverSha256": "c233f2fadca53bb03b3323f3373c9a012a9bca6bafe89632ddb331cd67983c12",
+    "currentEventCardPolicySha256": "05ba80bf35eac1a6c7c6533f36bd383c9ee7605e7ea455ca342118d34b70da47"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "repository": "https://github.com/aeubanks/sts",
+  "scope": "Independent source-method interpretation. Community-decompiled mirror; not certified PC binary; ordinary A0 non-Endless only.",
+  "files": {
+    "relics/Pear.java": {
+      "sha256": "3136851cc3cf007688e612a3e15ecec576bf3986157bc0e1490f0c3c2b0723fb",
+      "gitBlob": "a91d24a02b55b41c51b2f692bac1a08d325e4a4f",
+      "bytes": 827
+    },
+    "relics/Mango.java": {
+      "sha256": "670553fc34c9819d0c6bae2bd0b1f664185a0329bea2d5e88d5a62036941ded4",
+      "gitBlob": "4764f9155ae84801994798f2ca32bed33fa4f6bd",
+      "bytes": 828
+    },
+    "relics/Waffle.java": {
+      "sha256": "f19081fb6511225cafc834932b1dd3a39262ee58ab3e3657e563abb056743d94",
+      "gitBlob": "93873c6b20681147528b0cd1dc353449a4f511a1",
+      "bytes": 844
+    },
+    "relics/Strawberry.java": {
+      "sha256": "23138d8d36c8ae7fc3e56fc714e484bb2311b9bd2cf4cb619be6567552ab828e",
+      "gitBlob": "3cced5fa5dc14fc3aecb1a08d2e77f5da3df1396",
+      "bytes": 852
+    },
+    "relics/MarkOfTheBloom.java": {
+      "sha256": "bf653a5008278992d62d8fa57a4ed1333a274e7b79395ee09c0f9d6979653434",
+      "gitBlob": "4e0567e0376a2a68107b6664a76533db2c4bddfd",
+      "bytes": 685
+    },
+    "relics/MagicFlower.java": {
+      "sha256": "e3940116e47e36eb3eea9f048a1808ffe2f8b6654db9e30cab9cce8496054eaf",
+      "gitBlob": "735a49a5424c867a26d4d2b62c461424d39aa0d7",
+      "bytes": 1083
+    },
+    "relics/AbstractRelic.java": {
+      "sha256": "e4b5a8e6dda41cb9b25f75c5777f03e84da245247d1dac5d3070727fc8d24167",
+      "gitBlob": "a0664295b13cea89638ab4737b7ef83a2e7da5ac",
+      "bytes": 39442
+    },
+    "core/AbstractCreature.java": {
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b",
+      "gitBlob": "bee5f7d0d955528b69007376cc0465ed60e577c6",
+      "bytes": 42311
+    },
+    "characters/AbstractPlayer.java": {
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+      "gitBlob": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7",
+      "bytes": 98339
+    }
+  },
+  "facts": {
+    "pear": {
+      "sourceId": "Pear",
+      "rarity": "uncommon",
+      "increase": 10,
+      "healsNewMaximum": false,
+      "randomDraws": 0
+    },
+    "mango": {
+      "sourceId": "Mango",
+      "rarity": "rare",
+      "increase": 14,
+      "healsNewMaximum": false,
+      "randomDraws": 0
+    },
+    "lees_waffle": {
+      "sourceId": "Lee's Waffle",
+      "rarity": "shop",
+      "increase": 7,
+      "healsNewMaximum": true,
+      "randomDraws": 0
+    },
+    "strawberry": {
+      "sourceId": "Strawberry",
+      "rarity": "common",
+      "increase": 7,
+      "healsNewMaximum": false,
+      "randomDraws": 0
+    }
+  },
+  "contracts": {
+    "maxHpBeforeHeal": true,
+    "waffleHealOrder": [
+      "increaseMaxHp(7,false)",
+      "heal(new maxHealth)"
+    ],
+    "healingRelicsInHeldOrder": true,
+    "markBlocksHealingNotMaximum": true,
+    "magicFlowerCombatOnly": true,
+    "dyingDoesNotRevive": true,
+    "sourceSpawnGate": "inherited always",
+    "shopOnlyWaffle": true,
+    "noRandomDraws": true,
+    "boundary": "Mark of the Bloom and Magic Flower are controlled modifier dependencies, not newly implemented definitions or naturally acquired relics.",
+    "dyingFlagSuppressesHealingEvenWithPositiveHp": true
+  }
+}

@@ -1,0 +1,27 @@
+package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
+local H=dofile('tests/lua/support/battle_action_fixture.lua')
+local C=H.F.Combat
+local host,ui,panel,emit,tap,drain,_,root=H.setup({'regret','defend'},{'cultist'})
+local s=host.run.combat;local slot
+for i,c in ipairs(s.hand)do if c.cardId=='regret'then slot=i end end;assert(slot)
+local box=panel:GetChild('card'..slot)
+assert(box:GetChild('name').text=='余悔')
+assert(box:GetChild('type').text=='诅咒')
+assert(box:GetChild('cost').text=='')
+assert(box:GetChild('label').text:find('手牌',1,true))
+local hp,energy=s.player.hp,s.energy
+tap('card'..slot,1);tap('card'..slot,2);drain();assert(s.energy==energy and #s.hand==2)
+tap('endTurn',3);drain();assert(s.player.hp==hp-2 and not ui.busy)
+host.run.deck={{uid=700,cardId='regret',upgraded=false}};host:refresh()
+assert(host:openDeck());host:update(0)
+local grid=root:GetChild('deckPanel'):GetChild('grid');local face=grid.items[0]:GetChild('face')
+assert(face:GetChild('name').text=='余悔' and face:GetChild('type').text=='诅咒' and face:GetChild('cost').text=='')
+assert(face:GetChild('label').text:find('手牌',1,true))
+print('REGRET_UI_PASS battle type/cost/text/unplayable/HP-loss feedback and permanent-deck cost/type')
+local dead,deadUI,deadPanel,_,deadTap,deadDrain,_,deadRoot=H.setup({'regret','dazed'},{'cultist'})
+dead.run.combat.player.hp=1;dead:refresh();deadTap('endTurn',4);deadDrain()
+assert(dead.run.phase=='defeat' and dead.run.hp==0 and dead.mode=='defeat')
+assert(dead.run.combat.cardInUse and #dead.run.combat.exhaust==0)
+assert(deadRoot:GetChild('menuPanel').visible and not deadPanel.visible)
+assert(deadRoot:GetChild('menuPanel'):GetChild('start').visible,'restart remains available after curse defeat')
+print('REGRET_DEFEAT_UI_PASS real end turn and game-over/restart boundary')

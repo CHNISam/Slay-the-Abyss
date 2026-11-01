@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "automaton",
+  "sourceSha256": "6960b6ad6caed1fb234e154e234893d3d211e059d7f81792b254017a433a1109",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    48,
+    61,
+    1208,
+    1206
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "5c714386b5938a47f68e0ce881cd7b7c283fd62002e121ce23cabcc91666212d",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "2afddd5d06afa41b9b1f6967ecffcf3cc65f7a4e7f6bb7983fc3a70e0ec95421",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 173,
+      "sha256": "b3d4bf799db14f867f77ff538d44c2a51610c9b52b4d919c5d58e17951414094",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Closed bronze prism cabin, two stout capped column arms and two short forked feet connected through dark-teal joints. No sphere body, extra fingers, companions or copied stone Guardian shoulders.",
+    "Joint chains/capped arm ends/foot forks coherent and intact; no floating parts.",
+    "Large geometric cabin/arm/feet masses readable106/127/173. Residual painted bronze texture despite smooth-surface request is documented unnecessary detail, not hard defect."
+  ],
+  "costLimits": [
+    "Preserve closed prism silhouette, capped arms, foot forks and joints before metal texture/ring/facet glints.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserved; intact margins may use downstream6% inset contain, no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only; no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

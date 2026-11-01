@@ -1,0 +1,90 @@
+{
+  "base": "28869011c26bcead7f925e78f00dbda454daa231",
+  "node": "project portable v24.18.0",
+  "scope": "Necessary test partition only; final cloud result pending",
+  "baselineFailure": {
+    "source": "parent-saved actual 28869011 CI, not rerun here",
+    "fixture": "potion_basic_five.lua",
+    "milliseconds": 30111,
+    "completedOriginalLogicalGroups": 1
+  },
+  "coverageLock": "tests/fixtures/potion-basic-five-budget.json",
+  "unchangedProductionDataConfigBacklogPaths": [],
+  "originalLogicalGroups": 11,
+  "originalAcquisitionGroups": 1,
+  "executedPhysicalGroups": 13,
+  "normalBottleInputs": 5,
+  "refusalBottleInputs": 5,
+  "overflowPairInputs": 4,
+  "refusalShardBottleCounts": [
+    2,
+    3
+  ],
+  "defaultPerLuaTimeoutMilliseconds": 30000,
+  "independentPartitionValidation": [
+    {
+      "file": "potion_basic_five.lua",
+      "milliseconds": 19276
+    },
+    {
+      "file": "potion_basic_five_refusals_a.lua",
+      "milliseconds": 17083
+    },
+    {
+      "file": "potion_basic_five_refusals_b.lua",
+      "milliseconds": 20665
+    },
+    {
+      "file": "potion_basic_five_overflow.lua",
+      "milliseconds": 4521
+    }
+  ],
+  "finalWholeJsCommand": "node --test --test-concurrency=1 tests/potion-basic-five.test.mjs",
+  "finalWholeJsStatus": 0,
+  "finalWholeJsTests": {
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "milliseconds": 84223.3044
+  },
+  "finalWholeJsFixtures": [
+    {
+      "file": "potion_basic_five.lua",
+      "milliseconds": 13665
+    },
+    {
+      "file": "potion_basic_five_refusals_a.lua",
+      "milliseconds": 12938
+    },
+    {
+      "file": "potion_basic_five_refusals_b.lua",
+      "milliseconds": 19498
+    },
+    {
+      "file": "potion_basic_five_overflow.lua",
+      "milliseconds": 5037
+    },
+    {
+      "file": "potion_basic_five_draw.lua",
+      "groups": 5,
+      "milliseconds": 9245
+    },
+    {
+      "file": "potion_basic_five_status.lua",
+      "groups": 4,
+      "milliseconds": 18913
+    },
+    {
+      "file": "potion_basic_five_acquisition.lua",
+      "groups": 1,
+      "milliseconds": 2821.172
+    },
+    {
+      "file": "potion_basic_five_graph.lua",
+      "groups": 6,
+      "milliseconds": 1867.9551
+    }
+  ],
+  "rawOutput": "build/potion-five-final-budget-green.log",
+  "cloudCi": "pending parent consolidated run; no claim from local timings"
+}

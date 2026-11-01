@@ -1,0 +1,198 @@
+[
+  {
+    "action": "updated",
+    "id": "TASK-16.1",
+    "title": "验收完整职业和道具组合的结算与随机链",
+    "path": "backlog/tasks/task-16.1 - M3-战斗算法、随机流与结算顺序原版对照.md",
+    "status": "In Progress",
+    "priority": "medium",
+    "milestone": "m-4",
+    "before_checked": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "after_checked": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "action": "updated",
+    "id": "TASK-30",
+    "title": "拖牌到场上，松手就出牌",
+    "path": "backlog/tasks/task-30 - M3-出牌手感：防御等无目标牌拖到空旷处松手即打出.md",
+    "status": "In Progress",
+    "priority": "high",
+    "milestone": "m-4",
+    "before_checked": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      7,
+      8,
+      9
+    ],
+    "after_checked": [
+      4,
+      6,
+      7,
+      8,
+      9
+    ]
+  },
+  {
+    "action": "updated",
+    "id": "TASK-76",
+    "title": "修复战斗、奖励和卡组关闭后的输入阻塞",
+    "path": "backlog/tasks/task-76 - 修复切出游戏再返回后界面无法点击.md",
+    "status": "In Progress",
+    "priority": "high",
+    "milestone": "m-4",
+    "before_checked": [],
+    "after_checked": []
+  },
+  {
+    "action": "created",
+    "id": "TASK-76.1",
+    "title": "修复地图漏松手后无法再选择节点",
+    "path": "backlog/tasks/task-76.1 - 修复地图漏松手后无法再选择节点.md",
+    "status": "To Do",
+    "priority": "medium",
+    "milestone": "m-4"
+  },
+  {
+    "action": "updated",
+    "id": "TASK-14.1",
+    "title": "补齐遗物药水剩余效果和正常获取",
+    "path": "backlog/tasks/task-14.1 - M3-首发遗物药水效果与触发顺序严格对齐.md",
+    "status": "In Progress",
+    "priority": "high",
+    "milestone": "m-4",
+    "before_checked": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "after_checked": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "action": "created",
+    "id": "TASK-4.7",
+    "title": "显示已获得遗物和卡牌升级来源",
+    "path": "backlog/tasks/task-4.7 - 显示已获得遗物和卡牌升级来源.md",
+    "status": "To Do",
+    "priority": "medium",
+    "milestone": "m-4"
+  },
+  {
+    "action": "created",
+    "id": "TASK-4.8",
+    "title": "清理卡牌和遗物的英文占位说明",
+    "path": "backlog/tasks/task-4.8 - 清理卡牌和遗物的英文占位说明.md",
+    "status": "To Do",
+    "priority": "medium",
+    "milestone": "m-4"
+  },
+  {
+    "action": "updated",
+    "id": "TASK-4.5",
+    "title": "修复格挡数字裁切，并按原版核实伤害预览",
+    "path": "backlog/tasks/task-4.5 - 让牌面伤害随目标状态更新，并显示完整格挡数字.md",
+    "status": "In Progress",
+    "priority": "medium",
+    "milestone": "m-5",
+    "before_checked": [
+      1,
+      2,
+      3
+    ],
+    "after_checked": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "action": "updated",
+    "id": "TASK-4.4",
+    "title": "敌人意图一眼看懂，状态详情改成分组卡片",
+    "path": "backlog/tasks/task-4.4 - 敌人意图一眼看懂，状态详情改成分组卡片.md",
+    "status": "In Progress",
+    "priority": "medium",
+    "milestone": "m-5",
+    "before_checked": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "after_checked": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "action": "updated",
+    "id": "TASK-18",
+    "title": "准备并确定投稿封面、截图和介绍",
+    "path": "backlog/tasks/task-18 - M4-发布物料：封面-标题-简介-标签-玩法说明.md",
+    "status": "To Do",
+    "priority": "medium",
+    "milestone": "m-6",
+    "before_checked": [],
+    "after_checked": []
+  },
+  {
+    "action": "updated",
+    "id": "TASK-53",
+    "title": "查清离开后丢进度并核实恢复能力",
+    "path": "backlog/tasks/task-53 - 确认断网后能否继续本局，有能力时补上恢复.md",
+    "status": "Blocked",
+    "priority": "medium",
+    "milestone": null,
+    "before_checked": [],
+    "after_checked": []
+  },
+  {
+    "action": "updated",
+    "id": "TASK-38",
+    "title": "在手机上完整玩一遍",
+    "path": "backlog/tasks/task-38 - 手机触屏游玩适配与完整流程验收（优先排期）.md",
+    "status": "In Progress",
+    "priority": "medium",
+    "milestone": "m-5",
+    "before_checked": [],
+    "after_checked": []
+  },
+  {
+    "action": "updated",
+    "id": "TASK-47",
+    "title": "确定首发内容，并逐项确认真的能玩",
+    "path": "backlog/tasks/task-47 - M3-冻结第一幕首发内容清单与逐项可获得-可执行验收.md",
+    "status": "In Progress",
+    "priority": "medium",
+    "milestone": "m-4",
+    "before_checked": [
+      15,
+      16
+    ],
+    "after_checked": [
+      15,
+      16
+    ]
+  }
+]

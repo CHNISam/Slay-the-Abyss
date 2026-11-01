@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-10-23T06:30:57.501Z",
+  "scope": "Offline engineering implementation; independent review and official gameplay acceptance remain incomplete",
+  "sourceCommit": "e82070a651edc39a3218aa8fa77c88ac83fbf51c",
+  "verification": {
+    "command": "npm run check",
+    "exitCode": 0,
+    "node": "v22.22.1",
+    "nodeTests": {
+      "tests": 540,
+      "pass": 425,
+      "fail": 0,
+      "skipped": 115
+    },
+    "luaTestFiles": 40,
+    "python": {
+      "tests": 16,
+      "skipped": 1
+    },
+    "log": {
+      "path": "build/check-current.log",
+      "sha256": "a0ba52e2d31d23552e32244623f5853723ff598285b89dfac24c3883f11fb83d"
+    },
+    "skipReason": "Windows symbolic-link privilege: 115 Node cases and 1 Python case. engineering-posix/presentation must run them on Ubuntu."
+  },
+  "architecture": {
+    "modules": 19,
+    "edges": 54,
+    "report": "build/architecture.json"
+  },
+  "luaStatic": {
+    "version": "1.2.0",
+    "historicalWarnings": 53,
+    "newDiagnostics": 0,
+    "complexityCalibration": "Actual CC1/CC2 fixtures passed; diagnostic only",
+    "toolManifest": "config/lua-tools.json"
+  },
+  "mutations": {
+    "ids": [
+      "M1",
+      "M2",
+      "M3",
+      "M4"
+    ],
+    "result": "killed_by_assertion",
+    "durationsMs": [
+      1406,
+      731,
+      5716,
+      8510
+    ],
+    "originalFilesUnchanged": true,
+    "scope": "Four registered regressions only. Earlier timed-out baseline retained as inconclusive, not counted as kill."
+  },
+  "candidate": {
+    "buildId": "d09663a7-ccfc-4caf-b371-4ba28aa800ff",
+    "sourceDirty": false,
+    "payloadDigest": "d608db619b1814962448bdcf83204d9b1d7e2b9df47fe03fdaedaf68b33741b9",
+    "path": "F:\\New folder\\.worktrees\\engineering-upgrade\\build\\candidates\\d09663a7-ccfc-4caf-b371-4ba28aa800ff\\candidate.gil",
+    "sha256": "c56e25c6dd419aba2c9897d2953d75a8027f51a91d2bd45f028f11d1220f309f",
+    "bytes": 1492698,
+    "checkedModules": [
+      "abyss_actor",
+      "abyss_battle_ui",
+      "abyss_combat",
+      "abyss_data",
+      "abyss_deck_ui",
+      "abyss_effects",
+      "abyss_enemy_ai",
+      "abyss_events",
+      "abyss_feedback",
+      "abyss_game_ui",
+      "abyss_guardian_ai",
+      "abyss_inventory",
+      "abyss_map",
+      "abyss_map_layout",
+      "abyss_map_ui",
+      "abyss_narrative",
+      "abyss_node_ui",
+      "abyss_nodes",
+      "abyss_presentation",
+      "abyss_random",
+      "abyss_run",
+      "abyss_theme",
+      "abyss_ui",
+      "abyss_viewport"
+    ],
+    "moduleDigests": {
+      "abyss_actor": "cc077330ce16e36cfcfb58bd8562bb744751cb1eceddcdf397b867d3fb0a2ecf",
+      "abyss_battle_ui": "8a5e8876d5d48f4636191b97a6d466a0e84ab775f6e1154c91630daea2ce7705",
+      "abyss_combat": "a0e377a05805e5abf8607b2ca8d0eefb2f8bb89a50a1462428d87707682f057a",
+      "abyss_deck_ui": "e592e66116682f1c5ea0cd4fb1df53be85e076d22ce6f74e9035fe82e3284d1d",
+      "abyss_effects": "55e82565dae19005f914b44bf8d99b0d1b3489fcbe037ed1e9b35fcdb37146d5",
+      "abyss_enemy_ai": "2d3d8e72295ff759ed98768241e63913a9ba235a8b52923949b4d483e3b7dc0a",
+      "abyss_events": "5b67f1d1741011b0787006a0e056f7363793164f5b788e23db0b417e59c150ba",
+      "abyss_feedback": "b2a00077578b5901ccfc7841bbbe653f2242bc317c4853431541de7cf6d4f506",
+      "abyss_game_ui": "5b99f06cd2895834b6f4cfe833ca3508dd044ac4e68746880bd713e721e58177",
+      "abyss_guardian_ai": "bcb5f6c0792722bc85427281fb59a456f47a298f6e430bf039328ea8ff2badf7",
+      "abyss_inventory": "d83bdd60c67678bc3f74fa9a8e0b29f7adec7667edb080f466b53367961a6a40",
+      "abyss_map": "8d33d1308c3bc2b0adc3c8d5e25cb6e5e7993b3f7cff033c69379ffe79742fc3",
+      "abyss_map_ui": "18416308acd3033ac0fa63dae710339b6c40bc1826a69dc7dbe80d8cee764b1d",
+      "abyss_node_ui": "d68b31ec7ca819be11b2e4db1278de1bdcaaa256e1ada86c4d01dbcbefc0dffe",
+      "abyss_nodes": "3cf6d33b801f0aa73dcf7b0195ea031754699b14b09d50c2ba8b36797c87a9a0",
+      "abyss_random": "2104296392c6cc52e4813eb05c4138319de0297a3b72c30598fba8ad4dbf4c93",
+      "abyss_run": "cb1dbfb22215cb9e1b6e3475cb338ed3846478fb3c087317f22815e9b2d308cd",
+      "abyss_ui": "ec8b7caedc9b0035775bba676f57e88df02135fde902a8268d26164d47932fb6",
+      "abyss_viewport": "7d7fc4973b47c60ced3915d930fec57ac6c16ea3f7f5dee6d588fbf2aed5be0a",
+      "abyss_data": "7e0728ebfc7c8d2600f81949d359cccc46889ae445824f8c0f3aaf239ce0719f",
+      "abyss_map_layout": "89ffbaeebc1763a914ff2a1111b0b4e7055f363c26088e826343a101a4f043d3",
+      "abyss_narrative": "109f55e8252af0b293700f9e73e6bb5a4f55af2b4dcfd870df34fe6779f2bd38",
+      "abyss_presentation": "d847f9db262d66a52405364bccf17f97aef7a17155e7cd08b64bf879f48c5714",
+      "abyss_theme": "d229c071a504014bcf9e38359014c0f69b93a3af8076deb88bc1d9e35c8d763a"
+    },
+    "warnings": {
+      "count": 16,
+      "review": "not_run"
+    },
+    "receiptPath": "F:\\New folder\\.worktrees\\engineering-upgrade\\build\\candidates\\d09663a7-ccfc-4caf-b371-4ba28aa800ff\\candidate.json",
+    "sourceSaveUnchanged": true
+  },
+  "historicalLogFormat": {
+    "scope": "Historical raw-log format contract only; not a current candidate/run acceptance",
+    "path": "F:/New folder/.artifacts/p0/second-run-log.gia",
+    "sha256": "0fdaed600a95cd30a2842cb4f962488a09faf7508994552332d45f441e96fc83",
+    "bytes": 333,
+    "records": 1,
+    "prints": 1,
+    "decoderSha256": "fe1f4946be71802fcaeccbcf6e353e5fe5c1f95260403e912147af133d9edcfa"
+  },
+  "independentReview": {
+    "status": "blocked",
+    "reason": "Automatic approval review rejected codex review --uncommitted because repository content could be transmitted to an external review service without specific payload/destination authorization. No independent review ran; approval is required."
+  },
+  "platform": {
+    "officialImport": "not_run",
+    "currentRun": "not_run",
+    "uiReview": "not_run",
+    "publication": "not_run"
+  },
+  "optionalDiagnostics": {
+    "StrykerJS": "not_run",
+    "LuaCov": "not_run",
+    "allFilesCoverage": "not_run"
+  },
+  "remoteCiAtCapture": "not_run",
+  "externalDelivery": {
+    "status": "blocked",
+    "action": "git push origin feat/engineering-upgrade and create draft PR to CHNISam/Slay-the-Abyss develop",
+    "reason": "Automatic approval review rejected external publication because the user had authorized implementation but had not specifically authorized this payload/destination. No branch push or PR creation ran. Explicit authorization is required."
+  }
+}

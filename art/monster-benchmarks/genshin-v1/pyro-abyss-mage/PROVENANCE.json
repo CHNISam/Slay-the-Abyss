@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "identity": "pyro-abyss-mage",
+  "source": {
+    "repoPath": "art/monster-benchmarks/genshin-v1/pyro-abyss-mage/source.png",
+    "sha256": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64",
+    "bytes": 1083869,
+    "size": [
+      1254,
+      1254
+    ],
+    "bytesUnmodified": true,
+    "action": "reuse existing PR366 source; included only as portable prerequisite"
+  },
+  "sourceDirectionApprovedByUser": true,
+  "sourceApprovalScope": "source visual direction only; not native/runtime acceptance",
+  "nativeReview": "root-reviewed simplified test candidate (parent attestation)",
+  "nativeOwnerAcceptance": false,
+  "method": "manual semantic source-faithful mask, hood, collar, robe, limbs and connected twisted flower-star staff; no source sampling, raster import, fitting or new renderer",
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "native": {
+    "native-art.json": {
+      "sha256": "f8611f996a048db8f7ebabffa749f5e5918ffac39f8fb8bc054d02e1fe444575",
+      "bytes": 369781
+    },
+    "native-art.lua": {
+      "sha256": "3baeb774f291de1061e38512c527bd0419dbcec160cdc8972edac816826c7bee",
+      "bytes": 117874
+    }
+  },
+  "originalEvidence": {
+    "nativeReportSha256": "8221a48b34db351ced3c11329b37833d47f51328e1ea407cb8d2cd382dce21d7",
+    "generationProvenanceSha256": "11323646f64348534822bf179982838a59ae6936acef8e6f12d7a4d3482f3a90"
+  },
+  "generation": {
+    "tool": "built-in image_gen according to retained provenance",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "note": "No generation or conversion performed in staging; existing raw PNG preserved."
+  },
+  "identityReferenceMetadata": {
+    "urls": [
+      "https://upload-static.hoyoverse.com/hoyolab-wiki/2023/05/15/237301566/359d5e23d721155799b7576b4ab46bdc_2733832945117275075.png",
+      "https://wiki.hoyolab.com/pc/genshin/entry/2185?lang=ru-ru"
+    ],
+    "recordedHashes": [
+      "67699162d2677bd488295e633ca4d0a91bd144de40f85dbaf34a62fae5f33bc2",
+      "a232b8aea3bca9eacb092a1605cc5ab020d7cde6c4dc4a38c2a775b541d988a2",
+      "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64"
+    ],
+    "note": "Reference metadata only. No third-party reference pixels included or redistributed; hashes do not imply rights clearance."
+  },
+  "rights": "AI-assisted game-IP derivative. No game-IP sublicense, commercial clearance, or third-party-reference redistribution permission. Native Lua embeds pinned exporter/runtime material; retain existing notices and assess code license separately from art."
+}

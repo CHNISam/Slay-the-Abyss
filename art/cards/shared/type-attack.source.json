@@ -1,0 +1,64 @@
+{
+  "canvas": {
+    "width": 40,
+    "height": 40,
+    "background": "transparent",
+    "mask": {
+      "enabled": false
+    }
+  },
+  "elements": [
+    {
+      "id": "blade",
+      "name": "blade",
+      "type": "rectangle",
+      "x": 20,
+      "y": 15,
+      "width": 5,
+      "height": 20,
+      "color": "#E0ADA9",
+      "rotation": 0,
+      "zIndex": 0
+    },
+    {
+      "id": "blade-tip",
+      "name": "blade-tip",
+      "type": "triangle",
+      "x": 20,
+      "y": 4,
+      "width": 5,
+      "height": 6,
+      "color": "#E0ADA9",
+      "rotation": 0,
+      "zIndex": 1
+    },
+    {
+      "id": "guard",
+      "name": "guard",
+      "type": "rectangle",
+      "x": 20,
+      "y": 26,
+      "width": 16,
+      "height": 4,
+      "color": "#E0ADA9",
+      "rotation": 0,
+      "zIndex": 2
+    },
+    {
+      "id": "grip",
+      "name": "grip",
+      "type": "rectangle",
+      "x": 20,
+      "y": 32,
+      "width": 4,
+      "height": 8,
+      "color": "#E0ADA9",
+      "rotation": 0,
+      "zIndex": 3
+    }
+  ],
+  "meta": {
+    "sourceType": "json",
+    "sourceName": "type-attack"
+  }
+}

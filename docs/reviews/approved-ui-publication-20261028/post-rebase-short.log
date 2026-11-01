@@ -1,0 +1,77 @@
+UTC 2026-10-28T16:58:26Z
+d5284bcc82654f23a2643683ceeecda05e730548
+v24.22.1
+
+CI contract portable tests (PowerShell runtime unavailable separately recorded)
+✔ complete mapped set is eligible; unknown, deleted, core and release changes require full (3.684068ms)
+✔ prose allowlist cannot hide additional unmodelled changes (0.154543ms)
+✔ actual required gate commands reject every missing, failed, cancelled or skipped selected execution (71.721366ms)
+✔ linear feature commits pass; cross-feature merges and incomplete history fail (1.213287ms)
+✔ the immutable comparison is paginated and a merge on the last page is rejected (1.693881ms)
+✔ the existing required Quality checks history once before installing dependencies (0.308305ms)
+✔ quick feedback prioritizes a changed fixture and schedules whole related fixtures within an estimate (1.355051ms)
+✔ unknown or unusable timings use a finite conservative scheduling estimate (0.309516ms)
+✔ full fallback does not become a partial success plan (0.137197ms)
+✔ CI mapped subset remains useful beside unknown inputs while the normal selector still requires full regression (3.033108ms)
+✔ CI-only unmapped fallback reports the full gate without launching a duplicate suite (109.694393ms)
+✔ quick workflow is independent, read-only, exact-revision and cancels only superseded PR feedback (4.793549ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 465.860631
+
+Frozen UI and source inverse tests
+✔ Main physical potion shells follow real inventory and retire selected style with the exact interaction owner (4055.291744ms)
+✔ approved UI layer binds complete current sources and restores exactly the unchanged PR302 base (69.36326ms)
+✔ historical materialization consumes both all 26 original sources and every new UI consumer (73.478542ms)
+✔ deck entry matches the source capsule and keeps the existing single native button (32.174268ms)
+✔ nonbattle potion entry uses physical circular silhouettes without creating new actions (19.941885ms)
+✔ real potion header repaint preserves physical capacity and sparse inventory without mutating it (1088.337014ms)
+✔ shared slot helper retains hidden Main compatibility paths without mutating inputs (0.54431ms)
+{"shell":"filledShell","samples":7837,"mae":1.2880885654631369,"max":4.601060053979012,"model":"OFFLINE_NOT_NATIVE"}
+{"shell":"fireShell","samples":7837,"mae":1.4775394302755405,"max":7.335100550955481,"model":"OFFLINE_NOT_NATIVE"}
+✔ 锻造祝福: whole-shell reference error, not a bright-centre proxy (26.291788ms)
+✔ 火焰药水: whole-shell reference error, not a bright-centre proxy (11.655514ms)
+✔ actual empty shell renders a half-alpha face and separated tangent dashes, never the old solid face (1.768343ms)
+✔ actual filled shells preserve source-specific border, radial light and empty/selected separation (0.874587ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5845.123616
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@0.11.0 check:network
+> node scripts/check-network-policy.mjs
+
+CI download safeguards verified: incremental Git refs, size summary/limit, bounded npm retries
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@0.11.0 check:syntax
+> node scripts/check-syntax.mjs
+
+JavaScript syntax checks passed.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@0.11.0 check:architecture
+> node scripts/check-architecture.mjs
+
+Architecture passed: 221 modules, 1265 edges; build/architecture.json
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@0.11.0 check:lua-static
+> node scripts/check-lua-static.mjs
+
+Luacheck 1.2.0: no new diagnostics; 73 explicit historical warnings. Battle render <=10; every scoped function <=15; 432 governed responsibility measurements.

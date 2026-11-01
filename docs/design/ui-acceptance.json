@@ -1,0 +1,62 @@
+{
+  "approvedBaseline": "Current active docs/design/ui-canvas (PatchNotes retired), PR19 prototype/screens where not superseded, latest user decisions",
+  "note": "Candidate-specific native UI evidence only. Source/mock/layout checks do not certify PC or mobile. Final integration requires character selection, potions and exit in addition to existing screens.",
+  "screens": {
+    "menu": {
+      "status": "partial",
+      "note": "v4 actual menu/start works; candidate-specific review to be recorded after v5"
+    },
+    "map": {
+      "status": "partial",
+      "note": "User selected routes in v4; screenshot parity review pending"
+    },
+    "battle": {
+      "status": "partial",
+      "note": "User confirmed v5 actor HP/maxHP and compact intent display normally, and HP updates after damage. Full candidate-specific screenshot parity review remains pending."
+    },
+    "rewards": {
+      "status": "partial",
+      "note": "v4 victory, card addition and skip work; approved reward panel not restored"
+    },
+    "cardChoice": {
+      "status": "partial",
+      "note": "v4 one-click claim differs from approved selection/confirmation"
+    },
+    "camp": {
+      "status": "pending",
+      "note": "feat/node-ui-polish: approved rest/forge tiles and before/after upgrade preview implemented offline; not played"
+    },
+    "shop": {
+      "status": "pending",
+      "note": "v4 failed (dense text list). feat/node-ui-polish restores the approved single-screen shelf offline; no actual screenshot yet"
+    },
+    "event": {
+      "status": "pending",
+      "note": "Purifier/Cleric screen with reasons and result page implemented offline; not played"
+    },
+    "treasure": {
+      "status": "pending",
+      "note": "closed/open chest and reward row implemented offline; not played"
+    },
+    "result": {
+      "status": "partial",
+      "note": "v4 actual floor15 defeat and local restart passed. v6 screenshots confirm custom defeat page and official platform Defeat settlement with Leave/Retry. Boss victory, victory settlement, platform Retry state reset and full approved layout remain untested. Offline candidate (feat/result-menu-polish) restores the approved emblem/title/four-cell/two-button layout; see docs/evidence/result-menu-offline. It still needs a real-game screenshot review."
+    },
+    "deck": {
+      "status": "pending",
+      "note": "PR71 implements read-only six-column native GridScroller/template deck overlay with input isolation. Real offline copy contains the template/grid; official import, native scrolling and device verification remain untested."
+    },
+    "character": {
+      "status": "pending",
+      "note": "本轮最终UI集成新增显式关口；须以同一候选原生预览及真实操作证据验收，尚未实测。"
+    },
+    "potions": {
+      "status": "pending",
+      "note": "本轮最终UI集成新增显式关口；须以同一候选原生预览及真实操作证据验收，尚未实测。"
+    },
+    "exit": {
+      "status": "pending",
+      "note": "本轮最终UI集成新增显式关口；须以同一候选原生预览及真实操作证据验收，尚未实测。"
+    }
+  }
+}

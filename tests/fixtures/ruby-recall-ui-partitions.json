@@ -1,0 +1,29 @@
+{
+  "base": "4c24aa0e526ab0f1997101c4bf49ba7aa1fdccc1",
+  "originalGitBlob": "4179d11f1aceee9862420221e607cf9adc20eb00",
+  "originalSha256LF": "794b57516fb4f4671fdc35e1cd4784351921fef2f2c1c4184537814d26934b09",
+  "entry": "tests/lua/ruby_recall_ui.lua",
+  "total": 14,
+  "timeoutMilliseconds": 30000,
+  "prefix": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 7\nlocal sliceRegistered,sliceExecuted=0,0\n",
+  "before": "local function test(name,fn)fn();count=count+1;print('ok ruby recall UI '..count..' - '..name)end",
+  "after": "local function test(name,fn)\n    sliceRegistered=sliceRegistered+1\n    if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end\n    fn();sliceExecuted=sliceExecuted+1;count=count+1\n    print('ok ruby recall UI '..count..' - '..name)\n    print('RUBY_RECALL_UI_CASE '..sliceRegistered)\nend",
+  "footer": "\nassert(sliceRegistered==14,'all fourteen original Recall UI groups must register')\nassert(sliceExecuted==sliceLast-sliceFirst+1,'every selected Recall UI group must execute')\nprint('RUBY_RECALL_UI_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)\n",
+  "slices": [
+    {
+      "path": "tests/lua/ruby_recall_ui.lua",
+      "first": 1,
+      "last": 7
+    },
+    {
+      "path": "tests/lua/ruby_recall_ui_slice_2.lua",
+      "first": 8,
+      "last": 12
+    },
+    {
+      "path": "tests/lua/ruby_recall_ui_slice_3.lua",
+      "first": 13,
+      "last": 14
+    }
+  ]
+}

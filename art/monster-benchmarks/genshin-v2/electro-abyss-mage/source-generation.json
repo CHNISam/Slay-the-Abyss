@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "identity": "electro-abyss-mage",
+  "provenanceType": "Sanitized original retained generation record; no new generation or altered source",
+  "originalRecordSha256": "8183ae9d2630feda45a6475d0e9220a8a7b4fbf43835f76506564b232da8a1a2",
+  "exactPromptFiles": {
+    "prompt.txt": {
+      "sha256": "0eb5162c726dfaaf7f828262bb76650d2883647d6cdd27e880626c7b58fb4ce4",
+      "bytes": 2268,
+      "textUnmodified": true
+    }
+  },
+  "originalGenerationRecord": {
+    "date_utc": "2026-10-30",
+    "tool": "built-in image_gen.imagegen",
+    "generation_calls": 1,
+    "repair_calls": 0,
+    "seed": null,
+    "model": null,
+    "unknown_metadata_note": "Tool does not expose model identifier or seed; neither invented.",
+    "raw_sha256": "b1d4ac53f2d5c92222eb4a2b1e3b5536f9acbb331058f493ea4fbbb356647ee7",
+    "raw_preserved": true,
+    "prompt": "prompt.txt",
+    "prompt_sha256": "0eb5162c726dfaaf7f828262bb76650d2883647d6cdd27e880626c7b58fb4ce4",
+    "references": [
+      {
+        "path": "reference-0.png",
+        "page_url": "https://wiki.hoyolab.com/pc/genshin/entry/2234?lang=en-us",
+        "image_url": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2025/04/19/35428890/05329a2d5976baa04b54c6f3a5ed6c28_8891532307842304769.png",
+        "sha256": "0a38a42a20b50f667168ac3a0f8da0585e04814611368b57c3630b4c94d33b92",
+        "pixels_visually_inspected": true
+      },
+      {
+        "path": "reference-1.png",
+        "page_url": "https://wiki.hoyolab.com/pc/genshin/entry/2234?lang=en-us",
+        "image_url": "https://upload-static.hoyoverse.com/hoyolab-wiki/2023/05/29/35428890/1367eb7798bd0919ff1fcd077dd50d79_8429394241567373505.png",
+        "sha256": "5c46a407c42960ffaa531a02d29a19d80fd43a73754a5750d38116e244e86167",
+        "pixels_visually_inspected": true
+      },
+      {
+        "path": "reference-2.png",
+        "page_url": "https://wiki.hoyolab.com/pc/genshin/entry/2234?lang=en-us",
+        "image_url": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2025/04/19/35428890/8f7b5637b0524a1b6ed531fe3ce7bafd_6242083900349386124.png",
+        "sha256": "cc2f29648cbfd0f9d049c1eed34f08179c9eb3e96427d29a6c206e3ef1fe1e3d",
+        "pixels_visually_inspected": false
+      }
+    ],
+    "style_references": [
+      {
+        "path": "genshin-monster-mapping-20261030/pyro-abyss-mage-sample.png",
+        "sha256": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64",
+        "role": "style only, never identity/anatomy",
+        "pixels_visually_inspected": true
+      }
+    ],
+    "actual_png": {
+      "mode": "RGBA",
+      "width": 1223,
+      "height": 1286,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 1029374,
+      "opaque_pixels": 1152,
+      "partial_alpha_pixels": 542252,
+      "subject_alpha_bbox": [
+        0,
+        13,
+        1209,
+        1262
+      ],
+      "padding_fraction_ltrb": [
+        0.0,
+        0.01010886469673406,
+        0.011447260834014717,
+        0.01866251944012442
+      ],
+      "alpha_gt_128_bbox": [
+        172,
+        57,
+        1170,
+        1240
+      ],
+      "alpha_mode_nonzero": 253
+    },
+    "preview_recipe": "Whole original PNG canvas contained, never cropped/stretched/trimmed, into 106x106 / 127x127 transparent square using Pillow LANCZOS, centered; 4x previews NEAREST enlarge actual small pixels. Preview only, not rendering engine.",
+    "rights": "Third-party Genshin identities/references retain original rights. Private source study, no clearance/ownership claim. No external uploads or runtime changes.",
+    "status": "source candidate; parent independent review, native conversion, runtime and device verification pending; no Owner approval claim"
+  },
+  "sanitization": "Private working paths and generated output locations removed or replaced by leaf filename; prompts preserved byte-for-byte. No reference pixels included; metadata does not imply redistribution rights.",
+  "approvalBoundary": "Historical source/native approval values retain their original meaning; not current device or final-art acceptance"
+}

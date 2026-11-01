@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 2,
+  "scope": "Raw assets and literal instance counts only; alternative representations are not additive upload bytes.",
+  "offline": [
+    {
+      "asset": "avatar96",
+      "sourcePngBytes": 1517359,
+      "editableJsonBytes": 2658277,
+      "originalLuaBytes": 2794055,
+      "runtimeLuaBytes": 395396,
+      "contentImages": 4822,
+      "masks": 0,
+      "dedicatedHosts": 1,
+      "imageTemplateDefinitions": 1,
+      "GILDeltaBytes": null,
+      "officialUploadDeltaBytes": null,
+      "canonicalPngAlpha": "FAILED",
+      "SVGPreview": "diagnostic ±1 quantization",
+      "phonePerformance": "not_measured"
+    },
+    {
+      "asset": "battle133",
+      "sourcePngBytes": 1839573,
+      "editableJsonBytes": 2377377,
+      "originalLuaBytes": 2501280,
+      "runtimeLuaBytes": 356825,
+      "contentImages": 4315,
+      "masks": 0,
+      "dedicatedHosts": 1,
+      "imageTemplateDefinitions": 1,
+      "GILDeltaBytes": null,
+      "officialUploadDeltaBytes": null,
+      "canonicalPngAlpha": "FAILED",
+      "SVGPreview": "diagnostic ±1 quantization",
+      "phonePerformance": "not_measured"
+    }
+  ],
+  "B0": {
+    "status": "not_run",
+    "baseGILSha256": null,
+    "gilBytes": null,
+    "officialArchiveSize": null,
+    "uploadAmount": null,
+    "clientVersion": null
+  },
+  "B1": {
+    "status": "not_run",
+    "onlyAsset": "avatar96",
+    "hostCount": 1,
+    "gilBytes": null,
+    "gilDeltaBytes": null,
+    "mappedLuaBytes": null,
+    "officialArchiveSize": null,
+    "uploadAmount": null,
+    "phonePerformance": null
+  },
+  "missing": [
+    "real clean base GIL",
+    "complete SDK/compiler/native environment",
+    "official archive/upload reading and device observation"
+  ],
+  "twentyMBGuarantee": false,
+  "productionEnabled": false,
+  "approval": "No platform or capacity approval"
+}

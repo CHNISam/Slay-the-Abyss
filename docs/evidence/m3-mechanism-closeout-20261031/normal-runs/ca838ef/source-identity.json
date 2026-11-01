@@ -1,0 +1,18 @@
+{
+  "sourceCommit": "ca838ef6f36fedc1ed55a8eeeaafe9370149cb0d",
+  "sourceDirty": false,
+  "seeds": [
+    17
+  ],
+  "perSeedTimeoutMs": 300000,
+  "startedAt": "2026-10-31T17:59:04.481848+00:00",
+  "sourceSha256": {
+    "scripts/m3-normal-campaign.lua": "bed113604921fdaaab939b9958fb939918ca3d305ee22f83ad150794522fb9df",
+    "scripts/m3-normal-campaign.mjs": "0190f921d7a4a5d7dfb691e8c72b5e4b86450861bbfe24e9b2aa7005d47d9377",
+    "scripts/warrior75-autoplay-policy.lua": "5a0055c523c4ccc16db573756c87a32bd0797fddb072165830a24d45bc5d0e5b",
+    "scripts/m3-event-card-policy.lua": "19b85fda6be4c04785344dad0385128b7e1cba0e6c32d98687d8fd006fc16e44",
+    "scripts/m3-relic-choice-policy.lua": "ed73d98fd30ef6b95bb103991af56a612cd79c2363ba0ef4db68ef49c1a946b7",
+    "scripts/m3-campaign-coverage.mjs": "637db1c82ef2bbe0670de57fe78bbc2bf82a7076170eb4879444161eeb760e03"
+  },
+  "priorFailedCohort": "/workspace/cloud-reports/m3-natural-c3d2654/current-cohort/seed-17.json.gz"
+}

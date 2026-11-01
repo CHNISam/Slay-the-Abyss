@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "identity": "hydro-samachurl",
+  "originalRecordSha256": "ac309588a56d39e4c6dac44c7dd5528d0a0bfcf32f2228e3613fb6467ae4c98c",
+  "exactPromptFiles": {
+    "prompt.txt": {
+      "sha256": "fa7d02e8dfede6cba6d379db49b449bfeab977bfc2b4a23fc8304262522ea821",
+      "bytes": 1388,
+      "textUnmodified": true
+    }
+  },
+  "originalGenerationRecord": {
+    "asset": "hydro-samachurl",
+    "generation_mode": "built-in image_gen only",
+    "generation_calls": 1,
+    "repair_calls": 0,
+    "source_is_unchanged_raw": true,
+    "raw_source_sha256": "a1f5f34650582df5eab720967364393e2dba4719c17ae2b7d636c84cbc58c5e7",
+    "prompt_file": "prompt.txt",
+    "prompt_sha256": "fa7d02e8dfede6cba6d379db49b449bfeab977bfc2b4a23fc8304262522ea821",
+    "reference_files_sha256": {
+      "identity-reference.png": "7e024d157a115ff73669a3850edc0aa5082200c1b576697791368fc4d4b71563"
+    },
+    "style_reference": "../../stonehide-lawachurl-sample.png",
+    "style_reference_sha256": "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40",
+    "model": "unknown; not exposed",
+    "seed": "unknown; not exposed",
+    "status": "Source candidate only; no native conversion/runtime/device/owner acceptance",
+    "references": {
+      "page": "https://wiki.hoyolab.com/pc/genshin/entry/2166?lang=en-us",
+      "images": [
+        "https://wiki.hoyolab.com/img/hoyolab.png"
+      ],
+      "identity_image": "https://upload-static.hoyoverse.com/hoyolab-wiki/2023/11/03/36893887/b925a2d2bb76989c0765d4983edac5f0_3789732098596455184.png",
+      "identity_source": "HoYoWiki official-hosted reference, third-party rights; reference only"
+    }
+  },
+  "sanitization": "Private working paths removed or replaced by leaf filenames; prompt bytes unchanged; no reference pixels included",
+  "approvalBoundary": "Historical generation record only; not native/device acceptance"
+}

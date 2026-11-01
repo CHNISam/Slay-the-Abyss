@@ -1,0 +1,399 @@
+{
+  "status": "PASS",
+  "scope": "TOPOLOGY_ONLY_CONNECTED_COORDINATES_AND_GENERATED_ROW_EDGES",
+  "sourceBase": "1cfaba22cc81b7919b5b2634ff3b7cfd71abac48",
+  "sources": [
+    {
+      "rawResponse": "dungeons-AbstractDungeon.java.response.json",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java",
+      "gitBlob": "9059f4da5c8002e9645bf38f200e5527d1212ac0",
+      "contentSha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26"
+    },
+    {
+      "rawResponse": "dungeons-Exordium.java.response.json",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/Exordium.java",
+      "gitBlob": "dffde662864871956ca9fac5dbf45784b45fdc30",
+      "contentSha256": "93808b9da69b76da6b8f0471cc3533fa113fa28298939bbc48eb55566a976c08"
+    },
+    {
+      "rawResponse": "helpers-SeedHelper.java.response.json",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/SeedHelper.java",
+      "gitBlob": "c405b71bbaea95642d7011f11eae51cec5640607",
+      "contentSha256": "6a80dec1e17dd317334648cc067ad5eb295889b62a3f9f67aa09dcc3c25067b8"
+    },
+    {
+      "rawResponse": "jdk8-Collections.java.response.json",
+      "url": "https://github.com/openjdk/jdk8u/blob/jdk8u412-b08/jdk/src/share/classes/java/util/Collections.java",
+      "gitBlob": "3ab4c5ec0681ccce557bafbabea38e10dc4c1cf0",
+      "contentSha256": "da9060bf94e798187704cbb765f9f2969728cedc6546bb8d2611639287ae3211"
+    },
+    {
+      "rawResponse": "libgdx-RandomXS128.java.response.json",
+      "url": "https://github.com/libgdx/libgdx/blob/3b1fda1fc2e1f6b3c74851471870062d871ed16f/gdx/src/com/badlogic/gdx/math/RandomXS128.java",
+      "gitBlob": "a6a0b38676f11d54d01a4fdeb056c42f003c6820",
+      "contentSha256": "f450836e4ac58e93b5a8fb45c67710755b134675c671a11718fd04439e11fc71"
+    },
+    {
+      "rawResponse": "map-MapGenerator.java.response.json",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/map/MapGenerator.java",
+      "gitBlob": "b67e889ecb54e2964e32896b914ac45953527a38",
+      "contentSha256": "62c25014d2dec21fa45f8257ed315e2a964661e081658f84b3923b608880e325"
+    },
+    {
+      "rawResponse": "map-RoomTypeAssigner.java.response.json",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/map/RoomTypeAssigner.java",
+      "gitBlob": "0ed07566f6823206b3aa4754538eb602d3fe930b",
+      "contentSha256": "c1a741535f9e2c9bbdabbfce37618d7d7b7c2a34ceb6bffcb6153fa8070c7c08"
+    },
+    {
+      "rawResponse": "MapEdge.java.response.json",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/map/MapEdge.java",
+      "gitBlob": "065720d172f730510cb1fe0ae90344d9913f369e",
+      "contentSha256": "b10b9c89e72f698cf8940c3a67a9c024f2a2809748ec144ae7e7ba5e36132c04"
+    },
+    {
+      "rawResponse": "MapRoomNode.java.response.json",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/map/MapRoomNode.java",
+      "gitBlob": "2e307ca3d96518e87dd7e9d25ade07afa89a4538",
+      "contentSha256": "58d8b19c4d8154de5743df4a359eacdda49b5e46f628c9af7ab0915001bf94f7"
+    },
+    {
+      "rawResponse": "oracle-Cargo.toml.response.json",
+      "url": "https://github.com/Ru5ty0ne/sts_map_oracle/blob/ea5200f21fa566de77ec14b6155b3bf3756dccbf/Cargo.toml",
+      "gitBlob": "78eec0cb766a5de6aa7f5e320658c7b23bd7bed1",
+      "contentSha256": "01823fd01f581349237b9f664f072e3e7f639259cf11cc283680db052191d5db"
+    },
+    {
+      "rawResponse": "oracle-src-lib.rs.response.json",
+      "url": "https://github.com/Ru5ty0ne/sts_map_oracle/blob/ea5200f21fa566de77ec14b6155b3bf3756dccbf/src/lib.rs",
+      "gitBlob": "62d35baecb4a2d7f349f85f391b3815d43842ba7",
+      "contentSha256": "3d0126e64648f208fca6e37f13abfc25d8c6b4e774279b0c9fcf5e8529b93647"
+    },
+    {
+      "rawResponse": "oracle-src-main.rs.response.json",
+      "url": "https://github.com/Ru5ty0ne/sts_map_oracle/blob/ea5200f21fa566de77ec14b6155b3bf3756dccbf/src/main.rs",
+      "gitBlob": "4437e548836939e2d34a40dcb4b83a605064b015",
+      "contentSha256": "377b6898d78b2769fe7be4abd9921fe2cdf70287b2dc10fccad18f40050b96c4"
+    },
+    {
+      "rawResponse": "random-Random.java.response.json",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/random/Random.java",
+      "gitBlob": "c4b71d5645688f6e764c46c593223eb91a5249bc",
+      "contentSha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172"
+    }
+  ],
+  "seedBoundaryExpectations": [
+    {
+      "rawRunSeed": "9223372036854775807",
+      "actOneMapSeed": "-9223372036854775808"
+    },
+    {
+      "rawRunSeed": "-9223372036854775808",
+      "actOneMapSeed": "-9223372036854775807"
+    },
+    {
+      "rawRunSeed": "-1",
+      "actOneMapSeed": "0"
+    },
+    {
+      "rawRunSeed": "0",
+      "actOneMapSeed": "1"
+    }
+  ],
+  "oracleRejectionCounterexample": {
+    "method": "Native BigInt evaluation of the two fetched source predicates; not execution of either upstream implementation.",
+    "rawHex": "ffffffffffffffff",
+    "bound": 3,
+    "bits": "9223372036854775807",
+    "remainder": 1,
+    "libgdxSignedExpression": "-9223372036854775808",
+    "libgdxAccepts": false,
+    "oracleUnsignedExpression": "9223372036854775810",
+    "oracleAccepts": true,
+    "meaning": "A forced valid extreme raw value already represented by the primitive fixtures demonstrates the independent oracle is not an all-state RNG certificate."
+  },
+  "sourceInvestigation": "map-rng-source-1cfaba2/investigation.json",
+  "candidateSha256": "d4f61a801e79c52173b2a1e90d514fdebfe934c8aa378843b60685a3e3364aae",
+  "dependencies": [
+    {
+      "file": "libgdx_randomxs128.lua",
+      "sha256": "90005b366bab7d40ef4faef061c92ddeb2e028342ba8da00b5dc36c97517943f"
+    },
+    {
+      "file": "sts_random.lua",
+      "sha256": "774bc8f58d5cf7c07d38e22864533f69b79e223d1425d1434b4cc8c144cdecc2"
+    }
+  ],
+  "fixtureManifestSha256": "a79023a778a3d6629c66ecd90822bd93e83c320fd13fd701eaf9860f38084ff7",
+  "matches": 12,
+  "requested": 12,
+  "records": [
+    {
+      "seed": "0",
+      "mapSeed": "1",
+      "status": "MATCH",
+      "nodes": 54,
+      "edges": 62,
+      "randomState": {
+        "words": [
+          "8405befd7f385f06",
+          "3d972d4c8c7afb4b"
+        ],
+        "counter": 102
+      },
+      "expectedTopologySha256": "0ddc669e5e37b6be6340a276a5e023dd7c3e2c4dfb705b0270c12e15beffe2d5",
+      "actualTopologySha256": "0ddc669e5e37b6be6340a276a5e023dd7c3e2c4dfb705b0270c12e15beffe2d5",
+      "originalFixtureSha256": "49b0664266b1d8990e2e04d10b2f07f3ace05614a1d29e8ef70eff9201a8069b"
+    },
+    {
+      "seed": "1",
+      "mapSeed": "2",
+      "status": "MATCH",
+      "nodes": 52,
+      "edges": 66,
+      "randomState": {
+        "words": [
+          "c5556edf98b7a25d",
+          "623ffeb17398a898"
+        ],
+        "counter": 93
+      },
+      "expectedTopologySha256": "52bcc7ecc68e95377b055a6190c84bc449a95a78a365781e76988a6e650693ec",
+      "actualTopologySha256": "52bcc7ecc68e95377b055a6190c84bc449a95a78a365781e76988a6e650693ec",
+      "originalFixtureSha256": "11854fe530402042cb06eb6cc3d6539fb38ed45ba521ee9ab9338c3f9d7729f0"
+    },
+    {
+      "seed": "42",
+      "mapSeed": "43",
+      "status": "MATCH",
+      "nodes": 55,
+      "edges": 65,
+      "randomState": {
+        "words": [
+          "7b6a57721dfc305a",
+          "640d8bfcf108fd63"
+        ],
+        "counter": 94
+      },
+      "expectedTopologySha256": "060f9fe9511a4c88293fe749fe08f1485d22d668b542afa8de3a4cc8cb71ef2f",
+      "actualTopologySha256": "060f9fe9511a4c88293fe749fe08f1485d22d668b542afa8de3a4cc8cb71ef2f",
+      "originalFixtureSha256": "f24d7e7d1f6386ccab5f421601328d98509ae612f4f2ee7f353294c4112dd87d"
+    },
+    {
+      "seed": "313",
+      "mapSeed": "314",
+      "status": "MATCH",
+      "nodes": 63,
+      "edges": 71,
+      "randomState": {
+        "words": [
+          "425c9e8e02254f06",
+          "3f80ec8c26f3fa58"
+        ],
+        "counter": 98
+      },
+      "expectedTopologySha256": "6890442ed910907bdbadede9447c5687eb5a752e725953cbc9933d91e8a7fdc6",
+      "actualTopologySha256": "6890442ed910907bdbadede9447c5687eb5a752e725953cbc9933d91e8a7fdc6",
+      "originalFixtureSha256": "e84ff3b5985c6d4786725929cf8271eeb3705c1f5b99320be30ceb71f766756d"
+    },
+    {
+      "seed": "65535",
+      "mapSeed": "65536",
+      "status": "MATCH",
+      "nodes": 64,
+      "edges": 70,
+      "randomState": {
+        "words": [
+          "8394a17228c18984",
+          "3dd8e51721d8d46a"
+        ],
+        "counter": 95
+      },
+      "expectedTopologySha256": "97c06df696f972b1d80c3a0c80dcf1a77423c4c6ac703489b4de6e89e3cf5764",
+      "actualTopologySha256": "97c06df696f972b1d80c3a0c80dcf1a77423c4c6ac703489b4de6e89e3cf5764",
+      "originalFixtureSha256": "ef575bc294a86e3528f81f26dd85dd0e89d9c9fb400625fb909bc5863d0a23c1"
+    },
+    {
+      "seed": "673465884448",
+      "mapSeed": "673465884449",
+      "status": "MATCH",
+      "nodes": 62,
+      "edges": 69,
+      "randomState": {
+        "words": [
+          "cf86e0d23e84378e",
+          "d2b1696616909ebd"
+        ],
+        "counter": 98
+      },
+      "expectedTopologySha256": "e15af67628fc91ec2e6b8a043e7020d984622e9658c96a0c4afe4cee26326268",
+      "actualTopologySha256": "e15af67628fc91ec2e6b8a043e7020d984622e9658c96a0c4afe4cee26326268",
+      "originalFixtureSha256": "cb480979f6a9cf54dca6c318acd0b9f847b9322098d40d426a769f5ec94be2ca"
+    },
+    {
+      "seed": "2780424839485660359",
+      "mapSeed": "2780424839485660360",
+      "status": "MATCH",
+      "nodes": 54,
+      "edges": 64,
+      "randomState": {
+        "words": [
+          "630e5730826f0eba",
+          "182f6ad12d06d045"
+        ],
+        "counter": 94
+      },
+      "expectedTopologySha256": "68e037509903d83234022da084ea6110265071c66161cfa8f0cbd3f6916af8b7",
+      "actualTopologySha256": "68e037509903d83234022da084ea6110265071c66161cfa8f0cbd3f6916af8b7",
+      "originalFixtureSha256": "78d40bf0af3d7bc27093ec8966b8f0753f2fdc4cd531a89178525cb7f595e8a5"
+    },
+    {
+      "seed": "123456789",
+      "mapSeed": "123456790",
+      "status": "MATCH",
+      "nodes": 59,
+      "edges": 70,
+      "randomState": {
+        "words": [
+          "3600c4afed45a156",
+          "884bd11e6853b678"
+        ],
+        "counter": 94
+      },
+      "expectedTopologySha256": "c3916317a109be414433899c66948bb0aeac85f0450b06f7092be8f95b34b3d6",
+      "actualTopologySha256": "c3916317a109be414433899c66948bb0aeac85f0450b06f7092be8f95b34b3d6",
+      "originalFixtureSha256": "46401642f31765b5b855360fbb2799876ba12722f3a560a67d18b90987be8e1f"
+    },
+    {
+      "seed": "-17",
+      "mapSeed": "-16",
+      "status": "MATCH",
+      "nodes": 64,
+      "edges": 73,
+      "randomState": {
+        "words": [
+          "7b3435253666d2af",
+          "51769cb5fc8cbf5f"
+        ],
+        "counter": 92
+      },
+      "expectedTopologySha256": "958057ad1cc105e24484fa1052cf199747904dfeb51129322e2f62cdbbcf6b4e",
+      "actualTopologySha256": "958057ad1cc105e24484fa1052cf199747904dfeb51129322e2f62cdbbcf6b4e",
+      "originalFixtureSha256": "71507c03e5f019834a84126c7ca6f71f4c74d26c84d33c3438906e5e0f02cbaa"
+    },
+    {
+      "seed": "20261023",
+      "mapSeed": "20261024",
+      "status": "MATCH",
+      "nodes": 60,
+      "edges": 66,
+      "randomState": {
+        "words": [
+          "638ab23f2f2eb69f",
+          "b18985eb9ae26091"
+        ],
+        "counter": 91
+      },
+      "expectedTopologySha256": "5280eb534e83d933f83163888b83e4d7a23f6b15b0b49c2dfc7b4954d28c14b4",
+      "actualTopologySha256": "5280eb534e83d933f83163888b83e4d7a23f6b15b0b49c2dfc7b4954d28c14b4",
+      "originalFixtureSha256": "4df06cf1e0d121b4687d21deea30eb8b136cf2b6c0a74b2abbfd44e3746fe07a"
+    },
+    {
+      "seed": "600",
+      "mapSeed": "601",
+      "status": "MATCH",
+      "nodes": 55,
+      "edges": 63,
+      "randomState": {
+        "words": [
+          "3a32c5b2e818d9e2",
+          "ac426ad8251b58e5"
+        ],
+        "counter": 96
+      },
+      "expectedTopologySha256": "6553f741de10075e55f9689866b2d295f2b23ad5b5b7ce03b923872428941ddb",
+      "actualTopologySha256": "6553f741de10075e55f9689866b2d295f2b23ad5b5b7ce03b923872428941ddb",
+      "originalFixtureSha256": "71fed136b48c03668bab576b5676b39fefeb013260a3cc59c45de412d8e204a5"
+    },
+    {
+      "seed": "200",
+      "mapSeed": "201",
+      "status": "MATCH",
+      "nodes": 59,
+      "edges": 70,
+      "randomState": {
+        "words": [
+          "c3f53b6a0823e65f",
+          "66a2879bb0f15c1c"
+        ],
+        "counter": 93
+      },
+      "expectedTopologySha256": "1c293b3771a5684521cf576330262508dba98d6e9067bbf6faec1537c61d7f6f",
+      "actualTopologySha256": "1c293b3771a5684521cf576330262508dba98d6e9067bbf6faec1537c61d7f6f",
+      "originalFixtureSha256": "1f882cf4c622edf9eab13fba5f5908494c6a4e9b229b9302461dc71c06acf68d"
+    }
+  ],
+  "roomTypes": "NOT_COMPARED_NOT_IMPLEMENTED",
+  "production": "UNCHANGED_THREE_LANE_GENERATOR",
+  "productionFullMapGolden": {
+    "status": "FAIL",
+    "matches": 0,
+    "requested": 12,
+    "reportSha256": "e4f59c3984d269702784a9f872ad434e2a5e0aaec99961a9124d8de058ab2c4b",
+    "records": [
+      {
+        "seed": "0",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "1",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "42",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "313",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "65535",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "673465884448",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "2780424839485660359",
+        "status": "UNSUPPORTED_PROJECT_SEED"
+      },
+      {
+        "seed": "123456789",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "-17",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "20261023",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "600",
+        "status": "MISMATCH"
+      },
+      {
+        "seed": "200",
+        "status": "MISMATCH"
+      }
+    ]
+  },
+  "originalPcAuthentication": "NOT_VERIFIED",
+  "externalOracleBoundedRejection": "KNOWN_RARE_EDGE_LIMITATION_CORRECT_SOURCE_REJECTION_RETAINED",
+  "fullCheck": "NOT_RUN",
+  "miliastra": "NOT_CALLED",
+  "game": "NOT_STARTED"
+}

@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "aeubanks/sts",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenanceBoundary": "Read-only decompiled mirror, not official source or PC-binary certification. Retrieved UTF-8 text digests are not canonical byte attestations. No Java code shipped.",
+  "sources": [
+    {
+      "path": "cards/red/Bash.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/red/Bash.java",
+      "gitBlobSha": "aa6d6c2817d5dd140d8328c0e85717c024ba5ec9",
+      "sha256": "dfa6b8e076298e0e239772ae760cc7191524ca979e2af261a904c629bed5d5eb",
+      "size": 2484
+    },
+    {
+      "path": "ui/buttons/CancelButton.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/ui/buttons/CancelButton.java",
+      "gitBlobSha": "a9374a6785a214ffdebae00479f4d0132ee46f21",
+      "sha256": "863684b94b9f107be6315422c630858e6b381c5e388310f1d6cf8ba168341524",
+      "size": 9973
+    },
+    {
+      "path": "cards/blue/Defend_Blue.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/blue/Defend_Blue.java",
+      "gitBlobSha": "f585998bf3d57d381deaf9f41b0201923ce09fad",
+      "sha256": "9ebf52a97c48e0e5a84b149735f6de1dcd4efd9669ecd36da39d2cb79f75d636",
+      "size": 1614
+    },
+    {
+      "path": "cards/green/Defend_Green.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/green/Defend_Green.java",
+      "gitBlobSha": "ecf8cc92b170c94843a8f3ada895e2f6fa40ab36",
+      "sha256": "38963b10d208a04f56d11538d754edc6742ddd782caf1664b8a33fda7e858630",
+      "size": 1622
+    },
+    {
+      "path": "cards/purple/Defend_Watcher.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/purple/Defend_Watcher.java",
+      "gitBlobSha": "2da3a4220492b7625a6b998dca48cd80f10d9432",
+      "sha256": "831f4ace374777d0b2f704d9ac6983487544e4447ecc2f9e2fad31ab1ca51668",
+      "size": 1635
+    },
+    {
+      "path": "cards/red/Defend_Red.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/red/Defend_Red.java",
+      "gitBlobSha": "35a25e81d37e8a91de3e447207162a3f68e6b591",
+      "sha256": "4be83355fcb0d81f5bb5497f5e36c49e33f726fe3c2cd71fc5ec425650262d30",
+      "size": 1606
+    },
+    {
+      "path": "dungeons/AbstractDungeon.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java",
+      "gitBlobSha": "9059f4da5c8002e9645bf38f200e5527d1212ac0",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+      "size": 115023
+    },
+    {
+      "path": "events/city/BackToBasics.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/city/BackToBasics.java",
+      "gitBlobSha": "cbbf9f5782b73485ba90911a32d6c55126f653b6",
+      "sha256": "dc72fc035a26934da7882a8c533edc6930f17ee458315ff64459115e8ca5eb42",
+      "size": 4355
+    },
+    {
+      "path": "screens/select/GridCardSelectScreen.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/screens/select/GridCardSelectScreen.java",
+      "gitBlobSha": "3221a5d9f31b2c98b06848be5d261b5030841752",
+      "sha256": "1793bb4449bc7046d3e5477d1fdd4ad39f0a4d3d9582309ceb59595be8b130bc",
+      "size": 36552
+    },
+    {
+      "path": "cards/CardGroup.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/CardGroup.java",
+      "gitBlobSha": "546405eea9d7dcbd855fe47471c55c92d086987c",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8",
+      "size": 45485
+    },
+    {
+      "path": "characters/AbstractPlayer.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java",
+      "gitBlobSha": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+      "size": 98339
+    },
+    {
+      "path": "cards/red/PommelStrike.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/red/PommelStrike.java",
+      "gitBlobSha": "bc7cbe855174bef589ff480a2aaac7f0ddbe7ebb",
+      "sha256": "5317b772701a863ae0a6c263e49543be3cf2878d0e9ab71de4cfb5bce3024292",
+      "size": 1976
+    },
+    {
+      "path": "cards/blue/Strike_Blue.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/blue/Strike_Blue.java",
+      "gitBlobSha": "60a322445d3ce1d42598d6560e9fd04d116c1b77",
+      "sha256": "245b913fe88db2743103e06c3c11eee50683fa3de35f5b4632930480b479b614",
+      "size": 2571
+    },
+    {
+      "path": "cards/green/Strike_Green.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/green/Strike_Green.java",
+      "gitBlobSha": "c16b5608193d8dd139b21d4d8c8dfe613cea89fc",
+      "sha256": "6325134c01e00e6d3ed957374de363e6f4ae5bb89b0ad20f373ed16124ff3e39",
+      "size": 2587
+    },
+    {
+      "path": "cards/purple/Strike_Purple.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/purple/Strike_Purple.java",
+      "gitBlobSha": "1341af13ba75de54d7fab210b807e8e873ed771d",
+      "sha256": "45c3d8c61fc94f9b2b9eb411613ac00d04f3eb8705a47406bac6291f4d4372c2",
+      "size": 2587
+    },
+    {
+      "path": "cards/red/Strike_Red.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/red/Strike_Red.java",
+      "gitBlobSha": "ea57b7327ab094e49e4169661411b02999635e39",
+      "sha256": "e419fefb5b1bcc34175570fbafb8b68cc2a014ec4e7d974674586057dd22d37b",
+      "size": 2569
+    }
+  ],
+  "behavior": {
+    "goldCost": 0,
+    "introChoices": [
+      "elegance",
+      "simplicity"
+    ],
+    "purge": {
+      "count": 1,
+      "forUpgrade": false,
+      "forTransform": false,
+      "canCancel": true,
+      "forPurge": false,
+      "anyNumber": false
+    },
+    "cancel": "Four-argument open overload has canCancel=true internally; normal event does not show Cancel. No invented cancel command.",
+    "emptyElegance": "Skip grid, result screen, separate Leave",
+    "simplicitySourceIds": [
+      "Strike_R",
+      "Defend_R",
+      "Strike_G",
+      "Defend_G",
+      "Strike_B",
+      "Defend_B",
+      "Strike_P",
+      "Defend_P"
+    ],
+    "simplicity": "All source STARTER_STRIKE/STARTER_DEFEND cards that canUpgrade, including bottled, once; zero targets valid",
+    "outcomes": [
+      "resultScreen",
+      "separateLeave",
+      "openMap"
+    ]
+  },
+  "implementationBoundary": "V4 starter source tags unresolved: Simplicity explicitly unavailable, not a source class restriction; Elegance remains supported. Existing controls/public Nodes+Run mocked-local tests only. Native acceptance NOT_RUN, natural four-class full campaign and complete pool acceptance remain pending."
+}

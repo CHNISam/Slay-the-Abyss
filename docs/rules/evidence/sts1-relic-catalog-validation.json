@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-25",
+  "projectBaseline": "eb4e8af",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "scope": "catalog and independent source interpretation only; production relic-pool parity remains unimplemented",
+  "sourceIdentityFilesChecked": 204,
+  "sourceIdentityCheck": "SHA256 and git blob over exact fixed-archive bytes, all 204 matched",
+  "jdkOracle": {
+    "version": "17.0.18",
+    "cases": 12,
+    "rngInput": "tests/fixtures/libgdx-rng-source-vectors.json",
+    "execution": "host Java HashMap and Collections.shuffle; no original game classes executed"
+  },
+  "validation": {
+    "command": "node --test --test-concurrency=1 tests/sts1-relic-pool-catalog.test.mjs",
+    "tests": 8,
+    "passed": 8,
+    "failed": 0,
+    "log": ".artifacts/relic-source/catalog-green.log"
+  },
+  "firstTestRun": {
+    "passed": 7,
+    "failed": 1,
+    "reason": "handwritten seed-0 prefix expectation incorrectly said MawBank; actual independently generated JDK vector is MealTicket; corrected expectation, no production bug claimed",
+    "log": ".artifacts/relic-source/catalog-first.log"
+  },
+  "negativeCases": [
+    "remove unsupported PrismaticShard",
+    "misclassify WingedGreaves tier",
+    "falsely mark Girya implemented"
+  ],
+  "remaining": {
+    "queueMissing": 118,
+    "act1Missing": 128,
+    "implementationEvidence": "pending",
+    "pcBinaryAuthentication": "pending",
+    "liveEvidence": "pending"
+  },
+  "normalizedLfSha256": {
+    "docs/rules/evidence/sts1-relic-pool-catalog.json": "726f8a34c92923706f4662484cb0dde08f57244285a0c4abc82caebbf8e40c97",
+    "docs/rules/evidence/sts1-relic-source-identity.json": "55daad60c493fbff3d2fd301c091910165f04bcc49952f610e5c52df765f6309",
+    "tests/fixtures/sts1-relic-library-registration.tsv": "97903253d44c1d3942b71d48ebaa4a556b3b7b0250fbb20d706704d841b52f40",
+    "tests/fixtures/sts1-relic-pool-vectors.json": "70212ad3bb19d14fc077f5955c28d3e6c2274b1b561386c5c2bf4af72393820d",
+    "tools/oracles/Sts1RelicPoolVectors.java": "bb267fd0dedd851058c8b7d2e6e24bbb13fbee4ee3b128f5dc37d25cce46fec1",
+    "tools/oracles/sts1_relic_queues.mjs": "aaf4ebdfeebcbff7a2a5e814e64f3353b71e588905c9fae0e2f1dc31bd49280c"
+  }
+}

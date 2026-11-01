@@ -1,0 +1,52 @@
+{
+  "scope": "offline image-only Lua/API mock contract, not a native platform result",
+  "upstreamCheckerGitBlob": "ced76db25cd9e386d9c2dd683ea8f0aeef1b35aa",
+  "reusedHelper": "exact vm(script) function",
+  "inputs": [
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/native-art.lua",
+      "bytes": 2794055,
+      "sha256": "ca442b6467c79a6a8d8662f31aeca52060a24f817c47763a180953feef98f0ef"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/native-art.json",
+      "bytes": 2658277,
+      "sha256": "93bcf4303d370f7faac2b8289146acfe655bae6dced0abf5257e407d69f748ef"
+    }
+  ],
+  "contentImages": 4822,
+  "extraMasks": 0,
+  "allocatedPerBuild": 4822,
+  "mockTemplateIndex": 1234,
+  "geometryRGBAOrder": "pass",
+  "missingTemplateFailClosed": "pass",
+  "missingHost": "pass",
+  "cycles": 3,
+  "startsPerCycle": 3,
+  "liveAfterEachBuild": 4822,
+  "liveAfterOnDestroy": 0,
+  "repeatedOnDestroy": "pass",
+  "partialCases": [
+    {
+      "mode": "nil-image-creation",
+      "failAt": 10,
+      "recovered": true
+    },
+    {
+      "mode": "image-setter-throw",
+      "failAt": 10,
+      "recovered": true
+    }
+  ],
+  "artifactBindingsEdited": false,
+  "cleanupContract": "unmasked pinned runtime directly destroys its created children",
+  "testStateLifetime": "each independent Fengari state is closed after its assertion group",
+  "templateDefaultVisibility": "native template activation/visibility defaults not verified",
+  "synchronousReentry": "not tested; unmasked upstream runtime has no reentry guard",
+  "externalAttempts": [],
+  "physicalCleanup": "not_measured",
+  "officialCompile": "not_run",
+  "officialImport": "not_run",
+  "nativeB0B1": "not_run",
+  "uploadIncrementBytes": null
+}

@@ -1,0 +1,62 @@
+{
+  "kind": "offline-normal-rule-campaign",
+  "platformVerified": false,
+  "dataModified": false,
+  "sourceCommit": "c3d2654beee31fdd011db0535228e063b657ab8a",
+  "sourceDirty": false,
+  "startedAt": "2026-10-31T17:52:52.214Z",
+  "policy": "warrior75-visible-state-v1",
+  "policySha256": "5a0055c523c4ccc16db573756c87a32bd0797fddb072165830a24d45bc5d0e5b",
+  "driverSha256": "bed113604921fdaaab939b9958fb939918ca3d305ee22f83ad150794522fb9df",
+  "eventCardPolicySha256": "05ba80bf35eac1a6c7c6533f36bd383c9ee7605e7ea455ca342118d34b70da47",
+  "relicChoicePolicySha256": "ed73d98fd30ef6b95bb103991af56a612cd79c2363ba0ef4db68ef49c1a946b7",
+  "resetVerificationKind": "fresh-Run-construction-only; not Host restart",
+  "runs": [
+    {
+      "seed": 75,
+      "status": "defeat",
+      "floor": 16,
+      "hp": 0,
+      "actions": 179,
+      "newRunConstructionResetVerified": true,
+      "artifact": "seed-75.json.gz"
+    },
+    {
+      "seed": 505,
+      "status": "defeat",
+      "floor": 16,
+      "hp": 0,
+      "actions": 267,
+      "newRunConstructionResetVerified": true,
+      "artifact": "seed-505.json.gz"
+    },
+    {
+      "seed": 1,
+      "status": "defeat",
+      "floor": 16,
+      "hp": 0,
+      "actions": 169,
+      "newRunConstructionResetVerified": true,
+      "artifact": "seed-1.json.gz"
+    },
+    {
+      "seed": 17,
+      "status": "driver_blocked",
+      "reason": "scripts/m3-normal-campaign.lua:52: event: invalid_event_choice",
+      "floor": 3,
+      "hp": 88,
+      "actions": 38,
+      "newRunConstructionResetVerified": true,
+      "artifact": "seed-17.json.gz"
+    },
+    {
+      "seed": 99,
+      "status": "defeat",
+      "floor": 16,
+      "hp": 0,
+      "actions": 218,
+      "newRunConstructionResetVerified": true,
+      "artifact": "seed-99.json.gz"
+    }
+  ]
+}

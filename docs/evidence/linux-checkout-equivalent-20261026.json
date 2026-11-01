@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-26",
+  "authorization": "User explicitly permits equivalent Linux verification and harness engineering improvement",
+  "backend": "reviewed Linux behavioral equivalent using real offline Git; Windows continues original PowerShell",
+  "contractSHA256": "cdeab1e0d0aa694d8ce9683e0a313635a255a32b63ccda443355756c841f933d",
+  "fullJavaScript": {
+    "tests": 1471,
+    "pass": 1471,
+    "fail": 0,
+    "skipped": 0
+  },
+  "log": "build/m3-linux-equivalent-js.log",
+  "logSHA256": "45ae1b1a24c305db831b615dca3577a2ede0147253f846308b20ab73fd52e703",
+  "testRuntime": "Linux Node v24.19.0",
+  "windowsExecution": "NOT_RUN_THIS_SESSION",
+  "gitPayloadBytes": {
+    "first": 262502,
+    "increment": 319,
+    "oldFlow": 262724
+  },
+  "noTestsSkipped": true,
+  "productionWorkflowChanged": false,
+  "status": "PASS_LOCAL_EQUIVALENT",
+  "m3Acceptance": "INCOMPLETE; game content and platform evidence remain separate"
+}

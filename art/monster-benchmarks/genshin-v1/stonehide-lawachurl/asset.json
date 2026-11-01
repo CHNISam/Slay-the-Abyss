@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "assetRole": "genshin-identity-source-direction-benchmark-only",
+  "identity": "Stonehide Lawachurl / 丘丘岩盔王",
+  "directionEnemyId": "gremlin_leader",
+  "runtimeBinding": "none",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "sourceAlphaBBox": [
+    30,
+    12,
+    1232,
+    1254
+  ],
+  "approvals": {
+    "ownerSourceDirection": true,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "performance": "unmeasured; source PNG bytes are not runtime load or official capacity",
+  "previewRecipe": "Full original square canvas LANCZOS RGBA resize to 106/127. No crop/stretch/trim or added margin. Source bytes immutable. Not native antialiasing or crop safety proof. Future native candidate must test inset/idle extrema.",
+  "files": {
+    "generation-provenance.json": {
+      "sha256": "a03862b14fec86cf116527d28393b1df039294836e7f45771e84aa2ba08b52fa",
+      "bytes": 1275
+    },
+    "owner-direction.json": {
+      "sha256": "9911c0b30a7b2d23039178385a2b80d757d127e2718a22508410bfe342373c51",
+      "bytes": 369
+    },
+    "preview-contain-106.png": {
+      "sha256": "07ed5c9389db82e6d071e971c8322dee4d183b1695f148c8c22625c0bdfff650",
+      "bytes": 24293
+    },
+    "preview-contain-127.png": {
+      "sha256": "5c9e53df879d668754df344b9114bd1e960396d8f8eb09984fba296ec61c48aa",
+      "bytes": 33132
+    },
+    "prompt.txt": {
+      "sha256": "83a1775631200a49962efc5aece91ed176d8d1fe264415cd9f4c7f15a2f07700",
+      "bytes": 1521
+    },
+    "source.png": {
+      "sha256": "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40",
+      "bytes": 1837343
+    }
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "aeubanks/sts",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenanceBoundary": "Pinned third-party decompiled mirror; exact cached bytes verified against Git tree size/blob hashes. Not official source, original binary execution or an independent RNG oracle. No upstream/decompiled Java or game assets added/shipped by this slice.",
+  "sources": [
+    {
+      "path": "rewards/chests/AbstractChest.java",
+      "gitBlobSha": "72a42aa9cca3b882f9a4a6c77b4e26f2f78df1a8",
+      "size": 6014,
+      "sha256": "83fd088898de377d06165981d929f2a1f7e86675108680b05f10cc9d1f720147",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rewards/chests/AbstractChest.java"
+    },
+    {
+      "path": "rewards/RewardItem.java",
+      "gitBlobSha": "a23c192d58c6304acd76505da7365490636f1f31",
+      "size": 20082,
+      "sha256": "4287fb3caf3a6ad04fd7c09d1d272bc7e98ceecf4a4d599131c3a68467f75859",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rewards/RewardItem.java"
+    },
+    {
+      "path": "rooms/TreasureRoom.java",
+      "gitBlobSha": "68204b409cc99187cb4a12c9141f1f32c8b1f84a",
+      "size": 2377,
+      "sha256": "59f6e2ad9dd1edb0efebba3a7982b66e92f0b0396a1d7d5184d28595fb90a1e5",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/TreasureRoom.java"
+    },
+    {
+      "path": "rooms/TreasureRoomBoss.java",
+      "gitBlobSha": "231d74a575630a1891446610fe5e44b35f5dab16",
+      "size": 3074,
+      "sha256": "8606510d322714aed59892757891a972da253869c101117665669432a7c5b309",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/TreasureRoomBoss.java"
+    },
+    {
+      "path": "vfx/ObtainKeyEffect.java",
+      "gitBlobSha": "b052494ca3b09cc1a188714cd38ed0405ff68024",
+      "size": 3256,
+      "sha256": "9b4f2ba18307d91e9295f89cf8defafe3a418e6a953f2f589ea2d1fb56416298",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/ObtainKeyEffect.java"
+    },
+    {
+      "path": "relics/Matryoshka.java",
+      "gitBlobSha": "70e74ed4615a181e05e95409374c705fba863c30",
+      "size": 1870,
+      "sha256": "18f56dcf6cf8be165550846d67dcafdbe87ffb1a4759cf0178ea1c40c2fdfc14",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Matryoshka.java"
+    },
+    {
+      "path": "relics/CursedKey.java",
+      "gitBlobSha": "14a1a33afe7affaee803a8f82df6db421dc5a79a",
+      "size": 2324,
+      "sha256": "193182ca300dccea9aef8487a2cd9204eee4bdcb9da3d4ba344fb095915768a0",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/CursedKey.java"
+    },
+    {
+      "path": "rooms/AbstractRoom.java",
+      "gitBlobSha": "c2a1a029a9f59b1b94026dff46d4155824b85f86",
+      "size": 33565,
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/AbstractRoom.java"
+    },
+    {
+      "path": "rewards/chests/BossChest.java",
+      "gitBlobSha": "ae26ed781a8c4b9802fb649b92ed5aaf5edc13e8",
+      "size": 2774,
+      "sha256": "bad4fa7b36ffe2662030b6310414bbd5a5dc5108e2ff432f0322b262075b221a",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rewards/chests/BossChest.java"
+    }
+  ],
+  "behavior": {
+    "availability": "Settings.isFinalActAvailable && !Settings.hasSapphireKey",
+    "openOrder": [
+      "onChestOpen",
+      "goldAndCursedChestRewards",
+      "baseRelic",
+      "sapphireLinkedToLastReward",
+      "onChestOpenAfter"
+    ],
+    "linkedRelic": "last initial/base relic, not a Matryoshka-added extra relic",
+    "relicChoice": "obtain relic then invalidate linked Sapphire reward",
+    "sapphireChoice": "queue BLUE key then invalidate linked relic reward",
+    "blueGameplayResult": "hasSapphireKey=true; Ruby/Emerald and gameplay resources unchanged",
+    "bossChest": "overridden open; no Sapphire reward",
+    "gameplayRngDrawsForChoice": 0
+  },
+  "fieldMapping": {
+    "Settings.isFinalActAvailable": "run.endingUnlocked == true",
+    "Settings.hasSapphireKey": "run.keys.sapphire == true",
+    "developmentGate": "run.campaign == true; explicit experimental constructor only",
+    "eligibilityReuse": "same endingKeyEligible function used by Ruby Recall and Sapphire",
+    "roomOwnership": "current pending treasure, actual map path/signature/seed/floor, roomGeneration, prepared linked relicId"
+  },
+  "implementationBoundary": "CORE + LOCAL MOCKED-NATIVE UI: Sapphire retains legacy single-base-relic generation; this bounded integration additionally passes destination node.floor into the separately reviewed Darkstone-only floor<=48 eligibility filter. The original frozen fragment/hash remains pinned and is checked after reversing exactly that call-argument addition; Boss generation/claim blocks remain byte-identical; no source full-chest RNG parity. Full chest reward-list/open-hook transaction is a prerequisite for Matryoshka/Cursed Key/independent extra relic interactions, UNIMPLEMENTED. Legacy claimTreasure(run) remains current-displayed-relic choice and is not newly token-bound. chooseTreasure is token-bound. Local mocked-native Sapphire UI wired through both source-bound choices; actual native acceptance NOT_RUN; history producer/persistence UNWIRED; natural campaign evidence NOT_RUN. Tests stage prior navigation and endingUnlocked=true.",
+  "legacyBlocks": [
+    {
+      "name": "legacyTreasureGeneration",
+      "start": "        local relics = unownedRelics(run)\n",
+      "endExclusive": "    elseif node.type == \"event\" then\n",
+      "sha256": "82cb2d11c8741e34ad50d73fa31f99be4cfa6468cc3d6a0153cb61a8d0c22e35"
+    },
+    {
+      "name": "legacyBossPreparation",
+      "start": "    elseif node.roomKind == \"boss_treasure\" then\n",
+      "endExclusive": "    elseif node.type == \"treasure\" then\n",
+      "sha256": "627612e48fe83bd3e2ea7cc71d48e67267be2683ce7c42d69ec2d5f6aa816487"
+    },
+    {
+      "name": "legacyBossClaim",
+      "start": "local function claimBossTreasure(run, choice)\n",
+      "endExclusive": "function M.eventOptions(run,flow)\n",
+      "sha256": "0553a37d40fd58076b51b5e696666d8beaca08be8d37f1adc927616c26963ade"
+    }
+  ]
+}

@@ -1,0 +1,275 @@
+{
+  "sourceRepository": "aeubanks/sts",
+  "revision": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "referenceKind": "community decompilation mirror, not authenticated PC binary",
+  "policy": "Behavior was inspected and independently implemented; no source code or protected assets copied into runtime. Targeted file reads only, no archive download.",
+  "retrieval": "GitHub connector exact pinned revision; Git object and SHA256 verified from returned UTF-8 bytes.",
+  "remoteDuplicateCheck": {
+    "pullRequest": 238,
+    "head": "2535527608630e37510cdf6a54d643d830d592a7",
+    "file": "src/lua/abyss_act3_bosses.lua",
+    "blob": "135121446c837f78778e4eea82783b25b5ea0ba8",
+    "result": "Only Donu/Deca implemented at inspected current remote head."
+  },
+  "files": [
+    {
+      "path": "monsters/beyond/AwakenedOne.java",
+      "gitBlobSha": "9e26e2d55a7b1c0b9b0659b13e74a9d2f699c75c",
+      "sha256": "c8ea4f62cb5172ff8c9540956f707aab1188ddc54dbdae421afb91715682bbc0",
+      "bytes": 17880,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/AwakenedOne.java"
+    },
+    {
+      "path": "monsters/exordium/Cultist.java",
+      "gitBlobSha": "b2a203b035502dac149ced1d7dd48a8e577a61c6",
+      "sha256": "93e6404234a9c57f794c1f98f7943b60c62e66c464dd19d7579913fd75ad7f4f",
+      "bytes": 6302,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/Cultist.java"
+    },
+    {
+      "path": "powers/CuriosityPower.java",
+      "gitBlobSha": "afb547a97045fe8add049916aefcf3b39d6c8284",
+      "sha256": "b634bd76a66553d949ab4cc055d74c6d7330113a586328a9e204e56481a7f817",
+      "bytes": 1650,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/CuriosityPower.java"
+    },
+    {
+      "path": "powers/UnawakenedPower.java",
+      "gitBlobSha": "372ebb4a2cc7c9b01203fec1e159340ddc698cd2",
+      "sha256": "910c38a06ac4cfd3ea737bab5157c4d81cd2da251603eb69215034553b5381f9",
+      "bytes": 1021,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/UnawakenedPower.java"
+    },
+    {
+      "path": "powers/RegenerateMonsterPower.java",
+      "gitBlobSha": "354e19f9ca375c53f9bcff30a0d317c36d28fcd4",
+      "sha256": "666ddc2424c5760133cb1f09ff066f410d218e26a809dedb6a35fe54800ab392",
+      "bytes": 1467,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/RegenerateMonsterPower.java"
+    },
+    {
+      "path": "powers/GainStrengthPower.java",
+      "gitBlobSha": "5227f6cdbcb7b9277e42ff668b9a874c47a7c68e",
+      "sha256": "06258d050cb0120eee8812124f59f59c1e541ac705781c8c73b82501632e1799",
+      "bytes": 2728,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/GainStrengthPower.java"
+    },
+    {
+      "path": "powers/StrengthPower.java",
+      "gitBlobSha": "fbb46a2d532cde9bf116527c8d426ad0179877bc",
+      "sha256": "20b05040efe9d6ad693dd763a658c86df9db1b1ac365351c4c8d81c7f6ca08c9",
+      "bytes": 3073,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/StrengthPower.java"
+    },
+    {
+      "path": "powers/CorpseExplosionPower.java",
+      "gitBlobSha": "8fbcc81fc86fe52a695c177748edb503674d1451",
+      "sha256": "7da1db8b92cbe48cdda233f0cd3575fde953c0540e9d62e22e8ad2b0e31ab4dd",
+      "bytes": 1779,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/CorpseExplosionPower.java"
+    },
+    {
+      "path": "powers/PoisonPower.java",
+      "gitBlobSha": "775cbbc50947b9465c4013d93bcdeeade5c9abac",
+      "sha256": "b4269eafb2a23282142e9c5460510e4a876d7abb3c62ae6d7a2211b5826ac6c2",
+      "bytes": 2510,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/PoisonPower.java"
+    },
+    {
+      "path": "helpers/MonsterHelper.java",
+      "gitBlobSha": "a81763abf681642be66cbd935cc99d2126e822f4",
+      "sha256": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1",
+      "bytes": 42809,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java"
+    },
+    {
+      "path": "monsters/AbstractMonster.java",
+      "gitBlobSha": "4784e38e7afff5980736e2b5c718e62a0c838c47",
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f",
+      "bytes": 47762,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/AbstractMonster.java"
+    },
+    {
+      "path": "monsters/MonsterGroup.java",
+      "gitBlobSha": "7096970a151840489a3fba89806e6391e0d82d76",
+      "sha256": "535770201b8aa8de01b52b185979af537f11ad0862e7d3e71ebb20cc64234221",
+      "bytes": 10226,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/MonsterGroup.java"
+    },
+    {
+      "path": "core/AbstractCreature.java",
+      "gitBlobSha": "bee5f7d0d955528b69007376cc0465ed60e577c6",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b",
+      "bytes": 42311,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java"
+    },
+    {
+      "path": "actions/GameActionManager.java",
+      "gitBlobSha": "1662da8de2aeb42044b385f03d0c801750904b13",
+      "sha256": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3",
+      "bytes": 22667,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/GameActionManager.java"
+    },
+    {
+      "path": "actions/ClearCardQueueAction.java",
+      "gitBlobSha": "b21488b52d128e533f6b8784672c8f57703e6446",
+      "sha256": "a3924c6ee2929783d04ba458851ad3f2637f42118e01c55db7ba6d6f823208ad",
+      "bytes": 801,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/ClearCardQueueAction.java"
+    },
+    {
+      "path": "actions/common/HealAction.java",
+      "gitBlobSha": "eef27602db313784daeb95c3c9191aff920950a8",
+      "sha256": "00aae32b5face92bd5078f381527e9671ee1d2d9c55bfe03aa81d5c56b18a91d",
+      "bytes": 1046,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/HealAction.java"
+    },
+    {
+      "path": "actions/common/DamageAction.java",
+      "gitBlobSha": "ea89aeab60af8a7c297495de3cd8eb82d7130232",
+      "sha256": "c5649fc04cbcadffa617e5c52f1a6f879f88cb1a90a543d5a0a05ebf950578ec",
+      "bytes": 4424,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/DamageAction.java"
+    },
+    {
+      "path": "actions/common/EscapeAction.java",
+      "gitBlobSha": "18027317774535bcfde2898a32e97a4250dc95bd",
+      "sha256": "ffbe3b6d2ed290255005b61c5d88c1b470ae9d05eb87462004ac98382051498c",
+      "bytes": 727,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/EscapeAction.java"
+    },
+    {
+      "path": "actions/common/SetMoveAction.java",
+      "gitBlobSha": "3d06fd9e29345de1c7c9d35c473543a2c7f041e3",
+      "sha256": "2b6c9200a4574d514674214d342a24993d6bd7f9ce1ac81306fd308adb443666",
+      "bytes": 2148,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/SetMoveAction.java"
+    },
+    {
+      "path": "actions/common/MakeTempCardInDrawPileAction.java",
+      "gitBlobSha": "a5b9650620e6607c1b9a62369fe3eb7de2f5363e",
+      "sha256": "c00b2da9c82d6e5fed1f638312a2af46dcd586bcd76e963f859e4417629ac2fe",
+      "bytes": 3093,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/MakeTempCardInDrawPileAction.java"
+    },
+    {
+      "path": "actions/AbstractGameAction.java",
+      "gitBlobSha": "91144a8bcab7d0bdac1ce96a71e5edd52aacff06",
+      "sha256": "cf0e5dbdfdf3f0c567c3527b839070718e19d836bb62364e8fa5f973b5ecdccb",
+      "bytes": 2989,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/AbstractGameAction.java"
+    },
+    {
+      "path": "actions/utility/UseCardAction.java",
+      "gitBlobSha": "6efc08986e3a6b71648ee7f6f95d77ee1a2e52d6",
+      "sha256": "90213939af6d7ec83dea01bb2feef4ba762a93400dc1535732e2eebcdb6cab0f",
+      "bytes": 5830,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/utility/UseCardAction.java"
+    },
+    {
+      "path": "actions/unique/PoisonLoseHpAction.java",
+      "gitBlobSha": "338fa49aa56a439a934cfe2310c905b09be7238a",
+      "sha256": "43fcf2e88d5295fdf12781cf6980a93941e9814aa0a98a7a9a8b47af0413ba1a",
+      "bytes": 2642,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/unique/PoisonLoseHpAction.java"
+    },
+    {
+      "path": "actions/utility/ScryAction.java",
+      "gitBlobSha": "d5882922693c26fa7cc372b54cf257f89e4a03aa",
+      "sha256": "a22d8875a9ac3a4b6c445abad65a6ca4defa8fb309d1f6a6e51506a8e3b55147",
+      "bytes": 2749,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/utility/ScryAction.java"
+    },
+    {
+      "path": "actions/common/DiscardAction.java",
+      "gitBlobSha": "de56df9c8a97ea6fe2ecc7937cb9e16f06493365",
+      "sha256": "8c711be291822386b64fe0a6c9bc55b920b7a09122fb55f09184b6ca96063c10",
+      "bytes": 3956,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/DiscardAction.java"
+    },
+    {
+      "path": "actions/common/PutOnDeckAction.java",
+      "gitBlobSha": "8b21a94a4a44c6e2ff0ca9eb8017a991f7ecd6f7",
+      "sha256": "16f2ab8615f93267325ea98a9d1ea6e38b79e79c4aa72c4284efbb1ec4c567af",
+      "bytes": 2503,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/PutOnDeckAction.java"
+    },
+    {
+      "path": "actions/common/ExhaustAction.java",
+      "gitBlobSha": "3c5ad8b321a8528a59c3c39de1448fc5a13f47c8",
+      "sha256": "10fd566a420d2549c3705a564ca6274da189eacad7df1872ddf2867af936f510",
+      "bytes": 4310,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/ExhaustAction.java"
+    },
+    {
+      "path": "relics/RedSkull.java",
+      "gitBlobSha": "0ff095dbd1c78aebd7280bff1dae5b5501ac9342",
+      "sha256": "c109afe84adbe8fec6edf72aa786a363bc6e497ecc8fbbf4fea2053f2ccdeffb",
+      "bytes": 2871,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/RedSkull.java"
+    },
+    {
+      "path": "relics/CentennialPuzzle.java",
+      "gitBlobSha": "d90f52999b180df687297b2f5daa9f9f990020b8",
+      "sha256": "b1069310819ff2fdd812467a1d0f461d9d40cea376e244268dfdc270217dd56e",
+      "bytes": 1765,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/CentennialPuzzle.java"
+    },
+    {
+      "path": "actions/defect/SunderAction.java",
+      "gitBlobSha": "7e5fa74e4efc39b99579bf1603d7b7f10fcecba8",
+      "sha256": "0158694cc6822d4f81541b71dff41d8e17f94a5b0b05ce0ffdf27d531ad443a0",
+      "bytes": 1665,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/defect/SunderAction.java"
+    },
+    {
+      "path": "orbs/Lightning.java",
+      "gitBlobSha": "e7468da9f811deb459b9b24f9ef9b14b8ada8d37",
+      "sha256": "16458980840cc41d788b6d92c69e8f547aa8208eb34a37ee610dfbb7bdebe62e",
+      "bytes": 7600,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/orbs/Lightning.java"
+    },
+    {
+      "path": "orbs/Frost.java",
+      "gitBlobSha": "512f398ecdbc22ea8f8d6b6063f7945c1b7eed17",
+      "sha256": "74c6f567c91c526b0fd2b9b8040888bab54eab329d099251ad94f81dadeb1439",
+      "bytes": 4312,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/orbs/Frost.java"
+    },
+    {
+      "path": "orbs/Plasma.java",
+      "gitBlobSha": "66c842f7c60ba0688e5ee64414d4533672e73b2d",
+      "sha256": "3758d5402fd24491fae363bf64fc4e871e917f5f89d44d2265840c96db648cce",
+      "bytes": 4332,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/orbs/Plasma.java"
+    },
+    {
+      "path": "orbs/Dark.java",
+      "gitBlobSha": "9ea54097c296578ddfdf1ef9494fc6e660e66b55",
+      "sha256": "610fccbaf45b74bf4c151982e07c599f940a295027271e478a4e8b3e46def373",
+      "bytes": 5046,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/orbs/Dark.java"
+    },
+    {
+      "path": "powers/MayhemPower.java",
+      "gitBlobSha": "a07c78c0331be5cc8828d49075d5e8d3871af7ad",
+      "sha256": "87133a08359078a0f37d4f62ffca8020d31a21de7f8efba042a56936a8ab6226",
+      "bytes": 1748,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/MayhemPower.java"
+    },
+    {
+      "path": "cards/CardGroup.java",
+      "gitBlobSha": "546405eea9d7dcbd855fe47471c55c92d086987c",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8",
+      "bytes": 45485,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/CardGroup.java"
+    },
+    {
+      "path": "vfx/cardManip/ShowCardAndAddToDrawPileEffect.java",
+      "gitBlobSha": "ba2015d83dafa8e4131062ab8327805a3eca50c9",
+      "sha256": "d2b573fb3488c551a4039e68a5c487b76a60fdbcfecaf5bf7254ed9bc8417433",
+      "bytes": 5372,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/cardManip/ShowCardAndAddToDrawPileEffect.java"
+    }
+  ]
+}

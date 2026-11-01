@@ -1,0 +1,682 @@
+{
+  "schemaVersion": 1,
+  "scope": "Exact final multi -> native plus M3 -> M3 -> accepted base; independent legacy witnesses remain immutable.",
+  "targets": {
+    "delivery": {
+      "beforeCommit": "9c2067547cb378fb33827f63d54cf6394ef32f12",
+      "afterCommit": "8504ac73f5cd6bff760e5abc234eacfec7c4ee7e",
+      "beforeTree": "bc7492876a83a033b2cd92601a06cef1511e80ab",
+      "afterTree": "1782d1b6b03a8e95abf799edf4ae48331f23293f",
+      "files": {
+        "data/presentation/ui_theme.json": {
+          "beforeSha256": "5b9923e86cfc3bd02406181581ef8ff2a8dae985bdeb94757efd869742afe736",
+          "afterSha256": "8a8fddd95f0f5c45cdc45bc8d9e970015b5f7ce715d9777b1851342d379bc204",
+          "beforeGitBlob": "9f8e09d4cf10dd361a7e231901627bc2ee577bcf",
+          "afterGitBlob": "4de36455db6d941985d4ceeabc4aa4c2f77ed352",
+          "beforeLines": 3494,
+          "afterLines": 3512,
+          "hunks": [
+            {
+              "beforeAt": 1540,
+              "at": 1540,
+              "before": [],
+              "after": [
+                "      \"browseTitle\": [-399, 316, 266, 44],",
+                "      \"filters\": [",
+                "        [-217, 316, 78, 40],",
+                "        [-134, 316, 78, 40],",
+                "        [-51, 316, 78, 40],",
+                "        [32, 316, 78, 40],",
+                "        [115, 316, 78, 40],",
+                "        [198, 316, 78, 40]",
+                "      ],",
+                "      \"sort\": [320, 316, 150, 40],"
+              ]
+            },
+            {
+              "beforeAt": 3102,
+              "at": 3112,
+              "before": [],
+              "after": [
+                "        ],",
+                "        \"filters\": [",
+                "          [-525, -120, 78, 44],",
+                "          [-436, -120, 78, 44],",
+                "          [-347, -120, 78, 44],",
+                "          [-258, -120, 78, 44],",
+                "          [-169, -120, 78, 44],",
+                "          [-80, -120, 78, 44]"
+              ]
+            }
+          ]
+        },
+        "scripts/character-ui-layout.mjs": {
+          "beforeSha256": "61baac2b16e853bf17622e9ffc3bedc238c301b7061e8d2f0f948faa93c33b0e",
+          "afterSha256": "4906c4c7e9e9cb981ba1f44d15f94f1221b350f8010be1c44eef4f58aeac87fe",
+          "beforeGitBlob": "6c39d479d72bd2f20bea79cdfbb4c21a887b81d3",
+          "afterGitBlob": "0ac0cf2b86c00355687edc271f0127fbc0fa1802",
+          "beforeLines": 101,
+          "afterLines": 103,
+          "hunks": [
+            {
+              "beforeAt": 81,
+              "at": 81,
+              "before": [],
+              "after": [
+                "        ...d.filters.map((frame, i) => button('deckFilter' + ['All','Attack','Skill','Power','Status','Curse'][i],",
+                "          frame, ['全部','攻击','技能','能力','状态','诅咒'][i], l, f.small)),"
+              ]
+            }
+          ]
+        },
+        "scripts/deck-ui-layout.mjs": {
+          "beforeSha256": "c28cf6ff94f04768f878572d29d8eed3d766b7ea00bd8d55df2d569cadf95503",
+          "afterSha256": "c9cda8fb473790c69923ba125f030c9cdf4e7247a1548bbb9b4d4187bb21c92e",
+          "beforeGitBlob": "ebc2611a0a8d213eadbe44d47aaedce062e1343a",
+          "afterGitBlob": "5fca5f97ef8bae1bf62213e74414801ee35ddc58",
+          "beforeLines": 98,
+          "afterLines": 113,
+          "hunks": [
+            {
+              "beforeAt": 70,
+              "at": 70,
+              "before": [],
+              "after": [
+                "  const browseFilters = [",
+                "    ['All', '全部'], ['Attack', '攻击'], ['Skill', '技能'],",
+                "    ['Power', '能力'], ['Status', '状态'], ['Curse', '诅咒'],",
+                "  ];",
+                "  const browseButtons = browseFilters.map(([id, label], i) => {",
+                "    const frame = l.deckView.filters[i];",
+                "    const control = button('filter' + id, frame, label);",
+                "    control.visible = false;",
+                "    control.children.push({ ...plate('selected', [0, -frame[3] / 2 + s.border * 2,",
+                "      frame[2] - s.m * 2, s.border * 2], c.goldBright), visible: false });",
+                "    return control;",
+                "  });"
+              ]
+            },
+            {
+              "beforeAt": 87,
+              "at": 99,
+              "before": [],
+              "after": [
+                "      { ...text('browseTitle', l.deckView.browseTitle, '', f.heading, c.goldBright), visible: false },",
+                "      ...browseButtons,",
+                "      { ...button('sort', l.deckView.sort, '排序·默认'), visible: false },"
+              ]
+            }
+          ]
+        },
+        "src/lua/abyss_character_select.lua": {
+          "beforeSha256": "51934cf30c6e5a1fe78d710fd4c5dcbbde630473732ef7767d12952866abf2a9",
+          "afterSha256": "b5ca936092b54fdee62a50228957fc40b407f5fa2a63d553755434a63a471813",
+          "beforeGitBlob": "e675b36fd236226a8234e4c4c32edce29edd37d5",
+          "afterGitBlob": "d87b752407b83ef6f11232c30d385faac11d1356",
+          "beforeLines": 91,
+          "afterLines": 101,
+          "hunks": [
+            {
+              "beforeAt": 7,
+              "at": 7,
+              "before": [],
+              "after": [
+                "local deckFilters={all=true,attack=true,skill=true,power=true,status=true,curse=true}"
+              ]
+            },
+            {
+              "beforeAt": 40,
+              "at": 41,
+              "before": [
+                "    for _,card in ipairs(order)do deck[#deck+1]={id=card,name=display[card].name,count=counts[card]}end"
+              ],
+              "after": [
+                "    for _,card in ipairs(order)do deck[#deck+1]={id=card,name=display[card].name,count=counts[card],type=defs[card].type}end"
+              ]
+            },
+            {
+              "beforeAt": 54,
+              "at": 55,
+              "before": [
+                "    local state={profile=profile}"
+              ],
+              "after": [
+                "    local state={profile=profile,deckFilter='all'}"
+              ]
+            },
+            {
+              "beforeAt": 69,
+              "at": 70,
+              "before": [
+                "    function state:clear()self.character,self.element,self.info=nil,nil,nil end"
+              ],
+              "after": [
+                "    function state:clear()",
+                "        self.character,self.element,self.info=nil,nil,nil",
+                "        self.deckFilter='all'",
+                "    end",
+                "    function state:setDeckFilter(kind)",
+                "        if not self.info or not deckFilters[kind] or self.deckFilter==kind then return false end",
+                "        self.deckFilter=kind",
+                "        return true",
+                "    end"
+              ]
+            },
+            {
+              "beforeAt": 79,
+              "at": 88,
+              "before": [],
+              "after": [
+                "        self.deckFilter='all'"
+              ]
+            },
+            {
+              "beforeAt": 85,
+              "at": 95,
+              "before": [
+                "        self.element=id;self.info=M.preview(source,presentation,id);return true"
+              ],
+              "after": [
+                "        self.element=id;self.info=M.preview(source,presentation,id);self.deckFilter='all';return true"
+              ]
+            }
+          ]
+        },
+        "src/lua/abyss_character_select_view.lua": {
+          "beforeSha256": "b2519ff369b03d17b85cf01d1d7c49f53db1860fc073cac388f64b7d1d460a0b",
+          "afterSha256": "6ade4ad7535eb0a1ae43d6946359b1356a2ebdb49aa6dd9aef8913f77c4ebaa0",
+          "beforeGitBlob": "414cce6e9e0f10edcacc15b9703daae0b608a645",
+          "afterGitBlob": "287049f16ebb803a7757230a873a54cfa4a1e4af",
+          "beforeLines": 82,
+          "afterLines": 99,
+          "hunks": [
+            {
+              "beforeAt": 5,
+              "at": 5,
+              "before": [],
+              "after": [
+                "local deckFilters={{id='all',control='All'},{id='attack',control='Attack'},",
+                "    {id='skill',control='Skill'},{id='power',control='Power'},",
+                "    {id='status',control='Status'},{id='curse',control='Curse'}}",
+                "local function renderStarterDeck(details,info,filter)",
+                "    local cards,count={},0",
+                "    for _,card in ipairs(info.deck)do",
+                "        if filter=='all' or card.type==filter then",
+                "            cards[#cards+1]=card",
+                "            count=count+card.count",
+                "        end",
+                "    end",
+                "    details:GetChild('deckTitle').text=filter=='all' and '初始牌组 · '..number(info.deckSize)..' 张'",
+                "        or '初始牌组 · '..number(count)..'/'..number(info.deckSize)..' 张'",
+                "    for i=1,6 do",
+                "        local card=cards[i]",
+                "        details:GetChild('card'..i).text=card and card.name..' × '..number(card.count) or ''",
+                "    end",
+                "    for _,entry in ipairs(deckFilters)do",
+                "        details:GetChild('deckFilter'..entry.control):GetChild('selected'):SetVisible(entry.id==filter)",
+                "    end",
+                "end"
+              ]
+            },
+            {
+              "beforeAt": 57,
+              "at": 78,
+              "before": [
+                "    details:GetChild('deckTitle').text='初始牌组 · '..number(info.deckSize)..' 张'",
+                "    for i=1,6 do",
+                "        local card=info.deck[i]",
+                "        details:GetChild('card'..i).text=card and card.name..' × '..number(card.count) or ''",
+                "    end"
+              ],
+              "after": [
+                "    renderStarterDeck(details,info,state.deckFilter or 'all')"
+              ]
+            }
+          ]
+        },
+        "src/lua/abyss_deck_ui.lua": {
+          "beforeSha256": "ef11dda08bb63093434ea212b27b8accd24e07053566a1fc8ad57feb3db4facd",
+          "afterSha256": "5115772421b007ba2e61a0f9de0cbfad54591e52741bc776878eb12d63a8d93d",
+          "beforeGitBlob": "34c702578aa7ac07eb1cb7a3296be62e90b746d5",
+          "afterGitBlob": "0dcacb0215715c8e07c7f11bf8b149b8e249b3d9",
+          "beforeLines": 333,
+          "afterLines": 451,
+          "hunks": [
+            {
+              "beforeAt": 11,
+              "at": 11,
+              "before": [],
+              "after": [
+                "-- Match the original game's display categories; never sort an actual combat pile.",
+                "local browseFilters={{id='all',control='All'},{id='attack',control='Attack'},",
+                "    {id='skill',control='Skill'},{id='power',control='Power'},",
+                "    {id='status',control='Status'},{id='curse',control='Curse'}}",
+                "local browseSorts={'original','name','rarity','cost','type'}",
+                "local sortNames={original='原顺序',name='名称',rarity='稀有度',cost='费用',type='类型'}",
+                "local typeOrder={attack=1,skill=2,power=3,status=4,curse=5}"
+              ]
+            },
+            {
+              "beforeAt": 59,
+              "at": 66,
+              "before": [],
+              "after": [
+                "    local function canBrowse()",
+                "        return self.visible and self.browseEnabled and not self.detailOnly and not self.detailPages",
+                "    end",
+                "    local function paintBrowse()",
+                "        local active=canBrowse()",
+                "        root:GetChild('title'):SetVisible(not active)",
+                "        local heading=root:GetChild('browseTitle')",
+                "        heading:SetVisible(active)",
+                "        root:GetChild('sort'):SetVisible(active)",
+                "        if active then",
+                "            heading.text=self.listTitle",
+                "            local label='排序·'..sortNames[self.sortMode]",
+                "            for _,state in ipairs({'normal','hover','pressed','disabled'})do",
+                "                root:GetChild('sort'):GetChild('hit'):GetChild(state):GetChild('label').text=label",
+                "            end",
+                "        end",
+                "        for _,filter in ipairs(browseFilters)do",
+                "            local control=root:GetChild('filter'..filter.control)",
+                "            control:SetVisible(active)",
+                "            control:GetChild('selected'):SetVisible(active and self.typeFilter==filter.id)",
+                "        end",
+                "    end"
+              ]
+            },
+            {
+              "beforeAt": 91,
+              "at": 120,
+              "before": [
+                "        closeLabel('返回');detailPage();return true"
+              ],
+              "after": [
+                "        closeLabel('返回');detailPage();paintBrowse();return true"
+              ]
+            },
+            {
+              "beforeAt": 175,
+              "at": 204,
+              "before": [],
+              "after": [
+                "    -- Pure presentation projection. The permanent deck and the three combat",
+                "    -- piles retain their UIDs, acquisition order and RNG state unchanged.",
+                "    local function costRank(definition)",
+                "        if definition.costMode=='all_energy' or definition.cost==-1 then return 1000 end",
+                "        if type(definition.cost)~='number' or definition.cost<0 then return 1001 end",
+                "        return definition.cost",
+                "    end",
+                "    local function projectCards()",
+                "        local entries={}",
+                "        for i,card in ipairs(self.allCards or {})do",
+                "            local definition=Combat.cardDefinition(self.battle or {catalog=self.catalog},card)",
+                "            if self.typeFilter=='all' or definition.type==self.typeFilter then",
+                "                entries[#entries+1]={card=card,index=i,definition=definition}",
+                "            end",
+                "        end",
+                "        if self.sortMode~='original' then",
+                "            table.sort(entries,function(a,b)",
+                "                local x,y",
+                "                if self.sortMode=='type' then",
+                "                    x,y=typeOrder[a.definition.type] or 99,typeOrder[b.definition.type] or 99",
+                "                elseif self.sortMode=='rarity' then",
+                "                    x,y=rarityOrder[a.definition.rarity] or 99,rarityOrder[b.definition.rarity] or 99",
+                "                elseif self.sortMode=='cost' then",
+                "                    x,y=costRank(a.definition),costRank(b.definition)",
+                "                else",
+                "                    x=assert(presentation[a.card.cardId],'missing deck name').name",
+                "                    y=assert(presentation[b.card.cardId],'missing deck name').name",
+                "                end",
+                "                if x~=y then return x<y end",
+                "                return a.index<b.index -- stable acquisition/pile display order",
+                "            end)",
+                "        end",
+                "        self.cards={}",
+                "        for _,entry in ipairs(entries)do self.cards[#self.cards+1]=entry.card end",
+                "        local total=#(self.allCards or {})",
+                "        local amount=self.typeFilter=='all' and tostring(total) or #self.cards..'/'..total",
+                "        self.listTitle=(pileNames[self.pileKind] or '卡组')..' · '..amount..' 张'",
+                "    end",
+                "    local function refreshGrid()",
+                "        self.generation=self.generation+1",
+                "        local generation=self.generation",
+                "        local cards,catalog=self.cards,self.catalog",
+                "        self.controllerPage=1",
+                "        self.indexBase,self.pending,self.calibrating=nil,false,true",
+                "        grid.scrollProgress=0",
+                "        liveFaces(CardDisplay.clearNativeArt)",
+                "        -- Calibrate native 0/1 based indices before scheduling the complete list.",
+                "        grid:RefreshItems(#cards>0 and 1 or 0,function(control,index)",
+                "            if not self.visible or self.generation~=generation or not self.calibrating then return end",
+                "            self.indexBase,self.pending=index,true",
+                "            fill(control,cards[1],catalog)",
+                "        end)",
+                "    end",
+                "    local function changeBrowse()",
+                "        projectCards()",
+                "        root:GetChild('title').text=self.listTitle",
+                "        paintBrowse()",
+                "        refreshGrid()",
+                "        return true",
+                "    end",
+                "    function self.setFilter(_,kind)",
+                "        if not canBrowse() or self.typeFilter==kind then return false end",
+                "        local allowed=false",
+                "        for _,entry in ipairs(browseFilters)do if entry.id==kind then allowed=true;break end end",
+                "        if not allowed then return false end",
+                "        self.typeFilter=kind",
+                "        return changeBrowse()",
+                "    end",
+                "    function self.nextSort(_)",
+                "        if not canBrowse() then return false end",
+                "        for i,mode in ipairs(browseSorts)do",
+                "            if mode==self.sortMode then self.sortMode=browseSorts[i%#browseSorts+1];break end",
+                "        end",
+                "        return changeBrowse()",
+                "    end"
+              ]
+            },
+            {
+              "beforeAt": 178,
+              "at": 282,
+              "before": [
+                "        local generation = self.generation"
+              ],
+              "after": []
+            },
+            {
+              "beforeAt": 195,
+              "at": 298,
+              "before": [
+                "        self.visible, self.run, self.cards, self.catalog = true, run, cards, catalog"
+              ],
+              "after": [
+                "        self.visible,self.run,self.allCards,self.cards,self.catalog=true,run,cards,cards,catalog",
+                "        self.browseEnabled=choice==nil",
+                "        self.typeFilter,self.sortMode='all','original'"
+              ]
+            },
+            {
+              "beforeAt": 206,
+              "at": 311,
+              "before": [],
+              "after": [
+                "        if self.browseEnabled then projectCards() end"
+              ]
+            },
+            {
+              "beforeAt": 212,
+              "at": 318,
+              "before": [
+                "        grid.scrollProgress = 0",
+                "        -- Official API leaves index origin unspecified. A single-item callback",
+                "        -- reveals it without assuming a Lua (1) or native (0) convention. Fill",
+                "        -- the full list on the next update, outside the possibly deferred callback.",
+                "        grid:RefreshItems(#cards > 0 and 1 or 0, function(control, index)",
+                "            if not self.visible or self.generation ~= generation or not self.calibrating then return end",
+                "            self.indexBase, self.pending = index, true",
+                "            fill(control, cards[1], catalog)",
+                "        end)"
+              ],
+              "after": [
+                "        paintBrowse()",
+                "        refreshGrid()"
+              ]
+            },
+            {
+              "beforeAt": 274,
+              "at": 373,
+              "before": [],
+              "after": [
+                "        self.allCards,self.browseEnabled,self.typeFilter,self.sortMode=nil,nil,nil,nil"
+              ]
+            },
+            {
+              "beforeAt": 299,
+              "at": 399,
+              "before": [
+                "            root:GetChild('title').text=self.listTitle;closeLabel('关闭');self.pending=true;return true"
+              ],
+              "after": [
+                "            root:GetChild('title').text=self.listTitle;closeLabel('关闭');self.pending=true;paintBrowse();return true"
+              ]
+            },
+            {
+              "beforeAt": 328,
+              "at": 428,
+              "before": [],
+              "after": [
+                "    for _,entry in ipairs(browseFilters)do",
+                "        local hit=root:GetChild('filter'..entry.control):GetChild('hit')",
+                "        local action=function()return self:setFilter(entry.id)end",
+                "        hit:AddCursorEventListener(clickEvent,function()",
+                "            if Controller.pointerBlocked(platform.controller)then return false end",
+                "            return action()",
+                "        end)",
+                "        Controller.bind(platform.controller,hit,'deck',action,canBrowse,65)",
+                "    end",
+                "    do",
+                "        local hit=root:GetChild('sort'):GetChild('hit')",
+                "        local action=function()return self:nextSort()end",
+                "        hit:AddCursorEventListener(clickEvent,function()",
+                "            if Controller.pointerBlocked(platform.controller)then return false end",
+                "            return action()",
+                "        end)",
+                "        Controller.bind(platform.controller,hit,'deck',action,canBrowse,65)",
+                "    end"
+              ]
+            }
+          ]
+        },
+        "src/lua/abyss_game_ui.lua": {
+          "beforeSha256": "d7b37103902fa9c69223c7047fc25a12d675712847658105e089d3246707dff4",
+          "afterSha256": "eb1fe4cf9e1c6ae359dc3310dc272cc3bf66c6050398a1abf33539e066690e9b",
+          "beforeGitBlob": "38ab8deaf539560f8170a8589d8a4fb7f5c4b530",
+          "afterGitBlob": "f5cb39615a18374c4caad3724553cbb937216681",
+          "beforeLines": 938,
+          "afterLines": 951,
+          "hunks": [
+            {
+              "beforeAt": 552,
+              "at": 552,
+              "before": [],
+              "after": [
+                "    self.filterCharacterDeck=function(_,kind)",
+                "        if not self.characterOpen or self.starting or self.disabled then return false end",
+                "        local ok=self.characterSelection:setDeckFilter(kind)",
+                "        if ok then selectionChanged()end",
+                "        return ok",
+                "    end"
+              ]
+            },
+            {
+              "beforeAt": 927,
+              "at": 933,
+              "before": [],
+              "after": [
+                "    for _,entry in ipairs({{'All','all'},{'Attack','attack'},{'Skill','skill'},",
+                "        {'Power','power'},{'Status','status'},{'Curse','curse'}})do",
+                "        local name,kind=entry[1],entry[2]",
+                "        bindCommand(characterPanel:GetChild('details'):GetChild('deckFilter'..name),",
+                "            'character_deck_filter_'..kind,function()return self:filterCharacterDeck(kind)end,",
+                "            function()return self.characterSelection.info~=nil end,60,'deckFilters')",
+                "    end"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "deck": {
+      "beforeCommit": "24fd070167d433fa6cbbb0c54d8844795b0c5608",
+      "afterCommit": "8504ac73f5cd6bff760e5abc234eacfec7c4ee7e",
+      "beforeTree": "2de397a1af593bf1438d9c0799f6cf0815d029f5",
+      "afterTree": "1782d1b6b03a8e95abf799edf4ae48331f23293f",
+      "files": {
+        "data/presentation/ui_theme.json": {
+          "beforeSha256": "e15e1e639c101621840213258c1ff6d7d5da62e4a445d916939e2ce044b60302",
+          "afterSha256": "8a8fddd95f0f5c45cdc45bc8d9e970015b5f7ce715d9777b1851342d379bc204",
+          "beforeGitBlob": "3224a3b9d38e86c9f5b6caab1dd88114205b23b0",
+          "afterGitBlob": "4de36455db6d941985d4ceeabc4aa4c2f77ed352",
+          "beforeLines": 3495,
+          "afterLines": 3512,
+          "hunks": [
+            {
+              "beforeAt": 438,
+              "at": 438,
+              "before": [
+                "      \"juggernaut\": 103066"
+              ],
+              "after": [
+                "      \"juggernaut\": 103066,",
+                "      \"split\": 100114",
+                "    },",
+                "    \"statusReplacementNotes\": {",
+                "      \"split\": \"原版 Split atlas 尚不可用，明确使用现有问号占位；不是原图复现。\""
+              ]
+            },
+            {
+              "beforeAt": 495,
+              "at": 499,
+              "before": [],
+              "after": [
+                "      \"bloody_idol\": {\"id\": 102028, \"placeholder\": true, \"note\": \"第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"},",
+                "      \"mutagenic_strength\": {\"id\": 102028, \"placeholder\": true, \"note\": \"第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"},",
+                "      \"necronomicon\": {\"id\": 102028, \"placeholder\": true, \"note\": \"第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"},",
+                "      \"enchiridion\": {\"id\": 102028, \"placeholder\": true, \"note\": \"第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"},",
+                "      \"nilrys_codex\": {\"id\": 102028, \"placeholder\": true, \"note\": \"第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"},",
+                "",
+                "      \"nloths_gift\": {\"id\": 102028, \"placeholder\": true, \"note\": \"事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。\"},",
+                "      \"cultist_mask\": {\"id\": 102028, \"placeholder\": true, \"note\": \"事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。\"},",
+                "      \"face_of_cleric\": {\"id\": 102028, \"placeholder\": true, \"note\": \"事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。\"},",
+                "      \"gremlin_mask\": {\"id\": 102028, \"placeholder\": true, \"note\": \"事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。\"},",
+                "      \"nloths_mask\": {\"id\": 102028, \"placeholder\": true, \"note\": \"事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。\"},",
+                "      \"ssserpent_head\": {\"id\": 102028, \"placeholder\": true, \"note\": \"事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。\"},",
+                ""
+              ]
+            }
+          ]
+        },
+        "src/lua/abyss_deck_ui.lua": {
+          "beforeSha256": "1bfb12ff49ecc27f5fba9bbd50fdfd7ea029cd67b49bb39c228a40dedca07a54",
+          "afterSha256": "5115772421b007ba2e61a0f9de0cbfad54591e52741bc776878eb12d63a8d93d",
+          "beforeGitBlob": "96332fd74b3b69b140597521e5d1dbca62547595",
+          "afterGitBlob": "0dcacb0215715c8e07c7f11bf8b149b8e249b3d9",
+          "beforeLines": 450,
+          "afterLines": 451,
+          "hunks": [
+            {
+              "beforeAt": 289,
+              "at": 289,
+              "before": [],
+              "after": [
+                "        self.optional=choice and choice.optional"
+              ]
+            },
+            {
+              "beforeAt": 306,
+              "at": 307,
+              "before": [
+                "        local prompts={silentFinal=choice and (choice.kind=='retain'and '选择本回合保留的手牌（可不选）'or choice.kind=='setup'and '选择放回牌堆顶并准备的牌'or '选择下回合复制的手牌'),watcher_final=choice and choice.kind=='wish' and '许愿：选择一种效果' or '异界之援：选择一张攻击',discover=\"选择加入手牌的牌，本回合费用为0\",colorless='选择卡牌',exhaustChoose=\"选择要消耗的牌\",recoverExhaust=\"选择要回收的牌\",discardToDraw=\"选择放回抽牌堆顶的牌\","
+              ],
+              "after": [
+                "        local prompts={codex='尼利宝典：选择一张牌洗入抽牌堆（可跳过）',silentFinal=choice and (choice.kind=='retain'and '选择本回合保留的手牌（可不选）'or choice.kind=='setup'and '选择放回牌堆顶并准备的牌'or '选择下回合复制的手牌'),watcher_final=choice and choice.kind=='wish' and '许愿：选择一种效果' or '异界之援：选择一张攻击',discover=\"选择加入手牌的牌，本回合费用为0\",colorless='选择卡牌',exhaustChoose=\"选择要消耗的牌\",recoverExhaust=\"选择要回收的牌\",discardToDraw=\"选择放回抽牌堆顶的牌\","
+              ]
+            },
+            {
+              "beforeAt": 313,
+              "at": 314,
+              "before": [
+                "        root:GetChild(\"close\"):SetVisible(not choice or self.multiple == true)"
+              ],
+              "after": [
+                "        root:GetChild(\"close\"):SetVisible(not choice or self.multiple == true or self.optional==true)"
+              ]
+            },
+            {
+              "beforeAt": 315,
+              "at": 316,
+              "before": [
+                "        close.interactable=not choice or self.multiple and (not choice.required or #choice.selected==choice.required) or false;close.raycastTarget=close.interactable",
+                "        for _,state in ipairs({'normal','hover','pressed','disabled'}) do close:GetChild(state):GetChild('label').text=self.multiple and '确认选择' or '关闭' end"
+              ],
+              "after": [
+                "        close.interactable=not choice or self.optional==true or self.multiple and (not choice.required or #choice.selected==choice.required) or false;close.raycastTarget=close.interactable",
+                "        for _,state in ipairs({'normal','hover','pressed','disabled'}) do close:GetChild(state):GetChild('label').text=self.optional and '跳过' or self.multiple and '确认选择' or '关闭' end"
+              ]
+            },
+            {
+              "beforeAt": 375,
+              "at": 376,
+              "before": [
+                "        self.multiple,self.choiceSelected=nil,nil"
+              ],
+              "after": [
+                "        self.multiple,self.choiceSelected,self.optional=nil,nil,nil"
+              ]
+            },
+            {
+              "beforeAt": 400,
+              "at": 401,
+              "before": [
+                "        if self.multiple then"
+              ],
+              "after": [
+                "        if self.multiple or self.optional then"
+              ]
+            }
+          ]
+        },
+        "src/lua/abyss_game_ui.lua": {
+          "beforeSha256": "5ec8254cdf08d5a5caa00f71d8d634b4d2b1c5a055ac798012d688d5dec5cb89",
+          "afterSha256": "eb1fe4cf9e1c6ae359dc3310dc272cc3bf66c6050398a1abf33539e066690e9b",
+          "beforeGitBlob": "bc626f5235f0e0f2104898f9502e45902b5833f1",
+          "afterGitBlob": "f5cb39615a18374c4caad3724553cbb937216681",
+          "beforeLines": 940,
+          "afterLines": 951,
+          "hunks": [
+            {
+              "beforeAt": 208,
+              "at": 208,
+              "before": [
+                "    self.onEngineDestroy=function(_)if self.easterEgg then self.easterEgg:onEngineDestroy()end end"
+              ],
+              "after": [
+                "    self.onEngineDestroy=function(_)",
+                "        self.disabled=true",
+                "        local ok,why=pcall(self.battleUI.onEngineDestroy,self.battleUI)",
+                "        if self.easterEgg then self.easterEgg:onEngineDestroy()end",
+                "        assert(ok,why)",
+                "    end"
+              ]
+            },
+            {
+              "beforeAt": 734,
+              "at": 739,
+              "before": [
+                "        if self.disabled then return false end"
+              ],
+              "after": [
+                "        if self.disabled then",
+                "            if self.monsterCleanupPending then self.battleUI:releaseMonsterSurfaces();self.monsterCleanupPending=nil end",
+                "            return false",
+                "        end"
+              ]
+            },
+            {
+              "beforeAt": 753,
+              "at": 761,
+              "before": [],
+              "after": [
+                "        local released,reason=pcall(self.battleUI.releaseMonsterSurfaces,self.battleUI)",
+                "        self.monsterCleanupPending=not released or nil",
+                "        assert(released,reason)"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

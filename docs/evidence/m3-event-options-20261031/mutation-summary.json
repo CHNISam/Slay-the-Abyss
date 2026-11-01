@@ -1,0 +1,14 @@
+[
+  {
+    "mutation": "price",
+    "exit": 1
+  },
+  {
+    "mutation": "infeasible-grid",
+    "exit": 1
+  },
+  {
+    "restoredProduction": true,
+    "exit": 0
+  }
+]

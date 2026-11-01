@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "card_id": "wild_strike",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T17:28:46.634Z",
+    "completedAt": "2026-10-29T17:29:24Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-costume-head-flower-and-normal-one-handed-sword-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "107ba40ca01aac467a1ca18244fc06b40e805f1fa344e9553e760e96629ad937",
+      "bytes": 1978838
+    },
+    "prompt.txt": {
+      "sha256": "450cb2923781178dcb9ea7b3df8980b34c6a11230e818a8055144371e8f2779d",
+      "bytes": 3110
+    },
+    "preview-source-144x64.png": {
+      "sha256": "753ab9542703de395cdc9ac16eae872fcc48f6c103f5dd13bc91387aba5865a3",
+      "bytes": 20205
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions retained unchanged despite requested size"
+  },
+  "intent": {
+    "name": "猛进斩",
+    "mechanics": "single damage 12 then Wound card shuffled into draw; upgraded damage 17; no direct self HP damage",
+    "mainAction": "one overextended sword lunge leaves unguarded side, one target contact",
+    "identityCarriers": [
+      "blonde hair and white flower",
+      "connected white-blue costume and gold waist arch",
+      "normal one-handed sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and 144x64: Lumine flower sideface white-blue original dress clear; rear-side full overextended lunge with back arm thrown behind, one connected sword/hand hits one right target, no self wound or gore. Contact is point-like rather than requested edge cut but one blow and risk posture readable. Independent review pending.",
+    "independentReview": "pending",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

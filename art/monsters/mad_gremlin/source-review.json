@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "mad_gremlin",
+  "sourceSha256": "2644de629bf224464503c7dbe340cfc6b9f6fb40dc2bd5c9543586453be57b75",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    78,
+    45,
+    1216,
+    1211
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "b1f45a862ef4c26edbef4c6be29ca16eb0032f4e035795e26d2ddc5ae8c6e53a",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "9898fc6131109b5228c7853c8a9ab9c7970ac68182b8f9b3c285e2a6abeaeab3",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Original grey visible face, paired short horns, pointed ears, huge forearms/two fists, narrow waist and clay-red cloth. No STS red skin or official Hilichurl mask identity.",
+    "Arms/fists and legs/feet connected plausibly; two horns and all appendages intact. Clear elbow/body and leg gaps at106/127. Ears pointier/longer than brief but not hard defect."
+  ],
+  "costLimits": [
+    "Preserve connected anatomy, important prop count and large silhouette/value masses before fine facets/fur/fingers/glints.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserve; intact tight margins downstream6% inset contain allowed; no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only, no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

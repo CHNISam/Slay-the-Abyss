@@ -1,0 +1,6824 @@
+[
+  {
+    "children": {
+      "glow": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "shadow": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "border": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "imageColor": {
+          "r": 140,
+          "g": 146,
+          "b": 157,
+          "a": 255
+        }
+      },
+      "plate": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "roundShadow": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "roundFrame": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 140,
+              "g": 146,
+              "b": 157,
+              "a": 255
+            }
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 140,
+              "g": 146,
+              "b": 157,
+              "a": 255
+            }
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 140,
+              "g": 146,
+              "b": 157,
+              "a": 255
+            }
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 140,
+              "g": 146,
+              "b": 157,
+              "a": 255
+            }
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 140,
+              "g": 146,
+              "b": 157,
+              "a": 255
+            }
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 140,
+              "g": 146,
+              "b": 157,
+              "a": 255
+            }
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "roundBody": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "nameBand": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "nameRule": {
+        "children": {},
+        "visible": true,
+        "text": "",
+        "imageColor": {
+          "r": 196,
+          "g": 202,
+          "b": 211,
+          "a": 255
+        }
+      },
+      "artPlate": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "artWell": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "skin": {
+        "children": {
+          "band1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 78,
+              "g": 82,
+              "b": 91,
+              "a": 255
+            }
+          },
+          "band2": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 74,
+              "g": 78,
+              "b": 87,
+              "a": 255
+            }
+          },
+          "band3": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 71,
+              "g": 74,
+              "b": 83,
+              "a": 255
+            }
+          },
+          "band4": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 67,
+              "g": 70,
+              "b": 79,
+              "a": 255
+            }
+          },
+          "band5": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 63,
+              "g": 67,
+              "b": 74,
+              "a": 255
+            }
+          },
+          "band6": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 59,
+              "g": 63,
+              "b": 70,
+              "a": 255
+            }
+          },
+          "band7": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 56,
+              "g": 59,
+              "b": 66,
+              "a": 255
+            }
+          },
+          "band8": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 52,
+              "g": 55,
+              "b": 62,
+              "a": 255
+            }
+          },
+          "gloss": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 196,
+              "g": 202,
+              "b": 211,
+              "a": 255
+            }
+          },
+          "attack": {
+            "children": {
+              "edge": {
+                "children": {
+                  "upper": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 245,
+                      "g": 130,
+                      "b": 88,
+                      "a": 255
+                    }
+                  },
+                  "point": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 245,
+                      "g": 130,
+                      "b": 88,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "upper": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 25,
+                      "g": 20,
+                      "b": 22,
+                      "a": 255
+                    }
+                  },
+                  "point": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 25,
+                      "g": 20,
+                      "b": 22,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": true,
+            "text": ""
+          },
+          "skill": {
+            "children": {
+              "edge": {
+                "children": {
+                  "vertical": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  },
+                  "horizontal": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  },
+                  "corner-1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  },
+                  "corner-1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  },
+                  "corner1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  },
+                  "corner1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "vertical": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  },
+                  "horizontal": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  },
+                  "corner-1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  },
+                  "corner-1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  },
+                  "corner1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  },
+                  "corner1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "power": {
+            "children": {
+              "edge": {
+                "children": {
+                  "arch": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  },
+                  "base": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "arch": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  },
+                  "base": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "name": {
+        "children": {},
+        "visible": true,
+        "text": "蝶舞回身",
+        "fontSize": 14
+      },
+      "art": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "typeEdge": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "imageColor": {
+          "r": 245,
+          "g": 130,
+          "b": 88,
+          "a": 255
+        }
+      },
+      "typeTag": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "tagEdge": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 245,
+              "g": 130,
+              "b": 88,
+              "a": 255
+            }
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 245,
+              "g": 130,
+              "b": 88,
+              "a": 255
+            }
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 245,
+              "g": 130,
+              "b": 88,
+              "a": 255
+            }
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 245,
+              "g": 130,
+              "b": 88,
+              "a": 255
+            }
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 245,
+              "g": 130,
+              "b": 88,
+              "a": 255
+            }
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 245,
+              "g": 130,
+              "b": 88,
+              "a": 255
+            }
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "tagBody": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "type": {
+        "children": {},
+        "visible": true,
+        "text": "攻击",
+        "fontColor": {
+          "r": 245,
+          "g": 130,
+          "b": 88,
+          "a": 255
+        },
+        "fontSize": 14
+      },
+      "label": {
+        "children": {},
+        "visible": true,
+        "text": "获得 5 点格挡。\n造成 7 点伤害。",
+        "fontSize": 15
+      },
+      "roleRing": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "roleMark": {
+        "children": {
+          "traveler": {
+            "children": {
+              "symbol": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 245,
+                  "g": 130,
+                  "b": 88,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "HT": {
+            "children": {
+              "petal0": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 245,
+                  "g": 130,
+                  "b": 88,
+                  "a": 255
+                }
+              },
+              "petal1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 245,
+                  "g": 130,
+                  "b": 88,
+                  "a": 255
+                }
+              },
+              "petal2": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 245,
+                  "g": 130,
+                  "b": 88,
+                  "a": 255
+                }
+              },
+              "petal3": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 245,
+                  "g": 130,
+                  "b": 88,
+                  "a": 255
+                }
+              },
+              "petal4": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 245,
+                  "g": 130,
+                  "b": 88,
+                  "a": 255
+                }
+              }
+            },
+            "visible": true,
+            "text": ""
+          },
+          "AR": {
+            "children": {
+              "moon": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 245,
+                  "g": 130,
+                  "b": 88,
+                  "a": 255
+                }
+              },
+              "cut": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "FR": {
+            "children": {
+              "water": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 245,
+                  "g": 130,
+                  "b": 88,
+                  "a": 255
+                }
+              },
+              "tip": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 245,
+                  "g": 130,
+                  "b": 88,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "RD": {
+            "children": {
+              "triangle1": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 245,
+                      "g": 130,
+                      "b": 88,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle2": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 245,
+                      "g": 130,
+                      "b": 88,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle3": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 245,
+                      "g": 130,
+                      "b": 88,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle4": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 245,
+                      "g": 130,
+                      "b": 88,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "colorless": {
+            "children": {
+              "symbol": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 245,
+                  "g": 130,
+                  "b": 88,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "curse": {
+            "children": {
+              "slash": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 245,
+                  "g": 130,
+                  "b": 88,
+                  "a": 255
+                }
+              },
+              "backslash": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 245,
+                  "g": 130,
+                  "b": 88,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "blockedVeil": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "blockedPill": {
+        "children": {
+          "edge": {
+            "children": {
+              "vertical": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "horizontal": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner-1_-1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner-1_1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner1_-1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner1_1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": true,
+            "text": ""
+          },
+          "body": {
+            "children": {
+              "vertical": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "horizontal": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner-1_-1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner-1_1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner1_-1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner1_1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": false,
+        "text": ""
+      },
+      "blockedLock": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "blockedReason": {
+        "children": {},
+        "visible": false,
+        "text": "当前不可打出",
+        "fontSize": 14
+      },
+      "costHalo": {
+        "children": {},
+        "visible": true,
+        "text": "",
+        "imageColor": {
+          "r": 141,
+          "g": 224,
+          "b": 138,
+          "a": 255
+        }
+      },
+      "costCore": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "costDisc": {
+        "children": {},
+        "visible": true,
+        "text": "",
+        "imageColor": {
+          "r": 141,
+          "g": 224,
+          "b": 138,
+          "a": 255
+        }
+      },
+      "cost": {
+        "children": {},
+        "visible": true,
+        "text": "1",
+        "fontColor": {
+          "r": 141,
+          "g": 224,
+          "b": 138,
+          "a": 255
+        },
+        "fontSize": 17
+      },
+      "costDirection": {
+        "children": {},
+        "visible": true,
+        "text": "↓",
+        "fontColor": {
+          "r": 141,
+          "g": 224,
+          "b": 138,
+          "a": 255
+        },
+        "fontSize": 14
+      },
+      "hit": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      }
+    },
+    "visible": true,
+    "text": ""
+  },
+  {
+    "children": {
+      "glow": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "shadow": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "border": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "imageColor": {
+          "r": 63,
+          "g": 127,
+          "b": 198,
+          "a": 255
+        }
+      },
+      "plate": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "roundShadow": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "roundFrame": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 63,
+              "g": 127,
+              "b": 198,
+              "a": 255
+            }
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 63,
+              "g": 127,
+              "b": 198,
+              "a": 255
+            }
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 63,
+              "g": 127,
+              "b": 198,
+              "a": 255
+            }
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 63,
+              "g": 127,
+              "b": 198,
+              "a": 255
+            }
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 63,
+              "g": 127,
+              "b": 198,
+              "a": 255
+            }
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 63,
+              "g": 127,
+              "b": 198,
+              "a": 255
+            }
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "roundBody": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "nameBand": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "nameRule": {
+        "children": {},
+        "visible": true,
+        "text": "",
+        "imageColor": {
+          "r": 127,
+          "g": 184,
+          "b": 242,
+          "a": 255
+        }
+      },
+      "artPlate": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "artWell": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "skin": {
+        "children": {
+          "band1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 46,
+              "g": 100,
+              "b": 166,
+              "a": 255
+            }
+          },
+          "band2": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 43,
+              "g": 95,
+              "b": 158,
+              "a": 255
+            }
+          },
+          "band3": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 41,
+              "g": 89,
+              "b": 150,
+              "a": 255
+            }
+          },
+          "band4": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 38,
+              "g": 84,
+              "b": 142,
+              "a": 255
+            }
+          },
+          "band5": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 36,
+              "g": 79,
+              "b": 134,
+              "a": 255
+            }
+          },
+          "band6": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 33,
+              "g": 74,
+              "b": 126,
+              "a": 255
+            }
+          },
+          "band7": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 31,
+              "g": 68,
+              "b": 118,
+              "a": 255
+            }
+          },
+          "band8": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 28,
+              "g": 63,
+              "b": 110,
+              "a": 255
+            }
+          },
+          "gloss": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 127,
+              "g": 184,
+              "b": 242,
+              "a": 255
+            }
+          },
+          "attack": {
+            "children": {
+              "edge": {
+                "children": {
+                  "upper": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 245,
+                      "g": 130,
+                      "b": 88,
+                      "a": 255
+                    }
+                  },
+                  "point": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 245,
+                      "g": 130,
+                      "b": 88,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "upper": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 25,
+                      "g": 20,
+                      "b": 22,
+                      "a": 255
+                    }
+                  },
+                  "point": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 25,
+                      "g": 20,
+                      "b": 22,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "skill": {
+            "children": {
+              "edge": {
+                "children": {
+                  "vertical": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  },
+                  "horizontal": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  },
+                  "corner1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  },
+                  "corner1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "vertical": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  },
+                  "horizontal": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  },
+                  "corner1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  },
+                  "corner1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": true,
+            "text": ""
+          },
+          "power": {
+            "children": {
+              "edge": {
+                "children": {
+                  "arch": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  },
+                  "base": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "arch": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  },
+                  "base": {
+                    "children": {},
+                    "visible": true,
+                    "text": ""
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "name": {
+        "children": {},
+        "visible": true,
+        "text": "恰到好处的停顿",
+        "fontSize": 14
+      },
+      "art": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "typeEdge": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "imageColor": {
+          "r": 108,
+          "g": 203,
+          "b": 246,
+          "a": 255
+        }
+      },
+      "typeTag": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "tagEdge": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 108,
+              "g": 203,
+              "b": 246,
+              "a": 255
+            }
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 108,
+              "g": 203,
+              "b": 246,
+              "a": 255
+            }
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 108,
+              "g": 203,
+              "b": 246,
+              "a": 255
+            }
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 108,
+              "g": 203,
+              "b": 246,
+              "a": 255
+            }
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 108,
+              "g": 203,
+              "b": 246,
+              "a": 255
+            }
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 108,
+              "g": 203,
+              "b": 246,
+              "a": 255
+            }
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "tagBody": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "type": {
+        "children": {},
+        "visible": true,
+        "text": "技能",
+        "fontColor": {
+          "r": 108,
+          "g": 203,
+          "b": 246,
+          "a": 255
+        },
+        "fontSize": 14
+      },
+      "label": {
+        "children": {},
+        "visible": true,
+        "text": "获得 5 点格挡。\n造成 7 点伤害。",
+        "fontSize": 15
+      },
+      "roleRing": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "roleMark": {
+        "children": {
+          "traveler": {
+            "children": {
+              "symbol": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 108,
+                  "g": 203,
+                  "b": 246,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "HT": {
+            "children": {
+              "petal0": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 108,
+                  "g": 203,
+                  "b": 246,
+                  "a": 255
+                }
+              },
+              "petal1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 108,
+                  "g": 203,
+                  "b": 246,
+                  "a": 255
+                }
+              },
+              "petal2": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 108,
+                  "g": 203,
+                  "b": 246,
+                  "a": 255
+                }
+              },
+              "petal3": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 108,
+                  "g": 203,
+                  "b": 246,
+                  "a": 255
+                }
+              },
+              "petal4": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 108,
+                  "g": 203,
+                  "b": 246,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "AR": {
+            "children": {
+              "moon": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 108,
+                  "g": 203,
+                  "b": 246,
+                  "a": 255
+                }
+              },
+              "cut": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "FR": {
+            "children": {
+              "water": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 108,
+                  "g": 203,
+                  "b": 246,
+                  "a": 255
+                }
+              },
+              "tip": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 108,
+                  "g": 203,
+                  "b": 246,
+                  "a": 255
+                }
+              }
+            },
+            "visible": true,
+            "text": ""
+          },
+          "RD": {
+            "children": {
+              "triangle1": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle2": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle3": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle4": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "colorless": {
+            "children": {
+              "symbol": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 108,
+                  "g": 203,
+                  "b": 246,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "curse": {
+            "children": {
+              "slash": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 108,
+                  "g": 203,
+                  "b": 246,
+                  "a": 255
+                }
+              },
+              "backslash": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 108,
+                  "g": 203,
+                  "b": 246,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "blockedVeil": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "blockedPill": {
+        "children": {
+          "edge": {
+            "children": {
+              "vertical": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "horizontal": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner-1_-1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner-1_1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner1_-1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner1_1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": true,
+            "text": ""
+          },
+          "body": {
+            "children": {
+              "vertical": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "horizontal": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner-1_-1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner-1_1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner1_-1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner1_1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": false,
+        "text": ""
+      },
+      "blockedLock": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "blockedReason": {
+        "children": {},
+        "visible": false,
+        "text": "当前不可打出",
+        "fontSize": 14
+      },
+      "costHalo": {
+        "children": {},
+        "visible": true,
+        "text": "",
+        "imageColor": {
+          "r": 239,
+          "g": 118,
+          "b": 114,
+          "a": 255
+        }
+      },
+      "costCore": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "costDisc": {
+        "children": {},
+        "visible": true,
+        "text": "",
+        "imageColor": {
+          "r": 239,
+          "g": 118,
+          "b": 114,
+          "a": 255
+        }
+      },
+      "cost": {
+        "children": {},
+        "visible": true,
+        "text": "2",
+        "fontColor": {
+          "r": 239,
+          "g": 118,
+          "b": 114,
+          "a": 255
+        },
+        "fontSize": 17
+      },
+      "costDirection": {
+        "children": {},
+        "visible": true,
+        "text": "↑",
+        "fontColor": {
+          "r": 239,
+          "g": 118,
+          "b": 114,
+          "a": 255
+        },
+        "fontSize": 14
+      },
+      "hit": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      }
+    },
+    "visible": true,
+    "text": ""
+  },
+  {
+    "children": {
+      "glow": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "shadow": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "border": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "imageColor": {
+          "r": 212,
+          "g": 165,
+          "b": 74,
+          "a": 255
+        }
+      },
+      "plate": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "roundShadow": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "roundFrame": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 212,
+              "g": 165,
+              "b": 74,
+              "a": 255
+            }
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 212,
+              "g": 165,
+              "b": 74,
+              "a": 255
+            }
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 212,
+              "g": 165,
+              "b": 74,
+              "a": 255
+            }
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 212,
+              "g": 165,
+              "b": 74,
+              "a": 255
+            }
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 212,
+              "g": 165,
+              "b": 74,
+              "a": 255
+            }
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 212,
+              "g": 165,
+              "b": 74,
+              "a": 255
+            }
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "roundBody": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "nameBand": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "nameRule": {
+        "children": {},
+        "visible": true,
+        "text": "",
+        "imageColor": {
+          "r": 246,
+          "g": 214,
+          "b": 140,
+          "a": 255
+        }
+      },
+      "artPlate": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "artWell": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "skin": {
+        "children": {
+          "band1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 184,
+              "g": 134,
+              "b": 46,
+              "a": 255
+            }
+          },
+          "band2": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 175,
+              "g": 127,
+              "b": 43,
+              "a": 255
+            }
+          },
+          "band3": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 166,
+              "g": 120,
+              "b": 39,
+              "a": 255
+            }
+          },
+          "band4": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 157,
+              "g": 113,
+              "b": 36,
+              "a": 255
+            }
+          },
+          "band5": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 149,
+              "g": 106,
+              "b": 32,
+              "a": 255
+            }
+          },
+          "band6": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 140,
+              "g": 99,
+              "b": 29,
+              "a": 255
+            }
+          },
+          "band7": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 131,
+              "g": 92,
+              "b": 25,
+              "a": 255
+            }
+          },
+          "band8": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 122,
+              "g": 85,
+              "b": 22,
+              "a": 255
+            }
+          },
+          "gloss": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 246,
+              "g": 214,
+              "b": 140,
+              "a": 255
+            }
+          },
+          "attack": {
+            "children": {
+              "edge": {
+                "children": {
+                  "upper": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 245,
+                      "g": 130,
+                      "b": 88,
+                      "a": 255
+                    }
+                  },
+                  "point": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 245,
+                      "g": 130,
+                      "b": 88,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "upper": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 25,
+                      "g": 20,
+                      "b": 22,
+                      "a": 255
+                    }
+                  },
+                  "point": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 25,
+                      "g": 20,
+                      "b": 22,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "skill": {
+            "children": {
+              "edge": {
+                "children": {
+                  "vertical": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  },
+                  "horizontal": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  },
+                  "corner1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  },
+                  "corner1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "vertical": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  },
+                  "horizontal": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  },
+                  "corner1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  },
+                  "corner1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "power": {
+            "children": {
+              "edge": {
+                "children": {
+                  "arch": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 168,
+                      "g": 123,
+                      "b": 255,
+                      "a": 255
+                    }
+                  },
+                  "base": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 168,
+                      "g": 123,
+                      "b": 255,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "arch": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 21,
+                      "g": 19,
+                      "b": 30,
+                      "a": 255
+                    }
+                  },
+                  "base": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 21,
+                      "g": 19,
+                      "b": 30,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "name": {
+        "children": {},
+        "visible": true,
+        "text": "雷光常驻",
+        "fontSize": 14
+      },
+      "art": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "typeEdge": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "imageColor": {
+          "r": 168,
+          "g": 123,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "typeTag": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "tagEdge": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 168,
+              "g": 123,
+              "b": 255,
+              "a": 255
+            }
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 168,
+              "g": 123,
+              "b": 255,
+              "a": 255
+            }
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 168,
+              "g": 123,
+              "b": 255,
+              "a": 255
+            }
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 168,
+              "g": 123,
+              "b": 255,
+              "a": 255
+            }
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 168,
+              "g": 123,
+              "b": 255,
+              "a": 255
+            }
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 168,
+              "g": 123,
+              "b": 255,
+              "a": 255
+            }
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "tagBody": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "type": {
+        "children": {},
+        "visible": true,
+        "text": "能力",
+        "fontColor": {
+          "r": 168,
+          "g": 123,
+          "b": 255,
+          "a": 255
+        },
+        "fontSize": 14
+      },
+      "label": {
+        "children": {},
+        "visible": true,
+        "text": "获得 5 点格挡。\n造成 7 点伤害。",
+        "fontSize": 15
+      },
+      "roleRing": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "roleMark": {
+        "children": {
+          "traveler": {
+            "children": {
+              "symbol": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 168,
+                  "g": 123,
+                  "b": 255,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "HT": {
+            "children": {
+              "petal0": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 168,
+                  "g": 123,
+                  "b": 255,
+                  "a": 255
+                }
+              },
+              "petal1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 168,
+                  "g": 123,
+                  "b": 255,
+                  "a": 255
+                }
+              },
+              "petal2": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 168,
+                  "g": 123,
+                  "b": 255,
+                  "a": 255
+                }
+              },
+              "petal3": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 168,
+                  "g": 123,
+                  "b": 255,
+                  "a": 255
+                }
+              },
+              "petal4": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 168,
+                  "g": 123,
+                  "b": 255,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "AR": {
+            "children": {
+              "moon": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 168,
+                  "g": 123,
+                  "b": 255,
+                  "a": 255
+                }
+              },
+              "cut": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "FR": {
+            "children": {
+              "water": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 168,
+                  "g": 123,
+                  "b": 255,
+                  "a": 255
+                }
+              },
+              "tip": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 168,
+                  "g": 123,
+                  "b": 255,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "RD": {
+            "children": {
+              "triangle1": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 168,
+                      "g": 123,
+                      "b": 255,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle2": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 168,
+                      "g": 123,
+                      "b": 255,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle3": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 168,
+                      "g": 123,
+                      "b": 255,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle4": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 168,
+                      "g": 123,
+                      "b": 255,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": true,
+            "text": ""
+          },
+          "colorless": {
+            "children": {
+              "symbol": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 168,
+                  "g": 123,
+                  "b": 255,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "curse": {
+            "children": {
+              "slash": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 168,
+                  "g": 123,
+                  "b": 255,
+                  "a": 255
+                }
+              },
+              "backslash": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 168,
+                  "g": 123,
+                  "b": 255,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "blockedVeil": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "blockedPill": {
+        "children": {
+          "edge": {
+            "children": {
+              "vertical": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "horizontal": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner-1_-1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner-1_1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner1_-1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner1_1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": true,
+            "text": ""
+          },
+          "body": {
+            "children": {
+              "vertical": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "horizontal": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner-1_-1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner-1_1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner1_-1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              },
+              "corner1_1": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": false,
+        "text": ""
+      },
+      "blockedLock": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "blockedReason": {
+        "children": {},
+        "visible": false,
+        "text": "当前不可打出",
+        "fontSize": 14
+      },
+      "costHalo": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "imageColor": {
+          "r": 168,
+          "g": 123,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "costCore": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "costDisc": {
+        "children": {},
+        "visible": true,
+        "text": "",
+        "imageColor": {
+          "r": 168,
+          "g": 123,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "cost": {
+        "children": {},
+        "visible": true,
+        "text": "1",
+        "fontColor": {
+          "r": 168,
+          "g": 123,
+          "b": 255,
+          "a": 255
+        },
+        "fontSize": 17
+      },
+      "costDirection": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "fontColor": {
+          "r": 168,
+          "g": 123,
+          "b": 255,
+          "a": 255
+        },
+        "fontSize": 14
+      },
+      "hit": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      }
+    },
+    "visible": true,
+    "text": ""
+  },
+  {
+    "children": {
+      "glow": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "shadow": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "border": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "imageColor": {
+          "r": 52,
+          "g": 54,
+          "b": 60,
+          "a": 255
+        }
+      },
+      "plate": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "roundShadow": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "roundFrame": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 52,
+              "g": 54,
+              "b": 60,
+              "a": 255
+            }
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 52,
+              "g": 54,
+              "b": 60,
+              "a": 255
+            }
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 52,
+              "g": 54,
+              "b": 60,
+              "a": 255
+            }
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 52,
+              "g": 54,
+              "b": 60,
+              "a": 255
+            }
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 52,
+              "g": 54,
+              "b": 60,
+              "a": 255
+            }
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 52,
+              "g": 54,
+              "b": 60,
+              "a": 255
+            }
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "roundBody": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "nameBand": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "nameRule": {
+        "children": {},
+        "visible": true,
+        "text": "",
+        "imageColor": {
+          "r": 78,
+          "g": 81,
+          "b": 89,
+          "a": 255
+        }
+      },
+      "artPlate": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "artWell": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "skin": {
+        "children": {
+          "band1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 36,
+              "g": 38,
+              "b": 43,
+              "a": 255
+            }
+          },
+          "band2": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 35,
+              "g": 36,
+              "b": 41,
+              "a": 255
+            }
+          },
+          "band3": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 33,
+              "g": 35,
+              "b": 40,
+              "a": 255
+            }
+          },
+          "band4": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 32,
+              "g": 33,
+              "b": 38,
+              "a": 255
+            }
+          },
+          "band5": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 30,
+              "g": 32,
+              "b": 36,
+              "a": 255
+            }
+          },
+          "band6": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 29,
+              "g": 30,
+              "b": 34,
+              "a": 255
+            }
+          },
+          "band7": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 27,
+              "g": 29,
+              "b": 33,
+              "a": 255
+            }
+          },
+          "band8": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 26,
+              "g": 27,
+              "b": 31,
+              "a": 255
+            }
+          },
+          "gloss": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 78,
+              "g": 81,
+              "b": 89,
+              "a": 255
+            }
+          },
+          "attack": {
+            "children": {
+              "edge": {
+                "children": {
+                  "upper": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 240,
+                      "g": 106,
+                      "b": 116,
+                      "a": 255
+                    }
+                  },
+                  "point": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 240,
+                      "g": 106,
+                      "b": 116,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "upper": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 19,
+                      "b": 23,
+                      "a": 255
+                    }
+                  },
+                  "point": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 19,
+                      "b": 23,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": true,
+            "text": ""
+          },
+          "skill": {
+            "children": {
+              "edge": {
+                "children": {
+                  "vertical": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  },
+                  "horizontal": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  },
+                  "corner1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  },
+                  "corner1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 108,
+                      "g": 203,
+                      "b": 246,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "vertical": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  },
+                  "horizontal": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  },
+                  "corner1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  },
+                  "corner1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 18,
+                      "g": 23,
+                      "b": 29,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "power": {
+            "children": {
+              "edge": {
+                "children": {
+                  "arch": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 168,
+                      "g": 123,
+                      "b": 255,
+                      "a": 255
+                    }
+                  },
+                  "base": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 168,
+                      "g": 123,
+                      "b": 255,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "arch": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 21,
+                      "g": 19,
+                      "b": 30,
+                      "a": 255
+                    }
+                  },
+                  "base": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 21,
+                      "g": 19,
+                      "b": 30,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "name": {
+        "children": {},
+        "visible": true,
+        "text": "月下之刃",
+        "fontSize": 14
+      },
+      "art": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "typeEdge": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "imageColor": {
+          "r": 240,
+          "g": 106,
+          "b": 116,
+          "a": 255
+        }
+      },
+      "typeTag": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "tagEdge": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 240,
+              "g": 106,
+              "b": 116,
+              "a": 255
+            }
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 240,
+              "g": 106,
+              "b": 116,
+              "a": 255
+            }
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 240,
+              "g": 106,
+              "b": 116,
+              "a": 255
+            }
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 240,
+              "g": 106,
+              "b": 116,
+              "a": 255
+            }
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 240,
+              "g": 106,
+              "b": 116,
+              "a": 255
+            }
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 240,
+              "g": 106,
+              "b": 116,
+              "a": 255
+            }
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "tagBody": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "type": {
+        "children": {},
+        "visible": true,
+        "text": "攻击",
+        "fontColor": {
+          "r": 240,
+          "g": 106,
+          "b": 116,
+          "a": 255
+        },
+        "fontSize": 14
+      },
+      "label": {
+        "children": {},
+        "visible": true,
+        "text": "获得 5 点格挡。\n造成 7 点伤害。",
+        "fontSize": 15
+      },
+      "roleRing": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "roleMark": {
+        "children": {
+          "traveler": {
+            "children": {
+              "symbol": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 240,
+                  "g": 106,
+                  "b": 116,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "HT": {
+            "children": {
+              "petal0": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 240,
+                  "g": 106,
+                  "b": 116,
+                  "a": 255
+                }
+              },
+              "petal1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 240,
+                  "g": 106,
+                  "b": 116,
+                  "a": 255
+                }
+              },
+              "petal2": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 240,
+                  "g": 106,
+                  "b": 116,
+                  "a": 255
+                }
+              },
+              "petal3": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 240,
+                  "g": 106,
+                  "b": 116,
+                  "a": 255
+                }
+              },
+              "petal4": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 240,
+                  "g": 106,
+                  "b": 116,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "AR": {
+            "children": {
+              "moon": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 240,
+                  "g": 106,
+                  "b": 116,
+                  "a": 255
+                }
+              },
+              "cut": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": true,
+            "text": ""
+          },
+          "FR": {
+            "children": {
+              "water": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 240,
+                  "g": 106,
+                  "b": 116,
+                  "a": 255
+                }
+              },
+              "tip": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 240,
+                  "g": 106,
+                  "b": 116,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "RD": {
+            "children": {
+              "triangle1": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 240,
+                      "g": 106,
+                      "b": 116,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle2": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 240,
+                      "g": 106,
+                      "b": 116,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle3": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 240,
+                      "g": 106,
+                      "b": 116,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle4": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 240,
+                      "g": 106,
+                      "b": 116,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "colorless": {
+            "children": {
+              "symbol": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 240,
+                  "g": 106,
+                  "b": 116,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "curse": {
+            "children": {
+              "slash": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 240,
+                  "g": 106,
+                  "b": 116,
+                  "a": 255
+                }
+              },
+              "backslash": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 240,
+                  "g": 106,
+                  "b": 116,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "blockedVeil": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "blockedPill": {
+        "children": {
+          "edge": {
+            "children": {
+              "vertical": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "sizeDeltaX": 93,
+                "sizeDeltaY": 16
+              },
+              "horizontal": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "sizeDeltaX": 109,
+                "sizeDeltaY": 0
+              },
+              "corner-1_-1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": -46.5,
+                "y": 0
+              },
+              "corner-1_1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": -46.5,
+                "y": 0
+              },
+              "corner1_-1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": 46.5,
+                "y": 0
+              },
+              "corner1_1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": 46.5,
+                "y": 0
+              }
+            },
+            "visible": true,
+            "text": ""
+          },
+          "body": {
+            "children": {
+              "vertical": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "sizeDeltaX": 93,
+                "sizeDeltaY": 14.5
+              },
+              "horizontal": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "sizeDeltaX": 107.5,
+                "sizeDeltaY": 0
+              },
+              "corner-1_-1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": -46.5,
+                "y": 0
+              },
+              "corner-1_1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": -46.5,
+                "y": 0
+              },
+              "corner1_-1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": 46.5,
+                "y": 0
+              },
+              "corner1_1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": 46.5,
+                "y": 0
+              }
+            },
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": "",
+        "sizeDeltaX": 109,
+        "sizeDeltaY": 16
+      },
+      "blockedLock": {
+        "children": {},
+        "visible": true,
+        "text": "",
+        "x": -44,
+        "y": 18
+      },
+      "blockedReason": {
+        "children": {},
+        "visible": true,
+        "text": "当前不可打出",
+        "fontSize": 14,
+        "sizeDeltaX": 84,
+        "sizeDeltaY": 40
+      },
+      "costHalo": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "imageColor": {
+          "r": 240,
+          "g": 106,
+          "b": 116,
+          "a": 255
+        }
+      },
+      "costCore": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "costDisc": {
+        "children": {},
+        "visible": true,
+        "text": "",
+        "imageColor": {
+          "r": 240,
+          "g": 106,
+          "b": 116,
+          "a": 255
+        }
+      },
+      "cost": {
+        "children": {},
+        "visible": true,
+        "text": "1",
+        "fontColor": {
+          "r": 240,
+          "g": 106,
+          "b": 116,
+          "a": 255
+        },
+        "fontSize": 17
+      },
+      "costDirection": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "fontColor": {
+          "r": 240,
+          "g": 106,
+          "b": 116,
+          "a": 255
+        },
+        "fontSize": 14
+      },
+      "hit": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      }
+    },
+    "visible": true,
+    "text": ""
+  },
+  {
+    "children": {
+      "glow": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "shadow": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "border": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "imageColor": {
+          "r": 52,
+          "g": 54,
+          "b": 60,
+          "a": 255
+        }
+      },
+      "plate": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "roundShadow": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "roundFrame": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 52,
+              "g": 54,
+              "b": 60,
+              "a": 255
+            }
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 52,
+              "g": 54,
+              "b": 60,
+              "a": 255
+            }
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 52,
+              "g": 54,
+              "b": 60,
+              "a": 255
+            }
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 52,
+              "g": 54,
+              "b": 60,
+              "a": 255
+            }
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 52,
+              "g": 54,
+              "b": 60,
+              "a": 255
+            }
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 52,
+              "g": 54,
+              "b": 60,
+              "a": 255
+            }
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "roundBody": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "nameBand": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "nameRule": {
+        "children": {},
+        "visible": true,
+        "text": "",
+        "imageColor": {
+          "r": 78,
+          "g": 81,
+          "b": 89,
+          "a": 255
+        }
+      },
+      "artPlate": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "artWell": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "skin": {
+        "children": {
+          "band1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 36,
+              "g": 38,
+              "b": 43,
+              "a": 255
+            }
+          },
+          "band2": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 35,
+              "g": 36,
+              "b": 41,
+              "a": 255
+            }
+          },
+          "band3": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 33,
+              "g": 35,
+              "b": 40,
+              "a": 255
+            }
+          },
+          "band4": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 32,
+              "g": 33,
+              "b": 38,
+              "a": 255
+            }
+          },
+          "band5": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 30,
+              "g": 32,
+              "b": 36,
+              "a": 255
+            }
+          },
+          "band6": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 29,
+              "g": 30,
+              "b": 34,
+              "a": 255
+            }
+          },
+          "band7": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 27,
+              "g": 29,
+              "b": 33,
+              "a": 255
+            }
+          },
+          "band8": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 26,
+              "g": 27,
+              "b": 31,
+              "a": 255
+            }
+          },
+          "gloss": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 78,
+              "g": 81,
+              "b": 89,
+              "a": 255
+            }
+          },
+          "attack": {
+            "children": {
+              "edge": {
+                "children": {
+                  "upper": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 240,
+                      "g": 106,
+                      "b": 116,
+                      "a": 255
+                    }
+                  },
+                  "point": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 240,
+                      "g": 106,
+                      "b": 116,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "upper": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 19,
+                      "b": 23,
+                      "a": 255
+                    }
+                  },
+                  "point": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 19,
+                      "b": 23,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "skill": {
+            "children": {
+              "edge": {
+                "children": {
+                  "vertical": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 242,
+                      "g": 169,
+                      "b": 59,
+                      "a": 255
+                    }
+                  },
+                  "horizontal": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 242,
+                      "g": 169,
+                      "b": 59,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 242,
+                      "g": 169,
+                      "b": 59,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 242,
+                      "g": 169,
+                      "b": 59,
+                      "a": 255
+                    }
+                  },
+                  "corner1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 242,
+                      "g": 169,
+                      "b": 59,
+                      "a": 255
+                    }
+                  },
+                  "corner1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 242,
+                      "g": 169,
+                      "b": 59,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "vertical": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 22,
+                      "b": 20,
+                      "a": 255
+                    }
+                  },
+                  "horizontal": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 22,
+                      "b": 20,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 22,
+                      "b": 20,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 22,
+                      "b": 20,
+                      "a": 255
+                    }
+                  },
+                  "corner1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 22,
+                      "b": 20,
+                      "a": 255
+                    }
+                  },
+                  "corner1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 22,
+                      "b": 20,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": true,
+            "text": ""
+          },
+          "power": {
+            "children": {
+              "edge": {
+                "children": {
+                  "arch": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 168,
+                      "g": 123,
+                      "b": 255,
+                      "a": 255
+                    }
+                  },
+                  "base": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 168,
+                      "g": 123,
+                      "b": 255,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "arch": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 21,
+                      "g": 19,
+                      "b": 30,
+                      "a": 255
+                    }
+                  },
+                  "base": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 21,
+                      "g": 19,
+                      "b": 30,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "name": {
+        "children": {},
+        "visible": true,
+        "text": "防御",
+        "fontSize": 14
+      },
+      "art": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "typeEdge": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "imageColor": {
+          "r": 242,
+          "g": 169,
+          "b": 59,
+          "a": 255
+        }
+      },
+      "typeTag": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "tagEdge": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 242,
+              "g": 169,
+              "b": 59,
+              "a": 255
+            }
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 242,
+              "g": 169,
+              "b": 59,
+              "a": 255
+            }
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 242,
+              "g": 169,
+              "b": 59,
+              "a": 255
+            }
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 242,
+              "g": 169,
+              "b": 59,
+              "a": 255
+            }
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 242,
+              "g": 169,
+              "b": 59,
+              "a": 255
+            }
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 242,
+              "g": 169,
+              "b": 59,
+              "a": 255
+            }
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "tagBody": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "type": {
+        "children": {},
+        "visible": true,
+        "text": "技能",
+        "fontColor": {
+          "r": 242,
+          "g": 169,
+          "b": 59,
+          "a": 255
+        },
+        "fontSize": 14
+      },
+      "label": {
+        "children": {},
+        "visible": true,
+        "text": "获得 5 点格挡。",
+        "fontSize": 15
+      },
+      "roleRing": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "roleMark": {
+        "children": {
+          "traveler": {
+            "children": {
+              "symbol": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 242,
+                  "g": 169,
+                  "b": 59,
+                  "a": 255
+                }
+              }
+            },
+            "visible": true,
+            "text": ""
+          },
+          "HT": {
+            "children": {
+              "petal0": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 242,
+                  "g": 169,
+                  "b": 59,
+                  "a": 255
+                }
+              },
+              "petal1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 242,
+                  "g": 169,
+                  "b": 59,
+                  "a": 255
+                }
+              },
+              "petal2": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 242,
+                  "g": 169,
+                  "b": 59,
+                  "a": 255
+                }
+              },
+              "petal3": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 242,
+                  "g": 169,
+                  "b": 59,
+                  "a": 255
+                }
+              },
+              "petal4": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 242,
+                  "g": 169,
+                  "b": 59,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "AR": {
+            "children": {
+              "moon": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 242,
+                  "g": 169,
+                  "b": 59,
+                  "a": 255
+                }
+              },
+              "cut": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "FR": {
+            "children": {
+              "water": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 242,
+                  "g": 169,
+                  "b": 59,
+                  "a": 255
+                }
+              },
+              "tip": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 242,
+                  "g": 169,
+                  "b": 59,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "RD": {
+            "children": {
+              "triangle1": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 242,
+                      "g": 169,
+                      "b": 59,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle2": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 242,
+                      "g": 169,
+                      "b": 59,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle3": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 242,
+                      "g": 169,
+                      "b": 59,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle4": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 242,
+                      "g": 169,
+                      "b": 59,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "colorless": {
+            "children": {
+              "symbol": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 242,
+                  "g": 169,
+                  "b": 59,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "curse": {
+            "children": {
+              "slash": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 242,
+                  "g": 169,
+                  "b": 59,
+                  "a": 255
+                }
+              },
+              "backslash": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 242,
+                  "g": 169,
+                  "b": 59,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "blockedVeil": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "blockedPill": {
+        "children": {
+          "edge": {
+            "children": {
+              "vertical": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "sizeDeltaX": 93,
+                "sizeDeltaY": 16
+              },
+              "horizontal": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "sizeDeltaX": 109,
+                "sizeDeltaY": 0
+              },
+              "corner-1_-1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": -46.5,
+                "y": 0
+              },
+              "corner-1_1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": -46.5,
+                "y": 0
+              },
+              "corner1_-1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": 46.5,
+                "y": 0
+              },
+              "corner1_1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": 46.5,
+                "y": 0
+              }
+            },
+            "visible": true,
+            "text": ""
+          },
+          "body": {
+            "children": {
+              "vertical": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "sizeDeltaX": 93,
+                "sizeDeltaY": 14.5
+              },
+              "horizontal": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "sizeDeltaX": 107.5,
+                "sizeDeltaY": 0
+              },
+              "corner-1_-1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": -46.5,
+                "y": 0
+              },
+              "corner-1_1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": -46.5,
+                "y": 0
+              },
+              "corner1_-1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": 46.5,
+                "y": 0
+              },
+              "corner1_1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": 46.5,
+                "y": 0
+              }
+            },
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": false,
+        "text": "",
+        "sizeDeltaX": 109,
+        "sizeDeltaY": 16
+      },
+      "blockedLock": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "x": -44,
+        "y": 18
+      },
+      "blockedReason": {
+        "children": {},
+        "visible": false,
+        "text": "当前不可打出",
+        "fontSize": 14,
+        "sizeDeltaX": 84,
+        "sizeDeltaY": 40
+      },
+      "costHalo": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "imageColor": {
+          "r": 242,
+          "g": 169,
+          "b": 59,
+          "a": 255
+        }
+      },
+      "costCore": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "costDisc": {
+        "children": {},
+        "visible": true,
+        "text": "",
+        "imageColor": {
+          "r": 242,
+          "g": 169,
+          "b": 59,
+          "a": 255
+        }
+      },
+      "cost": {
+        "children": {},
+        "visible": true,
+        "text": "1",
+        "fontColor": {
+          "r": 242,
+          "g": 169,
+          "b": 59,
+          "a": 255
+        },
+        "fontSize": 17
+      },
+      "costDirection": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "fontColor": {
+          "r": 242,
+          "g": 169,
+          "b": 59,
+          "a": 255
+        },
+        "fontSize": 14
+      },
+      "hit": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      }
+    },
+    "visible": true,
+    "text": ""
+  },
+  {
+    "children": {
+      "glow": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "shadow": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "border": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "imageColor": {
+          "r": 212,
+          "g": 165,
+          "b": 74,
+          "a": 255
+        }
+      },
+      "plate": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "roundShadow": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "roundFrame": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 212,
+              "g": 165,
+              "b": 74,
+              "a": 255
+            }
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 212,
+              "g": 165,
+              "b": 74,
+              "a": 255
+            }
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 212,
+              "g": 165,
+              "b": 74,
+              "a": 255
+            }
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 212,
+              "g": 165,
+              "b": 74,
+              "a": 255
+            }
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 212,
+              "g": 165,
+              "b": 74,
+              "a": 255
+            }
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 212,
+              "g": 165,
+              "b": 74,
+              "a": 255
+            }
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "roundBody": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "nameBand": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "nameRule": {
+        "children": {},
+        "visible": true,
+        "text": "",
+        "imageColor": {
+          "r": 246,
+          "g": 214,
+          "b": 140,
+          "a": 255
+        }
+      },
+      "artPlate": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "artWell": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "skin": {
+        "children": {
+          "band1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 184,
+              "g": 134,
+              "b": 46,
+              "a": 255
+            }
+          },
+          "band2": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 175,
+              "g": 127,
+              "b": 43,
+              "a": 255
+            }
+          },
+          "band3": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 166,
+              "g": 120,
+              "b": 39,
+              "a": 255
+            }
+          },
+          "band4": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 157,
+              "g": 113,
+              "b": 36,
+              "a": 255
+            }
+          },
+          "band5": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 149,
+              "g": 106,
+              "b": 32,
+              "a": 255
+            }
+          },
+          "band6": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 140,
+              "g": 99,
+              "b": 29,
+              "a": 255
+            }
+          },
+          "band7": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 131,
+              "g": 92,
+              "b": 25,
+              "a": 255
+            }
+          },
+          "band8": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 122,
+              "g": 85,
+              "b": 22,
+              "a": 255
+            }
+          },
+          "gloss": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 246,
+              "g": 214,
+              "b": 140,
+              "a": 255
+            }
+          },
+          "attack": {
+            "children": {
+              "edge": {
+                "children": {
+                  "upper": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 240,
+                      "g": 106,
+                      "b": 116,
+                      "a": 255
+                    }
+                  },
+                  "point": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 240,
+                      "g": 106,
+                      "b": 116,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "upper": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 19,
+                      "b": 23,
+                      "a": 255
+                    }
+                  },
+                  "point": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 19,
+                      "b": 23,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "skill": {
+            "children": {
+              "edge": {
+                "children": {
+                  "vertical": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 242,
+                      "g": 169,
+                      "b": 59,
+                      "a": 255
+                    }
+                  },
+                  "horizontal": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 242,
+                      "g": 169,
+                      "b": 59,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 242,
+                      "g": 169,
+                      "b": 59,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 242,
+                      "g": 169,
+                      "b": 59,
+                      "a": 255
+                    }
+                  },
+                  "corner1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 242,
+                      "g": 169,
+                      "b": 59,
+                      "a": 255
+                    }
+                  },
+                  "corner1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 242,
+                      "g": 169,
+                      "b": 59,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "vertical": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 22,
+                      "b": 20,
+                      "a": 255
+                    }
+                  },
+                  "horizontal": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 22,
+                      "b": 20,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 22,
+                      "b": 20,
+                      "a": 255
+                    }
+                  },
+                  "corner-1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 22,
+                      "b": 20,
+                      "a": 255
+                    }
+                  },
+                  "corner1_-1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 22,
+                      "b": 20,
+                      "a": 255
+                    }
+                  },
+                  "corner1_1": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 24,
+                      "g": 22,
+                      "b": 20,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "power": {
+            "children": {
+              "edge": {
+                "children": {
+                  "arch": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 214,
+                      "g": 208,
+                      "b": 194,
+                      "a": 255
+                    }
+                  },
+                  "base": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 214,
+                      "g": 208,
+                      "b": 194,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "well": {
+                "children": {
+                  "arch": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 23,
+                      "g": 24,
+                      "b": 27,
+                      "a": 255
+                    }
+                  },
+                  "base": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 23,
+                      "g": 24,
+                      "b": 27,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "name": {
+        "children": {},
+        "visible": true,
+        "text": "静心",
+        "fontSize": 14
+      },
+      "art": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "typeEdge": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "imageColor": {
+          "r": 214,
+          "g": 208,
+          "b": 194,
+          "a": 255
+        }
+      },
+      "typeTag": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "tagEdge": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 214,
+              "g": 208,
+              "b": 194,
+              "a": 255
+            }
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 214,
+              "g": 208,
+              "b": 194,
+              "a": 255
+            }
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 214,
+              "g": 208,
+              "b": 194,
+              "a": 255
+            }
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 214,
+              "g": 208,
+              "b": 194,
+              "a": 255
+            }
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 214,
+              "g": 208,
+              "b": 194,
+              "a": 255
+            }
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": "",
+            "imageColor": {
+              "r": 214,
+              "g": 208,
+              "b": 194,
+              "a": 255
+            }
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "tagBody": {
+        "children": {
+          "vertical": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "horizontal": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner-1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_-1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          },
+          "corner1_1": {
+            "children": {},
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "type": {
+        "children": {},
+        "visible": true,
+        "text": "能力",
+        "fontColor": {
+          "r": 214,
+          "g": 208,
+          "b": 194,
+          "a": 255
+        },
+        "fontSize": 14
+      },
+      "label": {
+        "children": {},
+        "visible": true,
+        "text": "获得 5 点格挡。\n造成 7 点伤害。",
+        "fontSize": 15
+      },
+      "roleRing": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "roleMark": {
+        "children": {
+          "traveler": {
+            "children": {
+              "symbol": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 214,
+                  "g": 208,
+                  "b": 194,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "HT": {
+            "children": {
+              "petal0": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 214,
+                  "g": 208,
+                  "b": 194,
+                  "a": 255
+                }
+              },
+              "petal1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 214,
+                  "g": 208,
+                  "b": 194,
+                  "a": 255
+                }
+              },
+              "petal2": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 214,
+                  "g": 208,
+                  "b": 194,
+                  "a": 255
+                }
+              },
+              "petal3": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 214,
+                  "g": 208,
+                  "b": 194,
+                  "a": 255
+                }
+              },
+              "petal4": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 214,
+                  "g": 208,
+                  "b": 194,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "AR": {
+            "children": {
+              "moon": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 214,
+                  "g": 208,
+                  "b": 194,
+                  "a": 255
+                }
+              },
+              "cut": {
+                "children": {},
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "FR": {
+            "children": {
+              "water": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 214,
+                  "g": 208,
+                  "b": 194,
+                  "a": 255
+                }
+              },
+              "tip": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 214,
+                  "g": 208,
+                  "b": 194,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "RD": {
+            "children": {
+              "triangle1": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 214,
+                      "g": 208,
+                      "b": 194,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle2": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 214,
+                      "g": 208,
+                      "b": 194,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle3": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 214,
+                      "g": 208,
+                      "b": 194,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              },
+              "triangle4": {
+                "children": {
+                  "fill": {
+                    "children": {},
+                    "visible": true,
+                    "text": "",
+                    "imageColor": {
+                      "r": 214,
+                      "g": 208,
+                      "b": 194,
+                      "a": 255
+                    }
+                  }
+                },
+                "visible": true,
+                "text": ""
+              }
+            },
+            "visible": false,
+            "text": ""
+          },
+          "colorless": {
+            "children": {
+              "symbol": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 214,
+                  "g": 208,
+                  "b": 194,
+                  "a": 255
+                }
+              }
+            },
+            "visible": true,
+            "text": ""
+          },
+          "curse": {
+            "children": {
+              "slash": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 214,
+                  "g": 208,
+                  "b": 194,
+                  "a": 255
+                }
+              },
+              "backslash": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "imageColor": {
+                  "r": 214,
+                  "g": 208,
+                  "b": 194,
+                  "a": 255
+                }
+              }
+            },
+            "visible": false,
+            "text": ""
+          }
+        },
+        "visible": true,
+        "text": ""
+      },
+      "blockedVeil": {
+        "children": {},
+        "visible": false,
+        "text": ""
+      },
+      "blockedPill": {
+        "children": {
+          "edge": {
+            "children": {
+              "vertical": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "sizeDeltaX": 93,
+                "sizeDeltaY": 16
+              },
+              "horizontal": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "sizeDeltaX": 109,
+                "sizeDeltaY": 0
+              },
+              "corner-1_-1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": -46.5,
+                "y": 0
+              },
+              "corner-1_1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": -46.5,
+                "y": 0
+              },
+              "corner1_-1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": 46.5,
+                "y": 0
+              },
+              "corner1_1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": 46.5,
+                "y": 0
+              }
+            },
+            "visible": true,
+            "text": ""
+          },
+          "body": {
+            "children": {
+              "vertical": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "sizeDeltaX": 93,
+                "sizeDeltaY": 14.5
+              },
+              "horizontal": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "sizeDeltaX": 107.5,
+                "sizeDeltaY": 0
+              },
+              "corner-1_-1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": -46.5,
+                "y": 0
+              },
+              "corner-1_1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": -46.5,
+                "y": 0
+              },
+              "corner1_-1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": 46.5,
+                "y": 0
+              },
+              "corner1_1": {
+                "children": {},
+                "visible": true,
+                "text": "",
+                "x": 46.5,
+                "y": 0
+              }
+            },
+            "visible": true,
+            "text": ""
+          }
+        },
+        "visible": false,
+        "text": "",
+        "sizeDeltaX": 109,
+        "sizeDeltaY": 16
+      },
+      "blockedLock": {
+        "children": {},
+        "visible": false,
+        "text": "",
+        "x": -44,
+        "y": 18
+      },
+      "blockedReason": {
+        "children": {},
+        "visible": false,
+        "text": "当前不可打出",
+        "fontSize": 14,
+        "sizeDeltaX": 84,
+        "sizeDeltaY": 40
+      },
+      "costHalo": {
+        "children": {},
+        "visible": true,
+        "text": "",
+        "imageColor": {
+          "r": 141,
+          "g": 224,
+          "b": 138,
+          "a": 255
+        }
+      },
+      "costCore": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      },
+      "costDisc": {
+        "children": {},
+        "visible": true,
+        "text": "",
+        "imageColor": {
+          "r": 141,
+          "g": 224,
+          "b": 138,
+          "a": 255
+        }
+      },
+      "cost": {
+        "children": {},
+        "visible": true,
+        "text": "0",
+        "fontColor": {
+          "r": 141,
+          "g": 224,
+          "b": 138,
+          "a": 255
+        },
+        "fontSize": 17
+      },
+      "costDirection": {
+        "children": {},
+        "visible": true,
+        "text": "↓",
+        "fontColor": {
+          "r": 141,
+          "g": 224,
+          "b": 138,
+          "a": 255
+        },
+        "fontSize": 14
+      },
+      "hit": {
+        "children": {},
+        "visible": true,
+        "text": ""
+      }
+    },
+    "visible": true,
+    "text": ""
+  }
+]

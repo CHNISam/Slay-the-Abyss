@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "card_id": "thunderclap",
+  "displayName": "横扫破防",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "thunderclap/generation-provenance.json",
+      "sha256": "4a7e87c6b27a30124d0edb21cd7c6ddfc3a0779360e2f17ed736ef0850b66f73",
+      "bytes": 2909
+    },
+    "preview-source-144x64.png": {
+      "path": "thunderclap/preview-source-144x64.png",
+      "sha256": "34e701ee19837993467547e61c645a06e1021e4386cf1624971476fc5c51fa26",
+      "bytes": 18815
+    },
+    "prompt.txt": {
+      "path": "thunderclap/prompt.txt",
+      "sha256": "d3a4c3ea1dc869f6172584907c0842870a5881fe36de2796029cf70368190865",
+      "bytes": 3308
+    },
+    "source.png": {
+      "path": "thunderclap/source.png",
+      "sha256": "a6bd90525de1ae3fa3c976638e8833751ed30832c6cf3bea2e50ae3f2def9d80",
+      "bytes": 2042522
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "thunderclap",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damageAll",
+        "value": 4
+      },
+      {
+        "op": "applyStatusAll",
+        "status": "vulnerable",
+        "value": 1
+      }
+    ],
+    "target": "ALL_ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-04",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

@@ -1,0 +1,44 @@
+{
+  "sourceCommit": "066adaa57d308e002bc771716b9cab851cc70d76",
+  "sourceDirty": false,
+  "buildId": "b41fb00b-93b4-4602-be8e-a765ca532a11",
+  "path": "F:/New folder/.artifacts/M3手机修复测试-066adaa5.gil",
+  "bytes": 9429517,
+  "sha256": "65f0b7b13d48716ec9cf932cfd657bac35043c3aa6e42336ffc912030846ef75",
+  "modules": 226,
+  "uiControls": 8454,
+  "maxChildren": 60,
+  "localTests": {
+    "combined": {
+      "pass": 25,
+      "fail": 0,
+      "skip": 0
+    },
+    "content": {
+      "pass": 93,
+      "fail": 0,
+      "skip": 0
+    }
+  },
+  "nativeStatic": {
+    "errors": 0,
+    "warnings": 103,
+    "warningReview": "not_run"
+  },
+  "officialImport": "NOT_TESTED",
+  "ready": "NOT_TESTED",
+  "devicePlaytest": "FAILED_USER_REPORTED",
+  "uiAcceptance": "NOT_TESTED",
+  "fullCurrentShaCi": "NOT_RUN",
+  "milestone3": "INCOMPLETE",
+  "liveWriteEnabled": false,
+  "userReportedRuntimeFailure": {
+    "trigger": [
+      "open deck",
+      "open relics"
+    ],
+    "phase": "update",
+    "message": "attempt to call method GetChild on an invalid object",
+    "status": "replacement pending"
+  }
+}

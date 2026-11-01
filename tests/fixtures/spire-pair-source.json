@@ -1,0 +1,80 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "boundary": "Independent A0 component only; no Run/Combat/native admission.",
+  "files": {
+    "monsters/ending/SpireShield.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/ending/SpireShield.java",
+      "sha256": "bd2048d80bf6f6b270997ec50ccec83fd1e7ce5c90b046e91a9bb4b71ff9bd7c"
+    },
+    "monsters/ending/SpireSpear.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/ending/SpireSpear.java",
+      "sha256": "4e7ea2ab3451d2bcd7b2842a50dee2b48388407e8815057260dcc7d396cfc8e0"
+    },
+    "powers/SurroundedPower.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/SurroundedPower.java",
+      "sha256": "4e82b9fc58a0dbaaf0d1b8f506873b79ca4f769036bd9f196f0812f11868fae7"
+    },
+    "powers/BackAttackPower.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/BackAttackPower.java",
+      "sha256": "a5ec25045ba0cad9195639306b481e12ed54a5c36c19d6696a914472884f306b"
+    },
+    "monsters/AbstractMonster.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/AbstractMonster.java",
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f"
+    },
+    "characters/AbstractPlayer.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
+    },
+    "cards/CardGroup.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/CardGroup.java",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8"
+    },
+    "cards/DamageInfo.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/DamageInfo.java",
+      "sha256": "cc16469d78473a1d37bf18a152014d9d1625859a5a7bd0923387f4ee8d942a5a"
+    },
+    "ui/panels/PotionPopUp.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/ui/panels/PotionPopUp.java",
+      "sha256": "320557c73413bf6a6254c75c380fb4316314fa3602ef33401954d9d7ccd4d8e4"
+    },
+    "actions/common/RollMoveAction.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/RollMoveAction.java",
+      "sha256": "c938d4b4a9183b39e91c1c54c79085ddf7b2bea082af14895b9a1a00a100fc50"
+    },
+    "actions/common/GainBlockAction.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/GainBlockAction.java",
+      "sha256": "e48f437c06b42dda312446a4b536aca54570d637e53087ac16f736d84bb5df4f"
+    },
+    "actions/common/ApplyPowerAction.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/ApplyPowerAction.java",
+      "sha256": "f64ce8511f961a1990f1909e2c55654fa6dbf1dc2f4f1f3d3a7156c2ec2a9d47"
+    },
+    "helpers/MonsterHelper.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+      "sha256": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1"
+    },
+    "dungeons/AbstractDungeon.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26"
+    },
+    "random/Random.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/random/Random.java",
+      "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172"
+    },
+    "potions/SmokeBomb.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/SmokeBomb.java",
+      "sha256": "41b2bc615d341a2a4bd29451dfd6546639a3d69e0d5c49d5a781cd5f03807ec2"
+    }
+  },
+  "authoredInputs": {
+    "src/lua/abyss_spire_pair.lua": "42aaa7b747edd6a717a4be3051974d77c4dd236fd61cfe78d2ea7570ae2d62e5",
+    "tests/lua/spire_pair_component.lua": "f5877095ccf3a34490b702b5743c97c42f91e9cf2f6f98229895a9ac3f3972f3",
+    "tests/spire-pair-component.test.mjs": "d346c96676f54f31a5d067ba3d2f902509dc2104168fab4c02bfde030b2d33ee",
+    "tests/fixtures/spire-pair-oracle.py": "3aaf1e8292997e02767ec94ac42cbcc0a576cdc6fc7816e518af6200df30f1a0",
+    "tests/fixtures/spire-pair-vectors.json": "bfc2e9ef07619f8224f06ecd324958358d2911fe6ca82d48f932bee55b6264fb",
+    "tests/fixtures/spire-pair-vectors.lua": "a1e0900710a1344a4afcac9c361f56d58f1f0841005b52a12c91e7deafba646b",
+    "tools/sts1-card-rng-oracle.py": "3c0667f93636463eb951f7df97e2f01202087a368eef3cf0a76756613bedfa56",
+    "docs/rules/SPIRE_PAIR.md": "f0cc2e60b0e58cf53df83f245fb7e0500fd4171d90b19bb0b1f581e4409f2212"
+  }
+}

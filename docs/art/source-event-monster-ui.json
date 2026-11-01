@@ -1,0 +1,119 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "scope": "Event-only rendering metadata; no artwork or combat-policy changes. Hitbox dimensions are not sprite bounds.",
+  "sources": [
+    {
+      "path": "monsters/city/BanditBear.java",
+      "encoding": "utf-8",
+      "sha": "c4a30770171d591f8ed4d71f3434e4e82f3c1781",
+      "display_url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/BanditBear.java",
+      "display_title": "BanditBear.java",
+      "sha256": "b351aa8ffd0227380596eb6475b0fbb2a1e03bc6671ffa43cd003b5d9498187f"
+    },
+    {
+      "path": "monsters/city/BanditPointy.java",
+      "encoding": "utf-8",
+      "sha": "6cb825f72ef8d82e6a537ed4e7cbab444040737b",
+      "display_url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/BanditPointy.java",
+      "display_title": "BanditPointy.java",
+      "sha256": "d76238513f00ad9f6c73e884a655b12c31ca30f9cbeac673b7671686492a6c4f"
+    },
+    {
+      "path": "monsters/city/BanditLeader.java",
+      "encoding": "utf-8",
+      "sha": "04fc12d099fc41dccc642d0cbf63b4cdef1f0c14",
+      "display_url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/BanditLeader.java",
+      "display_title": "BanditLeader.java",
+      "sha256": "f79ea7c226047384ebd2e1d0e13bc1db1211daccd34848cd5aae836133143ffb"
+    },
+    {
+      "path": "monsters/exordium/Lagavulin.java",
+      "encoding": "utf-8",
+      "sha": "57e7a86b61d31b9fba03000ae31e9ae433e1122d",
+      "display_url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/Lagavulin.java",
+      "display_title": "Lagavulin.java",
+      "sha256": "818b6a5681e30ca6681b035a1dedca477b2f626c873d98f320a58e6d2ed09e87"
+    },
+    {
+      "path": "helpers/MonsterHelper.java",
+      "sha256": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1",
+      "source": "existing pinned-method workspace evidence"
+    }
+  ],
+  "constructorLines": {
+    "bandit_pointy": 37,
+    "bandit_leader": 50,
+    "bandit_bear": 50,
+    "lagavulin_awake": 64
+  },
+  "moves": {
+    "bandit_pointy": {
+      "pointy_special": [
+        "ATTACK",
+        1,
+        93,
+        true
+      ]
+    },
+    "bandit_leader": {
+      "mock": [
+        "UNKNOWN",
+        2,
+        145,
+        false
+      ],
+      "agonizing_slash": [
+        "ATTACK_DEBUFF",
+        3,
+        97,
+        false
+      ],
+      "cross_slash": [
+        "ATTACK",
+        1,
+        105,
+        false
+      ]
+    },
+    "bandit_bear": {
+      "bear_hug": [
+        "STRONG_DEBUFF",
+        2,
+        131,
+        false
+      ],
+      "lunge": [
+        "ATTACK_DEFEND",
+        3,
+        79,
+        false
+      ],
+      "maul": [
+        "ATTACK",
+        1,
+        93,
+        false
+      ]
+    },
+    "lagavulin_awake": {
+      "siphon": [
+        "STRONG_DEBUFF",
+        1,
+        102,
+        false
+      ],
+      "attack": [
+        "ATTACK",
+        3,
+        157,
+        false
+      ]
+    }
+  },
+  "moveTuple": [
+    "sourceEnum",
+    "sourceByte",
+    "sourceLine",
+    "isMultiDamage"
+  ]
+}

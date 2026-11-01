@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "card_id": "berserk",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T18:45:28.945Z",
+    "endUtc": "2026-10-29T18:46:15.203Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "mechanicEvidence": {
+    "data": "self vulnerable2 then berserk1; upgrade vulnerable1; no damage/heal/Strength/loseHp",
+    "runtimeRead": [
+      "src/lua/abyss_warrior_strength_cards.lua planHook berserk phase turn_start adds energy(n)",
+      "src/lua/abyss_combat.lua turn_start ordered berserk enqueues energy(status amount)"
+    ]
+  },
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Resolved upperbody, one normal sword held backhigh ready, emptyotherarm lowered/outward leaves clothed frontguard open. No target/contact/guaranteedattack/rageform/selfinjury/heal. Actual flower/whiteblue/blackgold identity visible at tiny size. SelfVulnerable and recurringenergy are posture/readiness metaphor only; exact status/timing remain text. Fine detail remains; native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/berserk/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "0108c7d2cb65f2939f284dbbed671e206742de9d333df1c2a1f9b7e129094e39",
+    "bytes": 1954642,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/berserk/prompt.txt",
+    "sha256": "606921cc307544c22c4385e8135d193ab184732eefbd40a6481dceffc1434ac3"
+  }
+}

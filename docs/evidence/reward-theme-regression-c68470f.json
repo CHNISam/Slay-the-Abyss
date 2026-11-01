@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25",
+  "base": "c68470f",
+  "problem": "Top-level combatRewards is a standalone themed button, while the old test assumed every top-level control was a full-page root.",
+  "productionChanged": false,
+  "red": {
+    "command": "node --test tests/native-ui-theme.test.mjs",
+    "exitCode": 1,
+    "passed": 4,
+    "failed": 1,
+    "control": "combatRewards",
+    "actualSize": [
+      148,
+      52
+    ],
+    "obsoleteExpectedSize": [
+      1600,
+      900
+    ]
+  },
+  "assertionsPreserved": [
+    "Exact approved battle subtree and presetButton states",
+    "Exact standalone map composition except the documented shared title width",
+    "47 map nodes and custom node/menu theme values",
+    "Every existing page/overlay root still equals theme.canvas.base",
+    "Minimum font, semantic colour/image tokens and theme immutability"
+  ],
+  "assertionsAdded": [
+    "Reward-return button follows the default and overridden theme frame",
+    "Button starts hidden and retains its reward-return caption",
+    "Focusable cursorArea matches compact button size",
+    "Button is inside horizontal and vertical safe area at default 1280x720 and overridden 1600x900"
+  ],
+  "green": {
+    "prerequisites": [
+      "npm run build:data",
+      "npm run build:ui"
+    ],
+    "command": "node --test --test-concurrency=1 tests/native-ui-theme.test.mjs tests/reward-flow-parity.test.mjs",
+    "exitCode": 0,
+    "passed": 6,
+    "failed": 0
+  },
+  "artifacts": [
+    {
+      "path": ".artifacts/reward-theme-regression-c68470f/red.log",
+      "sha256": "d5084573e10fcf3a94bb2e69d8dfc8d34fb1282db7df851a1e0fb50609164ec0"
+    },
+    {
+      "path": ".artifacts/reward-theme-regression-c68470f/green.log",
+      "sha256": "89fe7556db91a3db28a24032fd92e8750f0c1bb578bae786b003b3af5d18db4f"
+    },
+    {
+      "path": ".artifacts/reward-theme-regression-c68470f/setup-missing-theme.log",
+      "sha256": "8cbf4c7859ff882cd1afc7bd619faeb2db1b2358645c0db382db4e51f1a496be"
+    }
+  ],
+  "boundary": "Test-only classification correction. The initial optional lifecycle run lacked generated abyss_theme; setup failure retained, normal data/UI prerequisites then all six focused tests passed. No full check, GUI or platform acceptance."
+}

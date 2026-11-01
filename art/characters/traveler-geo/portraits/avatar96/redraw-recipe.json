@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 2,
+  "purpose": "head-only selection avatar",
+  "sourceSha256": "6b32c5e192d699c20808c3c697640275ac4b42953d6904eb51b005d8ce66a788",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "sourceMode": "RGBA",
+  "targetSize": [
+    96,
+    96
+  ],
+  "fit": "contain, no crop/stretch",
+  "fittedSize": [
+    96,
+    96
+  ],
+  "offset": [
+    0,
+    0
+  ],
+  "paletteColors": 64,
+  "alphaPolicy": "preserve all resampled alpha values; omit exactly alpha=0 cells only",
+  "imageControls": 4822,
+  "masks": 0,
+  "contentBounds": "all geometry inside canvas; transparent cells omitted",
+  "stage": "first offline authoring draft, not final native visual approval",
+  "pillowVersion": "12.3.0",
+  "productionEnabled": false,
+  "gilDeltaBytes": null,
+  "officialUploadDeltaBytes": null
+}

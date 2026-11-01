@@ -1,0 +1,27 @@
+[
+  {
+    "name": "controller_host",
+    "status": 0,
+    "durationMs": 8359
+  },
+  {
+    "name": "game_ui",
+    "status": 0,
+    "durationMs": 37271
+  },
+  {
+    "name": "game_ui_deck",
+    "status": 0,
+    "durationMs": 13774
+  },
+  {
+    "name": "game_ui_potion_discard",
+    "status": 0,
+    "durationMs": 18000
+  },
+  {
+    "name": "map_resources",
+    "status": 0,
+    "durationMs": 2313
+  }
+]

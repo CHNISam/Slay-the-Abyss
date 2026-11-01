@@ -1,0 +1,10 @@
+local F=dofile('tests/lua/support/golden_idol_fixture.lua')
+local r=F.Run.new(F.D,'16',{experimental=true,campaign=true});local m=F.Map.generate(F.D,'16');local original=F.C.copy(r.unknown.pools)
+local first=F.Map.available(m)[1];for _,n in ipairs(m.nodes)do if n.id==first.id then n.type='event';n.eventId=nil end end
+assert(F.Nodes.enter(r,m,first.id));F.eq(r.nodeFlow.event.id,'golden_idol');F.eq(r.nodeFlow.event.originalId,'Golden Idol')
+local removed={};for _,id in ipairs(original.act)do if id~='Golden Idol'then removed[#removed+1]=id end end;F.same(r.unknown.pools.act,removed)
+F.same(r.unknown.pools.shrine,original.shrine);F.same(r.unknown.pools.once,original.once)
+local rng=F.R.snapshot(r.eventRng);F.eq(rng.counter,1);F.eq(rng.words[1],'ccb954bc7af860a2');F.eq(rng.words[2],'2ab98db97070fe1b')
+rng=r.nodeFlow.selectionRng;F.eq(rng.counter,3);F.eq(rng.words[1],'b83dec7de1ade519');F.eq(rng.words[2],'4e3c229549c53a82')
+assert(F.Nodes.chooseEvent(r,'take'));assert(F.Nodes.chooseEvent(r,'injury'));assert(F.Nodes.chooseEvent(r,'leave'));F.eq(r.phase,'map')
+print('GOLDEN_IDOL_NATURAL_PASS seed16 full unfiltered source pool/only selected removal/once preservation/exact RNG; actual acquire and cost (room boundary, not campaign clear)')

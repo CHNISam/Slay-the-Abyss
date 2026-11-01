@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "aeubanks/sts",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sourceTree": "7b344415731748708a75d75c917f75c883f49fd0",
+  "provenanceBoundary": "Fixed decompiled mirror, not authenticated PC binary or native-client acceptance; canonical source bytes rehashed to pinned Git blobs; no Java bodies shipped.",
+  "sources": [
+    {
+      "path": "events/city/TheLibrary.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/city/TheLibrary.java",
+      "gitBlobSha": "185c2916997d5b68539bc8208e5fc47e0d724484",
+      "sha256": "8cbe97b4a7a7904d3dbcd5f8940d94e31508cc6e3ca1e2299bd7dea5cf379ff6",
+      "size": 5343
+    },
+    {
+      "path": "dungeons/AbstractDungeon.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java",
+      "gitBlobSha": "9059f4da5c8002e9645bf38f200e5527d1212ac0",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+      "size": 115023
+    },
+    {
+      "path": "cards/CardGroup.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/CardGroup.java",
+      "gitBlobSha": "546405eea9d7dcbd855fe47471c55c92d086987c",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8",
+      "size": 45485
+    },
+    {
+      "path": "screens/select/GridCardSelectScreen.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/screens/select/GridCardSelectScreen.java",
+      "gitBlobSha": "3221a5d9f31b2c98b06848be5d261b5030841752",
+      "sha256": "1793bb4449bc7046d3e5477d1fdd4ad39f0a4d3d9582309ceb59595be8b130bc",
+      "size": 36552
+    },
+    {
+      "path": "core/AbstractCreature.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java",
+      "gitBlobSha": "bee5f7d0d955528b69007376cc0465ed60e577c6",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b",
+      "size": 42311
+    },
+    {
+      "path": "random/Random.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/random/Random.java",
+      "gitBlobSha": "c4b71d5645688f6e764c46c593223eb91a5249bc",
+      "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172",
+      "size": 2596
+    },
+    {
+      "path": "rooms/AbstractRoom.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/AbstractRoom.java",
+      "gitBlobSha": "c2a1a029a9f59b1b94026dff46d4155824b85f86",
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05",
+      "size": 33565
+    },
+    {
+      "path": "rooms/EventRoom.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/EventRoom.java",
+      "gitBlobSha": "015e36bfa42c1b41d3cabac743ed8b65474031cd",
+      "sha256": "66ffb50ba3410cbd7fd55ea7b5f8c896f40689c34c584d48a2640dde432f172f",
+      "size": 1711
+    },
+    {
+      "path": "vfx/cardManip/ShowCardAndObtainEffect.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/cardManip/ShowCardAndObtainEffect.java",
+      "gitBlobSha": "1905199265294006a78eaeeb56e4ec75048236ff",
+      "sha256": "1daffc2b13c79a1ddb10fcce995cf18980e917a576dba6db3751dccffa892e52",
+      "size": 4473
+    },
+    {
+      "path": "relics/AbstractRelic.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/AbstractRelic.java",
+      "gitBlobSha": "a0664295b13cea89638ab4737b7ef83a2e7da5ac",
+      "sha256": "e4b5a8e6dda41cb9b25f75c5777f03e84da245247d1dac5d3070727fc8d24167",
+      "size": 39442
+    },
+    {
+      "path": "relics/MoltenEgg2.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/MoltenEgg2.java",
+      "gitBlobSha": "c08e2f0072cf72746785525fff54b569965d4c5d",
+      "sha256": "415e68f17fd5fa4fb123344341c12adfa8318bc6a942c9c283f38341b035183f",
+      "size": 1476
+    },
+    {
+      "path": "relics/ToxicEgg2.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/ToxicEgg2.java",
+      "gitBlobSha": "6cc52d5ec2412e78850a8b3ac62ff11fc27721b3",
+      "sha256": "1149dee0de59c4bd756bf453daf62ecd4dba8e593193d08c941c6ac42445155d",
+      "size": 1471
+    },
+    {
+      "path": "relics/FrozenEgg2.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/FrozenEgg2.java",
+      "gitBlobSha": "0514c731b6de152621d5ec09c870e0a474a00abd",
+      "sha256": "0f6c1e60f11ff22d6fa343128d1740947a6a53efb2042f76782a2d1dbf6b8c2e",
+      "size": 1476
+    },
+    {
+      "path": "relics/NlothsGift.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/NlothsGift.java",
+      "gitBlobSha": "544ae415be6e8fe10243406c4dca8dcaa31bbf53",
+      "sha256": "94981b2c8cfa81a343a727235998e5afd3a307eff2e3ced2719c9783f7ef4237",
+      "size": 732
+    },
+    {
+      "path": "relics/PrismaticShard.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/PrismaticShard.java",
+      "gitBlobSha": "c7d4d394457b23529eaeae7417546cdc981391a1",
+      "sha256": "e9813b8cbf06ca83e9e81a4c7896c93f26f36afe3b25c6bdd38645091e00c809",
+      "size": 930
+    },
+    {
+      "path": "events/AbstractImageEvent.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/AbstractImageEvent.java",
+      "gitBlobSha": "ee5ebef8ad8dc3316e5fc89b7631bab8d9dd49e7",
+      "sha256": "438f8c014c563c51f2f14d8f98839e71a7c4a45db314d9b36be8c76ba0b2d92f",
+      "size": 3542
+    },
+    {
+      "gitBlobSha": "e5ae6bf747375d9e251901421ad1fba6ac3e0721",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/red/SearingBlow.java",
+      "size": 2149,
+      "sha256": "93aed26c36c2bdfdac23b3d38da135332dcaefe8b43f66461bdbb69b85a1765b",
+      "path": "cards/red/SearingBlow.java"
+    }
+  ],
+  "behavior": {
+    "sourceId": "The Library",
+    "localId": "the_library",
+    "introChoices": [
+      "read",
+      "sleep"
+    ],
+    "offerCount": 20,
+    "duplicateRetry": [
+      "rollRarity",
+      "getCard"
+    ],
+    "pityMutation": false,
+    "upgradeRolls": false,
+    "gridOrder": "reverse accepted generation order",
+    "selectedCopy": "fresh base makeCopy for ordinary cards; SearingBlow(int n) alone preserves timesUpgraded n while resetting upgraded=false and baseDamage=12 before actual obtain hooks",
+    "sleepA0Percent": 0.33,
+    "cachedHealFacts": {
+      "1": 0,
+      "2": 1,
+      "3": 1,
+      "49": 16,
+      "50": 17,
+      "70": 23,
+      "72": 24,
+      "75": 25,
+      "80": 26,
+      "100": 33
+    },
+    "selection": {
+      "count": 1,
+      "forUpgrade": false,
+      "forTransform": false,
+      "canCancel": true,
+      "forPurge": false,
+      "anyNumber": false
+    },
+    "completion": [
+      "selection or sleep",
+      "result",
+      "separate Leave",
+      "openMap"
+    ]
+  },
+  "implementationBoundary": "Full Run four-class source catalogue only; historical prepared/original-V4 Read unavailable, Sleep supported. Toxic Egg uses shared preview and actual obtain hooks. Molten Egg uses shared hooks; Searing Blow constructor-copy count/baseDamage is preserved through obtain, combat and later upgrades. Forced Frozen Egg Read refuses until its shared hooks exist. Global cosmetic getBook random copy downgraded to fixed local text; no gameplay stream draw. No mutating onMasterDeckChange hook exists in current supported relic owner. Native acceptance NOT_RUN.",
+  "roundingReference": {
+    "url": "https://github.com/libgdx/libgdx/blob/1.9.5/gdx/src/com/badlogic/gdx/math/MathUtils.java",
+    "boundary": "Primary libGDX round implementation checked for positive signed32 HP times .33f domain; this does not authenticate original game dependency version."
+  }
+}

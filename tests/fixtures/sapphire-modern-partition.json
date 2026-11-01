@@ -1,0 +1,60 @@
+{
+  "entry": "tests/lua/sapphire_treasure.lua",
+  "originalGroups": 21,
+  "timeout": 30000,
+  "migratedBodySha256": "c2e053c5fc8b1b94e50a0715f2a3af8f12039ebf20c9b8a4d3154657b6df81d0",
+  "prefix": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 7\nlocal registered=0\n",
+  "before": "local function test(name,fn)fn();count=count+1;print('ok sapphire treasure '..count..' - '..name)end",
+  "after": "local function test(name,fn)\n    registered=registered+1\n    if registered<sliceFirst or registered>sliceLast then return end\n    fn();count=count+1;print('ok sapphire treasure '..registered..' - '..name)\nend",
+  "footer": "\nassert(registered==21,\"all original Sapphire core groups remain registered\")\nassert(count==sliceLast-sliceFirst+1,\"all selected Sapphire core groups executed\")\n",
+  "slices": [
+    [
+      1,
+      7
+    ],
+    [
+      8,
+      13
+    ],
+    [
+      15,
+      21
+    ],
+    [
+      14,
+      14
+    ]
+  ],
+  "uiHelper": "tests/lua/support/sapphire_treasure_ui_cases.lua",
+  "uiHelperSha256": "b8f2150d0a2d3f7cb44fdb075ee9ef5713587b8ee2c1f98e5cffe61ead557561",
+  "uiSlices": [
+    [
+      1,
+      8
+    ],
+    [
+      9,
+      10
+    ],
+    [
+      11,
+      11
+    ],
+    [
+      12,
+      12
+    ],
+    [
+      13,
+      13
+    ],
+    [
+      14,
+      14
+    ],
+    [
+      15,
+      17
+    ]
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "intimidate",
+  "displayName": "威慑",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "intimidate/generation-provenance.json",
+      "sha256": "f7ea2f99a2148c3263d0062994622eabf4f97c2dba161a294fb2609f739fcd24",
+      "bytes": 2889
+    },
+    "preview-source-144x64.png": {
+      "path": "intimidate/preview-source-144x64.png",
+      "sha256": "7c2449cd36e048a8f572cda247f031de9053628a0923736ece3f7c59001670a6",
+      "bytes": 17486
+    },
+    "prompt.txt": {
+      "path": "intimidate/prompt.txt",
+      "sha256": "3ea22d45a877cfcd8d43f544d5a6e9e63f624e4ca8b8693efe86ae86439b587d",
+      "bytes": 2804
+    },
+    "source.png": {
+      "path": "intimidate/source.png",
+      "sha256": "550652eba768202eab04c8eaaf25bc1aa4ac64c901b348612fb04e5979e7447c",
+      "bytes": 1721471
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "intimidate",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "applyStatusAll",
+        "value": 1,
+        "status": "weak"
+      }
+    ],
+    "target": "ALL_ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-10",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

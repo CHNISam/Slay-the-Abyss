@@ -1,0 +1,142 @@
+import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
+import { cardFaceChildren } from './card-face.mjs';
+
+// Reserve a real native line below the unchanged card face for choice feedback.
+const itemSize = theme => [theme.layout.deckView.itemSize[0], Math.max(theme.layout.deckView.itemSize[1],
+  theme.layout.card.size[1] + theme.layout.nativeText.lineHeight)];
+
+export function deckCardTemplate(theme = nativeTheme) {
+  const { text } = nativeControls(theme);
+  const { color: c, font: f, layout: l } = theme;
+  const [w, h] = l.card.size;
+  const size = itemSize(theme), line = l.nativeText.lineHeight;
+  return { name: 'AbyssDeckCard', kind: 'container', size, children: [
+    { name: 'face', kind: 'container', position: [0, (size[1] - h) / 2],
+      size: [w, h], children: cardFaceChildren(theme, 'deck', false) },
+    text('uid', [0, -size[1] / 2 + line / 2, w, line], '', f.small, c.textDim),
+    {name:'hit',kind:'cursorArea',position:[0,(size[1]-h)/2],size:[w,h],focusable:true,visible:false},
+  ] };
+}
+
+export function deckControls(theme = nativeTheme) {
+  const { plate, text } = nativeControls(theme);
+  const { layout: l, color: c, font: f, space: s } = theme;
+  const button = (name, frame, label) => {
+    const size = frame.slice(2);
+    const variants = { normal: [c.panelRaised, c.goldBright, c.goldDim], hover: [c.panelRaised, c.goldBright, c.goldBright],
+      pressed: [c.buttonPressedFill, c.text, c.goldBright], disabled: [c.panelSunken, c.textMuted, c.line] };
+    return { name, kind: 'container', position: frame.slice(0, 2), size, children: [
+      { name: 'hit', kind: 'presetButton', size, focusable: true,
+        states: Object.fromEntries(Object.keys(variants).map(state => [state, state])),
+        children: Object.entries(variants).map(([state, [background, ink, border]]) => ({
+          name: state, kind: 'container', size, scale: state === 'pressed' ? [l.deckView.pressedScale, l.deckView.pressedScale] : [1, 1], children: [
+            plate('border', [0, 0, ...size], border),
+            plate('plate', [0, 0, ...size.map(value => value - s.border * 2)], background),
+            text('label', [0, 0, ...size.map(value => value - s.s)], label, f.label, ink),
+          ],
+        })),
+      },
+    ] };
+  };
+  // Map/Main source: 100 x 52 capsule, existing official deck glyph and count.
+  // The 48px hit is separate from the scaled 66.667 x 34.667 visible surface.
+  // The 遗物 entry reuses the same capsule (relic glyph + count) so the
+  // top-right utilities read as one family instead of a boxy text button.
+  const visual = l.deckView.entryVisual;
+  const capsule = (name, size, colour) => {
+    const [w, h] = size, x = (w - h) / 2;
+    return { name, kind: 'container', position: [0, 0], size: [...size], children: [
+      { ...plate('left', [-x, 0, h, h], colour), image: theme.image.disc },
+      plate('middle', [0, 0, w - h, h], colour),
+      { ...plate('right', [x, 0, h, h], colour), image: theme.image.disc },
+    ] };
+  };
+  const palette = { normal: c.mapHeader.menuNormal, hover: c.mapHeader.menuHover,
+    pressed: c.mapHeader.menuPressed, disabled: { fill: c.panelSunken, ink: c.textMuted, border: c.line } };
+  const capsuleEntry = (frame, label, iconName, image) => {
+    const entry = button('open', frame, label);
+    for (const state of entry.children[0].children) {
+      const colours = palette[state.name], text_ = state.children.find(control => control.name === 'label');
+      text_.visible = false;
+      state.children = [capsule('border', visual.size, colours.border),
+        capsule('plate', visual.size.map(value => value - visual.border * 2), colours.fill),
+        { name: iconName, kind: 'image', position: visual.icon.slice(0, 2), size: visual.icon.slice(2),
+          image, colour: colours.ink },
+        text('count', visual.count, '', f.label, state.name === 'normal' ? c.text : colours.ink), text_];
+    }
+    return entry;
+  };
+  // STS TopPanel deck button port: a fanned stack of card backs with the count on a
+  // badge, so the control reads as "your deck" at a glance instead of a generic pill.
+  const stackEntry = (frame, label) => {
+    const entry = button('open', frame, label);
+    // TASK-4.13: same 36px metal disc as the 菜单 sibling, with three larger portrait card
+    // backs fanned inside it so the silhouette reads as a deck before the glyph is parsed.
+    const d = theme.layout.exitMenu.entryVisual.diameter, [dx, cw, ch] = [-12, 13, 18];
+    const disc = (name, size, colour, x = dx, y = 0) => ({ ...plate(name, [x, y, size, size], colour), image: theme.image.disc });
+    const card = (name, x, y, rot, border, fill) => ({ name, kind: 'container', position: [dx + x, y], size: [cw, ch], rotation: rot, children: [
+      plate('border', [0, 0, cw, ch], border), plate('plate', [0, 0, cw - 2, ch - 2], fill)] });
+    for (const state of entry.children[0].children) {
+      const colours = palette[state.name], text_ = state.children.find(control => control.name === 'label');
+      text_.visible = false;
+      state.children = [
+        // TASK-4.13 judge: identical outline/stroke to 菜单 (diameter - border*2 face), no badge plate.
+        disc('ring', d, colours.border), disc('face', d - theme.layout.exitMenu.entryVisual.border * 2, colours.fill),
+        card('back2', -4, 1, 16, colours.ink, c.panelSunken), card('back1', -1, 0, 6, colours.ink, c.cardWell),
+        card('front', 2, -1, -6, colours.ink, colours.fill),
+        { name: 'deckIcon', kind: 'image', position: [dx + 2, -1], size: [9, 9], image: theme.icon.deck.id, colour: colours.ink },
+        // Count is a small numeric pip in the same ink, tucked at the disc's lower-right edge.
+        text('count', [16, 0, 48, 40], '', f.label, colours.ink), text_];
+    }
+    return entry;
+  };
+  const entry = stackEntry(l.deckView.entry, '卡组');
+  const relicImage = theme.icon.node.treasure.id ?? theme.icon.node.treasure;
+  const browseFilters = [
+    ['All', '全部'], ['Attack', '攻击'], ['Skill', '技能'],
+    ['Power', '能力'], ['Status', '状态'], ['Curse', '诅咒'],
+  ];
+  const browseButtons = browseFilters.map(([id, label], i) => {
+    const frame = l.deckView.filters[i];
+    const control = button('filter' + id, frame, label);
+    control.visible = false;
+    control.children.push({ ...plate('selected', [0, -frame[3] / 2 + s.border * 2,
+      frame[2] - s.m * 2, s.border * 2], c.goldBright), visible: false });
+    return control;
+  });
+  return [
+    { name: 'relicEntry', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
+      capsuleEntry(l.deckView.relicEntry, '遗物', 'relicIcon', relicImage),
+    ] },
+    { name: 'deckEntry', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
+      entry,
+    ] },
+    { name: 'deckPanel', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
+      { ...plate('veil', [0, 0, ...theme.canvas.base], c.backdropVeil.slice(0, 7)),
+        opacity: c.backdropVeil.length === 9 ? parseInt(c.backdropVeil.slice(7), 16) / 255 : 1 },
+      { name: 'blocker', kind: 'cursorArea', size: [...theme.canvas.base], focusable: false },
+      { name: 'grid', kind: 'grid', position: l.deckView.viewport.slice(0, 2), size: l.deckView.viewport.slice(2),
+        itemTemplate: deckCardTemplate(theme).name, grid: { columns: l.deckView.columns, horizontal: false,
+          itemSize: itemSize(theme), spacing: [...l.deckView.spacing], padding: [...l.deckView.padding], scrollbar: true } },
+      plate('header', [0, l.deckView.title[1], l.deckView.viewport[2],
+        Math.max(l.deckView.title[3], l.deckView.close[3]) + s.s], c.panel),
+      text('title', l.deckView.title, '', f.heading, c.goldBright),
+      { ...text('browseTitle', l.deckView.browseTitle, '', f.heading, c.goldBright), visible: false },
+      ...browseButtons,
+      ...['original', 'type', 'cost'].map((mode, i) => {
+        const control = button('sort' + mode, l.deckView.sort[i], ['获得顺序 ↑', '类型', '耗能'][i]);
+        control.visible = false;
+        control.children.push({ ...plate('selected', [0, -20, control.size[0] - 16, 4], c.goldBright), visible: false });
+        return control;
+      }),
+      { ...text('details', l.deckView.viewport, '', f.reading, c.text), visible: false },
+      { name: 'detailHit', kind: 'cursorArea', position: l.deckView.viewport.slice(0, 2),
+        size: l.deckView.viewport.slice(2), focusable: true, visible: false },
+      { ...button('upgradePreview', l.deckView.upgradePreview, '升级预览'), visible: false },
+      button('close', l.deckView.close, '关闭'),
+      { ...button('previous', l.deckView.previous, '上一页'), visible: false },
+      { ...button('next', l.deckView.next, '下一页'), visible: false },
+      { ...text('pageHint', l.deckView.pageHint, '', f.small, c.textDim), visible: false },
+    ] },
+  ];
+}

@@ -1,0 +1,309 @@
+{
+  "schemaVersion": 1,
+  "base": "92440f31a0b526215223a087f393844bf7006e8c",
+  "implementation": "b8f09e0a751b18287229f9f3ad9d29ba6bbb86cc",
+  "tool": "Luacheck 1.2.0",
+  "toolSha256": "0f1c69c4d09f1ebb4d8df14c215e4553e2e639bd4cb7bf3c639b0daa6198317b",
+  "boundary": "Exact existing semantic identities retained; this records line moves, not a new exemption or a final combined check.",
+  "existingDiagnosticCount": 33,
+  "newDiagnosticCount": 0,
+  "sourceHashesLF": [
+    {
+      "file": "src/lua/abyss_battle_ui.lua",
+      "previous": "9e8f454612bf871d617a907b7963e8de136bae4f3e1b0c0fe4bccae88a7b69bf",
+      "current": "aeed128bb5adb79e1bb6495d5444011b7e24af219cbc9564cdf2248abeed2948"
+    },
+    {
+      "file": "src/lua/abyss_map_ui.lua",
+      "previous": "e3b712dbe686bcf30e8ec5c8b6ed7170d9433a86afb6916c474efb3986c173c3",
+      "current": "1a696b91b54e5ef64c1b1b629a45655af7ab595484c48408ca03ad156da7944c"
+    },
+    {
+      "file": "src/lua/abyss_game_ui.lua",
+      "previous": "c8a0a3a47d1ae80eb25a6b12605fae1febab5f09ccccef6eef76aef620f938ba",
+      "current": "404f4beea5d119e0e67a10c6d2475994a35ed2b95438ae644e6a675ed217c02d"
+    },
+    {
+      "file": "src/lua/abyss_nodes.lua",
+      "previous": "4684900eea7def91f2e013051cbec4389109e022c05fdc7dc0dd021c956c85b7",
+      "current": "bc8bcc881eb195f09fcf359f99df591be3c0bdf1e0062f36c83dd10489bed173"
+    },
+    {
+      "file": "src/lua/abyss_run.lua",
+      "previous": "c3aad9085a815c0d36a0f178dc7d252e6bf9b5ebe7c9b599fe2cf7b352e9fd4b",
+      "current": "101d186dc5043a542cb57de3b8df51e1de6f7289ff73cf0bec331f13c7f32ad2"
+    },
+    {
+      "file": "src/lua/abyss_battle_reward_owner.lua",
+      "previous": "284542fdeca5d1a8be7e7ed8abb045c9c126d5c0099be49b91fb8ce4ee993933",
+      "current": "5e8464da324df619ae3affd857ded0b73b6332f93a32740072be370980b19f9a"
+    },
+    {
+      "file": "src/lua/abyss_battle_reward_layout.lua",
+      "previous": null,
+      "current": "9a15f8308e6119b0a79b730f5c71f0bde01f49adc2ec94697da2b5dbc971e4fd"
+    },
+    {
+      "file": "src/lua/abyss_emerald_rewards.lua",
+      "previous": null,
+      "current": "d96f0af521b90d9372c60138a8246b3296e06dd57dd99a1a05297d6b39f988df"
+    }
+  ],
+  "modules": [
+    {
+      "file": "src/lua/abyss_battle_ui.lua",
+      "messages": [
+        {
+          "code": "W431",
+          "previous": "shadowing upvalue 'self' on line 47",
+          "current": "shadowing upvalue 'self' on line 48"
+        },
+        {
+          "code": "W212",
+          "previous": "unused argument 'self'",
+          "current": "unused argument 'self'"
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 48,
+          "currentLine": 49
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 265,
+          "currentLine": 267
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 301,
+          "currentLine": 303
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 312,
+          "currentLine": 314
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 324,
+          "currentLine": 326
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 332,
+          "currentLine": 334
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 344,
+          "currentLine": 346
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 414,
+          "currentLine": 416
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 833,
+          "currentLine": 818
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 915,
+          "currentLine": 900
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 974,
+          "currentLine": 959
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 988,
+          "currentLine": 973
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 995,
+          "currentLine": 980
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 1004,
+          "currentLine": 989
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 1012,
+          "currentLine": 997
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 1045,
+          "currentLine": 1030
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 1052,
+          "currentLine": 1037
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 1079,
+          "currentLine": 1064
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 1095,
+          "currentLine": 1080
+        },
+        {
+          "code": "W212",
+          "column": 18,
+          "previousLine": 1122,
+          "currentLine": 1107
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 1122,
+          "currentLine": 1107
+        },
+        {
+          "code": "W212",
+          "column": 18,
+          "previousLine": 1123,
+          "currentLine": 1108
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 1123,
+          "currentLine": 1108
+        }
+      ]
+    },
+    {
+      "file": "src/lua/abyss_map_ui.lua",
+      "messages": [
+        {
+          "code": "W431",
+          "previous": "shadowing upvalue 'self' on line 70",
+          "current": "shadowing upvalue 'self' on line 70"
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 175,
+          "currentLine": 175
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 262,
+          "currentLine": 269
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 274,
+          "currentLine": 281
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 303,
+          "currentLine": 310
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 309,
+          "currentLine": 316
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 326,
+          "currentLine": 333
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 331,
+          "currentLine": 338
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 340,
+          "currentLine": 347
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 351,
+          "currentLine": 358
+        },
+        {
+          "code": "W431",
+          "column": 18,
+          "previousLine": 358,
+          "currentLine": 365
+        }
+      ]
+    }
+  ],
+  "adjacency": [
+    {
+      "fixture": "reward_flow_parity.lua",
+      "groups": 10,
+      "ms": 15664,
+      "status": "PASS"
+    },
+    {
+      "fixture": "reward_source_ui.lua",
+      "groups": 2,
+      "ms": 7309,
+      "status": "PASS"
+    },
+    {
+      "fixture": "map_ui.lua",
+      "groups": 27,
+      "ms": 13506,
+      "status": "PASS"
+    },
+    {
+      "fixture": "ending_history_host.lua",
+      "groups": 3,
+      "ms": 5786,
+      "status": "PASS"
+    }
+  ],
+  "natural": "NOT_RUN",
+  "native": "NOT_RUN"
+}

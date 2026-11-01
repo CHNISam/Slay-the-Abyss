@@ -1,0 +1,416 @@
+{
+  "runtimeSource": "0982b39451af00f2a19d27dbc503a0b6e4695ac5",
+  "driverSource": "86c665a982f685ba71c697cbbe9bd0606d8b4326",
+  "candidateSha256": "78a35c1a113a6f6ff4400505fa9917b63df437f1df296404d3f412a8dc991602",
+  "kind": "normal-rule native public-command autoplay; explicit initial seed42 only, no inventory/HP/gold/deck/navigation fixtures",
+  "officialSave": "1073741862",
+  "sourcePreflight": "official-client-autoplay-86-before-play.json:62/62 before play",
+  "runId": "cf2e0f9e-ee4c-4882-816a-eba735b9ffa4",
+  "clientScriptLogRequested": true,
+  "printCount": 5671,
+  "statusPrintsTruncated": true,
+  "boundary": "Full GIA and eight untruncated prefix responses preserved. Native controller commands do not certify physical touch or natural execution of all75 variants. Runtime remains098; driver/policy are test-only additions.",
+  "expectations": {
+    "passed": true,
+    "met": 8,
+    "of": 8,
+    "results": [
+      {
+        "expect": "print \"ABYSS_UI ready\"",
+        "met": true,
+        "t": 1
+      },
+      {
+        "expect": "print \"M2_DRIVER_READY\"",
+        "met": true,
+        "t": 1
+      },
+      {
+        "expect": "print \"ABYSS_RUN seed=42\"",
+        "met": true,
+        "t": 2
+      },
+      {
+        "expect": "print \"ABYSS_UI settlement_requested victory\"",
+        "met": true,
+        "t": 487
+      },
+      {
+        "expect": "no print \"ABYSS_UI failed\"",
+        "met": true
+      },
+      {
+        "expect": "no print \"ABYSS_UI boot_failed\"",
+        "met": true
+      },
+      {
+        "expect": "no print \"ABYSS_W75_FIXTURE\"",
+        "met": true
+      },
+      {
+        "expect": "no fault in a client script",
+        "met": true
+      }
+    ],
+    "note": "Everything expected was printed, in order. That is what the level said of itself: look at the screenshots for what the player sees."
+  },
+  "actionCount": 364,
+  "allCommandsAccepted": true,
+  "lastLedger": {
+    "actions": 364,
+    "configuredSeed": 42,
+    "elapsedSeconds": 349.99799999999,
+    "event": "settlement_requested",
+    "floor": 17,
+    "gold": 235.0,
+    "hp": 20.0,
+    "mapFloor": 17,
+    "maxHp": 80,
+    "mode": "victory",
+    "nextDeckUid": 21,
+    "node": {
+      "complete": true,
+      "id": "f17_l4",
+      "result": "boss_treasure_complete",
+      "roomKind": "boss_treasure",
+      "type": "treasure"
+    },
+    "phase": "victory",
+    "record": 384,
+    "seed": 6182,
+    "time": 487.022,
+    "victories": 9
+  },
+  "actualOutcome": "Normal victory17/17;9 victories;HP20/80;gold235;19 cards;Boss treasure completed;official Victory screen independently inspected.",
+  "relics": [
+    "burning_blood",
+    "courier",
+    "sozu"
+  ],
+  "playedVariants": [
+    {
+      "id": "bash",
+      "upgraded": false
+    },
+    {
+      "id": "cleave",
+      "upgraded": false
+    },
+    {
+      "id": "defend",
+      "upgraded": false
+    },
+    {
+      "id": "feel_no_pain",
+      "upgraded": false
+    },
+    {
+      "id": "flame_barrier",
+      "upgraded": true
+    },
+    {
+      "id": "hemokinesis",
+      "upgraded": false
+    },
+    {
+      "id": "iron_wave",
+      "upgraded": false
+    },
+    {
+      "id": "pommel_strike",
+      "upgraded": false
+    },
+    {
+      "id": "shrug_it_off",
+      "upgraded": false
+    },
+    {
+      "id": "shrug_it_off",
+      "upgraded": true
+    },
+    {
+      "id": "strike",
+      "upgraded": false
+    },
+    {
+      "id": "true_grit",
+      "upgraded": false
+    },
+    {
+      "id": "whirlwind",
+      "upgraded": false
+    }
+  ],
+  "acquiredCardIds": [
+    "bash",
+    "cleave",
+    "defend",
+    "feel_no_pain",
+    "flame_barrier",
+    "hemokinesis",
+    "iron_wave",
+    "offering",
+    "pommel_strike",
+    "shrug_it_off",
+    "strike",
+    "true_grit",
+    "whirlwind"
+  ],
+  "potionCommands": [
+    {
+      "action": "usePotion",
+      "configuredSeed": 42,
+      "details": {
+        "id": "dexterity_potion",
+        "slot": 1
+      },
+      "floor": 6,
+      "index": 69,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "result": true,
+      "time": 192.47799999999,
+      "turn": 1
+    },
+    {
+      "action": "usePotion",
+      "configuredSeed": 42,
+      "details": {
+        "id": "regen_potion",
+        "slot": 1
+      },
+      "floor": 8,
+      "index": 113,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "result": true,
+      "time": 233.57299999998,
+      "turn": 2
+    },
+    {
+      "action": "usePotion",
+      "configuredSeed": 42,
+      "details": {
+        "id": "block_potion",
+        "slot": 1
+      },
+      "floor": 10,
+      "index": 140,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "result": true,
+      "time": 257.19099999998,
+      "turn": 1
+    },
+    {
+      "action": "usePotion",
+      "configuredSeed": 42,
+      "details": {
+        "id": "dexterity_potion",
+        "slot": 1
+      },
+      "floor": 16,
+      "index": 272,
+      "mode": "battle",
+      "ok": true,
+      "phase": "combat",
+      "result": true,
+      "time": 378.53699999999,
+      "turn": 1
+    }
+  ],
+  "manualInputs": [
+    "physical prologue skip/enter ruin only"
+  ],
+  "automaticEnding": {
+    "levelEndedAt": 416.3,
+    "toolGenericWarning": "The level reached its result screen after 416.3 seconds of play, before the planned end. If the graph did not settle the stage itself, the server ended it; the usual cause is too much graph work each second (see the load rule in miliastra://platform-rules).",
+    "reconciliation": "Native log explicitly requests victory settlement, final ledger is victory17/boss treasure complete, actual official screenshot shows Victory. Not interpreted as an unexplained server termination."
+  },
+  "strictAcceptance": "pending; full UI and necessary original-pool dependencies remain separate",
+  "files": [
+    {
+      "path": "autoplay-86c665a-actions.json.gz",
+      "sha256": "69224e28f5c647fcd09f12cfd1713fe61985f29bbe846085a1692e7081ad955a",
+      "bytes": 17811,
+      "originalSha256": "3eb5f5a89923dfb9cce899a592c11083037b33e9c2be057fbcd163b5175f88f0"
+    },
+    {
+      "path": "autoplay-86c665a-stop.json.gz",
+      "sha256": "7faf33cd916cfc1574e06be53e485da7078ae03b07783b814c7eca25171981a2",
+      "bytes": 2149,
+      "originalSha256": "5718b04c7f879bcc9c70f04db2959c953f30f240dd5fea19aa2e0a8b1ee687c3"
+    },
+    {
+      "path": "autoplay-86c665a-ledger.json.gz",
+      "sha256": "065c6c93c88bd2aa2922b7ebb1482a446d8cc277b8feb0466b8518208f401e54",
+      "bytes": 24044,
+      "originalSha256": "0f0a0dc1c5f56a5c0abda7030aebb0bbeb4c70ba1c0114dba141e3bcb24bcfb8"
+    },
+    {
+      "path": "autoplay-86c665a-deck.json.gz",
+      "sha256": "09eee3768f4674927829e7c6c0e628b98ea82973fb12f1cdb9fe10a67d0ad34c",
+      "bytes": 23696,
+      "originalSha256": "fcf86cf30418f69b8ae4698f5e6c231d2c258d136de47e6cb09fac9100a1aa9e"
+    },
+    {
+      "path": "autoplay-86c665a-relics.json.gz",
+      "sha256": "ad716466f8683af8ddf52300109d23fd169af5279810ef05017102ef7a3e8a33",
+      "bytes": 9376,
+      "originalSha256": "2c664732df619b64be738695665aae03d190287cb78a6020dc03910cb342bcf4"
+    },
+    {
+      "path": "autoplay-86c665a-potions.json.gz",
+      "sha256": "b7b4ea92dec98f4c6eccf70703de5cb3602c13f9461adb6465c01dd5f24682f6",
+      "bytes": 9629,
+      "originalSha256": "cdb367a7787362c39b1fd078ca654e12536220392a716f2b56e0b27003b80668"
+    },
+    {
+      "path": "autoplay-86c665a-path.json.gz",
+      "sha256": "bda680f1112a9ffa49bdd4fd413e9628f4e47e00c3b16b56665e40de4b390a85",
+      "bytes": 15712,
+      "originalSha256": "7e436543fee27cc3a53b7299b10de5ea5122007cf297379335118afeb28777fa"
+    },
+    {
+      "path": "autoplay-86c665a-hand.json.gz",
+      "sha256": "bab957421a2e872480e5280420509251110da1ba13c5e3f4448880e3a188dd06",
+      "bytes": 11198,
+      "originalSha256": "552546e4293f0348e6e289185b9c9c0cb1a65dbb9c71eb70d851b3ab16828137"
+    },
+    {
+      "path": "autoplay-86c665a-victory-status.json.gz",
+      "sha256": "1ad6e1adf8aa4c7c050320ff1a8fd49c4ccf53af98660786aaa09602d6568488",
+      "bytes": 55603,
+      "originalSha256": "ea85cc039dadd343b00cfabc24df3137d2e5e2874880d3c80fbd7f8f12725540"
+    },
+    {
+      "path": "autoplay-86c665a-victory-log.gia.gz",
+      "sha256": "70b17eeacfe2b151479768da8ce921bd1417fd87c86fc9821b6393eafe91cf42",
+      "bytes": 90991,
+      "originalSha256": "8e65e96c7fd9c07deacd64f7121aeb970075693c117b12bef9b41f3d9ff02aa2"
+    },
+    {
+      "path": "screens/autoplay-86c665a-229-autoplay-potions-focus-1.png",
+      "sha256": "ee9652fabacbf4793ba5f2b553d2d621864d9a9f44b12d344f3d08e74b3dc1de",
+      "bytes": 247098,
+      "originalSha256": "ee9652fabacbf4793ba5f2b553d2d621864d9a9f44b12d344f3d08e74b3dc1de"
+    },
+    {
+      "path": "screens/autoplay-86c665a-230-autoplay-potions-skip-1.png",
+      "sha256": "b51699cb2bccf0c7e99c6c38fd6dc83ccb6f7e6a260ccac2b686c0e20f0742b6",
+      "bytes": 218810,
+      "originalSha256": "b51699cb2bccf0c7e99c6c38fd6dc83ccb6f7e6a260ccac2b686c0e20f0742b6"
+    },
+    {
+      "path": "screens/autoplay-86c665a-231-autoplay-potions-progress-1.png",
+      "sha256": "0ed29f1fb43cf896ce023282ef08196769e01e4ed3b763441f7db5c3e30b11c6",
+      "bytes": 256231,
+      "originalSha256": "0ed29f1fb43cf896ce023282ef08196769e01e4ed3b763441f7db5c3e30b11c6"
+    },
+    {
+      "path": "screens/autoplay-86c665a-232-autoplay-potions-progress-1.png",
+      "sha256": "35feec21d3762b6ee0c11215aa0d6801c1faa5f48ca9103a1fc304701c3f312e",
+      "bytes": 140072,
+      "originalSha256": "35feec21d3762b6ee0c11215aa0d6801c1faa5f48ca9103a1fc304701c3f312e"
+    },
+    {
+      "path": "screens/autoplay-86c665a-233-autoplay-potions-progress-1.png",
+      "sha256": "cfa5f4386ee10d9a9eb9d6fe60b711cbd164c9c05c9569639c92d19c74a5e4b8",
+      "bytes": 147619,
+      "originalSha256": "cfa5f4386ee10d9a9eb9d6fe60b711cbd164c9c05c9569639c92d19c74a5e4b8"
+    },
+    {
+      "path": "screens/autoplay-86c665a-234-autoplay-potions-progress-1.png",
+      "sha256": "7cf56dd87b9e0030eaee4b925266cf6960ad2e6a5f4d1b18d3b1217a05d4eacd",
+      "bytes": 270485,
+      "originalSha256": "7cf56dd87b9e0030eaee4b925266cf6960ad2e6a5f4d1b18d3b1217a05d4eacd"
+    },
+    {
+      "path": "screens/autoplay-86c665a-00-log-subscribed.jpg",
+      "sha256": "0a919b718f74fc8c21a179937e5fc6f28eac25595771b7205aa1e8ff6ce210d8",
+      "bytes": 67753,
+      "originalSha256": "0a919b718f74fc8c21a179937e5fc6f28eac25595771b7205aa1e8ff6ce210d8"
+    },
+    {
+      "path": "screens/autoplay-86c665a-01-t002.jpg",
+      "sha256": "bac0912296d01f6c562f1005ee29c3274abb6d2255eefa0a1a3dcb2ddae57853",
+      "bytes": 67776,
+      "originalSha256": "bac0912296d01f6c562f1005ee29c3274abb6d2255eefa0a1a3dcb2ddae57853"
+    },
+    {
+      "path": "screens/autoplay-86c665a-02-t030.jpg",
+      "sha256": "65e6f1d631dcdd858ab5011e93e05bd9aa2d2952acbc31e642119bb90576faf9",
+      "bytes": 68429,
+      "originalSha256": "65e6f1d631dcdd858ab5011e93e05bd9aa2d2952acbc31e642119bb90576faf9"
+    },
+    {
+      "path": "screens/autoplay-86c665a-03-t060.jpg",
+      "sha256": "c8543409560d334e54f09407185480d8949574554dbbc31a0e707054970e6bec",
+      "bytes": 91289,
+      "originalSha256": "c8543409560d334e54f09407185480d8949574554dbbc31a0e707054970e6bec"
+    },
+    {
+      "path": "screens/autoplay-86c665a-04-t120.jpg",
+      "sha256": "851afdb44963277d17874ed42c8bc52955f6d8fb9285761fec576bc0e52c6b80",
+      "bytes": 91916,
+      "originalSha256": "851afdb44963277d17874ed42c8bc52955f6d8fb9285761fec576bc0e52c6b80"
+    },
+    {
+      "path": "screens/autoplay-86c665a-05-t180.jpg",
+      "sha256": "29572bf644ac72267803b7dbac230223b0abdc02a2509f75f0ca006e08ba03ee",
+      "bytes": 126101,
+      "originalSha256": "29572bf644ac72267803b7dbac230223b0abdc02a2509f75f0ca006e08ba03ee"
+    },
+    {
+      "path": "screens/autoplay-86c665a-06-t240.jpg",
+      "sha256": "3a4b983aadd58384dbefc24082af407d03317c94ef80218399511b9ebe695ccd",
+      "bytes": 73978,
+      "originalSha256": "3a4b983aadd58384dbefc24082af407d03317c94ef80218399511b9ebe695ccd"
+    },
+    {
+      "path": "screens/autoplay-86c665a-07-t300.jpg",
+      "sha256": "52ecb93a9ca827d7e5c55893f24320dd62e68e19b0ef42987fd9c24bf13fe9ba",
+      "bytes": 76221,
+      "originalSha256": "52ecb93a9ca827d7e5c55893f24320dd62e68e19b0ef42987fd9c24bf13fe9ba"
+    },
+    {
+      "path": "screens/autoplay-86c665a-08-t360.jpg",
+      "sha256": "ee4c1b302d65e127f984109fcbcf435abfee37d9271cf8e8026b27697fd334a2",
+      "bytes": 108004,
+      "originalSha256": "ee4c1b302d65e127f984109fcbcf435abfee37d9271cf8e8026b27697fd334a2"
+    },
+    {
+      "path": "screens/autoplay-86c665a-09-level-ended.jpg",
+      "sha256": "e6afd592dc39cad1bab896329a76c2c18fd25958ef1eb59132199367cbf28775",
+      "bytes": 102636,
+      "originalSha256": "e6afd592dc39cad1bab896329a76c2c18fd25958ef1eb59132199367cbf28775"
+    },
+    {
+      "path": "screens/autoplay-86c665a-10-t420.jpg",
+      "sha256": "6430d7f781e2c493db221b670912ad236c34b72fe6b4e1577f50c63bd96ebf28",
+      "bytes": 100689,
+      "originalSha256": "6430d7f781e2c493db221b670912ad236c34b72fe6b4e1577f50c63bd96ebf28"
+    },
+    {
+      "path": "screens/autoplay-86c665a-11-t480.jpg",
+      "sha256": "d6728cb8d65b0ce9746939ce34f9b4583cf4a60e8236b6662abacecf5676de5e",
+      "bytes": 100296,
+      "originalSha256": "d6728cb8d65b0ce9746939ce34f9b4583cf4a60e8236b6662abacecf5676de5e"
+    },
+    {
+      "path": "screens/autoplay-86c665a-12-end.jpg",
+      "sha256": "408a4cf41af62befeb3789979fed382a3752a38033e8a504ba3c7d3926f3fb60",
+      "bytes": 100488,
+      "originalSha256": "408a4cf41af62befeb3789979fed382a3752a38033e8a504ba3c7d3926f3fb60"
+    },
+    {
+      "path": "official-client-autoplay-86-before-play.json",
+      "sha256": "51ab01fe9a9c1c28d7eb658a5780d5919b63471fab7be174bcc4875f511a6be5",
+      "bytes": 36803,
+      "originalSha256": "51ab01fe9a9c1c28d7eb658a5780d5919b63471fab7be174bcc4875f511a6be5"
+    }
+  ]
+}

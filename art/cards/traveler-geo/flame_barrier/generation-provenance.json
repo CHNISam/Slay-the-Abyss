@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "card_id": "flame_barrier",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T17:58:25.125Z",
+    "completedObservedAt": "2026-10-29T17:59:03Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 2,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt-repair.txt",
+    "supersededSteps": [
+      {
+        "attempt": 1,
+        "sha256": "7e36a0ce376381833558b6f6a035854494c9a066d7cf3bc961336546dae6a26f",
+        "exactPromptPath": "prompt.txt",
+        "reasonRejected": "enemy blade implausibly kinked/V-shaped; repair simplified straight blade endpoint contact",
+        "references": [
+          {
+            "path": "art/cards/traveler-geo/armaments/source.png",
+            "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+            "role": "painted-style-only",
+            "actuallyPassedToTool": true
+          },
+          {
+            "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+            "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+            "role": "Lumine-original-identity-only",
+            "actuallyPassedToTool": true
+          }
+        ]
+      }
+    ]
+  },
+  "files": {
+    "source.png": {
+      "sha256": "8abdbe55cb86f6dda546ae49a54a9b48996406d44068a015672f9ac9b49f0584",
+      "bytes": 1986276
+    },
+    "prompt.txt": {
+      "sha256": "6a1e3e7e60a53591520acedd4673112f24d1b8a6d74089883463042f02c7fd96",
+      "bytes": 3092
+    },
+    "preview-source-144x64.png": {
+      "sha256": "b80a216af63fa5df9a8608c04555b1f270d969de424267c1e39ffddbf8bb22b5",
+      "bytes": 20061
+    },
+    "prompt-repair.txt": {
+      "sha256": "b066813299777ad453018b861141fb7fc124752f9f8990e42e6ff355e3151290",
+      "bytes": 3191
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions preserved despite requested size"
+  },
+  "intent": {
+    "name": "反击架势",
+    "mechanics": "block 12 then retaliation when attacked this turn 4; upgrade 16/6",
+    "mainAction": "braced sword guard turns aside incoming intact enemy blade; no active torso stab",
+    "identityCarriers": [
+      "blonde bob and prominent white flower",
+      "connected original white-blue costume and gold dark waist",
+      "normal one-handed sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "repair candidate: two continuous owned blades, central contact, clear Lumine back-side flower and whiteblue costume; enemy recoil subtle. Own blade upright rather than requested point-down, but no active strike into foe. No fire wall or gore.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

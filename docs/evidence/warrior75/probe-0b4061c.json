@@ -1,0 +1,585 @@
+{
+  "sourceCommit": "0982b39451af00f2a19d27dbc503a0b6e4695ac5",
+  "probeBuildCommit": "0b4061c",
+  "kind": "explicit native fixtures;75 real public acquisition/upgrade/next-battle transactions with test navigation/funding, not natural acquisition",
+  "candidateSha256": "338ad7758d582842aa7f7bda9797b5fd482a1b954efc8b5b196f0b9501d26f64",
+  "baseCandidateSha256": "bdc61889051951e761e365209a6dcb19248ba70467a4b24eebfaa199ffbac3f2",
+  "officialSave": "1073741859",
+  "sourcePreflight": "official-client-probe-0b-before-play.json:62/62 before play",
+  "runId": "8fe134bb-8194-42aa-ad97-c12ca9766082",
+  "clientScriptLogRequested": true,
+  "printCount": 408,
+  "expectations": {
+    "passed": true,
+    "met": 9,
+    "of": 9,
+    "results": [
+      {
+        "expect": "print \"ABYSS_UI ready\"",
+        "met": true,
+        "t": 1
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_CORE all six fixture suites passed\"",
+        "met": true,
+        "t": 1
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_CHANNELS all75\"",
+        "met": true,
+        "t": 6
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_UI searing_blow+3\"",
+        "met": true,
+        "t": 134
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_UI exhaust choice passed\"",
+        "met": true,
+        "t": 160
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_UI selected copy passed\"",
+        "met": true,
+        "t": 225
+      },
+      {
+        "expect": "no print \"ABYSS_UI failed\"",
+        "met": true
+      },
+      {
+        "expect": "no print \"ABYSS_UI boot_failed\"",
+        "met": true
+      },
+      {
+        "expect": "no fault in a client script",
+        "met": true
+      }
+    ],
+    "note": "Everything expected was printed, in order. That is what the level said of itself: look at the screenshots for what the player sees."
+  },
+  "cards": [
+    {
+      "id": "strike",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "defend",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "bash",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "anger",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "armaments",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "body_slam",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "clash",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "cleave",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "clothesline",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "flex",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "havoc",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "headbutt",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "heavy_blade",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "iron_wave",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "perfected_strike",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "pommel_strike",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "shrug_it_off",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "sword_boomerang",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "thunderclap",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "true_grit",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "twin_strike",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "warcry",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "wild_strike",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "battle_trance",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "blood_for_blood",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "bloodletting",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "burning_pact",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "carnage",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "combust",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "dark_embrace",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "disarm",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "dropkick",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "dual_wield",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "entrench",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "evolve",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "feel_no_pain",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "fire_breathing",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "flame_barrier",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "ghostly_armor",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "hemokinesis",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "infernal_blade",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "inflame",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "intimidate",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "metallicize",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "power_through",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "pummel",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "rage",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "rampage",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "reckless_charge",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "rupture",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "searing_blow",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "second_wind",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "seeing_red",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "sentinel",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "sever_soul",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "shockwave",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "spot_weakness",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "uppercut",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "whirlwind",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "barricade",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "berserk",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "bludgeon",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "brutality",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "corruption",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "demon_form",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "double_tap",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "exhume",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "feed",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "fiend_fire",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "immolate",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "impervious",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "juggernaut",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "limit_break",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "offering",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    },
+    {
+      "id": "reaper",
+      "base": true,
+      "upgraded": true,
+      "channel": true
+    }
+  ],
+  "nativeCoreSuites": [
+    "ABYSS_W75_NATIVE_CORE pass warrior75",
+    "ABYSS_W75_NATIVE_CORE pass warrior75_edges",
+    "ABYSS_W75_NATIVE_CORE pass warrior75_shuffle",
+    "ABYSS_W75_NATIVE_CORE pass warrior75_acquisition",
+    "ABYSS_W75_NATIVE_CORE pass warrior75_card_text",
+    "ABYSS_W75_NATIVE_CORE pass warrior75_courier"
+  ],
+  "ui": {
+    "searingBlow": "actual21->27 preview and permanent+3 committed",
+    "exhaust": "actual zero-cost Pact chooses Sentinel+, energy6 block8 hand5 exhaust2; UID102 before101",
+    "selectedCopy": "actual Dual Wield+ chooses modified Rampage+; three fresh cost0/damage16 copies, UID202 removed; Anger then Defend then copies"
+  },
+  "termination": "All fixture checks and targeted inputs completed, then explicitly exited through normal confirmation/official defeat settlement. This is not a normal victory.",
+  "strictAcceptance": "pending: natural whole-run/current UI review and external PC RNG history remain",
+  "files": [
+    {
+      "path": "probe-0b4061c-status.json.gz",
+      "sha256": "3b2fe03cc1211551949016f134cc720cfbeb66c79a14b2d045b97a5157b6a879",
+      "bytes": 13653,
+      "originalSha256": "e58d319d29a9874dff88bdee2ada229307cc5aa914c38db57c298638ad7b1b3f"
+    },
+    {
+      "path": "probe-0b4061c-log.gia.gz",
+      "sha256": "32beb4b30f129eec30c57e7dd815935b3cb685db2c2ea3233884b04ed3ceef46",
+      "bytes": 6987,
+      "originalSha256": "8bb01c2152cd1bba957797af8fc6c11b0651207ea510d1fa9d0f5e4944f6224d"
+    },
+    {
+      "path": "screens/0b4061c-176-probe0b-open-cards-1.png",
+      "sha256": "ea9418aef5306943ec1d3d0759e5ad503d68a9f302e4685528cfc1f843cd2033",
+      "bytes": 179284,
+      "originalSha256": "ea9418aef5306943ec1d3d0759e5ad503d68a9f302e4685528cfc1f843cd2033"
+    },
+    {
+      "path": "screens/0b4061c-180-probe0b-searing-preview-1.png",
+      "sha256": "0cbc8bd0bbf60b1079f54fc4a455fe91aa0c3b32e1cae60fa575feb3d6745c01",
+      "bytes": 149830,
+      "originalSha256": "0cbc8bd0bbf60b1079f54fc4a455fe91aa0c3b32e1cae60fa575feb3d6745c01"
+    },
+    {
+      "path": "screens/0b4061c-183-probe0b-play-pact-1.png",
+      "sha256": "aa2f1bf2dfc616abb14b6628c64f9e7fc0f1f49c5cab268302033335834ad39b",
+      "bytes": 165162,
+      "originalSha256": "aa2f1bf2dfc616abb14b6628c64f9e7fc0f1f49c5cab268302033335834ad39b"
+    },
+    {
+      "path": "screens/0b4061c-184-probe0b-exhaust-sentinel-1.png",
+      "sha256": "017bf9dd13b4180ab5dc04930c06c84e7b760d7aedbe4dbd3c6d7e589f46eb2d",
+      "bytes": 262374,
+      "originalSha256": "017bf9dd13b4180ab5dc04930c06c84e7b760d7aedbe4dbd3c6d7e589f46eb2d"
+    },
+    {
+      "path": "screens/0b4061c-185-probe0b-next-fixture-1.png",
+      "sha256": "7b7f1a653027e4f454997f680820e5c9bcd5cad9109ef9ff1baac32fb100584b",
+      "bytes": 262323,
+      "originalSha256": "7b7f1a653027e4f454997f680820e5c9bcd5cad9109ef9ff1baac32fb100584b"
+    },
+    {
+      "path": "screens/0b4061c-187-probe0b-play-dual-1.png",
+      "sha256": "b567fa8632f24cc16ee6f75649233dcb3eb1e97526f5a6a4e95bba4a8b756404",
+      "bytes": 204489,
+      "originalSha256": "b567fa8632f24cc16ee6f75649233dcb3eb1e97526f5a6a4e95bba4a8b756404"
+    },
+    {
+      "path": "screens/0b4061c-188-probe0b-select-rampage-1.png",
+      "sha256": "fec9c726c33e67b36725f0ee34baf78f77aeec1752ef5f6e0486a9f57cca2581",
+      "bytes": 312375,
+      "originalSha256": "fec9c726c33e67b36725f0ee34baf78f77aeec1752ef5f6e0486a9f57cca2581"
+    }
+  ]
+}

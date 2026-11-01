@@ -1,0 +1,107 @@
+{
+  "shop/ShopScreen.java": {
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "gitBlob": "39dab95569ae1586a370366124e7ad5b8f215bff",
+    "sha256": "5637a90f12386df48a323969ddf0c17b06e0288884a1b124fa62994822853855",
+    "bytes": 59154,
+    "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/shop/ShopScreen.java"
+  },
+  "shop/StoreRelic.java": {
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "gitBlob": "64d5b744c7a447b73238fa371f53199269938eaf",
+    "sha256": "d0b73b74224f161544d89a85ba2d321601100ef7233d3a876d593067a88d54a1",
+    "bytes": 6746,
+    "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/shop/StoreRelic.java"
+  },
+  "shop/StorePotion.java": {
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "gitBlob": "b63265c08a4e169bbece3e1adcbaec92b96d4f34",
+    "sha256": "3b0056290be4e2324f39d079c805055bb0e478e735526aca9cdeb2718986a32e",
+    "bytes": 5556,
+    "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/shop/StorePotion.java"
+  },
+  "characters/AbstractPlayer.java": {
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "gitBlob": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7",
+    "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+    "bytes": 98339,
+    "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java"
+  },
+  "cards/AbstractCard.java": {
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "gitBlob": "bc88307d010bdd37cf55a4b60b79209fa78b0aa6",
+    "sha256": "bcd472ececfd8ce4150ccd4eb6dd07a2e2dc43e139196fe00de34705cf1a2a61",
+    "bytes": 116908,
+    "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/AbstractCard.java"
+  },
+  "dungeons/AbstractDungeon.java": {
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "gitBlob": "9059f4da5c8002e9645bf38f200e5527d1212ac0",
+    "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+    "bytes": 115023,
+    "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java"
+  },
+  "random/Random.java": {
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "gitBlob": "c4b71d5645688f6e764c46c593223eb91a5249bc",
+    "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172",
+    "bytes": 2596,
+    "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/random/Random.java"
+  },
+  "rooms/ShopRoom.java": {
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "gitBlob": "606df1a009c9333422be0bb87155cfc06363b317",
+    "sha256": "f8cadde291ebe73918166aa05ba9f5006c4aec7b80add7a39e03eb469699e988",
+    "bytes": 2989,
+    "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/ShopRoom.java"
+  },
+  "cards/CardGroup.java": {
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "gitBlob": "546405eea9d7dcbd855fe47471c55c92d086987c",
+    "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8",
+    "bytes": 45485,
+    "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/CardGroup.java"
+  },
+  "helpers/PotionHelper.java": {
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "gitBlob": "271f568db6a9b78f3d1f0e38416cf44f27c4e8bf",
+    "sha256": "159ffee06ab09c24063b992f5babe57907916a99a23f4a3ad721b8c922be2a2f",
+    "bytes": 12922,
+    "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/PotionHelper.java"
+  },
+  "relics/AbstractRelic.java": {
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "gitBlob": "a0664295b13cea89638ab4737b7ef83a2e7da5ac",
+    "sha256": "e4b5a8e6dda41cb9b25f75c5777f03e84da245247d1dac5d3070727fc8d24167",
+    "bytes": 39442,
+    "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/AbstractRelic.java"
+  },
+  "relics/Courier.java": {
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "gitBlob": "76d740c3145cff9614cd3f2e91c93676cacd3670",
+    "sha256": "5283e08649c0477f78f0b76e060f0504e2d79e310b665585530051727d88af8b",
+    "bytes": 1203,
+    "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Courier.java"
+  },
+  "relics/MembershipCard.java": {
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "gitBlob": "dde9b09847af75d38e113e90d2d885999fb6fd9f",
+    "sha256": "36d16ca593c99a94f797b80302db072755d5577174f7cc8b3479dd96ed523b3a",
+    "bytes": 953,
+    "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/MembershipCard.java"
+  },
+  "shop/Merchant.java": {
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "gitBlob": "fb0d64342171ecd49979d1f33b3425e1f0e5b109",
+    "sha256": "2722226c13cfac4ee0cb6832c6f9e0b7dd4f9af713785faa38327972f80f967e",
+    "bytes": 8527,
+    "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/shop/Merchant.java"
+  },
+  "potions/AbstractPotion.java": {
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "gitBlob": "8598c2e5a81f5a36060eb8520ee0abd2204991ca",
+    "sha256": "10b76a57d36ae4714928fe4c21ce8f352e8c0739eaa675bed5f199480886d888",
+    "bytes": 28359,
+    "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/AbstractPotion.java"
+  }
+}

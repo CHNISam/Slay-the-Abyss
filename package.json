@@ -1,0 +1,46 @@
+{
+  "name": "slay-the-abyss",
+  "version": "1.0.0",
+  "private": true,
+  "license": "SEE LICENSE IN LICENSE",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check:guidance": "node scripts/check-agent-guidance.mjs",
+    "setup:lua-static": "node scripts/setup-lua-static.mjs",
+    "check:architecture": "node scripts/check-architecture.mjs",
+    "check:quality": "node scripts/check-engineering-quality.mjs",
+    "check:lua-static": "node scripts/check-lua-static.mjs",
+    "check:test-strength": "node scripts/check-test-strength.mjs",
+    "check:native-ui-contract": "node --test --test-concurrency=1 tests/native-startup-contract.test.mjs tests/ui-mock-contract.test.mjs",
+    "check:engineering": "node scripts/check-engineering.mjs && npm run check:test-strength && npm run check:native-ui-contract",
+    "verify:delivery": "node scripts/verify-delivery.mjs",
+    "build:native": "node scripts/build-native-audio-game.mjs",
+    "verify:sts1-map": "npm run build:data && node scripts/sts1-map-evidence.mjs compare",
+    "verify:sts1-map:properties": "npm run build:data && node scripts/sts1-map-evidence.mjs properties 10000",
+    "verify:ui": "node scripts/verify-ui-acceptance.mjs docs/design/ui-acceptance.json",
+    "check:syntax": "node scripts/check-syntax.mjs",
+    "validate:data": "node scripts/validate-data.mjs",
+    "test": "npm run build:data && npm run build:ui && node --test --test-concurrency=1 tests/*.test.mjs",
+    "build:data": "node scripts/build-lua-data.mjs",
+    "build:ui": "node scripts/build-ui.mjs",
+    "build:theme": "node scripts/build-ui-theme.mjs",
+    "test:lua": "npm run build:data && npm run build:ui && node scripts/map-ui-layout.mjs && node scripts/test-lua.mjs",
+    "test:presentation": "python -m unittest discover -s tests -p test_*.py -v",
+    "verify:backlog": "node scripts/verify-backlog-roadmap.mjs",
+    "check:rules": "npm run check:guidance && npm run check:network && npm run check:platform-load && npm run verify:backlog && npm run check:syntax && npm test && npm run validate:data && npm run test:lua && npm run build:theme && npm run check:engineering",
+    "check": "npm run check:rules && npm run test:presentation",
+    "check:network": "node scripts/check-network-policy.mjs",
+    "test:fast": "node scripts/test-affected.mjs --fast",
+    "test:related": "node scripts/test-affected.mjs",
+    "check:platform-load": "npm run build:data && npm run build:ui && node scripts/platform-load.mjs daily",
+    "verify:platform-load": "node scripts/platform-load.mjs release"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0",
+    "fengari-node-cli": "0.1.0",
+    "luaparse": "0.3.1"
+  }
+}

@@ -1,0 +1,573 @@
+{
+  "schemaVersion": 1,
+  "sourceHeads": {
+    "art": "06e66cd2b8ccc02f82cf47f39f0a699c6a4d7e56",
+    "perf": "158ec342d09c0d5219cd5f0827900651658e9ee6"
+  },
+  "files": {
+    "config/architecture.json": {
+      "currentSha256": "e7143d88785c45ea827532e04089c399516ca8c6759b7aaebb0535bec740b003",
+      "targets": {
+        "art": {
+          "sha256": "0d372e38f70ececeee92f37b805c5741807a1e267906e1e24e845a7addf511d9",
+          "hunks": [
+            {
+              "at": 145,
+              "current": [
+                "    \"abyss_feedback_actor_painter\": \"ui\",",
+                "    \"abyss_game_ui_menu_view\": \"ui\","
+              ],
+              "target": []
+            }
+          ]
+        },
+        "perf": {
+          "sha256": "2a067420c4503b0efdf16ebe22eb7177a69759e4d41e50a15161422f6dcc41ed",
+          "hunks": [
+            {
+              "at": 189,
+              "current": [
+                "    \"abyss_menu_background\": \"ui\",",
+                "    \"abyss_menu_background_asset\": \"ui\","
+              ],
+              "target": []
+            },
+            {
+              "at": 271,
+              "current": [
+                "    \"abyss_card_flow\": \"ui\",",
+                "    \"abyss_card_art_runtime\": \"ui\",",
+                "    \"abyss_traveler_portraits\": \"platform\",",
+                "    \"abyss_traveler_portrait_assets\": \"ui\",",
+                "    \"abyss_ready_card_binding\": \"ui\""
+              ],
+              "target": [
+                "    \"abyss_card_flow\": \"ui\""
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "src/lua/abyss_feedback.lua": {
+      "currentSha256": "2f095d338c253ef2af606c858de3da6b789f5f98407510e6053c743f6d0adb61",
+      "targets": {
+        "art": {
+          "sha256": "908ce903f6e7f9bea8fb1a8b0063593710e9fba62bc775f4b839da597c8886df",
+          "hunks": [
+            {
+              "at": 8,
+              "current": [
+                "local ActorPainter=require(\"abyss_feedback_actor_painter\")"
+              ],
+              "target": []
+            },
+            {
+              "at": 14,
+              "current": [
+                "local OVERSHOOT, SWELL = 1 / 3, 1 / 6"
+              ],
+              "target": [
+                "local OVERSHOOT, SWELL, FLASH = 1 / 3, 1 / 6, 0.85"
+              ]
+            },
+            {
+              "at": 23,
+              "current": [],
+              "target": [
+                "local function mix(a, b, w) return {r = a.r + (b.r - a.r) * w, g = a.g + (b.g - a.g) * w, b = a.b + (b.b - a.b) * w, a = a.a} end"
+              ]
+            },
+            {
+              "at": 132,
+              "current": [],
+              "target": [
+                "-- Piecewise pose: {time, x, scale} keys with smooth in/out between them.",
+                "local function pose(keys, age)",
+                "    if age >= keys[#keys][1] then return keys[#keys][2], keys[#keys][3], true end",
+                "    for i = 2, #keys do",
+                "        local a, b = keys[i - 1], keys[i]",
+                "        if age < b[1] then",
+                "            local p = b[1] > a[1] and (age - a[1]) / (b[1] - a[1]) or 1",
+                "            p = p * p * (3 - 2 * p)",
+                "            return a[2] + (b[2] - a[2]) * p, a[3] + (b[3] - a[3]) * p, false",
+                "        end",
+                "    end",
+                "end",
+                ""
+              ]
+            },
+            {
+              "at": 157,
+              "current": [
+                "    local painter = {state=self, actor=actor, platform=platform}"
+              ],
+              "target": []
+            },
+            {
+              "at": 202,
+              "current": [
+                "        self.stageShake = 0"
+              ],
+              "target": []
+            },
+            {
+              "at": 539,
+              "current": [],
+              "target": [
+                "    -- Per-actor composition: attacker pose + victim knockback/flash + death collapse, applied once.",
+                "    local function appendShake(id,sample,shakes)",
+                "        local age,d,style,heavy=sample.age,sample.detail,sample.style,sample.heavy",
+                "        if id == \"player\" or heavy or style.lethal then",
+                "            local scale = math.min(1, ((d.amount or 0) + (d.blocked or 0)) / T.heavyHitDamage)",
+                "            local amplitude = T.shakeAmplitude * (id == \"player\" and (scale + 1) / 2 or scale / 2)",
+                "            if age < T.shake then shakes[#shakes + 1] = amplitude * (1 - age / T.shake) * math.sin(age / T.shake * math.pi * 4) end",
+                "        end",
+                "    end",
+                "    local function paintKnockback(effect,sample,x,y)",
+                "        local age,d,style,kind=sample.age,sample.detail,sample.style,sample.kind",
+                "        local after,frozen,lost,heavy=sample.after,sample.frozen,sample.lost,sample.heavy",
+                "        -- Knockback snaps out on contact, holds through the hit-stop, then eases home.",
+                "        if lost and kind == \"damage\" then",
+                "            local reach = heavy and S.l or style.form == \"area\" and S.s or S.m",
+                "            local out = frozen and 1 or 1 - easeOut(after / T.base)",
+                "            x = x + effect.dir * reach * out",
+                "            if style.form == \"multi\" then y = y + (style.hit % 2 == 0 and S.xs or -S.xs) * out end",
+                "        elseif lost and style.form == \"dot\" and d.status ~= \"poison\" then",
+                "            x = x + effect.dir * S.xs * (1 - easeOut(age / T.fast))",
+                "        end",
+                "        return x,y",
+                "    end",
+                "    local function paintMotion(id,effect,sample,shakes,x,y,ink,flash)",
+                "        local age,kind=sample.age,sample.kind",
+                "        local after,frozen,lost=sample.after,sample.frozen,sample.lost",
+                "        x,y=paintKnockback(effect,sample,x,y)",
+                "        if lost then",
+                "            flash = frozen and 1 or math.max(0, 1 - after / T.fast)",
+                "            ink = kind == \"damage\" and (id == \"player\" and C.danger or C.goldBright) or kind == \"hp_loss\" and C.danger or C.debuff",
+                "            appendShake(id,sample,shakes)",
+                "        elseif kind == \"status\" or kind == \"heal\" then",
+                "            flash = math.max(0, 1 - age / T.fast) / 2",
+                "            ink = effect.ink",
+                "        end",
+                "        return x,y,ink,flash",
+                "    end",
+                "    local function impactShape(effect,sample,e)",
+                "        local age,style,kind,heavy=sample.age,sample.style,sample.kind,sample.heavy",
+                "        local ix, iy",
+                "        local iy0 = 0",
+                "        if effect.icon then",
+                "            local stamp = kind == \"status\" and 1 + (1 - easeOut(age / T.fast)) * OVERSHOOT * 2 or 1 - OVERSHOOT + e * OVERSHOOT",
+                "            ix, iy = stamp, stamp",
+                "            if kind == \"status\" then iy0 = (effect.ink == C.buff and 1 or -1) * S.m * easeOut((age - T.fast) / (T.slow - T.fast)) end",
+                "        elseif heavy then ix, iy = 1 + e, 1 + e",
+                "        elseif style.form == \"area\" then ix, iy = 1.5 + e / 2, 0.2",
+                "        elseif style.form == \"multi\" and style.hit % 2 == 0 then ix, iy = 0.3 * (1 - e) + 0.1, 1.2 + e / 2",
+                "        else ix, iy = 1.2 + e / 2, 0.3 * (1 - e) + 0.1 end",
+                "        return ix,iy,iy0",
+                "    end",
+                "    local function impactTint(id,effect,sample,e)",
+                "        local kind,age=sample.kind,sample.age",
+                "        local shardInk = effect.icon and effect.ink or id == \"player\" and C.text or C.geo",
+                "        local alpha=(effect.icon and kind == \"status\" and math.min(1, 2 - 2 * easeIn(age / T.slow)) or 1 - e)",
+                "        return shardInk,alpha",
+                "    end",
+                "    local function skillImpact(effect,sample,e)",
+                "        local family,form=effect.style.family,effect.style.form",
+                "        if not effect.icon and family~='none'",
+                "            and ((form~='multi' and form~='area')or(family~='melee' and family~='heavy'))then",
+                "            return SkillFeedback.sample(family,e,S.m)",
+                "        end",
+                "        local ix,iy,iy0=impactShape(effect,sample,e)",
+                "        return ix,iy,0,iy0",
+                "    end",
+                "    local function paintImpact(id,impact,effect,sample)",
+                "        local age,kind=sample.age,sample.kind",
+                "        local after,frozen,lost,heavy=sample.after,sample.frozen,sample.lost,sample.heavy",
+                "        -- Geo shard: one diamond image, shaped by non-uniform scale per attack form.",
+                "        local window = effect.icon and T.slow or heavy and T.base or T.fast",
+                "        local e = frozen and 0 or easeOut(after / window)",
+                "        local show = (lost or kind == \"status\") and age < effect.stop + window",
+                "        impact:SetVisible(show)",
+                "        if show then",
+                "            local ix,iy,offset,iy0,alpha,key=skillImpact(effect,sample,e)",
+                "            impact:SetLocalScale(ix, iy, 1)",
+                "            impact:SetAnchoredPosition(offset or 0, iy0)",
+                "            local shardInk,shardAlpha=impactTint(id,effect,sample,e)",
+                "            tint(impact,key and C[key] or shardInk,alpha or shardAlpha)",
+                "        end",
+                "        return window",
+                "    end",
+                "    local function paintShield(box,shield,sample)",
+                "        local age,kind,d=sample.age,sample.kind,sample.detail",
+                "        local lost=sample.lost",
+                "        -- Shield: crystallises in on gain, shudders when it holds, shatters when it breaks.",
+                "        local blocked = (d.blocked or 0) > 0",
+                "        local guard = kind == \"block\" or blocked",
+                "        shield:SetVisible(guard and age < T.slow)",
+                "        if guard and age < T.slow then",
+                "            local scale, wobble = 1, 0",
+                "            local fade",
+                "            if kind == \"block\" then",
+                "                scale = 1 + (1 - easeOut(age / T.fast)) * OVERSHOOT",
+                "                fade = age < T.fast and easeOut(age / T.fast) or 1 - easeIn((age - T.fast) / (T.slow - T.fast))",
+                "            elseif lost then",
+                "                scale, fade = 1 + easeOut(age / T.fast) / 2, math.max(0, 1 - age / T.fast)",
+                "            else",
+                "                wobble = S.xs * math.sin(age / T.fast * math.pi * 3) * math.max(0, 1 - age / T.fast)",
+                "                fade = 1 - easeIn(age / T.slow)",
+                "            end",
+                "            shield:SetLocalScale(scale, scale, 1) shield:SetAnchoredPosition(wobble, 0)",
+                "            tint(shield, C.block, fade)",
+                "            local pop = 1 + (1 - easeOut(age / T.base)) * OVERSHOOT",
+                "            -- Keep the badge inside its reserved horizontal lane beside HP and neighbouring units.",
+                "            for _, part in ipairs({\"blockEdge\", \"blockIcon\", \"block\"}) do box:GetChild(part):SetLocalScale(1, pop, 1) end",
+                "        end",
+                "    end",
+                "    local function numberScale(sample)",
+                "        local heavy,lost,frozen,after=sample.heavy,sample.lost,sample.frozen,sample.after",
+                "        local peak = heavy and lost and 2 or lost and 1.5 or 1.25",
+                "        local scale = frozen and peak or 1 + (peak - 1) * (1 - easeOut(after / T.fast))",
+                "        return scale",
+                "    end",
+                "    local function paintNumber(id,box,effect,sample,window)",
+                "        local age,style=sample.age,sample.style",
+                "        -- Number: pops on contact, holds through the hit-stop, settles, rises and fades.",
+                "        local p = clamp(age / T.damagePop)",
+                "        local floating = box:GetChild(\"floating\")",
+                "        floating:SetVisible(p < 1)",
+                "        local drift = style.form == \"multi\" and (style.hit % 2 == 1 and -S.m or S.m) or 0",
+                "        floating:SetAnchoredPosition(drift, L.enemyRow.portrait / 2 + S.xl * easeOut(p))",
+                "        floating.fontColor = colour(effect.ink, p < 0.5 and 1 or 2 - 2 * p)",
+                "        local scale=numberScale(sample)",
+                "        floating:SetLocalScale(scale, scale, 1)",
+                "        local ghost = clamp((age - T.hpGhostDelay) / T.hpGhost)",
+                "        box:GetChild(\"hpGhost\").fillAmount = effect.oldHp + (effect.hp - effect.oldHp) * ghost",
+                "        if age >= math.max(T.damagePop, T.hpGhostDelay + T.hpGhost, effect.stop + window) then",
+                "            self.effects[id] = nil",
+                "            for _, part in ipairs({\"blockEdge\", \"blockIcon\", \"block\"}) do box:GetChild(part):SetLocalScale(1, 1, 1) end",
+                "            box:GetChild(\"impact\"):SetLocalScale(1, 1, 1)",
+                "        end",
+                "    end",
+                "    local function paintDying(id,box,dt,y,sx,sy,ink,flash,alpha)",
+                "        local dying = self.dying[id]",
+                "        if dying then",
+                "            -- Gleam, then the figure crumbles into the ground as a shard burst disperses.",
+                "            dying.age = dying.age + dt",
+                "            local p = clamp(dying.age / T.slow)",
+                "            ink, flash, alpha = id == \"player\" and C.danger or C.goldBright, 1 - easeOut(p), 1 - easeIn(p)",
+                "            sx, sy = sx * (1 + p * OVERSHOOT), sy * (1 - easeIn(p) / 2)",
+                "            y = y - S.m * easeIn(p)",
+                "            local impact = box:GetChild(\"impact\")",
+                "            impact:SetVisible(p < 1) impact:SetAnchoredPosition(0, 0)",
+                "            impact:SetLocalScale(1 + easeOut(p), 1 + easeOut(p), 1)",
+                "            tint(impact, id == \"player\" and C.danger or C.geo, (1 - p) * 0.8)",
+                "            box:SetVisible(p < 1)",
+                "            if p >= 1 then self.dying[id] = nil end",
+                "        end",
+                "        return y,sx,sy,ink,flash,alpha",
+                "    end",
+                "    local function paint(id, dt, shakes)",
+                "        local unit, box = actor(id)",
+                "        if not box then self.effects[id], self.poses[id], self.dying[id] = nil, nil, nil return end",
+                "        local base = id == \"player\" and C.geo or C.text",
+                "        local ink, flash, alpha = base, 0, 1",
+                "        local posed = self.poses[id]",
+                "        local motionState=ActorMotion.state(unit,posed,self.effects[id],self.dying[id],self.escaping[id])",
+                "        local x,y,sx,sy=ActorMotion.idle(unit,id,self.idleClock or 0,motionState,T.actorIdle)",
+                "        if posed then",
+                "            posed.age = posed.age + dt",
+                "            local px, ps, done = pose(posed.keys, posed.age)",
+                "            if motionState=='action' then x, sx, sy = px, ps, ps end",
+                "            if done then self.poses[id] = nil end",
+                "        end",
+                "        local effect = self.effects[id]",
+                "        if effect then",
+                "            effect.age = effect.age + dt",
+                "            local sample={age=effect.age,detail=effect.detail,style=effect.style,kind=effect.kind,",
+                "                after=math.max(0,effect.age-effect.stop),frozen=effect.age<effect.stop,",
+                "                lost=hurts(effect.kind) and (effect.detail.amount or 0)>0,heavy=effect.style.weight=='heavy'}",
+                "            local impact,shield=box:GetChild('impact'),box:GetChild('shield')",
+                "            x,y,ink,flash=paintMotion(id,effect,sample,shakes,x,y,ink,flash)",
+                "            local window=paintImpact(id,impact,effect,sample)",
+                "            paintShield(box,shield,sample)",
+                "            paintNumber(id,box,effect,sample,window)",
+                "        end",
+                "        y,sx,sy,ink,flash,alpha=paintDying(id,box,dt,y,sx,sy,ink,flash,alpha)",
+                "        local portrait = box:GetChild(\"portrait\")",
+                "        portrait:SetAnchoredPosition(x, y)",
+                "        portrait:SetLocalScale(sx, sy, 1)",
+                "        if id == \"player\" and platform.portraits then platform.portraits:battlePose(x,y,sx,sy) end",
+                "        tint(portrait, flash > 0 and mix(base, ink, flash * FLASH) or base, alpha)",
+                "    end"
+              ]
+            },
+            {
+              "at": 620,
+              "current": [
+                "            for id in pairs(ids) do ActorPainter.paint(painter,id,effectDt,shakes) end"
+              ],
+              "target": [
+                "            for id in pairs(ids) do paint(id, effectDt, shakes) end"
+              ]
+            },
+            {
+              "at": 623,
+              "current": [
+                "            if self.stageShake ~= shake then",
+                "                stage:SetAnchoredPosition(shake, 0)",
+                "                self.stageShake = shake",
+                "            end"
+              ],
+              "target": [
+                "            stage:SetAnchoredPosition(shake, 0)"
+              ]
+            }
+          ]
+        },
+        "perf": {
+          "sha256": "7dfa7f4160039708dd4e5f342dacc893fcf599f0a7e49356803d0b3ecefa65e1",
+          "hunks": [
+            {
+              "at": 189,
+              "current": [
+                "        if name == \"hero\" and platform.portraits then platform.portraits:battlePose(0,0,1,1) end"
+              ],
+              "target": []
+            }
+          ]
+        }
+      }
+    },
+    "src/lua/abyss_game_ui.lua": {
+      "currentSha256": "de356a0a6fcbde4c59d791da8dd3c0f5a047dbf122c74968b154c27931f4f159",
+      "targets": {
+        "art": {
+          "sha256": "f7e4ddf3b5b65b8486f3e05374aa3cdf2b0456094258325a97e2232efbb638ed",
+          "hunks": [
+            {
+              "at": 9,
+              "current": [],
+              "target": [
+                "local Theme = require(\"abyss_theme\")"
+              ]
+            },
+            {
+              "at": 14,
+              "current": [
+                "local MenuView=require(\"abyss_game_ui_menu_view\")"
+              ],
+              "target": []
+            },
+            {
+              "at": 197,
+              "current": [
+                "    local menuView = MenuView.new(self,menu,data,platform)",
+                "    local start,settlement=menuView.start,menuView.settlement",
+                "    local function present() MenuView.present(menuView) end",
+                "    self.animate=function(_,dt) MenuView.animate(menuView,dt) end"
+              ],
+              "target": [
+                "    -- Menu/result presentation reads stats the run already records. Motion only moves and",
+                "    -- scales controls. A defeat veil bridges battle/results before actions unlock.",
+                "    local L, C, T = Theme.layout.nativeMenu, Theme.color, Theme.motion",
+                "    local R = L.reveal",
+                "    local result = menu:GetChild(\"result\")",
+                "    local emblem, start, settlement = menu:GetChild(\"emblem\"), menu:GetChild(\"start\"), menu:GetChild(\"settle\")",
+                "    local vista = menu:GetChild(\"vista\")",
+                "    local risers = { { menu:GetChild(\"title\"), L.title }, { menu:GetChild(\"tagline\"), L.tagline },",
+                "        { result:GetChild(\"subtitle\"), L.subtitle } }",
+                "    local cards = {}",
+                "    for i, key in ipairs({ \"floor\", \"victories\", \"time\", \"deck\" }) do cards[i] = result:GetChild(\"stat_\" .. key) end",
+                "    local function colour(c) return platform.color(c.r, c.g, c.b, c.a) end",
+                "    local function clamp(value) return math.max(0, math.min(1, value)) end",
+                "    local function easeOut(p) return 1 - (1 - p) ^ 3 end",
+                "    local function overshoot(p) return 1 + 2.7 * (p - 1) ^ 3 + 1.7 * (p - 1) ^ 2 end",
+                "    local function clock(seconds)",
+                "        seconds = math.floor(seconds)",
+                "        return string.format(\"%02d:%02d\", math.floor(seconds / 60), seconds % 60)",
+                "    end",
+                "    self.motion = { t = 0, settleX = L.settle[1] }",
+                "    local function pose()",
+                "        local m = self.motion",
+                "        local shade = menu:GetChild(\"deathShade\")",
+                "        local alpha = m.deathReveal and 1 - easeOut(clamp(m.t / T.slow)) or 0",
+                "        shade.imageColor = platform.color(C.backdrop.r, C.backdrop.g, C.backdrop.b, math.floor(255 * alpha))",
+                "        shade:SetVisible(alpha > 0)",
+                "        if alpha == 0 then m.deathReveal = nil end",
+                "        local p = easeOut(clamp(m.t / T.slow))",
+                "        local grow = R.emblemFrom + (1 - R.emblemFrom) * overshoot(clamp(m.t / T.slow))",
+                "        local breathe = 1 + R.breatheScale * math.sin(2 * math.pi * math.max(0, m.t - T.slow) / R.breathe)",
+                "        emblem:SetLocalScale(grow, grow, 1)",
+                "        emblem:GetChild(\"glow\"):SetLocalScale(breathe, breathe, 1)",
+                "        for _, riser in ipairs(risers) do riser[1]:SetAnchoredPosition(riser[2][1], riser[2][2] - R.rise * (1 - p)) end",
+                "        for i, card in ipairs(cards) do",
+                "            local q = easeOut(clamp((m.t - i * R.stagger) / T.slow))",
+                "            local scale = R.cardFrom + (1 - R.cardFrom) * q",
+                "            card:SetLocalScale(scale, scale, 1)",
+                "            card:SetAnchoredPosition(L.stats.origin[1] + (i - 1) * L.stats.step, L.stats.origin[2] - R.rise * (1 - q))",
+                "        end",
+                "        local x = m.settleX",
+                "        if m.slide then x = m.slide.from + (m.slide.to - m.slide.from) * easeOut(clamp(m.slide.t / T.base)) end",
+                "        if m.shake then",
+                "            local s = clamp(m.shake / T.shake)",
+                "            x = x + T.shakeAmplitude * math.sin(s * math.pi * 4) * (1 - s)",
+                "        end",
+                "        settlement:SetAnchoredPosition(x, L.settle[2])",
+                "        -- Title vista: embers drift up past the ruins and the seal breathes; nothing here takes input.",
+                "        local V = Theme.layout.vista",
+                "        for i, at in ipairs(V.motes) do",
+                "            local rise = (m.t * V.drift + i * 53) % 220",
+                "            local mote = vista:GetChild(\"mote\" .. i)",
+                "            mote:SetAnchoredPosition(at[1] + 10 * math.sin(m.t + i), at[2] + rise)",
+                "            mote.imageColor = colour({ r = C.goldBright.r, g = C.goldBright.g, b = C.goldBright.b,",
+                "                a = math.floor(180 * math.sin(math.pi * rise / 220)) })",
+                "        end",
+                "        local seal = 1 + 0.03 * math.sin(2 * math.pi * m.t / V.breathe)",
+                "        vista:GetChild(\"seal\"):SetLocalScale(seal, seal, 1)",
+                "    end",
+                "    local function present()",
+                "        local mode, run, m = self.mode, self.run, self.motion",
+                "        if mode ~= \"menu\" and mode ~= \"defeat\" and mode ~= \"victory\" then m.mode = nil return end",
+                "        local victory, defeat = mode == \"victory\", mode == \"defeat\"",
+                "        local outcome = victory or defeat",
+                "        if m.mode ~= mode then",
+                "            m.t, m.mode = 0, mode",
+                "            m.deathReveal = defeat and self.battleUI.feedback.deaths.player or nil",
+                "        end",
+                "        local rules = data.rules.map",
+                "        emblem:GetChild(\"icon\").imageColor = colour(defeat and C.danger or C.geo)",
+                "        emblem:GetChild(\"glow\").imageColor = colour(defeat and C.danger or C.goldBright)",
+                "        -- The distant seal answers the outcome: broken red after a defeat, settled gold otherwise.",
+                "        vista:GetChild(\"seal\"):GetChild(\"heart\").imageColor = colour(defeat and C.danger or C.goldBright)",
+                "        vista:GetChild(\"seal\"):GetChild(\"ring\").imageColor = colour(defeat and C.danger or C.gold)",
+                "        local title = menu:GetChild(\"title\")",
+                "        title.text = victory and (run.ending=='two_act_complete' and '双幕挑战完成' or run.ending=='true_victory' and '真结局 · 深渊已被封印' or \"深渊已被封印\") or defeat and \"旅途在此中断\" or \"杀戮原塔2\"",
+                "        title.fontColor = colour(victory and C.goldBright or defeat and C.text or C.gold)",
+                "        menu:GetChild(\"tagline\"):SetVisible(not outcome)",
+                "        menu:GetChild(\"summary\"):SetVisible(false)",
+                "        result:SetVisible(outcome)",
+                "        local startFrame = outcome and L.resultRestart or L.start",
+                "        start:SetAnchoredPosition(startFrame[1], startFrame[2])",
+                "        start:SetVisible(not self.settlementRequested and not self.settlementBusy)",
+                "        start:GetChild(\"label\").text = run and \"重新启程\" or \"启程\"",
+                "        settlement:SetVisible(outcome)",
+                "        local available = type(platform.settle) == \"function\"",
+                "        local enabled = outcome and available and not self.settlementRequested and not self.settlementBusy",
+                "        settlement:GetChild(\"normal\"):SetVisible(enabled == true)",
+                "        settlement:GetChild(\"disabled\"):SetVisible(not enabled and not self.settlementBusy)",
+                "        settlement:GetChild(\"selected\"):SetVisible(self.settlementBusy == true)",
+                "        settlement:GetChild(\"border\").imageColor = colour(enabled and C.gold or C.line)",
+                "        local label = settlement:GetChild(\"label\")",
+                "        label.text = self.settlementRequested and \"已发送结算请求\" or \"结束并结算\"",
+                "        label.fontColor = colour(enabled and C.gold or C.textDim)",
+                "        -- With the request sent, restart is gone and the remaining button settles to centre.",
+                "        local targetX = self.settlementRequested and 0 or L.settle[1]",
+                "        if targetX ~= m.settleX then m.slide, m.settleX = { from = m.settleX, to = targetX, t = 0 }, targetX end",
+                "        if not outcome then",
+                "            -- The title screen names the chapter only; the opening story belongs to the cinematic.",
+                "            menu:GetChild(\"tagline\").text = Narrative.title",
+                "            menu:GetChild(\"summary\").text = \"\"",
+                "        else",
+                "            local floor = self.map.floor",
+                "            result:GetChild(\"subtitle\").text = victory and run.ending=='two_act_complete'",
+                "                and '第一幕与第二幕已完成。本局挑战到此结束。' or victory and run.ending=='true_victory'",
+                "                and '腐化之心已击败。真结局已达成。' or Narrative.flow[mode].full",
+                "            local finalFloor=Acts.isCompetition(run) and Acts.get(2).last or victory and run.ending=='true_victory' and (self.map.terminalFloor or rules.floors) or rules.floors",
+                "            local values = { floor .. \" / \" .. finalFloor, tostring(run.victories), clock(run.elapsedSeconds), tostring(#run.deck) }",
+                "            for i, name in ipairs({ \"抵达层数\", \"战斗胜场\", \"用时\", \"卡组张数\" }) do",
+                "                cards[i]:GetChild(\"label\").text, cards[i]:GetChild(\"value\").text = name, values[i]",
+                "            end",
+                "            cards[1]:GetChild(\"value\").fontColor = colour(victory and C.goldBright or C.text)",
+                "            local hp = run.phase == \"defeat\" and 0 or run.hp",
+                "            result:GetChild(\"detail\").text = \"生命 \" .. number(hp) .. \" / \" .. number(run.maxHp) .. \" · 金币 \" .. number(run.gold)",
+                "                .. \" · 遗物 \" .. #run.relics .. \" 件\"",
+                "            local status, ink = \"「结束并结算」提交本局结果并进入平台结算；「重新启程」不会提交\", C.textMuted",
+                "            if self.settlementRequested then status, ink = \"结算请求已发送，等待平台结算界面\", C.positive",
+                "            elseif self.settlementError then status, ink = \"结算请求失败，请重试\", C.danger",
+                "            elseif not available then status = \"平台结算暂不可用，可重新启程\" end",
+                "            local line = result:GetChild(\"status\")",
+                "            line.text, line.fontColor = status, colour(ink)",
+                "        end",
+                "        pose()",
+                "    end",
+                "    self.animate = function(_, dt)",
+                "        local m = self.motion",
+                "        if not m.mode then return end",
+                "        m.t = m.t + dt",
+                "        if m.slide then m.slide.t = m.slide.t + dt; if m.slide.t >= T.base then m.slide = nil end end",
+                "        if m.shake then m.shake = m.shake + dt; if m.shake >= T.shake then m.shake = nil end end",
+                "        pose()",
+                "    end"
+              ]
+            }
+          ]
+        },
+        "perf": {
+          "sha256": "9d0125dd3dc285d9e97dbfeaff406e2394eae0fa39ac37c9d0916b1d84c68b96",
+          "hunks": [
+            {
+              "at": 446,
+              "current": [
+                "        if platform.background then platform.background:sync(self.mode,self.characterOpen,self.settlementRequested or self.settlementBusy) end",
+                "        if platform.portraits then platform.portraits:sync(self.mode,self.characterOpen,self.settlementRequested or self.settlementBusy,self.run and self.run.character) end"
+              ],
+              "target": []
+            },
+            {
+              "at": 635,
+              "current": [
+                "        if platform.background then platform.background:tick() end",
+                "        if platform.portraits then platform.portraits:tick() end"
+              ],
+              "target": []
+            },
+            {
+              "at": 663,
+              "current": [
+                "        if platform.background then platform.background:release() end",
+                "        if platform.portraits then platform.portraits:release() end",
+                "        if platform.cardArt then platform.cardArt.clear() end"
+              ],
+              "target": []
+            }
+          ]
+        }
+      }
+    },
+    "src/lua/abyss_feedback_actor_painter.lua": {
+      "currentSha256": "a2472913976a2670f4ea5cc5ca81492b666d8531e3a287bc2c77e3f508920c86",
+      "targets": {
+        "art": {
+          "sha256": null,
+          "hunks": []
+        },
+        "perf": {
+          "sha256": "7c29e26569f5cfba001cb4bad03d7831a34d477fac93e56e4fdec9a3dcfb3346",
+          "hunks": [
+            {
+              "at": 210,
+              "current": [
+                "    if id == \"player\" and ctx.platform.portraits then ctx.platform.portraits:battlePose(x,y,sx,sy) end"
+              ],
+              "target": []
+            }
+          ]
+        }
+      }
+    },
+    "src/lua/abyss_game_ui_menu_view.lua": {
+      "currentSha256": "d491220b3a74ade3db7a3916d3cd959250fb3ce9e4fae12e87e6056f8345d979",
+      "targets": {
+        "art": {
+          "sha256": null,
+          "hunks": []
+        },
+        "perf": {
+          "sha256": "d491220b3a74ade3db7a3916d3cd959250fb3ce9e4fae12e87e6056f8345d979",
+          "hunks": []
+        }
+      }
+    }
+  }
+}

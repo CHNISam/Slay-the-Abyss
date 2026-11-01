@@ -1,0 +1,58 @@
+{
+  "commit": "59acf64",
+  "base": "ca838ef",
+  "worktree": "/workspace/m3-relic-vector-followup",
+  "status": {
+    "snecko": "TEST_ADDED",
+    "preservedInsect": "PRODUCTION_FIXED"
+  },
+  "productionChange": "Only input int-to-binary32 conversion before existing .75f multiplication in abyss_relic_hooks.lua",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sourceFilesSha256": {
+    "relics/SneckoEye.java": "00edd6a0dfa78effb07ffae64138c4fd3f4312d583d6e69159b16d981289a5c8",
+    "powers/ConfusionPower.java": "b987912476db56c0521b93637717dc5bd3fd13a5a8537e7f5f19462b00a612c2",
+    "relics/PreservedInsect.java": "303c04bda8c9c7d94f540daf9db786a5cabb02761241f0680ed10a419a35abe9",
+    "actions/common/DrawCardAction.java": "67d02ba84c1d7e60fbb2a4a83f2b2d3ebbd81a84d29c16ccb98ecc9dd1a17e18",
+    "characters/AbstractPlayer.java": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
+  },
+  "sourceAcquisition": "Read pinned public source archive in memory; inspected exact classes and draw hooks. Java source bodies are not committed.",
+  "red": {
+    "command": "node --test --test-name-pattern='HP 16777217 ' tests/snecko-insect-vectors.test.mjs",
+    "log": "/workspace/cloud-reports/m3-insect-vector-red.log",
+    "actual": 12582913,
+    "independentExpected": 12582912,
+    "caseDurationMs": 1541.16851,
+    "sha256": "cb4dbba39a7e81cfd78072c81df7ca2843513ba374252d7dfe84203cc0f874ef"
+  },
+  "green": {
+    "command": "node --test --test-concurrency=1 tests/snecko-insect-vectors.test.mjs",
+    "log": "/workspace/cloud-reports/m3-snecko-insect-green.log",
+    "tests": 17,
+    "passed": 17,
+    "durationMs": 42058.876667,
+    "defaultPerLuaTimeoutMs": 30000,
+    "sha256": "1a289ba4415438ccb9f5d53fcc8995a3ef8cab6310f52be5a182196eb654d786"
+  },
+  "existingSmallHp": {
+    "command": "node scripts/test-lua.mjs tests/lua/common_relic_final.lua",
+    "passed": 11,
+    "durationMs": 2466,
+    "log": "/workspace/cloud-reports/m3-insect-existing-small-hp.log",
+    "sha256": "152f979658919c5d8ddaa657a6d31029dc0fd748ca82331691fbd47b13fe9015"
+  },
+  "additionalChecks": [
+    "git diff --check",
+    "node --check tests/snecko-insect-vectors.test.mjs",
+    "python3 -m py_compile tools/oracles/sts1_snecko_insect.py",
+    "node scripts/check-syntax.mjs",
+    "real Git core.autocrlf=true/core.eol=crlf clone validates byte-authenticated models/inputs with CRLF control and strict oracle regeneration"
+  ],
+  "boundaries": [
+    "Controlled public explicit-ID Run entry, not natural acquisition or platform evidence",
+    "Snecko subsequent draw uses explicit temporary-cost/free-once preconditions; draw and relic hooks execute through public potion command",
+    "Independent explicit-ID shuffle seed+floor1 and raw card seed model; does not certify source-room propagation",
+    "No old golden, balance, pool, Backlog or remote changes"
+  ],
+  "report": "docs/reviews/M3-SNECKO-INSECT-VECTORS.md",
+  "historicalGuardReverification": "/workspace/cloud-reports/m3-insect-history-followup.json"
+}

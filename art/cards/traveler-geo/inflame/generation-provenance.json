@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "card_id": "inflame",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T18:04:20.487Z",
+    "completedObservedAt": "2026-10-29T18:05:00Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "d4f7338823f718ca53d2a2b89157a38153cb42e4158e32df33d0e9a41e03ca21",
+      "bytes": 1929032
+    },
+    "prompt.txt": {
+      "sha256": "b8be1175af20a79e08bbe9246161ec6812bd2ac0144a127a528f5069dca78525",
+      "bytes": 2781
+    },
+    "preview-source-144x64.png": {
+      "sha256": "5c15f862097828f60808c4e56280918ac6c931d4cf36b7498e10deb72f784d94",
+      "bytes": 18641
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions preserved despite requested size"
+  },
+  "intent": {
+    "name": "剑术精进",
+    "mechanics": "self gainStatus strength2 power; upgraded3",
+    "mainAction": "steady refined one-handed grip and clean controlled blade line, no target or strike",
+    "identityCarriers": [
+      "blonde bob and prominent white flower",
+      "connected original white-blue costume and gold dark waist",
+      "normal one-handed sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and144x64: calm focused Lumine flower face and connected whiteblue-gold costume; one credible neutral wrist grip and narrow continuous blade with fully visible tip. No fire aura, foe contact or temporary body coil. Independent review pending.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}
