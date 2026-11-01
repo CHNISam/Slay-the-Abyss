@@ -5,10 +5,10 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 06:32'
-updated_date: '2026-10-31 17:02'
+updated_date: '2026-11-01 12:06'
 labels:
   - required implementation-gap
-milestone: m-4
+milestone: m-5
 dependencies: []
 references:
   - docs/backlog-details/TASK-59.3.md
@@ -140,4 +140,6 @@ PR290接续：隔离候选已合入develop d2e0baa3；复核4aba86bc全部有效
 PR338合并前修复：神像显示拆分为独立职责，renderEvent回到15以内；精确hero外层接入3份历史源测试并覆盖两份新流程输入，旧PR323/330/settlement证据保持原字节；保留非法角色拒绝与新预选旅行者语义。定向18/18、hero严格逆变换3/3通过；工程258模块1440边、953职责、37历史告警且mutation4项/原生合同4项通过。Node22 raw game_ui原60秒超时（15项已跑至原生开场通过），未冒充整体通过；Node24与最终CI仍待。本轮未导入或实机，不新增平台勾选。
 
 2026-10-31 M3最终事实核对：AC4：与TASK59 AC6相同的生产入口/菜单/配置/随机准入回归通过，比赛只开放岩旅行者，full-source八形态保留。#3仍缺当前精确头必要完整CI、原生候选构建及PR合入闭环。#5–7依#8必须官方导入/真机后才可通过，继续不勾。五张真实Simulator PNG仅离线静帧，肖像模板未装配且纹理OSS403，不能冒认正式候选缺肖像，也不能冒认美术完成。
+
+2026-11-01阶段收尾：用户明确确认本轮已打Tag并进入master，发版阶段到此结束。已交付的M3核心实现不重做；本任务仅将剩余未验要求转由M4体验与设备改进承接，保留原状态、范围、全部AC及历史证据，不把发版确认等同逐条严格验收通过，也不重新阻塞已接受的v1.0.0。本次不打包、不追发布回执、不创建新门禁或新期限。
 <!-- SECTION:NOTES:END -->

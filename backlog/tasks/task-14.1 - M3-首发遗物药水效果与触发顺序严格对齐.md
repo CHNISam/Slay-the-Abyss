@@ -5,14 +5,14 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-31 21:40'
+updated_date: '2026-11-01 12:07'
 due_date: '2026-10-28'
 labels:
   - required
   - rule-parity
   - implementation-gap
   - partially-implemented
-milestone: m-4
+milestone: m-6
 dependencies:
   - TASK-14
 references:
@@ -278,4 +278,6 @@ PR #304：普通与Boss遗物不可领由手机试玩发现；离线源链路确
 2026-10-31 明确差集已补：Chaos预排目标到Hand/Spoon/Branch共享消费，完整商店消费、卡奖identity/retry；另修深呼吸双洗及Sundial/Abacus先于抽牌的持有序、Secret候选初次random插入。全部独立源向量/精准负控和非作者审查通过，本地最终组合66/66零skip。宽泛全道具逐属性/跨域与逐件自然/平台条款未获整体认证，不凭数量或局部证明勾AC5/7/8/9；原始失败、两次审拒及最终修复均归档。
 
 2026-10-31 最后纯离线验收收口：全域153遗物/33药水具体效果、共享处理器/生命周期及非交换组合经全新非作者复核；唯一F1七battle计数与F2普通Smoke胜利治疗源差已在c07+6b修复，14/14独审和根组合31/31及旧Smoke3项通过。原索引静态身份保留，不要求无穷笛卡尔积，也不以定义/消费成功代效果。只勾纯离线5/7，逐件自然/官方8/9继续未验。 依据及原始运行/源身份见docs/evidence/m3-final-acceptance-20261031/，最终精确HEAD CI及正常PR合并另核，不代替官方或设备。
+
+2026-11-01阶段收尾：用户明确确认本轮已打Tag并进入master，发版阶段到此结束。已交付的M3核心实现不重做；本任务仅将剩余未验要求转由M5遗留严格验收承接，保留原状态、范围、全部AC及历史证据，不把发版确认等同逐条严格验收通过，也不重新阻塞已接受的v1.0.0。本次不打包、不追发布回执、不创建新门禁或新期限。
 <!-- SECTION:NOTES:END -->

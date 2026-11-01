@@ -5,13 +5,13 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-31 23:38'
+updated_date: '2026-11-01 12:07'
 due_date: '2026-10-28'
 labels:
   - required
   - rule-parity
   - implementation-gap
-milestone: m-4
+milestone: m-6
 dependencies:
   - TASK-8
   - TASK-11
@@ -141,4 +141,6 @@ ordinal: 43000
 2026-10-31 最后纯离线验收收口：完整新增跨域数值、顺序和同一共享入口由原独立向量与公开消费者合证，merchant76/card93/Prism275/Chaos及Deep/Secret、F1/F2资格分支补齐已全部非作者复核，根组合31/31和工程318/5005/1838通过。只勾纯离线5；6的实际游戏记录仍未验，不把离线或生产clone升为原版PC全帧认证。 依据及原始运行/源身份见docs/evidence/m3-final-acceptance-20261031/，最终精确HEAD CI及正常PR合并另核，不代替官方或设备。
 
 2026-10-31 用户新增手机文字难读的高优先级缺陷。当前随机链代码及离线组合已完成并随PR436/437/438合入、实际develop检查通过，仅AC6实际游戏记录待验。本次将其移出当前High执行队列以优先处理可读性反馈；保留全部验收、状态、期限与实机责任，不代表取消要求。
+
+2026-11-01阶段收尾：用户明确确认本轮已打Tag并进入master，发版阶段到此结束。已交付的M3核心实现不重做；本任务仅将剩余未验要求转由M5遗留严格验收承接，保留原状态、范围、全部AC及历史证据，不把发版确认等同逐条严格验收通过，也不重新阻塞已接受的v1.0.0。本次不打包、不追发布回执、不创建新门禁或新期限。
 <!-- SECTION:NOTES:END -->

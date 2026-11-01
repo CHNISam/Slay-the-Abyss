@@ -5,14 +5,14 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-31 21:40'
+updated_date: '2026-11-01 12:07'
 labels:
   - required
   - sts1
   - acts
   - implementation-gap
   - partially-implemented
-milestone: m-4
+milestone: m-6
 dependencies:
   - TASK-63
   - TASK-59
@@ -116,4 +116,6 @@ PR267首轮完整Quality40619558644实际保留一项Windows失败：phase_four_
 2026-10-31 第二幕Designer公开Nodes矩阵已补全四服务构造分支与关键拒绝/回滚，标准新1/1及相关9/9通过。docs/reviews/M3-EVENT-OPTIONS-AUDIT-20261031.md逐项列既有Skull/Face/Nloth/竞技场专项边界；模块事务全130牺牲不冒充所有公开入口/自然/平台。AC2/4保持未完成。
 
 2026-10-31 最后纯离线验收收口：18至34层原地图/遭遇权重和三Boss合法生成、比赛34终点不接35，有独立cross-act源队列/Act2全敌三Boss和正式终局专项；31条Act2完整池路径、真实递归原生mock18身份75状态121点击105选项及各事件精确资格/交易/战斗/回滚合同可组合。新独审22/22等专项通过，按字面勾纯离线1/2；4同候选平台连续通关仍未验，persistent历史依赖继续future。 依据及原始运行/源身份见docs/evidence/m3-final-acceptance-20261031/，最终精确HEAD CI及正常PR合并另核，不代替官方或设备。
+
+2026-11-01阶段收尾：用户明确确认本轮已打Tag并进入master，发版阶段到此结束。已交付的M3核心实现不重做；本任务仅将剩余未验要求转由M5遗留严格验收承接，保留原状态、范围、全部AC及历史证据，不把发版确认等同逐条严格验收通过，也不重新阻塞已接受的v1.0.0。本次不打包、不追发布回执、不创建新门禁或新期限。
 <!-- SECTION:NOTES:END -->
