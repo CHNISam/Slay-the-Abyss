@@ -1,0 +1,36 @@
+[
+  {
+    "scene": "controls",
+    "clipped": []
+  },
+  {
+    "scene": "deck",
+    "clipped": []
+  },
+  {
+    "scene": "exit",
+    "clipped": []
+  },
+  {
+    "scene": "map-current",
+    "clipped": [
+      "10"
+    ]
+  },
+  {
+    "scene": "map-start",
+    "clipped": [
+      "10"
+    ]
+  },
+  {
+    "scene": "menu",
+    "clipped": []
+  },
+  {
+    "scene": "rewards",
+    "clipped": [
+      "10"
+    ]
+  }
+]

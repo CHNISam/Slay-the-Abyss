@@ -340,3 +340,6 @@ tests/helpers/secret-candidate-insertion.mjs text eol=lf
 # Prismatic source-only full consumer oracle authenticates exact raw bytes.
 tools/oracles/sts1_prismatic_rewards.py text eol=lf
 tests/fixtures/sts1-prismatic-rewards.json text eol=lf
+
+# Preserve authenticated diagnostics and rendered evidence across checkout platforms.
+docs/evidence/mobile-readability-20261101/** -text

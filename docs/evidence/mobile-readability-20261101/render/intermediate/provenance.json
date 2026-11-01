@@ -1,0 +1,14 @@
+{
+  "sourceLog": "/workspace/cloud-reports/mobile-readability-after/host-scenes-current-driver.log",
+  "sourceRepo": "/workspace/mobile-readability",
+  "scenes": [
+    "menu",
+    "exit",
+    "controls",
+    "map-start",
+    "deck",
+    "rewards",
+    "map-current"
+  ],
+  "boundary": "Actual Host mock state and generated control geometry; browser system font and stand-in glyphs, not official native or physical device evidence."
+}

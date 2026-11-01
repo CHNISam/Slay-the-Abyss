@@ -1,0 +1,58 @@
+{
+  "reviewer": "/root/review_mobile_font (independent, non-author)",
+  "baseline": "2d06741de47f2a65eb2772705e33064c16ccdce3",
+  "reviewed_code_head": "04e3a75e406341b78db0205864535173c526915f",
+  "workspace": "/workspace/mobile-font-independent-review",
+  "decision": "Typography component code review approved; no remaining demonstrated Important/Critical source issue. Device and longest-natural-value acceptance remain unverified.",
+  "resolved_findings": [
+    "Ordinary destructive/pressed text contrast below 4.5: changed actual ink or dedicated pressed fill, preserving decorative goldDim.",
+    "Battle title overlapped floor: title narrowed/repositioned and floor icon separated; overlap assertions retain floor paths.",
+    "Potion row occluded Collector intent/body: relocated between relic overflow and actors; real Host boss geometry coverage added.",
+    "Owned relic detail lost complete large text/native line frames: four entries per page, 40-high name/chip, 160-high description; old duplicate/modal assertions retained.",
+    "Potion modal and popup lacked complete native multiline budgets: expanded slots/detail/modal and popup line pitch; actual full descriptions including Sacred Bark scanned.",
+    "Existing live expectations failed after intentional semantic/layout changes: updated selected tokens and four-item pagination, kept original functional assertions; matchRetry actual fill repaired instead of relaxing tests.",
+    "Root final offline renderer found reward heading ink clipping at 44 font in a 44-high box. Child 04e3 selects the semantic panel title role 34 with fixed minimum and 48-high frames; placement and hovered-cost gap remain unchanged. New role and line-budget assertions pass."
+  ],
+  "earlier_implementation_verification": {
+    "head": "3c1979f6127221d5bab2d938d927252df69cbfee",
+    "first_batch": "28 tests: 27 passed, old relic pagination expectation failed and subsequently repaired; includes all 14 new mobile typography tests plus real Host battle-info, long potion popup, reward/adjacent readability and exit/HUD contracts.",
+    "second_batch": "37 tests: 32 passed, 5 stale live semantic expectations failed and subsequently repaired; log /workspace/cloud-reports/mobile-font-review-layout.log.",
+    "continuity": "Final typography implementation retained from 3c1979f6 except root matchRetry fill repair; final fresh batch exercises changed live tests and composed Host. Performance changes reviewed by a separate reviewer."
+  },
+  "source_guard_check": "git diff baseline..reviewed_head -- tests/helpers tests/fixtures docs/reviews returned empty; no archived source identity/hash guards changed.",
+  "limitations": [
+    "No official import, fresh native ready, physical phone screenshot, native font calibration, dp/pt mapping, WCAG AA or 200-percent text resizing claim.",
+    "Runtime evidence uses real project Lua with mock native APIs; geometry and opaque contrast checks do not prove final rasterized or transparent/background-dependent contrast.",
+    "999/999 health, 99999 gold and three-digit pile/deck totals are pressure values, not a proven maximum of every naturally reachable two-act state. Public numeric contracts permit larger int32 values; no natural over-budget witness or strict natural bound was established. AC2 longest-legal-value clause remains unverified.",
+    "Only targeted tests were run; no full suite was repeated."
+  ],
+  "prior_report_backup": {
+    "path": "/workspace/cloud-reports/mobile-font-independent-review-66db04c7.json",
+    "sha256": "e69fd1fc4410211e4688e0c6d33f9b2c6dfbcc765889bac2656f1877edae10a6"
+  },
+  "prior_code_verification": {
+    "command": "npm run build:ui && node --test --test-concurrency=1 tests/owned-relic-view.test.mjs tests/native-ui-theme.test.mjs tests/node-ui-layout.test.mjs tests/ui-layout.test.mjs tests/approved-energy-orb.test.mjs tests/potion-help-layout.test.mjs",
+    "result": "31 passed, 0 failed, 0 skipped; 9.043878819 seconds; command exit 0",
+    "log": "/workspace/cloud-reports/mobile-font-review-final.log",
+    "independent_opaque_state_audit": {
+      "combinations": 296,
+      "threshold": 4.5,
+      "minimum_ratio": 5.048745901557498,
+      "worst_path": "/SlayTheAbyss/battlePanel/endTurn/normal/label"
+    },
+    "working_tree_clean": true,
+    "code_head": "66db04c764d7b025a4d76067bce3a6eb39b0d807"
+  },
+  "fresh_final_delta_verification": {
+    "parent": "66db04c764d7b025a4d76067bce3a6eb39b0d807",
+    "child": "04e3a75e406341b78db0205864535173c526915f",
+    "scope": "Exactly 3 changed files inspected: data/presentation/ui_theme.json, scripts/ui-layout.mjs, tests/mobile-typography.test.mjs. Reward panel headings select font.title=34 with matching fixed minimum; three title boxes grow 44 to 48 high. Every existing title/subtitle/panel/card coordinate and other theme values remain intact. Main display role remains 44.",
+    "commands": [
+      "node --test --test-name-pattern=reward headings tests/mobile-typography.test.mjs",
+      "node --test tests/reward-potion-layout.test.mjs"
+    ],
+    "result": "2 targeted cases passed; 0 failed, 0 skipped; both commands completed. Prior 14 long-copy/31 live-layout checks were not repeated.",
+    "log": "/workspace/cloud-reports/mobile-font-review-reward-delta.log",
+    "working_tree_clean": true
+  }
+}

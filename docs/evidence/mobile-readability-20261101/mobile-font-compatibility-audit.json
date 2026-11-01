@@ -1,0 +1,105 @@
+{
+  "audit": "mobile-font-compatibility",
+  "baseline": "2d06741de47f2a65eb2772705e33064c16ccdce3",
+  "mode": "read-only repository audit; external report only; no tests run",
+  "conclusion": "No presently demonstrated need to migrate approved-ui/source-inverse contracts for the typography slice. Most frozen contracts already execute in an isolated historical cwd. Preserve those archives and guards; change current visual/token expectations only when intended behavior changes. Add a new exact outer layer only if an actual live historical-materializer consumer requires it.",
+  "important_correction": "An initial hypothesis that approved-ui-inverse.test reads live sources was rejected after following historicalTest. Its readBeforeMobileQaSource reads newly materialized 98fef95d historical inputs, not current working files.",
+  "existing_historical_boundary": {
+    "helper": "tests/helpers/historical-baseline-inputs.mjs",
+    "mechanism": "historicalTest -> withHistoricalBaseline -> validate archive SHA256/Git blobs -> materialize fresh isolated sources -> cwd switch. Fixture oracle directories and node_modules alone are linked. Archive helper text is data, never imported.",
+    "sourceCommit": "98fef95d047652aa6a8880241ddff28ef320a484",
+    "keep": [
+      "verifyOriginalRuntimeTarget",
+      "verifyOriginalBattleUiInputs",
+      "all 26 p0 beforeSha checks",
+      "complete source SHA256 and Git blob checks",
+      "null/absence declarations",
+      "cross-path guards",
+      "linked-owner rereads",
+      "historical budgets and native-write proofs"
+    ]
+  },
+  "frozen_tests_no_migration_expected": [
+    "tests/approved-ui-inverse.test.mjs",
+    "tests/approved-node-ui-refactor.test.mjs",
+    "tests/pr323-accepted-source-inverse.test.mjs",
+    "tests/p0-presentation-inverse.test.mjs",
+    "tests/mobile-qa-source-migration.test.mjs",
+    "tests/delivery-source-composition.test.mjs",
+    "tests/deck-browse-source-inverse.test.mjs",
+    "tests/hand-fan-source-inverse.test.mjs",
+    "tests/art-feature-source-inverse.test.mjs",
+    "tests/native-monster-source-inverse.test.mjs",
+    "tests/round3-catalog-source-inverse.test.mjs",
+    "tests/max-hp-accepted-source-inverse.test.mjs",
+    "tests/battle-max-hp-config-inverse.test.mjs",
+    "tests/nodes-battle-max-hp-config-inverse.test.mjs"
+  ],
+  "mixed_tests": [
+    {
+      "path": "tests/task77-current-source-layers.test.mjs",
+      "detail": "Source/hash and mutation cases use historicalTest; plain node:test checks controlsGuide same-run wording, independent of font sizes."
+    },
+    {
+      "path": "tests/final-integration-source.test.mjs",
+      "detail": "Plain node:test but uses layers.historicalGlyphTheme and readHistoricalBaselineSource, so no live theme hash acceptance."
+    },
+    {
+      "path": "tests/presentation-native-m3-contract.test.mjs:167",
+      "detail": "Frozen exact theme projection plus a narrow live comparison of black_star/lizard_tail mappings; retain unchanged icon/source assertions."
+    },
+    {
+      "path": "tests/presentation-m3-integration.test.mjs",
+      "detail": "Historical native-write/source cases are historicalTest. Archive mutation/announcement tests remain immutable."
+    },
+    {
+      "path": "tests/formal-campaign-entry.test.mjs",
+      "detail": "Historical source-proof cases are historicalTest; current launch/run behavior tests must continue using real production sources."
+    }
+  ],
+  "live_visual_expectations_to_review": [
+    {
+      "path": "tests/native-ui-theme.test.mjs:54",
+      "detail": "Fixture sets body=20 and expects title/hp/resource font==body (lines61,62,119); if new semantic hud/label tokens intentionally own these, alter fixture to make those tokens distinct and assert correct chosen token. Keep host battle/map object composition, target regions, visibility and readonly behavior."
+    },
+    {
+      "path": "tests/ui-capacity.test.mjs:21",
+      "detail": "energy==40 and intent.numberSize==15 are current visual expectations; update only if this slice intentionally changes them. Keep native integer >=14 validation, low-input clamping floor, fractional/NaN rejection and 60-child platform boundary."
+    },
+    {
+      "path": "tests/node-ui-layout.test.mjs:123",
+      "detail": "Keep >=lineHeight and minFontSize==minimum guards, maintain overlap tests. If larger typography needs extra rows, expand boxes rather than deleting checks."
+    },
+    {
+      "path": "tests/map-ui-layout.test.mjs:85",
+      "detail": "notice.height==40 is live geometry expectation; update if intentionally enlarged. Keep viewport/scroll/route rules unless authorized geometry actually changes."
+    },
+    {
+      "path": "tests/node-ui-layout.test.mjs:223",
+      "detail": "pageCharacters*fontSize+16<=width must remain; decrease page capacity or enlarge box to accommodate new font."
+    },
+    {
+      "path": "tests/ui-layout.test.mjs:247",
+      "detail": "Label font==theme.font.small may need a new semantic token assertion if deliberately remapped."
+    }
+  ],
+  "conditional_new_layer_recipe": [
+    "First classify failing case: real live acceptance, frozen historical case, or live-to-history materializer. Do not project current UI acceptance tests.",
+    "Use git show 2d06741de47f2a65eb2772705e33064c16ccdce3:<path> as before bytes; enumerate only actual changed theme/JS/Lua text-box paths. Bind exact new whole-source LF SHA256 plus beforeSource/beforeSha256 (and Git blob if following delivery pattern); independently hash manifest bytes.",
+    "New helper should return previous bytes only for matching path plus exact after identity. For null, unregistered, partial, duplicated, appended or wrong-path source return input unchanged so existing strict inner guards reject. Prior exact historical witnesses remain accepted by their existing owner.",
+    "If a historical materializer truly reads live, project only its source-reader boundary and linked-owner readers before existing require/inner inverse. Do not patch archived helper bodies; do not change old fixtures or golden hashes. Keep isolated destination, alias checks and validate-all-before-write behavior.",
+    "Relevant reader seams, only if evidenced necessary: tests/helpers/mobile-qa-source-inverse.mjs readBeforeMobileQaSource/materializeBeforeMobileQa; tests/helpers/p0-presentation-inverse.mjs materializeHistoricalPresentation; tests/helpers/delivery-source-composition.mjs verifiedDeliverySources/materializeBeforeDelivery. These currently have historical callers, so do not change speculatively.",
+    "Add bounded contract coverage for live after->baseline, CRLF normalization, exact old witness, appended/partial/duplicate/cross-path/missing source, unrelated pass-through and linked-owner drift. Keep new current typography acceptance tests against actual source without inverse."
+  ],
+  "must_not_change": [
+    "tests/fixtures/approved-ui-latest-to-53fa.json and hash 39f651e8ec7a3037947d1a76123c2d03a521dd4a05168565f80f7222590ec89a",
+    "tests/fixtures/p0-accepted-presentation-inverses.json.gz and hash 6f74bc575b24e5c830119e0309b0311017cbeba5ad5cc6d1fdcc44f69a27e164",
+    "tests/fixtures/pr323-accepted-source-inverse.json and hash dea381bb8e2167ab13e01115f91f4b90dc42757b27627968d0549008a3ab8a03",
+    "tests/fixtures/pr323-historical-fixtures.json.gz original source archive and source/Git manifests",
+    "docs/reviews/mobile-qa-source-migration-20261028.json.gz and hash a8fd441e705c5c2d9f03ec8a6ef8d4a36b89bcc8192699ff79b2f66dc10610a2",
+    "docs/reviews/m3-announcement-retirement-sources-20261028.json.gz and original native-write counts/scenarios",
+    "source gameplay rules, event/campaign behavior, prototype copy, map routes, official artwork/background ownership, control lifecycle/readonly input assertions"
+  ],
+  "validation_limitations": "Static inspection only; no runtime tests or related plan executed by this auditor. Actual author changes were not stable at inspection (only new mobile-typography.test.mjs then untracked); exact required visual expectation updates depend on final delta.",
+  "repository_mutations": "None. Existing Backlog dirty files were read in git status only and left untouched."
+}
