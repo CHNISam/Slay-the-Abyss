@@ -27,10 +27,17 @@ local function tap(box,id)
     return hit.click({touchId=id})
 end
 local function preview(h,root,id)
-    assert(h:openMenu());assert(tap(root:GetChild('runMenu'):GetChild('map'),id))
-    assert(h.routeOpen and root:GetChild('mapPanel').visible)
-    assert(tap(root:GetChild('mapPanel'):GetChild('previewBack'),id+1))
-    assert(tap(root:GetChild('runMenu'):GetChild('resume'),id+2))
+    assert(h:openMenu())
+    if h.mode=='map' then
+        assert(not root:GetChild('runMenu'):GetChild('map').visible)
+        assert(not tap(root:GetChild('runMenu'):GetChild('map'),id))
+        assert(tap(root:GetChild('runMenu'):GetChild('resume'),id+2))
+    else
+        assert(tap(root:GetChild('runMenu'):GetChild('map'),id))
+        assert(h.routeOpen and root:GetChild('mapPanel').visible)
+        assert(tap(root:GetChild('mapPanel'):GetChild('previewBack'),id+1))
+        assert(not h.exitOpen and not h.menuOpen and not h.routeOpen)
+    end
 end
 test('route preview cannot bury pending gold return before the next room',function()
     local h,_,_,_,click=H.setup()
