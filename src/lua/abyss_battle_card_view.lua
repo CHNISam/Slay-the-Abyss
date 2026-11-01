@@ -293,6 +293,24 @@ function M.new(view, controls)
         return playable
     end
 
+    -- Only the drawn reading frame is constrained; targeting and release still
+    -- use the untouched pointer. Cost/title native lines extend past the body.
+    local function readableDragPosition(x, y, scale)
+        local card = L.card
+        local w, h, d = card.size[1], card.size[2], card.costDisc
+        local cx = -w/2+d/2-card.trim.costOverhang
+        local cy = h/2-d/2+card.trim.costOverhang
+        local radius = math.max(d+card.trim.costRing,L.nativeText.lineHeight)/2
+        local tx, ty = card.title.position[1], card.title.position[2]
+        local titleH = math.max(card.nameBand,L.nativeText.lineHeight)/2
+        local left = math.min(-w/2,cx-radius,tx-card.title.width/2)*scale
+        local right = math.max(w/2,cx+radius,tx+card.title.width/2)*scale
+        local bottom = math.min(-h/2,cy-radius,ty-titleH)*scale
+        local top = math.max(h/2,cy+radius,ty+titleH)*scale
+        local sx, sy = Theme.canvas.base[1]/2-Theme.canvas.safe.x, Theme.canvas.base[2]/2-Theme.canvas.safe.y
+        return math.max(-sx-left,math.min(sx-right,x)), math.max(-sy-bottom,math.min(sy-top,y))
+    end
+
     local function placeDraggedCard(box, g, aiming)
         local x, y = dragPose(g)
         local h = L.card.size[2] * D.scale
@@ -304,10 +322,11 @@ function M.new(view, controls)
             -- card has snapped onto an unrelated card in the middle of the hand.
             x, y = g.origin[1], math.max(floor,(g.touchScreen and 260 or 126)*g.sourceScale-Theme.canvas.base[2]/2)
         end
-        box:SetAnchoredPosition(x, y)
         local entry=handPoses[g.uid]
         local prev=entry and entry.current
         local scale=prev and prev.scale and lerpSnap(prev.scale,D.scale,1/60,7.5,0.003) or D.scale
+        x,y=readableDragPosition(x,y,scale)
+        box:SetAnchoredPosition(x, y)
         box:SetLocalScale(scale, scale, 1)
         box.localRotationZ = 0
         if entry then entry.current={x=x,y=y,scale=scale,angle=0} end
