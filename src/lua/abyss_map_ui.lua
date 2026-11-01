@@ -181,7 +181,6 @@ function M.new(root, map, onChoose, clickEvent, options)
         observedNodeId = view and view.currentNodeId, observedFloor = view and view.floor }
     local drag, released, pointerObserved, scrollAnimation
     local buttonHover, buttonPress
-    local focusHeld,focusReleased,focusObserved,focusGeneration=nil,nil,false,0
     local function cancelSelection()
         if drag then drag.selection = nil end
         released = nil
@@ -191,7 +190,6 @@ function M.new(root, map, onChoose, clickEvent, options)
         cancelSelection()
         drag = nil
         scrollAnimation, buttonHover, buttonPress = nil, nil, nil
-        focusHeld,focusReleased=nil,nil;focusGeneration=focusGeneration+1
     end
     local controlCache = {}
     local function at(name)
@@ -240,18 +238,19 @@ function M.new(root, map, onChoose, clickEvent, options)
         end,controllerContextReady,name:match("^node") and tonumber(name:match("%d+")) or 100)
     end
     local function buttonEnabled(name)
-        return self.visible and chapterFor(self.map) ~= nil and (name == "focus" or name == "previous" and self.scroll > 0
+        return self.visible and chapterFor(self.map) ~= nil and (name == "previous" and self.scroll > 0
             or name == "next" and self.scroll < Layout.maxScroll)
     end
     local function paintButton(name)
         local box, enabled = at(name), buttonEnabled(name)
         local pressed = enabled and buttonPress and buttonPress.name == name
         local hover = enabled and buttonHover == name and not pressed
-        -- Explicit focus is also the pointer recovery action after a lost release.
-        -- Paging hints remain controller-only; direct route panning is unchanged.
-        box:SetVisible(name=='focus' or Controller.isController(options.controller))
-        child(box,"hit"):SetVisible(enabled)
-        child(box,"hit").canControllerFocus = enabled
+        -- Source map uses scrolling and recenters when reopened; controller-only
+        -- paging remains a platform adapter, never a touch/mouse overlay.
+        local controllerVisible = Controller.isController(options.controller)
+        box:SetVisible(controllerVisible)
+        child(box,"hit"):SetVisible(enabled and controllerVisible)
+        child(box,"hit").canControllerFocus = enabled and controllerVisible
         tint(child(box,"frame"), not enabled and Theme.color.line
             or (pressed or hover) and Theme.color.goldBright or Theme.color.goldDim)
         tint(child(box,"body"), pressed and Theme.color.goldDim
@@ -320,7 +319,7 @@ function M.new(root, map, onChoose, clickEvent, options)
             at("notice"):SetVisible(true)
             for i = 1, Layout.maxNodes do at("node" .. i):SetVisible(false) end
             for i = 1, Layout.maxEdges do at("edge" .. i):SetVisible(false) end
-            for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
+            for _, name in ipairs({"previous","next"}) do paintButton(name) end
             return
         end
         local current, nodes, taken = mapView(self.map), {}, {}
@@ -352,7 +351,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         end
         at('notice'):SetVisible(at('notice').text~='')
         buttonHover, buttonPress = nil, nil
-        for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
+        for _, name in ipairs({"previous","next"}) do paintButton(name) end
         local edge = 0
         for _, node in ipairs(current.nodes) do for _, id in ipairs(node.nextIds) do
             edge = edge + 1
@@ -428,7 +427,7 @@ function M.new(root, map, onChoose, clickEvent, options)
     function self.resize(_, width, height)
         if not finite(width) or not finite(height) or width <= 0 or height <= 0 then return false, "invalid_canvas" end
         cancelDrag()
-        for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
+        for _, name in ipairs({"previous","next"}) do paintButton(name) end
         self.canvasWidth, self.canvasHeight = width, height
         if embedded then self.scale = 1 return true end
         local scale = math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
@@ -443,7 +442,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         local usingController = Controller.isController(options.controller)
         if self.usingController ~= usingController then
             self.usingController = usingController
-            for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
+            for _, name in ipairs({"previous","next"}) do paintButton(name) end
         end
         if not chapterFor(self.map) or self.map ~= self.observedMap or not sameContext(self.map,self.observedContext) then
             self:render()
@@ -695,28 +694,11 @@ function M.new(root, map, onChoose, clickEvent, options)
     end
     bind("previous", function() return step("previous",-Layout.scrollStep) end)
     bind("next", function() return step("next",Layout.scrollStep) end)
-    local function focusCurrent(event,fromController)
-        if not buttonEnabled('focus') then return false,'map_hidden' end
-        local token=focusReleased;focusHeld,focusReleased=nil,nil
-        if not fromController and pointerInput and (focusObserved or touch(event)~=nil) then
-            if not token or token.touch~=touch(event) or token.generation~=focusGeneration
-                or token.map~=self.map or token.floor~=self.map.floor or token.node~=self.map.currentNodeId
-                or not controllerContextReady() then return false,'stale_gesture' end
-        end
-        -- Explicit user intent retires ownership even if the target is unchanged.
-        cancelDrag()
-        return self:focusCurrent(true)
-    end
-    bind('focus',focusCurrent)
     -- Reuse existing faces and documented events; no extra controls or timers.
-    for _, key in ipairs({"previous","next","focus"}) do
+    for _, key in ipairs({"previous","next"}) do
         local name, hit = key, child(at(key),"hit")
         local function listen(event,callback) if event then hit:AddCursorEventListener(event,callback) end end
         local function clear(event,terminal)
-            if name=='focus' and terminal then
-                local token=focusHeld or focusReleased
-                if not event or token and token.touch==touch(event) then focusHeld,focusReleased=nil,nil end
-            end
             if buttonPress and buttonPress.name == name and (terminal or touch(event) == buttonPress.touch) then buttonPress = nil end
             if buttonHover == name then buttonHover = nil end
             paintButton(name)
@@ -725,21 +707,9 @@ function M.new(root, map, onChoose, clickEvent, options)
             if buttonEnabled(name) and touch(event) == nil then buttonHover = name paintButton(name) end
         end)
         listen(cursor and cursor.CursorDown,function(event)
-            if name=='focus' and pointerInput then
-                focusObserved=true
-                if focusHeld and focusHeld.touch~=touch(event) then return end
-                focusReleased=nil
-                if buttonEnabled(name) and not focusHeld then
-                    focusHeld={generation=focusGeneration,map=self.map,floor=self.map.floor,node=self.map.currentNodeId,touch=touch(event)}
-                end
-            end
             if buttonEnabled(name) then buttonPress = {name=name,touch=touch(event)} paintButton(name) end
         end)
         listen(cursor and cursor.CursorUp,function(event)
-            if name=='focus' then
-                focusReleased=focusHeld and focusHeld.touch==touch(event) and focusHeld or nil
-                focusHeld=nil
-            end
             clear(event)
         end)
         listen(cursor and cursor.CursorExit,function(event) clear(event,true) end)
