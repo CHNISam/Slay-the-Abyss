@@ -1,0 +1,15 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@1.0.0 check:test-strength
+> node scripts/check-test-strength.mjs
+
+M1: killed_by_assertion (5010ms)
+M2: killed_by_assertion (3364ms)
+M3: killed_by_assertion (3371ms)
+M4: killed_by_assertion (5410ms)
+Mutation evidence: build/test-strength/a0472951-c086-46f2-949c-e05f801c0bc5/report.json
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

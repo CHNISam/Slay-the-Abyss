@@ -1,0 +1,18 @@
+REWARD_SIZE_MODULE repeated=300 sizeWrites=0
+ok 300 unchanged renders retain geometry and omit all six size writes
+ok ordinary expanded ordinary preserves approved geometry and row order
+ok width and height changes each repaint independently
+ok A B A ownership and fresh same-name handles repaint
+ok partially applied false clears old successful cache on every target
+ok partially applied throw clears old successful cache on every target
+ok ownerless calls invalidate tracked handles but never cache their own writes
+ok ownerless partial false invalidates the former owner promise
+ok ownerless partial throw invalidates the former owner promise
+FAIL expired native handles still reject repeated same dimensions: /tmp/m4-reward-size/tests/lua/reward_size_cache.lua:103: cache swallowed dead-object validation
+Lua fixture tests/lua/reward_size_cache.lua: 247 ms
+/tmp/m4-reward-size/tests/lua/reward_size_cache.lua:109: 1 reward size regressions failed
+stack traceback:
+	[JS]: in function 'assert'
+	/tmp/m4-reward-size/tests/lua/reward_size_cache.lua:109: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk

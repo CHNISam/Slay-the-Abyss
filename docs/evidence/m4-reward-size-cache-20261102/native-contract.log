@@ -1,0 +1,22 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@1.0.0 check:native-ui-contract
+> node --test --test-concurrency=1 tests/native-startup-contract.test.mjs tests/ui-mock-contract.test.mjs
+
+✔ generated host starts under native capability guards and rejects the escaped startup write (2442.12047ms)
+✔ real UI mock factories share public argument contracts and preserve scene isolation (1198.066449ms)
+✔ native grid destruction invalidates handles and deck consumers survive refresh and viewport churn (4065.327843ms)
+✔ native lifecycle gate detects removal of the production dead-item guard (1962.662039ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9978.580423
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

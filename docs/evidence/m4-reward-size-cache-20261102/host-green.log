@@ -1,0 +1,5 @@
+ABYSS_RUN seed=1 source=explicit
+REWARD_SIZE_HOST hidden repeated renders=3 writes=0
+REWARD_SIZE_HOST actual reward animation update=1 writes=0
+REWARD_SIZE_HOST_PASS
+Lua fixture tests/lua/reward_size_host.lua: 3137 ms

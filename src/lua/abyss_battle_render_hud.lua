@@ -27,6 +27,7 @@ end
 -- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, _ownership, host, dependencies)
     local R = L.rewardPick
+    local rewardSizeOwner = {}
     local function renderStartControls(frame)
         local run = frame.run
         dependencies.show("start", not owner.busy and not host.options.embedded and (not run or run.phase == "defeat"))
@@ -47,7 +48,7 @@ function M.install(owner, _ownership, host, dependencies)
             frame.manual and L.battleRewards.continue[2] or -S.xxl * 3)
     end
     local function renderRewardRows(frame)
-        RewardLayout.render(frame,dependencies.child)
+        RewardLayout.render(frame,dependencies.child,rewardSizeOwner)
     end
     local function renderRelicRewards(frame)
         local run=frame.run

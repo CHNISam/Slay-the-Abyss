@@ -1,0 +1,10 @@
+ABYSS_RUN seed=1 source=explicit
+REWARD_SIZE_HOST hidden repeated renders=3 writes=18
+REWARD_SIZE_HOST actual reward animation update=1 writes=6
+/tmp/m4-reward-size/tests/lua/reward_size_host.lua:61: stable reward dimensions were redundantly submitted by real Host
+stack traceback:
+	[JS]: in function 'assert'
+	/tmp/m4-reward-size/tests/lua/reward_size_host.lua:61: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk
+Lua fixture tests/lua/reward_size_host.lua: 2730 ms

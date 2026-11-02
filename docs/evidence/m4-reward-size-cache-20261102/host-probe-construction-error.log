@@ -1,0 +1,14 @@
+/tmp/m4-reward-size/tests/lua/reward_size_host.lua:10: attempt to index a string value (local 'c')
+stack traceback:
+	/tmp/m4-reward-size/tests/lua/reward_size_host.lua:10: in upvalue 'watch'
+	/tmp/m4-reward-size/tests/lua/reward_size_host.lua:14: in function 'abyss_battle_reward_layout.render'
+	./src/lua/abyss_battle_render_hud.lua:50: in field 'renderRewardRows'
+	./src/lua/abyss_battle_render.lua:15: in method 'render'
+	./src/lua/abyss_battle_actions.lua:31: in field 'refresh'
+	./src/lua/abyss_battle_ui.lua:357: in function 'abyss_battle_ui.new'
+	./src/lua/abyss_game_ui.lua:69: in function 'abyss_game_ui.new'
+	tests/lua/support/game_ui_fixture.lua:173: in field 'fixture'
+	/tmp/m4-reward-size/tests/lua/reward_size_host.lua:17: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk
+Lua fixture tests/lua/reward_size_host.lua: 1296 ms
