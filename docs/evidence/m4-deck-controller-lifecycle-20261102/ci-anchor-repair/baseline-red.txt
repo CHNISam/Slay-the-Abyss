@@ -1,0 +1,29 @@
+✔ retained deck consumers survive native control destruction without broad error suppression (4557.872601ms)
+✖ removing the native alive boundary reproduces the original destroyed-control error (1.653271ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4729.999451
+
+✖ failing tests:
+
+test at tests/pr323-deck-lifecycle.test.mjs:10:1
+✖ removing the native alive boundary reproduces the original destroyed-control error (1.653271ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  1 !== 2
+
+      at TestContext.<anonymous> (file:///workspace/scratch/c1a4970a76e0/deck-controller-lifecycle/tests/pr323-deck-lifecycle.test.mjs:16:9)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

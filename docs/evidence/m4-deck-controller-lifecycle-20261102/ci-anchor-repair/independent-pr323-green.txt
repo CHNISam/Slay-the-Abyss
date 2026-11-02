@@ -1,0 +1,10 @@
+✔ retained deck consumers survive native control destruction without broad error suppression (4539.52386ms)
+✔ removing the native alive boundary reproduces the original destroyed-control error (2175.854905ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6898.91139

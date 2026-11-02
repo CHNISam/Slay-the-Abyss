@@ -1,0 +1,14 @@
+UTC rerun: 2026-11-02T06:48:48Z
+cwd: /workspace/scratch/c1a4970a76e0/recovered-repo
+origin/develop: 6354f6328fd6b2b7c53a758dd9e470948d21efc1
+worktree HEAD (not used as source): 0b9c9b848d916212111f6cb608cbfe0f53f7c2ac
+node: v24.22.1
+command: NODE_PATH="$PWD/node_modules" node /workspace/scratch/c1a4970a76e0/deck-controller-leak-probe/probe.cjs
+input blob src/lua/abyss_controller.lua: 76faa7f7b40b0aae3eb82cfba2bd347eedaa3966
+input SHA256 src/lua/abyss_controller.lua: bfa156d81cbb4be11b5cdf6f5568051c46e2eacd724fa01b2d827736e6ddf482  -
+input blob src/lua/abyss_deck_ui.lua: 112001858783a530096fa04313713cd5270d5f48
+input SHA256 src/lua/abyss_deck_ui.lua: 67f6775a31627fb15dab995368b47dc900324d601c497371a30d33fee7066a24  -
+probe SHA256: 0ea1e2f0131a377e200be75ed639012a971ce5492dae72510dd9d77e0272eec2  /workspace/scratch/c1a4970a76e0/deck-controller-leak-probe/probe.cjs
+repository status before:
+exit code: 0
+repository status after:

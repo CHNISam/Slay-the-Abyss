@@ -64,9 +64,11 @@ function M.new(root, presentation, clickEvent, platform, onClose)
     end
     local grid = assert(root:GetChild("grid"), "missing deck grid")
     local function liveFaces(fn)
-        for control in pairs(self.bindings)do
-            if control.alive==false then self.bindings[control]=nil
-            else fn(control:GetChild('face')) end
+        for control,binding in pairs(self.bindings)do
+            if control.alive==false then
+                Controller.unbind(platform.controller,binding.hit,true)
+                self.bindings[control]=nil
+            elseif fn then fn(control:GetChild('face')) end
         end
     end
     local details,detailHit=root:GetChild('details'),root:GetChild('detailHit')
@@ -237,7 +239,8 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         local hit=control:GetChild('hit')
         hit:SetVisible(true)
         if not self.bindings[control] then
-            self.bindings[control]={}
+            -- Keep the hit handle: GetChild is invalid once native Grid retires its item.
+            self.bindings[control]={hit=hit}
             local function pick()
                 local b=self.bindings[control]
                 if control.alive==false or not b then return false end
@@ -314,6 +317,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
             self.indexBase,self.pending=index,true
             fill(control,cards[1],catalog)
         end)
+        liveFaces()
     end
     local function changeBrowse()
         projectCards()
@@ -398,7 +402,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         return self:open(run,nil,nil,kind)
     end
     function self.update(_, dt)
-        if not self.visible then return end
+        if not self.visible then liveFaces();return end
         local mode=platform.controllerApi and platform.controllerApi.isController() or false
         if self.controllerMode~=mode then
             self.controllerMode=mode;self.controllerPage=1
@@ -415,7 +419,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
                     or name=='next' and (self.controllerPage or 1)<pages;hit.raycastTarget=hit.interactable end
             end
         end
-        if self.detailPages then return end
+        if self.detailPages then liveFaces();return end
         liveFaces(function(face)CardSkin.tick(face,dt or 0)end)
         if not self.pending then return end
         self.pending, self.calibrating = false, false
@@ -431,6 +435,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
             local instance = cards[index - base + 1]
             if instance then fill(control, instance, catalog) else CardDisplay.clearNativeArt(control:GetChild('face'));control:SetVisible(false) end
         end)
+        liveFaces()
     end
     function self.controllerStep(_,delta)
         if not self.visible or not self.controllerMode or self.detailPages or self.calibrating then return false end
@@ -454,6 +459,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         details:SetVisible(false);detailHit:SetVisible(false)
         root:SetVisible(false);liveFaces(CardDisplay.clearNativeArt)
         grid:RefreshItems(0, function() end)
+        liveFaces()
         return true
     end
     local previewHit=upgradePreview:GetChild('hit')

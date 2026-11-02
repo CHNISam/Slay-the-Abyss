@@ -1,0 +1,10 @@
+...roller-lifecycle/tests/lua/deck_controller_lifecycle.lua:34: assertion failed!
+stack traceback:
+	[JS]: in function 'assert'
+	...roller-lifecycle/tests/lua/deck_controller_lifecycle.lua:34: in upvalue 'setup'
+	...roller-lifecycle/tests/lua/deck_controller_lifecycle.lua:71: in local 'fn'
+	...roller-lifecycle/tests/lua/deck_controller_lifecycle.lua:68: in local 'test'
+	...roller-lifecycle/tests/lua/deck_controller_lifecycle.lua:70: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk
+Lua fixture tests/lua/deck_controller_lifecycle.lua: 1333 ms

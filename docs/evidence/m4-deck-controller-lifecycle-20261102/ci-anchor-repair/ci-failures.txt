@@ -1,0 +1,41 @@
+Job 125140342274
+URL https://github.com/CHNISam/Slay-the-Abyss/actions/runs/41403452862/job/125140342274
+Raw log SHA256 079fd3e2e832bba0a288300580126344b4fa371e466f9dc5a18af75cd3873dec
+2026-11-02T07:16:40.9513346Z test at tests\pr323-deck-lifecycle.test.mjs:10:1
+2026-11-02T07:16:40.9514716Z ✖ removing the native alive boundary reproduces the original destroyed-control error (1.8011ms)
+2026-11-02T07:16:40.9516060Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+2026-11-02T07:16:40.9517182Z
+2026-11-02T07:16:40.9517643Z   1 !== 2
+2026-11-02T07:16:40.9518049Z
+2026-11-02T07:16:40.9519368Z       at TestContext.<anonymous> (file:///D:/a/Slay-the-Abyss/Slay-the-Abyss/tests/pr323-deck-lifecycle.test.mjs:16:9)
+2026-11-02T07:16:40.9520673Z       at async Test.run (node:internal/test_runner/test:1332:7)
+2026-11-02T07:16:40.9521772Z       at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+2026-11-02T07:16:40.9522642Z     generatedMessage: true,
+2026-11-02T07:16:40.9523207Z     code: 'ERR_ASSERTION',
+2026-11-02T07:16:40.9523708Z     actual: 1,
+2026-11-02T07:16:40.9524148Z     expected: 2,
+2026-11-02T07:16:40.9524661Z     operator: 'strictEqual',
+2026-11-02T07:16:40.9525178Z     diff: 'simple'
+2026-11-02T07:16:40.9525657Z   }
+2026-11-02T07:16:40.9997084Z ##[error]Process completed with exit code 1.
+
+Job 125140342283
+URL https://github.com/CHNISam/Slay-the-Abyss/actions/runs/41403452862/job/125140342283
+Raw log SHA256 f679cd63f027d1574ccfab41c8c7066e0f991152ed4de541537425b089aa724b
+2026-11-02T07:17:05.0782667Z test at tests/pr323-deck-lifecycle.test.mjs:10:1
+2026-11-02T07:17:05.0783316Z ✖ removing the native alive boundary reproduces the original destroyed-control error (2.156927ms)
+2026-11-02T07:17:05.0783964Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+2026-11-02T07:17:05.0784317Z
+2026-11-02T07:17:05.0784516Z   1 !== 2
+2026-11-02T07:17:05.0784921Z
+2026-11-02T07:17:05.0785792Z       at TestContext.<anonymous> (file:///home/runner/work/Slay-the-Abyss/Slay-the-Abyss/tests/pr323-deck-lifecycle.test.mjs:16:9)
+2026-11-02T07:17:05.0786615Z       at async Test.run (node:internal/test_runner/test:1332:7)
+2026-11-02T07:17:05.0787105Z       at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+2026-11-02T07:17:05.0787506Z     generatedMessage: true,
+2026-11-02T07:17:05.0787755Z     code: 'ERR_ASSERTION',
+2026-11-02T07:17:05.0787981Z     actual: 1,
+2026-11-02T07:17:05.0788188Z     expected: 2,
+2026-11-02T07:17:05.0788403Z     operator: 'strictEqual',
+2026-11-02T07:17:05.0788632Z     diff: 'simple'
+2026-11-02T07:17:05.0788835Z   }
+2026-11-02T07:17:05.1057127Z ##[error]Process completed with exit code 1.

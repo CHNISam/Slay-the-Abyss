@@ -1,0 +1,53 @@
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+GRID_LIFECYCLE_CONTRACT_PASS 3
+Lua fixture tests/lua/grid_lifecycle_contract.lua: 4294 ms
+ABYSS_RUN seed=1 source=explicit
+PASS first open survives calibration item destruction on the next updates
+ABYSS_RUN seed=1 source=explicit
+PASS scroll recycling and close never inspect retired grid items
+ABYSS_RUN seed=1 source=explicit
+PASS relic text view survives the grid items retired by its entry path
+ABYSS_RUN seed=1 source=explicit
+PASS delayed item click cannot act after item destruction
+DECK_ITEM_LIFECYCLE_PASS 4
+Lua fixture tests/lua/deck_item_lifecycle.lua: 6548 ms
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+DECK_SCROLL_DETAIL_PASS native-drag click rejection, release displacement, tap, readonly scroll ownership
+Lua fixture tests/lua/deck_scroll_detail.lua: 4526 ms
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+ok pile view 1 - draw and exhaust views sort copies by source rarity and status last without revealing draw order
+ABYSS_RUN seed=1 source=explicit
+ok pile view 2 - discard view keeps group order and Frozen Eye permits the original reversed draw copy
+ABYSS_RUN seed=1 source=explicit
+ok pile view 3 - combat pile faces retain temporary cost and growth while permanent deck remains unchanged
+ABYSS_RUN seed=1 source=explicit
+ok pile view 4 - empty piles open and invalid contexts cannot replace a visible snapshot
+LUA_DECK_PILE_VIEW_PASS 4
+Lua fixture tests/lua/deck_pile_view.lua: 17536 ms
+ABYSS_RUN seed=1 source=explicit
+ok deck browse 1 - permanent card views filter and sort copies, retaining stable UIDs and run state
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+ok deck browse 2 - printed X and unplayable costs and equal keys follow original ordering without state changes
+ABYSS_RUN seed=1 source=explicit
+ok deck browse 3 - empty categories, stale callbacks and text detail pages cannot leak interactions
+ABYSS_RUN seed=1 source=explicit
+ok deck browse 4 - combat pile filters preserve the existing hidden-order semantics and never re-order the actual pile
+ok deck browse 5 - character preview lists the starter deck by type without filters and never starts a run
+DECK_BROWSE_FILTER_PASS 5
+Lua fixture tests/lua/deck_browse_filters.lua: 10793 ms
+controller: default, wrap, repeat, modal, restore, disabled, hidden, device switch and shutdown passed
+Lua fixture tests/lua/controller.lua: 183 ms
+ABYSS_RUN seed=1 source=explicit
+controller current: ownerless title, source carry cancel, stale pointer and right-click passed
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=6
+controller current: dynamic enemy screen-slot/core-index targeting passed
+ABYSS_RUN seed=1 source=explicit
+controller current: stale map focus cannot enter a replacement context
+Lua fixture tests/lua/controller_current.lua: 6942 ms

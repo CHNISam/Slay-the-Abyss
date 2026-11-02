@@ -5,13 +5,14 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-31 23:38'
-updated_date: '2026-11-02 03:57'
+updated_date: '2026-11-02 07:21'
 labels: []
 milestone: m-5
 dependencies: []
 references:
   - docs/backlog-details/TASK-4.21.md
   - docs/evidence/mobile-readability-20261101/
+  - docs/evidence/m4-deck-controller-lifecycle-20261102/
 parent_task_id: TASK-4
 priority: medium
 type: bug
@@ -42,6 +43,8 @@ ordinal: 136000
 2026-11-02 非视觉性能小切片：先在真实Host和奖励布局模块计数复现隐藏/稳定奖励区重复尺寸提交；仅为六处SetSizeDelta添加成功写入缓存，按原生对象和控制器所有权隔离，写前撤销旧值，false/throw后重试，失效对象仍走原生检查。覆盖普通与expanded切换、换对象与换owner，保持位置、可见性、布局、动效、按钮和run/RNG不变；保留负控及计数，独立复审后交付，实体手机性能AC仍未验。
 
 2026-11-02 fresh单槽药水查询：拒绝跨hover和跨native渲染间隔复用frame缓存，不引全模型revision改造；将原药水row构造抽为共用helper，完整potionView保持原槽序与候选规则，仅popup每次open/render/act改为fresh单槽查询，实际使用前完整重验不变。覆盖全药水parity、非法/空/第五槽、后续合法目标、busy、原地状态改变、真实Host重入与使用；按465合入后的最新develop组合TASK81输入路径切片，保留全部历史证据和未验实机AC。
+
+2026-11-02 牌库注册生命周期小切片：先用真实 DeckUI/Controller 与原生 Grid 销毁语义复现记录累积；只对确认销毁的牌面保存 hit 并调用现有 Controller.unbind，覆盖关闭后的及时释放及存活复用。新增重复开关、翻页/过滤/排序、刷新销毁/回收、原生失效、键鼠/手柄和旧回调回归；先红后绿、定向检查及独审，不改设计/Controller 架构，不推断手机性能，AC3 保持未验。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -54,4 +57,8 @@ ordinal: 136000
 2026-11-02 非视觉尺寸提交切片：真实Host复现隐藏奖励区3次render尺寸18→0、真实奖励按钮打开picker后入场1次update尺寸6→0；模块首帧后300次重复尺寸1800→0。仅六目标SetSizeDelta成功写缓存与无回指controller token接线，位置/可见性/行序/动效/业务不改。十组边界、三负控、真实Host完整run/RNG及九按钮字段不变、五项相邻Lua通过；固定hash Luacheck恢复后quality/architecture/static、四关键变异、四原生合同及syntax/backlog/diff通过。证据docs/evidence/m4-reward-size-cache-20261102/。独立复审通过，待最终提交绑定与托管完整CI；未push/合并，无实机性能结论，AC3及任务状态保持。
 
 2026-11-02 PR465已合develop de5607ba8edc0701c2545a587c85aefd499281b4，原尺寸切片记录保留。本次fresh单槽查询不使用缓存、不简化任何药水候选规则：三药水真实Host单render候选模拟6→4，完整run/RNG不变；34定义parity、槽位/目标/状态边界、无refresh旧Use拒绝及恢复真实Use通过。原生setter中注入公开Run.play的合成重入证明旧frame缓存不安全；组合465后注入改同节点SetAnchoredPosition并显式断言执行，旧frame-cache负控仍被原fresh断言杀死。独立切片及组合定向验证、负控、工程门禁证据见docs/evidence/m4-potion-slot-view-20261102/；现线性集成base为de5607，集成内容提交ad7820030efc78ae2ae5c64e3d2b087a3466621c与历史827ca09源码/测试逐字一致。新PR精确SHA完整CI仍待验；未做手机或官方客户端测试，不把离线计数当手机性能结论，AC3未勾、任务状态不变。
+
+2026-11-02 牌库注册生命周期：真实 DeckUI/Controller 与共享原生 Grid 销毁夹具复现关闭一次 records 27（基线14）而回归先红；仅保存原 hit，确认 item 死亡后复用 unbind，刷新后及隐藏/详情 update 回收，不解绑存活复用对象。修后12牌重复1/10/20次关闭均14条、零死亡注册，300次非手柄 sync 扫描82200→4200；7组生命周期/旧输入/选牌/真实Host完整run与RNG、原生合同6项含两负控、相邻7 Lua入口、布局6项、工程/架构/静态/语法及4关键变异通过。证据 docs/evidence/m4-deck-controller-lifecycle-20261102/；独审与精确SHA完整CI另验。无手机FPS/加载结论、无官方导入/实机，AC3及任务状态不变；本轮只本地交付，未推送/开PR/合并。
+
+2026-11-02 PR471完整CI在Windows9/POSIX6实际失败：pr323-deck-lifecycle第二负控仍匹配旧单行清理，唯一锚断言1≠2；不是基础设施豁免。仅适配该入口两行锚点/变异字符串，保留单锚、非零及GetChild invalid-object断言；生产、Lua回归和冻结历史fixture未改。作者原失败复现及ui-mock5项通过，独审pr323两项通过；全树搜索无其他可执行旧锚，原始失败和回归记录见同证据目录ci-anchor-repair。修复后精确SHA完整CI仍须重新验证，AC3与任务状态不变。
 <!-- SECTION:NOTES:END -->

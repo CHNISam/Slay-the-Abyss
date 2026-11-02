@@ -1,0 +1,13 @@
+✔ real UI mock factories share public argument contracts and preserve scene isolation (1055.429411ms)
+✔ native grid destruction invalidates handles and deck consumers survive refresh and viewport churn (4059.013165ms)
+✔ native lifecycle gate detects removal of the production dead-item guard (2129.45747ms)
+✔ deck lifecycle releases Controller records while retaining live reused bindings (7386.081024ms)
+✔ native lifecycle gate detects missing Controller retirement (1282.077078ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16087.086662

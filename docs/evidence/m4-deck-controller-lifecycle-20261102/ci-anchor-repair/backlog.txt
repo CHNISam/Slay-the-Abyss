@@ -1,0 +1,6 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@1.0.0 verify:backlog
+> node scripts/verify-backlog-roadmap.mjs
+
+任务编号、首发排期、负责人及仅岩系旅行者前两幕规划范围检查通过；当前任务均有优先级、未完成High不超过5项；不认证运行时准入、平台或实机。

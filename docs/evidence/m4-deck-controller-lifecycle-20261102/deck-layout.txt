@@ -1,0 +1,14 @@
+✔ approved deck uses a six-column vertical native scroller and a read-only reusable card template (86.660231ms)
+✔ deck overlay and close remain inside approved canvas safe areas at every device scale (29.990045ms)
+✔ deck filters fit beside the normal title without covering the native grid or close button (22.308237ms)
+✔ controller overlays isolate nearest-control navigation and deck pages leave the card viewport clear (17.686322ms)
+✔ upgrade preview is an explicit native button outside the text paging hit (24.144906ms)
+✔ original Chinese sort labels fit in every state without truncation at all reported sizes (19.39334ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 326.796032
