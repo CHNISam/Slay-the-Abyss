@@ -312,7 +312,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         pointerClick=function(event)
             return not services.consumeReleasedDragClick(event) and not self.suppressClick and not self.gesture
         end,
-        item=function(slot)return Run.potionView(self.run)[slot]end,
+        item=function(slot)return Run.potionSlotView(self.run,slot)end,
         text=function(item,battle)return potionText(item,battle,true):match("\n(.*)") or ''end,
         use=function(slot)return self:usePotion(slot)end,
         discard=function(slot)

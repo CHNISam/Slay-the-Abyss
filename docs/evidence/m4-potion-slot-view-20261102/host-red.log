@@ -1,0 +1,13 @@
+ABYSS_RUN seed=1 source=explicit
+POTION_POPUP_SLOT_VIEW three-bottle single render candidatePrepares=6
+ABYSS_FEEDBACK block source=player target=player amount=12
+ABYSS_FEEDBACK potion source=- target=- amount=0
+ABYSS_RUN seed=1 source=explicit
+POTION_POPUP_SLOT_VIEW reentrant public command fresh reason=unsupported_potion_during_selection
+/tmp/m4-potion-popup/tests/lua/potion_popup_slot_view.lua:56: popup simulated unselected inventory slots
+stack traceback:
+	[JS]: in function 'assert'
+	/tmp/m4-potion-popup/tests/lua/potion_popup_slot_view.lua:56: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk
+Lua fixture tests/lua/potion_popup_slot_view.lua: 6986 ms

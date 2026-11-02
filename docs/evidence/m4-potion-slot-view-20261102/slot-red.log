@@ -1,0 +1,7 @@
+/tmp/m4-potion-popup/tests/lua/potion_slot_view.lua:3: fresh single-slot potion API missing
+stack traceback:
+	[JS]: in function 'assert'
+	/tmp/m4-potion-popup/tests/lua/potion_slot_view.lua:3: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk
+Lua fixture tests/lua/potion_slot_view.lua: 410 ms

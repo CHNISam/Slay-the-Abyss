@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-31 23:38'
-updated_date: '2026-11-02 02:25'
+updated_date: '2026-11-02 03:57'
 labels: []
 milestone: m-5
 dependencies: []
@@ -40,6 +40,8 @@ ordinal: 136000
 2026-11-01 M4独立切片：基于4f42212重新计数覆盖页往返。显式区分同战斗覆盖暂停与默认卸载，仅保留暂停actor容器，隐藏并停止输入/动画；粒子输出仍释放。换战斗、死亡、结算、禁用及失败恢复保持原清理合同。新增真实Host负控、10轮创建销毁计数、run/RNG/旧输入与重复恢复回归；设备性能不作结论。
 
 2026-11-02 非视觉性能小切片：先在真实Host和奖励布局模块计数复现隐藏/稳定奖励区重复尺寸提交；仅为六处SetSizeDelta添加成功写入缓存，按原生对象和控制器所有权隔离，写前撤销旧值，false/throw后重试，失效对象仍走原生检查。覆盖普通与expanded切换、换对象与换owner，保持位置、可见性、布局、动效、按钮和run/RNG不变；保留负控及计数，独立复审后交付，实体手机性能AC仍未验。
+
+2026-11-02 fresh单槽药水查询：拒绝跨hover和跨native渲染间隔复用frame缓存，不引全模型revision改造；将原药水row构造抽为共用helper，完整potionView保持原槽序与候选规则，仅popup每次open/render/act改为fresh单槽查询，实际使用前完整重验不变。覆盖全药水parity、非法/空/第五槽、后续合法目标、busy、原地状态改变、真实Host重入与使用；按465合入后的最新develop组合TASK81输入路径切片，保留全部历史证据和未验实机AC。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -50,4 +52,6 @@ ordinal: 136000
 2026-11-01 M4覆盖暂停切片：4f42212同battle菜单/地图10轮actor创建/销毁10/10→0/0，模板mock控件350→0。显式临时暂停保留容器，默认false仍卸载；新Host回归验证完整run/RNG/事件不变、旧输入、暂停、换battle、死亡/终态、settle、失败清理及恢复，既有粒子/死亡/菜单/原生生命周期和工程门禁通过。证据docs/evidence/m4-overlay-suspend-20261101/；完整精确SHA CI与独审另验，原生美术关闭计数不能外推其成本，实体手机AC3仍未验。
 
 2026-11-02 非视觉尺寸提交切片：真实Host复现隐藏奖励区3次render尺寸18→0、真实奖励按钮打开picker后入场1次update尺寸6→0；模块首帧后300次重复尺寸1800→0。仅六目标SetSizeDelta成功写缓存与无回指controller token接线，位置/可见性/行序/动效/业务不改。十组边界、三负控、真实Host完整run/RNG及九按钮字段不变、五项相邻Lua通过；固定hash Luacheck恢复后quality/architecture/static、四关键变异、四原生合同及syntax/backlog/diff通过。证据docs/evidence/m4-reward-size-cache-20261102/。独立复审通过，待最终提交绑定与托管完整CI；未push/合并，无实机性能结论，AC3及任务状态保持。
+
+2026-11-02 PR465已合develop de5607ba8edc0701c2545a587c85aefd499281b4，原尺寸切片记录保留。本次fresh单槽查询不使用缓存、不简化任何药水候选规则：三药水真实Host单render候选模拟6→4，完整run/RNG不变；34定义parity、槽位/目标/状态边界、无refresh旧Use拒绝及恢复真实Use通过。原生setter中注入公开Run.play的合成重入证明旧frame缓存不安全；组合465后注入改同节点SetAnchoredPosition并显式断言执行，旧frame-cache负控仍被原fresh断言杀死。独立切片及组合定向验证、负控、工程门禁证据见docs/evidence/m4-potion-slot-view-20261102/；现线性集成base为de5607，集成内容提交ad7820030efc78ae2ae5c64e3d2b087a3466621c与历史827ca09源码/测试逐字一致。新PR精确SHA完整CI仍待验；未做手机或官方客户端测试，不把离线计数当手机性能结论，AC3未勾、任务状态不变。
 <!-- SECTION:NOTES:END -->

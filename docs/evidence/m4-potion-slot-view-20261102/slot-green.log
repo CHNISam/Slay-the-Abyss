@@ -1,0 +1,4 @@
+POTION_SLOT_VIEW parity all registered potions=34
+POTION_SLOT_VIEW_PASS full/slot parity; sparse/invalid; detached; fresh states
+POTION_SLOT_VIEW_PASS expanded capacity/outside/later legal target
+Lua fixture tests/lua/potion_slot_view.lua: 15066 ms

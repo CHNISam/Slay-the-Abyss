@@ -176,20 +176,27 @@ function M.install(Run, shared)
         return candidate, reason
     end
 
+    local function potionRow(run, slot)
+        local id = run.potions[slot]
+        if not id then return nil end
+        local potion = find(run.data.potions.potions, id)
+        local needTarget = potion and potion.targetPolicy == "enemy_one" or false
+        local candidate, reason = potionAvailability(run, slot, needTarget)
+        return { slot = slot, id = id, name = potion and potion.name or id,
+            targetPolicy = potion and potion.targetPolicy,
+            effects = potion and Combat.copy(potion.effects) or {}, needTarget = needTarget,
+            canUse = candidate ~= nil, canDiscard=not potionEventRestricted(run), reason = reason }
+    end
+
+    -- Fresh selected-slot description; no cached eligibility or skipped effect rules.
+    function Run.potionSlotView(run, slot)
+        if type(slot) ~= "number" or slot % 1 ~= 0 or slot < 1 or slot > Run.potionCapacity(run) then return nil end
+        return potionRow(run, slot)
+    end
+
     function Run.potionView(run)
         local result = {}
-        for slot = 1, Run.potionCapacity(run) do
-            local id = run.potions[slot]
-            if id then
-                local potion = find(run.data.potions.potions, id)
-                local needTarget = potion and potion.targetPolicy == "enemy_one" or false
-        local candidate, reason = potionAvailability(run, slot, needTarget)
-                result[slot] = { slot = slot, id = id, name = potion and potion.name or id,
-                    targetPolicy = potion and potion.targetPolicy,
-                    effects = potion and Combat.copy(potion.effects) or {}, needTarget = needTarget,
-                    canUse = candidate ~= nil, canDiscard=not potionEventRestricted(run), reason = reason }
-            end
-        end
+        for slot = 1, Run.potionCapacity(run) do result[slot] = potionRow(run, slot) end
         return result
     end
 

@@ -1,0 +1,8 @@
+ABYSS_RUN seed=1 source=explicit
+POTION_POPUP_SLOT_VIEW three-bottle single render candidatePrepares=4
+ABYSS_FEEDBACK block source=player target=player amount=12
+ABYSS_FEEDBACK potion source=- target=- amount=0
+ABYSS_RUN seed=1 source=explicit
+POTION_POPUP_SLOT_VIEW reentrant public command fresh reason=unsupported_potion_during_selection
+POTION_POPUP_SLOT_VIEW_PASS readonly/reentry/changed-state-use/valid-use
+Lua fixture tests/lua/potion_popup_slot_view.lua: 6737 ms

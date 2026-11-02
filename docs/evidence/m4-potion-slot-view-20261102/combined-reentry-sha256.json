@@ -1,0 +1,9 @@
+{
+  "base": "653151ba306b831cf11239e3bbc6ca28936952c2",
+  "productionRestoredByteEqual": true,
+  "files": {
+    "src/lua/abyss_battle_render.lua": "6ab3653f406287abd50cfd6773410fff2c9a64b238810390ee3fce509881daba",
+    "src/lua/abyss_battle_potion_popup.lua": "705397ad7afc3246e7c533932cef7cd63436535676087b0e4fdd51dd1e7c24cd",
+    "tests/lua/potion_popup_slot_view.lua": "dc89a0ed7d76357ae9d668d2416f7b9c36e76de80c71cafbd1af6aee0732a46d"
+  }
+}

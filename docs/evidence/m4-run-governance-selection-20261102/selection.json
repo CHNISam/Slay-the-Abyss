@@ -1,0 +1,150 @@
+[
+  {
+    "path": "src/lua/abyss_run.lua",
+    "beforeFull": false,
+    "afterFull": false,
+    "fast": {
+      "removed": [],
+      "added": []
+    },
+    "integration": {
+      "removed": [],
+      "added": [
+        "tests/run-governance.test.mjs"
+      ]
+    },
+    "lua": {
+      "removed": [],
+      "added": []
+    }
+  },
+  {
+    "path": "src/lua/abyss_run_initialization.lua",
+    "beforeFull": false,
+    "afterFull": false,
+    "fast": {
+      "removed": [],
+      "added": []
+    },
+    "integration": {
+      "removed": [],
+      "added": [
+        "tests/run-governance.test.mjs"
+      ]
+    },
+    "lua": {
+      "removed": [],
+      "added": []
+    }
+  },
+  {
+    "path": "src/lua/abyss_run_transition.lua",
+    "beforeFull": false,
+    "afterFull": false,
+    "fast": {
+      "removed": [],
+      "added": []
+    },
+    "integration": {
+      "removed": [],
+      "added": [
+        "tests/run-governance.test.mjs"
+      ]
+    },
+    "lua": {
+      "removed": [],
+      "added": []
+    }
+  },
+  {
+    "path": "src/lua/abyss_run_rooms.lua",
+    "beforeFull": false,
+    "afterFull": false,
+    "fast": {
+      "removed": [],
+      "added": []
+    },
+    "integration": {
+      "removed": [],
+      "added": [
+        "tests/run-governance.test.mjs"
+      ]
+    },
+    "lua": {
+      "removed": [],
+      "added": []
+    }
+  },
+  {
+    "path": "src/lua/abyss_run_settlement.lua",
+    "beforeFull": false,
+    "afterFull": false,
+    "fast": {
+      "removed": [],
+      "added": []
+    },
+    "integration": {
+      "removed": [],
+      "added": [
+        "tests/run-governance.test.mjs"
+      ]
+    },
+    "lua": {
+      "removed": [],
+      "added": []
+    }
+  },
+  {
+    "path": "src/lua/abyss_run_potions.lua",
+    "beforeFull": false,
+    "afterFull": false,
+    "fast": {
+      "removed": [],
+      "added": []
+    },
+    "integration": {
+      "removed": [],
+      "added": [
+        "tests/run-governance.test.mjs"
+      ]
+    },
+    "lua": {
+      "removed": [],
+      "added": []
+    }
+  },
+  {
+    "path": "scripts/evidence-files.mjs",
+    "beforeFull": false,
+    "afterFull": false,
+    "fast": {
+      "removed": [],
+      "added": []
+    },
+    "integration": {
+      "removed": [],
+      "added": []
+    },
+    "lua": {
+      "removed": [],
+      "added": []
+    }
+  },
+  {
+    "path": "src/lua/unknown.lua",
+    "beforeFull": true,
+    "afterFull": true,
+    "fast": {
+      "removed": [],
+      "added": []
+    },
+    "integration": {
+      "removed": [],
+      "added": []
+    },
+    "lua": {
+      "removed": [],
+      "added": []
+    }
+  }
+]

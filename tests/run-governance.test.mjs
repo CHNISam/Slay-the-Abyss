@@ -232,10 +232,13 @@ test('Run public method names and named parameters preserve the pre-refactor con
   }
   for(const value of Object.values(node))if(Array.isArray(value))value.forEach(visit);else if(value&&typeof value==='object')visit(value);
  }
- const helpers=['initialization','transition','rooms','settlement','potions'].map(name=>'abyss_run_'+name+'.lua');
+ // Explicit read inputs also let related-test selection see every API owner.
+ const inputs=['src/lua/abyss_run.lua','src/lua/abyss_run_initialization.lua',
+  'src/lua/abyss_run_transition.lua','src/lua/abyss_run_rooms.lua',
+  'src/lua/abyss_run_settlement.lua','src/lua/abyss_run_potions.lua'];
  // Inspect today's real API directly. These explicit event additions extend
  // the old contract; #412 adds the read-only resultScore(run) query.
  // Every original method/parameter remains exact.
- for(const file of ['abyss_run.lua',...helpers])visit(luaparse.parse(readFileSync('src/lua/'+file,'utf8'),{luaVersion:'5.3'}));
- assert.deepEqual(actual,{...expected,prepareCardCopy:['run','uid'],obtainCardCopy:['run','uid'],loseRelic:['run','id'],resultScore:['run']});
+ for(const file of inputs)visit(luaparse.parse(readFileSync(file,'utf8'),{luaVersion:'5.3'}));
+ assert.deepEqual(actual,{...expected,prepareCardCopy:['run','uid'],obtainCardCopy:['run','uid'],loseRelic:['run','id'],resultScore:['run'],potionSlotView:['run','slot']});
 });
