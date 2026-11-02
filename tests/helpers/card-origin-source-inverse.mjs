@@ -1,3 +1,4 @@
+import {preCompendiumSource} from './compendium-source-inverse.mjs';
 // Test-only outer projection of the reviewed card-origin integration. Historical
 // archives and their complete-byte guards remain unchanged.
 import assert from 'node:assert/strict';
@@ -7,6 +8,7 @@ import {architectureSourceFormat} from './architecture-source-format.mjs';
 const hash=source=>createHash('sha256').update(source).digest('hex');
 const read=path=>readFileSync(new URL('../../'+path,import.meta.url),'utf8').replaceAll('\r\n','\n');
 export function preCardOriginSource(path,source){
+ source=preCompendiumSource(path,source);
  if(typeof source!=='string')return source;
  const normalized=source.replaceAll('\r\n','\n');
  let current=normalized,previous;
@@ -15,7 +17,7 @@ export function preCardOriginSource(path,source){
    const {formatted,tokensEqual}=architectureSourceFormat(path,normalized);
    if(!tokensEqual||hash(formatted)!=='7f0385acac614f8235eeb0775f3926d19e8c48df0003fe69211fb14c2d334ebb')return source;
   }catch{return source;}
-  current=read(path);
+  current=preCompendiumSource(path,read(path));
   if(hash(current)!=='8c6e10716cb4ba38d49f9164d6349e8eb2a80ca13b6c364f69181a056b7bfdbf')return source;
   assert.equal(hash(read('src/lua/abyss_card_origin_view.lua')),'10ffbb328bf0660568f0e79bf439c93a61a44f739c5f1078ffc82a89ee96a285','reviewed card origin view');
   previous=current.replace('    "abyss_card_origin": "core",\n    "abyss_card_origin_view": "ui",\n','');

@@ -29,6 +29,10 @@ function M.new(root, data, presentation, clickEvent, platform)
     local neowHistory=NeowHistory.new(platform.readNeowHistory)
     local endingHistory=EndingHistory.new({read=platform.readEndingHistory,write=platform.writeEndingHistory})
     local controller = Controller.new(platform.controllerApi,root)
+    -- Read-only Production data service; no navigation or eager catalogue build.
+    function self.productionCompendium(_)
+        return require('abyss_compendium_catalog').new(data,presentation)
+    end
     self.controller = controller
     platform.controller = controller
     local newSeed = platform.newSeed or function() return require("abyss_new_run_seed").next() end

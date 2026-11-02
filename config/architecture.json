@@ -1,5 +1,7 @@
 {
   "layers": {
+    "abyss_compendium_catalog": "ui",
+    "abyss_relic_text": "core",
     "abyss_card_origin": "core",
     "abyss_card_origin_view": "ui",
     "abyss_run_score": "core",
