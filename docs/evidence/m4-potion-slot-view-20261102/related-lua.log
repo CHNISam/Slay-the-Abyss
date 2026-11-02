@@ -1,0 +1,33 @@
+ok potion_slots 1 - consuming middle bottle leaves its empty slot and neighbors in place
+ok potion_slots 2 - view and commands retain slot three after slot one is consumed
+ok potion_slots 3 - obtaining fills the leftmost empty slot and full inventory refuses atomically
+ok potion_slots 4 - refilling a consumed middle slot does not move or replace other bottles
+ok potion_slots 5 - invalid target and non-player turn never move or consume sparse inventory
+ok potion_slots 6 - last-enemy fire kill and defeat preserve untouched slot identity
+LUA_POTION_SLOTS_PASS 6
+Lua fixture tests/lua/potion_slots.lua: 10546 ms
+ABYSS_RUN seed=1 source=explicit
+PASS old enemy confirmation is atomic without a render after dead
+ABYSS_RUN seed=1 source=explicit
+PASS old enemy confirmation is atomic without a render after replaced
+ABYSS_RUN seed=1 source=explicit
+PASS old enemy confirmation is atomic without a render after reordered
+ABYSS_RUN seed=1 source=explicit
+PASS old enemy confirmation is atomic without a render after refilled
+ABYSS_RUN seed=1 source=explicit
+PASS old enemy confirmation is atomic without a render after turn
+ABYSS_RUN seed=1 source=explicit
+PASS old enemy confirmation is atomic without a render after phase
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS cancel then fresh aim cannot inherit the old released enemy confirmation
+LUA_POTION_TARGET_REJECTION 7 passed; 0 failed
+Lua fixture tests/lua/potion_target_rejection.lua: 11294 ms
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK potion source=- target=- amount=0
+APPROVED_MAIN_HOST_POTIONS_PASS hidden-global/scope/back/use/map
+Lua fixture tests/lua/approved_main_host_potions.lua: 3814 ms
+ABYSS_RUN seed=1 source=explicit
+POTION_POPUP_READABILITY_PASS
+Lua fixture tests/lua/potion_popup_readability.lua: 9655 ms

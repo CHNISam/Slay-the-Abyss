@@ -1,0 +1,12 @@
+ABYSS_RUN seed=1 source=explicit
+POTION_POPUP_SLOT_VIEW three-bottle single render candidatePrepares=3
+ABYSS_FEEDBACK block source=player target=player amount=12
+ABYSS_FEEDBACK potion source=- target=- amount=0
+ABYSS_RUN seed=1 source=explicit
+Lua fixture tests/lua/potion_popup_slot_view.lua: 6193 ms
+...on-query-governance/tests/lua/potion_popup_slot_view.lua:61: popup reused a pre-reentry view
+stack traceback:
+	[JS]: in function 'assert'
+	...on-query-governance/tests/lua/potion_popup_slot_view.lua:61: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk

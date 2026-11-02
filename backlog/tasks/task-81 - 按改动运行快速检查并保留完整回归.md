@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 15:30'
-updated_date: '2026-10-30 16:53'
+updated_date: '2026-11-02 02:53'
 labels: []
 dependencies: []
 priority: medium
@@ -49,6 +49,8 @@ PR332已复现Silent自然构筑夹具在Windows原30000ms超时；仅诊断并�
 2026-10-29 Agent B：分析a5da67aa及真实PR Full回退，最小改善影响选择，补正反例，保留高风险与未知依赖Full及失败传播；精确PR SHA绿灯后才合并。Fast百分位样本不足只报告观测。
 
 2026-10-30系统治理：最新98fef95d隔离树；统一本地/PR advisory反馈并保留Full门禁，实测代表改动与失败传播；主控集中构建和重验证，四个Sol medium分工边界明确，完成独立审查和正常精确SHA合并。
+
+2026-11-02：基于develop 6aa3cf90只修Run公开API治理测试的相关选测漏边。把测试现有Run主模块及五职责模块输入改为完整显式路径，复用选择器字面量依赖分析，不引入通用动态JS求值；保留全部原断言、integration分类、核心Full回退和预算。先证参数漂移负控，再验六输入命中、无关输入不扩大及未知输入Full；独立审查后等在途PR释放，不先推送。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -89,4 +91,8 @@ e22本地重放验证：相对basename参考与短模式原生CLI对当前360个
 2026-10-29 B独立切片：只修正Fast估算为max(Windows完整选集总和,Linux完整选集总和)，保留全部选集、Lua/未知权重和180秒阈值；详见docs/backlog-details/TASK-81-fast-platform-budget.md。真实40866923323/40861929035的Backlog未知/核心回退继续Full；无自然Fast转换样本，不宣称目标达成。聚焦先红3/4证明旧算法回退，后续98/98通过且扩充影响计划失败传播负例；固定CI Node24.18验证待补。保持In Progress/性能AC未勾。
 
 2026-10-31本轮治理：本地fast与自动PR advisory共用JS/Lua选择器，直接Lua夹具优先，未知依赖显式延期并保留完整验收。正式UI子模块按架构分类，不扩大180秒全选集预算。真实render_actors样本首结果3.853s、总74.833s发现旧固定enemy路径失败；保留失败，不当成功/完整覆盖。独立复审补齐历史runner六入口漏边。自然Fast样本及P50/P90仍不足，AC保持未完成。
+
+2026-11-02 私有选测切片：已证Run主模块与五职责模块改动漏选公开API治理测试。只把治理测试实际读取路径显式化，选择器/分类/阈值不动；真实六选集各仅增加该integration测试，fast/Lua及原全部选集不减，无关选集不变、未知仍Full。参数名漂移真实负控在旧/新测试均被原断言拒绝；新选测合同先红后绿。106项定向测试通过、0skip，Backlog通过。详见docs/evidence/m4-run-governance-selection-20261102/；独立审查和其余检查待收口。不是fast覆盖修复或CI整体提速，未推送/合并，原性能AC不勾。
+
+本切片补验：Backlog doctor、verify:backlog、check:syntax和diff检查通过。独立review_governance_selection两项定向及六组真实选集/未知与删除/数据及共享基础设施Full核验PASS、无阻断；仅修related，integration543→544且fast9/Lua1277不变。源码测试切片就绪，待根按在途PR节奏集成与精确HEAD完整CI；父任务状态和AC全部保持。
 <!-- SECTION:NOTES:END -->

@@ -239,6 +239,32 @@ for (const name of ['map', 'nodes']) {
   });
 }
 
+test('Run API governance keeps explicit source dependencies in related integration coverage', () => {
+  const governance = 'tests/run-governance.test.mjs';
+  const modules = ['abyss_run', 'abyss_run_initialization', 'abyss_run_transition',
+    'abyss_run_rooms', 'abyss_run_settlement', 'abyss_run_potions'].map(name => `src/lua/${name}.lua`);
+  // Use the real consumer, with inert modules to isolate its six read edges from
+  // the production Run graph. No extra test-side registration supplies an edge.
+  const input = {
+    [governance]: readFileSync(governance, 'utf8'),
+    ...Object.fromEntries(modules.map(path => [path, 'return {}'])),
+    'scripts/unrelated.mjs': 'export const value = 1',
+    'tests/unrelated.test.mjs': 'import {value} from "../scripts/unrelated.mjs"',
+  };
+  for (const path of modules) {
+    const plan = selectTests([path], input);
+    assert.equal(plan.full, false, path);
+    assert.deepEqual(plan.integration, [governance], path);
+    assert.deepEqual(plan.fast, [], 'Lua dependencies retain the existing integration classification');
+    assert.deepEqual(plan.lua, []);
+  }
+  const unrelated = selectTests(['scripts/unrelated.mjs'], input);
+  assert.equal(unrelated.full, false);
+  assert.deepEqual(unrelated.fast, ['tests/unrelated.test.mjs']);
+  assert.deepEqual(unrelated.integration, []);
+  assert.equal(selectTests(['src/lua/unknown.lua'], input).full, true);
+});
+
 const generatedSources = {
   ...luaSources,
   'scripts/node-ui-layout.mjs': 'export const nodeLayout = () => ({})',

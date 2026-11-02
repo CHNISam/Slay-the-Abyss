@@ -1,0 +1,9 @@
+Lua fixture tests/lua/potion_slot_view.lua: 1742 ms
+/tmp/m4-potion-popup/tests/lua/potion_slot_view.lua:6: view value mismatch
+stack traceback:
+	[JS]: in function 'assert'
+	/tmp/m4-potion-popup/tests/lua/potion_slot_view.lua:6: in upvalue 'same'
+	/tmp/m4-potion-popup/tests/lua/potion_slot_view.lua:7: in local 'same'
+	/tmp/m4-potion-popup/tests/lua/potion_slot_view.lua:28: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk
