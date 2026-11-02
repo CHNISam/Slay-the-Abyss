@@ -1,0 +1,1 @@
+Usage: test-lua.mjs [script.lua] [--shard i/n] [--workers 1|2]

@@ -1,0 +1,86 @@
+ok stable map rooms submit each size once; scale changes repaint
+ok map rejected setter retries same dimensions
+ok idle intent avoids repeated text and image writes without readback
+ok new native objects and controller binding repaint; image source change repaints
+ok rejected image and throwing text writes retry
+ok partially applied image false revokes the previous successful promise
+ok partially applied image throw revokes the previous successful promise
+ok partially applied throwing text replacement revokes the old text promise
+ok cached native handles still pass through dead-object guards
+ABYSS_RUN seed=1 source=explicit
+ok production image adapter retries rejected native setter
+Lua fixture tests/lua/mobile_render_write_cache.lua: 2102 ms
+PASS victory offers gold; only the independent gold row grants it once
+PASS Proceed preserves every remaining item for return and never auto-claims
+PASS full belt is atomic and Sozu consumes the clicked offer without obtaining a bottle
+PASS failed room entry preserves pending rewards; successful combat and node entry expire them
+ABYSS_RUN seed=1 source=explicit
+PASS generated tree renders list then picker; PC selection returns to list without other claims
+ABYSS_RUN seed=1 source=explicit
+PASS Skip only closes the picker and allows the same unclaimed cards to reopen
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+PASS held and released inputs from earlier picker pages cannot claim after reopening
+ABYSS_RUN seed=1 source=explicit
+PASS generated full-belt rejection remains visible and list continue permits map return
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=2 source=explicit
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=2 source=explicit
+PASS map return held and released inputs expire across overlays and replacement runs
+PASS a failed staged next-combat setup retains original pending rewards and map identity
+LUA_REWARD_FLOW_PARITY 10 passed; 0 failed
+Lua fixture tests/lua/reward_flow_parity.lua: 14642 ms
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK action_wait source=- target=- amount=0
+ABYSS_FEEDBACK damage source=player target=acid_slime_s_1 amount=10
+ABYSS_FEEDBACK death source=- target=acid_slime_s_1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+PASS list rows and card picker have separate readable stages
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK action_wait source=- target=- amount=0
+ABYSS_FEEDBACK damage source=player target=acid_slime_s_1 amount=10
+ABYSS_FEEDBACK death source=- target=acid_slime_s_1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK action_wait source=- target=- amount=0
+ABYSS_FEEDBACK damage source=player target=acid_slime_s_1 amount=10
+ABYSS_FEEDBACK death source=- target=acid_slime_s_1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK action_wait source=- target=- amount=0
+ABYSS_FEEDBACK damage source=player target=acid_slime_s_1 amount=10
+ABYSS_FEEDBACK death source=- target=acid_slime_s_1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK action_wait source=- target=- amount=0
+ABYSS_FEEDBACK damage source=player target=acid_slime_s_1 amount=10
+ABYSS_FEEDBACK death source=- target=acid_slime_s_1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+PASS normal entrance and hover updates do not swallow fresh card or action gestures
+LOOTER_REWARD_STAGE 2 passed; 0 failed
+Lua fixture tests/lua/looter_reward_stage.lua: 7026 ms
+ABYSS_RUN seed=42 source=explicit
+ABYSS_POWER_ICON_MISSING regenerate_monster using labelled unknown placeholder
+PASS emerald UI 1
+ABYSS_RUN seed=42 source=explicit
+ABYSS_POWER_ICON_MISSING regenerate_monster using labelled unknown placeholder
+PASS emerald UI 2
+ABYSS_RUN seed=42 source=explicit
+ABYSS_POWER_ICON_MISSING regenerate_monster using labelled unknown placeholder
+PASS emerald UI 3
+EMERALD_KEY_UI 3 groups; 0 failed; native/natural NOT_RUN
+Lua fixture tests/lua/emerald_key_ui.lua: 6732 ms
+UI_STABLE_MENU_WRITES frames=60 calls=0 glow=60 mote=0
+UI_STABLE_VISIBLE_VISTA_WRITES frames=60 glow=60 mote=60
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=2 source=explicit
+ABYSS_RUN seed=1 source=explicit
+UI_STABLE_STAGE_WRITES frames=60 calls=0
+LUA_UI_STABLE_WRITES_PASS
+Lua fixture tests/lua/ui_stable_writes.lua: 3733 ms
