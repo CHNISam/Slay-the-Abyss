@@ -60,3 +60,11 @@ node scripts/test-lua.mjs build/deck-retention-baseline.lua
 已验证生产源 SHA256：DeckUI `e652f6c95c74a34072da49f6019e2915aa9c81b97d54300fca2d8a2fe997e908`；未改的 Controller `bfa156d81cbb4be11b5cdf6f5568051c46e2eacd724fa01b2d827736e6ddf482`。
 
 任务仅以 Backlog CLI 追加计划、笔记和证据引用；保持 In Progress、Furinya 与未勾 AC3。没有 GIL/导入/ready/实体手机证据，不宣称手机性能已修好。
+
+## PR471 完整CI发现的第二负控锚点遗漏（07:20 UTC）
+
+上述首次本地交付后，集成者已推送并创建 PR471。其 [Quality 41403452862](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/41403452862) 在 Windows rules9 与 POSIX6 真实失败：`tests/pr323-deck-lifecycle.test.mjs:16` 仍用旧单行清理语句作为锚点，`split` 实际1、预期2，尚未执行后续变异。原失败摘要与完整原日志hash保存在 `ci-anchor-repair/ci-failures.txt`，不当作基础设施故障或通过记录。
+
+修复仅该JS入口的两行 anchor/replacement，分别改为 `if control.alive==false then` / `if false then`；唯一锚、非零退出、`GetChild.*invalid object` 断言均原样保留。生产、Lua测试及冻结历史fixture零改动；全树搜索唯一余下旧串位于冻结 `pr323-accepted-source-inverse.json` 的历史源码，不应改写（`anchor-audit.txt`）。
+
+本轮作者先重现1通过/1失败（`baseline-red.txt`），随后 `node --test --test-concurrency=1 tests/ui-mock-contract.test.mjs` 5项全通过（含新7组生命周期与两个负控）。独立审查 `review_deck_lifecycle_fix` 从单独快照运行 `tests/pr323-deck-lifecycle.test.mjs` 2项全通过，日志保存在 `independent-pr323-green.txt`，受审JS SHA256 `cf8ef6418cfc424d887d49b4ac9f2f4ebbc66e5046007248c0d45b4140826f77`。`node --check`、Backlog和diff检查通过。新SHA完整托管CI由集成者重跑并验收，本次没有自行推送或合并；原失败保留。

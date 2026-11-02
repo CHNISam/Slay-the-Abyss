@@ -1,0 +1,18 @@
+Exact old anchor remaining file matches:
+tests/fixtures/pr323-accepted-source-inverse.json
+
+Executable mutation references:
+tests/pr323-deck-lifecycle.test.mjs:19: writeFileSync(entry,`ABYSS_DECK_LIFECYCLE_MUTANT=${luaString(mutant)}\ndofile('tests/lua/pr323_deck_lifecycle.lua')\n`);
+tests/ui-mock-contract.test.mjs:26: writeFileSync(entry,`ABYSS_DECK_LIFECYCLE_MUTANT=${luaString(mutant)}\ndofile('tests/lua/deck_item_lifecycle.lua')\n`);
+tests/ui-mock-contract.test.mjs:46: writeFileSync(entry,`ABYSS_DECK_CONTROLLER_MUTANT=${luaString(mutant)}\ndofile('tests/lua/deck_controller_lifecycle.lua')\n`);
+tests/lua/pr323_deck_lifecycle.lua:1:if ABYSS_DECK_LIFECYCLE_MUTANT then
+tests/lua/pr323_deck_lifecycle.lua:2: package.loaded.abyss_deck_ui=assert(load(ABYSS_DECK_LIFECYCLE_MUTANT,'@deck_lifetime_mutant'))()
+tests/lua/deck_item_lifecycle.lua:1:if ABYSS_DECK_LIFECYCLE_MUTANT then
+tests/lua/deck_item_lifecycle.lua:2: package.loaded.abyss_deck_ui=assert(load(ABYSS_DECK_LIFECYCLE_MUTANT,'@deck_lifecycle_mutant'))()
+tests/lua/deck_controller_lifecycle.lua:1:if ABYSS_DECK_CONTROLLER_MUTANT then
+tests/lua/deck_controller_lifecycle.lua:2:    package.loaded.abyss_deck_ui=assert(load(ABYSS_DECK_CONTROLLER_MUTANT,'@deck_controller_mutant'))()
+
+Production/Lua/fixture diff vs 14eb95d (must be empty):
+
+Frozen source hash:
+dea381bb8e2167ab13e01115f91f4b90dc42757b27627968d0549008a3ab8a03  tests/fixtures/pr323-accepted-source-inverse.json

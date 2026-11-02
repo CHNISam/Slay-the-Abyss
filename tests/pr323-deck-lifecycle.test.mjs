@@ -12,9 +12,9 @@ test('removing the native alive boundary reproduces the original destroyed-contr
  const {luaString}=await import('../scripts/build-lua-data.mjs');
  const {randomUUID}=await import('node:crypto');
  const source=readFileSync('src/lua/abyss_deck_ui.lua','utf8');
- const anchor='if control.alive==false then self.bindings[control]=nil';
+ const anchor='if control.alive==false then';
  assert.equal(source.split(anchor).length,2);
- const mutant=source.replace(anchor,'if false then self.bindings[control]=nil');
+ const mutant=source.replace(anchor,'if false then');
  const entry=`build/pr323-lifetime-mutant-${randomUUID()}.lua`;
  writeFileSync(entry,`ABYSS_DECK_LIFECYCLE_MUTANT=${luaString(mutant)}\ndofile('tests/lua/pr323_deck_lifecycle.lua')\n`);
  try{

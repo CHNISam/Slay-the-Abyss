@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-31 23:38'
-updated_date: '2026-11-02 06:56'
+updated_date: '2026-11-02 07:21'
 labels: []
 milestone: m-5
 dependencies: []
@@ -59,4 +59,6 @@ ordinal: 136000
 2026-11-02 PR465已合develop de5607ba8edc0701c2545a587c85aefd499281b4，原尺寸切片记录保留。本次fresh单槽查询不使用缓存、不简化任何药水候选规则：三药水真实Host单render候选模拟6→4，完整run/RNG不变；34定义parity、槽位/目标/状态边界、无refresh旧Use拒绝及恢复真实Use通过。原生setter中注入公开Run.play的合成重入证明旧frame缓存不安全；组合465后注入改同节点SetAnchoredPosition并显式断言执行，旧frame-cache负控仍被原fresh断言杀死。独立切片及组合定向验证、负控、工程门禁证据见docs/evidence/m4-potion-slot-view-20261102/；现线性集成base为de5607，集成内容提交ad7820030efc78ae2ae5c64e3d2b087a3466621c与历史827ca09源码/测试逐字一致。新PR精确SHA完整CI仍待验；未做手机或官方客户端测试，不把离线计数当手机性能结论，AC3未勾、任务状态不变。
 
 2026-11-02 牌库注册生命周期：真实 DeckUI/Controller 与共享原生 Grid 销毁夹具复现关闭一次 records 27（基线14）而回归先红；仅保存原 hit，确认 item 死亡后复用 unbind，刷新后及隐藏/详情 update 回收，不解绑存活复用对象。修后12牌重复1/10/20次关闭均14条、零死亡注册，300次非手柄 sync 扫描82200→4200；7组生命周期/旧输入/选牌/真实Host完整run与RNG、原生合同6项含两负控、相邻7 Lua入口、布局6项、工程/架构/静态/语法及4关键变异通过。证据 docs/evidence/m4-deck-controller-lifecycle-20261102/；独审与精确SHA完整CI另验。无手机FPS/加载结论、无官方导入/实机，AC3及任务状态不变；本轮只本地交付，未推送/开PR/合并。
+
+2026-11-02 PR471完整CI在Windows9/POSIX6实际失败：pr323-deck-lifecycle第二负控仍匹配旧单行清理，唯一锚断言1≠2；不是基础设施豁免。仅适配该入口两行锚点/变异字符串，保留单锚、非零及GetChild invalid-object断言；生产、Lua回归和冻结历史fixture未改。作者原失败复现及ui-mock5项通过，独审pr323两项通过；全树搜索无其他可执行旧锚，原始失败和回归记录见同证据目录ci-anchor-repair。修复后精确SHA完整CI仍须重新验证，AC3与任务状态不变。
 <!-- SECTION:NOTES:END -->
