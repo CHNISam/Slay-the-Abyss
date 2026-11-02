@@ -5,7 +5,7 @@ status: To Do
 assignee:
   - Furinya
 created_date: '2026-11-02 02:19'
-updated_date: '2026-11-02 02:58'
+updated_date: '2026-11-02 15:19'
 labels:
   - design
   - technical-spike
@@ -18,6 +18,9 @@ references:
   - backlog/drafts/draft-7 - 验证AI动效工作室流程与千星原生交互标杆.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/423'
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/464#issuecomment-6567661867'
+  - docs/research/design-tool-benchmark/README.md
+  - docs/research/design-tool-benchmark/map-v1-prompt.md
+  - docs/research/design-tool-benchmark/2026-11-02-gemini-flash.md
 priority: medium
 type: spike
 ordinal: 137000
@@ -53,3 +56,11 @@ ordinal: 137000
 - [ ] #10 承接DRAFT-7 AC4：记录原生API、资源及性能边界，模拟器、官方PC和实体安卓证据分别登记；未实机不宣称通过，不用离线性能替代设备结果。
 - [ ] #11 承接DRAFT-7 AC5：交付前后对照、有效Skills/MCP清单和Go/No-Go；正式采用须Owner批准，未经批准不扩大UI重构、不改玩法、默认美术开关或发布候选。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-11-02 用户以同一份地图页提示词对 Google AI Studio Gemini 3.8 Flash 做常规/Max 推理深度 A/B；主观反馈为常规审美一般、Max 更差。原文已归档至 MAP-v1，用户报告与证据空缺详见研究记录。无两份可复核产物、运行时仓库 SHA 或稳定性重复样本；不打数值分，不判断普遍模型能力，不勾 AC，不宣称 Go/No-Go。
+
+后续设计模型/工具评测采用固定提示词版本、项目快照、资源/Skills 读取状态、场景、预览尺寸与等预算等迭代次数，并保留输出和盲评。MAP-v1 含 AI Studio 专用执行指令；Figma Make、OpenDesign 须新建工具中性 MAP-v2 实验组，仅用最小平台适配语句，不把跨组成绩直接相提并论。保留本任务已有原生交互、批评精修、授权和实机验收要求；不干扰 M4 非设计工程。
+<!-- SECTION:NOTES:END -->
