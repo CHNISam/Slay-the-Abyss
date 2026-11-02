@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-11-01 04:03'
+updated_date: '2026-11-02 02:20'
 labels:
   - playtest-20261030
   - p1
@@ -16,6 +16,7 @@ references:
   - docs/backlog-details/PLAYTEST-20261030.md
   - docs/backlog-details/MOBILE-QA-20261029.md
   - docs/backlog-details/TASK-4.16-map-menu-return-20261101.md
+  - backlog/tasks/task-95 - 对照验证美术、交互与动效设计工具.md
 parent_task_id: TASK-4
 priority: medium
 type: enhancement
@@ -53,4 +54,6 @@ Owner反馈：菜单只能点「继续游戏」关闭；未启程时仍显示不
 本轮补齐地图与战斗顶栏生命金币点击提示，复用inspectText。专项两项（含手柄、旧tap、外点、只读）通过。既有菜单退出弃牌选角源码逐项证据见 docs/backlog-details/PLAYTEST-20261030-MENU-SOURCE-AUDIT.md；保留设备未验及意图历史断言失败，不勾AC。
 
 2026-11-01 QA-R2-06：地图模式的菜单入口与命令共用准入并隐藏重复地图；预览返回走既有完整菜单关闭路径，保持exitGeneration递增。真实Host新回归覆盖地图旧room tap、战斗/节点只读及单步返回、旧menu tap、手柄Cancel；专项与相邻菜单回归已通过，详见新附件。原AC1-3和TASK-38设备验收未勾，未做官方导入或手机操作。
+
+2026-11-02最新排期：优先M4非美术、非交互设计工程。新增操作说明信息架构与整体交互方案先取TASK-95对应实验结论；关闭菜单、误导入口、返回层级与触点穿透等已有明确缺陷及QA-R2-06回归继续，不因实验回退或延迟已批准修复。 仅对应新增正式设计切片以实验结论为前置；未来纯设计优化子任务显式依赖TASK-95并引用适用Go结论。本混合任务不新增整任务硬依赖，原状态与AC保留。
 <!-- SECTION:NOTES:END -->
