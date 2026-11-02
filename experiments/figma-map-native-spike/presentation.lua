@@ -24,6 +24,22 @@ function M.viewport(width,height)
  local phone,compact=width<640,width<900;local header=phone and 96 or 76;local side=compact and 60 or 230;local mapWidth=math.max(250,math.min(760,width-2*side))
  return{width=width,height=height,scale=1,phone=phone,compact=compact,header=header,legendWidth=compact and 46 or 178,top=height/2-header,bottom=-height/2,gap=phone and 84 or 100,columnGap=math.max(44,100*math.min(1,(mapWidth-68)/692)),focus=-height*.1}
 end
+-- Pure presentation sampling: fixed independent seeds, never Run RNG.
+local function visualUnit(i,salt)local n=math.sin((i+1)*127.1+salt*311.7)*43758.5453;return n-math.floor(n)end
+function M.emberSample(i,seconds,width,height)
+ local duration=9+14*visualUnit(i,1);local phase=((seconds+20*visualUnit(i,2))/duration)%1
+ return{duration=duration,phase=phase,x=-width/2+width*visualUnit(i,3)+(visualUnit(i,4)-.5)*120*phase,
+  y=-height/2-10+height*1.05*phase,alpha=phase<.1 and phase*9 or 1-phase}
+end
+function M.hudMetrics(hp,maxHp,gold,width,height)
+ -- Native fallback digit advance at 14px; retain reference 6px icon gap and 8px group gap.
+ local cur=string.format('%.0f',hp);local max='/'..string.format('%.0f',maxHp);local money=string.format('%.0f',gold)
+ local curW=#cur*9;local maxW=(#max-1)*9+5;local left=-width/2+20;local hpW=8+17+6+curW+maxW+8+36+12+2
+ local goldLeft=left+hpW+8;local goldW=8+17+6+#money*9+12+2
+ return{hpLeft=left,hpRight=left+hpW,hpWidth=hpW,hpTextLeft=left+8+17+6,current=cur,maximum=max,currentW=curW,maxW=maxW,
+  barLeft=left+8+17+6+curW+maxW+8,goldLeft=goldLeft,goldWidth=goldW,coinRight=goldLeft+8+17,coinTextLeft=goldLeft+8+17+6,
+  money=money,moneyW=#money*9,potionLeft=goldLeft+goldW+8,y=height/2-31}
+end
 -- decorate an existing MapUI instance, not a second map owner or input system.
 function M.attach(ui,root,options)
  local Curve=require('curve');local Map=require('abyss_map');local Layout=require('abyss_map_layout');local Theme=require('abyss_theme')
@@ -43,7 +59,7 @@ function M.attach(ui,root,options)
  local function at(name)if not cache[name]then cache[name]=assert(find(root,name),'missing experimental control '..name)end;return cache[name]end
  local function tint(c,r,g,b,a)c.imageColor=colour(r,g,b,a or 255)end
  local originalRender,originalUpdate=ui.render,ui.update
- local elapsed,filter=0,nil;local visibleIcons={};local movingSegments={};local moveFromId,moveToId;local emberCursor=0;local hovered,hoverSince=nil,0;local nodeMeta={};local legendOpen=true;local menuOpen=false;local canvas;local cameraAt;local shakeId,shakeAt;local pickedId,pickedAt;local tokenFrom,tokenTo,tokenStarted,lastCurrent,tokenOwner;local painted=false;local anim={};local generation
+ local elapsed,filter=0,nil;local visibleIcons={};local movingSegments={};local moveFromId,moveToId;local emberAlpha={};local ambientShown=false;local hovered,hoverSince=nil,0;local nodeMeta={};local legendOpen=true;local menuOpen=false;local canvas;local cameraAt;local shakeId,shakeAt;local pickedId,pickedAt;local tokenFrom,tokenTo,tokenStarted,lastCurrent,tokenOwner;local painted=false;local anim={};local generation
  local types={'combat','elite','event','shop','camp','treasure','boss'}
  local inks={combat={228,105,90},elite={183,155,234},event={140,196,226},shop={127,209,185},camp={255,169,92},treasure={246,223,164},boss={255,90,74}}
  local function position(n)return{x=(n.lane-4)*Theme.layout.map.columnGap,y=Layout.firstY+(n.floor-(ui.map.firstFloor or 1))*Theme.layout.map.floorGap-ui.scroll}end
@@ -136,7 +152,21 @@ function M.attach(ui,root,options)
   at('figmaTitle').text=view.floor<1 and '选择起点' or '第 '..view.floor..' 层'
   at('actTitle').text=(view.act or 1)==1 and '第 一 幕' or '第 二 幕'
   at('notice'):SetAnchoredPosition(0,-(ui.canvasHeight or 900)/2+120)
-  if options.run then local run=options.run();if run then at('figmaHP').text=string.format('%.0f/%.0f',run.hp,run.maxHp);at('figmaGold').text=string.format('%.0f',run.gold or 0);at('figmaDeck').text=tostring(#run.deck);local hpRatio=math.max(0,math.min(1,run.hp/run.maxHp));at('hpAmount'):SetSizeDelta(36*hpRatio,4);at('hpAmount'):SetAnchoredPosition(-(ui.canvasWidth or 1600)/2+134+18*hpRatio,(ui.canvasHeight or 900)/2-31);for i=1,3 do local potion=run.potions and run.potions[i];local icon=at('potion'..i);icon:SetVisible(potion~=nil);if potion then local id=type(potion)=='table'and potion.id or potion;local asset=Theme.icon.potion[id];if type(asset)=='table'then asset=asset.id end;if asset then icon:SetImage(options.imageSource or Enum.ImageSource.StaticReference,asset)end end end
+  if options.run then local run=options.run();if run then
+   local h=M.hudMetrics(run.hp,run.maxHp,run.gold or 0,ui.canvasWidth or 1600,ui.canvasHeight or 900)
+   local function number(name,value,x,w,ink)local c=at(name);c.text='<b>'..value..'</b>';c.fontColor=colour(ink[1],ink[2],ink[3],255);c:SetSizeDelta(w+4,40);c:SetAnchoredPosition(x+w/2,h.y)end
+   number('figmaHP',h.current,h.hpTextLeft,h.currentW,{243,236,221});number('figmaHPMax',h.maximum,h.hpTextLeft+h.currentW,h.maxW,{158,140,114})
+   number('figmaGold',h.money,h.coinTextLeft,h.moneyW,{246,223,164});at('figmaDeck').text='<b>'..tostring(#run.deck)..'</b>'
+   local function pill(key,left,width)
+    for _,kind in ipairs({'Border','Fill'})do local height=kind=='Border'and 35 or 33;local w=kind=='Border'and width or width-2;local x=left+width/2
+     at('pill'..key..kind):SetSizeDelta(w-height,height);at('pill'..key..kind):SetAnchoredPosition(x,h.y)
+     at('pill'..key..kind..'L'):SetAnchoredPosition(x-(w-height)/2,h.y);at('pill'..key..kind..'R'):SetAnchoredPosition(x+(w-height)/2,h.y)
+    end
+   end
+   pill('HP',h.hpLeft,h.hpWidth);pill('Gold',h.goldLeft,h.goldWidth)
+   at('hudHeart'):SetAnchoredPosition(h.hpLeft+8+8.5,h.y);at('hudCoin'):SetAnchoredPosition(h.goldLeft+8+8.5,h.y)
+   local hpRatio=math.max(0,math.min(1,run.hp/run.maxHp));at('hpTrack'):SetAnchoredPosition(h.barLeft+18,h.y);at('hpAmount'):SetSizeDelta(36*hpRatio,4);at('hpAmount'):SetAnchoredPosition(h.barLeft+18*hpRatio,h.y)
+   for i=1,3 do local x=h.potionLeft+17+(i-1)*40;for _,prefix in ipairs({'potionBorder','potionInside','potion'})do at(prefix..i):SetAnchoredPosition(x,h.y)end;local potion=run.potions and run.potions[i];local icon=at('potion'..i);icon:SetVisible(potion~=nil);if potion then local id=type(potion)=='table'and potion.id or potion;local asset=Theme.icon.potion[id];if type(asset)=='table'then asset=asset.id end;if asset then icon:SetImage(options.imageSource or Enum.ImageSource.StaticReference,asset)end end end
   end end
   local counts={};for _,n in ipairs(view.nodes)do counts[n.type]=(counts[n.type]or 0)+1 end;for i,t in ipairs(types)do at('legendCount'..(i-1)).text=tostring(counts[t]or 0)end
   for f=1,17 do local current=f==view.floor;at('floorMark'..f):SetSizeDelta(current and 8 or f%5==0 and 5 or 3.5,current and 8 or f%5==0 and 5 or 3.5);at('floorMarkHole'..f):SetVisible(f>view.floor);at('progressHole'..f):SetVisible(f>view.floor);at('floorCurrentGlow'..f):SetVisible(current);if f==17 then tint(at('progress'..f),255,90,74)end;at('floorLabel'..f):SetVisible(f==1 or f==17 or f%5==0 or f==view.floor);at('floorLabel'..f).fontColor=colour(f==view.floor and 246 or 125,f==view.floor and 223 or 108,f==view.floor and 164 or 85,255);tint(at('progress'..f),f<=view.floor and 246 or 74,f<=view.floor and 223 or 59,f<=view.floor and 164 or 44);tint(at('floorMark'..f),f==view.floor and 246 or 110,f==view.floor and 223 or 90,f==view.floor and 164 or 66)end
@@ -215,15 +245,21 @@ function M.attach(ui,root,options)
     local c=at('p'..(edge.first+j-1));c:SetVisible(p~=nil);if p then c:SetAnchoredPosition(p.x,p.y);c.localRotationZ=p.angle;tint(c,246,223,164,math.floor(255*M.fade(p.y,Layout.viewport.bottom,Layout.viewport.top)))end
    end
   end end
-  if writes<M.ANIMATED_WRITES then writes=writes+paintPick(M.ANIMATED_WRITES-writes)end
-  -- Four of 26 very slow ambient embers per frame; yield to route/interaction writes.
-  if not self.reducedMotion then
-   for _=1,4 do if writes+4>M.ANIMATED_WRITES then break end;local i=emberCursor;emberCursor=(emberCursor+1)%26
-    local duration=9+(i*7%15);local phase=(elapsed/duration+(i*37%101)/101)%1;local alpha=phase<.1 and phase*9 or(1-phase);local x=-780+(i*97%1560)+(i*41%120-60)*phase
-    at('ember'..i):SetAnchoredPosition(x,-460+phase*945)
-    tint(at('emberGlow'..i),240,188,114,math.floor(alpha*12));tint(at('emberMid'..i),240,188,114,math.floor(alpha*25));tint(at('emberCore'..i),246,201,120,math.floor(alpha*230));writes=writes+4
-   end
+  -- All 26 positions advance together every normal frame. Only unchanged integer
+  -- alpha writes are skipped; do not round-robin particle positions into visible steps.
+  if self.reducedMotion and ambientShown and M.ANIMATED_WRITES-writes>=26 then
+   for i=0,25 do at('ember'..i):SetVisible(false)end;writes=writes+26;ambientShown=false
   end
+  local revealWrites=ambientShown and 0 or 26
+  if not self.reducedMotion and M.ANIMATED_WRITES-writes>=(ambientShown and 26 or 130) then
+   local samples={};for i=0,25 do local p=M.emberSample(i,elapsed,self.canvasWidth or 1600,self.canvasHeight or 900);samples[i]=p;at('ember'..i):SetAnchoredPosition(p.x,p.y);writes=writes+1 end
+   for i=0,25 do local alpha=samples[i].alpha;emberAlpha[i]=emberAlpha[i]or{};for j,spec in ipairs({{'emberGlow',12},{'emberMid',25},{'emberCore',230}})do local a=math.floor(alpha*spec[2]);if emberAlpha[i][j]~=a and writes<M.ANIMATED_WRITES-revealWrites then local core=j==3;tint(at(spec[1]..i),core and 246 or 240,core and 201 or 188,core and 120 or 114,a);emberAlpha[i][j]=a;writes=writes+1 end end end
+   if not ambientShown then for i=0,25 do at('ember'..i):SetVisible(true)end;writes=writes+26;ambientShown=true end
+  end
+  -- Nonessential sparks use what remains after continuous ambience and critical input/path motion.
+  if writes<M.ANIMATED_WRITES then writes=writes+paintPick(M.ANIMATED_WRITES-writes)end
+  self.spikeAnimatedWrites=writes;assert(writes<=M.ANIMATED_WRITES,'presentation animation budget exceeded')
+
  end
  local function setMenu(value)
   menuOpen=value;at('mapMenu'):SetVisible(value);at('menuHelp'):SetVisible(false);at('menuMain'):SetVisible(true);hovered=nil;tooltip()

@@ -26,3 +26,9 @@ local phone=P.viewport(393,852);assert(phone.phone and phone.header==96 and phon
 
 for budget=0,256 do local count,writes=P.sparkBudget(budget);assert(count>=0 and count<=10 and writes<=budget,'optional sparks must fit remaining writes')end
 local denseIcons=48;local critical=96+denseIcons*2+8+1+2;local count,writes=P.sparkBudget(256-critical);assert(critical+writes<=256 and count<10,'48-icon transition must shed decorative spark writes, not block route')
+-- Reference particles are continuous linear tracks with independent phase, not 4/26 frame hopping.
+assert(type(P.emberSample)=='function','reference ember sampler required')
+local durations={};for i=0,25 do local p=P.emberSample(i,0,1600,900);assert(p.duration>=9 and p.duration<=23 and p.alpha>=0 and p.alpha<=.9);durations[p.duration]=true;local q=P.emberSample(i,.016,1600,900);if q.phase>p.phase then assert(q.y>p.y and q.y-p.y<2,'small continuous upward motion')end end
+local n=0;for _ in pairs(durations)do n=n+1 end;assert(n>20,'independent duration must avoid repeated integer marching groups')
+assert(type(P.hudMetrics)=='function','source-derived HUD gaps required')
+local h=P.hudMetrics(72,80,131,1600,900);assert(h.goldLeft-h.hpRight==8 and h.coinTextLeft-h.coinRight==6,'CSS group8 / icon6 gaps')

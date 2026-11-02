@@ -316,5 +316,39 @@
     "effects": "non-destructive transforms/opacity/display tint and separate native decoration; no redrawn or reference-SVG icon bodies",
     "geometricChrome": "menu strokes, progress diamonds and token are UI geometry, not claimed official icon assets",
     "regressions": "static official IDs, no SVG bodies in runtime bundle, visible node and picked animation reuse same IDs"
+  },
+  "historicalEvidenceScope": "Original verified/motion/evidence fields describe the earlier R10/09d5 captures. They do not certify the latest topbar/ember refinement.",
+  "topbarEmberRefinement": {
+    "sourceHead": "44da03d8c25665decaa84afd22291f9717ce870b",
+    "businessCommit": "de5607ba8edc0701c2545a587c85aefd499281b4",
+    "businessCheckoutClean": true,
+    "sceneSHA256": "fa959c67556e556f2e38fef484212222f7399af35ae3279950ac6953ca480257",
+    "controls": 4319,
+    "projectionSHA256": "41378ea28eaf035931ce417c28bb8873ccbae248d4d007d3f3b3268184026c3d",
+    "scope": "Actual native HUD/background-only visibility projection. Original Lua presentation logic retained. Combat sprite102044 unavailable; not substituted; NOT a complete map render.",
+    "fixed": [
+      "reuse original deckControls normal metal disc/three fanned backs/9px official105046",
+      "14px bold HP, separate muted maxHP, 6px coin-to-number /8px group geometry",
+      "native textbox 2px each side padding prevents bold numeric clipping",
+      "26 continuous independently phased ember positions without Run RNG",
+      "reduced-motion hidden and resume after position sampling"
+    ],
+    "sourceTests": {
+      "js": 16,
+      "luaGroups": 3,
+      "rootWrapperSeconds": 24.53,
+      "childTimeoutUnchangedMs": 30000
+    },
+    "fontBoundary": "Host supports bold rich-text; no font-family selection. Cinzel equivalence and official-device bold unverified.",
+    "fullMapSameRevisionCapture": false,
+    "continuousRecording": {
+      "seconds": 24,
+      "sampleHz": 20,
+      "actualHostFrames": 480,
+      "pngReceipts": 483,
+      "visibleAssetWarnings": [],
+      "videoSHA256": "5fd86a6b46c8153329ea2346a0d94222afdc16e0ca13c03d85c6bced0f2e0f84",
+      "scope": "Native software Host HUD/background-only visibility projection, NOT a complete map or device FPS."
+    }
   }
 }

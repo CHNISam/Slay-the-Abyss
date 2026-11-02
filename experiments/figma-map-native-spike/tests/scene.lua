@@ -36,6 +36,17 @@ local chosen,chosenId
 for _,g in pairs(panel.children)do for name,n in pairs(g.children)do if name:match('^node%d+$')and n.visible and n:GetChild('hit').visible and n:GetChild('hit').canControllerFocus then chosen=n:GetChild('hit');chosenId=session.ui.slots[tonumber(name:match('%d+'))];print('AVAILABLE_NATIVE_TARGET '..name..'/hit');break end end;if chosen then break end end
 assert(chosen,'real available node target')
 local function find(c,name)if c.name==name then return c end;for _,child in pairs(c.children)do local got=find(child,name);if got then return got end end end
+-- Every ambient particle moves on each ordinary frame, rather than 4/26 hopping.
+local particles={};for i=0,25 do particles[i]={x=find(root,'ember'..i).x,y=find(root,'ember'..i).y}end
+local ambientBefore=snapshot(session.run)..snapshot(session.map);OnUpdate(.016)
+for i=0,25 do local n=find(root,'ember'..i);assert(n.y~=particles[i].y,'each ambient track must update every normal frame')end
+assert(session.ui.spikeAnimatedWrites<=256,'ambient and sparks share unchanged budget')
+assert(ambientBefore==snapshot(session.run)..snapshot(session.map),'visual sampling cannot consume game RNG')
+assert(find(root,'figmaHP').text=='<b>'..string.format('%.0f',session.run.hp)..'</b>','current HP uses supported bold rich text')
+assert(find(root,'figmaHPMax').text=='<b>/'..string.format('%.0f',session.run.maxHp)..'</b>','maximum HP is separate muted run')
+local coin=find(root,'hudCoin');local money=find(root,'figmaGold');assert(math.abs((money.x-money.w/2+2)-(coin.x+8.5)-6)<.001,'gold glyph and number have source6px gap')
+session.ui.reducedMotion=true;OnUpdate(.016);for i=0,25 do assert(not find(root,'ember'..i).visible,'reduced motion must hide ambient dots, not stack at origin')end
+session.ui.reducedMotion=false;OnUpdate(.016);for i=0,25 do assert(find(root,'ember'..i).visible,'resume only after sampling restored position')end
 local readsBefore=treeReads;session.ui:render();assert(treeReads-readsBefore<64,'render must reuse control index rather than traverse the entire native tree')
 local officialIcons={combat=102044,elite=102034,event=100114,shop=102025,camp=102002,treasure=102028,boss=102033};for _,node in ipairs(session.map.nodes)do local fx=session.ui.roomFx[node.id];if fx and fx.visible then assert(fx.box:GetChild('icon').image==officialIcons[node.type],'visible node body must remain official icon')end end
 local menuBefore=snapshot(session.run)..snapshot(session.map);find(root,'menuHit').listeners.click();assert(find(root,'mapMenu').visible);assert(not session.ui:choose(chosenId),'menu modal must block queued/controller choice');find(root,'menuLegend').listeners.click();assert(not find(root,'legendPlate').visible);find(root,'menuHit').listeners.click();find(root,'menuLegend').listeners.click();assert(find(root,'legendPlate').visible);find(root,'menuHit').listeners.click();find(root,'menuHelpHit').listeners.click();assert(find(root,'menuHelp').visible);find(root,'menuDismiss').listeners.click();assert(menuBefore==snapshot(session.run)..snapshot(session.map),'menu only controls presentation')

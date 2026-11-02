@@ -22,7 +22,7 @@ function convert(spec){const kind={container:'container',image:'image',text:'tex
  const n=structuredClone(kind==='container'?container:samples[kind]);n.id='slice'+(++seq);n.guid=1073800000+seq;n.name=spec.name;n.scriptMappingIds=[];n.children=(spec.children||[]).map(convert);n.isRootContainer=false;
  const[x,y]=spec.position||[0,0],[w,h]=spec.size||[1280,720];for(const t of Object.values(n.transformByPlatform)){t.offset={x,y};t.rotation={x:0,y:0,z:spec.rotation||0};t.size={x:w,y:h};t.scale={x:spec.scale?.[0]??1,y:spec.scale?.[1]??1,z:1};t.anchorMin={x:.5,y:.5};t.anchorMax={x:.5,y:.5}}
  if(kind==='image'){n.imageId=spec.image;n.imageColor=argb(spec.colour,spec.opacity??1)}
- if(kind==='textbox')Object.assign(n,{text:spec.text.content||'',fontSize:spec.text.fontSize,minimumFontSize:spec.text.minFontSize||spec.text.fontSize,fontColor:argb(spec.text.colour),bgColor:0,enableOutline:false,horizontalAlignment:'Middle',verticalAlignment:'Middle'});
+ if(kind==='textbox')Object.assign(n,{text:spec.text.content||'',fontSize:spec.text.fontSize,minimumFontSize:spec.text.minFontSize||spec.text.fontSize,fontColor:argb(spec.text.colour),bgColor:0,enableOutline:false,horizontalAlignment:spec.text.align==='left'?'Left':spec.text.align==='right'?'Right':'Middle',verticalAlignment:'Middle'});
  if(spec.visible===false)n.visible=false;
  if(n.children.length>60)throw Error('child budget '+n.name+' '+n.children.length);return n;
 }

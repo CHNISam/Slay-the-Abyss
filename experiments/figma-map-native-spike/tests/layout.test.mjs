@@ -10,6 +10,7 @@ test('readonly notice and return share the same scaled stage',()=>{const stage=b
 test('reference ritual retains ticks, dashed circle, both square outlines and complete meanders',()=>{
  assert(byName.has('ritualTick47'));assert(byName.has('ritualSquare1Edge3'));assert(byName.has('pillarLeft0Seg9'));
  assert(byName.has('ritualDash198'));assert(byName.has('floorDenominator'));
+ for(let floor=1;floor<=17;floor++)assert(byName.has('progress'+floor),'preserve floor progress, not four act markers');assert(!byName.has('progress18'));
 });
 test('approved official node and HUD icon bodies remain static official IDs',()=>{
  // User-confirmed Genshin icon bodies; visual effects must not replace them with prototype SVGs.
@@ -18,3 +19,11 @@ test('approved official node and HUD icon bodies remain static official IDs',()=
  for(const [name,id]of Object.entries({hudHeart:102018,hudCoin:105077,hudCards:105046}))assert.equal(byName.get(name).imageId,id);
  assert.doesNotMatch(save.assets.scripts[0].source,/<svg\b|data:image\//i,'reference SVG icon bodies must not enter runtime bundle');
 });
+test('deck reuses the existing native fan, not a naked replacement glyph',()=>{
+ assert(byName.has('hudDeckBack2')&&byName.has('hudDeckBack1')&&byName.has('hudDeckFront'));
+ for(const t of Object.values(byName.get('hudCards').transformByPlatform))assert.equal(t.size.x,9);
+ assert(byName.has('figmaHPMax'),'HP denominator retains subdued separate ink');
+ assert.equal(byName.get('figmaHPMax').fontColor,0xff9e8c72);
+});
+
+test('HUD numeric boxes reserve native 2px padding per side and left alignment',()=>{for(const name of ['figmaHP','figmaHPMax','figmaGold'])assert.equal(byName.get(name).horizontalAlignment,'Left');});

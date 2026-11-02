@@ -2,6 +2,7 @@
 import {readFileSync} from 'node:fs';import {resolve} from 'node:path';import {pathToFileURL} from 'node:url';
 export const ROOT=process.env.ABYSS_ROOT;
 if(!process.env.ABYSS_ROOT)throw Error('Set ABYSS_ROOT to the verified source snapshot');
+const {deckControls}=await import(pathToFileURL(resolve(ROOT,'scripts/deck-ui-layout.mjs')));
 const {mapLayout,mapGeometry}=await import(pathToFileURL(resolve(ROOT,'scripts/map-ui-layout.mjs')));
 export const theme=JSON.parse(readFileSync(resolve(ROOT,'data/presentation/ui_theme.json')));
 theme.canvas.base=[1600,900];theme.layout.map.viewportHeight=800;theme.color.backdrop='#0b0606';theme.layout.map.floorGap=100;theme.layout.map.columnGap=100;
@@ -33,7 +34,7 @@ for(const [side,x]of [['Left',-744],['Right',516]])for(let j=0;j<28;j++){
  for(let k=0;k<10;k++){const a=meander[k],b=meander[k+1];decorations.push({...stroke(`pillar${side}${j}Seg${k}`,x+a[0],y-a[1],x+b[0],y-b[1],2,alpha),colour:'#6e5a42'});}
 }
 // Reference 26 ambient embers; deterministic visual phases never touch game RNG.
-for(let i=0;i<26;i++)decorations.push({name:'ember'+i,kind:'container',size:[16,16],children:[{...image('emberGlow'+i,0,0,13,13,'#f0bc72',100002),opacity:.045},{...image('emberMid'+i,0,0,7,7,'#f0bc72',100002),opacity:.1},{...image('emberCore'+i,0,0,2+(i*7%25)/10,2+(i*7%25)/10,'#f6c978',100002),opacity:.6}]});
+for(let i=0;i<26;i++)decorations.push({name:'ember'+i,kind:'container',visible:false,size:[16,16],children:[{...image('emberGlow'+i,0,0,13,13,'#f0bc72',100002),opacity:.045},{...image('emberMid'+i,0,0,7,7,'#f0bc72',100002),opacity:.1},{...image('emberCore'+i,0,0,2+(i*7%25)/10,2+(i*7%25)/10,'#f6c978',100002),opacity:.6}]});
 function batches(prefix,children){const r=[];for(let i=0;i<children.length;i+=60)r.push(group(prefix+(i/60+1),children.slice(i,i+60)));return r}
 // Existing group names stay unchanged because MapUI resolves their contract.
 panel.children.unshift(...batches('figmaBack',decorations));
@@ -42,18 +43,25 @@ for(let i=1;i<=256;i++)glow.push({...image('g'+i,0,0,1,1,'#65502f',106057),visib
 for(let i=1;i<=1536;i++)shapes.push({...image('p'+i,0,0,1,1,'#e9c77b'),visible:false});
 panel.children.push(...batches('figmaGlow',glow),...batches('figmaShape',shapes));
 const front=[{name:'tokenHalo',kind:'container',size:[330,214],children:Array.from({length:40},(_,i)=>({...image('halo'+i,0,0,330-i*7.8,214-i*5,'#e9c77b',100002),opacity:.004}))},{name:'tokenOuter',kind:'container',size:[44,64],scale:[.6875,1],children:[{...image('outerGold',0,0,45.255,45.255,'#e9c77b'),rotation:45}]},{name:'tokenInner',kind:'container',size:[32,48],scale:[.666667,1],children:[{...image('innerInk',0,0,33.941,33.941,'#160e09'),rotation:45}]},image('tokenStar',0,0,18,30,'#f6dfa4',100004),
- image('hudPlate',0,324,1280,72,'#0b0606'),text('figmaTitle',-12,319,180,50,'',24),{...text('floorDenominator',69,315,44,32,'/17',11),text:{...text('',0,0,0,0,'/17',11).text,colour:'#7d6c55'}},text('figmaHP',-545,324,80,40,'',14),text('figmaGold',-385,324,80,36,'',14),text('figmaDeck',520,324,70,36,'',14),
+ image('hudPlate',0,324,1280,72,'#0b0606'),text('figmaTitle',-12,319,180,50,'',24),{...text('floorDenominator',69,315,44,32,'/17',11),text:{...text('',0,0,0,0,'/17',11).text,colour:'#7d6c55'}},text('figmaHP',-545,324,24,40,'',14),{...text('figmaHPMax',-519,324,28,40,'',14),text:{...text('',0,0,0,0,'',14).text,colour:'#9e8c72'}},text('figmaGold',-385,324,80,36,'',14),text('figmaDeck',520,324,70,36,'',14),
  image('legendBorder',540,0,179,317,'#5c4b36'),image('legendPlate',540,0,177,315,'#17100c'),text('legendTitle',540,137,160,38,'图 例',13)];
 front.push({...image('hudDivider',0,284,1100,1,'#6e5a42'),opacity:.35}, {...image('actRuleLeft',-66,345,42,.7,'#6e5a42'),opacity:.5}, {...image('actRuleRight',66,345,42,.7,'#6e5a42'),opacity:.5});
 const pills=[];
-for(const [key,x,w]of [['HP',-535,145],['Gold',-390,105],['Deck',520,95]]){
+for(const [key,x,w]of [['HP',-535,145],['Gold',-390,105]]){
  for(const [suffix,dy,h,ink]of [['Border',0,35,'#6e5a42'],['Fill',0,33,'#0d0708']]){
   const width=suffix==='Border'?w:w-2;pills.push(image('pill'+key+suffix,x,324,width-h,h,ink),image('pill'+key+suffix+'L',x-(width-h)/2,324,h,h,ink,100002),image('pill'+key+suffix+'R',x+(width-h)/2,324,h,h,ink,100002));
  }
 }
 front.splice(5,0,...pills);
 front.push(image('hpTrack',-488,324,36,4,'#2a1a16'),image('hpAmount',-488,324,36,4,'#d9574a'));
-front.push(image('hudHeart',-583,324,17,17,'#d9574a',102018),image('hudCoin',-422,324,17,17,'#e9c77b',105077),image('hudCards',494,324,19,19,'#e9c77b',105046),text('actTitle',0,345,220,25,'第 一 幕',13));
+front.push(image('hudHeart',-583,324,17,17,'#d9574a',102018),image('hudCoin',-422,324,17,17,'#e9c77b',105077),text('actTitle',0,345,220,25,'第 一 幕',13));
+// Reuse the established deck entry's actual normal visual subtree (PR406/TASK4.13),
+// not merely the same official ID in an unrelated 19px replacement silhouette.
+const deckNormal=deckControls(theme).find(c=>c.name==='deckEntry').children[0].children[0].children.find(c=>c.name==='normal');
+const deckNames={ring:'hudDeckRing',face:'hudDeckFace',back2:'hudDeckBack2',back1:'hudDeckBack1',front:'hudDeckFront',deckIcon:'hudCards'};
+const deckVisual=structuredClone(deckNormal.children.filter(c=>Object.hasOwn(deckNames,c.name)));
+for(const c of deckVisual){const original=c.name;c.name=deckNames[original];for(const child of c.children??[])child.name=c.name+child.name;}
+front.push({name:'hudDeckVisual',kind:'container',position:[506,324],size:[72,40],children:deckVisual});
 for(let i=1;i<=3;i++){front.push(image('potionBorder'+i,-300+(i-1)*40,324,32,32,'#6e5a42',100002),image('potionInside'+i,-300+(i-1)*40,324,30,30,'#0d0708',100002),{...image('potion'+i,-300+(i-1)*40,324,17,23,'#ffffff',102002),visible:false});}
 for(let f=1;f<=17;f++)front.push({...image('progress'+f,-72+(f-1)*9,292,4.3,4.3,'#4a3b2c'),rotation:45});
 for(let f=1;f<=17;f++)front.push({...image('progressHole'+f,-72+(f-1)*9,292,2.5,2.5,'#0b0606'),rotation:45});
@@ -64,6 +72,7 @@ for(let f=1;f<=17;f++)front.push({...image('floorMark'+f,-562,-300+(f-1)*35,4,4,
 for(let f=1;f<=17;f++)front.push({...image('floorMarkHole'+f,-562,-300+(f-1)*35,2,2,'#0b0606'),rotation:45},{...image('floorCurrentGlow'+f,-562,-300+(f-1)*35,20,20,'#e9c77b',100002),opacity:.13,visible:false});
 front.push(text('figmaStatus',0,-333,900,44,'',18));
 for(const c of front){
+ if(['figmaHP','figmaHPMax','figmaGold'].includes(c.name))c.text.align='left';
  const n=c.name;if(n.startsWith('token'))continue;
  if(n.startsWith('legend'))c.position[0]+=151;
  else if(n.startsWith('floor')){if(n!=='floorDenominator'){c.position[0]-=160;c.position[1]*=1.24}else c.position[1]+=90}
