@@ -1,0 +1,24 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@1.0.0 test:related
+> node scripts/test-affected.mjs --base 6354f6328fd6b2b7c53a758dd9e470948d21efc1 --plan
+
+{
+  "tier": "related",
+  "changed": [
+    "backlog/tasks/task-4.21 - 定位玩家反馈的手机卡顿与加载慢.md",
+    "src/lua/abyss_deck_ui.lua",
+    "tests/ui-mock-contract.test.mjs",
+    "docs/evidence/m4-deck-controller-lifecycle-20261102/baseline-red.txt",
+    "docs/evidence/m4-deck-controller-lifecycle-20261102/first-green-attempt.txt",
+    "docs/evidence/m4-deck-controller-lifecycle-20261102/fixture-setup-error.txt",
+    "docs/evidence/m4-deck-controller-lifecycle-20261102/lifecycle-green.txt",
+    "docs/evidence/m4-deck-controller-lifecycle-20261102/related-plan.txt",
+    "tests/lua/deck_controller_lifecycle.lua"
+  ],
+  "full": true,
+  "reason": "Unmodelled or deleted input: backlog/tasks/task-4.21 - 定位玩家反馈的手机卡顿与加载慢.md",
+  "fast": [],
+  "integration": [],
+  "lua": []
+}

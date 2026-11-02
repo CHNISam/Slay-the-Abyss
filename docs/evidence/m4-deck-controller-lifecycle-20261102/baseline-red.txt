@@ -1,0 +1,11 @@
+CLOSED_CYCLE 1 RECORDS 27 BASELINE 14
+...roller-lifecycle/tests/lua/deck_controller_lifecycle.lua:53: DECK_CONTROLLER_RETENTION: expected 14 records, got 27
+stack traceback:
+	[JS]: in function 'assert'
+	...roller-lifecycle/tests/lua/deck_controller_lifecycle.lua:53: in upvalue 'registry'
+	...roller-lifecycle/tests/lua/deck_controller_lifecycle.lua:88: in local 'fn'
+	...roller-lifecycle/tests/lua/deck_controller_lifecycle.lua:74: in local 'test'
+	...roller-lifecycle/tests/lua/deck_controller_lifecycle.lua:76: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk
+Lua fixture tests/lua/deck_controller_lifecycle.lua: 1568 ms

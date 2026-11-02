@@ -1,0 +1,6 @@
+baseline records	14
+closed cycles	1	records/dead	27	13
+closed cycles	10	records/dead	144	130
+closed cycles	20	records/dead	274	260
+300 mobile sync visits	82200	baseline equivalent	4200
+READONLY_DECK_CONTROLLER_RETENTION_REPRODUCED

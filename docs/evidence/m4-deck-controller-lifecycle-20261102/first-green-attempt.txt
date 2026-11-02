@@ -1,0 +1,13 @@
+CLOSED_CYCLE 1 RECORDS 14 BASELINE 14
+CLOSED_CYCLE 10 RECORDS 14 BASELINE 14
+CLOSED_CYCLE 20 RECORDS 14 BASELINE 14
+POINTER_SYNC_300_VISITS 4200
+PASS 20 pointer-mode open/close cycles release all destroyed registrations immediately
+PASS controller pages, filters, sorting, empty results and reentry keep only live handles
+PASS native recycle, deferred fill and stale refresh cannot retain or resurrect dead records
+PASS live native reuse preserves listeners and current card activation across close/reopen
+PASS external native destruction while hidden or showing details is collected on update
+ABYSS_RUN seed=1 source=explicit
+PASS real Host with controller manager releases deck handles without touching run/RNG
+DECK_CONTROLLER_LIFECYCLE_PASS 6
+Lua fixture tests/lua/deck_controller_lifecycle.lua: 7316 ms
