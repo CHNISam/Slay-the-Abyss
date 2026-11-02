@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 09:39'
-updated_date: '2026-10-28 11:05'
+updated_date: '2026-11-02 02:25'
 labels: []
 milestone: m-5
 dependencies: []
@@ -33,6 +33,8 @@ ordinal: 121000
 
 <!-- SECTION:PLAN:BEGIN -->
 核对原稿与原生图库；共享装配与皮肤绑定；各场景复用；生成预览并运行回归；提交PR。
+
+2026-11-02 条件依赖：新增共享卡框视觉改稿条件依赖 TASK-4.22 的工具实证、独立视觉 >=9 分与用户认可；不重置已有共享实现、AC 或批准稿，不阻断现有复用/裁切/可读性缺陷修复及原生回归。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

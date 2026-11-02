@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-31 02:48'
+updated_date: '2026-11-02 02:25'
 labels:
   - playtest-20261030
   - p1
@@ -37,6 +37,8 @@ Owner强调地图是**整体交互体验**问题：当前节点和连线灰暗�
 
 <!-- SECTION:PLAN:BEGIN -->
 复用PR401原四提交，按真实动画绘制外包修复地图裁剪；验证路径、点击和双幕地图，不扩大美术范围。
+
+2026-11-02 条件依赖：新增地图美术与交互设计切片条件依赖 TASK-4.22 的工具实证及分层批准；优先官方图标、封面统一，保留原版路径决策与核心信息。现有地图实现、触控/裁切缺陷修复和回归独立推进，不以新的设计实验阻断既有验收。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
