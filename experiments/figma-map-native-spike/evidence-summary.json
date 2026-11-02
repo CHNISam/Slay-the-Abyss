@@ -17,11 +17,14 @@
     "directStateOrDamageWrites": false
   },
   "verified": [
-    "real Simulator startup and incremental real gameplay fixture",
-    "official image assets loaded without warnings",
-    "true pointer enter f3_l2; readonly route then return",
-    "final footer no text overlap",
-    "mobile landscape canvas screenshot, not device"
+    "actual native Simulator 0.5.2 with official image assets and no warnings",
+    "two real combat wins; real Map/Run/Nodes and 17-floor graph",
+    "hover tooltip, route preview, mouse touchId -1, denied node information without entry",
+    "working menu/help/legend toggle and modal input guard",
+    "token .75s movement, progressively drawn path, no immediate camera jump, picked and spark effects",
+    "desktop 1600x900 and mobile 1560x720 preserve CSS-size typography and real input",
+    "room readonly route and return preserve actual room owner",
+    "root CI wrapper rebuilds scene in temp directory and runs all source regressions"
   ],
   "unverified": [
     "faithful visual parity or 9/10 quality",
@@ -29,7 +32,42 @@
     "physical phone interaction and FPS",
     "all-map-seed control pool budget"
   ],
-  "artifacts": [
+  "motion": {
+    "priorSourceSaveSha256": "2fbafb9fd475c971080cc70078da69ca37d5f10589a3a4c397429f54c9855073",
+    "desktopFrames": 43,
+    "mobileFrames": 29,
+    "sampleHz": 10,
+    "kind": "actual software Host frames, 0.1s steps, no interpolation; not device FPS",
+    "finalSourceRevalidation": "passed: fresh desktop + mobile actual node entry/readonly/return, no warnings",
+    "finalSourceSaveSha256": "09d5148ed1f37d1e2d015523bd52c2ac70592c710f7ba06710d5f01b3c7a81c1",
+    "finalDesktopFrames": 29,
+    "finalMobileFrames": 29,
+    "initialPNGMatchesPriorSourceByteForByte": true
+  },
+  "ciRegression": {
+    "entry": "tests/figma-map-native-spike.test.mjs",
+    "discovery": "existing npm test and tests/*.test.mjs shard discovery",
+    "result": "passed",
+    "durationMs": 20209,
+    "jsAssertions": 14,
+    "luaSuites": 3,
+    "network": false,
+    "simulatorRequired": false,
+    "sourceRuntimeChanged": true,
+    "sourceSaveSha256": "09d5148ed1f37d1e2d015523bd52c2ac70592c710f7ba06710d5f01b3c7a81c1",
+    "timeoutMsUnchanged": 30000,
+    "regressionsAdded": [
+      "bounded translation invariant arc cache",
+      "no full control-tree rescans during render",
+      "mouse -1 versus touch IDs",
+      "state/RNG preservation under hover and modal menus",
+      "incremental route survives render/update(0)",
+      "camera does not jump or reactivate after hide",
+      "landscape scale 1 with real anchors",
+      "optional sparks yield to available write budget"
+    ]
+  },
+  "historicalArtifacts": [
     {
       "capture": "scene-r4b-evidence",
       "name": "desktop-initial.png",
@@ -85,22 +123,198 @@
       "sourceSaveSha256": "372d534aa4a358dadca44302f1db50f89ebfc7d2a3772c352571a16a0789fdac"
     }
   ],
-  "motion": {
-    "frames": 29,
-    "sampleHz": 10,
-    "encodingSeconds": 2.9,
-    "sourceSaveSha256": "372d534aa4a358dadca44302f1db50f89ebfc7d2a3772c352571a16a0789fdac",
-    "kind": "actual software Host PNG sequence; event frames can share simulation time; no interpolation; not device FPS"
+  "runtimeSaveSha256": "09d5148ed1f37d1e2d015523bd52c2ac70592c710f7ba06710d5f01b3c7a81c1",
+  "controls": 4312,
+  "modules": 229,
+  "fidelityNotEquivalent": [
+    "official node icons intentionally replace prototype custom icons",
+    "real 17-floor/7-lane topology intentionally differs from demo 15 floors",
+    "reference web fonts, noise, CSS blending and exact blur/soft materials are not equivalent native rendering",
+    "fog drift, scrolling pillar texture and full distant hover-edge flow remain different",
+    "full deck/potion/game menu pages are outside this standalone map slice"
+  ],
+  "artifacts": [
+    {
+      "capture": "scene-r10-evidence",
+      "name": "desktop-initial.png",
+      "sha256": "07e7b926df68d9551774247bfbc3e42f137bfef908196746686cfe94fca109b0",
+      "sourceSaveSha256": "2fbafb9fd475c971080cc70078da69ca37d5f10589a3a4c397429f54c9855073",
+      "role": "pre-cache-optimization full fidelity capture; not final source"
+    },
+    {
+      "capture": "scene-r10-evidence",
+      "name": "hover-node8.png",
+      "sha256": "3b825e99797cba61bec0fa83f169dc751a2c35a0934a2656116a4bf12c677ffa",
+      "sourceSaveSha256": "2fbafb9fd475c971080cc70078da69ca37d5f10589a3a4c397429f54c9855073",
+      "role": "pre-cache-optimization full fidelity capture; not final source"
+    },
+    {
+      "capture": "scene-r10-evidence",
+      "name": "menu-help.png",
+      "sha256": "0f72aee15b7f0bf060c65e3d1fbee14d3e4c6222b9d05fad7f97ac3dd65d0ef9",
+      "sourceSaveSha256": "2fbafb9fd475c971080cc70078da69ca37d5f10589a3a4c397429f54c9855073",
+      "role": "pre-cache-optimization full fidelity capture; not final source"
+    },
+    {
+      "capture": "scene-r10-evidence",
+      "name": "readonly-map.png",
+      "sha256": "4d5bcc60c53b8fff9a1bf93418524f964c6c833f237b1f546591b35a6819228b",
+      "sourceSaveSha256": "2fbafb9fd475c971080cc70078da69ca37d5f10589a3a4c397429f54c9855073",
+      "role": "pre-cache-optimization full fidelity capture; not final source"
+    },
+    {
+      "capture": "scene-r10-evidence",
+      "name": "host-sample.mp4",
+      "sha256": "a6aa0808a059c26db6d5e31030cc17b9a3d1955dc2d7614914981cbf2675391a",
+      "sourceSaveSha256": "2fbafb9fd475c971080cc70078da69ca37d5f10589a3a4c397429f54c9855073",
+      "role": "pre-cache-optimization full fidelity capture; not final source"
+    },
+    {
+      "capture": "scene-r10-evidence",
+      "name": "host-sample.gif",
+      "sha256": "00c5e04f470016822e4c0babec43064aff229a000620b73da76ee7cec1790d07",
+      "sourceSaveSha256": "2fbafb9fd475c971080cc70078da69ca37d5f10589a3a4c397429f54c9855073",
+      "role": "pre-cache-optimization full fidelity capture; not final source"
+    },
+    {
+      "capture": "scene-r10-future-mobile",
+      "name": "mobile-initial.png",
+      "sha256": "d940b78f47db3820dbacd664ccb10541b2addb1fccdf5ecd69186bdd5ef30e73",
+      "sourceSaveSha256": "2fbafb9fd475c971080cc70078da69ca37d5f10589a3a4c397429f54c9855073",
+      "role": "pre-cache-optimization full fidelity capture; not final source"
+    },
+    {
+      "capture": "scene-r10-future-mobile",
+      "name": "mobile-sealed-click.png",
+      "sha256": "81ae763541759a70a905cbbed3ad274570852a9001f274a0fa70a498ce77d184",
+      "sourceSaveSha256": "2fbafb9fd475c971080cc70078da69ca37d5f10589a3a4c397429f54c9855073",
+      "role": "pre-cache-optimization full fidelity capture; not final source"
+    },
+    {
+      "capture": "scene-r10-mobile-loop",
+      "name": "host-sample.mp4",
+      "sha256": "de272c1ea3541afb2c5df5948b6d435329c46fb73c223f6a581bf2da3038f731",
+      "sourceSaveSha256": "2fbafb9fd475c971080cc70078da69ca37d5f10589a3a4c397429f54c9855073",
+      "role": "pre-cache-optimization full fidelity capture; not final source"
+    },
+    {
+      "capture": "scene-r10-mobile-loop",
+      "name": "host-sample.gif",
+      "sha256": "47fdf9365b3432f18cfec591dff97ee8728cd7ce3f1494e84565b26c09e7afbd",
+      "sourceSaveSha256": "2fbafb9fd475c971080cc70078da69ca37d5f10589a3a4c397429f54c9855073",
+      "role": "pre-cache-optimization full fidelity capture; not final source"
+    },
+    {
+      "capture": "scene-final09d5-desktop",
+      "name": "desktop-initial.png",
+      "sha256": "07e7b926df68d9551774247bfbc3e42f137bfef908196746686cfe94fca109b0",
+      "sourceSaveSha256": "09d5148ed1f37d1e2d015523bd52c2ac70592c710f7ba06710d5f01b3c7a81c1",
+      "role": "final same-SHA actual Host revalidation"
+    },
+    {
+      "capture": "scene-final09d5-desktop",
+      "name": "readonly-map.png",
+      "sha256": "5cfd6a883b6ab07f68477bc2c266d1b58812be78f430e748ef33b58afa035f92",
+      "sourceSaveSha256": "09d5148ed1f37d1e2d015523bd52c2ac70592c710f7ba06710d5f01b3c7a81c1",
+      "role": "final same-SHA actual Host revalidation"
+    },
+    {
+      "capture": "scene-final09d5-desktop",
+      "name": "entered-room.png",
+      "sha256": "396c20f47208e2450accad8358576b5699508603f679903de0fd80cadfe1bce8",
+      "sourceSaveSha256": "09d5148ed1f37d1e2d015523bd52c2ac70592c710f7ba06710d5f01b3c7a81c1",
+      "role": "final same-SHA actual Host revalidation"
+    },
+    {
+      "capture": "scene-final09d5-desktop",
+      "name": "returned-room.png",
+      "sha256": "396c20f47208e2450accad8358576b5699508603f679903de0fd80cadfe1bce8",
+      "sourceSaveSha256": "09d5148ed1f37d1e2d015523bd52c2ac70592c710f7ba06710d5f01b3c7a81c1",
+      "role": "final same-SHA actual Host revalidation"
+    },
+    {
+      "capture": "scene-final09d5-desktop",
+      "name": "host-sample.mp4",
+      "sha256": "fbe06a15568302173cf0c05a4294cf958bf6abf787277340aeca8863f0fb49cc",
+      "sourceSaveSha256": "09d5148ed1f37d1e2d015523bd52c2ac70592c710f7ba06710d5f01b3c7a81c1",
+      "role": "final same-SHA actual Host revalidation"
+    },
+    {
+      "capture": "scene-final09d5-desktop",
+      "name": "host-sample.gif",
+      "sha256": "01d7ff8b455ffde21aeb3ec9d05663e1ad09f40d098494817b022ad73ecf56c5",
+      "sourceSaveSha256": "09d5148ed1f37d1e2d015523bd52c2ac70592c710f7ba06710d5f01b3c7a81c1",
+      "role": "final same-SHA actual Host revalidation"
+    },
+    {
+      "capture": "scene-final09d5-mobile",
+      "name": "mobile-initial.png",
+      "sha256": "d940b78f47db3820dbacd664ccb10541b2addb1fccdf5ecd69186bdd5ef30e73",
+      "sourceSaveSha256": "09d5148ed1f37d1e2d015523bd52c2ac70592c710f7ba06710d5f01b3c7a81c1",
+      "role": "final same-SHA actual Host revalidation"
+    },
+    {
+      "capture": "scene-final09d5-mobile",
+      "name": "readonly-map.png",
+      "sha256": "fdee631aa9237afc418feabe279ae2ccb4e11b649eb97afa68a8607ee957c378",
+      "sourceSaveSha256": "09d5148ed1f37d1e2d015523bd52c2ac70592c710f7ba06710d5f01b3c7a81c1",
+      "role": "final same-SHA actual Host revalidation"
+    },
+    {
+      "capture": "scene-final09d5-mobile",
+      "name": "entered-room.png",
+      "sha256": "d89ef4de52651ff3249b5f86ff74916a1f309e24322c40b4fdb40dfcacbfed89",
+      "sourceSaveSha256": "09d5148ed1f37d1e2d015523bd52c2ac70592c710f7ba06710d5f01b3c7a81c1",
+      "role": "final same-SHA actual Host revalidation"
+    },
+    {
+      "capture": "scene-final09d5-mobile",
+      "name": "returned-room.png",
+      "sha256": "d89ef4de52651ff3249b5f86ff74916a1f309e24322c40b4fdb40dfcacbfed89",
+      "sourceSaveSha256": "09d5148ed1f37d1e2d015523bd52c2ac70592c710f7ba06710d5f01b3c7a81c1",
+      "role": "final same-SHA actual Host revalidation"
+    },
+    {
+      "capture": "scene-final09d5-mobile",
+      "name": "host-sample.mp4",
+      "sha256": "de272c1ea3541afb2c5df5948b6d435329c46fb73c223f6a581bf2da3038f731",
+      "sourceSaveSha256": "09d5148ed1f37d1e2d015523bd52c2ac70592c710f7ba06710d5f01b3c7a81c1",
+      "role": "final same-SHA actual Host revalidation"
+    },
+    {
+      "capture": "scene-final09d5-mobile",
+      "name": "host-sample.gif",
+      "sha256": "47fdf9365b3432f18cfec591dff97ee8728cd7ce3f1494e84565b26c09e7afbd",
+      "sourceSaveSha256": "09d5148ed1f37d1e2d015523bd52c2ac70592c710f7ba06710d5f01b3c7a81c1",
+      "role": "final same-SHA actual Host revalidation"
+    }
+  ],
+  "independentReview": {
+    "result": "PASS",
+    "curveOldNewCases": 160,
+    "maxDifference": 0,
+    "cacheBound": 64,
+    "scope": "input/semantics and final calculation/cache delta; not aesthetic score or official device"
   },
-  "ciRegression": {
-    "entry": "tests/figma-map-native-spike.test.mjs",
-    "discovery": "existing npm test and tests/*.test.mjs shard discovery",
-    "result": "passed",
-    "durationMs": 17410,
-    "jsAssertions": 12,
-    "luaSuites": 3,
-    "network": false,
-    "simulatorRequired": false,
-    "sourceRuntimeChanged": false
+  "officialIconPolicy": {
+    "runtimeChanged": false,
+    "nodeIds": {
+      "combat": 102044,
+      "elite": 102034,
+      "event": 100114,
+      "shop": 102025,
+      "camp": 102002,
+      "treasure": 102028,
+      "boss": 102033
+    },
+    "hudImageIds": {
+      "heart": 102018,
+      "gold": 105077,
+      "deck": 105046
+    },
+    "potions": "actual Theme.icon.potion mapping; fixture shows official111047",
+    "effects": "non-destructive transforms/opacity/display tint and separate native decoration; no redrawn or reference-SVG icon bodies",
+    "geometricChrome": "menu strokes, progress diamonds and token are UI geometry, not claimed official icon assets",
+    "regressions": "static official IDs, no SVG bodies in runtime bundle, visible node and picked animation reuse same IDs"
   }
 }

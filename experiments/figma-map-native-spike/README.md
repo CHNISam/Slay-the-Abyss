@@ -16,6 +16,9 @@ node /path/to/checkout/scripts/test-lua.mjs tests/scene.lua
 ART_LAB_MCP_ENTRY=/path/to/beyond-simulator-mcp/dist/index.js \
   node tools/capture-scene.mjs scene.save.json evidence-local/run1
 sh tools/encode-capture.sh evidence-local/run1
+# 同一源码的手机画布闭环（仍是软件 Host，不是实体机）
+ART_LAB_MCP_ENTRY=/path/to/beyond-simulator-mcp/dist/index.js \
+  node tools/capture-mobile.mjs scene.save.json evidence-local/mobile1
 ```
 
 普通 Git checkout 记录实际 HEAD、tree、dirty 与224个业务模块输入SHA；可用 `--source-manifest=/path/to/source-manifest.json` 强校验独立快照的输入/生成文件。本轮使用核验的 develop `de5607ba8edc0701c2545a587c85aefd499281b4`，不是未合并工作树。
@@ -30,21 +33,35 @@ sh tools/encode-capture.sh evidence-local/run1
 
 ## 测试和证据
 
-仓库根 `tests/figma-map-native-spike.test.mjs` 由现有 `npm test` / CI 分片自动发现。正常 `build:data`、`build:ui` 前置后也可单跑 `node --test tests/figma-map-native-spike.test.mjs`。wrapper 在临时目录从源码重建 probe / real-wins scene，执行全部实验 JS 与三组 Lua 断言并清理；不安装或启动 Simulator，不联网，不信任现成 save，不写 checkout。本轮云端约17.4秒，未放宽现有 CI 超时；手动 Host 视频取证与该纯回归分离。
+仓库根 `tests/figma-map-native-spike.test.mjs` 由现有 `npm test` / CI 分片自动发现。正常 `build:data`、`build:ui` 前置后也可单跑 `node --test tests/figma-map-native-spike.test.mjs`。wrapper 在临时目录从源码重建 probe / real-wins scene，执行全部实验 JS 与三组 Lua 断言并清理；不安装或启动 Simulator，不联网，不信任现成 save，不写 checkout。不调整工作流门槛；手动 Host 视频取证与该纯回归分离。
 
 `tests/scene.lua` 对应上述 `real-wins` 构建。使用项目已有 `fengari-node-cli` 跑 `tests/{curve,presentation,scene}.lua`。`node --test tests/probe.test.mjs` 核对探针控件数量/单父60/内联一致。scene测试覆盖真实节点提交、重复拒绝、17层滚动不改整个Run/Map/RNG、房间预览返回对象不变。
 
 Simulator实测涵盖 probe→连续曲线修正→整屏→实际点选/只读/返回及手机画布。每次保存固定save/hash、日志、无缺图回执；旧图不能证明新改动。采样脚本遇任何 `error`/`lua-error` 或资源警告即失败，动画只编码真实Host帧，不补间。MCP pointer坐标左下原点，PNG左上原点：`pointerY = canvasHeight - pngY`。截图时间不等于GPU FPS。
 
-实测发现的约束已入测试：LuaHost无 `coroutine`（fixture用有界逐步状态机）；READY必须使实际原生根可见；层数文字24号需50高而非被裁掉的35高；返回按钮和提示须同stage缩放；采样pointer须应用所有祖先变换。
+实测发现的约束已入测试：LuaHost无 `coroutine`（fixture用有界逐步状态机）；READY必须使实际原生根可见；层数文字24号需50高而非被裁掉的35高；返回按钮和提示须同stage缩放；采样pointer须应用所有祖先变换；鼠标事件 touchId=-1 不能当成触屏拒绝；每步 dt≤.1，不能把一次 step(.4) 误称界面前进400ms。
+
+## 本轮按原型补齐的部分
+
+- 原图的420/380虚线/300/210圆、48刻度、两个方形、34px连续回纹、26个微光；不是另起美术方向。
+- 真实当前/已走/可选/未来/封路层次；真实可用的飞靴分支及后继参与视觉可达性，点击准入仍由原MapUI/Nodes负责。
+- 图例计数与过滤、紧凑HUD、金菱形、短dash/空心进度与红色首领标记。
+- 鼠标hover缩放、信息板与路线高亮；手机点按未达节点只查看信息、不越权前进；菜单只提供确实实现的继续/图例/说明，不放空卡组跳转。
+- .75秒token/cubic-bezier与逐段金路、.6秒picked、.8秒spark、.36秒拒绝摇动。业务提交同步完成，镜头不再提前跳；原地图滚动/拖动/只读返回继续复用。
+- 真实1560×720手机画布不再整体缩至.8：HUD14px/提示12px、实际画布锚点和viewport，未通过拉伸截图伪装修复。
 
 ## 预算和已知差异
 
-- 固定1536个路径形状、256个辉光衬层；不用每帧创建控件。越界报错，不默丢路线。
-- 256是**新增装饰动画API写入上限**，不包括现有MapUI节点更新，也不包括滚动/状态变化的整次重绘；不能称整屏总帧预算。当前生成控件数见 `scene-inventory.json`，仅分组单父≤60。
-- 首轮16段逐段图库辉光出现“链条”；真实Simulator截图发现后改为连续低alpha宽线衬层，无新增粒子。它是CSS blur近似，不是等价阴影。
-- 椭圆分层/细线圆环替代CSS渐变与SVG；尚缺 hover整路线预览/tooltip、精细仪式刻度与方形构图/柱纹、完整HUD操作、噪声、精确字体/混合模式；曲线有放大分段误差。**没有达到原型的忠实完成或9分验收，不是正式UI替换**。
-- Winged Boots等真实准入由Nodes.available保留；非拓扑跳跃尚未专门绘制金色路径，不改业务来掩盖。
-- 全种子池容量、触控实体机、官方负载、原生导入/GIL、持续FPS均未验证。截图无assetWarnings是素材加载证据，不是视觉品质或发布许可。
+- 固定1536个路径形状、256个辉光衬层，当前4312控件；单父≤60，不每帧创建控件。超过路径池会报错，不默丢正式路线。
+- 256是**新增装饰动画API写入预算**，不是整屏总帧预算：不包括现有MapUI写入与状态/滚动的整次重绘。先保证路线与图标，spark/余烬按剩余预算让位；0..256剩余预算及48可见图标+新路径的反例已机械覆盖。未据此宣称全种子/全设备性能达标。
+- 当前用原生控件近似渐变、金属层次与blur；没有已验证的网页字体/CSS混合/噪声等价渲染。Noto Serif/Cinzel字体、精确纹理/软阴影、雾漂移/柱纹视差与远处hover整路线的连续流动尚未等价实现；不能把这些剩余差异伪称一模一样。
+- 依用户最新确认：节点、HUD与药水继续使用原神官方图标本体；呼吸、悬停、picked、光晕等只作非破坏性显示效果，不重画、不换成Figma的SVG本体。这是有意保留的差异；正式17层/7列真实图替代演示15层生成器是机制约束，不能为了像截图而改玩法。
+- 控件命中、菜单modal、触屏只读信息、frame0不闪满路径、旧camera回调与resize均有回归；窄屏<900/<640代码断点不是实体手机验收，实际软件采样覆盖1600×900和1560×720横屏。
+- HUD真实数值已接入，但完整战斗/卡组/药水页面不在此独立地图切片；Winged Boots非拓扑跳跃没有专用金路动画。
+- 官方负载、GIL模块装配/导入、实机触控与持续FPS仍未验。模拟器单文件bundle约2.5MB不能直接拿来声明官方容量合格。
 
-本轮结果摘要与原始产物SHA见 `evidence-summary.json`。最终桌面动图/只读返回截图对应同一 `372d534a…` 场景；手机画布截图来自修正底部返回布局前的 `7f31d141…`，不把不同构建混称同候选。
+本轮结果摘要与原始产物SHA见 `evidence-summary.json`。完整交互桌面/手机图及短片绑定 `2fbafb9f…5073`；等价计算/查找优化后的最终源码为 `09d5148e…a81c1`，单独记录其取证，不混用哈希，不拿旧PR/旧CI成功认证未推送变更。审美由实际对照图判断，不自授9分。参考网页仍使用自身演示数据，明确视口和15/17层差异，不篡改网页再冒充原作。
+
+CI收尾曾触及30秒子进程上限：未删断言或放宽门槛，改为最多64种平移不变曲线弧长缓存、复用既有控件索引避免每次render遍历全树；两项均红→绿回归，优化后根wrapper实测18.64秒；补官方图标本体约束后14项JS＋3组Lua再测20.21秒。
+
+最终09d5另做桌面/手机各29真实帧闭环取证，33张截图回执均无assetWarnings；同状态初图与R10逐字节一致。完整hover/菜单/spark录像仍标注R10源，不挪用为最终源。独立160组旧/新曲线差分误差0，缓存65种形状触发淘汰。

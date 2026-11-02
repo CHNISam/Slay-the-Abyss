@@ -28,7 +28,7 @@ function convert(spec){const kind={container:'container',image:'image',text:'tex
 }
 const caption=(name,y,content)=>({name,kind:'text',position:[0,y],size:[900,60],text:{content,fontSize:22,colour:'#e9c77b'}});
 const button=(name,y,label)=>({name,kind:'container',position:[0,y],size:[300,54],children:[{name:'face',kind:'image',size:[300,54],image:100001,colour:'#23180f'},caption('label',0,label),{name:'hit',kind:'cursorArea',size:[300,54]}]});
-const previewReturn=button('previewReturn',-316,'返回当前房间');previewReturn.visible=false;tree.controls.find(c=>c.name==='stage').children.push(previewReturn);
+const previewReturn=button('previewReturn',-412,'返回当前房间');previewReturn.visible=false;tree.controls.find(c=>c.name==='stage').children.push(previewReturn);
 const mapRoot={name:'mapRoot',kind:'container',size:[1280,720],children:tree.controls};
 const roomPanel={name:'roomPanel',kind:'container',size:[1280,720],visible:false,children:[{name:'roomBackdrop',kind:'image',size:[1280,720],image:100001,colour:'#0b0606'},caption('roomTitle',100,'已进入真实房间'),caption('roomScope',30,'地图移植切片：此处不模拟或自动完成战斗'),button('roomRoute',-70,'查看路线')]};
 const loadingPanel={name:'loadingPanel',kind:'container',size:[1280,720],children:[{name:'loadingBackdrop',kind:'image',size:[1280,720],image:100001,colour:'#0b0606'},caption('loadingTitle',0,'正在建立真实测试局…')]};
