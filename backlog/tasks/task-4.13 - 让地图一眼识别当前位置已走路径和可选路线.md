@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-31 02:48'
+updated_date: '2026-11-02 02:20'
 labels:
   - playtest-20261030
   - p1
@@ -15,6 +15,7 @@ dependencies: []
 references:
   - docs/backlog-details/PLAYTEST-20261030.md
   - docs/backlog-details/MOBILE-QA-20261029.md
+  - backlog/tasks/task-95 - 对照验证美术、交互与动效设计工具.md
 parent_task_id: TASK-4
 priority: medium
 type: enhancement
@@ -43,4 +44,6 @@ Owner强调地图是**整体交互体验**问题：当前节点和连线灰暗�
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-31 独立v1-map-hud切片：保留地图/遗物栏/卡组/意图成果；撤回造成既有生命周期回归的非必要肖像预热。新增旋转ring实际外包断言已先红后绿，隐藏过渡继续收敛并重新显示。真实拖牌8组、动态敌人目标归属/多实例/1至5敌人意图几何通过；地图及双幕定向7项、12遗物条及地图窄验8项通过。PC/手机原生可辨识与官方导入仍未验证，AC不勾选。
+
+2026-11-02最新排期：优先M4非美术、非交互设计工程。地图整体视觉交互新方案先取TASK-95对应实验结论；滚动、裁剪、点击命中与合法路径明确缺陷继续修复，复用TASK-4.3，不因实验停止稳定路径验证。 仅对应新增正式设计切片以实验结论为前置；未来纯设计优化子任务显式依赖TASK-95并引用适用Go结论。本混合任务不新增整任务硬依赖，原状态与AC保留。
 <!-- SECTION:NOTES:END -->
