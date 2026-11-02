@@ -1,0 +1,10 @@
+# Rebuild locally. Do not vendor game modules, official cached images or runtimes.
+*.save.json
+*.generated.lua
+controls.json
+controls.lua
+theme.lua
+geometry.lua
+scene-inventory.json
+evidence-local/
+node_modules/
