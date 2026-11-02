@@ -1,0 +1,15 @@
+{
+  "base": "6aa3cf90f0a0734514e8a7dbc29988e628a5c74d",
+  "files": {
+    "src/lua/abyss_battle_reward_layout.lua": {
+      "baseSha256": "4cfb534f8d59aff889f028cd8446a950ff5bf1637138342d4e604de1435c5328",
+      "currentSha256": "dc8dc13ee3d6ea591a62beeabde51e1e142a70e353b5a69dc9f12385ba20ca8e",
+      "inverseMatchesBase": true
+    },
+    "src/lua/abyss_battle_render_hud.lua": {
+      "baseSha256": "73e71741306d09a83339940d0e9727ae6b15b4f4291eb1f3342983ecca9a4326",
+      "currentSha256": "5f2cbce7d5d7411e9b575b4f88311540a7913860086a5515ebcc88cb2a8b7f55",
+      "inverseMatchesBase": true
+    }
+  }
+}
