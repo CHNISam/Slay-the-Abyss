@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 15:58'
-updated_date: '2026-11-01 14:58'
+updated_date: '2026-11-02 02:20'
 due_date: '2026-10-28'
 labels:
   - art
@@ -24,6 +24,7 @@ references:
   - docs/backlog-details/TRAVELER-SCOPE-20261029.md
   - docs/evidence/backlog-merge-20261029.json
   - docs/backlog-details/HERO-VISUAL-M3.md
+  - backlog/tasks/task-95 - 对照验证美术、交互与动效设计工具.md
 priority: medium
 type: task
 ordinal: 27000
@@ -94,4 +95,6 @@ PR358完整CI首轮发现历史回放以整份主题hash拒绝新增敌人表。
 本轮独立树new-dendro-portrait基于1fd94235，仅单个新画草史莱姆接入，不把42项已有图库覆盖称新画完成；r02 597图形待审，官方导入与设备测试未执行。
 
 单草史莱姆r02已按Owner候选接受接入普通构建：597原生图元、单池609控件，任意槽首个acid_slime_m替换图库，额外副本图库回退。复用CardDisplay并在既有topBar下放置，保持敌人受击/护盾/浮字在上；默认启用并提供nativeMonsterArtEnabled=false。离线真实生成GameUI/规则/反馈、597属性逐项同源、XYZ变异与缺清理负控、边界/层序/生命周期均通过；历史回放以完整哈希固定逆补丁兼容，不改旧见证。官方导入、PC/实体安卓、性能和RC仍未验证，非42种新画全部完成。
+
+2026-11-02最新排期：优先M4非美术、非交互设计工程。新增或重做源美术方案先取TASK-95对应实验结论；已批准卡框还原、现成资产接线、占位/退化缺陷修复及既有设备验收继续，不因工具对照阻塞。原TASK-25.2样品、TASK-10.1.2容量与正式启用门槛保留；TASK-93/94只复用技术实验，不作为全任务前置。 仅对应新增正式设计切片以实验结论为前置；未来纯设计优化子任务显式依赖TASK-95并引用适用Go结论。本混合任务不新增整任务硬依赖，原状态与AC保留。
 <!-- SECTION:NOTES:END -->
