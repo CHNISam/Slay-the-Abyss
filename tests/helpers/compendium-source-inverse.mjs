@@ -8,6 +8,7 @@ const hash=s=>createHash('sha256').update(s).digest('hex');
 const normalize=s=>s.replaceAll('\r\n','\n');
 const read=p=>normalize(readFileSync(new URL('../../'+p,import.meta.url),'utf8'));
 const owners={
+ 'src/lua/abyss_game_ui.lua':'165e2ad1180cab9daf5321b46d1f87fe9c34ed6ebbcd3c3a8b495d23974e0933',
  'src/lua/abyss_compendium_catalog.lua':'d6594b4d276ab2f02983429227102282e51565acceca266c8971adfa9e32706a',
  'src/lua/abyss_relic_text.lua':'b0c64b6f06ece16b2f3ddbc39d2b0e6ba0f78b2b67c4836c4829ded94c69fe79',
  'src/lua/abyss_node_ui_faces.lua':'0ab8654addf095b7c00980aab325fe12f496b109f47714f78abfab8adacdfbd4',
@@ -25,6 +26,10 @@ export function preCompendiumSource(path,source,overrides={}){
   if(hash(live)!=='037ff11d8894f6f68b0abb68420b74c05c7a38f2a4e5db58853930d56adc4e55')return source;
   previous=live.replace('    "abyss_compendium_catalog": "ui",\n    "abyss_relic_text": "core",\n','');
   assert.equal(hash(previous),'8c6e10716cb4ba38d49f9164d6349e8eb2a80ca13b6c364f69181a056b7bfdbf','complete pre-compendium architecture');
+ }else if(path==='src/lua/abyss_game_ui.lua'){
+  if(hash(current)!==owners[path])return source;
+  previous=current.replace("    -- Read-only Production data service; no navigation or eager catalogue build.\n    function self.productionCompendium(_)\n        return require('abyss_compendium_catalog').new(data,presentation)\n    end\n",'');
+  assert.equal(hash(previous),'7beb2208633cef99b31bdae7d0729b31d9776724df2a6cbd532683eaf4b60c46','complete pre-compendium host API');
  }else if(path==='src/lua/abyss_node_ui_faces.lua'){
   if(hash(current)!==owners[path])return source;
   previous=current.replace('local function find(entries, id, key)',

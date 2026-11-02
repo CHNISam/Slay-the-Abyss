@@ -9,6 +9,7 @@ const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
 test('compendium inverse restores exact pre-change bytes and leaves unrelated edits visible',()=>{
  for(const [path,expected]of [
   ['config/architecture.json','8c6e10716cb4ba38d49f9164d6349e8eb2a80ca13b6c364f69181a056b7bfdbf'],
+  ['src/lua/abyss_game_ui.lua','7beb2208633cef99b31bdae7d0729b31d9776724df2a6cbd532683eaf4b60c46'],
   ['src/lua/abyss_node_ui_faces.lua','285281e48bcd5dfeb20bc03c8c2be526eda57e169689ba2e09b10d5babd3986a'],
  ]){
   const source=read(path);
@@ -33,8 +34,8 @@ test('compendium architecture inverse rejects incomplete, duplicate, reordered o
   assert.equal(hash(preCompendiumSource(path,variant)),'8c6e10716cb4ba38d49f9164d6349e8eb2a80ca13b6c364f69181a056b7bfdbf');
 });
 test('compendium projections bind every new owner and never accept drift in detached providers',()=>{
- for(const path of ['config/architecture.json','src/lua/abyss_node_ui_faces.lua']){
-  for(const owner of ['src/lua/abyss_compendium_catalog.lua','src/lua/abyss_relic_text.lua','src/lua/abyss_node_ui_faces.lua'])
+ for(const path of ['config/architecture.json','src/lua/abyss_node_ui_faces.lua','src/lua/abyss_game_ui.lua']){
+  for(const owner of ['src/lua/abyss_compendium_catalog.lua','src/lua/abyss_relic_text.lua','src/lua/abyss_node_ui_faces.lua','src/lua/abyss_game_ui.lua'])
    assert.throws(()=>preCompendiumSource(path,read(path),{[owner]:read(owner)+'-- changed\n'}),/reviewed compendium owner/);
  }
 });
