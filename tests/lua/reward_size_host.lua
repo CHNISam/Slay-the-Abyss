@@ -69,4 +69,33 @@ assert(u.rewardView.cards[1].rise~=animation,'actual reward entrance must contin
 runUnchanged();controlsUnchanged()
 print('REWARD_SIZE_HOST actual reward animation update=1 writes='..animated)
 assert(hidden==0 and animated==0,'stable reward dimensions were redundantly submitted by real Host')
+-- A native size setter may synchronously re-enter the same real BattleUI.
+-- Expanded -> ordinary completes inside the outer setter; the next full render
+-- must restore 680, not trust the outer call's obsolete successful promise.
+local Theme=require('abyss_theme')
+u.rewardScreen='list'
+local rewards=h.run.rewards
+rewards.relics={{claimed=false,sourceId='black_star',unavailable=true},{claimed=false,sourceId='black_star',unavailable=true}}
+rewards.emeraldKey={claimed=false};rewards.goldClaimed=false;rewards.cardResolved=false
+local box=stage:GetChild('rewardList');local setter=box.SetSizeDelta
+local armed=true;local writes=0;local heights={}
+box.SetSizeDelta=function(self,width,height)
+ writes=writes+1;heights[#heights+1]=height
+ local result=setter(self,width,height)
+ if armed then
+  armed=false
+  rewards.relics[1].claimed=true;rewards.relics[2].claimed=true
+  u:render(true)
+  rewards.relics[1].claimed=false;rewards.relics[2].claimed=false
+ end
+ return result
+end
+u:render(true)
+assert(#heights==2 and heights[1]==680 and heights[2]==516,'real Host did not exercise both ordered native sizes')
+assert(box.sizeDeltaY==516,'nested native write was not applied')
+local beforeRetry=writes;u:render(true)
+assert(writes==beforeRetry+1 and box.sizeDeltaY==Theme.layout.battleRewards.expanded.stage[4],
+ 'real Host cached obsolete expanded height instead of restoring 680')
+u:render(true);assert(writes==beforeRetry+1,'restored Host size was not cached')
+print('REWARD_SIZE_HOST reentry heights=680,516,680 next stable writes=0')
 print('REWARD_SIZE_HOST_PASS')
