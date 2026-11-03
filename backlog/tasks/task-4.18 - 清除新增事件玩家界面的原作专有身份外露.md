@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-31 10:47'
-updated_date: '2026-11-03 06:34'
+updated_date: '2026-11-03 06:36'
 labels: []
 milestone: m-7
 dependencies: []
@@ -46,4 +46,6 @@ PR409已确认N-loth事件标题、开场、交易说明和结束正文有原作
 2026-11-03 基于远端568da4e4独立核对：四处展示及遗物中文仍有原作身份，但当前批准Lore与eventCopy没有对应映射，遵守AC2不自行命名。待Owner提供已批准称呼；调查证据见docs/backlog-details/TASK-4.18-20261103.md。
 
 更正：此前将缺少新世界观映射判断为全部施工阻塞过强。data/relics.json已有中文称呼“恩洛斯的礼物”，先沿真实展示链路核验并统一已有中文；不编造新身份，世界观适配与设备验收另列。
+
+2026-11-03 已沿真实生成控件复现四处英文直写，复用现有遗物中文称呼“恩洛斯”完成四处一致性修复。新控件回归先红后绿1/1、原事件专项4/4通过；仅处理中文一致性，完整Lore适配与同候选设备未验，AC均保留。详见docs/backlog-details/TASK-4.18-20261103.md，首轮完全阻塞判断已更正。
 <!-- SECTION:NOTES:END -->

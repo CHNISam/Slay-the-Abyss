@@ -131,4 +131,6 @@ PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触�
 第一批PR490已正常合入32b60d31；当前HEAD完整Quality与inventory通过，新增基线回归2项通过，实际tree与组合一致。第二批Actor/Runtime/CI在此最新基线集中集成，技术证据见docs/backlog-details/M9-BATCH2-20261103.md；最终合后CI与未验性能出口保留。
 
 2026-11-03 PR487/488测试侧合流：基于14223f4b保留#493纯投影缓存；新增按完整前后身份识别的两事件inverse与双源码漂移/历史物化回归，preDeck一次准备及每次linked读取保持。PR488专项15项和原CI相关/真实copy22项通过；独立审查和当前SHA完整托管CI另验，不勾父任务最终AC。
+
+2026-11-03 copy-only三个模块切片本轮仅完成查重与隔离树准备，未修改实现、未测量收益、未完成新验收；待下一独立代码PR推进，本轮不将计划记作交付。
 <!-- SECTION:NOTES:END -->
