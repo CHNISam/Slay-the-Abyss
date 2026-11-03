@@ -1,0 +1,29 @@
+INTENT_GEOMETRY frames=300 enemies=1 size=900 position=900 sameSize=897 samePosition=897
+FAIL 1 enemies retain geometry for 300 unchanged frames: ...ntent-geometry-cache/tests/lua/intent_geometry_cache.lua:63: unchanged intent geometry resubmitted
+INTENT_GEOMETRY frames=300 enemies=2 size=1800 position=1800 sameSize=1794 samePosition=1794
+FAIL 2 enemies retain geometry for 300 unchanged frames: ...ntent-geometry-cache/tests/lua/intent_geometry_cache.lua:63: unchanged intent geometry resubmitted
+INTENT_GEOMETRY frames=300 enemies=3 size=2700 position=2700 sameSize=2691 samePosition=2691
+FAIL 3 enemies retain geometry for 300 unchanged frames: ...ntent-geometry-cache/tests/lua/intent_geometry_cache.lua:63: unchanged intent geometry resubmitted
+INTENT_GEOMETRY frames=300 enemies=4 size=3600 position=3600 sameSize=3588 samePosition=3588
+FAIL 4 enemies retain geometry for 300 unchanged frames: ...ntent-geometry-cache/tests/lua/intent_geometry_cache.lua:63: unchanged intent geometry resubmitted
+INTENT_GEOMETRY frames=300 enemies=5 size=4500 position=4500 sameSize=4485 samePosition=4485
+FAIL 5 enemies retain geometry for 300 unchanged frames: ...ntent-geometry-cache/tests/lua/intent_geometry_cache.lua:63: unchanged intent geometry resubmitted
+ok geometry dimensions, portrait fallback and digit width update independently
+FAIL hidden return preserves visibility, tone and nongeometry writes: ...ntent-geometry-cache/tests/lua/intent_geometry_cache.lua:89: assertion failed!
+ok A B A owners, rebinding and fresh same-name handles repaint
+FAIL partial size false retries changed and previous geometry: ...ntent-geometry-cache/tests/lua/intent_geometry_cache.lua:113: retry success was not cached
+FAIL partial position false retries changed and previous geometry: ...ntent-geometry-cache/tests/lua/intent_geometry_cache.lua:113: retry success was not cached
+FAIL partial size throw retries changed and previous geometry: ...ntent-geometry-cache/tests/lua/intent_geometry_cache.lua:113: retry success was not cached
+FAIL partial position throw retries changed and previous geometry: ...ntent-geometry-cache/tests/lua/intent_geometry_cache.lua:113: retry success was not cached
+FAIL expired handles still reach native size guard: ...ntent-geometry-cache/tests/lua/intent_geometry_cache.lua:126: dead native guard was bypassed
+FAIL reentrant size setters cannot leave stale successful promises: ...ntent-geometry-cache/tests/lua/intent_geometry_cache.lua:139: assertion failed!
+ok expired handles still reach native position guard
+FAIL reentrant position setters cannot leave stale successful promises: ...ntent-geometry-cache/tests/lua/intent_geometry_cache.lua:139: assertion failed!
+ok first publication keeps original size/position order
+...ntent-geometry-cache/tests/lua/intent_geometry_cache.lua:149: 13 intent geometry regressions failed
+stack traceback:
+    [JS]: in function 'assert'
+    ...ntent-geometry-cache/tests/lua/intent_geometry_cache.lua:149: in main chunk
+    [JS]: in function 'dofile'
+    (command line):1: in main chunk
+Lua fixture tests/lua/intent_geometry_cache.lua: 945 ms

@@ -1,0 +1,43 @@
+✔ intent geometry preserves ownership, failed writes, reentry and native lifetime (921.032379ms)
+✔ real Host retains intent geometry without changing animation or the run graph (4304.613448ms)
+✔ intent geometry negative control (LF): ignored owner (791.371297ms)
+✔ intent geometry negative control (CRLF): ignored owner (790.992475ms)
+✔ intent geometry negative control (LF): missing alive guard (827.357531ms)
+✔ intent geometry negative control (CRLF): missing alive guard (792.923378ms)
+✔ intent geometry negative control (LF): cached rejected setter (736.428128ms)
+✔ intent geometry negative control (CRLF): cached rejected setter (789.993282ms)
+✔ intent geometry negative control (LF): cached overlapping write (717.70288ms)
+✔ intent geometry negative control (CRLF): cached overlapping write (721.653326ms)
+✔ intent geometry negative control (LF): retained nested promise after throw (833.883309ms)
+✖ intent geometry negative control (CRLF): retained nested promise after throw (3.218675ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 11
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12558.865435
+
+✖ failing tests:
+
+test at tests/intent-geometry-cache.test.mjs:30:118
+✖ intent geometry negative control (CRLF): retained nested promise after throw (3.218675ms)
+  AssertionError [ERR_ASSERTION]: exactly one boundary for each native setter
+
+  0 !== 2
+
+      at TestContext.<anonymous> (file:///workspace/scratch/c1a4970a76e0/intent-geometry-cache/tests/intent-geometry-cache.test.mjs:34:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

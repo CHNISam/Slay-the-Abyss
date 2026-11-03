@@ -1,0 +1,129 @@
+=== mobile_render_write_cache ===
+ok stable map rooms submit each size once; scale changes repaint
+ok map rejected setter retries same dimensions
+ok idle intent avoids repeated text and image writes without readback
+ok new native objects and controller binding repaint; image source change repaints
+ok rejected image and throwing text writes retry
+ok partially applied image false revokes the previous successful promise
+ok partially applied image throw revokes the previous successful promise
+ok partially applied throwing text replacement revokes the old text promise
+ok cached native handles still pass through dead-object guards
+ABYSS_RUN seed=1 source=explicit
+ok production image adapter retries rejected native setter
+Lua fixture tests/lua/mobile_render_write_cache.lua: 2033 ms
+=== intent_face_clearance ===
+ABYSS_RUN seed=1 source=explicit
+ABYSS_POWER_ICON_MISSING regenerate_monster using labelled unknown placeholder
+ABYSS_POWER_ICON_MISSING curiosity using labelled unknown placeholder
+ABYSS_POWER_ICON_MISSING unawakened using labelled unknown placeholder
+ABYSS_POWER_ICON_MISSING split using labelled unknown placeholder
+ABYSS_POWER_ICON_MISSING minion using labelled unknown placeholder
+INTENT_NATIVE_PLAN_CLEARANCE 61
+INTENT_FACE_CLEARANCE_PASS normal/elite/boss 1..5 1/2/3-icons/damage/notice/potions/portrait/help
+Lua fixture tests/lua/intent_face_clearance.lua: 9987 ms
+=== monster_intent_particle_game_ui ===
+ABYSS_RUN seed=1 source=explicit
+ABYSS_POWER_ICON_MISSING flight using labelled unknown placeholder
+MONSTER_INTENT_PARTICLE_GAME_UI_PASS
+Lua fixture tests/lua/monster_intent_particle_game_ui.lua: 2537 ms
+=== monster_intent_particles ===
+SOURCE_INTENT_PARTICLES_PASS
+Lua fixture tests/lua/monster_intent_particles.lua: 121 ms
+=== battle_overlay_surface_retention ===
+ABYSS_RUN seed=1 source=explicit
+OVERLAY_COUNTS 10 cycles creates=0 destroys=0
+BATTLE_OVERLAY_SURFACE_RETENTION_PASS
+Lua fixture tests/lua/battle_overlay_surface_retention.lua: 3987 ms
+=== battle_overlay_surface_safety ===
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK recovered cancelled
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+BATTLE_OVERLAY_SURFACE_SAFETY_PASS input/pause/false/throw/recovery/death/terminal
+Lua fixture tests/lua/battle_overlay_surface_safety.lua: 5552 ms
+=== original_monster_death ===
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_2 amount=1
+ABYSS_FEEDBACK death source=- target=cultist_2 amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=1
+ABYSS_FEEDBACK death source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_2 amount=1
+ABYSS_FEEDBACK death source=- target=cultist_2 amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=1
+ABYSS_FEEDBACK death source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=1
+ABYSS_FEEDBACK death source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK death source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=1
+ABYSS_FEEDBACK death source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK death source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=1
+ABYSS_FEEDBACK damage source=player target=cultist_2 amount=1
+ABYSS_FEEDBACK damage source=player target=cultist_3 amount=1
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=5
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=2
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=1
+ABYSS_FEEDBACK action_wait source=- target=- amount=0
+ABYSS_FEEDBACK death source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK recovered cancelled
+ORIGINAL_MONSTER_DEATH_PASS source-clock/alpha/no-collapse/action-independent/result-gate/fast
+Lua fixture tests/lua/original_monster_death.lua: 2181 ms
+=== original_monster_escape ===
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=looter_1 target=- amount=0
+ABYSS_FEEDBACK enemy_escape source=looter_1 target=- amount=0
+ABYSS_FEEDBACK intent source=mugger_2 target=- amount=0
+ABYSS_FEEDBACK enemy_escape source=mugger_2 target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_3 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_3 target=cultist_3 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=looter_1 target=- amount=0
+ABYSS_FEEDBACK enemy_escape source=looter_1 target=- amount=0
+ABYSS_FEEDBACK intent source=mugger_2 target=- amount=0
+ABYSS_FEEDBACK enemy_escape source=mugger_2 target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_3 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_3 target=cultist_3 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ESCAPE_REAL_TURN_GATE_TWO_IDS_PASS
+ABYSS_FEEDBACK enemy_escape source=looter_1 target=- amount=0
+ABYSS_FEEDBACK enemy_escape source=looter_1 target=- amount=0
+ESCAPE_IDLE_EXACT_ZERO_PASS
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=looter_1 target=- amount=0
+ABYSS_FEEDBACK enemy_escape source=looter_1 target=- amount=0
+ABYSS_FEEDBACK recovered cancelled
+ESCAPE_STALLED_CONTACT_PASS
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=looter_1 target=- amount=0
+ABYSS_FEEDBACK enemy_escape source=looter_1 target=- amount=0
+ABYSS_FEEDBACK enemy_escape source=looter_1 target=- amount=0
+ABYSS_FEEDBACK action_wait source=- target=- amount=0
+ABYSS_FEEDBACK enemy_escape source=looter_1 target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_2 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_2 target=cultist_2 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ESCAPE_DUPLICATE_TERMINAL_PASS
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=looter_1 target=- amount=0
+ABYSS_FEEDBACK enemy_escape source=looter_1 target=- amount=0
+ABYSS_FEEDBACK intent source=mugger_2 target=- amount=0
+ABYSS_FEEDBACK enemy_escape source=mugger_2 target=- amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ORIGINAL_MONSTER_ESCAPE_PASS real-combat/native-template-fake-host/gate/motion/idle/terminal/core-immutable
+Lua fixture tests/lua/original_monster_escape.lua: 5511 ms

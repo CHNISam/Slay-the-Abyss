@@ -1,0 +1,20 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@1.0.0 test:related
+> node scripts/test-affected.mjs --base origin/develop --plan
+
+{
+  "tier": "related",
+  "changed": [
+    "backlog/tasks/task-4.21 - 定位玩家反馈的手机卡顿与加载慢.md",
+    "src/lua/abyss_battle_render_actors.lua",
+    "tests/intent-geometry-cache.test.mjs",
+    "tests/lua/intent_geometry_cache.lua",
+    "tests/lua/intent_geometry_host.lua"
+  ],
+  "full": true,
+  "reason": "Unmodelled or deleted input: backlog/tasks/task-4.21 - 定位玩家反馈的手机卡顿与加载慢.md",
+  "fast": [],
+  "integration": [],
+  "lua": []
+}

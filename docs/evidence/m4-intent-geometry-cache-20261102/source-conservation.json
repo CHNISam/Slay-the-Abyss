@@ -1,0 +1,8 @@
+{
+  "base": "fafcc29f35c5c0b7e08f28a98c1397e8f45ed2f6",
+  "file": "src/lua/abyss_battle_render_actors.lua",
+  "baselineSha256": "8bc2feff44c958a921299b45be5153e8dbaf21b616ab4d10491909e4ad1617c7",
+  "currentSha256": "f535f2d14b15e8af3fe49bf3e3af45900b4cae4fcc8f8ccb29a407cf6fdcc6d9",
+  "restoredSha256": "8bc2feff44c958a921299b45be5153e8dbaf21b616ab4d10491909e4ad1617c7",
+  "exactBaselineAfterReversingSixSettersAndHelpers": true
+}

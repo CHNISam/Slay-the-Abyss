@@ -1,0 +1,4 @@
+ABYSS_RUN seed=1 source=explicit
+INTENT_GEOMETRY_HOST updates=300 size=0 position=0
+INTENT_GEOMETRY_HOST_PASS idle/hidden-return/run-RNG/unmount/new-battle/disable
+Lua fixture tests/lua/intent_geometry_host.lua: 3996 ms

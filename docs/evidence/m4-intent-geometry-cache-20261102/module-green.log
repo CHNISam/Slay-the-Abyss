@@ -1,0 +1,28 @@
+INTENT_GEOMETRY frames=300 enemies=1 size=3 position=3 sameSize=0 samePosition=0
+ok 1 enemies retain geometry for 300 unchanged frames
+INTENT_GEOMETRY frames=300 enemies=2 size=6 position=6 sameSize=0 samePosition=0
+ok 2 enemies retain geometry for 300 unchanged frames
+INTENT_GEOMETRY frames=300 enemies=3 size=9 position=9 sameSize=0 samePosition=0
+ok 3 enemies retain geometry for 300 unchanged frames
+INTENT_GEOMETRY frames=300 enemies=4 size=12 position=12 sameSize=0 samePosition=0
+ok 4 enemies retain geometry for 300 unchanged frames
+INTENT_GEOMETRY frames=300 enemies=5 size=15 position=15 sameSize=0 samePosition=0
+ok 5 enemies retain geometry for 300 unchanged frames
+ok geometry dimensions, portrait fallback and digit width update independently
+ok hidden return preserves visibility, tone and nongeometry writes
+ok A B A owners, rebinding and fresh same-name handles repaint
+ok partial size false retries changed and previous geometry
+ok partial position false retries changed and previous geometry
+ok partial size throw retries changed and previous geometry
+ok partial position throw retries changed and previous geometry
+ok expired handles still reach native size guard
+ok reentrant size setters cannot leave stale successful promises
+ok reentrant size false cannot retain a nested successful promise
+ok reentrant size throw cannot retain a nested successful promise
+ok expired handles still reach native position guard
+ok reentrant position setters cannot leave stale successful promises
+ok reentrant position false cannot retain a nested successful promise
+ok reentrant position throw cannot retain a nested successful promise
+ok first publication keeps original size/position order
+INTENT_GEOMETRY_CACHE_PASS
+Lua fixture tests/lua/intent_geometry_cache.lua: 677 ms
