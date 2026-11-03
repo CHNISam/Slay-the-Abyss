@@ -25,7 +25,8 @@ export function parseDependencies(body) {
 export function autoMergeErrors({repo,settings,pr,baseSha,ruleset,review,dependencies,changedFiles}) {
   const errors=[];
   if(repo!=='CHNISam/Slay-the-Abyss')errors.push('Unexpected repository');
-  if(settings?.allow_auto_merge!==true)errors.push('Repository auto-merge is not enabled');
+  if(settings?.allow_auto_merge!==true||settings?.allow_squash_merge!==true)
+    errors.push('Repository auto-merge and squash must both be enabled');
   if(!prId(pr?.number)||pr?.state!=='open'||pr?.merged||pr?.draft)errors.push('PR must be open, ready and unmerged');
   if(pr?.base?.ref!=='develop'||!validSha(pr?.base?.sha)||!validSha(pr?.head?.sha))
     errors.push('PR must target develop with valid HEAD and BASE SHAs');
@@ -42,6 +43,9 @@ export function autoMergeErrors({repo,settings,pr,baseSha,ruleset,review,depende
   const actualChecks=checks?.parameters?.required_status_checks??[];
   for(const context of requiredContexts)if(!actualChecks.some(check=>check.context===context))
     errors.push('Required status check missing from develop ruleset: '+context);
+  for(const context of requiredContexts.filter(name=>name!==reviewContext))
+    if(!actualChecks.some(check=>check.context===context&&check.integration_id===15368))
+      errors.push('Existing CI check must retain GitHub Actions as its required source: '+context);
   if(actualChecks.some(check=>check.context===reviewContext&&check.integration_id!=null))
     errors.push('independent-review must accept the status source used by the review coordinator');
   const pull=rules.find(rule=>rule.type==='pull_request');
