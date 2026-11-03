@@ -38,6 +38,31 @@ Licenses 与 Quality、Quick feedback 一样使用 GitHub 原生同引用 concur
 
 develop的`strict_required_status_checks_policy: false`，不用为启动测试反复同步最新develop。合并前仍核对精确HEAD、当前base和真实合并冲突。旧`ownership`作业已删除，不再Required；新规则先active并读回，再删除旧保护，没有保护真空。日后发现CI作业改名应更新实际Required名称，不能留永久等待的检查。
 
+## PR 异步自动合并（独立评审后提前排队）
+
+日常 develop PR 采用「创建 PR → Required CI 与独立评审并行 → 评审通过后验证准入并立即启用 Auto-merge → GitHub 等必需检查全绿后 squash → 实际 develop push 复核」。**启用 Auto-merge 不等于已合并，更不代表 CI 成功**。此流程仅适用于普通 develop PR；master、release/hotfix 发布、Draft、冲突、未完成审查、未解决依赖或带 \`hold\` / \`blocked\` / \`do-not-merge\` / \`manual-merge\` / \`merge:manual\` / \`risk:critical\` 标签的 PR 不自动排队。
+
+### 一次性仓库门禁配置
+
+在现有 [develop Ruleset](https://github.com/CHNISam/Slay-the-Abyss/rules/25870651) 的 Required status checks **额外添加** \`independent-review\`（来源选 **Any source**），保留现有 \`check\`、\`presentation\`、\`engineering-posix\`、\`inventory\`，以及仅 squash、线性历史、已解决讨论的规则；此步骤须由具备 Ruleset 管理权限的维护者操作。**配置未完成时 \`npm run merge:auto\` 必须拒绝启用**，不能将脚本打印 PASS 冒充 GitHub 强制门禁。当前 GitHub 连接只有 Ruleset 读取能力，不能据此宣称远端已改好。不要通过 \`--admin\` 或角色豁免绕过门禁。
+
+该额外 commit status 绑定受审的精确 HEAD：协调 Agent 检查独立评审记录、实际 develop ref、GitHub 合成 merge commit 的父节点和源码树、PR 声明的前置依赖及 Ruleset，再写入 \`independent-review: success\` 并使用 \`gh pr merge --auto --squash --match-head-commit <HEAD>\`。后续推送新 HEAD 时，旧 HEAD 的状态不应授权新提交，须重新审查、重新启用。**审查 JSON 的字段并不能证明审查者真实独立**；协调 Agent 仍须核对外部审查来源、reviewId 和未解决问题，不能自行伪造审查通过。
+
+### 常规使用
+
+PR 正文必须有一行 \`Depends-on: none\` 或 \`Depends-on: #123, #456\`；关联 PR 必须已确认合并。先由独立 Agent 复审并形成符合现有 \`verify:delivery\` 字段的 JSON（\`reviewId\`、\`reviewedHeadSha\`、\`reviewedBaseSha\`、\`conclusion: "pass"\`、\`unresolved: []\`）。本地在有 GitHub CLI 和已授权仓库身份的工作树中运行：
+
+\`\`\`bash
+npm run merge:auto -- <PR> <independent-review.json> --dry-run
+npm run merge:auto -- <PR> <independent-review.json>
+\`\`\`
+
+不等待完整 CI 即可申请自动合并；命令不禁用任何必需检查，不主动加长 timeout，不复用旧审查。成功后保存 \`build/delivery/auto-merge-<PR>-<HEAD12>.json\`，这是**审查/代码身份的早期准入证明（schemaVersion 4），不是 CI 预审 PASS**。已满足 GitHub 全部条件时，\`--auto\` 可能立即合入，务必在调用前完成审批。
+
+合并后运行 \`npm run verify:delivery -- <PR> <上述证据.json> --merged\`，只在实际 squash commit、源码树、父提交及 develop push Quality 均匹配时宣称 \`merged_passed\`；若实际 base 前移、快检路径缺少完整证明或验证失败，保持 \`merged_pending\` 并核查，不冒充完整验收。原 Full CI 预审和基础设施应急流程保持不变。
+
+当前 develop 的 \`strict_required_status_checks_policy: false\` 减少并发重跑，但**不是 Merge Queue**：在 Auto-merge 排队期间如果 develop 前移，可能出现旧组合测试通过、最终组合未测。跨模块/共享任务文件或存在顺序风险的 PR 应保持手动 HOLD，等前置 PR 合并并验证新组合之后再启用；不要把这个行为解释为自动队列的集成保证。未来如果需要真正的合并队列，应先评估仓库所有权和 GitHub Merge Queue 的适用条件。
+
 ## 一次批准的基础设施应急合并
 
 正常开发仍须当前SHA的完整Quality成功。GitHub的用户豁免是能力；聊天批准是Agent使用这项能力的前提，GitHub不会识别聊天记录，也不会自动区分业务失败和基础设施故障。
