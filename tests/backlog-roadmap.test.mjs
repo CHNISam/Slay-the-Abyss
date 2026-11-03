@@ -295,6 +295,8 @@ test('M7 product experience and M8 content expansion keep separate roadmap ident
   assert.deepEqual(auditMilestoneScope(titles), []);
   assert.deepEqual(auditMilestoneScope([...competitionTitles, 'M7 产品体验与核心特色', 'M8 内容建设与扩充']), []);
   assert.match(auditMilestoneScope([...competitionTitles, 'M7｜产品体验与核心特色']).join('\n'), /M8/);
+  assert.match(auditMilestoneScope([...competitionTitles, 'M7 产品体验与核心特色']).join('\n'), /M8/);
+  assert.match(auditMilestoneScope([...competitionTitles, 'M8 内容建设与扩充']).join('\n'), /M7/);
   const phases = { ...milestone, 'm-7': 'M7', 'm-8': 'M8' };
   const next = [task('TASK-85', { milestone: 'm-7' }), task('TASK-97', { milestone: 'm-8' })];
   const roadmap = '### M7｜产品体验与核心特色\n- TASK-85：正式角色验收\n### M8｜内容建设与扩充\n- TASK-97：更多角色\n';
