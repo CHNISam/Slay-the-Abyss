@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFileSync,existsSync,realpathSync,writeFileSync,rmSync} from 'node:fs';
 import {join,relative,isAbsolute} from 'node:path';
-import {deepFreezeSourceProof} from './pure-source-projection-cache.mjs';
+import {cachePureSourceProjection,deepFreezeSourceProof} from './pure-source-projection-cache.mjs';
 const normalize=s=>s.replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const blob=s=>createHash('sha1').update(`blob ${Buffer.byteLength(s)}\0`).update(s).digest('hex');
@@ -48,20 +48,22 @@ function inverse(path,source,target){
  }
  assert.equal(forward.join('\n'),s,'exact integrated forward source: '+path);return prior;
 }
+const projectedInverse=cachePureSourceProjection(proof.targets,inverse);
+const sourceDigest=cachePureSourceProjection(proof.targets,(_path,source)=>hash(normalize(source)));
 export function tryDeliverySource(path,source,target,{readSource=readLive}={}){
  source=preDeckDeliverySource(path,source,'delivery',{readSource});
  return tryPreparedDeliverySource(path,source,target,{readSource});
 }
 function tryPreparedDeliverySource(path,source,target,{readSource=readLive}={}){
- const prior=inverse(path,source,target);if(prior===undefined)return undefined;
+ const prior=projectedInverse(path,source,target);if(prior===undefined)return undefined;
  // Every call re-reads linked owners. No cache may cover this validation.
  for(const [p,b]of Object.entries(proof.targets[target].files).filter(([,b])=>b.beforeSha256===null)){
   const label='delivery linked source';
   let live;try{live=readSource(p);}catch{assert.fail(label+' missing: '+p);}
-  if(target==='develop'||target==='pre379'){const projected=inverse(p,live,'developEvents');if(projected!==undefined)live=projected;}
-  if(target==='pre379'){const projected=inverse(p,live,'develop');if(projected!==undefined)live=projected;}
+  if(target==='develop'||target==='pre379'){const projected=projectedInverse(p,live,'developEvents');if(projected!==undefined)live=projected;}
+  if(target==='pre379'){const projected=projectedInverse(p,live,'develop');if(projected!==undefined)live=projected;}
   assert.equal(typeof live,'string',label+' must exist: '+p);
-  assert.equal(hash(normalize(live)),b.afterSha256,label+' identity: '+p);
+  assert.equal(sourceDigest(p,live,target),b.afterSha256,label+' identity: '+p);
  }
  return prior;
 }
