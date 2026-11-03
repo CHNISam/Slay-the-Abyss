@@ -1,11 +1,11 @@
 ---
 id: TASK-4.18
 title: 清除新增事件玩家界面的原作专有身份外露
-status: To Do
+status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-31 10:47'
-updated_date: '2026-11-03 02:45'
+updated_date: '2026-11-03 06:34'
 labels: []
 milestone: m-7
 dependencies: []
@@ -31,9 +31,19 @@ PR409已确认N-loth事件标题、开场、交易说明和结束正文有原作
 - [ ] #3 遗物候选、移除取得顺序、重复礼物和随机流不变，专项回归与同候选设备截图分别记录。
 <!-- AC:END -->
 
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. 核对远端568da4e4实际事件展示与已批准世界观映射。2. 仅清理四处玩家文案身份外露，保留内部ID、交易与随机流。3. 定向回归及独立复审后提交PR；同候选设备截图单列未验。
+<!-- SECTION:PLAN:END -->
+
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-11-01当前队列调整：在PR439已将手机可读性列入High后，优先处理用户本轮明确要求上线前紧急消除的结算错误用时（TASK-38.3）。本项由High移至Medium，保持To Do、负责人、既定首发范围及三条验收不变；没有取消原作身份清理要求或勾选完成。
 2026-11-03 赛后排期：m-5 → M7 产品体验与核心特色；状态与未验 AC 保留，不设新截止日。
+
+2026-11-03 基于远端568da4e4独立核对：四处展示及遗物中文仍有原作身份，但当前批准Lore与eventCopy没有对应映射，遵守AC2不自行命名。待Owner提供已批准称呼；调查证据见docs/backlog-details/TASK-4.18-20261103.md。
+
+更正：此前将缺少新世界观映射判断为全部施工阻塞过强。data/relics.json已有中文称呼“恩洛斯的礼物”，先沿真实展示链路核验并统一已有中文；不编造新身份，世界观适配与设备验收另列。
 <!-- SECTION:NOTES:END -->

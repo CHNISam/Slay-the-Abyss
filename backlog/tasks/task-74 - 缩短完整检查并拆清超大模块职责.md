@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-11-03 12:15'
+updated_date: '2026-11-03 14:28'
 labels: []
 milestone: m-9
 dependencies: []
@@ -65,6 +65,8 @@ ordinal: 118000
 2026-11-03 本轮按Owner要求连续完成M9，不能以两个局部PR结束：核对PR485原生M9六任务；主控采集全库/仓库对象基线并独占配置、目录导航、集成与最终全新上下文复审；Core治理CardActions选择协议与Combat两种出牌协议，Runtime复核剩余热点，CI核对真实自然样本与吞吐，全部保持规则与原门禁，最终按精确SHA完整CI及合后证据逐项收口。
 
 2026-11-03 本轮PR487/488：按最新develop的纯投影缓存实现合流测试侧精确inverse；保留完整身份、新鲜关联读取及一次准备，补两源码组合漂移回归，独立复审后提交现有PR并核对精确head完整CI。
+
+2026-11-03 独立切片：从远端568da4e4核对camp/rewards/DrugDealer三个copy-only使用者，直接依赖既有abyss_copy，保留Combat.copy兼容；旧新图复制/真实UI与事件行为差分、负例、独立复审及精确HEAD完整CI后交付。避开PR486初始化模块，不重做已合切片。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
