@@ -97,7 +97,12 @@ const responsibilityRoots = {
     ...['exhaustRandom','fiendFire','exhaustNonAttacks','exhaustSpecific','upgradeAllHand',
       'makeTemporaryCards','generateAttack','randomizeHandCost','upgradeHand','resolveCurlUp',
       'obtainPotion','doubleStrength','spotWeakness','damageRandom','feedReward','feed','reaper',
-      'heal','applyFallback','block','M.apply'].map(name=>`function '${name}'`),
+      'heal','applyFallback','block','M.apply',
+      'choiceEligible','candidates','openChoice','multipleSelection','selection','handChoice',
+      'returnDualWieldHand','choiceActions.exhaustChoose','choiceActions.recoverExhaust',
+      'choiceActions.discardToHand','moveChoiceToDraw','choiceActions.upgradeHand',
+      'choiceActions.dualWield','M.applyChoice','commitMultipleChoice','toggleChoice',
+      'chooseMultiple','containsUid','chooseSingle','M.choose'].map(name=>`function '${name}'`),
     ...['writhingRoll','writhingParasite','giantHeadSlow','timeEater','reptomancerSuicide',
       'enemyAction','staticRetaliation','classPotion','silentFinal','discover','colorless','originalV4',
       'relicUpgradeRandomHand','playTop','darklingAction','heartBeat','spireDeathRemove',
@@ -108,7 +113,9 @@ const responsibilityRoots = {
   'src/lua/abyss_run_potions.lua': ["function 'potionCandidate'"],
   'src/lua/abyss_run_potion_candidate.lua': [],
   'src/lua/abyss_effects.lua': ["function 'M.apply'", "function 'continueEffects'", "function 'applyOne'"],
-  'src/lua/abyss_combat.lua': ["function 'queuedHandlers.effect'", "function 'M.canPlay'", "function 'playWindow'", "function 'playEligibility'", "function 'playSupportedEffects'", "function 'playCardContent'", "function 'playAdvancedMode'", "function 'playEnergy'", "function 'playEffectTarget'", "function 'playCardRequirements'", "function 'playHandRequirements'"],
+  'src/lua/abyss_combat.lua': ["function 'queuedHandlers.effect'", "function 'M.canPlay'", "function 'playWindow'", "function 'playEligibility'", "function 'playSupportedEffects'", "function 'playCardContent'", "function 'playAdvancedMode'", "function 'playEnergy'", "function 'playEffectTarget'", "function 'playCardRequirements'", "function 'playHandRequirements'", "function 'beginQueuedPlay'", "function 'queueNativePlay'", "function 'M.play'"],
+  'src/lua/abyss_combat_native_play.lua': [],
+  'src/lua/abyss_combat_queued_play.lua': [],
   'src/lua/abyss_act2_ai.lua': ["function 'choose'"],
   'src/lua/abyss_character_presentation.lua': [],
   'src/lua/abyss_character_presentation_text.lua': ["function 'fragments'"],
@@ -151,7 +158,7 @@ const responsibilityRoots = {
 };
 // Existing catalog/seed/red-card contracts are separate, unchanged responsibilities.
 // All Run orchestration and newly extracted Run helpers receive the full budget.
-const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|combat_catalog|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui(?:_.+)?|game_ui_.+|run(?:_(?!(?:card_catalog|red_card_contract|seed)\.lua$).+)?|nodes(?:_.+)?)\.lua$/.test(file);
+const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|combat_catalog|combat_native_play|combat_queued_play|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui(?:_.+)?|game_ui_.+|run(?:_(?!(?:card_catalog|red_card_contract|seed)\.lua$).+)?|nodes(?:_.+)?)\.lua$/.test(file);
 export function reviewModuleSize(sources, budgets = {'src/lua/abyss_run.lua': 1000, 'src/lua/abyss_nodes.lua': 1000}) {
   const modules = [], errors = [];
   for (const [file, limit] of Object.entries(budgets)) {
