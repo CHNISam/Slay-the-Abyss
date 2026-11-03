@@ -17,7 +17,7 @@ function M.prepare(run,event,rng)
  assert(#relics>=2,"N'loth requires two relics")
  R.shuffle(rng or run.miscRng,relics)
  event.relicChoices={relics[1],relics[2]}
- event.stage,event.body='intro',"N'loth指着你随身的两件遗物，提出交换。"
+ event.stage,event.body='intro','恩洛斯指着你随身的两件遗物，提出交换。'
 end
 function M.options(run,event)
  if event.stage=='result'then return {row('leave','离开','返回路线。')}end
@@ -26,7 +26,7 @@ function M.options(run,event)
  local repeated=owns(run,"Nloth's Gift")
  for i,id in ipairs(event.relicChoices)do
   local d=definition(run,id)
-  local description=repeated and '已经持有礼物：获得圆环，不失去所示遗物。'or"交出所示遗物，获得N'loth的礼物。"
+  local description=repeated and '已经持有礼物：获得圆环，不失去所示遗物。'or'交出所示遗物，获得恩洛斯的礼物。'
   rows[i]=row('trade_'..i,'选择'..(d and d.name or id),description,id)
  end
  rows[3]=row('leave','离开','拒绝交易。');return rows
@@ -58,7 +58,7 @@ function M.choose(run,flow,choice,uid)
   if not index then return false,'invalid_event_choice'end
   local ok,why=trade(run,event,index);if not ok then return false,why end
  end
- event.choice,event.stage,event.body=choice,'result',"N'loth转过身去，交易结束了。"
+ event.choice,event.stage,event.body=choice,'result','恩洛斯转过身去，交易结束了。'
  return true,'pending'
 end
 return M

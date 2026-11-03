@@ -1,0 +1,16 @@
+package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
+local H=dofile('tests/helpers/act2_choice_events.lua')
+local UI=dofile('tests/helpers/event_cards_native_ui.lua')
+local Names=require('abyss_relic_names')
+local r,m=H.fixture('nloth',function(s)assert(H.Run.obtainRelic(s,'anchor'))end)
+local ui,get,_,tap=UI.setup(r,m)
+local function read(path)local text=get('eventView/'..path).text;print(path..'='..text);return text end
+local title,body,option=read('name'),read('body'),read('option1/description')
+assert(title=='恩洛斯','[NLOTH_COPY] Chinese event title')
+assert(body=='恩洛斯指着你随身的两件遗物，提出交换。','[NLOTH_COPY] Chinese intro')
+assert(option=='交出所示遗物，获得恩洛斯的礼物。','[NLOTH_COPY] Chinese gift option')
+assert(tap('eventView/option1',1))
+local result=read('body')
+assert(result=='恩洛斯转过身去，交易结束了。\n获得遗物：恩洛斯的礼物。','[NLOTH_COPY] Chinese result and actual reward')
+assert(Names.get(r.data,r.nodeFlow.event.obtainedRelicId)=='恩洛斯的礼物')
+print('LUA_NLOTH_CHINESE_PRESENTATION_PASS')
