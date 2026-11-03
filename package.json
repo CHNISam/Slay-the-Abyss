@@ -17,6 +17,7 @@
     "check:native-ui-contract": "node --test --test-concurrency=1 tests/native-startup-contract.test.mjs tests/ui-mock-contract.test.mjs",
     "check:engineering": "node scripts/check-engineering.mjs && npm run check:test-strength && npm run check:native-ui-contract",
     "verify:delivery": "node scripts/verify-delivery.mjs",
+    "merge:auto": "node scripts/arm-auto-merge.mjs",
     "build:native": "node scripts/build-native-audio-game.mjs",
     "verify:sts1-map": "npm run build:data && node scripts/sts1-map-evidence.mjs compare",
     "verify:sts1-map:properties": "npm run build:data && node scripts/sts1-map-evidence.mjs properties 10000",
