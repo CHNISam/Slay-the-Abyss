@@ -343,3 +343,8 @@ tests/fixtures/sts1-prismatic-rewards.json text eol=lf
 
 # Preserve authenticated diagnostics and rendered evidence across checkout platforms.
 docs/evidence/mobile-readability-20261101/** -text
+
+# Raiden verification receipts authenticate these exact LF inputs and receipts.
+docs/evidence/raiden-v4-verification-20261103/*.json text eol=lf
+tests/raiden-v4-verification.test.mjs text eol=lf
+tests/lua/support/raiden_v4_*.lua text eol=lf
