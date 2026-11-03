@@ -1,5 +1,5 @@
 -- Pointer reward ownership follows content and resolution, not just a page slot.
-local Combat = require("abyss_combat")
+local Copy = require("abyss_copy")
 local M = {}
 
 local function captureGold(token, rewards)
@@ -23,9 +23,9 @@ end
 
 local function captureRelics(token,rewards,run)
     token.relics=rewards and rewards.relics
-    token.relicState=rewards and Combat.copy(rewards.relics or {})
+    token.relicState=rewards and Copy.copy(rewards.relics or {})
     token.emerald=rewards and rewards.emeraldKey
-    token.emeraldState=token.emerald and Combat.copy(token.emerald)
+    token.emeraldState=token.emerald and Copy.copy(token.emerald)
     token.emeraldOwned=run and run.keys and run.keys.emerald
 end
 
@@ -37,9 +37,9 @@ function M.capture(token, view, run)
     token.cardResolved = rewards and rewards.cardResolved
     token.manualContinue = rewards and rewards.manualContinue
     token.cards = rewards and rewards.cards
-    token.cardChoices = rewards and Combat.copy(rewards.cards)
+    token.cardChoices = rewards and Copy.copy(rewards.cards)
     token.upgrades = rewards and rewards.cardUpgrades
-    token.cardUpgrades = rewards and Combat.copy(rewards.cardUpgrades or {})
+    token.cardUpgrades = rewards and Copy.copy(rewards.cardUpgrades or {})
     captureRelics(token,rewards,run)
     captureGold(token, rewards)
     capturePotion(token, rewards)
