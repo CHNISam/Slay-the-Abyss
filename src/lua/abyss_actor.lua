@@ -625,13 +625,7 @@ local function queuePlayerAttackedReactions(state,source,target,amount,fixed)
     return true
 end
 
-function M.damage(state, source, target, base, fixed, retaliation, normalAmount, attackReaction)
-    if not M.isActive(target) or source ~= nil and not M.isActive(source) then return 0 end
-    local before, reactions = target.hp, retaliation or {}
-    -- Owner.onAttack enqueues before the target's onAttacked reactions. Keep
-    -- the shared area batch in that order, so reverse TOP draining can
-    -- interleave a later target's poison with an earlier target's Thorns.
-    if attackReaction then reactions[#reactions+1]=attackReaction end
+local function damageAmount(state,source,target,base,fixed,normalAmount)
     local amount
     if normalAmount ~= nil then
         -- Modifier results can exceed the signed32 base/status bounds. Keep
@@ -644,6 +638,10 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
         amount=M.attackAmount(state,source,target,base,fixed)
         if not fixed and target==state.player then amount=require('abyss_spire_pair').actualDamage(state,source,amount)end
     end
+    return amount
+end
+
+local function consumeAttackBlock(state,source,target,amount,fixed)
     if intangible(target) then amount=math.min(amount,1) end
     local absorbed = math.min(target.block, amount)
     target.block = target.block - absorbed
@@ -652,13 +650,21 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
     if source==state.player and not fixed and unblocked>0 and unblocked<5 then
         for _,id in ipairs(state.relics or {})do if id=='boot' or id=='Boot'then unblocked=5;break end end
     end
-      unblocked=require('abyss_defect_final_cards').incoming(state,target,unblocked)
+    return unblocked,absorbed
+end
+
+local function modifyIncomingAttack(state,source,target,unblocked,fixed,reactions)
+    unblocked=require('abyss_defect_final_cards').incoming(state,target,unblocked)
     unblocked=require('abyss_corrupt_heart').capDamage(target,unblocked)
     Act3Powers.attacked(state,target,unblocked,reactions)
     local playerAttackedQueued=queuePlayerAttackedReactions(state,source,target,unblocked,fixed)
     if target==state.player then unblocked=require('abyss_rare_relics').onAttacked(state,source,fixed and 'thorns'or 'normal',unblocked)end
     if target==state.player then unblocked=require('abyss_relic_hooks').onLoseHpLast(state,unblocked)end
     require('abyss_run_scoring').damage(state,target,unblocked,false)
+    return unblocked,playerAttackedQueued
+end
+
+local function applyAttackHpLoss(state,source,target,unblocked,absorbed,fixed,before)
     local lost = math.min(target.hp, unblocked)
     -- Monster wasHPLost precedes onAttacked; the player uses the opposite
     -- order. In particular Book's onInflictDamage follows player Plated.
@@ -671,6 +677,10 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
     if target==state.player then PlatedArmor.hpLost(state,source,target,lost,not fixed,reaction)end
     require('abyss_relic_hooks').hpChanged(state,target,before)
     Act2Powers.inflicted(state,source,lost,fixed,reaction)
+    return lost,damageEvent
+end
+
+local function queueHitPowers(state,source,target,lost,fixed,reactions)
     -- Curl Up locks on the first nonlethal NORMAL hit, but its actions go to
     -- the BOTTOM, behind every already-queued hit/effect and card disposal.
     -- Keep this FIFO separate from Angry/Thorns/Spore's reverse TOP reactions.
@@ -687,6 +697,9 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
     if angry > 0 then
         reactions[#reactions + 1] = { source = target, target = target, amount = angry, status = "strength" }
     end
+end
+
+local function queueAttackedPowers(source,target,fixed,reactions,playerAttackedQueued)
     -- Thorns consumes block, but has no attack modifiers or recursive retaliation.
     -- Being attacked triggers Thorns, even at zero damage, fully blocked or lethal.
     if not fixed and source and source~=target and not playerAttackedQueued then
@@ -702,6 +715,22 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
             end
         end
     end
+end
+
+function M.damage(state, source, target, base, fixed, retaliation, normalAmount, attackReaction)
+    if not M.isActive(target) or source ~= nil and not M.isActive(source) then return 0 end
+    local before, reactions = target.hp, retaliation or {}
+    -- Owner.onAttack enqueues before the target's onAttacked reactions. Keep
+    -- the shared area batch in that order, so reverse TOP draining can
+    -- interleave a later target's poison with an earlier target's Thorns.
+    if attackReaction then reactions[#reactions+1]=attackReaction end
+    local amount=damageAmount(state,source,target,base,fixed,normalAmount)
+    local unblocked,absorbed=consumeAttackBlock(state,source,target,amount,fixed)
+    local playerAttackedQueued
+    unblocked,playerAttackedQueued=modifyIncomingAttack(state,source,target,unblocked,fixed,reactions)
+    local lost,damageEvent=applyAttackHpLoss(state,source,target,unblocked,absorbed,fixed,before)
+    queueHitPowers(state,source,target,lost,fixed,reactions)
+    queueAttackedPowers(source,target,fixed,reactions,playerAttackedQueued)
     -- onDeath queues after onAttacked, so its TOP Power resolves before Thorns.
     queueDeathPower(state, target, before, reactions)
     if target.halfDead or Darklings.owns(target)and target.isDying then damageEvent.frame=Events.frame(state)end
