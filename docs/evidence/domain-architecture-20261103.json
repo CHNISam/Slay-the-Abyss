@@ -254,5 +254,26 @@
     "Container git clone failed: github.com DNS resolution unavailable.",
     "No whole-repository classification or runtime performance claim.",
     "Proposed new module and dependencyBoundaries schema are not deployed by this design PR."
-  ]
+  ],
+  "reviewFollowup": {
+    "reviewedHead": "2fb6f0151914cf5cd9e76600742b7ef0179fb922",
+    "integrationBase": "2d12b4e2a4ac4444af8f9c156512bb87ebd7047e",
+    "scope": "Documentation corrections only; original audit metadata above remains historical. Revised HEAD needs its own checks; no runtime refactor or gate implementation.",
+    "mergedSinceAudit": [
+      487,
+      495,
+      492
+    ],
+    "stillInFlightAtFollowup": [
+      494,
+      496,
+      499
+    ],
+    "corrections": [
+      "D4: enter preserves map/path; advanceAct preserves map root and publishes a new chapter path; failures publish neither.",
+      "Record plated_armor_queue enqueueReaction interception and legacy CardActions.enqueue dynamic dispatch as implementation contracts.",
+      "Explicitly include new reactions module in responsibility complexity hard gate and regression coverage."
+    ],
+    "independentReview": "Original reviewedHead has independent findings; revised HEAD verification is separate, not approved by this edit."
+  }
 }
