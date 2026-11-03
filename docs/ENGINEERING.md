@@ -23,6 +23,8 @@ Node UI 专项门禁覆盖入口与全部 abyss_node_ui_* 模块：每模块≤1
 
 日常小改动使用 `npm run test:fast -- --base origin/develop` 或 `npm run test:related -- --base origin/develop`；先加 `--plan`查看选择。也可用 `--files scripts/deck-ui-layout.mjs` 指定待验证的改动集合。本地 fast 与自动 PR advisory 共用有界的 JS、Lua 选集，直接改动的 Lua 夹具优先；相关层执行完整受影响回归。未知、删除、数据/配置/构建基础设施改动仍要求完整 `npm run check`，fast 只报告可映射部分及延期原因。零测试、部分成功均不能代替完整 Quality，覆盖层次与选择理由见 [CI-FAST](CI-FAST.md)。
 
+**多代理领取闸门：** 自主接单前先执行 `npm run task:pick -- TASK-编号`、核查 [当前 Sprint](SPRINT_EXECUTION.md) 和所有开放 PR/工作树；HOLD 时不得把未来里程碑的 To Do 自动改为 In Progress。当前 M7 工程先行，M8 必要确定性修复须明确例外，TASK-85/96 除已合 #491 离线成果外不得开启新实施；M9 不可抢跑。任务状态变更只能经 Backlog CLI，独立深审/精确 HEAD CI 后才能合并。
+
 多代理先划分源码写入范围；同一工作树的生成目录与工程报告由一个执行者写入，独立树的产物不互借。按可用内存、CPU和已有作业安排昂贵验证，复用现有分片与 worker；每个代理不各跑一轮完整检查。主控按小批验证、复审并集成，本批收口后再领下一批，避免未合切片累积；独立只读评审可与 CI 并行。保留失败、取消及重跑耗时，不恢复全局任务锁。
 
 日常CI使用GitHub-hosted Windows和Ubuntu；受信分支显式`local-special`诊断入口保留，具体调度以[Quality工作流](../.github/workflows/quality.yml)为准。旧self-hosted常规调度与Remote Task Claim强制锁已按用户明确批准停用。保留Backlog、独立工作树、PR审查、精确head与全部完整质量门禁。GitHub原生每分支concurrency取消过时运行，不再把不同PR排在本机串行队列。Windows与Ubuntu覆盖不同文件系统语义；PR merge SHA和squash后的develop SHA也分别核对，不复用旧SHA的绿灯。

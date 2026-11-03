@@ -5,9 +5,9 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-11-03 02:45'
+updated_date: '2026-11-03 15:29'
 labels: []
-milestone: m-7
+milestone: m-8
 dependencies:
   - TASK-29
   - TASK-29.1

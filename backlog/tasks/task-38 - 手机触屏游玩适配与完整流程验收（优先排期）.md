@@ -5,11 +5,11 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-23 12:23'
-updated_date: '2026-11-03 02:45'
+updated_date: '2026-11-03 15:29'
 labels:
   - awaiting-live
   - release-qa-20261101
-milestone: m-7
+milestone: m-8
 dependencies: []
 references:
   - TASK-4

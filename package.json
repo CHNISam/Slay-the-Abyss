@@ -8,6 +8,7 @@
     "node": ">=22"
   },
   "scripts": {
+    "task:pick": "node scripts/check-task-intake.mjs",
     "check:guidance": "node scripts/check-agent-guidance.mjs",
     "setup:lua-static": "node scripts/setup-lua-static.mjs",
     "check:architecture": "node scripts/check-architecture.mjs",

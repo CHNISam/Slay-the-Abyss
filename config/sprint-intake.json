@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "timezone": "Asia/Shanghai",
+  "sprint": {
+    "id": "2026-11-03",
+    "start": "2026-11-03",
+    "end": "2026-11-09",
+    "primaryMilestone": "m-7"
+  },
+  "milestoneOrder": [
+    "m-7",
+    "m-8",
+    "m-9"
+  ],
+  "parallelTaskIds": [
+    "TASK-4.18",
+    "TASK-38.3"
+  ],
+  "blockedUntilOwnerApproval": [
+    "TASK-85",
+    "TASK-96",
+    "TASK-97",
+    "TASK-62",
+    "TASK-64"
+  ],
+  "preExistingInFlightPRs": [
+    487,
+    488,
+    490,
+    491
+  ],
+  "note": "New automatic claim only. Existing PRs may finish their already-owned slices, but cannot automatically start more work. Calendar never unlocks the next phase.",
+  "historicalM8TaskIds": [
+    "TASK-10.1.2",
+    "TASK-2.1",
+    "TASK-25.2",
+    "TASK-29",
+    "TASK-4.10",
+    "TASK-4.17",
+    "TASK-4.19",
+    "TASK-4.4",
+    "TASK-4.7",
+    "TASK-4.8",
+    "TASK-4.9",
+    "TASK-50",
+    "TASK-59.3.1",
+    "TASK-76"
+  ]
+}

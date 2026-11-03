@@ -5,11 +5,11 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 15:58'
-updated_date: '2026-11-03 02:45'
+updated_date: '2026-11-03 15:29'
 labels:
   - art
   - launch
-milestone: m-7
+milestone: m-8
 dependencies:
   - TASK-10.1
   - TASK-25.2

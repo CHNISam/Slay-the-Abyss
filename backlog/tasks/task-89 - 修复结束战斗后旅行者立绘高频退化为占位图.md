@@ -5,12 +5,12 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-30 21:58'
-updated_date: '2026-11-03 02:45'
+updated_date: '2026-11-03 15:29'
 labels:
   - playtest-20261030
   - p0
   - gpt
-milestone: m-7
+milestone: m-8
 dependencies: []
 references:
   - docs/backlog-details/PLAYTEST-20261030.md

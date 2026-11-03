@@ -5,13 +5,13 @@ status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 06:50'
-updated_date: '2026-10-27 15:03'
+updated_date: '2026-11-03 15:29'
 due_date: '2026-10-28'
 labels:
   - art
   - launch
   - P1
-milestone: m-5
+milestone: m-8
 dependencies:
   - TASK-2.1
 references:
