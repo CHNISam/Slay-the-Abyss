@@ -1,5 +1,5 @@
 -- Initialization responsibility for the same-run API.
-local Combat = require("abyss_combat")
+local Copy = require("abyss_copy")
 local EventRandom = require("abyss_sts_random")
 local Unknown = require("abyss_unknown")
 local EventPool = require("abyss_event_pool")
@@ -93,7 +93,7 @@ function M.install(Run, shared)
         local cardOwner = CardRandom.new(eventSeed)
         -- Profile factories already detached the whole input graph. Their private
         -- result can be adopted; caller-owned/default bundles still need a copy.
-        local runData=ownsData and data or Combat.copy(data)
+        local runData=ownsData and data or Copy.copy(data)
         if legacyPrepared then
             -- These new internal markers are not legacy rules or ownership proof.
             -- Clear only the detached graph, preserving the old combat defaults.
@@ -113,9 +113,9 @@ function M.install(Run, shared)
             elapsedSeconds = 0, victories = 0,
             scoreStats = require("abyss_run_score").newStats(data.rules.player.maxHp),
             gold = data.rules.player.startingGold, deck = {}, nextDeckUid = 1,
-            relics = Combat.copy(data.rules.player.startingRelics), potions = {} }
+            relics = Copy.copy(data.rules.player.startingRelics), potions = {} }
         finishCatalog(run, ownsCatalog)
-        if profile then run.character, run.characterProfile = profile.id, Combat.copy(profile) end
+        if profile then run.character, run.characterProfile = profile.id, Copy.copy(profile) end
         if profile and profile.originalV4 then run.originalCommands={}end
         if options and options.campaign then
             run.campaign,run.act,run.keys=true,1,{ruby=false,emerald=false,sapphire=false}
