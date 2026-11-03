@@ -12,6 +12,33 @@ local C, L, S = Theme.color, Theme.layout, Theme.space
 local number = require("abyss_numbers").integer
 local potionText = PotionView.potionText
 local intentView = IntentView.intentView
+-- Last successful geometry writer per native handle; tokens hold no view references.
+local intentSizes=setmetatable({},{__mode='k'})
+local intentPositions=setmetatable({},{__mode='k'})
+local function intentSize(control,width,height,owner)
+    local painted=intentSizes[control]
+    if painted and painted.owner==owner and painted.width==width
+        and painted.height==height and control.alive~=false then return end
+    -- Revoke the old promise before a setter can partially apply or re-enter.
+    local pending={};intentSizes[control]=pending
+    local ok,result=pcall(control.SetSizeDelta,control,width,height)
+    local current=intentSizes[control]==pending
+    intentSizes[control]=nil
+    if not ok then error(result,0) end
+    if result~=false and current then intentSizes[control]={owner=owner,width=width,height=height} end
+end
+local function intentPosition(control,x,y,owner)
+    local painted=intentPositions[control]
+    if painted and painted.owner==owner and painted.x==x
+        and painted.y==y and control.alive~=false then return end
+    local pending={};intentPositions[control]=pending
+    local ok,result=pcall(control.SetAnchoredPosition,control,x,y)
+    local current=intentPositions[control]==pending
+    intentPositions[control]=nil
+    if not ok then error(result,0) end
+    -- Overlapping native setters have unknown completion order: retry next time.
+    if result~=false and current then intentPositions[control]={owner=owner,x=x,y=y} end
+end
 local function needsTarget(state, instance)
     -- Ask the core to validate the same card with and without a target.
     local _, reason = Combat.canPlay(state, instance.uid, nil)
@@ -20,6 +47,7 @@ end
 -- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, ownership, host, dependencies)
     -- A new view binding starts fresh; weak native keys cannot retain retired actors.
+    local intentGeometryOwner={}
     local intentImages=setmetatable({},{__mode='k'})
     local intentTexts=setmetatable({},{__mode='k'})
     local potionCaptions=setmetatable({},{__mode='k'})
@@ -87,7 +115,7 @@ function M.install(owner, ownership, host, dependencies)
         -- STS 128px intent frames are mostly transparent padding; the official glyphs here
         -- are full-bleed, so draw them at the glyph size and float them clear of the head.
         local glyph=math.min(size,L.intent.size)
-        icon:SetSizeDelta(glyph,glyph);icon:SetAnchoredPosition(x,y)
+        intentSize(icon,glyph,glyph,intentGeometryOwner);intentPosition(icon,x,y,intentGeometryOwner)
         if visible then
             intentPicture(icon,Theme.icon.intent[kind] or Theme.icon.intent.unknown)
             dependencies.tint(icon,intentTone(alpha,kind))
@@ -105,8 +133,8 @@ function M.install(owner, ownership, host, dependencies)
             intentTexts[value]=text
         end
         local width=math.max(L.intent.valueWidth,utf8.len(text)*L.intent.numberSize)
-        value:SetSizeDelta(width,L.nativeText.lineHeight)
-        value:SetAnchoredPosition(x+L.intent.size/2+S.xs+width/2,y)
+        intentSize(value,width,L.nativeText.lineHeight,intentGeometryOwner)
+        intentPosition(value,x+L.intent.size/2+S.xs+width/2,y,intentGeometryOwner)
         dependencies.ink(value,intentTone(alpha))
     end
     local function renderEnemyIntent(box,face,portrait,geometry,allowed,alpha)
@@ -116,7 +144,7 @@ function M.install(owner, ownership, host, dependencies)
         renderIntentValue(box,face,x,y,allowed,alpha)
         local sx,sy=Theme.canvas.base[1]/1920,Theme.canvas.base[2]/1080
         local hit=box:GetChild('intentHit');hit:SetVisible(allowed~=false)
-        hit:SetAnchoredPosition(x,y);hit:SetSizeDelta(64*sx,64*sy)
+        intentPosition(hit,x,y,intentGeometryOwner);intentSize(hit,64*sx,64*sy,intentGeometryOwner)
     end
     local function enemyIntentAllowed(actor,battle)
         return not require('abyss_boss_relics').hidesIntents(owner.run) and Actors.isPresent(actor) and not owner.feedback.dying[actor.id]

@@ -1,0 +1,12 @@
+ABYSS_RUN seed=1 source=explicit
+INTENT_GEOMETRY_HOST updates=300 size=900 position=900
+tests/lua/intent_geometry_host.lua:50: real Host resubmitted stable intent geometry
+stack traceback:
+    [JS]: in function 'assert'
+    tests/lua/intent_geometry_host.lua:50: in main chunk
+    [JS]: in function 'dofile'
+    ...intent-baseline-6911a9ca-a840-490e-8925-d5757b8da76b.lua:2: in main chunk
+    [JS]: in function 'dofile'
+    (command line):1: in main chunk
+
+exit=1

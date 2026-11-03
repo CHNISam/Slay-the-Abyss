@@ -1,0 +1,15 @@
+✔ intent geometry preserves ownership, failed writes, reentry and native lifetime (905.405981ms)
+✔ real Host retains intent geometry without changing animation or the run graph (4625.048859ms)
+✔ intent geometry negative control: ignored owner (748.090189ms)
+✔ intent geometry negative control: missing alive guard (736.060863ms)
+✔ intent geometry negative control: cached rejected setter (736.876125ms)
+✔ intent geometry negative control: cached overlapping write (672.398223ms)
+✔ intent geometry negative control: retained nested promise after throw (704.120687ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9335.853752

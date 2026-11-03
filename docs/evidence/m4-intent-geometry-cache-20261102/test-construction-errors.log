@@ -1,0 +1,68 @@
+✔ intent geometry preserves ownership, failed writes, reentry and native lifetime (755.713401ms)
+✖ real Host retains intent geometry without changing animation or the run graph (2736.96869ms)
+✔ intent geometry negative control: ignored owner (675.192338ms)
+✖ intent geometry negative control: missing alive guard (0.620272ms)
+✔ intent geometry negative control: cached rejected setter (714.276532ms)
+✔ intent geometry negative control: cached overlapping write (720.506774ms)
+✔ intent geometry negative control: retained nested promise after throw (718.241402ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 5
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6490.568664
+
+✖ failing tests:
+
+test at tests/intent-geometry-cache.test.mjs:15:1
+✖ real Host retains intent geometry without changing animation or the run graph (2736.96869ms)
+  AssertionError [ERR_ASSERTION]: ABYSS_RUN seed=1 source=explicit
+  INTENT_GEOMETRY_HOST updates=300 size=0 position=0
+  ...intent-geometry-cache/tests/lua/intent_geometry_host.lua:25: run/RNG graph changed
+  stack traceback:
+    [JS]: in function 'assert'
+    ...intent-geometry-cache/tests/lua/intent_geometry_host.lua:25: in local 'unchanged'
+    ...intent-geometry-cache/tests/lua/intent_geometry_host.lua:41: in main chunk
+    [JS]: in function 'dofile'
+    (command line):1: in main chunk
+
+
+  1 !== 0
+
+      at TestContext.<anonymous> (file:///workspace/scratch/c1a4970a76e0/intent-geometry-cache/tests/intent-geometry-cache.test.mjs:17:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/intent-geometry-cache.test.mjs:30:58
+✖ intent geometry negative control: missing alive guard (0.620272ms)
+  AssertionError [ERR_ASSERTION]: exactly one boundary for each native setter
+
+  3 !== 2
+
+      at TestContext.<anonymous> (file:///workspace/scratch/c1a4970a76e0/intent-geometry-cache/tests/intent-geometry-cache.test.mjs:33:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

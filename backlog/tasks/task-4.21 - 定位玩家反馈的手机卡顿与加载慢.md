@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-31 23:38'
-updated_date: '2026-11-02 07:21'
+updated_date: '2026-11-02 23:57'
 labels: []
 milestone: m-5
 dependencies: []
@@ -61,4 +61,8 @@ ordinal: 136000
 2026-11-02 牌库注册生命周期：真实 DeckUI/Controller 与共享原生 Grid 销毁夹具复现关闭一次 records 27（基线14）而回归先红；仅保存原 hit，确认 item 死亡后复用 unbind，刷新后及隐藏/详情 update 回收，不解绑存活复用对象。修后12牌重复1/10/20次关闭均14条、零死亡注册，300次非手柄 sync 扫描82200→4200；7组生命周期/旧输入/选牌/真实Host完整run与RNG、原生合同6项含两负控、相邻7 Lua入口、布局6项、工程/架构/静态/语法及4关键变异通过。证据 docs/evidence/m4-deck-controller-lifecycle-20261102/；独审与精确SHA完整CI另验。无手机FPS/加载结论、无官方导入/实机，AC3及任务状态不变；本轮只本地交付，未推送/开PR/合并。
 
 2026-11-02 PR471完整CI在Windows9/POSIX6实际失败：pr323-deck-lifecycle第二负控仍匹配旧单行清理，唯一锚断言1≠2；不是基础设施豁免。仅适配该入口两行锚点/变异字符串，保留单锚、非零及GetChild invalid-object断言；生产、Lua回归和冻结历史fixture未改。作者原失败复现及ui-mock5项通过，独审pr323两项通过；全树搜索无其他可执行旧锚，原始失败和回归记录见同证据目录ci-anchor-repair。修复后精确SHA完整CI仍须重新验证，AC3与任务状态不变。
+
+2026-11-02 意图几何窄切片计划：已从最新 develop fafcc29 的真实 renderEnemyIntent 重新复现，300帧单敌图标/数值/点击区 size与position各900次，其中各897同值；四敌各3600/3588。仅为六处原生几何写入复用成功缓存模式，按弱native键与无回指binding token隔离，false/throw和重入失效，新对象/重绑/尺寸位数变化继续更新；先红后绿与有序写入/隐藏返回/生命周期定向回归，不改视觉、粒子、动画、输入和玩法。PR473评论6591476184已认领；只本地实现待独审，不代表手机FPS或加载改善，AC3未验且状态保持。
+
+2026-11-02 意图几何切片本地验证：仅renderEnemyIntent图标/数值/点击区六处尺寸位置成功写缓存，弱native键与无回指binding token隔离；重叠setter及其false/throw均不保留不确定承诺。300帧1–5敌size/position各900n→3n（首帧后零同值），真实Host挂载BattleUI300次update各900→0；完整run/RNG、几何/可见/点击字段、idle动画与覆盖返回保持。21组边界、7项JS入口含5精确负控、8份相邻Lua及6原生合同通过，工程测量/架构/静态与syntax/backlog/diff通过。证据docs/evidence/m4-intent-geometry-cache-20261102/，构造失败与最终基线RED均保留；仅本地提交待独审，未推送/PR/合并，完整精确SHA托管CI待验。无官方/手机/FPS/加载结论，AC3及任务状态保持。
 <!-- SECTION:NOTES:END -->
