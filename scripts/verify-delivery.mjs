@@ -77,8 +77,37 @@ function runErrors(run,{head,event,runId,attempt,branch,repo}) {
     run.status!=='completed'||run.conclusion!=='success'||run.repository?.full_name!==repo||branch!==undefined&&run.head_branch!==branch)errors.push('Exact current-attempt Quality run is missing, incomplete, unsuccessful or mismatched');
   return errors;
 }
+// An early auto-merge arm is NOT a CI preflight. It binds the review and
+// synthetic merge identity before CI finishes; GitHub enforces Required Checks.
+// Only --merged can turn this into a verified delivery.
+export function verifyAutoMergeArm(e) {
+  if(!e||typeof e!=='object')return ['Missing auto-merge arm evidence'];
+  const errors=[];
+  if(e.schemaVersion!==4||e.kind!=='auto-merge-arm'||!/^[-\w.]+\/[-\w.]+$/.test(e.repo??'')||
+    e.baseRef!=='develop'||!positiveId(e.prNumber))errors.push('Missing auto-merge arm identity');
+  for(const key of ['head','base','tested','sourceTree','targetBeforeSha','targetAfterSha'])
+    if(!validSha(e[key]))errors.push('Missing or invalid auto-merge '+key);
+  if(e.targetBeforeSha!==e.base||e.targetAfterSha!==e.base)
+    errors.push('Auto-merge target moved during review authorization');
+  if(JSON.stringify(e.parents)!==JSON.stringify([e.base,e.head]))
+    errors.push('Auto-merge proposed merge parents differ from reviewed HEAD/BASE');
+  if(e.review?.disposition==='low-risk-docs') {
+    if(!isLowRiskDocumentationChange(e.changedFiles,e.changedFileCount))
+      errors.push('Auto-merge documentation waiver is outside the allowed scope');
+  } else if(e.review?.reviewedHeadSha!==e.head||e.review?.reviewedBaseSha!==e.base||
+    typeof e.review?.reviewId!=='string'||!e.review.reviewId.trim()||
+    e.review.conclusion!=='pass'||!Array.isArray(e.review.unresolved)||e.review.unresolved.length)
+    errors.push('Auto-merge independent review is missing, stale or unresolved');
+  if(e.review?.reviewedHeadSha!==e.head||e.review?.reviewedBaseSha!==e.base)
+    errors.push('Auto-merge review does not match exact HEAD/BASE');
+  if(e.review?.repo!=null&&e.review.repo!==e.repo||
+    e.review?.prNumber!=null&&e.review.prNumber!==e.prNumber)
+    errors.push('Auto-merge review is for another PR');
+  return errors;
+}
 export function verifyDelivery(e) {
   if(!e||typeof e!=='object')return ['Missing preflight evidence'];
+  if(e.schemaVersion===4)return verifyAutoMergeArm(e);
   const errors=[];
   if(![2,3].includes(e.schemaVersion)||!/^[-\w.]+\/[-\w.]+$/.test(e.repo??'')||!['develop','master'].includes(e.baseRef))errors.push('Missing versioned repository/target evidence');
   for(const field of ['head','base','tested','sourceTree'])if(!validSha(e[field]))errors.push(`Invalid ${field}`);
