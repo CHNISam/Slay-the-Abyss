@@ -1,11 +1,11 @@
 ---
 id: TASK-74.3
 title: 拆清Nodes房间与奖励职责
-status: In Progress
+status: Done
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 15:25'
-updated_date: '2026-11-03 05:02'
+updated_date: '2026-11-03 09:34'
 labels: []
 milestone: m-9
 dependencies: []
@@ -41,4 +41,12 @@ ordinal: 125000
 本轮基线1f260a71，独立B工作树feat/govern-nodes；原1109行/max101。当前报告主670行、所有Nodes/helper最大15；四新模块已注册core。原冻结源码hash不变，仅精确重组提取位置并增实时helper突变负例；源码/负例通过。并发宝箱重例超时保留，正在原预算串行复跑与72场景分片差分；最终PR和组合验证仍待。
 
 独立审查Nodes固定0c17f128通过，167测量max15，主670行。总控组合72差分、跨幕/回滚/结算和原变异通过。合并前核查修正新增任务缺失的Medium优先级与负责人；生产代码不变。PR309仍等待已诊断超时作业的原预算重跑。
+
+2026-11-03本轮从最新develop复验Nodes 72场景差分及工程门槛；PR490当前HEAD完整Quality41600599657通过并正常合入32b60d31，实际组合树一致。没有官方或设备完成声明。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Nodes主模块及helper门槛、API/房间奖励接续与回滚原AC已实证通过；本轮72场景、完整工程及PR490托管Quality复核通过，原独立PR来源保留。
+<!-- SECTION:FINAL_SUMMARY:END -->

@@ -1,11 +1,11 @@
 ---
 id: TASK-74.4
 title: 拆清Run状态与接续职责
-status: In Progress
+status: Done
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 15:25'
-updated_date: '2026-11-03 05:02'
+updated_date: '2026-11-03 09:34'
 labels: []
 milestone: m-9
 dependencies: []
@@ -43,4 +43,12 @@ ordinal: 124000
 本轮基线1f260a71，独立A工作树feat/govern-run；原1312行/max57。总控已把全主模块和本轮helper纳入15预算、1000物理行边界及正负例，73条原静态告警无新增。原四项关键变异全部由原断言拒绝；并发重例曾超时，独占按原30秒两幕接续7组通过（22.223秒），保留超时记录。53个API合同与9检查点全图/别名/RNG差分已过；最终PR和组合验证仍待，不作整体完成。
 
 独立审查run-pr308-independent-b-nodes-20261029通过；53API、10检查点差分、Run158项测量max15，主602行/max14。总控组合18类验证均有通过证据，两项首次超时已按原预算独占复跑通过。合并前核查修正新增任务缺失的Medium优先级与负责人；生产代码不变。完整CI和合入仍在执行。
+
+2026-11-03本轮复验Run公开API两项及完整工程门槛；PR490当前HEAD完整Quality41600599657通过并正常合入32b60d31，实际组合树一致。合入后的主线Quality由父任务74继续核对。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Run职责边界与原同局/接续回滚AC已验证；本轮公开API、完整工程及PR490托管Quality复核通过，保留原独立PR来源。
+<!-- SECTION:FINAL_SUMMARY:END -->
