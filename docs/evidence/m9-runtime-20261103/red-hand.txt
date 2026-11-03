@@ -1,0 +1,11 @@
+ABYSS_RUN seed=1 source=explicit
+RUNTIME_HOST refresh battle renders=1
+RUNTIME_HOST settled cards=5 frames=300 position=3000 size=1500 scale=3000
+tests/lua/runtime_ui_hotpaths.lua:41: settled card geometry resubmitted
+stack traceback:
+	[JS]: in function 'assert'
+	tests/lua/runtime_ui_hotpaths.lua:41: in main chunk
+	[JS]: in function 'dofile'
+	...emp\runtime-red-91573ee1-edcb-4726-b75e-1c594c98238a.lua:2: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk

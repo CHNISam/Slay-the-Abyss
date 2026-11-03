@@ -1,0 +1,51 @@
+{
+  "revision": "aa4d56f57c15727668ef8675e626b44e67a5aaa5",
+  "sourceHash": "95f56c683140dc813684eb6bc67dea99ac02a1ad020ec4711346314b02056b12",
+  "errors": [],
+  "functions": [
+    {
+      "id": "$/handValues#1",
+      "name": "handValues",
+      "kind": "function",
+      "constructorName": false,
+      "line": 32,
+      "column": 7,
+      "endLine": 45,
+      "lines": 14,
+      "complexity": 1
+    },
+    {
+      "id": "$/sameHandValues#1",
+      "name": "sameHandValues",
+      "kind": "function",
+      "constructorName": false,
+      "line": 47,
+      "column": 7,
+      "endLine": 50,
+      "lines": 4,
+      "complexity": 3
+    },
+    {
+      "id": "$/writeHandValues#1",
+      "name": "writeHandValues",
+      "kind": "function",
+      "constructorName": false,
+      "line": 51,
+      "column": 7,
+      "endLine": 60,
+      "lines": 10,
+      "complexity": 5
+    },
+    {
+      "id": "$/applyHandPose#1",
+      "name": "applyHandPose",
+      "kind": "function",
+      "constructorName": false,
+      "line": 61,
+      "column": 7,
+      "endLine": 77,
+      "lines": 17,
+      "complexity": 11
+    }
+  ]
+}

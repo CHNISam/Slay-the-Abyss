@@ -1,0 +1,26 @@
+{
+  "base": "aa4d56f57c15727668ef8675e626b44e67a5aaa5",
+  "node": "v24.18.0",
+  "environment": "Fengari 0.1.0, real production Lua Host, mock native controls",
+  "sources": {
+    "abyss_game_ui": {
+      "baseline": "165e2ad1180cab9daf5321b46d1f87fe9c34ed6ebbcd3c3a8b495d23974e0933",
+      "current": "4ab3ec613f79b1507c7c529c57547d42f93fa7eafc89aeb9afb1b8c64ab34c25"
+    },
+    "abyss_battle_actions": {
+      "baseline": "c16508e6b566fef77b75543b1324af7e82d7fdb73b81902f11c8a0a274526bb1",
+      "current": "e558c6b3dba4bcfaae21c84473933f7c4a4440104400c27561d68cbeb68fc4c2"
+    },
+    "abyss_battle_card_view": {
+      "baseline": "2ce1bf184cf1b758a79812d0a3a2406e12e074a0ab9fa66a844aedd6a2fc752c",
+      "current": "95f56c683140dc813684eb6bc67dea99ac02a1ad020ec4711346314b02056b12"
+    },
+    "abyss_battle_potion_bindings": {
+      "baseline": "ec839193d003b8d767a165dcd68d17a1404e0405564dad13efbac6f0fed85d7b",
+      "current": "4d0529fe8b74cdf1807676dbf1c64d0913b27bb1348fbdd13069274ca006db64"
+    }
+  },
+  "official": "NOT_RUN",
+  "devices": "NOT_RUN",
+  "trajectoryParity": true
+}

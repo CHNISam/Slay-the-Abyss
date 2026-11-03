@@ -1,0 +1,10 @@
+ABYSS_RUN seed=1 source=explicit
+POTION_DRAG_HOTPATH events=30 totalCandidates=210 liveCandidates=180 renders=30 previews=30
+tests/lua/potion_drag_hotpath.lua:27: drag preflight simulated unrelated potion slots
+stack traceback:
+	[JS]: in function 'assert'
+	tests/lua/potion_drag_hotpath.lua:27: in main chunk
+	[JS]: in function 'dofile'
+	...emp\runtime-red-92646854-4dfd-424e-8cb4-a24a2e46ea1f.lua:2: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk

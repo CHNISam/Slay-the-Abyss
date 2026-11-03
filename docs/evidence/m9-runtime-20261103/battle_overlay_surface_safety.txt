@@ -1,0 +1,8 @@
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK recovered cancelled
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+BATTLE_OVERLAY_SURFACE_SAFETY_PASS input/pause/false/throw/recovery/death/terminal
+Lua fixture tests/lua/battle_overlay_surface_safety.lua: 9814 ms

@@ -1,0 +1,10 @@
+ABYSS_RUN seed=1 source=explicit
+RUNTIME_HOST refresh battle renders=2
+tests/lua/runtime_ui_hotpaths.lua:9: GameUI refresh rendered battle twice
+stack traceback:
+	[JS]: in function 'assert'
+	tests/lua/runtime_ui_hotpaths.lua:9: in main chunk
+	[JS]: in function 'dofile'
+	...emp\runtime-red-4e4fce22-d7a9-4eb5-af5a-3f285e30d856.lua:3: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk

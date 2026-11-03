@@ -1,0 +1,12 @@
+ABYSS_RUN seed=1 source=explicit
+ok hand motion 1 - hover and return follow fixed source position scale and angle rates without changing rules
+ABYSS_RUN seed=1 source=explicit
+ok hand motion 2 - fast mode performs the extra position step but retains scale and angle rates
+ABYSS_RUN seed=1 source=explicit
+ok hand motion 3 - reflow keeps each card current position by UID instead of borrowing its new slot
+ABYSS_RUN seed=1 source=explicit
+ok hand motion 4 - cancelled drag returns from its last actual pose and interpolation does not redraw card previews
+ABYSS_RUN seed=1 source=explicit
+ok hand motion 5 - new battle with reused UIDs starts at its own pose and zero delta does not advance
+LUA_HAND_MOTION_PASS 5
+Lua fixture tests/lua/battle_card_motion.lua: 11797 ms

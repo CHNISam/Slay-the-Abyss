@@ -1,0 +1,4 @@
+ABYSS_RUN seed=1 source=explicit
+OVERLAY_COUNTS 10 cycles creates=0 destroys=0
+BATTLE_OVERLAY_SURFACE_RETENTION_PASS
+Lua fixture tests/lua/battle_overlay_surface_retention.lua: 5235 ms
