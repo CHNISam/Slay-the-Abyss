@@ -3,9 +3,9 @@ id: TASK-75
 title: 缩短完整跨平台检查的实际执行时间
 status: In Progress
 assignee:
-  - '@Furinya'
+  - Furinya
 created_date: '2026-10-28 03:47'
-updated_date: '2026-10-30 06:22'
+updated_date: '2026-11-03 06:50'
 labels: []
 dependencies: []
 priority: medium
@@ -43,6 +43,8 @@ ordinal: 120000
 第三轮仅改变check与engineering-posix两个纯汇总的Runner为ubuntu-slim，保留原完整覆盖和预算；当前HEAD门禁通过再合并并核实实际执行和排队。
 
 真实入口排队736秒、执行17秒，进一步将同样轻量的impact元数据规划作业迁至slim；保留checkout/setup-node/npm/guidance/API/上传、原权限和3分钟预算。一次更新原PR，原生concurrency取消被替代运行，避免新增实验PR。
+
+2026-11-03 M9持续收口：从当前hosted原始runs/jobs采集wall、queue、runner-minutes和取消执行，先定位无损去重/权重偏差，保留全部文件覆盖与原deadline；实现、独审、精确HEAD Full和实际合入后CI及真实前后耗时均完成才收口。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
