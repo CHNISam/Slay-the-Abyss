@@ -1,3 +1,5 @@
+import {preEvent487Source} from './event-487-source-inverse.mjs';
+import {preEvent488Source} from './event-488-source-inverse.mjs';
 import {preDeckDeliverySource,deckDeliveryPaths} from './deck-delivery-source-composition.mjs';
 import {gunzipSync} from 'node:zlib';
 // Exact Git composition, historical evidence only; current runtime never imports this.
@@ -31,6 +33,8 @@ for(const [name,target]of Object.entries(proof.targets)){
  }
 }
 const readLive=p=>readFileSync(p,'utf8');
+// Recognize each complete current source before any historical identity check.
+const preEventSource=(path,source)=>preEvent488Source(path,preEvent487Source(path,source));
 function inverse(path,source,target){
  assert.ok(proof.targets[target],'registered integrated monster target');
  const b=proof.targets[target].files[path];if(!b||typeof source!=='string')return undefined;
@@ -51,7 +55,7 @@ function inverse(path,source,target){
 const projectedInverse=cachePureSourceProjection(proof.targets,inverse);
 const sourceDigest=cachePureSourceProjection(proof.targets,(_path,source)=>hash(normalize(source)));
 export function tryDeliverySource(path,source,target,{readSource=readLive}={}){
- source=preDeckDeliverySource(path,source,'delivery',{readSource});
+ source=preDeckDeliverySource(path,preEventSource(path,source),'delivery',{readSource});
  return tryPreparedDeliverySource(path,source,target,{readSource});
 }
 function tryPreparedDeliverySource(path,source,target,{readSource=readLive}={}){
@@ -62,13 +66,14 @@ function tryPreparedDeliverySource(path,source,target,{readSource=readLive}={}){
   let live;try{live=readSource(p);}catch{assert.fail(label+' missing: '+p);}
   if(target==='develop'||target==='pre379'){const projected=projectedInverse(p,live,'developEvents');if(projected!==undefined)live=projected;}
   if(target==='pre379'){const projected=projectedInverse(p,live,'develop');if(projected!==undefined)live=projected;}
+  live=preEventSource(p,live);
   assert.equal(typeof live,'string',label+' must exist: '+p);
   assert.equal(sourceDigest(p,live,target),b.afterSha256,label+' identity: '+p);
  }
  return prior;
 }
 export function preDeliveryTargetSource(path,source,target,options){
- source=preDeckDeliverySource(path,source,'delivery',options);
+ source=preDeckDeliverySource(path,preEventSource(path,source),'delivery',options);
  // The exact deck inverse returns different prior bytes, so preparing again
  // only repeats classification. Keep every fresh linked read in this call.
  const prior=tryPreparedDeliverySource(path,source,target,options);return prior===undefined?source:prior;
@@ -77,7 +82,7 @@ export function deliveryHistoricalPaths(target){return Object.freeze([...new Set
 export function verifiedDeliverySources(target,{sourceRoot=process.cwd(),readSource=p=>readFileSync(join(sourceRoot,p),'utf8')}={}){
  assert.ok(target==='develop'||target==='pre379'||target==='legacyMulti');const outputs=[];
  for(const path of deliveryHistoricalPaths(target)){
-  const raw=preDeckDeliverySource(path,readSource(path),'delivery',{readSource}),outer=(target==='develop'||target==='pre379')?proof.targets.developEvents.files[path]:undefined;
+  const raw=preDeckDeliverySource(path,preEventSource(path,readSource(path)),'delivery',{readSource}),outer=(target==='develop'||target==='pre379')?proof.targets.developEvents.files[path]:undefined;
   assert.equal(typeof raw,'string','unreviewed current integrated monster source missing: '+path);
   if(outer)assert.equal(hash(normalize(raw)),outer.afterSha256,'unreviewed current integrated monster source: '+path);
   let source=(target==='develop'||target==='pre379')?preDeliveryTargetSource(path,raw,'developEvents',{readSource}):raw;
@@ -97,7 +102,7 @@ export function materializeBeforeDelivery(directory,{sourceRoot=process.cwd()}={
   assert.ok(within&&!within.startsWith('..')&&!isAbsolute(within),'integrated destination stays in isolated copy');
   assert.notEqual(actual,realpathSync(join(sourceRoot,path)),'integrated destination cannot alias live source');
   const readSource=p=>readFileSync(join(sourceRoot,p),'utf8');
-  const digest=hash(normalize(preDeckDeliverySource(path,readFileSync(target,'utf8'),'delivery',{readSource}))),raw=hash(normalize(preDeckDeliverySource(path,readSource(path),'delivery',{readSource})));
+  const digest=hash(normalize(preDeckDeliverySource(path,preEventSource(path,readFileSync(target,'utf8')),'delivery',{readSource}))),raw=hash(normalize(preDeckDeliverySource(path,preEventSource(path,readSource(path)),'delivery',{readSource})));
   assert.ok(digest===raw||(source!==null&&digest===hash(normalize(source))),'unreviewed integrated destination: '+path);
  }
  for(const [path,source]of outputs){const target=join(directory,path);if(!existsSync(target))continue;if(source===null)rmSync(target);else writeFileSync(target,source);}

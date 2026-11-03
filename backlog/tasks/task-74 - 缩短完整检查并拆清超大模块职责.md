@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-11-03 09:34'
+updated_date: '2026-11-03 12:15'
 labels: []
 milestone: m-9
 dependencies: []
@@ -63,6 +63,8 @@ ordinal: 118000
 2026-10-30重新测量全库热点/SCC；check:engineering同进程共享新鲜采集以去重Luacheck/架构，独立CLI保持重新采集与失败传播。
 
 2026-11-03 本轮按Owner要求连续完成M9，不能以两个局部PR结束：核对PR485原生M9六任务；主控采集全库/仓库对象基线并独占配置、目录导航、集成与最终全新上下文复审；Core治理CardActions选择协议与Combat两种出牌协议，Runtime复核剩余热点，CI核对真实自然样本与吞吐，全部保持规则与原门禁，最终按精确SHA完整CI及合后证据逐项收口。
+
+2026-11-03 本轮PR487/488：按最新develop的纯投影缓存实现合流测试侧精确inverse；保留完整身份、新鲜关联读取及一次准备，补两源码组合漂移回归，独立复审后提交现有PR并核对精确head完整CI。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -125,4 +127,6 @@ PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触�
 2026-10-31 收口补充：f7完整回归暴露raw跨VM依赖JS顺带生成向量及少量旧UI/事件夹具；改为call-local JSON preload并保独立向量、原RNG/队列断言，10个失败及50个超时缺口均已针对实测承接，最新160项相关合同通过。成功原始计时补齐后最终Windows13/POSIX9、当前27作业身份，仍保原30/20分钟与安全worker规则；独立审查通过，当前最终提交Full及实际合入push Full待验，不提前勾最终AC。
 
 第一批PR490已正常合入32b60d31；当前HEAD完整Quality与inventory通过，新增基线回归2项通过，实际tree与组合一致。第二批Actor/Runtime/CI在此最新基线集中集成，技术证据见docs/backlog-details/M9-BATCH2-20261103.md；最终合后CI与未验性能出口保留。
+
+2026-11-03 PR487/488测试侧合流：基于14223f4b保留#493纯投影缓存；新增按完整前后身份识别的两事件inverse与双源码漂移/历史物化回归，preDeck一次准备及每次linked读取保持。PR488专项15项和原CI相关/真实copy22项通过；独立审查和当前SHA完整托管CI另验，不勾父任务最终AC。
 <!-- SECTION:NOTES:END -->
