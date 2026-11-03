@@ -35,7 +35,16 @@ test('independent source-method numeric and full-queue inputs reproduce without 
  const result=spawnSync('python',['-X','utf8','tools/oracles/sts1_max_hp_relics.py','--check'],{encoding:'utf8',timeout:15000});
  assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/160 health; 28 full source channel cases/);
 });
-for(const[fixture,marker]of [['health','HEALTH_PASS 11'],...['ironclad','silent','defect','watcher'].map(c=>[c,'CHANNELS_PASS '+c+' 7'])]){
+// Preserve the complete health matrix while each independent fixture retains
+// the runner's original 30-second deadline and full rollback snapshots.
+for(const[fixture,marker]of [
+ ['health','HEALTH_PASS 5'],
+ ['health_invalid_strawberry_pear','HEALTH_INVALID_PASS 1'],
+ ['health_invalid_mango_waffle','HEALTH_INVALID_PASS 1'],
+ ['health_lifecycle','HEALTH_LIFECYCLE_PASS 4'],
+ ['health_rollback','HEALTH_ROLLBACK_PASS 1'],
+ ...['ironclad','silent','defect','watcher'].map(c=>[c,'CHANNELS_PASS '+c+' 7'])
+]){
  test(`max HP relic source ${fixture}`,()=>{
   buildLuaData();const result=runLua(`tests/lua/max_hp_relics_${fixture}.lua`);
   assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,new RegExp('MAX_HP_RELICS_'+marker));
