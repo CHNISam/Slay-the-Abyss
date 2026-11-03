@@ -5,7 +5,7 @@ status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:02'
-updated_date: '2026-10-29 05:25'
+updated_date: '2026-11-03 02:45'
 labels:
   - sts1
   - acts
@@ -13,6 +13,7 @@ labels:
   - partially-implemented
   - post-release
   - competition-deferred
+milestone: m-8
 dependencies:
   - TASK-61
 references:
@@ -76,4 +77,5 @@ type: feature
 2026-10-28用户确认范围变更：当前比赛只覆盖第一幕、第二幕，优先前10分钟体验；第三幕/隐藏第四幕/真结局及依赖退出续玩、跨局进度、历史解锁或跨局留卡的内容退出比赛必做，保留为无新截止日的未来候选。四职业及已批准原创角色要求不变。同局跨房间、第一幕到第二幕的资源与随机流、内存快照/回滚和本局结算保留；源码/候选/平台/实机仍分层，未完成状态不因范围调整改变。
 
 2026-10-29整理：当前集中旅行者比赛版本，本任务留待后续版本，既有代码、验收与历史证据保留。
+2026-11-03 赛后排期：none → M8 内容建设与扩充；状态与未验 AC 保留，不设新截止日。
 <!-- SECTION:NOTES:END -->

@@ -5,9 +5,9 @@ status: To Do
 assignee:
   - Furinya
 created_date: '2026-10-31 10:47'
-updated_date: '2026-11-01 02:09'
+updated_date: '2026-11-03 02:45'
 labels: []
-milestone: m-5
+milestone: m-7
 dependencies: []
 references:
   - docs/backlog-details/PLANNING-CONSOLIDATION-20261031.md
@@ -35,4 +35,5 @@ PR409已确认N-loth事件标题、开场、交易说明和结束正文有原作
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-11-01当前队列调整：在PR439已将手机可读性列入High后，优先处理用户本轮明确要求上线前紧急消除的结算错误用时（TASK-38.3）。本项由High移至Medium，保持To Do、负责人、既定首发范围及三条验收不变；没有取消原作身份清理要求或勾选完成。
+2026-11-03 赛后排期：m-5 → M7 产品体验与核心特色；状态与未验 AC 保留，不设新截止日。
 <!-- SECTION:NOTES:END -->

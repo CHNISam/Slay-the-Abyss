@@ -5,7 +5,7 @@ status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 05:06'
-updated_date: '2026-10-29 05:25'
+updated_date: '2026-11-03 02:45'
 labels:
   - sts1
   - acts
@@ -13,6 +13,7 @@ labels:
   - partially-implemented
   - post-release
   - competition-deferred
+milestone: m-8
 dependencies:
   - TASK-62
 references:
@@ -85,4 +86,5 @@ PR262独立P1入口修复候选：原始图在复制及房间hooks前，经既�
 PR285被PR286吸收的历史账本修正：PR262绿钥匙与第四幕既有实现已补记，10项受控路线及22项清单曾通过。受控历史/钥匙/伤害不作自然通关证明，natural/platform仍未验收；当前比赛/未来候选安排沿用主线，不改变AC。
 
 2026-10-29整理：当前集中旅行者比赛版本，本任务留待后续版本，既有代码、验收与历史证据保留。
+2026-11-03 赛后排期：none → M8 内容建设与扩充；状态与未验 AC 保留，不设新截止日。
 <!-- SECTION:NOTES:END -->
