@@ -14,15 +14,28 @@ const owners={
  'src/lua/abyss_node_ui_faces.lua':'0ab8654addf095b7c00980aab325fe12f496b109f47714f78abfab8adacdfbd4',
 };
 const oldRelicBody="        if id=='membership_card' then return '所有商店商品半价。' end\n        if id=='courier' then return '商店商品八折，购买后补货。' end\n        if id=='smiling_mask' then return '商店删牌服务固定为50金币。' end\n        local definition = find(data.relics.relics, id)\n        if not definition then return \"\" end\n        if definition.description then return definition.description end\n        local parts\n        local function describeRelicEffects()\n            parts = {}\n            for _, effect in ipairs(definition.effects or {}) do\n                local value = number(effect.value)\n                if effect.op == \"heal\" then parts[#parts + 1] = \"回复 \" .. value .. \" 点生命\"\n                elseif effect.op == \"block\" then parts[#parts + 1] = \"获得 \" .. value .. \" 点格挡\"\n                elseif effect.op == \"draw\" then parts[#parts + 1] = \"抽 \" .. value .. \" 张牌\"\n                elseif effect.op == \"energy\" then parts[#parts + 1] = \"获得 \" .. value .. \" 点能量\"\n                elseif effect.op == \"gainStatus\" then\n                    local status = find(data.statuses.statuses, effect.status)\n                    parts[#parts + 1] = \"获得 \" .. value .. \" 层\" .. (status and status.name or effect.status)\n                end\n            end\n        end\n        describeRelicEffects()\n        if #parts == 0 then return \"\" end\n        return (triggers[definition.trigger] or \"\") .. table.concat(parts, \"，\") .. \"。\"";
+// Only the two reviewed M9 core registrations are outside this UI proof.
+// Keep the original whole-file identities and every detached owner check.
+function preM9ProtocolRegistrations(source){
+ const {formatted,tokensEqual}=architectureSourceFormat('config/architecture.json',source);
+ if(!tokensEqual||hash(formatted)!=='e943e856195cb00a904d11a57fa49332df69a2101dae79cb7b47718b6c54bf0b')return source;
+ const live=read('config/architecture.json');
+ if(hash(live)!=='3cc15d6f573fa5a5c637c2d2a4ef9086f444bb761a64ee1e6aef80dad40d0cc5')return source;
+ const hunk=',\n    "abyss_combat_native_play": "core",\n    "abyss_combat_queued_play": "core"';
+ assert.equal(live.split(hunk).length,2,'one complete reviewed M9 registration block');
+ const previous=live.replace(hunk,'');
+ assert.equal(hash(previous),'037ff11d8894f6f68b0abb68420b74c05c7a38f2a4e5db58853930d56adc4e55','complete pre-M9 architecture');
+ return previous;
+}
 export function preCompendiumSource(path,source,overrides={}){
  if(typeof source!=='string')return source;
  const current=normalize(source);let previous;
  if(path==='config/architecture.json'){
   try{
-   const {formatted,tokensEqual}=architectureSourceFormat(path,current);
+   const {formatted,tokensEqual}=architectureSourceFormat(path,preM9ProtocolRegistrations(current));
    if(!tokensEqual||hash(formatted)!=='33b50b45093ae6d2fcc23f81784f338541aa8c1daba0ba4f431dba2a3ffc4b20')return source;
   }catch{return source;}
-  const live=read(path);
+  const live=preM9ProtocolRegistrations(read(path));
   if(hash(live)!=='037ff11d8894f6f68b0abb68420b74c05c7a38f2a4e5db58853930d56adc4e55')return source;
   previous=live.replace('    "abyss_compendium_catalog": "ui",\n    "abyss_relic_text": "core",\n','');
   assert.equal(hash(previous),'8c6e10716cb4ba38d49f9164d6349e8eb2a80ca13b6c364f69181a056b7bfdbf','complete pre-compendium architecture');
