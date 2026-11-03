@@ -1,0 +1,258 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Source-bound design audit, not an executable architecture or performance report",
+  "baseCommit": "2f829579672e61a91374a2d8a0281d5cac4ca7fc",
+  "baseTree": "fe6e90c4aaa9349299c72a5e60b0a56d8f7d4ceb",
+  "reviewMethod": "GitHub connector source reads at one pinned commit; blob SHAs are returned Git object identities, not locally recomputed hashes",
+  "coverage": "Focused ownership and dependency audit of the files/ranges below; not all repository modules",
+  "files": [
+    {
+      "path": "src/lua/abyss_actor.lua",
+      "blobSha": "bfca3f9f882cd5371489df57f309910709053cc9",
+      "read": {
+        "fullFile": false,
+        "requestedLineRanges": [
+          [
+            1,
+            90
+          ]
+        ]
+      },
+      "symbols": [
+        "enqueue",
+        "reaction"
+      ]
+    },
+    {
+      "path": "src/lua/abyss_card_actions.lua",
+      "blobSha": "6c54bc68bb756e7f5218f7e15476981cbe6ead43",
+      "read": {
+        "fullFile": false,
+        "requestedLineRanges": [
+          [
+            1,
+            180
+          ]
+        ]
+      },
+      "symbols": [
+        "M.enqueue",
+        "M.enqueueReaction"
+      ]
+    },
+    {
+      "path": "src/lua/abyss_run.lua",
+      "blobSha": "54e6faaa0a6bfa15793d626b324d7618e1f2e19b",
+      "read": {
+        "fullFile": false,
+        "requestedLineRanges": [
+          [
+            1,
+            210
+          ],
+          [
+            490,
+            686
+          ]
+        ]
+      },
+      "symbols": [
+        "M.transaction",
+        "M.play",
+        "M.chooseCard",
+        "continueCombatChoice",
+        "M.endTurn"
+      ]
+    },
+    {
+      "path": "src/lua/abyss_run_rooms.lua",
+      "blobSha": "aec84fd2254115c7fc5b08973f4969a7bb1354b9",
+      "read": {
+        "fullFile": false,
+        "requestedLineRanges": [
+          [
+            1,
+            200
+          ]
+        ]
+      },
+      "symbols": [
+        "startEncounter",
+        "Run.startEventCombat"
+      ]
+    },
+    {
+      "path": "src/lua/abyss_run_settlement.lua",
+      "blobSha": "8d1f9dbec1929368f2d0e7b073e2e5dbd8dcad0b",
+      "read": {
+        "fullFile": true,
+        "requestedLineRanges": []
+      },
+      "symbols": [
+        "publishBattleResult",
+        "applyPermanentChanges",
+        "Run.finishCombat"
+      ]
+    },
+    {
+      "path": "src/lua/abyss_nodes.lua",
+      "blobSha": "3833625544cccd1a785476b530fa0f5eb0dcd9a5",
+      "read": {
+        "fullFile": false,
+        "requestedLineRanges": [
+          [
+            1,
+            170
+          ]
+        ]
+      },
+      "symbols": [
+        "M.enter",
+        "M.advanceAct"
+      ]
+    },
+    {
+      "path": "src/lua/abyss_nodes_common.lua",
+      "blobSha": "6bed3410a861103dc7bdfdbf40f7dba8d7481ba1",
+      "read": {
+        "fullFile": true,
+        "requestedLineRanges": []
+      },
+      "symbols": [
+        "upgradeable",
+        "upgradeCards",
+        "complete"
+      ]
+    },
+    {
+      "path": "src/lua/abyss_relic_hooks.lua",
+      "blobSha": "77679b4438c4989813961a58b09a90fd5b06e11b",
+      "read": {
+        "fullFile": false,
+        "requestedLineRanges": [
+          [
+            1,
+            130
+          ],
+          [
+            130,
+            220
+          ]
+        ]
+      },
+      "symbols": [
+        "M.gainGold",
+        "M.onEquip",
+        "M.enqueuePostDraw",
+        "M.onUsePotion"
+      ]
+    },
+    {
+      "path": "src/lua/abyss_card_capability.lua",
+      "blobSha": "048c09cca7c15808575d5a9779444d05c37ff536",
+      "read": {
+        "fullFile": true,
+        "requestedLineRanges": []
+      },
+      "symbols": [
+        "M.isImplemented"
+      ]
+    },
+    {
+      "path": "src/lua/abyss_events.lua",
+      "blobSha": "25525ca76e9f2192b2ba18f17c082bbb15ad8453",
+      "read": {
+        "fullFile": true,
+        "requestedLineRanges": []
+      },
+      "symbols": [
+        "M.frame",
+        "M.emit",
+        "M.onModifyPower"
+      ]
+    },
+    {
+      "path": "src/lua/abyss_action_queue.lua",
+      "blobSha": "19c9d23efe516a1e001e0572e814a8616b5abc00",
+      "read": {
+        "fullFile": true,
+        "requestedLineRanges": []
+      },
+      "symbols": [
+        "M.start",
+        "M.pushTop",
+        "M.pushBottom",
+        "M.run",
+        "M.resume"
+      ]
+    },
+    {
+      "path": "scripts/check-architecture.mjs",
+      "blobSha": "c990b9c72b100efb4e00a882b11e882005d1d4f4",
+      "read": {
+        "fullFile": false,
+        "requestedLineRanges": [
+          [
+            70,
+            240
+          ]
+        ]
+      },
+      "symbols": [
+        "analyzeSources",
+        "checkArchitecture"
+      ]
+    },
+    {
+      "path": "tests/architecture.test.mjs",
+      "blobSha": "ce40fc4da6071ede7ee2a1d0d12136f68db6b85f",
+      "read": {
+        "fullFile": false,
+        "requestedLineRanges": [
+          [
+            1,
+            130
+          ]
+        ]
+      },
+      "symbols": [
+        "AST boundaries",
+        "deferred import exceptions"
+      ]
+    }
+  ],
+  "findings": {
+    "D1": "Actor/CardActions reverse enqueue dependency within Combat",
+    "D2": "Run public commands own outer publication and rollback during combat",
+    "D3": "Room creation and settlement are valid Session–Combat boundaries",
+    "D4": "Nodes is cross-state orchestration; nodes_common.complete is a mutator",
+    "D5": "RelicHooks mixes permanent and battle lifetimes",
+    "D6": "CardCapability queries runtime support, not only static data",
+    "D7": "Events is combat read-model; ActionQueue is combat-specific",
+    "D8": "Import rules do not prove injected capability/state semantics"
+  },
+  "inFlightAtReview": [
+    487,
+    492,
+    494,
+    495,
+    496
+  ],
+  "alreadyMergedDoNotRedo": [
+    488
+  ],
+  "validation": {
+    "productionCodeChanged": false,
+    "architectureGateImplemented": false,
+    "freshFullGraphScc": "NOT_RUN",
+    "luaAndNodeRepositoryTests": "NOT_RUN",
+    "backlogCli": "UNAVAILABLE; no Backlog changes",
+    "independentReview": "PENDING",
+    "requiredCi": "PENDING"
+  },
+  "limitations": [
+    "Container git clone failed: github.com DNS resolution unavailable.",
+    "No whole-repository classification or runtime performance claim.",
+    "Proposed new module and dependencyBoundaries schema are not deployed by this design PR."
+  ]
+}
