@@ -5,9 +5,9 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-27 09:48'
-updated_date: '2026-11-03 02:45'
+updated_date: '2026-11-03 15:29'
 labels: []
-milestone: m-7
+milestone: m-8
 dependencies: []
 parent_task_id: TASK-25
 priority: medium

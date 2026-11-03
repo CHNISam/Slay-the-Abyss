@@ -5,7 +5,7 @@ status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:02'
-updated_date: '2026-11-03 02:45'
+updated_date: '2026-11-03 15:29'
 labels:
   - sts1
   - acts
@@ -13,7 +13,7 @@ labels:
   - partially-implemented
   - post-release
   - competition-deferred
-milestone: m-8
+milestone: m-9
 dependencies:
   - TASK-61
 references:

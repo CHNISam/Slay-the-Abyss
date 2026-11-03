@@ -5,9 +5,9 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-11-03 14:28'
+updated_date: '2026-11-03 15:31'
 labels: []
-milestone: m-9
+milestone: m-7
 dependencies: []
 references:
   - docs/backlog-details/TASK-74.md

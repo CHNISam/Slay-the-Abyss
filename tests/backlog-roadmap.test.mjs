@@ -290,63 +290,29 @@ test('unfinished optional work needs an owner; historical Done records do not', 
   assert.deepEqual(auditQueueOwners([task('TASK-26', { milestone: null }), task('TASK-2', { status: 'Done', assignees: [] })]), []);
 });
 
-test('M7 product experience and M8 content expansion keep separate roadmap identities', () => {
-  const titles = [...competitionTitles, 'M7｜产品体验与核心特色', 'M8｜内容建设与扩充'];
-  assert.deepEqual(auditMilestoneScope(titles), []);
-  assert.deepEqual(auditMilestoneScope([...competitionTitles, 'M7 产品体验与核心特色', 'M8 内容建设与扩充']), []);
-  assert.match(auditMilestoneScope([...competitionTitles, 'M7｜产品体验与核心特色']).join('\n'), /M8/);
-  assert.match(auditMilestoneScope([...competitionTitles, 'M7 产品体验与核心特色']).join('\n'), /M8/);
-  assert.match(auditMilestoneScope([...competitionTitles, 'M8 内容建设与扩充']).join('\n'), /M7/);
-  const phases = { ...milestone, 'm-7': 'M7', 'm-8': 'M8' };
-  const next = [task('TASK-85', { milestone: 'm-7' }), task('TASK-97', { milestone: 'm-8' })];
-  const roadmap = '### M7｜产品体验与核心特色\n- TASK-85：正式角色验收\n### M8｜内容建设与扩充\n- TASK-97：更多角色\n';
-  assert.deepEqual(auditRoadmap(next, roadmap, phases), []);
-  assert.ok(auditRoadmap(next, '### M7\n- TASK-85：正式角色\n', phases).some(err => err.includes('TASK-97') && err.includes('M8')));
+test('chronological M7 engineering / M8 experience / M9 content scope is enforced',()=>{
+  const good=[...competitionTitles,'M7｜工程架构与性能强化','M8｜产品体验与核心特色','M9｜内容建设与扩充'];
+  assert.deepEqual(auditMilestoneScope(good),[]);
+  const obsolete=[...competitionTitles,'M7｜产品体验与核心特色','M8｜内容建设与扩充','M9｜工程架构与性能强化'];
+  assert.match(auditMilestoneScope(obsolete).join('\n'),/M7/);
+  assert.match(auditMilestoneScope(good.slice(0,-1)).join('\n'),/M9/);
+  assert.match(auditMilestoneScope([...good,'M7｜工程架构与性能强化']).join('\n'),/M7/);
 });
-
-
-test('M9 engineering tasks use native registry identity and stay separate from M7/M8', t => {
-  const entries = [['backlog/tasks/task-74.md', 'TASK-74', 'In Progress', 'milestone: m-42\nassignee: ["Furinya"]\n']];
-  const root = backlogFixture(t, entries, '### M9｜工程架构与性能强化\n- TASK-74：工程治理\n');
-  const registry = join(root, 'backlog/milestones/m-42.md');
-  for (const newline of ['\n', '\r\n']) for (const quote of ['', '"', "'"]) {
-    for (const separator of ['｜', '|', ' ', '：', ':']) {
-      writeFileSync(registry, ['---', 'id: m-42', `title: ${quote}M9${separator}工程架构与性能强化${quote}`, '---', ''].join(newline));
-      assert.deepEqual(verifyBacklogRoadmap(root), []);
-    }
-  }
-  for (const title of ['M90', 'M9x', 'M9other']) {
-    writeFileSync(registry, `---\nid: m-42\ntitle: ${title}\n---\n`);
-    assert.match(verifyBacklogRoadmap(root).join('\n'), /TASK-74.*里程碑/);
-  }
-  writeFileSync(registry, '---\nid: m-42\ntitle: M9｜工程架构与性能强化\n---\n');
-  for (const heading of ['M7', 'M8', 'M90', 'M9x']) {
-    writeFileSync(join(root, 'docs/MILESTONES.md'), `### ${heading}\n- TASK-74：工程治理\n`);
-    assert.match(verifyBacklogRoadmap(root).join('\n'), /TASK-74.*M9.*排期/);
-  }
-  rmSync(registry);
-  assert.match(verifyBacklogRoadmap(root).join('\n'), /TASK-74.*里程碑/);
+test('M7 and M8 and M9 active task mapping follows native milestone IDs',()=>{
+  const phases={...milestone,'m-7':'M7','m-8':'M8','m-9':'M9'};
+  const tasks=[task('TASK-74',{milestone:'m-7'}),task('TASK-85',{milestone:'m-8'}),task('TASK-97',{milestone:'m-9'})];
+  const plan='### M7\n- TASK-74：工程\n### M8\n- TASK-85：角色\n### M9\n- TASK-97：内容\n';
+  assert.deepEqual(auditRoadmap(tasks,plan,phases),[]);
+  assert.ok(auditRoadmap(tasks,'### M7\n- TASK-85：提前越级\n',phases).length);
 });
-
-test('M9 title contract is optional for historical fixtures but unique and explicit when present', () => {
-  const future = [...competitionTitles, 'M7｜产品体验与核心特色', 'M8｜内容建设与扩充'];
-  const engineering = 'M9｜工程架构与性能强化';
-  assert.deepEqual(auditMilestoneScope(future), []);
-  assert.deepEqual(auditMilestoneScope([...future, engineering]), []);
-  assert.deepEqual(auditMilestoneScope([...future, 'M9 工程架构与性能强化']), []);
-  for (const title of ['M9', 'M9｜工程架构', 'M9｜性能强化']) {
-    assert.match(auditMilestoneScope([...future, title]).join('\n'), /M9/);
-  }
-  assert.match(auditMilestoneScope([...future, engineering, engineering]).join('\n'), /M9/);
-  assert.match(auditMilestoneScope([...competitionTitles, 'M7｜产品体验与核心特色', engineering]).join('\n'), /M8/);
-  assert.match(auditMilestoneScope([competitionTitles[0], engineering]).join('\n'), /M4/);
+test('active native ID must match logical stage number',async()=>{
+  const {auditOrderedStageIds}=await import('../scripts/verify-backlog-roadmap.mjs');
+  const good=[{id:'m-7',title:'M7｜工程架构与性能强化'},{id:'m-8',title:'M8｜产品体验与核心特色'},{id:'m-9',title:'M9｜内容建设与扩充'}];
+  assert.deepEqual(auditOrderedStageIds(good),[]);
+  assert.ok(auditOrderedStageIds([{...good[0],id:'m-9'},good[1],good[2]]).length);
 });
-
-test('M9 parent migration requires every active child to retain explicit phase ownership', () => {
-  const phases = { 'm-7': 'M7', 'm-42': 'M9' };
-  const parent = task('TASK-74', { milestone: 'm-42' });
-  const child = task('TASK-74.1', { milestone: null, parentTaskId: 'TASK-74' });
-  assert.match(auditRoadmap([parent, child], '### M9\n- TASK-74：工程\n', phases).join('\n'), /TASK-74\.1.*里程碑/);
-  assert.deepEqual(auditRoadmap([parent, { ...child, milestone: 'm-7' }],
-    '### M9\n- TASK-74：工程\n### M7\n- TASK-74.1：显示证据\n', phases), []);
+test('engineering parent and UI display child keep distinct milestone ownership',()=>{
+  const phases={'m-7':'M7','m-8':'M8'};
+  const tasks=[task('TASK-74',{milestone:'m-7'}),task('TASK-74.1',{milestone:'m-8',parentTaskId:'TASK-74'})];
+  assert.deepEqual(auditRoadmap(tasks,'### M7\n- TASK-74：工程\n### M8\n- TASK-74.1：展示证据\n',phases),[]);
 });

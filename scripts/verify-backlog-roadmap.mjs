@@ -49,23 +49,18 @@ export function auditMilestoneScope(titles) {
     return matches.length === 1 && required.every(part => matches[0].includes(part)) && !retiredScope.test(matches[0]) ? []
       : [`${stage}: 里程碑范围必须明确包含${required.join('、')}，不得恢复两职业或扩大为四/八/全职业、第三/四幕，也不得退回仅第一幕或缺少该关口`];
   });
-  // Preserve M3/M4 frozen competition contracts while validating the post-submission plan.
-  // Older fixtures may contain only M3/M4; require the M7/M8 pair once either exists.
-  const futurePresent = titles.some(title => /^M[78](?:[\s｜|:：]|$)/.test(title));
-  const futureErrors = futurePresent ? [
-    { stage: 'M7', required: ['产品体验', '核心特色'] },
-    { stage: 'M8', required: ['内容建设', '扩充'] },
-  ].flatMap(({ stage, required }) => {
-    const matches = titles.filter(title => new RegExp(`^${stage}(?:[\\s｜|:：]|$)`).test(title));
-    return matches.length === 1 && required.every(part => matches[0].includes(part)) ? []
-      : [`${stage}: 赛后里程碑标题必须唯一且包含${required.join('、')}`];
-  }) : [];
-  const engineeringPresent = titles.some(title => /^M9(?:[\s｜|:：]|$)/.test(title));
-  const engineeringMatches = titles.filter(title => /^M9(?:[\s｜|:：]|$)/.test(title));
-  const engineeringErrors = !engineeringPresent || (engineeringMatches.length === 1
-    && ['工程架构', '性能强化'].every(part => engineeringMatches[0].includes(part))) ? []
-    : ['M9: 工程里程碑标题必须唯一且包含工程架构、性能强化'];
-  return [...historicalErrors, ...futureErrors, ...engineeringErrors];
+  // Preserve frozen M3/M4 while validating the chronological M7/M8/M9 contracts.
+  const currentPresent=titles.some(t=>/^M[789](?:[\s｜|:：]|$)/.test(t));
+  const currentErrors=currentPresent?[
+    {stage:'M7',required:['工程架构','性能强化']},
+    {stage:'M8',required:['产品体验','核心特色']},
+    {stage:'M9',required:['内容建设','扩充']},
+  ].flatMap(({stage,required})=>{
+    const matches=titles.filter(t=>new RegExp('^'+stage+'(?:[\\s｜|:：]|$)').test(t));
+    return matches.length===1&&required.every(x=>matches[0].includes(x))?[]
+      :[stage+': 当前里程碑必须唯一，按工程→体验→内容编号'];
+  }):[];
+  return [...historicalErrors,...currentErrors];
 }
 
 export function auditCompetitionRoster(scope) {
@@ -134,11 +129,26 @@ export function auditRoadmap(tasks, roadmap, milestones, completed = []) {
   return errors;
 }
 
+export function auditOrderedStageIds(records) {
+  const active=records.filter(x=>/^M[789](?:[\s｜|:：]|$)/.test(x.title));
+  if(active.length===0)return [];
+  return ['M7','M8','M9'].flatMap(stage=>{
+    const matches=active.filter(x=>new RegExp('^'+stage+'(?:[\\s｜|:：]|$)').test(x.title));
+    const required='m-'+stage.slice(1);
+    return matches.length===1&&matches[0].id===required?[]
+      :[stage+': 原生ID必须为 '+required+'，与执行序号一致'];
+  });
+}
+
 export function verifyBacklogRoadmap(root = '.') {
   const files = directory => readdirSync(join(root, directory)).filter(name => name.endsWith('.md')).sort().map(name => ({
     filePath: `${directory}/${name}`, source: readFileSync(join(root, directory, name), 'utf8') }));
   const readTasks = directory => files(directory).map(({ filePath, source }) => ({ ...readTaskHeader(source), filePath }));
   const tasks = readTasks('backlog/tasks'), completed = readTasks('backlog/completed');
+  const milestoneRecords=files('backlog/milestones').map(({source})=>({
+    id:source.match(/^id:\s*(m-\d+)/m)?.[1],
+    title:source.match(/^title:[ \t]*([^\r\n]*)/m)?.[1].trim().replace(/^['"]|['"]$/g,'')||''
+  }));
   const milestones = Object.fromEntries(files('backlog/milestones').map(({ source }) => {
     const id = source.match(/^id:\s*(m-\d+)/m)?.[1];
     const title = source.match(/^title:[ \t]*([^\r\n]*)/m)?.[1].trim().replace(/^['"]|['"]$/g, '') ?? '';
@@ -146,7 +156,7 @@ export function verifyBacklogRoadmap(root = '.') {
     return [id, stage];
   }).filter(([id, stage]) => id && stage));
   return [...new Set([...auditRoadmap(tasks, readFileSync(join(root, 'docs/MILESTONES.md'), 'utf8'), milestones, completed),
-    ...auditPriorities(tasks), ...auditQueueOwners(tasks)])];
+    ...auditPriorities(tasks), ...auditQueueOwners(tasks), ...auditOrderedStageIds(milestoneRecords)])];
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const errors = [...verifyBacklogRoadmap(), ...verifyMilestoneScope()];

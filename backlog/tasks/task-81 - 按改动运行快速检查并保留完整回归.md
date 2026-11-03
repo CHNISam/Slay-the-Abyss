@@ -5,9 +5,9 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 15:30'
-updated_date: '2026-11-03 09:34'
+updated_date: '2026-11-03 15:29'
 labels: []
-milestone: m-9
+milestone: m-7
 dependencies: []
 references:
   - docs/plans/2026-11-03-m9-engineering-foundation.md

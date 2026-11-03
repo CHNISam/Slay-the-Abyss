@@ -5,10 +5,10 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-29 01:28'
-updated_date: '2026-11-03 07:47'
+updated_date: '2026-11-03 15:29'
 labels:
   - future
-milestone: m-7
+milestone: m-8
 dependencies: []
 references:
   - docs/backlog-details/TRAVELER-SCOPE-20261029.md

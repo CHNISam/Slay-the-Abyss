@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 00:59'
-updated_date: '2026-11-01 12:06'
+updated_date: '2026-11-03 15:29'
 due_date: '2026-10-28'
 labels:
   - ui
@@ -13,7 +13,7 @@ labels:
   - interaction
   - awaiting-live
   - release-qa-20261101
-milestone: m-5
+milestone: m-8
 dependencies:
   - TASK-10
 references:

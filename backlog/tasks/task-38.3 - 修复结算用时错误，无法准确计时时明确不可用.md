@@ -5,10 +5,10 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-01 02:05'
-updated_date: '2026-11-03 12:18'
+updated_date: '2026-11-03 15:31'
 labels:
   - release-qa-20261101
-milestone: m-5
+milestone: m-8
 dependencies: []
 references:
   - docs/backlog-details/MOBILE-RELEASE-QA-20261101.md

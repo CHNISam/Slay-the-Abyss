@@ -5,9 +5,9 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 09:39'
-updated_date: '2026-10-28 11:05'
+updated_date: '2026-11-03 15:29'
 labels: []
-milestone: m-5
+milestone: m-8
 dependencies: []
 references:
   - docs/design/CARD_FACE_PARITY.md

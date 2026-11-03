@@ -5,13 +5,13 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 12:17'
-updated_date: '2026-11-01 02:05'
+updated_date: '2026-11-03 15:29'
 due_date: '2026-10-24'
 labels:
   - awaiting-live
   - release-qa-20261101
   - release-blocker
-milestone: m-5
+milestone: m-8
 dependencies: []
 references:
   - docs/reviews/USER-PLAYTEST-20261024.md

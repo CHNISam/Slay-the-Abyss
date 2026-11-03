@@ -5,9 +5,9 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-31 10:47'
-updated_date: '2026-11-03 06:36'
+updated_date: '2026-11-03 15:31'
 labels: []
-milestone: m-7
+milestone: m-8
 dependencies: []
 references:
   - docs/backlog-details/PLANNING-CONSOLIDATION-20261031.md

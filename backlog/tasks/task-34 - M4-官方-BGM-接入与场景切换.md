@@ -5,13 +5,13 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 07:34'
-updated_date: '2026-11-01 14:58'
+updated_date: '2026-11-03 15:29'
 due_date: '2026-10-28'
 labels:
   - P1
   - bgm
   - awaiting-live
-milestone: m-5
+milestone: m-8
 dependencies: []
 references:
   - 'https://act.mihoyo.com/ys/ugc/tutorial/detail/mhq9b601kh9k'

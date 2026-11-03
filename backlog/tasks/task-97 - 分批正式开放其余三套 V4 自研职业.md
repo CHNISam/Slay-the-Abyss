@@ -5,8 +5,9 @@ status: To Do
 assignee:
   - Furinya
 created_date: '2026-11-03 02:45'
+updated_date: '2026-11-03 15:29'
 labels: []
-milestone: m-8
+milestone: m-9
 dependencies: []
 references:
   - docs/ORIGINAL_V4.md
@@ -18,6 +19,8 @@ ordinal: 139000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
+当前编号映射（2026-11-03）：本任务属于 M9/m-9 内容扩充；下文及未勾 AC4 的旧称“M7 核心体验/基础 UI”均对应当前 M8/m-8 的体验、触屏、性能与稳定性门槛。保留原 AC4 文字和未勾状态，不改验收实质。
+
 复用 TASK-72 已交付的胡桃、阿蕾奇诺、芙宁娜三套 V4 自研卡牌与规则，在 M7 核心体验稳定后按角色逐个批准、装配和开放；不重开已经完成的冻结数据/引擎接入任务。未验的角色继续在开发配置中隐藏，不设承诺日期。
 <!-- SECTION:DESCRIPTION:END -->
 
@@ -28,3 +31,9 @@ ordinal: 139000
 - [ ] #3 每名开放角色分别完成同候选 PC 与实体安卓完整流程、性能和可读性验收，保留正式准入/回退证据；未通过不显示公开入口。
 - [ ] #4 内容扩充不使 M7 基础 UI、触屏、性能与稳定性退化。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+当前编号映射（2026-11-03）：本任务属于 M9/m-9 内容扩充；下文及未勾 AC4 的旧称“M7 核心体验/基础 UI”均对应当前 M8/m-8 的体验、触屏、性能与稳定性门槛。保留原 AC4 文字和未勾状态，不改验收实质。
+<!-- SECTION:NOTES:END -->

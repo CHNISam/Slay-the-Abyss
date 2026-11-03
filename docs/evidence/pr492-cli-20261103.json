@@ -1,0 +1,324 @@
+{
+  "base": "2f829579672e61a91374a2d8a0281d5cac4ca7fc",
+  "previousHead": "6351c314e1e4c407a72cc5e6ede2873dbc2e7fdd",
+  "cli": "backlog.md 1.53.0",
+  "records": [
+    {
+      "command": [
+        "backlog",
+        "--version"
+      ],
+      "exitCode": 0,
+      "stdout": "1.53.0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "milestone",
+        "--help"
+      ],
+      "exitCode": 0,
+      "stdout": "Usage: backlog milestone|milestones [options] [command]\n\nOptions:\n  -h, --help                    display help for command\n\nCommands:\n  list [options]                list milestones with completion status\n  add [options] <name>          add a milestone file\n  rename [options] <from> <to>  rename a milestone file and update local tasks\n                                by default\n  remove [options] <name>       remove a milestone file and clear, keep, or\n                                reassign matching tasks\n  archive <name>                archive a milestone by id or title\n  help [command]                display help for command\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "milestone",
+        "rename",
+        "--help"
+      ],
+      "exitCode": 0,
+      "stdout": "Usage: backlog milestone rename [options] <from> <to>\n\nrename a milestone file and update local tasks by default\n\nOptions:\n  --no-update-tasks  do not update local tasks that reference the milestone\n  --due-date <date>  set due date (YYYY-MM-DD)\n  --clear-due-date   clear milestone due date\n  -h, --help         display help for command\n\n\nInput schema:\nRequired fields:\n  - from: Milestone ID or title - Existing active milestone to rename\n  - to: String - New milestone title; checked for alias conflicts\nOptional fields:\n  - update-tasks: Boolean - Update local task milestone references; default true, disable with --no-update-tasks\n  - due-date: date - Set the milestone due date (YYYY-MM-DD)\n  - clear-due-date: Boolean - Clear the milestone due date\nReads:\n  - Active and archived milestone files, plus local tasks when task updates are enabled\nWrites:\n  - Renames the milestone file and, by default, updates matching local task milestone values\nOutput:\n  - Rename summary, task update count, and file move path when changed\nExamples:\n  backlog milestone rename \"Release 1.0\" \"Release 2.0\"\n  backlog milestone rename m-1 \"Release 2.0\" --no-update-tasks\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "milestone",
+        "add",
+        "--help"
+      ],
+      "exitCode": 0,
+      "stdout": "Usage: backlog milestone add [options] <name>\n\nadd a milestone file\n\nOptions:\n  -d, --description <text>  milestone description\n  --due-date <date>         set due date (YYYY-MM-DD)\n  -h, --help                display help for command\n\n\nInput schema:\nRequired fields:\n  - name: String - Milestone name/title, trimmed before storage\nOptional fields:\n  - description: Markdown - Optional milestone description\n  - due-date: date - Optional milestone due date (YYYY-MM-DD)\nMarkdown fields:\n  - Multi-line values need real newlines; a literal \\n is stored as text\n  - Example (bash/zsh): --description $'First line\\nSecond line'\nReads:\n  - Active milestone files for duplicate and alias validation\nWrites:\n  - Creates a milestone markdown file in the active milestones directory\nOutput:\n  - Created milestone title and ID\nExamples:\n  backlog milestone add \"Release 1.0\"\n  backlog milestone add \"Beta\" --description \"Beta scope\"\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "task",
+        "edit",
+        "--help"
+      ],
+      "exitCode": 0,
+      "stdout": "Usage: backlog task edit [options] [taskIds...]\n\nedit an existing task\n\nOptions:\n  -t, --title <title>\n  -d, --description <text>          task description\n  --desc <text>                     alias for --description\n  -a, --assignee <assignees>        replace all task assignees with one or more\n                                    @names (comma-separated or repeatable); pass\n                                    \"\" to clear them\n  -s, --status <status>\n  -l, --label <labels>              replace all task labels (comma-separated or\n                                    repeatable; cannot combine with\n                                    --add-label/--remove-label)\n  --priority <priority>             set task priority (configured priorities)\n  --type <type>                     set task type (configured task types; pass\n                                    an empty value to clear)\n  --project <project>               set task project (configured projects; pass\n                                    an empty value to clear)\n  --due-date <date>                 set due date (YYYY-MM-DD)\n  --clear-due-date                  clear task due date\n  --ordinal <number>                set task ordinal for custom ordering\n  -m, --milestone <milestone>       assign task to milestone by ID or title\n  --clear-milestone                 clear task milestone assignment\n  --plain                           use plain text output after editing\n  --add-label <labels>              add task labels without replacing existing\n                                    labels (comma-separated or repeatable)\n  --remove-label <labels>           remove task labels without replacing others\n                                    (comma-separated or repeatable)\n  --clear-labels                    remove all task labels (cannot combine with\n                                    --label/--add-label/--remove-label)\n  --ac <criteria>                   add acceptance criteria (can be used\n                                    multiple times)\n  --dod <item>                      add Definition of Done item (can be used\n                                    multiple times)\n  --remove-ac <index>               remove acceptance criterion by index\n                                    (1-based, can be used multiple times)\n  --remove-dod <index>              remove Definition of Done item by index\n                                    (1-based, can be used multiple times)\n  --check-ac <index>                check acceptance criterion by index\n                                    (1-based, can be used multiple times)\n  --check-dod <index>               check Definition of Done item by index\n                                    (1-based, can be used multiple times)\n  --uncheck-ac <index>              uncheck acceptance criterion by index\n                                    (1-based, can be used multiple times)\n  --uncheck-dod <index>             uncheck Definition of Done item by index\n                                    (1-based, can be used multiple times)\n  --acceptance-criteria <criteria>  replace all acceptance criteria (can be used\n                                    multiple times; commas are preserved)\n  --clear-ac                        remove all acceptance criteria (cannot\n                                    combine with acceptance criteria mutation\n                                    options)\n  --plan <text>                     set implementation plan\n  --notes <text>                    set implementation notes (replaces existing)\n  --comment <text>                  append a task comment; standalone '---'\n                                    lines are reserved (can be used multiple\n                                    times)\n  --comment-author <author>         author to record for appended comments\n  --final-summary <text>            set final summary (replaces existing)\n  --append-plan <text>              append after --plan replacement (can be used\n                                    multiple times)\n  --append-notes <text>             append to implementation notes (can be used\n                                    multiple times)\n  --append-final-summary <text>     append to final summary (can be used\n                                    multiple times)\n  --clear-final-summary             remove final summary\n  --clear-deps                      remove all task dependencies (cannot combine\n                                    with --depends-on or --dep)\n  --depends-on <taskIds>            set task dependencies (comma-separated or\n                                    use multiple times); pass \"\" to clear them\n  --dep <taskIds>                   set task dependencies (shortcut for\n                                    --depends-on)\n  --ref <reference>                 replace all references (comma-separated or\n                                    repeatable; cannot combine with\n                                    --add-ref/--remove-ref); pass \"\" to clear\n                                    them\n  --add-ref <reference>             add references without replacing existing\n                                    references (comma-separated or repeatable)\n  --remove-ref <reference>          remove references without replacing others\n                                    (comma-separated or repeatable)\n  --clear-refs                      remove all references (cannot combine with\n                                    --ref/--add-ref/--remove-ref)\n  --modified-file <path>            set modified file paths from project root\n                                    (can be used multiple times)\n  --doc <documentation>             set documentation (can be used multiple\n                                    times); pass \"\" to clear it\n  --clear-docs                      remove all documentation (cannot combine\n                                    with --doc)\n  -h, --help                        display help for command\n\n\nInput schema:\nRequired fields:\n  - taskIds: Task IDs - Tasks to update; prompted when omitted in interactive mode. Several IDs apply the same shared-field change to every task\nOptional fields:\n  - title: String - Replacement task title\n  - description: Markdown - Replacement description\n  - status: one of configured statuses: To Do, In Progress, Blocked, Done - Project task status; case-insensitive\n  - type: one of configured task types: bug, feature, enhancement, task, chore, docs, spike - Replacement task type; case-insensitive\n  - project: no projects configured; add a 'projects:' list to the project config file - Replacement task project; case-insensitive; pass an empty value to clear\n  - due-date: date - Set the task due date (YYYY-MM-DD)\n  - clear-due-date: Boolean - Clear the task due date\n  - assignee: Comma-separated strings - Replace all assignees; repeat -a or use @name1,@name2; -a \"\" clears them\n  - label: Comma-separated strings - Replace all labels; repeat --label or use label1,label2\n  - add-label: Comma-separated strings - Add labels; repeat --add-label or use label1,label2\n  - remove-label: Comma-separated strings - Remove labels; repeat --remove-label or use label1,label2\n  - clear-labels: Boolean - Remove all labels; cannot combine with other label flags\n  - clear-deps: Boolean - Remove all task dependencies; cannot combine with dependency flags\n  - add-ref: Comma-separated strings - Add references; repeat --add-ref or use ref1,ref2\n  - remove-ref: Comma-separated strings - Remove references; repeat --remove-ref or use ref1,ref2\n  - clear-refs: Boolean - Remove all references; cannot combine with --ref, --add-ref, or --remove-ref\n  - clear-docs: Boolean - Remove all documentation; cannot combine with --doc\n  - plan: Markdown - Replacement implementation plan\n  - append-plan: Markdown - Append after --plan replacement; repeatable\n  - notes: Markdown - Replacement implementation notes\n  - append-notes: Markdown - Append to implementation notes; repeatable\n  - comment: Markdown - Append a discussion comment\n  - final-summary: Markdown - Completion summary\n  - append-final-summary: Markdown - Append to final summary; repeatable\n  - check-ac: Integer - 1-based acceptance criterion index\nMarkdown fields:\n  - Multi-line values need real newlines; a literal \\n is stored as text\n  - Example (bash/zsh): --description $'First line\\nSecond line'\nWrites:\n  - Updates task metadata and structured task sections through Backlog.md\nOutput:\n  - Updated task details; use --plain for text output\nExamples:\n  backlog task edit TASK-1 --status \"<active status>\" -a @sara\n  backlog task edit TASK-1 --type \"bug\"\n  backlog task edit TASK-1 --check-ac 1\n  backlog task edit TASK-1 TASK-2 --status \"<active status>\"\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "task",
+        "edit",
+        "TASK-25",
+        "TASK-25.3",
+        "TASK-25.4",
+        "TASK-25.5",
+        "TASK-29.1",
+        "TASK-30",
+        "TASK-34",
+        "TASK-38",
+        "TASK-38.2",
+        "TASK-38.3",
+        "TASK-4",
+        "TASK-4.11",
+        "TASK-4.12",
+        "TASK-4.13",
+        "TASK-4.14",
+        "TASK-4.15",
+        "TASK-4.16",
+        "TASK-4.18",
+        "TASK-4.2",
+        "TASK-4.20",
+        "TASK-4.21",
+        "TASK-4.5",
+        "TASK-4.6",
+        "TASK-42",
+        "TASK-59.3",
+        "TASK-74.1",
+        "TASK-76.1",
+        "TASK-85",
+        "TASK-89",
+        "TASK-95",
+        "TASK-96",
+        "--milestone",
+        "m-8"
+      ],
+      "exitCode": 0,
+      "stdout": "Updated task TASK-25\nUpdated task TASK-25.3\nUpdated task TASK-25.4\nUpdated task TASK-25.5\nUpdated task TASK-29.1\nUpdated task TASK-30\nUpdated task TASK-34\nUpdated task TASK-38\nUpdated task TASK-38.2\nUpdated task TASK-38.3\nUpdated task TASK-4\nUpdated task TASK-4.11\nUpdated task TASK-4.12\nUpdated task TASK-4.13\nUpdated task TASK-4.14\nUpdated task TASK-4.15\nUpdated task TASK-4.16\nUpdated task TASK-4.18\nUpdated task TASK-4.2\nUpdated task TASK-4.20\nUpdated task TASK-4.21\nUpdated task TASK-4.5\nUpdated task TASK-4.6\nUpdated task TASK-42\nUpdated task TASK-59.3\nUpdated task TASK-74.1\nUpdated task TASK-76.1\nUpdated task TASK-85\nUpdated task TASK-89\nUpdated task TASK-95\nUpdated task TASK-96\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "task",
+        "edit",
+        "TASK-62",
+        "TASK-64",
+        "TASK-97",
+        "--milestone",
+        "m-9"
+      ],
+      "exitCode": 0,
+      "stdout": "Updated task TASK-62\nUpdated task TASK-64\nUpdated task TASK-97\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "task",
+        "edit",
+        "TASK-74",
+        "TASK-74.3",
+        "TASK-74.4",
+        "TASK-74.5",
+        "TASK-75",
+        "TASK-81",
+        "--milestone",
+        "m-7"
+      ],
+      "exitCode": 0,
+      "stdout": "Updated task TASK-74\nUpdated task TASK-74.3\nUpdated task TASK-74.4\nUpdated task TASK-74.5\nUpdated task TASK-75\nUpdated task TASK-81\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "doc",
+        "update",
+        "doc-2",
+        "--content",
+        "# 目前要完成什么\n\n**2026-11-03–11-09 只允许 M7 工程主线自行领取（m-7）。** 工程重点是全库职责/依赖、SCC/复杂度、原生 UI 热点和 CI 耗时与独立审查。3 天只是工程准入目标，不等于自动完成整个 M7。\n\nM8 产品体验（m-8）只允许既有明确修复窄并行；M8-B TASK-85/96 的新实施尚待 Owner 选方向/放行。开放 PR #491 的离线审计可按原认领收尾，但不能据此开始雷电正式开放。M9 内容扩充（m-9）暂缓。\n\n**Agent 自主领取必须**先执行 `npm run task:pick -- TASK-编号`；返回 HOLD 就检查/接续已有 PR，而不是另领下阶段任务。回到 `docs/SPRINT_EXECUTION.md` 看阶段说明。\n\n旧 M0–M6 的历史任务与已发布作品不重新立项；AC、owner、设备验收未完成就不勾选。\n"
+      ],
+      "exitCode": 0,
+      "stdout": "Updated document doc-2\nPath: backlog/docs/doc-2 - 目前要完成什么.md\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "doc",
+        "update",
+        "doc-1",
+        "--content",
+        "# 项目概览\n\n**当前执行：M7 工程 → M8 体验和自研角色 → M9 内容扩充。** 旧投稿 v1.0.0 保留历史；当前品质、设备和工程验收仍有未收口项目。\n\n- [目前要完成什么](/documentation/2/)：看当前 Sprint，避免跨阶段领任务。\n- [版本与研发顺序](/documentation/3/)：看 M7/M8/M9 的真实交付边界。\n- **Agent 接单**：先看 `docs/SPRINT_EXECUTION.md`，执行 `npm run task:pick -- TASK-编号`，再核对开放 PR/认领和 Backlog CLI。\n- **看板与证据**：GitHub 的任务状态、实际 PR、自动检查和同候选实机记录为准；未通过不写 Done。\n\n尚未完成：TASK-4.9 开场电影与对话、TASK-4.10 商人演出；历史 m-5 余项接续表见 docs/SPRINT_EXECUTION.md。\n"
+      ],
+      "exitCode": 0,
+      "stdout": "Updated document doc-1\nPath: backlog/docs/doc-1 - 项目概览.md\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "doc",
+        "update",
+        "doc-3",
+        "--content",
+        "# 版本与研发顺序\n\n## 当前唯一研发执行顺序（2026-11-03）\n\n1. **M7｜工程架构与性能强化（m-7）**：先清除架构和吞吐瓶颈；M8 的确定性修复可少量并行。\n2. **M8｜产品体验与核心特色（m-8）**：M8-A 优先地图、输入、战斗、美术和手机，M8-B 才是经 Owner 选择的差异化角色与 V4 验收（TASK-96、TASK-85）。\n3. **M9｜内容建设与扩充（m-9）**：更多 V4 职业、第三幕和隐藏第四幕等，质量门槛到位后再推进。\n\n**7 天 Sprint 只是节律，日期不会自动放行新阶段。** 每次先核对 `config/sprint-intake.json` 和 `npm run task:pick -- TASK-编号`。编号越小代表越先启动/更早应交付。\n\n旧 PR #479/#480/#485 的 M7/M8/M9 名称保留历史，2026-11-03 后统一按新编号派工。v1.0.0 及过往 Tag/投稿不改；未来版本候选需经真实验收再决定。\n"
+      ],
+      "exitCode": 0,
+      "stdout": "Updated document doc-3\nPath: backlog/docs/doc-3 - 版本与研发顺序.md\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "task",
+        "edit",
+        "TASK-96",
+        "--description",
+        "当前编号映射（2026-11-03）：本任务属于 M8/m-8 产品体验与核心特色；下文保留的旧称“M7 核心产品体验门槛”按当前 M8 理解，验收实质、负责人及既有 AC 不变。\n\n解决当前岩系旅行者仅将《杀戮尖塔》铁甲战士机制换名包装、难以形成《杀戮原塔2》自身玩法身份的问题。优先评估让已实现的 V4 自研职业（TASK-85 雷电将军）作为正式差异化入口；也可经 Owner 批准采用其他不重做冻结代码的方案。此项是 M7 核心产品体验门槛，不等于要求原创 IP 人物或重写整个卡池。",
+        "--append-notes",
+        "当前编号映射（2026-11-03）：本任务属于 M8/m-8 产品体验与核心特色；下文保留的旧称“M7 核心产品体验门槛”按当前 M8 理解，验收实质、负责人及既有 AC 不变。"
+      ],
+      "exitCode": 0,
+      "stdout": "Updated task TASK-96\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "task",
+        "edit",
+        "TASK-97",
+        "--description",
+        "当前编号映射（2026-11-03）：本任务属于 M9/m-9 内容扩充；下文及未勾 AC4 的旧称“M7 核心体验/基础 UI”均对应当前 M8/m-8 的体验、触屏、性能与稳定性门槛。保留原 AC4 文字和未勾状态，不改验收实质。\n\n复用 TASK-72 已交付的胡桃、阿蕾奇诺、芙宁娜三套 V4 自研卡牌与规则，在 M7 核心体验稳定后按角色逐个批准、装配和开放；不重开已经完成的冻结数据/引擎接入任务。未验的角色继续在开发配置中隐藏，不设承诺日期。",
+        "--append-notes",
+        "当前编号映射（2026-11-03）：本任务属于 M9/m-9 内容扩充；下文及未勾 AC4 的旧称“M7 核心体验/基础 UI”均对应当前 M8/m-8 的体验、触屏、性能与稳定性门槛。保留原 AC4 文字和未勾状态，不改验收实质。"
+      ],
+      "exitCode": 0,
+      "stdout": "Updated task TASK-97\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "doctor"
+      ],
+      "exitCode": 0,
+      "stdout": "No duplicate IDs, self-referential dependencies, or dependency cycles found.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "milestone",
+        "list"
+      ],
+      "exitCode": 0,
+      "stdout": "Active milestones (6):\n  m-0: M6｜前两幕作品人工投稿与版本归档 (0/2 done, due 2026-10-30)\n  m-5: M4｜前两幕首局UI、输入、音画与性能 (8/22 done, due 2026-10-28)\n  m-6: M5｜前两幕比赛候选冻结与验收 (1/14 done, due 2026-10-29)\n  m-7: M7｜工程架构与性能强化 (2/6 done)\n  m-8: M8｜产品体验与核心特色 (0/31 done)\n  m-9: M9｜内容建设与扩充 (0/3 done)\n\nCompleted milestones (1):\n  (collapsed, use --show-completed to list)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "task",
+        "view",
+        "TASK-96",
+        "--plain"
+      ],
+      "exitCode": 0,
+      "stdout": "File: /workspace/pr492-final/backlog/tasks/task-96 - 建立首局可感知的独立职业身份.md\n\nTask TASK-96 - 建立首局可感知的独立职业身份\n==================================================\n\nStatus: ◒ In Progress\nPriority: Medium\nOrdinal: 138000\nAssignee: @Furinya\nCreated: 2026-11-03 02:45 (UTC)\nUpdated: 2026-11-03 15:29 (UTC)\nLabels: design\nMilestone: m-8\nReferences: docs/SCOPE.md, docs/ORIGINAL_V4.md, https://github.com/CHNISam/Slay-the-Abyss/pull/479, docs/backlog-details/TASK-96-CHARACTER-IDENTITY-20261103.md\n\nDescription:\n--------------------------------------------------\n当前编号映射（2026-11-03）：本任务属于 M8/m-8 产品体验与核心特色；下文保留的旧称“M7 核心产品体验门槛”按当前 M8 理解，验收实质、负责人及既有 AC 不变。\n\n解决当前岩系旅行者仅将《杀戮尖塔》铁甲战士机制换名包装、难以形成《杀戮原塔2》自身玩法身份的问题。优先评估让已实现的 V4 自研职业（TASK-85 雷电将军）作为正式差异化入口；也可经 Owner 批准采用其他不重做冻结代码的方案。此项是 M7 核心产品体验门槛，不等于要求原创 IP 人物或重写整个卡池。\n\nAcceptance Criteria:\n--------------------------------------------------\n- [x] #1 以当前生产牌组/机制核对岩旅与 Ironclad 的共性与差异，说明哪些仅是表现换名，不冒称自研机制。\n- [ ] #2 提出最小可行的角色差异化方案及首次十分钟可感知的特征，经 Owner 确认后实施；不擅改已冻结平衡数据、不删除历史旅行者版。\n- [ ] #3 复用 TASK-85 或获批的等价角色任务完成实际正式入口、玩法与必要美术/信息呈现；代码、候选与官方 PC/安卓实测分层留证，不重复开发现有 V4 卡牌。\n- [ ] #4 同候选试玩可明确辨认本作的职业机制和角色表现；未完成验收前不得宣称原创职业体验已交付。\n\nDefinition of Done:\n--------------------------------------------------\nNo Definition of Done items defined\n\nImplementation Plan:\n--------------------------------------------------\n1. 定向核对当前生产入口、岩旅牌组/遗物/资源/生成数据与 Ironclad 来源，形成可重算事实审计。\n2. 基于现有冻结 V4 提供 2–3 个最小方向、首十分钟特征、UI/资产/入口依赖与分层验证出口，等待 Owner 决定。\n3. 仅写 TASK-96 专属附件及必要事实 JSON，轻量 guidance/backlog/diff 校验后交主控独审；AC1 不自行勾选，AC2–4 保持未完成。\n\nImplementation Notes:\n--------------------------------------------------\n执行者：TASK-96 事实审计；工作树 F:\\New folder\\.worktrees\\character-identity-audit-20261103；分支 feat/character-identity-audit-20261103；基线 013535ae48198bd72616224a4729f90bb187ecd9。公开认领：PR479 评论6597919043。仅研究与提案，不参与 TASK-85 执行验证；新行为与视觉待 Owner 确认。\n\n事实审计/提案切片已交付，待主控独审：docs/backlog-details/TASK-96-CHARACTER-IDENTITY-20261103.md；事实快照 docs/evidence/character-identity-20261103/facts.json。核实生产仅ironclad；75红牌保留原作身份、72非基础池成员一致、余烬之心映射Burning Blood胜利回血6。提供A雷电主推荐+岩旅可选（推荐）、B雷电单入口保留历史岩旅、C既有胡桃V4三个下一版本待批准方向。首十分钟拔刀不保证：初始只有两张军令，爆发需愿力3。7项输入hash/75映射/3个内存生成模块、数据交叉核对、Geo开局目录盘点及guidance/backlog/附件diff轻量检查通过；无候选/官方导入/新ready/PC或安卓证据，未运行TASK-85测试。Owner待决定是否批准A及其验收后开放边界。AC1待主控独审，AC2–4未批准/未实施/未验收，全部保持未勾，状态保持In Progress；本轮不提交、不推送、不建PR、不合并。\n\n本批集成复核：独立审查OpenCode-gpt-6.1-sol-9450b8af-50d5-4a27-ae2a-07570e988d00实际重算75映射、初始资源、来源与3模块，主控据此接受AC1；AC2–4继续待Owner方向确认、实施及设备验收。按用户最新要求，本批先复审/CI/集成再领下一批，任务保持In Progress。\n\n当前编号映射（2026-11-03）：本任务属于 M8/m-8 产品体验与核心特色；下文保留的旧称“M7 核心产品体验门槛”按当前 M8 理解，验收实质、负责人及既有 AC 不变。\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "task",
+        "view",
+        "TASK-97",
+        "--plain"
+      ],
+      "exitCode": 0,
+      "stdout": "File: /workspace/pr492-final/backlog/tasks/task-97 - 分批正式开放其余三套 V4 自研职业.md\n\nTask TASK-97 - 分批正式开放其余三套 V4 自研职业\n==================================================\n\nStatus: ○ To Do\nPriority: Low\nOrdinal: 139000\nAssignee: @Furinya\nCreated: 2026-11-03 02:45 (UTC)\nUpdated: 2026-11-03 15:29 (UTC)\nMilestone: m-9\nReferences: docs/ORIGINAL_V4.md, backlog/tasks/task-72 - 交付原创四角色并合入最新主线.md\n\nDescription:\n--------------------------------------------------\n当前编号映射（2026-11-03）：本任务属于 M9/m-9 内容扩充；下文及未勾 AC4 的旧称“M7 核心体验/基础 UI”均对应当前 M8/m-8 的体验、触屏、性能与稳定性门槛。保留原 AC4 文字和未勾状态，不改验收实质。\n\n复用 TASK-72 已交付的胡桃、阿蕾奇诺、芙宁娜三套 V4 自研卡牌与规则，在 M7 核心体验稳定后按角色逐个批准、装配和开放；不重开已经完成的冻结数据/引擎接入任务。未验的角色继续在开发配置中隐藏，不设承诺日期。\n\nAcceptance Criteria:\n--------------------------------------------------\n- [ ] #1 每个候选复用现有 V4 冻结卡表和规则；标记现有实现、未验收机制、缺失资源，未经批准不修改数值。\n- [ ] #2 正式选角/卡面/美术与独立身份对应，奖励、商店、升级、战斗和同局跨幕机制可自然运行。\n- [ ] #3 每名开放角色分别完成同候选 PC 与实体安卓完整流程、性能和可读性验收，保留正式准入/回退证据；未通过不显示公开入口。\n- [ ] #4 内容扩充不使 M7 基础 UI、触屏、性能与稳定性退化。\n\nDefinition of Done:\n--------------------------------------------------\nNo Definition of Done items defined\n\nImplementation Notes:\n--------------------------------------------------\n当前编号映射（2026-11-03）：本任务属于 M9/m-9 内容扩充；下文及未勾 AC4 的旧称“M7 核心体验/基础 UI”均对应当前 M8/m-8 的体验、触屏、性能与稳定性门槛。保留原 AC4 文字和未勾状态，不改验收实质。\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "task",
+        "edit",
+        "TASK-38.3",
+        "--milestone",
+        "m-8"
+      ],
+      "base": "a96cd9306643df5a84f05c25693aed6b07c6c43d",
+      "exitCode": 0,
+      "stdout": "Updated task TASK-38.3\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "task",
+        "edit",
+        "TASK-4.18",
+        "--milestone",
+        "m-8"
+      ],
+      "base": "a96cd9306643df5a84f05c25693aed6b07c6c43d",
+      "exitCode": 0,
+      "stdout": "Updated task TASK-4.18\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "task",
+        "edit",
+        "TASK-74",
+        "--milestone",
+        "m-7"
+      ],
+      "base": "a96cd9306643df5a84f05c25693aed6b07c6c43d",
+      "exitCode": 0,
+      "stdout": "Updated task TASK-74\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "doc",
+        "update",
+        "doc-2",
+        "--content",
+        "# 目前要完成什么\n\n**2026-11-03–11-09 只允许 M7 工程主线自行领取（m-7）。** 工程重点是全库职责/依赖、SCC/复杂度、原生 UI 热点和 CI 耗时与独立审查。3 天只是工程准入目标，不等于自动完成整个 M7。\n\nM8 产品体验（m-8）只允许既有明确修复窄并行；M8-B TASK-85/96 的新实施尚待 Owner 选方向/放行。已合 PR #491 的离线审计可按原认领收尾，但不能据此开始雷电正式开放。M9 内容扩充（m-9）暂缓。\n\n**Agent 自主领取必须**先执行 `npm run task:pick -- TASK-编号`；返回 HOLD 就检查/接续已有 PR，而不是另领下阶段任务。回到 `docs/SPRINT_EXECUTION.md` 看阶段说明。\n\n旧 M0–M6 的历史任务与已发布作品不重新立项；AC、owner、设备验收未完成就不勾选。\n"
+      ],
+      "exitCode": 0,
+      "stdout": "Updated document doc-2\nPath: backlog/docs/doc-2 - 目前要完成什么.md\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "doctor"
+      ],
+      "base": "a96cd9306643df5a84f05c25693aed6b07c6c43d",
+      "exitCode": 0,
+      "stdout": "No duplicate IDs, self-referential dependencies, or dependency cycles found.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "backlog",
+        "milestone",
+        "list"
+      ],
+      "base": "a96cd9306643df5a84f05c25693aed6b07c6c43d",
+      "exitCode": 0,
+      "stdout": "Active milestones (6):\n  m-0: M6｜前两幕作品人工投稿与版本归档 (0/2 done, due 2026-10-30)\n  m-5: M4｜前两幕首局UI、输入、音画与性能 (8/22 done, due 2026-10-28)\n  m-6: M5｜前两幕比赛候选冻结与验收 (1/14 done, due 2026-10-29)\n  m-7: M7｜工程架构与性能强化 (2/6 done)\n  m-8: M8｜产品体验与核心特色 (0/31 done)\n  m-9: M9｜内容建设与扩充 (0/3 done)\n\nCompleted milestones (1):\n  (collapsed, use --show-completed to list)\n",
+      "stderr": ""
+    }
+  ],
+  "integrationBase": "a96cd9306643df5a84f05c25693aed6b07c6c43d"
+}

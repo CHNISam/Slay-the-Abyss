@@ -5,11 +5,11 @@ status: To Do
 assignee:
   - Furinya
 created_date: '2026-11-02 02:19'
-updated_date: '2026-11-03 02:45'
+updated_date: '2026-11-03 15:29'
 labels:
   - design
   - technical-spike
-milestone: m-7
+milestone: m-8
 dependencies: []
 references:
   - docs/HANDOFF.md
