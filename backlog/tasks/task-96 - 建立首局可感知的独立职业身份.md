@@ -1,10 +1,11 @@
 ---
 id: TASK-96
 title: 建立首局可感知的独立职业身份
-status: To Do
+status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-03 02:45'
+updated_date: '2026-11-03 07:34'
 labels:
   - design
 milestone: m-7
@@ -13,6 +14,7 @@ references:
   - docs/SCOPE.md
   - docs/ORIGINAL_V4.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/479'
+  - docs/backlog-details/TASK-96-CHARACTER-IDENTITY-20261103.md
 priority: medium
 ordinal: 138000
 ---
@@ -30,3 +32,19 @@ ordinal: 138000
 - [ ] #3 复用 TASK-85 或获批的等价角色任务完成实际正式入口、玩法与必要美术/信息呈现；代码、候选与官方 PC/安卓实测分层留证，不重复开发现有 V4 卡牌。
 - [ ] #4 同候选试玩可明确辨认本作的职业机制和角色表现；未完成验收前不得宣称原创职业体验已交付。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. 定向核对当前生产入口、岩旅牌组/遗物/资源/生成数据与 Ironclad 来源，形成可重算事实审计。
+2. 基于现有冻结 V4 提供 2–3 个最小方向、首十分钟特征、UI/资产/入口依赖与分层验证出口，等待 Owner 决定。
+3. 仅写 TASK-96 专属附件及必要事实 JSON，轻量 guidance/backlog/diff 校验后交主控独审；AC1 不自行勾选，AC2–4 保持未完成。
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+执行者：TASK-96 事实审计；工作树 F:\New folder\.worktrees\character-identity-audit-20261103；分支 feat/character-identity-audit-20261103；基线 013535ae48198bd72616224a4729f90bb187ecd9。公开认领：PR479 评论6597919043。仅研究与提案，不参与 TASK-85 执行验证；新行为与视觉待 Owner 确认。
+
+事实审计/提案切片已交付，待主控独审：docs/backlog-details/TASK-96-CHARACTER-IDENTITY-20261103.md；事实快照 docs/evidence/character-identity-20261103/facts.json。核实生产仅ironclad；75红牌保留原作身份、72非基础池成员一致、余烬之心映射Burning Blood胜利回血6。提供A雷电主推荐+岩旅可选（推荐）、B雷电单入口保留历史岩旅、C既有胡桃V4三个下一版本待批准方向。首十分钟拔刀不保证：初始只有两张军令，爆发需愿力3。7项输入hash/75映射/3个内存生成模块、数据交叉核对、Geo开局目录盘点及guidance/backlog/附件diff轻量检查通过；无候选/官方导入/新ready/PC或安卓证据，未运行TASK-85测试。Owner待决定是否批准A及其验收后开放边界。AC1待主控独审，AC2–4未批准/未实施/未验收，全部保持未勾，状态保持In Progress；本轮不提交、不推送、不建PR、不合并。
+<!-- SECTION:NOTES:END -->
