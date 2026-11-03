@@ -27,9 +27,21 @@ function preM9ProtocolRegistrations(source){
  assert.equal(hash(previous),'037ff11d8894f6f68b0abb68420b74c05c7a38f2a4e5db58853930d56adc4e55','complete pre-M9 architecture');
  return previous;
 }
+// Only the complete reviewed Runtime host may enter the old compendium proof.
+// Apply this equally to explicit inputs and each fresh detached-owner read.
+function preRuntimeGameUi(path,source){
+ if(path!=='src/lua/abyss_game_ui.lua'||hash(source)!=='4ab3ec613f79b1507c7c529c57547d42f93fa7eafc89aeb9afb1b8c64ab34c25')return source;
+ const call='            suspendBattle(run,deckOpen,potionOpen),self.mode == "battle")';
+ const comment='        -- Paint after every page visibility setter, which may re-enter state.\n';
+ assert.equal(source.split(call).length,2,'one complete reviewed Runtime activation call');
+ assert.equal(source.split(comment).length,2,'one complete reviewed Runtime paint comment');
+ const previous=source.replace(call,'            suspendBattle(run,deckOpen,potionOpen))').replace(comment,'');
+ assert.equal(hash(previous),owners[path],'complete pre-Runtime compendium host');
+ return previous;
+}
 export function preCompendiumSource(path,source,overrides={}){
  if(typeof source!=='string')return source;
- const current=normalize(source);let previous;
+ const current=preRuntimeGameUi(path,normalize(source));let previous;
  if(path==='config/architecture.json'){
   try{
    const {formatted,tokensEqual}=architectureSourceFormat(path,preM9ProtocolRegistrations(current));
@@ -51,6 +63,6 @@ export function preCompendiumSource(path,source,overrides={}){
   assert.equal(hash(previous),'285281e48bcd5dfeb20bc03c8c2be526eda57e169689ba2e09b10d5babd3986a','complete pre-compendium relic descriptions');
  }else return source;
  for(const [owner,expected]of Object.entries(owners))
-  assert.equal(hash(Object.hasOwn(overrides,owner)?normalize(overrides[owner]):read(owner)),expected,'reviewed compendium owner: '+owner);
+  assert.equal(hash(preRuntimeGameUi(owner,Object.hasOwn(overrides,owner)?normalize(overrides[owner]):read(owner))),expected,'reviewed compendium owner: '+owner);
  return previous;
 }
