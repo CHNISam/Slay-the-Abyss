@@ -50,6 +50,9 @@ function inverse(path,source,target){
 }
 export function tryDeliverySource(path,source,target,{readSource=readLive}={}){
  source=preDeckDeliverySource(path,source,'delivery',{readSource});
+ return tryPreparedDeliverySource(path,source,target,{readSource});
+}
+function tryPreparedDeliverySource(path,source,target,{readSource=readLive}={}){
  const prior=inverse(path,source,target);if(prior===undefined)return undefined;
  // Every call re-reads linked owners. No cache may cover this validation.
  for(const [p,b]of Object.entries(proof.targets[target].files).filter(([,b])=>b.beforeSha256===null)){
@@ -64,7 +67,9 @@ export function tryDeliverySource(path,source,target,{readSource=readLive}={}){
 }
 export function preDeliveryTargetSource(path,source,target,options){
  source=preDeckDeliverySource(path,source,'delivery',options);
- const prior=tryDeliverySource(path,source,target,options);return prior===undefined?source:prior;
+ // The exact deck inverse returns different prior bytes, so preparing again
+ // only repeats classification. Keep every fresh linked read in this call.
+ const prior=tryPreparedDeliverySource(path,source,target,options);return prior===undefined?source:prior;
 }
 export function deliveryHistoricalPaths(target){return Object.freeze([...new Set([...deckDeliveryPaths,...((target==='develop'||target==='pre379')?Object.keys(proof.targets.developEvents.files):[]),...(target==='pre379'?Object.keys(proof.targets.develop.files):[]),...Object.keys(proof.targets[target].files)])].sort());}
 export function verifiedDeliverySources(target,{sourceRoot=process.cwd(),readSource=p=>readFileSync(join(sourceRoot,p),'utf8')}={}){
