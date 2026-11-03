@@ -109,29 +109,39 @@ function M.toHand(state, c)
     pile[#pile+1]=c
 end
 
+local choicePiles={recoverExhaust='exhaust',discardToDraw='discard',discardToHand='discard'}
+local function choiceEligible(combat,state,op,c)
+    local d=combat.cardDefinition(state,c)
+    return (op~="recoverExhaust" or c.cardId~="exhume")
+        and (op~="upgradeHand" or combat.canUpgrade(state,c))
+        and (op~="dualWield" or d.type=="attack" or d.type=="power")
+end
 local function candidates(combat,state,op)
-    local pile=op=="recoverExhaust" and state.exhaust or (op=="discardToDraw" or op=='discardToHand') and state.discard or state.hand
+    local pile=state[choicePiles[op] or 'hand']
     local result={}
     if op=="recoverExhaust" and #state.hand>=state.rules.player.maxHand then return result end
     for _,c in ipairs(pile) do
-        local d=combat.cardDefinition(state,c)
-        if (op~="recoverExhaust" or c.cardId~="exhume")
-            and (op~="upgradeHand" or combat.canUpgrade(state,c))
-            and (op~="dualWield" or d.type=="attack" or d.type=="power") then result[#result+1]=c.uid end
+        if choiceEligible(combat,state,op,c) then result[#result+1]=c.uid end
     end
     return result
 end
 
+local function openChoice(state,choice)
+    state.choiceSerial=(state.choiceSerial or 0)+1
+    choice.token=state.choiceSerial;state.pendingChoice=choice
+    Events.emit(state,'card_choice',{token=state.choiceSerial,op=choice.op})
+end
+local function multipleSelection(op,e,count)
+    return op=='exhaustMany' or op=='discardRedraw' or op=='discardToHand' and e.value>1 and count>e.value
+end
 local function selection(combat,state,item)
     local e,op=item.effect,item.effect.op
     if op=='discardToHand' and e.value<=0 then return end
     local options=candidates(combat,state,op)
     if #options==0 then return end
-    if op=='exhaustMany' or op=='discardRedraw' or op=='discardToHand' and e.value>1 and #options>e.value then
-        state.choiceSerial=(state.choiceSerial or 0)+1
-        state.pendingChoice={token=state.choiceSerial,op=op,uids=options,item=item,multiple=true,selected={},
-            required=op=='discardToHand' and e.value or nil}
-        Events.emit(state,'card_choice',{token=state.choiceSerial,op=op})
+    if multipleSelection(op,e,#options) then
+        openChoice(state,{op=op,uids=options,item=item,multiple=true,selected={},
+            required=op=='discardToHand' and e.value or nil})
         return
     end
     if op=='discardToHand' and #options<=e.value then
@@ -143,59 +153,114 @@ local function selection(combat,state,item)
     -- and returns amount+1 stat-equivalent copies; its one-eligible-card fast
     -- path retains the original and only adds amount copies.
     if op=="dualWield" then item.replaceSelected=true end
-    state.choiceSerial=(state.choiceSerial or 0)+1
-    state.pendingChoice={token=state.choiceSerial,op=op,uids=options,item=item}
-    Events.emit(state,"card_choice",{token=state.choiceSerial,op=op})
+    openChoice(state,{op=op,uids=options,item=item})
 end
 
+local function handChoice(state,uid)
+    for _,v in ipairs(state.hand) do if v.uid==uid then return v end end
+    error('stale hand choice')
+end
+local function returnDualWieldHand(combat,state,uid)
+    remove(state.hand,uid)
+    local eligible,other={},{}
+    for _,v in ipairs(state.hand) do
+        local kind=combat.cardDefinition(state,v).type
+        local pile=(kind=="attack" or kind=="power") and eligible or other
+        pile[#pile+1]=v
+    end
+    -- The selector returns temporarily hidden noneligible cards last.
+    for i=#state.hand,1,-1 do state.hand[i]=nil end
+    for _,pile in ipairs({eligible,other}) do for _,v in ipairs(pile) do state.hand[#state.hand+1]=v end end
+end
+local choiceActions={}
+function choiceActions.exhaustChoose(combat,state,_,uid)
+    local c=remove(state.hand,uid);assert(c,"stale exhaust choice")
+    M.exhaust(combat,state,c)
+end
+function choiceActions.recoverExhaust(_,state,_item,uid)
+    local c=remove(state.exhaust,uid);assert(c and c.cardId~="exhume","invalid Exhume choice")
+    M.toHand(state,c)
+end
+function choiceActions.discardToHand(combat,state,_,uid)
+    if #state.hand>=state.rules.player.maxHand then return false end
+    local c=remove(state.discard,uid);assert(c,'stale discard choice')
+    local definition=combat.cardDefinition(state,c)
+    if definition.cost>=0 and definition.costMode~='all_energy' then c.costForTurn=0 end
+    state.hand[#state.hand+1]=c
+    Events.emit(state,'recover',{uid=c.uid,cardId=c.cardId})
+end
+local function moveChoiceToDraw(_,state,item,uid)
+    local c=remove(item.effect.op=="discardToDraw" and state.discard or state.hand,uid)
+    assert(c,"stale pile choice");state.draw[#state.draw+1]=c
+end
+choiceActions.discardToDraw=moveChoiceToDraw
+choiceActions.handToDraw=moveChoiceToDraw
+function choiceActions.upgradeHand(combat,state,_,uid)
+    combat.upgrade(state,handChoice(state,uid))
+end
+function choiceActions.dualWield(combat,state,item,uid)
+    local c=handChoice(state,uid)
+    local count=item.effect.value
+    if item.replaceSelected then returnDualWieldHand(combat,state,uid);count=count+1 end
+    for _=1,count do
+        local generated=M.fresh(combat,state,c.cardId,c)
+        M.created(combat,state,generated)
+        M.created(combat,state,generated)
+        M.toHand(state,generated)
+    end
+end
 function M.applyChoice(combat,state,item,uid)
-    local e,op=item.effect,item.effect.op
-    if op=="exhaustChoose" then
-        local c=remove(state.hand,uid); assert(c,"stale exhaust choice")
-        M.exhaust(combat,state,c)
-    elseif op=="recoverExhaust" then
-        local c=remove(state.exhaust,uid); assert(c and c.cardId~="exhume","invalid Exhume choice")
-        M.toHand(state,c)
-    elseif op=='discardToHand' then
-        if #state.hand>=state.rules.player.maxHand then return end
-        local c=remove(state.discard,uid);assert(c,'stale discard choice')
-        local definition=combat.cardDefinition(state,c)
-        if definition.cost>=0 and definition.costMode~='all_energy' then c.costForTurn=0 end
-        state.hand[#state.hand+1]=c
-        Events.emit(state,'recover',{uid=c.uid,cardId=c.cardId})
-    elseif op=="discardToDraw" or op=="handToDraw" then
-        local c=remove(op=="discardToDraw" and state.discard or state.hand,uid)
-        assert(c,"stale pile choice"); state.draw[#state.draw+1]=c
-    elseif op=="upgradeHand" or op=="dualWield" then
-        local c
-        for _,v in ipairs(state.hand) do if v.uid==uid then c=v; break end end
-        assert(c,"stale hand choice")
-        if op=="upgradeHand" then combat.upgrade(state,c)
-        else
-            local count=e.value
-            if item.replaceSelected then
-                remove(state.hand,uid)
-                local eligible,other={},{}
-                for _,v in ipairs(state.hand) do
-                    local kind=combat.cardDefinition(state,v).type
-                    local pile=(kind=="attack" or kind=="power") and eligible or other
-                    pile[#pile+1]=v
-                end
-                -- The hand selector temporarily removes noneligible cards;
-                -- returnCards puts them after the remaining eligible cards.
-                for i=#state.hand,1,-1 do state.hand[i]=nil end
-                for _,pile in ipairs({eligible,other}) do for _,v in ipairs(pile) do state.hand[#state.hand+1]=v end end
-                count=count+1
-            end
-            for _=1,count do
-                local generated=M.fresh(combat,state,c.cardId,c)
-                M.created(combat,state,generated)
-                M.created(combat,state,generated)
-                M.toHand(state,generated)
-            end
-        end
-    else error("invalid choice operation") end
+    local op=item.effect.op
+    local handler=choiceActions[op];assert(handler,"invalid choice operation")
+    if handler(combat,state,item,uid)==false then return end
     Events.emit(state,"card_choice_resolved",{op=op,uid=uid})
+end
+
+local function commitMultipleChoice(combat,state,choice)
+    if choice.required and #choice.selected~=choice.required then return false,'invalid_card_choice' end
+    state.pendingChoice=nil
+    for _,id in ipairs(choice.selected) do
+        if choice.op=='exhaustMany' then
+            local c=remove(state.hand,id);M.exhaust(combat,state,c)
+        elseif choice.op=='discardRedraw' then
+            local c=remove(state.hand,id);state.discard[#state.discard+1]=c
+            Events.emit(state,'discard',{uid=c.uid,cardId=c.cardId,manual=true})
+        else M.applyChoice(combat,state,choice.item,id) end
+    end
+    if choice.op=='discardRedraw' and #choice.selected>0 then M.enqueue(state,{op='draw',value=#choice.selected},nil,nil,nil,true) end
+    M.drain(combat,state)
+    return true
+end
+local function toggleChoice(state,choice,uid)
+    local selected,removed={},false
+    for _,id in ipairs(choice.selected) do if id==uid then removed=true else selected[#selected+1]=id end end
+    if not removed then
+        if choice.required and #selected>=choice.required then return false,'invalid_card_choice' end
+        selected[#selected+1]=uid
+    end
+    choice.selected=selected
+    state.choiceSerial=(state.choiceSerial or 0)+1;choice.token=state.choiceSerial
+    return true
+end
+local function chooseMultiple(combat,state,choice,uid)
+    local valid={};for _,id in ipairs(candidates(combat,state,choice.op)) do valid[id]=true end
+    for _,id in ipairs(choice.selected) do if not valid[id] then return false,'stale_card_choice' end end
+    if uid==0 then return commitMultipleChoice(combat,state,choice)end
+    if not valid[uid] then return false,'invalid_card_choice' end
+    return toggleChoice(state,choice,uid)
+end
+local function containsUid(rows,uid)
+    for _,id in ipairs(rows) do if id==uid then return true end end
+    return false
+end
+local function chooseSingle(combat,state,choice,uid)
+    if not containsUid(choice.uids,uid) then return false,"invalid_card_choice" end
+    -- Revalidate eligibility instead of trusting the UI's copied option list.
+    if not containsUid(candidates(combat,state,choice.op),uid) then return false,"stale_card_choice" end
+    state.pendingChoice=nil
+    M.applyChoice(combat,state,choice.item,uid)
+    M.drain(combat,state)
+    return true
 end
 
 function M.choose(combat,state,token,uid)
@@ -208,46 +273,8 @@ function M.choose(combat,state,token,uid)
         if ok then M.drain(combat,state)end
         return ok,reason
     end
-    if choice.multiple then
-        local valid={};for _,id in ipairs(candidates(combat,state,choice.op)) do valid[id]=true end
-        for _,id in ipairs(choice.selected) do if not valid[id] then return false,'stale_card_choice' end end
-        if uid==0 then
-            if choice.required and #choice.selected~=choice.required then return false,'invalid_card_choice' end
-            state.pendingChoice=nil
-            for _,id in ipairs(choice.selected) do
-                if choice.op=='exhaustMany' then
-                    local c=remove(state.hand,id);M.exhaust(combat,state,c)
-                elseif choice.op=='discardRedraw' then
-                    local c=remove(state.hand,id);state.discard[#state.discard+1]=c
-                    Events.emit(state,'discard',{uid=c.uid,cardId=c.cardId,manual=true})
-                else M.applyChoice(combat,state,choice.item,id) end
-            end
-            if choice.op=='discardRedraw' and #choice.selected>0 then M.enqueue(state,{op='draw',value=#choice.selected},nil,nil,nil,true) end
-            M.drain(combat,state)
-            return true
-        end
-        if not valid[uid] then return false,'invalid_card_choice' end
-        local selected,removed={},false
-        for _,id in ipairs(choice.selected) do if id==uid then removed=true else selected[#selected+1]=id end end
-        if not removed then
-            if choice.required and #selected>=choice.required then return false,'invalid_card_choice' end
-            selected[#selected+1]=uid
-        end
-        choice.selected=selected
-        state.choiceSerial=(state.choiceSerial or 0)+1;choice.token=state.choiceSerial
-        return true
-    end
-    local found=false
-    for _,id in ipairs(choice.uids) do if id==uid then found=true end end
-    if not found then return false,"invalid_card_choice" end
-    -- Revalidate eligibility instead of trusting the UI's copied option list.
-    found=false
-    for _,id in ipairs(candidates(combat,state,choice.op)) do if id==uid then found=true end end
-    if not found then return false,"stale_card_choice" end
-    state.pendingChoice=nil
-    M.applyChoice(combat,state,choice.item,uid)
-    M.drain(combat,state)
-    return true
+    if choice.multiple then return chooseMultiple(combat,state,choice,uid)end
+    return chooseSingle(combat,state,choice,uid)
 end
 
 local function liveEnemies(state)
