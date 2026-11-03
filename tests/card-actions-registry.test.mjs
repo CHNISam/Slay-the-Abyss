@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {preRelicRound3CompositionSource} from './helpers/relic-round3-composition.mjs';
+import {preRelicActionPolicySection} from './helpers/card-actions-policy-composition.mjs';
 import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -41,15 +41,33 @@ function registryKeys() {
   assert.ok(keys.size > 40, 'all local operation entries are discovered from the AST');
   return [...keys].sort();
 }
-test('fixed 9293405d action oracle, supports admission and victory policy remain unchanged', () => {
-  assert.equal(sha(read(before)), '614ff20df48f8b2e10d9750f9857a2a4d68a8d4961c6be45a7e5144436d756c1');
+function assertActionPolicies(source){
   const section = (source, start, end) => {
     const at = source.indexOf(start);
     assert.ok(at >= 0 && source.indexOf(end, at) > at);
     return source.slice(at, source.indexOf(end, at));
   };
-  for (const [start, end] of [['local operations =', 'function M.enqueue('], ['local retained=', 'return M']])
-    assert.equal(section(preRelicRound3CompositionSource(live,read(live),'round3'), start, end), section(read(before), start, end));
+  for (const [kind,start,end] of [['admission','local operations =','function M.enqueue('],['victory','local retained=','return M']])
+    assert.equal(preRelicActionPolicySection(section(source,start,end),kind),section(read(before),start,end));
+}
+test('fixed 9293405d action oracle, supports admission and victory policy remain unchanged', () => {
+  assert.equal(sha(read(before)), '614ff20df48f8b2e10d9750f9857a2a4d68a8d4961c6be45a7e5144436d756c1');
+  assertActionPolicies(read(live));
+});
+test('policy projection rejects missing, additional, duplicate and condition-drift changes',()=>{
+  const source=read(live);
+  const admission="for _,op in ipairs({'rareGamblingChip','rareRelicGenerate','rareRelicDamageAll','rareRelicWeak','shopRelic'})do operations[op]=true end\n";
+  const refresh="            local rare=require('abyss_rare_relics')\n";
+  for(const [before,after] of [
+    [admission,''],[admission,admission.replace("'shopRelic'","'shopRelic','unexpected'")],
+    [admission,admission+admission],['return operations[op] == true','return operations[op] ~= false'],
+    [refresh,''],[refresh,refresh+refresh],
+    ["not state.endTurnAfterCard and rare.owns","state.endTurnAfterCard and rare.owns"],
+    ['outcome=="victory" and keep','outcome=="victory" or keep'],
+  ]){
+    assert.equal(source.split(before).length-1,1,'unique real policy mutation');
+    assert.throws(()=>assertActionPolicies(source.replace(before,after)));
+  }
 });
 for (const [fixture, flag] of [
   ['tests/lua/support/card_actions_registry_fixture.lua', ''],
