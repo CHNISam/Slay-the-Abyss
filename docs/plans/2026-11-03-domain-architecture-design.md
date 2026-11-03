@@ -22,7 +22,7 @@
 | D1 | [Actor:15–21][actor] 的 enqueue/reaction 调用 CardActions.enqueueReaction；[CardActions:3,18–31][actions] 又导入 Actor。enqueueReaction 在 actionQueue 存在时压入 effect，否则进入 cardActions，均不执行/清空队列。 | **同一 Combat 领域内的反向职责依赖**，不是单靠 domain 字段能解决。提取战斗专用反应入队入口，保留两种队列协议和原公开 API；只删经验证的反向边，不承诺整个 SCC 消失。 |
 | D2 | [Run.transaction][run] 克隆可变图并处理嵌套失败；[Run.play/chooseCard/continueCombatChoice/endTurn][run-commands] 在战斗命令后同步永久变化和 RNG，必要时再 finishCombat。 | **Run → Combat 是合理编排**。不能禁止整条依赖，也不能把永久状态发布改成“仅战斗结束时”。Run 公共命令拥有更外层的回滚边界。 |
 | D3 | [Run.startEncounter][rooms] 通过 Combat.new 创建战斗并发布 generation/phase；[finishCombat/applyPermanentChanges][settlement] 负责结果、卡组变化、奖励和流状态。 | 将创建/同步/结算视为受控的 Session–Combat 边界。保留已有接口，不增加第二套 battle/run 状态副本或新的提交者。 |
-| D4 | [Nodes.enter/advanceAct][nodes] 同时协调 Map 和 Run.transaction；enter 先 stagedMap，再成功提交路径等；[NodesCommon.complete][nodes-common] 实际写 nodeFlow 和 phase。 | Nodes 是**单局流程编排**，不是纯地图算法；Common 也不全是只读工具。不得按文件名把两者都放进无状态 World/Shared。保留地图根/path 身份及失败不发布语义。 |
+| D4 | [Nodes.enter/advanceAct][nodes] 同时协调 Map 和 Run.transaction；enter 先 stagedMap，再成功提交路径等；[NodesCommon.complete][nodes-common] 实际写 nodeFlow 和 phase。 | Nodes 是**单局流程编排**，不是纯地图算法；Common 也不全是只读工具。不得按文件名把两者都放进无状态 World/Shared。enter 保留地图根/path 身份；advanceAct 保留地图根并发布新幕 path；二者失败均不发布。 |
 | D5 | [RelicHooks.gainGold/onEquip][hooks] 修改单局数据；同文件 [enqueuePostDraw/upgradeRandomHand/onUsePotion][hooks-combat] 使用战斗队列和 Actor。 | **一个文件混合两种生命周期**。按 session hooks / combat hooks 拆职责，保留旧 API 兼容；不能把整包遗物代码标成 Shared 或纯数据来合法化反向依赖。 |
 | D6 | [CardCapability.isImplemented][capability] 调用 Effects.supported、职业规则，判断“引擎是否实现”，不只查静态定义。 | 它是 Combat 对外的**只读能力查询入口**，允许 Session 获取/升级流程使用。不得搬到纯 Catalog 后一律禁止它依赖执行能力，也不能用固定 true 列表代替。 |
 | D7 | [Events.frame/emit][events] 生成战斗表现帧；[ActionQueue][queue] 接受 effect/useCard，管理 paused/current 和选择续动。 | Events 不是地图随机事件；ActionQueue 不是通用 Shared。二者保留 Combat 归属：read-model / queue-runtime。 |
@@ -31,9 +31,10 @@
 ### 与在途工作的关系
 
 - #488 已合入：不重做营地/奖励/事件的 Copy 解耦。
-- #495 正处理 NodesCommon 的 copy-only Combat 依赖：作为已有实现承接，不另开重复修复。
-- #494 处理 UI 生命周期；#487 处理事件文案与来源证明；#496 处理 Auto-merge；均不混入本设计。
-- #492 尚在调整里程碑编号；复用 TASK-74 及其既有工程工作，不在此另编阶段号、不手工改 Backlog。
+- #495 已合入：NodesCommon 的 copy-only Combat 依赖已由该 PR 解耦，不重复实施。
+- #487 已合入：保留事件文案与来源证明；#494 的 UI 生命周期、#496 的 Auto-merge 仍由原 PR 承担。
+- #492 已合入：沿用其阶段编号与 Sprint 准入，复用 TASK-74，不另编阶段号、不手工改 Backlog。
+- 本轮修订以 develop `2d12b4e2a4ac4444af8f9c156512bb87ebd7047e` 核对上述状态；固定源码审计基线仍为页首 SHA。
 
 ## 3. 目标结构：两个维度，不是七个互不相干的大桶
 
@@ -72,7 +73,8 @@ Platform 是技术层；Presentation 是表现职责，均不替代业务归属�
 | run.deck、nextDeckUid、局内金币/生命/遗物/药水 | Run 的公开命令及其外层事务 | hooks 可在受控 staged 对象上修改；嵌套失败不得被吞掉后仍提交；不要求每个内部 helper 再开事务。 |
 | 战斗实体、手牌/牌堆、能量、待选项 | Combat 命令事务 | Actor/CardActions/规则 handler 是执行者；保留 UID、对象别名、队列顺序、死亡/暂停/重入边界。 |
 | run.combat、combatGeneration、phase 的战斗切换 | Run rooms / settlement，经 Session 命令编排 | 代次检查、创建失败不发布；Run.play 等命令可在战斗中同步永久变化，不推迟到结算。 |
-| 地图路线 + nodeFlow 的一次进入/换幕 | Nodes 编排 + Run.transaction | 保持当前 stagedMap 成功后发布，原 map/path 引用稳定；不得把地图与 Run 分成两个可独立成功的命令。 |
+| 地图路线 + nodeFlow 的节点进入 | Nodes.enter 编排 + Run.transaction | stagedMap 成功后发布，原 map/path 引用稳定；失败不发布。不得把地图与 Run 分成两个可独立成功的命令。 |
+| 换幕后的地图与 nodeFlow | Nodes.advanceAct 编排 + Run.transaction | 新幕生成成功后保留 map 根、替换为新幕 path 等字段；不要求沿用上一幕 path。失败时原 map/path 与 Run 状态不发布。 |
 | misc/card/shop/room 等随机流 | 对应 Session/Combat 命令的提交边界 | 算法可以共享，流身份、消费次数/顺序、回滚由原 owner 保持；不能合成一个全局 RNG。 |
 | events 表现帧、UI 焦点/拖动/控件 | Combat 帧生成 / UI 本地生命周期分别负责 | UI 读取批准的视图并发命令；既有快照隔离合同不放宽，不让 UI 直接成为永久状态提交者。 |
 
@@ -112,6 +114,8 @@ CardActions 保留同签名公开委托入口；Actor 的 enqueue/reaction 调�
 
 迁移前检查全部调用者、替换/monkey-patch 测试与函数身份依赖。若旧测试/调用方依赖 CardActions 函数替换拦截，须明确保持或报告兼容性差异，不能偷偷绕过。不存在证据时不得宣称完全兼容。
 
+已确认的具体合同：`tests/lua/plated_armor_queue.lua:76–81` 替换 CardActions.enqueueReaction 观察 Actor 的 platedReduce 入队；Actor 直接改接新入口会绕过该观察。另 `abyss_card_actions.lua:31` 的 legacy 分支动态调用 `M.enqueue`，把公开方法简单委托给新模块也可能绕过对 CardActions.enqueue 的替换。首个切口须先固定这两条拦截行为并裁决兼容方案；不能删除旧断言、仅保留同名 API 或隐藏一次兼容性变更后宣称等价。
+
 这一切口只承诺移除 Actor→CardActions 的直接边并保护行为。其他规则调用仍可能构成更长的环；不拿模块数、单函数 CC 或单条边下降冒充全局解耦。
 
 ## 7. 门禁与迁移，不制造另一套系统
@@ -135,7 +139,7 @@ CardActions 保留同签名公开委托入口；Actor 的 enqueue/reaction 调�
 
 借鉴 [OpenAI Harness Engineering](https://openai.com/index/harness-engineering/) 的“架构不变量 + 机械检查”，不照搬其应用层数或合并政策；这里的领域与具体依赖决策来自上述项目源码。
 
-本轮通过 connector 读取固定提交源码；容器不能解析 GitHub 域名，无法克隆/运行完整仓库，且 Backlog CLI 不存在。因此未改 Backlog、未运行 Lua/完整 CI、未取得独立审查；PR 保持 Draft。局部设计一致性校验不等于生产验证。
+原始设计轮次通过 connector 读取固定提交源码；当时容器不能解析 GitHub 域名，无法克隆/运行完整仓库，且 Backlog CLI 不存在，因此没有 Backlog、Lua/完整 CI 或独立审查结果。后续独立审查及本轮文档修订另行采证，不改写原始验证历史；PR 保持 Draft，局部设计一致性校验不等于运行时实施或生产验证。
 
 [actor]: https://github.com/CHNISam/Slay-the-Abyss/blob/2f829579672e61a91374a2d8a0281d5cac4ca7fc/src/lua/abyss_actor.lua#L1-L90
 [actions]: https://github.com/CHNISam/Slay-the-Abyss/blob/2f829579672e61a91374a2d8a0281d5cac4ca7fc/src/lua/abyss_card_actions.lua#L1-L180
