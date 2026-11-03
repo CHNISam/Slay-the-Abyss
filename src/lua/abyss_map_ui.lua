@@ -26,8 +26,13 @@ local function roomSize(fx,control,size)
     fx.sizeOwner=fx.sizeOwner or {}
     local painted=roomSizes[control]
     if painted and painted.owner==fx.sizeOwner and painted.size==size and control.alive~=false then return end
+    local pending={};roomSizes[control]=pending
+    local ok,result=pcall(control.SetSizeDelta,control,size,size)
+    local current=roomSizes[control]==pending
     roomSizes[control]=nil
-    if control:SetSizeDelta(size,size)~=false then roomSizes[control]={owner=fx.sizeOwner,size=size} end
+    if not ok then error(result,0)end
+    -- Nested setters can complete in either order; retry an overlapping write.
+    if result~=false and current then roomSizes[control]={owner=fx.sizeOwner,size=size} end
 end
 function M.paintRoom(fx)
     local icon, ring = fx.box:GetChild("icon"), fx.box:GetChild("ring")
