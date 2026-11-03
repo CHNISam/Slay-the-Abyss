@@ -33,7 +33,7 @@ const mutations=[
     'actionsFor(combat,state,uid,state.enemies[targetIndex],instance,card,enemies,uncommon)\n    hooks.queueUseCopies'],
 ];
 for(const [name,module,before,after] of mutations)test(`M9 trajectory rejects mutation: ${name}`,()=>{
-  const source=readFileSync(`src/lua/${module}.lua`,'utf8');
+  const source=readFileSync(`src/lua/${module}.lua`,'utf8').replaceAll('\r\n','\n');
   assert.equal(source.split(before).length,2,'one exact mutation site');
   const directory=mkdtempSync(join(tmpdir(),'abyss-m9-combat-'));
   const script=join(directory,'mutation.lua');
