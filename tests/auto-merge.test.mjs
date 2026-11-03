@@ -1,12 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {parseDependencies,autoMergeErrors,collectEligibility,armAutoMerge,reviewContext,requiredContexts} from '../scripts/arm-auto-merge.mjs';
+import {verifyAutoMergeArm,verifyDelivery} from '../scripts/verify-delivery.mjs';
 
 const sha=c=>c.repeat(40);
 const repo='CHNISam/Slay-the-Abyss';
 function fixture() {
   const pr={number:510,state:'open',merged:false,draft:false,mergeable:true,changed_files:1,
-    head:{sha:sha('a'),repo:{full_name:repo}},base:{ref:'develop',sha:sha('b')},body:'Summary\n\nDepends-on: none',
+    head:{sha:sha('a'),repo:{full_name:repo}},base:{ref:'develop',sha:sha('b')},merge_commit_sha:sha('d'),body:'Summary\n\nDepends-on: none',
     labels:[]};
   const review={reviewId:'independent-agent-evidence-100',reviewedHeadSha:sha('a'),
     reviewedBaseSha:sha('b'),conclusion:'pass',unresolved:[],repo,prNumber:510};
@@ -42,6 +43,8 @@ function mock(opts={}) {
     if(last==='repos/'+repo+'/rulesets/25870651')return JSON.stringify(f.ruleset);
     if(last==='repos/'+repo+'/git/ref/heads/develop')
       return JSON.stringify({ref:'refs/heads/develop',object:{type:'commit',sha:opts.nextTarget&&pulls>=2?opts.nextTarget:f.baseSha}});
+    if(last==='repos/'+repo+'/commits/'+sha('d'))
+      return JSON.stringify({sha:sha('d'),parents:[{sha:sha('b')},{sha:sha('a')}],commit:{tree:{sha:sha('f')}}});
     if(last==='repos/'+repo+'/pulls/509')
       return JSON.stringify({number:509,merged:opts.depMerged??true});
     if(last==='repos/'+repo+'/pulls/510/files?per_page=100')
@@ -141,10 +144,33 @@ test('dry run makes no writes, while approved activation writes status before ar
 });
 test('a new HEAD or develop tip blocks status writes and merge even after an earlier pass',()=>{
   for(const [options,pattern] of [[{nextHead:sha('e')},/changed|stale/i],
-    [{nextTarget:sha('e')},/changed|differs/i],
+    [{nextTarget:sha('e')},/changed|differs|stale/i],
     [{nextBase:sha('e')},/changed|differs/i]]) {
     const m=mock(options);
     assert.throws(()=>armAutoMerge(repo,510,m.f.review,m.query),pattern);
     assert(!m.calls.some(call=>call.includes('POST')||call[0]==='pr'));
+  }
+});
+
+test('early arm proof is distinct from completed CI preflight and supports later merge verification',()=>{
+  const a=mock();
+  const proof=armAutoMerge(repo,510,a.f.review,a.query,{dryRun:true}).proof;
+  assert.equal(proof.schemaVersion,4);
+  assert.equal(proof.kind,'auto-merge-arm');
+  assert.equal(proof.tested,sha('d'));
+  assert.equal(proof.sourceTree,sha('f'));
+  assert.deepEqual(verifyAutoMergeArm(proof),[]);
+  assert.deepEqual(verifyDelivery(proof),[]);
+  for(const mutate of [
+    p=>p.parents=[sha('b'),sha('e')],
+    p=>p.head=sha('e'),
+    p=>p.targetAfterSha=sha('e'),
+    p=>p.review.reviewedHeadSha=sha('e'),
+    p=>p.sourceTree='invalid',
+    p=>p.review.unresolved=['unfinished'],
+    p=>p.kind='preflight',
+  ]) {
+    const broken=structuredClone(proof);mutate(broken);
+    assert(verifyAutoMergeArm(broken).length,'Reject '+mutate);
   }
 });
