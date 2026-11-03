@@ -74,6 +74,18 @@ export function autoMergeErrors({repo,settings,pr,baseSha,ruleset,review,depende
   return errors;
 }
 
+// Every unmerged readback must still name the reviewed PR and merge proposal.
+// Comparing SHAs alone does not bind the target branch or repository identity.
+function sameAdmission(actual,expected) {
+  return actual?.number===expected.number&&actual.state==='open'&&actual.merged===false&&
+    actual.draft===false&&actual.mergeable===true&&actual.base?.ref==='develop'&&
+    actual.base.sha===expected.base.sha&&actual.head?.sha===expected.head.sha&&
+    actual.head.repo?.full_name===expected.head.repo.full_name&&
+    actual.merge_commit_sha===expected.merge_commit_sha&&actual.body===expected.body&&
+    actual.changed_files===expected.changed_files&&
+    JSON.stringify(actual.labels)===JSON.stringify(expected.labels);
+}
+
 function gh(...args) {
   const p=spawnSync('gh',args,{encoding:'utf8',timeout:60000,maxBuffer:16*1024*1024});
   if(p.error||p.status!==0)throw Error('GitHub CLI failed: '+(p.error?.message??p.stderr??'unknown error'));
@@ -83,6 +95,7 @@ function json(query,...args) {return JSON.parse(query(...args));}
 
 export function collectEligibility(repo,number,review,query=gh) {
   const pr=json(query,'api','repos/'+repo+'/pulls/'+number);
+  if(pr?.number!==number)throw Error('GitHub returned a different PR identity');
   const settings=json(query,'api','repos/'+repo);
   const ruleset=json(query,'api','repos/'+repo+'/rulesets/25870651');
   const target=json(query,'api','repos/'+repo+'/git/ref/heads/develop');
@@ -120,7 +133,8 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false,loadCheck
   if(before.errors.length)throw Error(before.errors.join('\n'));
   // Read the actual branch ref and PR a second time immediately before writing.
   const current=collectEligibility(repo,number,review,query);
-  if(current.errors.length||before.headSha!==current.headSha||before.baseSha!==current.baseSha)
+  if(current.errors.length||before.headSha!==current.headSha||before.baseSha!==current.baseSha||
+    !sameAdmission(current.pr,before.pr))
     throw Error('PR or review eligibility changed while preparing auto-merge: '+current.errors.join('; '));
   if(before.tested!==current.tested||before.sourceTree!==current.sourceTree)
     throw Error('Proposed merge commit changed while preparing auto-merge');
@@ -134,12 +148,10 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false,loadCheck
   const fullErrors=verifyDelivery(evidence);
   if(fullErrors.length||evidence.schemaVersion!==3||evidence.head!==current.headSha||
     evidence.base!==current.baseSha||evidence.tested!==current.tested||
-    evidence.sourceTree!==current.sourceTree||fullCurrent.head?.sha!==current.headSha||
-    fullCurrent.base?.sha!==current.baseSha)throw Error('Exact Full CI preflight failed: '+fullErrors.join('; '));
+    evidence.sourceTree!==current.sourceTree||!sameAdmission(fullCurrent,current.pr))throw Error('Exact Full CI preflight failed: '+fullErrors.join('; '));
   const final=collectEligibility(repo,number,review,query);
   if(final.errors.length||final.headSha!==current.headSha||final.baseSha!==current.baseSha||
-    final.tested!==current.tested||final.pr.body!==current.pr.body||
-    JSON.stringify(final.pr.labels)!==JSON.stringify(current.pr.labels))
+    final.tested!==current.tested||!sameAdmission(final.pr,current.pr))
     throw Error('PR admission changed during Full preflight');
   // Recheck current Full after the slower rules/dependency admission reads.
   // Reuse only the immutable artifact; a changed run/attempt fails its identity.
@@ -147,10 +159,7 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false,loadCheck
     checkout:evidence.checkout,checkoutArtifact:evidence.checkoutArtifact}));
   const refreshedErrors=verifyDelivery(refreshed.evidence);
   if(refreshedErrors.length||refreshed.evidence.runId!==evidence.runId||
-    refreshed.evidence.attempt!==evidence.attempt||refreshed.current.head?.sha!==current.headSha||
-    refreshed.current.base?.sha!==current.baseSha||refreshed.current.state!=='open'||
-    refreshed.current.draft||refreshed.current.body!==current.pr.body||
-    JSON.stringify(refreshed.current.labels)!==JSON.stringify(current.pr.labels))
+    refreshed.evidence.attempt!==evidence.attempt||!sameAdmission(refreshed.current,current.pr))
     throw Error('Exact Full CI or admission changed before authorization: '+refreshedErrors.join('; '));
   proof.fullPreflight=refreshed.evidence;
   proof.review=refreshed.evidence.review;

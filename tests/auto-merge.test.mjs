@@ -47,6 +47,10 @@ function mock(opts={}) {
       if(opts.nextBase&&pulls>=2)pr.base.sha=opts.nextBase;
       if(armed&&opts.mergeImmediately){pr.merged=true;pr.state='closed';pr.merge_commit_sha=sha('e');}
       if(armed&&!opts.missingAutoMerge)pr.auto_merge={merge_method:opts.mergeMethod??'squash'};
+      if(pulls===7&&opts.finalTarget)pr.base.ref=opts.finalTarget;
+      if(pulls===7&&opts.finalNumber)pr.number=opts.finalNumber;
+      if(pulls===7&&opts.finalFork)pr.head.repo.full_name='other/repository';
+      if(pulls===7&&opts.finalMergeCommit)pr.merge_commit_sha=sha('e');
       if(armed&&opts.finalHold){pr.labels=['hold'];pr.base.sha=sha('e');}
       return JSON.stringify(pr);
     }
@@ -270,4 +274,12 @@ test('waiver normalizes API file ordering and optional identity metadata into va
   const p=armAutoMerge(repo,510,review,m.query,{dryRun:true}).proof;
   assert.deepEqual(p.changedFiles,p.fullPreflight.changedFiles);
   assert.deepEqual(verifyAutoMergeArm(p),[]);
+});
+
+test('last Full readback must retain complete PR identity before any remote mutation',()=>{
+ for(const options of [{finalTarget:'master'},{finalNumber:511},{finalFork:true},{finalMergeCommit:true}]) {
+  const m=mock(options);
+  assert.throws(()=>armAutoMerge(repo,510,m.f.review,m.query),/admission|identity|Full|changed/);
+  assert(!m.calls.some(c=>c.includes('POST')||c[0]==='pr'),'No mutation for '+JSON.stringify(options));
+ }
 });
