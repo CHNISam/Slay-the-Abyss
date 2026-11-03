@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "stage": "offline-fengari-contracts",
+  "startedAt": "2026-11-03T07:33:12.013Z",
+  "cwd": "F:\\New folder\\.worktrees\\raiden-v4-verification-20261103",
+  "node": "v22.22.1",
+  "executable": "C:\\Program Files\\nodejs\\node.exe",
+  "platform": "win32",
+  "dependencyResolution": {
+    "fengari": "F:\\New folder\\node_modules\\fengari\\src\\fengari.js",
+    "cli": "F:\\New folder\\node_modules\\fengari-node-cli\\src\\lua-cli.js"
+  },
+  "sourceCommit": "013535ae48198bd72616224a4729f90bb187ecd9",
+  "commands": [
+    {
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "scripts/build-lua-data.mjs"
+      ],
+      "durationMs": 130,
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "expectedFailure": null,
+      "result": "PASS",
+      "stdout": "Validated Lua data module built.\n",
+      "stderr": ""
+    },
+    {
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "scripts/build-ui.mjs"
+      ],
+      "durationMs": 894,
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "expectedFailure": null,
+      "result": "PASS",
+      "stdout": "Native battle UI and Traveler display module built.\n",
+      "stderr": ""
+    },
+    {
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "--test",
+        "--test-concurrency=1",
+        "tests/raiden-v4-verification.test.mjs"
+      ],
+      "durationMs": 28378,
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "expectedFailure": null,
+      "result": "PASS",
+      "stdout": "TAP version 13\n# Subtest: frozen Raiden V4 public Run public_commands\nok 1 - frozen Raiden V4 public Run public_commands\n  ---\n  duration_ms: 10703.1037\n  type: 'test'\n  ...\n# TRACE cap R=2 gain=2 eye=2 hp=487 energy=0 block=2 replay=unchanged\\\\nTRACE paid-only accumulation turn2 R=4 turn3 R=6 turn4 R=6 gain=0\\\\nPASS paid commands cap resolve at two; eye establishment, refresh and replay are physical-play bounded\\\\nTRACE Q R=3 preview=16+2 read-only; commit R=0 eye=1 musou=3/2 energy=0\\\\nPASS Q refusal and repeated preview preserve complete Run, then legal Q spends three and grants Musou\\\\nTRACE Musou normals=11+9 next=1; turn4 energy=4 expired-hit=6; battle2 all RD resources=0\\\\nPASS Musou refunds once per turn, expires after two ends and cannot leak into next battle\\\\nTRACE blocked actual=0 musou-use=1 eye-use=0 refund=0; next actual=11 refund=1\\\\nPASS fully blocked Musou hit consumes one use but grants no refund or eye follow-up\\\\nRAIDEN_V4_PUBLIC_COMMANDS_PASS 4\n# Subtest: frozen Raiden V4 public Run rollback\nok 2 - frozen Raiden V4 public Run rollback\n  ---\n  duration_ms: 17455.0711\n  type: 'test'\n  ...\n# PASS Q late refuse restores complete graph/resources/ledgers; same-ID retry then replay\\\\nPASS Q late throw restores complete graph/resources/ledgers; same-ID retry then replay\\\\nPASS normal late refuse restores complete graph/resources/ledgers; same-ID retry then replay\\\\nPASS normal late throw restores complete graph/resources/ledgers; same-ID retry then replay\\\\nRAIDEN_V4_ROLLBACK_PASS 4\n1..2\n# tests 2\n# suites 0\n# pass 2\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 28332.7695\n",
+      "stderr": ""
+    },
+    {
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "scripts/test-lua.mjs",
+        "tests/lua/original_v4_contract.lua"
+      ],
+      "durationMs": 4268,
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "expectedFailure": null,
+      "result": "PASS",
+      "stdout": "PASS HT payment snapshot and last-card native dispatch\nPASS HT single post-payment condition snapshot and dynamic maximum\nPASS HT third charged card no repeated root and refresh keeps quota\nPASS HT multihit AOE first live hit only\nPASS AR bond preserves inventory and uses pre-consumption first bonus\nPASS AR Q absorbs before spend without multiplying area base\nPASS FR Q consumes its own revelry batch and first-target bonus\nPASS RD new eye does not follow its establishing hit\nPASS RD Q and next-turn refund cap\nPASS RD frozen block is not taxed twice; zero block has no gain event\nPASS shared actual heal cap and AR source gate\nPASS duplicate command idempotency and conflict\nPASS Guardian shifting waits for the complete multihit action\nPASS new-turn HP events use the new FR budget\nPASS production preview is read-only and matches root damage\nPASS zero actual regeneration never rewrites a prior action frame\nPASS opening Blood Vial shares the first-turn fanfare budget\nPASS Guardian waits behind both damage operations of one root\nPASS Pain plus mandatory payment rejects atomically before native actions\nORIGINAL_V4_CONTRACT_PASS 19\nLua fixture tests/lua/original_v4_contract.lua: 4096 ms\n",
+      "stderr": ""
+    },
+    {
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "scripts/test-lua.mjs",
+        "tests/lua/original_v4_acquisition.lua"
+      ],
+      "durationMs": 7667,
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "expectedFailure": null,
+      "result": "PASS",
+      "stdout": "hutao seed=1 first=f1_l2 encounter=Cultist result=reward hp=66 turns=3 plays=7\nCROSS_NODE hutao node=f2_l1 type=combat phase=combat deck=11 hp=66\narlecchino seed=1 first=f1_l2 encounter=Cultist result=reward hp=59 turns=4 plays=9\nCROSS_NODE arlecchino node=f2_l1 type=combat phase=combat deck=11 hp=59\nfurina seed=1 first=f1_l2 encounter=Cultist result=reward hp=63.0 turns=3 plays=7\nCROSS_NODE furina node=f2_l1 type=combat phase=combat deck=11 hp=63.0\nraiden seed=1 first=f1_l2 encounter=Cultist result=reward hp=71.0 turns=3 plays=9\nCROSS_NODE raiden node=f2_l1 type=combat phase=combat deck=11 hp=71.0\nORIGINAL_V4_ACQUISITION_PASS 4\nLua fixture tests/lua/original_v4_acquisition.lua: 7521 ms\n",
+      "stderr": ""
+    },
+    {
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "scripts/test-lua.mjs",
+        "tests/lua/original_v4_lifecycle.lua"
+      ],
+      "durationMs": 9838,
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "expectedFailure": null,
+      "result": "PASS",
+      "stdout": "ORIGINAL_V4_CROSS_ACT_PASS 4 identities inventory commands new-battle reset and queue fence\nORIGINAL_V4_LIFECYCLE_PASS 4 channels modifiers cleanup\nLua fixture tests/lua/original_v4_lifecycle.lua: 9694 ms\n",
+      "stderr": ""
+    },
+    {
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "scripts/test-lua.mjs",
+        "tests/lua/original_v4_cards.lua"
+      ],
+      "durationMs": 10781,
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "expectedFailure": null,
+      "result": "PASS",
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_FEEDBACK hp_loss source=player target=player amount=3\nABYSS_FEEDBACK block source=player target=player amount=4\nABYSS_FEEDBACK block source=player target=player amount=3\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK block_reset source=- target=player amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=3\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_FEEDBACK hp_loss source=player target=player amount=1\nABYSS_FEEDBACK original_v4_resource source=- target=- amount=1\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=5\nABYSS_FEEDBACK hp_loss source=player target=player amount=1\nABYSS_FEEDBACK original_v4_resource source=- target=- amount=1\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=3\nABYSS_FEEDBACK hp_loss source=player target=player amount=1\nABYSS_FEEDBACK original_v4_resource source=- target=- amount=1\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=6\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=1 amount=0\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=3\nABYSS_FEEDBACK block source=player target=player amount=2\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK block_reset source=- target=player amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nORIGINAL_V4_BATTLE_UI_PASS 4\nLua fixture tests/lua/original_v4_cards.lua: 10628 ms\n",
+      "stderr": ""
+    },
+    {
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "scripts/test-lua.mjs",
+        "tests/lua/competition_roster_run.lua"
+      ],
+      "durationMs": 4095,
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "expectedFailure": null,
+      "result": "PASS",
+      "stdout": "PASS canonical Geo is public and frozen Raiden remains explicit development\nPASS all other direct role factories reject before adaptation or RNG\nPASS prepared source identity cannot bypass omitted character\nPASS contradictory caller identity markers fail closed\nCOMPETITION_ROSTER_RUN_PASS 4; native/natural NOT_RUN\nLua fixture tests/lua/competition_roster_run.lua: 3946 ms\n",
+      "stderr": ""
+    },
+    {
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "scripts/test-lua.mjs",
+        "tests/lua/competition_roster_ui.lua"
+      ],
+      "durationMs": 2764,
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "expectedFailure": null,
+      "result": "PASS",
+      "stdout": "ABYSS_RUN seed=3 source=clock\nCOMPETITION_ROSTER_UI_PASS native controls/direct config/controller/stale confirm; native/natural NOT_RUN\nLua fixture tests/lua/competition_roster_ui.lua: 2640 ms\n",
+      "stderr": ""
+    },
+    {
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "scripts/test-lua.mjs",
+        "tests/lua/competition_roster_prepared_ui.lua"
+      ],
+      "durationMs": 10558,
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "expectedFailure": null,
+      "result": "PASS",
+      "stdout": "COMPETITION_PREPARED_UI_CASE 1\nCOMPETITION_PREPARED_UI_CASE 2\nCOMPETITION_PREPARED_UI_CASE 3\nCOMPETITION_PREPARED_UI_CASE 4\nCOMPETITION_PREPARED_UI_CASE 5\nCOMPETITION_PREPARED_UI_CASE 6\nCOMPETITION_PREPARED_UI_CASE 7\nCOMPETITION_PREPARED_UI_CASE 8\nCOMPETITION_PREPARED_UI_CASE 9\nCOMPETITION_PREPARED_UI_CASE 10\nCOMPETITION_PREPARED_UI_CASE 11\nCOMPETITION_PREPARED_UI_CASE 12\nCOMPETITION_PREPARED_UI_CASE 13\nCOMPETITION_PREPARED_UI_CASE 14\nCOMPETITION_PREPARED_UI_CASE 15\nCOMPETITION_PREPARED_UI_CASE 16\nCOMPETITION_PREPARED_UI_CASE 17\nCOMPETITION_PREPARED_UI_CASE 18\nCOMPETITION_PREPARED_UI_PASS 18; native/natural NOT_RUN\nCOMPETITION_PREPARED_UI_SLICE 1 18 18\nLua fixture tests/lua/competition_roster_prepared_ui.lua: 10427 ms\n",
+      "stderr": ""
+    },
+    {
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:\\New folder\\node_modules\\fengari-node-cli\\src\\lua-cli.js",
+        "-e",
+        "local V=require(\"abyss_original_v4\");local start=V.startTurn;V.startTurn=function(s)local prior=s.originalV4.resolveGained;local out=start(s);s.originalV4.resolveGained=prior;return out end;dofile(\"tests/lua/raiden_v4_public_commands.lua\")"
+      ],
+      "durationMs": 2382,
+      "exitCode": 1,
+      "signal": null,
+      "error": null,
+      "expectedFailure": "expected 0 got 2",
+      "result": "FAIL",
+      "stdout": "TRACE cap R=2 gain=2 eye=2 hp=487 energy=0 block=2 replay=unchanged\n",
+      "stderr": "tests/lua/raiden_v4_public_commands.lua:5: value: expected 4 got 2\nstack traceback:\n\t[JS]: in function 'assert'\n\ttests/lua/raiden_v4_public_commands.lua:5: in upvalue 'eq'\n\ttests/lua/raiden_v4_public_commands.lua:84: in local 'fn'\n\ttests/lua/raiden_v4_public_commands.lua:68: in local 'test'\n\ttests/lua/raiden_v4_public_commands.lua:69: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\n",
+      "negativeControl": "omit per-turn resolve reset"
+    },
+    {
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:\\New folder\\node_modules\\fengari-node-cli\\src\\lua-cli.js",
+        "-e",
+        "local V=require(\"abyss_original_v4\");local preview=V.preview;V.preview=function(c,s,...)local out=preview(c,s,...);s.originalV4.eye.uses=s.originalV4.eye.uses-1;return out end;dofile(\"tests/lua/raiden_v4_public_commands.lua\")"
+      ],
+      "durationMs": 4603,
+      "exitCode": 1,
+      "signal": null,
+      "error": null,
+      "expectedFailure": "original graph edge uses",
+      "result": "EXPECTED_RED",
+      "stdout": "TRACE cap R=2 gain=2 eye=2 hp=487 energy=0 block=2 replay=unchanged\nTRACE paid-only accumulation turn2 R=4 turn3 R=6 turn4 R=6 gain=0\nPASS paid commands cap resolve at two; eye establishment, refresh and replay are physical-play bounded\n",
+      "stderr": "tests/lua/raiden_v4_public_commands.lua:5: original graph edge uses: expected 2 got 1\nstack traceback:\n\t[JS]: in function 'assert'\n\ttests/lua/raiden_v4_public_commands.lua:5: in upvalue 'eq'\n\ttests/lua/raiden_v4_public_commands.lua:19: in local 'check'\n\ttests/lua/raiden_v4_public_commands.lua:99: in local 'fn'\n\ttests/lua/raiden_v4_public_commands.lua:68: in local 'test'\n\ttests/lua/raiden_v4_public_commands.lua:90: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\n",
+      "negativeControl": "preview consumes real eye use"
+    },
+    {
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:\\New folder\\node_modules\\fengari-node-cli\\src\\lua-cli.js",
+        "-e",
+        "local S=require(\"abyss_snapshot\");local capture=S.capture;S.capture=function(root,...)local restore,owner=capture(root,...);if root.character==\"raiden\"then return function()restore();root.combat.originalV4.resolve=99 end,owner end;return restore,owner end;dofile(\"tests/lua/raiden_v4_rollback.lua\")"
+      ],
+      "durationMs": 1942,
+      "exitCode": 1,
+      "signal": null,
+      "error": null,
+      "expectedFailure": "original graph edge resolve",
+      "result": "EXPECTED_RED",
+      "stdout": "",
+      "stderr": "tests/lua/raiden_v4_public_commands.lua:5: original graph edge resolve: expected 3 got 99\nstack traceback:\n\t[JS]: in function 'assert'\n\ttests/lua/raiden_v4_public_commands.lua:5: in upvalue 'eq'\n\ttests/lua/raiden_v4_public_commands.lua:19: in local 'check'\n\ttests/lua/raiden_v4_rollback.lua:31: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\n",
+      "negativeControl": "late rollback leaves corrupted resolve"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "data/original_v4/cards_v4.json",
+      "bytes": 403915,
+      "sha256": "89229cdd7f6c1640d47bca95338f5e7887fbfd8720af181f7561d6eb45a45fca"
+    },
+    {
+      "path": "data/original_v4/rules_v4.json",
+      "bytes": 9765,
+      "sha256": "a100f8b0fd61e3724f0eda5e077055f82bcacb7a4536d337096d9a6389419c8e"
+    },
+    {
+      "path": "tests/raiden-v4-verification.test.mjs",
+      "bytes": 523,
+      "sha256": "916389a569ba7b3157388d2515e0aa82abcb4fef3177228c086487a6abf53012"
+    },
+    {
+      "path": "tests/lua/raiden_v4_public_commands.lua",
+      "bytes": 8229,
+      "sha256": "01200ca244af1c7dedf72499367d6f23594399aa50d5c354e02d3646a54d2d33"
+    },
+    {
+      "path": "tests/lua/raiden_v4_rollback.lua",
+      "bytes": 2212,
+      "sha256": "e0743c791909a75ec62abf48e1e6361460b2100bb34a8554a63a87154490bd3d"
+    },
+    {
+      "path": "src/lua/abyss_run.lua",
+      "bytes": 34437,
+      "sha256": "3d6484f7e43298e321fd40d785d1d3c650a8663aa2b94f85cc125bc0c85e1496"
+    },
+    {
+      "path": "src/lua/abyss_combat.lua",
+      "bytes": 126464,
+      "sha256": "a8057c916157c570cd827c5be5967f7123eafe5df787d52e1683bdd9a90cb719"
+    },
+    {
+      "path": "src/lua/abyss_original_v4.lua",
+      "bytes": 23902,
+      "sha256": "5a22a8e40fb2e48cc1c9b581bdc1f0ebd0f0bcb356fb1af23eb1bd0007c32565"
+    },
+    {
+      "path": "src/lua/abyss_snapshot.lua",
+      "bytes": 1863,
+      "sha256": "1235e5ac478fd0a7a51bf974bfc89ff2277af11198c077ef1228c480ba3bfd1d"
+    }
+  ],
+  "platformEvidence": {
+    "candidateGil": "NOT_RUN",
+    "officialImport": "NOT_RUN",
+    "ready": "NOT_RUN",
+    "pc": "NOT_RUN",
+    "phone": "NOT_RUN",
+    "naturalTwoActs": "NOT_RUN"
+  },
+  "finishedAt": "2026-11-03T07:34:40.374Z",
+  "result": "FAIL"
+}

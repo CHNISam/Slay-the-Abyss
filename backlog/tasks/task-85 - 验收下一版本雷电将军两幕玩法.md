@@ -1,11 +1,11 @@
 ---
 id: TASK-85
 title: 验收下一版本雷电将军两幕玩法
-status: To Do
+status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-29 01:28'
-updated_date: '2026-11-03 02:45'
+updated_date: '2026-11-03 07:39'
 labels:
   - future
 milestone: m-7
@@ -13,6 +13,7 @@ dependencies: []
 references:
   - docs/backlog-details/TRAVELER-SCOPE-20261029.md
   - backlog/tasks/task-47 - M3-冻结第一幕首发内容清单与逐项可获得-可执行验收.md
+  - docs/backlog-details/TASK-85-OFFLINE-20261103.md
 priority: medium
 ordinal: 126000
 ---
@@ -33,6 +34,16 @@ ordinal: 126000
 - [ ] #6 正式角色入口及其美术、卡牌与道具交互完整验收后，才决定后续版本开放；未通过不显示为可用。
 <!-- AC:END -->
 
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. 核对冻结V4规则与已有Command、预览、回滚、重置、跨幕及白名单覆盖，选择高价值真实缺口。
+2. 仅在授权测试路径补必要契约；确定缺陷保留红例，不改生产源码及冻结输入。
+3. 运行必要构建和定向验证，保存环境、精确命令、耗时与原始输出，记录新增/原有覆盖及平台缺口。
+
+4. 缺口收敛：补雷电真实Run.play的付费指令限额、连续回合Q/一心、完整Run图预览只读和晚结算失败的资源/命令账本回滚；沿用现有跨幕与正式白名单夹具。用受控小牌组/耐久敌人隔离契约，所有资源增长、付费与回合推进走公开接口。
+<!-- SECTION:PLAN:END -->
+
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
@@ -48,4 +59,16 @@ TASK-47迁出原文（均未勾，保留完整历史）：
 - TASK-47原AC14 [ ] 雷电将军自然获取卡牌并连续战斗，保留实机证据。
 - TASK-47原AC15 [ ] 雷电将军愿力、雷眼和一心交互与回滚逐项验证。
 2026-11-03 赛后调整：none → M7（产品体验与核心特色）；保留状态和未验 AC；不设新期限。优先复用既有 V4 自研机制作为差异化正式角色候选，须按原 AC 实机验收；不改既有岩旅发布版。
+
+2026-11-03 本轮执行者：OpenCode TASK-85离线验证；工作树 F:\New folder\.worktrees\raiden-v4-verification-20261103；分支 feat/raiden-v4-verification-20261103；基线013535ae48198bd72616224a4729f90bb187ecd9。按用户指定树执行；认领记录PR479评论6597919043。六项AC保持未验，当前只做独立离线切片。
+
+2026-11-03 离线切片：新增8组雷电公开Run契约，定向现有7入口全通过；3项内存负对照均被断言拦截。初次测试雷眼预期和负对照诊断匹配的纠正、原始失败与精确耗时均见附件。生产缺陷未确认，源码与冻结输入无改动；六项AC仍未完成，状态保持In Progress，待主控独立复审与同候选平台验收。
+
+末次走查已加强晚失败边界：Q/强化普攻都由真实雷眼消耗次数完成击杀后再故障，保证眼次数确曾改变才验证回滚。聚焦重放32.131秒成功：新增2个Node测试/8组Lua合同通过、3负对照均红；最终当前测试SHA和原始输出见 evidence/raiden-v4-verification-20261103/results.json。7个未变既有入口沿用本轮原始收据，未重复全套验证。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+本轮离线验证切片已交付：8组雷电公开Run合同、7个现有Lua入口通过，3个负对照均命中断言；任务范围检查通过。精确命令、耗时、初次测试/取证纠正及原始输出见 docs/backlog-details/TASK-85-OFFLINE-20261103.md 和对应 evidence 目录。未确认生产缺陷；六项AC保持未勾，TASK-85保持In Progress / @Furinya，后续由主控复审并组织同候选平台验收。
+<!-- SECTION:FINAL_SUMMARY:END -->

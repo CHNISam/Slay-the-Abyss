@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "stage": "offline-fengari-contracts",
+  "startedAt": "2026-11-03T07:35:13.042Z",
+  "cwd": "F:\\New folder\\.worktrees\\raiden-v4-verification-20261103",
+  "node": "v22.22.1",
+  "executable": "C:\\Program Files\\nodejs\\node.exe",
+  "platform": "win32",
+  "dependencyResolution": {
+    "fengari": "F:\\New folder\\node_modules\\fengari\\src\\fengari.js",
+    "cli": "F:\\New folder\\node_modules\\fengari-node-cli\\src\\lua-cli.js"
+  },
+  "sourceCommit": "013535ae48198bd72616224a4729f90bb187ecd9",
+  "commands": [
+    {
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:\\New folder\\node_modules\\fengari-node-cli\\src\\lua-cli.js",
+        "-e",
+        "local V=require(\"abyss_original_v4\");local start=V.startTurn;V.startTurn=function(s)local prior=s.originalV4.resolveGained;local out=start(s);s.originalV4.resolveGained=prior;return out end;dofile(\"tests/lua/raiden_v4_public_commands.lua\")"
+      ],
+      "durationMs": 2339,
+      "exitCode": 1,
+      "signal": null,
+      "error": null,
+      "expectedFailure": "expected 4 got 2",
+      "result": "EXPECTED_RED",
+      "stdout": "TRACE cap R=2 gain=2 eye=2 hp=487 energy=0 block=2 replay=unchanged\n",
+      "stderr": "tests/lua/raiden_v4_public_commands.lua:5: value: expected 4 got 2\nstack traceback:\n\t[JS]: in function 'assert'\n\ttests/lua/raiden_v4_public_commands.lua:5: in upvalue 'eq'\n\ttests/lua/raiden_v4_public_commands.lua:84: in local 'fn'\n\ttests/lua/raiden_v4_public_commands.lua:68: in local 'test'\n\ttests/lua/raiden_v4_public_commands.lua:69: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\n",
+      "negativeControl": "omit per-turn resolve reset"
+    },
+    {
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:\\New folder\\node_modules\\fengari-node-cli\\src\\lua-cli.js",
+        "-e",
+        "local V=require(\"abyss_original_v4\");local preview=V.preview;V.preview=function(c,s,...)local out=preview(c,s,...);s.originalV4.eye.uses=s.originalV4.eye.uses-1;return out end;dofile(\"tests/lua/raiden_v4_public_commands.lua\")"
+      ],
+      "durationMs": 5195,
+      "exitCode": 1,
+      "signal": null,
+      "error": null,
+      "expectedFailure": "original graph edge uses",
+      "result": "EXPECTED_RED",
+      "stdout": "TRACE cap R=2 gain=2 eye=2 hp=487 energy=0 block=2 replay=unchanged\nTRACE paid-only accumulation turn2 R=4 turn3 R=6 turn4 R=6 gain=0\nPASS paid commands cap resolve at two; eye establishment, refresh and replay are physical-play bounded\n",
+      "stderr": "tests/lua/raiden_v4_public_commands.lua:5: original graph edge uses: expected 2 got 1\nstack traceback:\n\t[JS]: in function 'assert'\n\ttests/lua/raiden_v4_public_commands.lua:5: in upvalue 'eq'\n\ttests/lua/raiden_v4_public_commands.lua:19: in local 'check'\n\ttests/lua/raiden_v4_public_commands.lua:99: in local 'fn'\n\ttests/lua/raiden_v4_public_commands.lua:68: in local 'test'\n\ttests/lua/raiden_v4_public_commands.lua:90: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\n",
+      "negativeControl": "preview consumes real eye use"
+    },
+    {
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:\\New folder\\node_modules\\fengari-node-cli\\src\\lua-cli.js",
+        "-e",
+        "local S=require(\"abyss_snapshot\");local capture=S.capture;S.capture=function(root,...)local restore,owner=capture(root,...);if root.character==\"raiden\"then return function()restore();root.combat.originalV4.resolve=99 end,owner end;return restore,owner end;dofile(\"tests/lua/raiden_v4_rollback.lua\")"
+      ],
+      "durationMs": 1994,
+      "exitCode": 1,
+      "signal": null,
+      "error": null,
+      "expectedFailure": "original graph edge resolve",
+      "result": "EXPECTED_RED",
+      "stdout": "",
+      "stderr": "tests/lua/raiden_v4_public_commands.lua:5: original graph edge resolve: expected 3 got 99\nstack traceback:\n\t[JS]: in function 'assert'\n\ttests/lua/raiden_v4_public_commands.lua:5: in upvalue 'eq'\n\ttests/lua/raiden_v4_public_commands.lua:19: in local 'check'\n\ttests/lua/raiden_v4_rollback.lua:31: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\n",
+      "negativeControl": "late rollback leaves corrupted resolve"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "data/original_v4/cards_v4.json",
+      "bytes": 403915,
+      "sha256": "89229cdd7f6c1640d47bca95338f5e7887fbfd8720af181f7561d6eb45a45fca"
+    },
+    {
+      "path": "data/original_v4/rules_v4.json",
+      "bytes": 9765,
+      "sha256": "a100f8b0fd61e3724f0eda5e077055f82bcacb7a4536d337096d9a6389419c8e"
+    },
+    {
+      "path": "tests/raiden-v4-verification.test.mjs",
+      "bytes": 523,
+      "sha256": "916389a569ba7b3157388d2515e0aa82abcb4fef3177228c086487a6abf53012"
+    },
+    {
+      "path": "tests/lua/raiden_v4_public_commands.lua",
+      "bytes": 8229,
+      "sha256": "01200ca244af1c7dedf72499367d6f23594399aa50d5c354e02d3646a54d2d33"
+    },
+    {
+      "path": "tests/lua/raiden_v4_rollback.lua",
+      "bytes": 2212,
+      "sha256": "e0743c791909a75ec62abf48e1e6361460b2100bb34a8554a63a87154490bd3d"
+    },
+    {
+      "path": "src/lua/abyss_run.lua",
+      "bytes": 34437,
+      "sha256": "3d6484f7e43298e321fd40d785d1d3c650a8663aa2b94f85cc125bc0c85e1496"
+    },
+    {
+      "path": "src/lua/abyss_combat.lua",
+      "bytes": 126464,
+      "sha256": "a8057c916157c570cd827c5be5967f7123eafe5df787d52e1683bdd9a90cb719"
+    },
+    {
+      "path": "src/lua/abyss_original_v4.lua",
+      "bytes": 23902,
+      "sha256": "5a22a8e40fb2e48cc1c9b581bdc1f0ebd0f0bcb356fb1af23eb1bd0007c32565"
+    },
+    {
+      "path": "src/lua/abyss_snapshot.lua",
+      "bytes": 1863,
+      "sha256": "1235e5ac478fd0a7a51bf974bfc89ff2277af11198c077ef1228c480ba3bfd1d"
+    }
+  ],
+  "platformEvidence": {
+    "candidateGil": "NOT_RUN",
+    "officialImport": "NOT_RUN",
+    "ready": "NOT_RUN",
+    "pc": "NOT_RUN",
+    "phone": "NOT_RUN",
+    "naturalTwoActs": "NOT_RUN"
+  },
+  "baseline": {
+    "path": "docs/evidence/raiden-v4-verification-20261103/results-initial.json",
+    "sha256": "5e84999603d677f6ba71c1cddf036c05775849ab4f18629b5b1201988dde9605",
+    "result": "ALL_NORMAL_COMMANDS_PASS",
+    "reason": "Only negative-control diagnostic matching changed; tests and runtime hashes are unchanged."
+  },
+  "finishedAt": "2026-11-03T07:35:22.615Z",
+  "result": "PASS_WITH_EXPECTED_NEGATIVE_CONTROLS"
+}
