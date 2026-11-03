@@ -46,6 +46,8 @@ develop的`strict_required_status_checks_policy: false`，不用为启动测试�
 
 在现有 [develop Ruleset](https://github.com/CHNISam/Slay-the-Abyss/rules/25870651) 的 Required status checks **额外添加** `independent-review`（来源选 **Any source**），保留现有 `check`、`presentation`、`engineering-posix`、`inventory`，以及仅 squash、线性历史、已解决讨论的规则；此步骤须由具备 Ruleset 管理权限的维护者操作。**配置未完成时 `npm run merge:auto` 必须拒绝启用**，不能将脚本打印 PASS 冒充 GitHub 强制门禁。当前 GitHub 连接只有 Ruleset 读取能力，不能据此宣称远端已改好。不要通过 `--admin` 或角色豁免绕过门禁。
 
+如果新增 status 尚未出现在 Ruleset 可选列表，先由有权限的协调者对某个测试 PR 的 HEAD 写入一次 `independent-review: pending`（**不是** success）用于注册 context，再由管理员添加为 Required；增加门禁会让尚未取得对应 HEAD 审查状态的存量 PR 保持阻塞，因此应先清点待合并 PR 并按已验证评审逐一补齐，不能批量伪造 success。既有四项 Required CI 的 GitHub Actions integration_id（15368）也必须原样保留，脚本会检验来源不被降级。
+
 该额外 commit status 绑定受审的精确 HEAD：协调 Agent 检查独立评审记录、实际 develop ref、GitHub 合成 merge commit 的父节点和源码树、PR 声明的前置依赖及 Ruleset，再写入 `independent-review: success` 并使用 `gh pr merge --auto --squash --match-head-commit <HEAD>`。后续推送新 HEAD 时，旧 HEAD 的状态不应授权新提交，须重新审查、重新启用。**审查 JSON 的字段并不能证明审查者真实独立**；协调 Agent 仍须核对外部审查来源、reviewId 和未解决问题，不能自行伪造审查通过。
 
 ### 常规使用
