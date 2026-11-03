@@ -31,6 +31,58 @@ const deferredPolicy = {
   deferredImports: [{from:'a', to:'b', reason:'Reviewed callback after initialization'}],
 };
 
+test('initialization calls cannot borrow a deferred import exception',()=>{
+  for(const [label,a] of [
+    ['IIFE','return (function() return require("b") end)()'],
+    ['local direct call','local function loadB() return require("b") end; return loadB()'],
+    ['local function expression','local loadB=function() return require("b") end; return loadB()'],
+    ['local alias','local function loadB() return require("b") end; local alias=loadB; return alias()'],
+    ['assigned alias','local function loadB() return require("b") end; local alias; alias=loadB; return alias()'],
+    ['assigned local','local loadB; loadB=function() return require("b") end; return loadB()'],
+    ['forward local declaration','local loadB; function loadB() return require("b") end; return loadB()'],
+    ['nested direct call','local function outer() local function inner() return require("b") end; return inner() end; return outer()'],
+    ['returned function call','return (function() return function() return require("b") end end)()()'],
+    ['returned local alias','local function factory() local function loadB() return require("b") end; return loadB end; local alias=factory(); return alias()'],
+    ['second return expression still executes','local function factory() return function() return 1 end, (function() return require("b") end)() end; return factory()()'],
+    ['StringCallExpression','return (function() return require "b" end) "argument"'],
+    ['TableCallExpression','return (function() return require "b" end) {}'],
+    ['conditional initialization','if enabled then local function loadB() return require("b") end; loadB() end'],
+    ['repeat scope','repeat local function loadB() return require("b") end until loadB()'],
+    ['local recursive call','local function again() require("b"); return again() end; return again()'],
+  ]) {
+    const report=analyzeSources({a,b:'return require("a")'},deferredPolicy,{});
+    assert(report.errors.some(error=>/Dependency cycle/.test(error.message)),label);
+    assert(report.errors.some(error=>/Stale deferred import exception/.test(error.message)),label);
+    assert.equal(report.edges.find(edge=>edge.from==='a').reviewedDeferred,false,label);
+  }
+});
+
+test('uninvoked callbacks and lexical shadows remain deferred',()=>{
+  for(const [label,a] of [
+    ['uninvoked local','local function later() return require("b") end; return later'],
+    ['uninvoked nested IIFE','return function() return (function() return require("b") end)() end'],
+    ['returned callback','return (function() return function() return require("b") end end)()'],
+    ['shadowed local','local function loadB() return require("b") end; do local function loadB() return 1 end; loadB() end; return loadB'],
+    ['loop local','local function loadB() return require("b") end; for loadB in iterator do loadB() end; return loadB'],
+    ['local initializer scope','local function loadB() return require("b") end; do local loadB=function() return 1 end; local loadB=loadB; loadB() end; return loadB'],
+    ['recursive aliases without invocation','local first,second; first=function() return second() end; second=function() require("b"); return first() end; return first'],
+    ['alias before reassignment','local f=function() return 1 end; local old=f; f=function() return require("b") end; old(); return f'],
+    ['uninvoked mutator','local f=function() return 1 end; local function later() f=function() return require("b") end end; f(); return later'],
+    ['only first return is invoked','local function f() return function() return 1 end, function() return require("b") end end; return f()()'],
+    ['alias before assignment is not a future function','local f; local old=f; f=function() return require("b") end; old(); return f'],
+    ['implicit nil reassignment is unknown','local f=function() return require("b") end; local unused; unused,f=1; f()'],
+    ['shadowed parameter','local function loadB() return require("b") end; local function invoke(loadB) return loadB() end; invoke(function() return 1 end); return loadB'],
+  ])assert.deepEqual(analyzeSources({a,b:'return require("a")'},deferredPolicy,{}).errors,[],label);
+});
+
+test('an immediate and a deferred require retain their individual execution classification',()=>{
+  const a='local function now() return require("b") end; now(); return function() return require("b") end';
+  const report=analyzeSources({a,b:'return require("a")'},deferredPolicy,{});
+  assert.deepEqual(report.edges.filter(edge=>edge.from==='a').map(edge=>edge.reviewedDeferred),[false,true]);
+  assert(report.errors.some(error=>/Dependency cycle/.test(error.message)));
+  assert(!report.errors.some(error=>/Stale deferred/.test(error.message)));
+});
+
 test('deferred import exceptions must still match an actual function-scoped require',()=>{
   for (const [label, sources] of [
     ['removed import', {a:'return {}', b:'return {}'}],
