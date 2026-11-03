@@ -1,7 +1,7 @@
 -- DrugDealer (Augmenter), PC A0 at319009d5. The transform branch requires
 -- exactly TWO ordered object identities. Both removals/draws precede obtains.
 local Run=require('abyss_run')
-local Combat=require('abyss_combat')
+local copy=require('abyss_copy').copy
 local Transform=require('abyss_transform_card')
 local Context=require('abyss_event_transform_context')
 local Capability=require('abyss_card_capability')
@@ -24,7 +24,7 @@ end
 function M.transformCards(run)
     local cards={}
     for _,card in ipairs(run.deck)do
-        if not protected[card.cardId]and not protected[sourceId(run,card)]then cards[#cards+1]=Combat.copy(card)end
+        if not protected[card.cardId]and not protected[sourceId(run,card)]then cards[#cards+1]=copy(card)end
     end
     return cards
 end

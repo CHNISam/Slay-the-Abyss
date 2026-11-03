@@ -1,6 +1,6 @@
 -- CampfireSmithEffect -> grid selection -> upgraded-card preview -> confirmation.
 local Theme=require('abyss_theme')
-local Combat=require('abyss_combat')
+local copy=require('abyss_copy').copy
 local L=Theme.layout.nativeNode.forge
 local M={}
 function M.labels(selected,node,run)
@@ -13,7 +13,7 @@ function M.new(owner,ui)
  local state={}
  local function preview(picker,selected,result)
   local before,after=picker:GetChild('before'),picker:GetChild('after')
-  local upgraded=Combat.copy(selected)
+  local upgraded=copy(selected)
   upgraded.upgrades=(selected.upgrades or (selected.upgraded and 1 or 0))+1;upgraded.upgraded=true
   ui.fillCard(before,selected.cardId,selected.upgraded,{instance=selected,inspectOnly=true})
   ui.fillCard(after,selected.cardId,true,{instance=upgraded,inspectOnly=true})
@@ -27,7 +27,7 @@ function M.new(owner,ui)
   if result then return end
   for i,row in ipairs(owner.upgradeRows)do
    local owned=find(owner.run.deck,row.uid)
-   if owned then owner.upgradeRows[i]=Combat.copy(owned)end
+   if owned then owner.upgradeRows[i]=copy(owned)end
   end
   if owner.selected and not find(node.upgradeCards,owner.selected)then owner.selected=nil end
  end

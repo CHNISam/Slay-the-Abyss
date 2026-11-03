@@ -1,6 +1,6 @@
 local Theme = require("abyss_theme")
 local CampUI = require('abyss_node_ui_camp')
-local Combat = require('abyss_combat')
+local copy = require('abyss_copy').copy
 local Act2Events = require('abyss_act2_events')
 local MatchUI = require('abyss_match_event_ui')
 local number = require("abyss_numbers").integer
@@ -118,7 +118,7 @@ function M.install(ctx)
             local function renderUpgradePreview()
                 local display = ctx.self.presentation[selected.cardId] or {}
                 local changed = display.cost ~= nil and display.upgradeCost ~= nil and display.cost ~= display.upgradeCost
-                local nextInstance=Combat.copy(selected)
+                local nextInstance=copy(selected)
                 nextInstance.upgrades=(selected.upgrades or (selected.upgraded and 1 or 0))+1
                 nextInstance.upgraded=true
                 ctx.fillCard(before, selected.cardId, selected.upgraded,{instance=selected,inspectOnly=true})
@@ -170,13 +170,13 @@ function M.install(ctx)
 
     function ctx.syncLibraryPicker(node)
         ctx.self.mode,ctx.self.picker='picker','library_offer'
-        ctx.self.offerRows=Combat.copy(node.event.offers)
+        ctx.self.offerRows=copy(node.event.offers)
         if not find(ctx.self.offerRows,ctx.self.selected,'offerToken')then ctx.self.selected=nil end
     end
 
     function ctx.syncAct2PurgePicker(node)
         ctx.self.mode,ctx.self.picker='picker',node.event.id=='beggar' and 'beggar_purge' or 'basics_purge'
-        ctx.self.removeRows=Combat.copy(node.event.purgeCards)
+        ctx.self.removeRows=copy(node.event.purgeCards)
         local matches=0
         for _, instance in ipairs(ctx.self.run.deck) do if instance.uid==ctx.self.selected then matches=matches+1 end end
         if matches~=1 or not find(ctx.self.removeRows,ctx.self.selected,'uid') then ctx.self.selected=nil end
@@ -185,7 +185,7 @@ function M.install(ctx)
     function ctx.syncDuplicatorPicker(node)
         ctx.self.mode,ctx.self.picker='picker','duplicator_card'
         -- Copy rows, not purge candidates: bottled sources and permanent stats remain visible.
-        ctx.self.removeRows=Combat.copy(node.event.copyCards)
+        ctx.self.removeRows=copy(node.event.copyCards)
         local matches=0
         for _,instance in ipairs(ctx.self.run.deck)do if instance.uid==ctx.self.selected then matches=matches+1 end end
         if matches~=1 or not find(ctx.self.removeRows,ctx.self.selected,'uid')then ctx.self.selected=nil end
@@ -209,7 +209,7 @@ function M.install(ctx)
         if active and node.type=='event' and node.event.id=='neow'then
             if node.event.stage=='neow_choose_card'then
                 ctx.self.mode,ctx.self.picker='picker','neow_card'
-                ctx.self.removeRows,ctx.self.upgradeRows=Combat.copy(node.event.purgeCards),Combat.copy(node.event.purgeCards)
+                ctx.self.removeRows,ctx.self.upgradeRows=copy(node.event.purgeCards),copy(node.event.purgeCards)
                 if not find(ctx.self.removeRows,ctx.self.selected,'uid')then ctx.self.selected=nil end
             else ctx.self.mode,ctx.self.picker,ctx.self.selected='main',nil,nil end
         end

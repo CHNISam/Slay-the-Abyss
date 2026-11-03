@@ -1,0 +1,29 @@
+{
+  "path": "src/lua/abyss_drug_dealer_event.lua",
+  "beforeSha256": "90ee34ec68db21a4c4b2d368323cead7b65cc78fed103035b19f3199e52b0133",
+  "afterSha256": "050e3ff36e02d4abf878248f4fac2a4bff3b6b8fbb3021965156f67cb901ff83",
+  "beforeLines": 121,
+  "afterLines": 121,
+  "hunks": [
+    {
+      "at": 3,
+      "beforeAt": 3,
+      "before": [
+        "local Combat=require('abyss_combat')"
+      ],
+      "after": [
+        "local copy=require('abyss_copy').copy"
+      ]
+    },
+    {
+      "at": 26,
+      "beforeAt": 26,
+      "before": [
+        "        if not protected[card.cardId]and not protected[sourceId(run,card)]then cards[#cards+1]=Combat.copy(card)end"
+      ],
+      "after": [
+        "        if not protected[card.cardId]and not protected[sourceId(run,card)]then cards[#cards+1]=copy(card)end"
+      ]
+    }
+  ]
+}

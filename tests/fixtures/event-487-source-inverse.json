@@ -1,0 +1,39 @@
+{
+  "path": "src/lua/abyss_nloth_event.lua",
+  "beforeSha256": "4ae8ff4b3d44829ab85457f2f879f64cd7fd8704cfc92e64612b2c1715ae9e2c",
+  "afterSha256": "89395ef63c0876b09097b051941e0560e5788ba9b8f863066e02ac146c790605",
+  "beforeLines": 65,
+  "afterLines": 65,
+  "hunks": [
+    {
+      "at": 19,
+      "beforeAt": 19,
+      "before": [
+        " event.stage,event.body='intro',\"N'loth指着你随身的两件遗物，提出交换。\""
+      ],
+      "after": [
+        " event.stage,event.body='intro','恩洛斯指着你随身的两件遗物，提出交换。'"
+      ]
+    },
+    {
+      "at": 28,
+      "beforeAt": 28,
+      "before": [
+        "  local description=repeated and '已经持有礼物：获得圆环，不失去所示遗物。'or\"交出所示遗物，获得N'loth的礼物。\""
+      ],
+      "after": [
+        "  local description=repeated and '已经持有礼物：获得圆环，不失去所示遗物。'or'交出所示遗物，获得恩洛斯的礼物。'"
+      ]
+    },
+    {
+      "at": 60,
+      "beforeAt": 60,
+      "before": [
+        " event.choice,event.stage,event.body=choice,'result',\"N'loth转过身去，交易结束了。\""
+      ],
+      "after": [
+        " event.choice,event.stage,event.body=choice,'result','恩洛斯转过身去，交易结束了。'"
+      ]
+    }
+  ]
+}
