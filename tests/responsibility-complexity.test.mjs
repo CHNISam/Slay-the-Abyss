@@ -7,7 +7,8 @@ const roots = {[file]: ["function 'M.apply'"]};
 const row = (path, line, column, subject, value) => ({file:path,line,column,code:'W561',
   message:`cyclomatic complexity of ${subject} is too high (${value} > 0)`});
 test('presentation extractions are required and their nested callbacks remain budgeted',()=>{
-  for(const path of ['src/lua/abyss_feedback_actor_painter.lua','src/lua/abyss_game_ui_menu_view.lua']){
+  for(const path of ['src/lua/abyss_feedback_actor_painter.lua','src/lua/abyss_game_ui_menu_view.lua',
+    'src/lua/abyss_combat_native_play.lua','src/lua/abyss_combat_queued_play.lua']){
     const source='local function paint() return function() end end';
     const diagnostics=[row(path,1,1,'main chunk',1),row(path,1,7,"function 'paint'",15),
       row(path,1,source.indexOf('function()')+1,'function',16)];
@@ -63,6 +64,11 @@ test('every extracted card action helper is required and bounded with its nested
     'upgradeAllHand','makeTemporaryCards','generateAttack','randomizeHandCost',
     'upgradeHand','resolveCurlUp','obtainPotion','doubleStrength','spotWeakness','damageRandom',
     'feedReward','feed','reaper','heal','applyFallback','block','M.apply',
+    'choiceEligible','candidates','openChoice','multipleSelection','selection','handChoice',
+    'returnDualWieldHand','choiceActions.exhaustChoose','choiceActions.recoverExhaust',
+    'choiceActions.discardToHand','moveChoiceToDraw','choiceActions.upgradeHand',
+    'choiceActions.dualWield','M.applyChoice','commitMultipleChoice','toggleChoice',
+    'chooseMultiple','containsUid','chooseSingle','M.choose',
     ...['writhingRoll','writhingParasite','giantHeadSlow','timeEater','reptomancerSuicide',
       'enemyAction','staticRetaliation','classPotion','silentFinal','discover','colorless','originalV4',
       'relicUpgradeRandomHand','playTop','darklingAction','heartBeat','spireDeathRemove',
@@ -90,7 +96,8 @@ test('every extracted card action helper is required and bounded with its nested
 test('canPlay and all preflight stages are required, bounded and fully measured',()=>{
   const path='src/lua/abyss_combat.lua';
   const names=['queuedHandlers.effect','M.canPlay','playWindow','playEligibility','playSupportedEffects',
-    'playCardContent','playAdvancedMode','playEnergy','playEffectTarget','playCardRequirements','playHandRequirements'];
+    'playCardContent','playAdvancedMode','playEnergy','playEffectTarget','playCardRequirements','playHandRequirements',
+    'beginQueuedPlay','queueNativePlay','M.play'];
   const source=names.map(name=>`function ${name}() return function() end end`).join('\n');
   const diagnostics=[row(path,1,1,'main chunk',1)];
   for(const [i,name] of names.entries()){

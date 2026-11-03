@@ -327,7 +327,9 @@
     "abyss_monster_intent_particle_view": "ui",
     "abyss_monster_displayed_intent": "ui",
     "abyss_monster_escape": "ui",
-    "abyss_monster_intent_particles": "ui"
+    "abyss_monster_intent_particles": "ui",
+    "abyss_combat_native_play": "core",
+    "abyss_combat_queued_play": "core"
   },
   "dynamicExceptions": [],
   "deferredImports": [
