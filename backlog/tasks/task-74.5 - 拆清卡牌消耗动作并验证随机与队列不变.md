@@ -33,6 +33,8 @@ ordinal: 128000
 
 <!-- SECTION:PLAN:BEGIN -->
 仅在abyss_card_actions同模块提取消耗动作职责；保持RNG、队列、事件、回滚和API；审查整体指标并独立PR，暂不推送避免重复Full。
+
+2026-11-03 重取aa4d56f5质量：旧消耗helpers/apply表分派已合入且apply CC5，不重做。当前治理candidates16、selection18、applyChoice26、choose34的选择验证/提交职责；所有受影响helper<=15，保留真实队列/RNG/失败回滚及旧新轨迹与错误变异，完整CI后逐项验收。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

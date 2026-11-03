@@ -39,3 +39,21 @@ test('compendium projections bind every new owner and never accept drift in deta
    assert.throws(()=>preCompendiumSource(path,read(path),{[owner]:read(owner)+'-- changed\n'}),/reviewed compendium owner/);
  }
 });
+
+test('M9 projection accepts only the exact two core registrations and preserves unrelated drift',()=>{
+ const path='config/architecture.json',source=read(path),policy=JSON.parse(source);
+ const first='abyss_combat_native_play',second='abyss_combat_queued_play';
+ for(const key of [first,second]){
+  const missing=structuredClone(policy);delete missing.layers[key];
+  const wrong=structuredClone(policy);wrong.layers[key]='ui';
+  for(const variant of [JSON.stringify(missing),JSON.stringify(wrong),
+   source.replace('"'+key+'":','"'+key+'": "core", "'+key+'":')])
+   assert.equal(preCompendiumSource(path,variant),variant);
+ }
+ const reversed=source.replace('"'+first+'": "core",\n    "'+second+'": "core"',
+  '"'+second+'": "core",\n    "'+first+'": "core"');
+ assert.notEqual(reversed,source);
+ assert.equal(preCompendiumSource(path,reversed),reversed);
+ const foreign=structuredClone(policy);foreign.layers.abyss_actor='ui';
+ const variant=JSON.stringify(foreign);assert.equal(preCompendiumSource(path,variant),variant);
+});

@@ -1,0 +1,232 @@
+{
+  "baselineRevision": "aa4d56f57c15727668ef8675e626b44e67a5aaa5",
+  "runtime": "v24.18.0",
+  "before": {
+    "coverage": {
+      "modules": 320,
+      "functions": 4716,
+      "measurements": 5036,
+      "expectedMeasurements": 5036
+    },
+    "global": {
+      "functions": 4716,
+      "maxComplexity": 88,
+      "ccAbove15": 290,
+      "ccAbove30": 83,
+      "longestFunction": 1004,
+      "filesAbove1000": 2,
+      "dependencyPairs": 1461,
+      "sccCount": 1,
+      "largestSccMembers": 103,
+      "largestSccCalls": 789,
+      "diagnostics": 15
+    },
+    "module": {
+      "lines": 520,
+      "sha256": "599fadabd5b702006eebee279cb17215d8335e764eb8e108e420827a1af52ba3",
+      "functions": 60,
+      "maxComplexity": 34,
+      "selection": [
+        {
+          "name": "candidates",
+          "complexity": 16,
+          "lines": 12
+        },
+        {
+          "name": "selection",
+          "complexity": 18,
+          "lines": 25
+        },
+        {
+          "name": "M.applyChoice",
+          "complexity": 26,
+          "lines": 49
+        },
+        {
+          "name": "M.choose",
+          "complexity": 34,
+          "lines": 51
+        }
+      ],
+      "selectionBranches": 90,
+      "selectionSumCC": 94
+    }
+  },
+  "after": {
+    "coverage": {
+      "modules": 320,
+      "functions": 4732,
+      "measurements": 5052,
+      "expectedMeasurements": 5052
+    },
+    "global": {
+      "functions": 4732,
+      "maxComplexity": 88,
+      "ccAbove15": 286,
+      "ccAbove30": 82,
+      "longestFunction": 1004,
+      "filesAbove1000": 2,
+      "dependencyPairs": 1461,
+      "sccCount": 1,
+      "largestSccMembers": 103,
+      "largestSccCalls": 789,
+      "diagnostics": 15
+    },
+    "module": {
+      "lines": 547,
+      "sha256": "7edfb1059288c23199af864795e704819cd5db091d696df8cbcff001067e93ad",
+      "functions": 76,
+      "maxComplexity": 25,
+      "selection": [
+        {
+          "name": "choiceEligible",
+          "complexity": 7,
+          "lines": 6
+        },
+        {
+          "name": "candidates",
+          "complexity": 6,
+          "lines": 9
+        },
+        {
+          "name": "openChoice",
+          "complexity": 2,
+          "lines": 5
+        },
+        {
+          "name": "multipleSelection",
+          "complexity": 5,
+          "lines": 3
+        },
+        {
+          "name": "selection",
+          "complexity": 12,
+          "lines": 21
+        },
+        {
+          "name": "handChoice",
+          "complexity": 3,
+          "lines": 4
+        },
+        {
+          "name": "returnDualWieldHand",
+          "complexity": 8,
+          "lines": 12
+        },
+        {
+          "name": "choiceActions.exhaustChoose",
+          "complexity": 1,
+          "lines": 4
+        },
+        {
+          "name": "choiceActions.recoverExhaust",
+          "complexity": 2,
+          "lines": 4
+        },
+        {
+          "name": "choiceActions.discardToHand",
+          "complexity": 4,
+          "lines": 8
+        },
+        {
+          "name": "moveChoiceToDraw",
+          "complexity": 3,
+          "lines": 4
+        },
+        {
+          "name": "choiceActions.upgradeHand",
+          "complexity": 1,
+          "lines": 3
+        },
+        {
+          "name": "choiceActions.dualWield",
+          "complexity": 3,
+          "lines": 11
+        },
+        {
+          "name": "M.applyChoice",
+          "complexity": 2,
+          "lines": 6
+        },
+        {
+          "name": "commitMultipleChoice",
+          "complexity": 8,
+          "lines": 15
+        },
+        {
+          "name": "toggleChoice",
+          "complexity": 7,
+          "lines": 11
+        },
+        {
+          "name": "chooseMultiple",
+          "complexity": 6,
+          "lines": 7
+        },
+        {
+          "name": "containsUid",
+          "complexity": 3,
+          "lines": 4
+        },
+        {
+          "name": "chooseSingle",
+          "complexity": 3,
+          "lines": 9
+        },
+        {
+          "name": "M.choose",
+          "complexity": 10,
+          "lines": 13
+        }
+      ],
+      "selectionBranches": 76,
+      "selectionSumCC": 96
+    }
+  },
+  "dependenciesIdentical": true,
+  "cyclesIdentical": false,
+  "diagnosticsIdentical": true,
+  "parity": {
+    "schemaVersion": 1,
+    "baselineRevision": "aa4d56f57c15727668ef8675e626b44e67a5aaa5",
+    "source": "src/lua/abyss_card_actions.lua",
+    "beforeSourceSha256": "599fadabd5b702006eebee279cb17215d8335e764eb8e108e420827a1af52ba3",
+    "afterSourceSha256": "7edfb1059288c23199af864795e704819cd5db091d696df8cbcff001067e93ad",
+    "runtime": "v24.18.0",
+    "fixtures": [
+      {
+        "fixture": "tests/lua/card_selection_protocol.lua",
+        "identical": true,
+        "traceSha256": "193300bb83214a31761afc365129282dd78c12ddbea07b6b0fc91aabe1ba712b",
+        "bytes": 340022,
+        "boundaries": 76
+      },
+      {
+        "fixture": "tests/lua/support/card_actions_registry_fixture.lua",
+        "identical": true,
+        "traceSha256": "d36e9ec22ae646f5c736c778ab45dbd09ce17b4262353cc900552a602cefb36c",
+        "bytes": 176327,
+        "boundaries": 39
+      },
+      {
+        "fixture": "tests/lua/card_actions_exhaust.lua",
+        "identical": true,
+        "traceSha256": "ad9a93b799201f1e03df905e2b6af15d05eb221685f0b90aca7d93cc6cb28926",
+        "bytes": 1063471,
+        "boundaries": 169
+      }
+    ],
+    "traceContract": "Complete mutable state and return values, stable graph aliases, events, RNG states, queues and choice tokens; only catalog/rules/sourcePools/statusDefinitions omitted from serialization. Rollback fixture separately checks every original table, including immutable directories."
+  },
+  "tests": {
+    "selectionProtocol": 3,
+    "existingChoiceTransactionAndExhaust": 7,
+    "registry": 8,
+    "policyMutantsRejected": 8,
+    "atomicPlayCases": 14,
+    "nativeChoiceUiCases": 19,
+    "dualWieldMasterReality": "singleton/manual x two versions x two input upgrades passed",
+    "semanticMutantsKilled": 3
+  },
+  "limitation": "Exact-head required CI and independent review pending; no candidate/device evidence; drain remains CC25, no whole-core completion claim."
+}
