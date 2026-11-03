@@ -61,6 +61,8 @@ ordinal: 118000
 审计发现CardActions.apply仍85且两执行器重复反应分发，另作有界切片评估：优先复用既有handler表，将有限op映射为领域命令，保留supports的玩法路由合同与暂停/返回协议；仅在真实旧新轨迹和变异证明充分时实施。
 
 2026-10-30重新测量全库热点/SCC；check:engineering同进程共享新鲜采集以去重Luacheck/架构，独立CLI保持重新采集与失败传播。
+
+2026-11-03 本轮按Owner要求连续完成M9，不能以两个局部PR结束：核对PR485原生M9六任务；主控采集全库/仓库对象基线并独占配置、目录导航、集成与最终全新上下文复审；Core治理CardActions选择协议与Combat两种出牌协议，Runtime复核剩余热点，CI核对真实自然样本与吞吐，全部保持规则与原门禁，最终按精确SHA完整CI及合后证据逐项收口。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

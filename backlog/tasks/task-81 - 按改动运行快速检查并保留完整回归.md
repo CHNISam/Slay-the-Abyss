@@ -3,7 +3,7 @@ id: TASK-81
 title: 按改动运行快速检查并保留完整回归
 status: In Progress
 assignee:
-  - '@Furinya'
+  - Furinya
 created_date: '2026-10-28 15:30'
 updated_date: '2026-11-03 05:02'
 labels: []
@@ -54,6 +54,8 @@ PR332已复现Silent自然构筑夹具在Windows原30000ms超时；仅诊断并�
 2026-10-30系统治理：最新98fef95d隔离树；统一本地/PR advisory反馈并保留Full门禁，实测代表改动与失败传播；主控集中构建和重验证，四个Sol medium分工边界明确，完成独立审查和正常精确SHA合并。
 
 2026-11-02：基于develop 6aa3cf90只修Run公开API治理测试的相关选测漏边。把测试现有Run主模块及五职责模块输入改为完整显式路径，复用选择器字面量依赖分析，不引入通用动态JS求值；保留全部原断言、integration分类、核心Full回退和预算。先证参数漂移负控，再验六输入命中、无关输入不扩大及未知输入Full；独立审查后等在途PR释放，不先推送。
+
+2026-11-03 M9持续收口：独立核对至少20个自然Quality Fast PR样本，不将advisory或Full混入；保留高风险/develop Full及所有Required/身份合同，针对真实漏边/重复工作实施，分别报告性能目标达成与不足，不提前Done。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
