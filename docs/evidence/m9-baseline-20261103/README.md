@@ -9,7 +9,7 @@
 - `quality.json.gz`：完整原质量报告，包含全部源码摘要、匿名/嵌套函数与初始化块测量、完整依赖及 SCC、静态告警和检测规则身份。
 - `git-blobs.json.gz`：固定 Git tree 的完整 6,710 条路径/OID/长度/分类台账。分类只是审查索引，不授权删除或迁移。
 - `summary.json`：摘要、最长函数、最大模块、最大 Blob、完整 140 条 LFS 路径/OID/size 及本地可用性观察。
-- `hashes.json`：本轮三个数据文件的 SHA-256。解压可用 Node 的 `zlib.gunzipSync`；gzip 只是证据存储格式，不改变被测范围。
+- `hashes.json`：本轮三个数据文件的 SHA-256。JSON 文本按 Git 记录的 LF 字节核对；Windows 自动转换的工作树副本先规范化 CRLF。gzip 按原始二进制核对，解压可用 Node 的 `zlib.gunzipSync`；gzip 只是证据存储格式，不改变被测范围。
 
 ## 观察值
 
