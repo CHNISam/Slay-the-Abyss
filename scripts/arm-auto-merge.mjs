@@ -1,4 +1,4 @@
-import {readFileSync} from 'node:fs';
+import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -88,8 +88,15 @@ export function collectEligibility(repo,number,review,query=gh) {
       throw Error('Cannot read all changed files for a low-risk waiver');
     changedFiles=pages.flat().map(file=>({filename:file?.filename,status:file?.status,sha:file?.sha}));
   }
+  if(!validSha(pr.merge_commit_sha))throw Error('GitHub has not produced the exact proposed merge commit');
+  const testedCommit=json(query,'api','repos/'+repo+'/commits/'+pr.merge_commit_sha);
+  const parents=(testedCommit.parents??[]).map(p=>p.sha);
+  if(JSON.stringify(parents)!==JSON.stringify([target.object.sha,pr.head?.sha])||
+    !validSha(testedCommit.commit?.tree?.sha))
+    throw Error('Proposed merge commit is stale or lacks the reviewed source tree');
   const errors=autoMergeErrors({repo,pr,settings,baseSha:target.object.sha,ruleset,review,dependencies,changedFiles});
-  return {pr,baseSha:target.object.sha,headSha:pr.head?.sha,dependsOn,errors};
+  return {pr,baseSha:target.object.sha,headSha:pr.head?.sha,dependsOn,errors,
+    tested:pr.merge_commit_sha,parents,sourceTree:testedCommit.commit.tree.sha,changedFiles};
 }
 
 export function armAutoMerge(repo,number,review,query=gh,{dryRun=false}={}) {
@@ -99,7 +106,13 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false}={}) {
   const current=collectEligibility(repo,number,review,query);
   if(current.errors.length||before.headSha!==current.headSha||before.baseSha!==current.baseSha)
     throw Error('PR or review eligibility changed while preparing auto-merge: '+current.errors.join('; '));
-  if(dryRun)return {state:'eligible',head:current.headSha,base:current.baseSha,dependsOn:current.dependsOn};
+  if(before.tested!==current.tested||before.sourceTree!==current.sourceTree)
+    throw Error('Proposed merge commit changed while preparing auto-merge');
+  const proof={schemaVersion:4,kind:'auto-merge-arm',repo,prNumber:number,baseRef:'develop',
+    head:current.headSha,base:current.baseSha,tested:current.tested,parents:current.parents,
+    sourceTree:current.sourceTree,review,targetBeforeSha:before.baseSha,targetAfterSha:current.baseSha,
+    ...(review?.disposition==='low-risk-docs'?{changedFileCount:current.pr.changed_files,changedFiles:current.changedFiles}:{})};
+  if(dryRun)return {state:'eligible',head:current.headSha,base:current.baseSha,dependsOn:current.dependsOn,proof};
   const desc=review?.disposition==='low-risk-docs'?'Verified narrow documentation waiver':
     'Independent review '+review.reviewId.slice(0,55);
   query('api','--method','POST','repos/'+repo+'/statuses/'+current.headSha,
@@ -109,7 +122,8 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false}={}) {
   const after=json(query,'api','repos/'+repo+'/pulls/'+number);
   if(after.head?.sha!==current.headSha||after.base?.ref!=='develop')
     throw Error('PR changed during auto-merge activation; recheck it immediately');
-  return {state:after.merged?'merged':'auto-merge-requested',head:current.headSha,base:current.baseSha,dependsOn:current.dependsOn};
+  return {state:after.merged?'merged':'auto-merge-requested',head:current.headSha,
+    base:current.baseSha,dependsOn:current.dependsOn,proof};
 }
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
@@ -128,7 +142,12 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
     }
     const result=armAutoMerge('CHNISam/Slay-the-Abyss',Number(numberArg),review,gh,
       {dryRun:option==='--dry-run'});
-    console.log(JSON.stringify(result,null,2));
-    console.log('Full Required CI remains enforced by GitHub; follow up with verify:delivery and post-merge checks.');
+    const dir='build/delivery';mkdirSync(dir,{recursive:true});
+    const proofFile=dir+'/auto-merge-'+numberArg+'-'+result.head.slice(0,12)+'.json';
+    if(option!=='--dry-run')writeFileSync(proofFile,JSON.stringify(result.proof,null,2)+'\n');
+    console.log(JSON.stringify({state:result.state,head:result.head,base:result.base,
+      dependsOn:result.dependsOn,...(option!=='--dry-run'?{proofFile}:{})},null,2));
+    console.log(option==='--dry-run'?'Read-only eligibility PASS':
+      'GitHub controls the required CI. After merge: npm run verify:delivery -- '+numberArg+' '+proofFile+' --merged');
   }catch(error){console.error(error.message);process.exitCode=1;}
 }
