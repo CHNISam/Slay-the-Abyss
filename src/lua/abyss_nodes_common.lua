@@ -1,5 +1,5 @@
 -- Shared node-state queries; no room command or stream ownership lives here.
-local Combat = require("abyss_combat")
+local Copy = require("abyss_copy")
 local Capability = require("abyss_card_capability")
 
 local Acts = require('abyss_acts')
@@ -36,7 +36,7 @@ local function upgradeable(run, instance)
     local definition = find(run.data.cards.cards, instance.cardId)
     if instance.upgraded and not (definition and definition.repeatable) then return false end
     if not definition or not definition.upgrade or not next(definition.upgrade) then return false end
-    local upgraded = Combat.copy(definition)
+    local upgraded = Copy.copy(definition)
     for key, value in pairs(definition.upgrade) do upgraded[key] = value end
     return playable(upgraded)
 end
@@ -44,7 +44,7 @@ end
 local function upgradeCards(run)
     local result = {}
     for _, instance in ipairs(run.deck) do
-        if upgradeable(run, instance) then result[#result + 1] = Combat.copy(instance) end
+        if upgradeable(run, instance) then result[#result + 1] = Copy.copy(instance) end
     end
     return result
 end
