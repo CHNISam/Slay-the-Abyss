@@ -35,8 +35,8 @@ test('original map size writer reproduces wrong geometry after reentry',()=>{
  assert.notEqual(result.status,0);assert.match(result.stdout+result.stderr,/nested map write after success wrong icon size/);
 });
 test('373 ordered real MapUI frames match the original size writer',()=>{
- const before=injected(baseline(),'tests/lua/map_size_trace.lua');
- const after=runLua('tests/lua/map_size_trace.lua',{maxBuffer:4*1024*1024});
+ const before=injected(baseline(),'tests/lua/support/map_size_trace.lua');
+ const after=runLua('tests/lua/support/map_size_trace.lua',{maxBuffer:4*1024*1024});
  for(const result of [before,after])assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(after.stdout,/MAP_SIZE_TRACE_PASS 373/);
  assert.equal(after.stdout,before.stdout,'ordered MapUI state/visual trace changed');
