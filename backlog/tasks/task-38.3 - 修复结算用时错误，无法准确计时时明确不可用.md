@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-01 02:05'
-updated_date: '2026-11-03 06:34'
+updated_date: '2026-11-03 12:18'
 labels:
   - release-qa-20261101
 milestone: m-5
@@ -36,6 +36,8 @@ ordinal: 135000
 
 <!-- SECTION:PLAN:BEGIN -->
 1. 核对远端568da4e4中PR442计时生产路径与定向回归。2. 独立离线复验正常与非法计时及结算重开边界。3. 记录本轮证据；同候选手机未测保持未完成。
+
+本轮补真实原生OnStart/OnUpdate、实际战斗失败结果页与退出按钮＋不可用时钟组合，覆盖取消/重启归零、发送失败重试及去重；设备AC3保持未完成。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -44,4 +46,6 @@ ordinal: 135000
 PR #442 已合入结算用时修复及定向回归；投稿已完成，后续保留同候选设备复验，不再作为投稿前阻塞。
 
 2026-11-03 基于远端568da4e4独立复验PR442：计时安全JS1/1、真实GameUI16例及退出两片15例通过。官方入口强制暂不可用，不拿模拟计数证明官方准确时间；正常/非法值、胜败退出及新局边界已验。AC1/2据本轮离线证据勾选，AC3同候选实体手机NOT_RUN，整体仍In Progress。详见docs/backlog-details/TASK-38.3-REVERIFY-20261103.md。
+
+2026-11-03 补齐退出按钮＋不可用时钟直接组合：生产Host真实开局与首房敌人致死，原生退出触摸链取消/重启、ServerSignal抛错后取消重开重试与单次发送；新增JS包装本轮1/1通过。AC2退出缺口已补证，AC3手机仍NOT_RUN。原exit专项本轮30秒超时保留、不计通过，详见TASK-38.3-REVERIFY-20261103.md。
 <!-- SECTION:NOTES:END -->
