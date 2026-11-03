@@ -5,10 +5,13 @@ status: To Do
 assignee:
   - Furinya
 created_date: '2026-10-28 14:45'
+updated_date: '2026-11-03 05:02'
 labels: []
+milestone: m-7
 dependencies: []
 references:
   - docs/backlog-details/ENGINEERING-HEALTH-20261028.md
+  - docs/plans/2026-11-03-m9-engineering-foundation.md
 parent_task_id: TASK-74
 priority: medium
 type: task
