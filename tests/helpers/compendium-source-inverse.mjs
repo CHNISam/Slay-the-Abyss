@@ -27,9 +27,38 @@ function preM9ProtocolRegistrations(source){
  assert.equal(hash(previous),'037ff11d8894f6f68b0abb68420b74c05c7a38f2a4e5db58853930d56adc4e55','complete pre-M9 architecture');
  return previous;
 }
+// Exact outer proof for #494. Neither original Runtime/compendium hashes nor
+// archived sources change; unknown or partial edits remain visible to guards.
+export function preVisibilityGameUi(path,source){
+ if(path!=='src/lua/abyss_game_ui.lua'||typeof source!=='string')return source;
+ const current=normalize(source);
+ if(hash(current)!=='6f881f4c4e884f9a11225c5ecba7272205bc064099eaf2cd69ffd54de0775fa3')return source;
+ const hunks=[
+  [
+    "",
+    "    local pageVisibilityGeneration = 0\n"
+  ],
+  [
+    "",
+    "    local function recoverBattleVisibility(visibilityError,generation)\n        -- A sibling native setter may throw after battle activation was\n        -- deferred. Finish its inactive lifecycle before propagating the\n        -- original error; normal refresh still paints only at the end.\n        -- Native cleanup may re-enter refresh; never retire a newer view.\n        if generation==pageVisibilityGeneration and not self.battleUI.active then\n            local painted=pcall(self.battleUI.render,self.battleUI)\n            if not painted and generation==pageVisibilityGeneration and not self.battleUI.active then\n                local released=pcall(self.battleUI.releaseMonsterSurfaces,self.battleUI)\n                -- Failed native release still owns retained resources, even if\n                -- its callback entered a newer (possibly disabled) view.\n                if not released then self.monsterCleanupPending=true\n                elseif generation==pageVisibilityGeneration then self.monsterCleanupPending=nil end\n            end\n        end\n        error(visibilityError,0)\n    end\n"
+  ],
+  [
+    "        refreshPageVisibility(run,inMenu,deckOpen,potionOpen,blocked)\n",
+    "        pageVisibilityGeneration=pageVisibilityGeneration+1\n        local generation=pageVisibilityGeneration\n        local visible,visibilityError=pcall(refreshPageVisibility,run,inMenu,deckOpen,potionOpen,blocked)\n        if not visible then recoverBattleVisibility(visibilityError,generation) end\n"
+  ]
+];
+ let previous=current;
+ for(const [before,after]of hunks){
+  assert.equal(previous.split(after).length,2,'one complete visibility recovery hunk');
+  previous=previous.replace(after,before);
+ }
+ assert.equal(hash(previous),'4ab3ec613f79b1507c7c529c57547d42f93fa7eafc89aeb9afb1b8c64ab34c25','complete pre-visibility Runtime host');
+ return previous;
+}
 // Only the complete reviewed Runtime host may enter the old compendium proof.
 // Apply this equally to explicit inputs and each fresh detached-owner read.
 function preRuntimeGameUi(path,source){
+ source=preVisibilityGameUi(path,source);
  if(path!=='src/lua/abyss_game_ui.lua'||hash(source)!=='4ab3ec613f79b1507c7c529c57547d42f93fa7eafc89aeb9afb1b8c64ab34c25')return source;
  const call='            suspendBattle(run,deckOpen,potionOpen),self.mode == "battle")';
  const comment='        -- Paint after every page visibility setter, which may re-enter state.\n';
