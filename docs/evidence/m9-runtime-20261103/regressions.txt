@@ -1,0 +1,22 @@
+✔ runtime UI: runtime_ui_hotpaths (2831.3404ms)
+✔ runtime UI: hand_geometry_cache (3008.1538ms)
+✔ runtime UI: potion_drag_hotpath (6980.4881ms)
+✔ real Host ordered trajectory equals the exact pre-change production source (2488.7852ms)
+✔ runtime UI negative control: owner (2405.5624ms)
+✔ runtime UI negative control: new hit (2181.9201ms)
+✔ runtime UI negative control: dead hit (2458.2198ms)
+✔ runtime UI negative control: failed write (2345.7672ms)
+✔ runtime UI negative control: reentry (2670.3803ms)
+✔ runtime UI negative control: throw cleanup (2708.1949ms)
+✔ runtime UI negative control: layout writer (2376.0791ms)
+✔ runtime UI negative control: duplicate GameUI render (2721.8217ms)
+✔ runtime UI negative control: early paint misses a native reentrant command (3592.0994ms)
+✔ runtime UI negative control: a cached potion preflight misses in-place rule changes (5903.5318ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 44827.909

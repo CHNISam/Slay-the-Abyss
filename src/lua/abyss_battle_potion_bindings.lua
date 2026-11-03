@@ -33,7 +33,7 @@ function M.install(owner, ownership, host, dependencies)
         return x,y
     end
     local function prepareMovingPotion(held)
-        local item=Run.potionView(owner.run)[held.slot]
+        local item=Run.potionSlotView(owner.run,held.slot)
         if not item or not item.canUse or item.targetPolicy~='enemy_one' then return false end
         if not held.aim then
             owner.help,owner.info=nil,nil

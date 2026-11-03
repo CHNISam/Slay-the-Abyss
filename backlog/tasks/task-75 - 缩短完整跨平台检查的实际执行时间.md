@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 03:47'
-updated_date: '2026-11-03 05:02'
+updated_date: '2026-11-03 09:34'
 labels: []
 milestone: m-9
 dependencies: []
@@ -84,4 +84,6 @@ unknown路由修复：原110种子独占在Node22复现原30s超时；简单55�
 PR370首头5d66abfc的run41009713098 impact 05:40:13创建、05:52:29开始、05:52:46完成UTC。追加入口迁移的Node24原八文件59/59通过87.768秒；新hosted排队结果待。
 
 资源收敛：CI已审两提交线性整合进PR371，实验PR370关闭保留；只验一个最终完整组合再核验develop，不复用取消/旧SHA的绿灯。slim impact已真实成功：job123920658929 runner排队346秒、执行28秒；另419秒旧run级concurrency阻塞单列，不能据runner队列单项宣称端到端提速。
+
+第二批精确纯投影去重与真实成本采集见docs/backlog-details/TASK-75-81-M9-CI-20261103.md；原Task77本机66.238→11.695秒但不外推托管Full。保留完整矩阵、断言、原预算和关联源每次重读；当前组合及合后官方CI继续核对。
 <!-- SECTION:NOTES:END -->

@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {deepFreezeSourceProof} from './pure-source-projection-cache.mjs';
+import {cachePureSourceProjection,deepFreezeSourceProof} from './pure-source-projection-cache.mjs';
 const normalize=s=>s.replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const blob=s=>createHash('sha1').update(`blob ${Buffer.byteLength(s)}\0`).update(s).digest('hex');
@@ -22,16 +22,22 @@ for(const target of Object.values(proof.targets))for(const [path,b]of Object.ent
  assert.equal(b.afterSha256,proof.targets.delivery.files[path].afterSha256,'one real integrated source per path');
  let end=0,beforeEnd=0;for(const h of b.hunks){assert.ok(Number.isSafeInteger(h.at)&&h.at>=end&&Number.isSafeInteger(h.beforeAt)&&h.beforeAt>=beforeEnd);for(const line of [...h.before,...h.after])assert.ok(typeof line==='string'&&!/[\r\n]/.test(line));end=h.at+h.after.length;beforeEnd=h.beforeAt+h.before.length;}
 }
-export function preDeckDeliverySource(path,source,target='delivery',{readSource=p=>readFileSync(p,'utf8')}={}){
- assert.ok(proof.targets[target],'registered deck delivery target');
- const b=proof.targets[target].files[path];if(!b||typeof source!=='string')return source;
- const text=normalize(source);if(hash(text)!==b.afterSha256)return source;
- // Fresh linked reads are outside every existing pure-string cache.
- for(const linked of deckDeliveryPaths){let live;try{live=readSource(linked);}catch{assert.fail('deck delivery linked source missing: '+linked);}assert.equal(typeof live,'string','deck delivery linked source must exist: '+linked);assert.equal(hash(normalize(live)),proof.targets.delivery.files[linked].afterSha256,'deck delivery linked source identity: '+linked);}
+const sourceDigest=cachePureSourceProjection(proof.targets,(_path,source)=>hash(normalize(source)));
+function projectSource(path,source,target){
+ const b=proof.targets[target].files[path],text=normalize(source);
  assert.equal(blob(text),b.afterGitBlob);
  const lines=text.split('\n');assert.equal(lines.length,b.afterLines);
  for(const h of [...b.hunks].reverse()){assert.deepEqual(lines.slice(h.at,h.at+h.after.length),h.after,'exact deck delivery hunk: '+path);lines.splice(h.at,h.after.length,...h.before);}
  const old=lines.join('\n');assert.equal(lines.length,b.beforeLines);assert.equal(hash(old),b.beforeSha256);assert.equal(blob(old),b.beforeGitBlob);
  const forward=[...lines];for(const h of [...b.hunks].reverse()){assert.deepEqual(forward.slice(h.beforeAt,h.beforeAt+h.before.length),h.before);forward.splice(h.beforeAt,h.before.length,...h.after);}
  assert.equal(forward.join('\n'),text,'exact deck delivery forward identity');return old;
+}
+const projectedSource=cachePureSourceProjection(proof.targets,projectSource);
+export function preDeckDeliverySource(path,source,target='delivery',{readSource=p=>readFileSync(p,'utf8')}={}){
+ assert.ok(proof.targets[target],'registered deck delivery target');
+ const b=proof.targets[target].files[path];if(!b||typeof source!=='string')return source;
+ if(sourceDigest(path,source,target)!==b.afterSha256)return source;
+ // Even warm projections reread every linked owner; only string work is reused.
+ for(const linked of deckDeliveryPaths){let live;try{live=readSource(linked);}catch{assert.fail('deck delivery linked source missing: '+linked);}assert.equal(typeof live,'string','deck delivery linked source must exist: '+linked);assert.equal(sourceDigest(linked,live,'delivery'),proof.targets.delivery.files[linked].afterSha256,'deck delivery linked source identity: '+linked);}
+ return projectedSource(path,source,target);
 }

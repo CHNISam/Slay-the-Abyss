@@ -1,0 +1,282 @@
+[
+  {
+    "file": "CPU.20261103.145917.33136.0.001.cpuprofile",
+    "sha256": "6ae5fa06dcc1cde12450e365647536a1e57bb4d6131f0c1e18fb5f39e8e0a9dc",
+    "startTime": 22940125181,
+    "endTime": 23007307355,
+    "profileElapsedMs": 67182.174,
+    "samples": 42853,
+    "selfSampleMs": [
+      [
+        "update hash",
+        60225.162000000026
+      ],
+      [
+        "normalize deck-delivery-source-composition.mjs",
+        1233.875999999999
+      ],
+      [
+        "normalize delivery-source-composition.mjs",
+        807.8629999999996
+      ],
+      [
+        "Hash hash",
+        793.8590000000006
+      ],
+      [
+        "readFileUtf8 ",
+        540.099
+      ],
+      [
+        "open ",
+        457.6400000000004
+      ],
+      [
+        "digest hash",
+        384.3199999999999
+      ],
+      [
+        "rmSync ",
+        319.8220000000001
+      ],
+      [
+        "preBetaSource beta-integration-source.mjs",
+        243.44599999999997
+      ],
+      [
+        "preIntegrationSource pr372-integration-source.mjs",
+        219.36599999999999
+      ],
+      [
+        "(garbage collector) ",
+        205.4830000000001
+      ],
+      [
+        "restoreExactFixtureHunks exact-fixture-hunks.mjs",
+        177.34300000000002
+      ],
+      [
+        "mkdir ",
+        176.67400000000004
+      ],
+      [
+        "inverse delivery-source-composition.mjs",
+        118.77700000000002
+      ],
+      [
+        "writeBuffer ",
+        111.54899999999998
+      ],
+      [
+        "utf8Slice ",
+        88.37799999999999
+      ],
+      [
+        "createHash node:crypto",
+        82.20299999999999
+      ],
+      [
+        "close ",
+        69.46199999999999
+      ],
+      [
+        "processChunkSync node:zlib",
+        61.82399999999999
+      ],
+      [
+        "preDeckDeliverySource deck-delivery-source-composition.mjs",
+        56.14200000000001
+      ]
+    ],
+    "hashUpdateOwnersMs": [
+      [
+        "hash deck-delivery-source-composition.mjs",
+        30810.351000000017
+      ],
+      [
+        "hash delivery-source-composition.mjs",
+        18064.093999999946
+      ],
+      [
+        "preBetaSource beta-integration-source.mjs",
+        3430.0860000000016
+      ],
+      [
+        "hash pr372-integration-source.mjs",
+        3317.7000000000016
+      ],
+      [
+        "restoreExactFixtureHunks exact-fixture-hunks.mjs",
+        2713.2319999999963
+      ],
+      [
+        "hash exact-fixture-hunks.mjs",
+        581.2930000000001
+      ],
+      [
+        "hash beta-integration-source.mjs",
+        349.91700000000026
+      ],
+      [
+        "hash art-perf-source-composition.mjs",
+        148.32500000000005
+      ],
+      [
+        "hash art-feature-source-inverse.mjs",
+        136.25399999999996
+      ],
+      [
+        "hash relic-completion-inverse.mjs",
+        104.97999999999998
+      ],
+      [
+        "hash beta-delivery-host-source.mjs",
+        91.84000000000002
+      ],
+      [
+        "hash round2-ui-source-inverse.mjs",
+        73.448
+      ]
+    ]
+  },
+  {
+    "file": "CPU.20261103.150330.2664.0.001.cpuprofile",
+    "sha256": "8412ca23c6e50a54b5b319406ef1eccde41c5ae7b7e87a341acef24ed44807e5",
+    "startTime": 23193250291,
+    "endTime": 23205413192,
+    "profileElapsedMs": 12162.901,
+    "samples": 7811,
+    "selfSampleMs": [
+      [
+        "update hash",
+        9609.517000000007
+      ],
+      [
+        "open ",
+        255.077
+      ],
+      [
+        "rmSync ",
+        223.963
+      ],
+      [
+        "mkdir ",
+        172.65399999999994
+      ],
+      [
+        "preIntegrationSource pr372-integration-source.mjs",
+        165.45100000000005
+      ],
+      [
+        "restoreExactFixtureHunks exact-fixture-hunks.mjs",
+        157.85399999999998
+      ],
+      [
+        "Hash hash",
+        157.253
+      ],
+      [
+        "preBetaSource beta-integration-source.mjs",
+        156.17100000000002
+      ],
+      [
+        "writeBuffer ",
+        119.05699999999999
+      ],
+      [
+        "utf8Slice ",
+        91.20400000000001
+      ],
+      [
+        "close ",
+        69.67900000000002
+      ],
+      [
+        "readFileUtf8 ",
+        66.963
+      ],
+      [
+        "(garbage collector) ",
+        66.385
+      ],
+      [
+        "processChunkSync node:zlib",
+        63.97699999999999
+      ],
+      [
+        " pure-source-projection-cache.mjs",
+        60.29299999999999
+      ],
+      [
+        "compileForInternalLoader realm",
+        59.69700000000001
+      ],
+      [
+        "(program) ",
+        47.220000000000006
+      ],
+      [
+        "read ",
+        44.263000000000005
+      ],
+      [
+        "digest hash",
+        26.152
+      ],
+      [
+        "preDeckDeliverySource deck-delivery-source-composition.mjs",
+        21.274000000000004
+      ]
+    ],
+    "hashUpdateOwnersMs": [
+      [
+        "preBetaSource beta-integration-source.mjs",
+        2897.704999999998
+      ],
+      [
+        "hash pr372-integration-source.mjs",
+        2802.548999999998
+      ],
+      [
+        "restoreExactFixtureHunks exact-fixture-hunks.mjs",
+        2318.826000000002
+      ],
+      [
+        "hash exact-fixture-hunks.mjs",
+        433.6269999999999
+      ],
+      [
+        "hash beta-integration-source.mjs",
+        275.6690000000002
+      ],
+      [
+        "hash art-feature-source-inverse.mjs",
+        139.863
+      ],
+      [
+        "hash art-perf-source-composition.mjs",
+        139.43200000000002
+      ],
+      [
+        "hash relic-completion-inverse.mjs",
+        93.55300000000001
+      ],
+      [
+        "hash beta-delivery-host-source.mjs",
+        92.93800000000002
+      ],
+      [
+        "hash official-background-source-inverse.mjs",
+        66.416
+      ],
+      [
+        "hash combat-relics-hud-inverse.mjs",
+        65.871
+      ],
+      [
+        "hash ready-art-source-inverse.mjs",
+        62.48299999999999
+      ]
+    ]
+  }
+]

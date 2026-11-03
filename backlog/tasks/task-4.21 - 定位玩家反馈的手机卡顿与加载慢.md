@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-31 23:38'
-updated_date: '2026-11-03 05:02'
+updated_date: '2026-11-03 09:34'
 labels: []
 milestone: m-7
 dependencies: []
@@ -67,4 +67,6 @@ ordinal: 136000
 
 2026-11-02 意图几何切片本地验证：仅renderEnemyIntent图标/数值/点击区六处尺寸位置成功写缓存，弱native键与无回指binding token隔离；重叠setter及其false/throw均不保留不确定承诺。300帧1–5敌size/position各900n→3n（首帧后零同值），真实Host挂载BattleUI300次update各900→0；完整run/RNG、几何/可见/点击字段、idle动画与覆盖返回保持。21组边界、7项JS入口含5精确负控、8份相邻Lua及6原生合同通过，工程测量/架构/静态与syntax/backlog/diff通过。证据docs/evidence/m4-intent-geometry-cache-20261102/，构造失败与最终基线RED均保留；仅本地提交待独审，未推送/PR/合并，完整精确SHA托管CI待验。无官方/手机/FPS/加载结论，AC3及任务状态保持。
 2026-11-03 赛后排期：m-5 → M7 产品体验；任务状态与未验 AC 保留。未定新截止日。
+
+M9第二批复验战斗refresh绘制2→1、五张静止牌300更新几何方法7500→0、药水drag候选2100→1500；所有输入/失败/重入及有序旧新轨迹保留。见docs/evidence/m9-runtime-20261103/README.md。仅工程事实，无官方同候选手机证据，AC3及状态不变。
 <!-- SECTION:NOTES:END -->

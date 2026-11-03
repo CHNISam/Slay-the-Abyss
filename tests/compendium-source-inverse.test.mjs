@@ -1,7 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync,writeFileSync,copyFileSync,mkdirSync,mkdtempSync,rmSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {join,dirname} from 'node:path';
+import {tmpdir} from 'node:os';
+import {pathToFileURL} from 'node:url';
 import {preCompendiumSource} from './helpers/compendium-source-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 // Normalize checkout endings before constructing the explicit CRLF variant.
@@ -56,4 +59,42 @@ test('M9 projection accepts only the exact two core registrations and preserves 
  assert.equal(preCompendiumSource(path,reversed),reversed);
  const foreign=structuredClone(policy);foreign.layers.abyss_actor='ui';
  const variant=JSON.stringify(foreign);assert.equal(preCompendiumSource(path,variant),variant);
+});
+
+test('Runtime host projection recognizes complete before/after bytes but rejects partial, duplicate and foreign edits',()=>{
+ const path='src/lua/abyss_game_ui.lua',source=read(path);
+ assert.equal(hash(source),'4ab3ec613f79b1507c7c529c57547d42f93fa7eafc89aeb9afb1b8c64ab34c25');
+ const call='            suspendBattle(run,deckOpen,potionOpen),self.mode == "battle")';
+ const comment='        -- Paint after every page visibility setter, which may re-enter state.\n';
+ const oldCall='            suspendBattle(run,deckOpen,potionOpen))';
+ const before=source.replace(call,oldCall).replace(comment,'');
+ assert.equal(hash(before),'165e2ad1180cab9daf5321b46d1f87fe9c34ed6ebbcd3c3a8b495d23974e0933');
+ assert.equal(preCompendiumSource(path,before),preCompendiumSource(path,source));
+ for(const variant of [source.replace(call,oldCall),source.replace(comment,''),
+  source.replace(call,call+call),source.replace(comment,comment+comment),source.slice(1),source+'\n-- foreign\n']){
+  assert.notEqual(variant,source);assert.equal(preCompendiumSource(path,variant),variant);
+  for(const input of ['config/architecture.json','src/lua/abyss_node_ui_faces.lua',path])
+   assert.throws(()=>preCompendiumSource(input,read(input),{[path]:variant}),/reviewed compendium owner/);
+ }
+ for(const owner of [source,source.replaceAll('\n','\r\n'),before])
+  assert.equal(preCompendiumSource(path,source,{[path]:owner}),preCompendiumSource(path,source));
+});
+
+test('warm Runtime projections still reread actual linked host files and reject disk drift or deletion',async t=>{
+ const root=mkdtempSync(join(tmpdir(),'compendium-runtime-'));
+ t.after(()=>rmSync(root,{recursive:true,force:true}));
+ const owners=['src/lua/abyss_game_ui.lua','src/lua/abyss_compendium_catalog.lua','src/lua/abyss_relic_text.lua','src/lua/abyss_node_ui_faces.lua'];
+ for(const path of [...owners,'config/architecture.json','tests/helpers/compendium-source-inverse.mjs','tests/helpers/architecture-source-format.mjs']){
+  const target=join(root,path);mkdirSync(dirname(target),{recursive:true});copyFileSync(path,target);
+ }
+ const {preCompendiumSource:project}=await import(pathToFileURL(join(root,'tests/helpers/compendium-source-inverse.mjs')).href);
+ const host=owners[0],source=read(host),file=join(root,host);
+ for(const path of ['config/architecture.json','src/lua/abyss_node_ui_faces.lua',host]){
+  const input=read(path),expected=project(path,input);
+  writeFileSync(file,source+'\n-- actual linked drift\n');
+  assert.throws(()=>project(path,input),/reviewed compendium owner/);
+  writeFileSync(file,source);assert.equal(project(path,input),expected);
+  rmSync(file);assert.throws(()=>project(path,input),/ENOENT/);
+  writeFileSync(file,source);assert.equal(project(path,input),expected);
+ }
 });

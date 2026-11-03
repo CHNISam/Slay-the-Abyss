@@ -1,0 +1,166 @@
+{
+  "baselineRevision": "32c7096972212fea5a1e0607657103f77986d477",
+  "baselineTitle": "docs(roadmap): 梳理 M9/M7/M8 候选排期与活动核验 (#483)",
+  "runtime": "v24.18.0",
+  "before": {
+    "coverage": {
+      "modules": 320,
+      "functions": 4716,
+      "measurements": 5036,
+      "expectedMeasurements": 5036
+    },
+    "global": {
+      "functions": 4716,
+      "ccAbove15": 290,
+      "ccAbove30": 83,
+      "maxCC": 88,
+      "longestFunction": 1004,
+      "filesAbove1000": 2,
+      "uniqueDependencyPairs": 1461,
+      "largestSccMembers": 103,
+      "largestSccInternalCalls": 789,
+      "diagnostics": 15
+    },
+    "module": {
+      "lines": 909,
+      "sha256": "789b529e74a6933e2295a5b054180aba84779156a2d6aef8ec5efd1a40ae9f01",
+      "functions": 62,
+      "maxCC": 61,
+      "affected": [
+        {
+          "name": "M.damage",
+          "lines": 83,
+          "complexity": 61
+        }
+      ],
+      "sumCC": 61,
+      "decisionPoints": 60
+    }
+  },
+  "after": {
+    "coverage": {
+      "modules": 320,
+      "functions": 4722,
+      "measurements": 5042,
+      "expectedMeasurements": 5042
+    },
+    "global": {
+      "functions": 4722,
+      "ccAbove15": 289,
+      "ccAbove30": 82,
+      "maxCC": 88,
+      "longestFunction": 1004,
+      "filesAbove1000": 2,
+      "uniqueDependencyPairs": 1461,
+      "largestSccMembers": 103,
+      "largestSccInternalCalls": 789,
+      "diagnostics": 15
+    },
+    "module": {
+      "lines": 938,
+      "sha256": "088638d14d62df4b4ea3f4e652833211e4fb8498c468f1beaaae0864737cb1ea",
+      "functions": 68,
+      "maxCC": 60,
+      "affected": [
+        {
+          "name": "damageAmount",
+          "lines": 15,
+          "complexity": 9
+        },
+        {
+          "name": "consumeAttackBlock",
+          "lines": 11,
+          "complexity": 12
+        },
+        {
+          "name": "modifyIncomingAttack",
+          "lines": 10,
+          "complexity": 5
+        },
+        {
+          "name": "applyAttackHpLoss",
+          "lines": 15,
+          "complexity": 4
+        },
+        {
+          "name": "queueHitPowers",
+          "lines": 18,
+          "complexity": 15
+        },
+        {
+          "name": "queueAttackedPowers",
+          "lines": 17,
+          "complexity": 12
+        },
+        {
+          "name": "M.damage",
+          "lines": 20,
+          "complexity": 10
+        }
+      ],
+      "sumCC": 67,
+      "decisionPoints": 60
+    }
+  },
+  "dependenciesIdentical": true,
+  "cyclesIdentical": false,
+  "cycleGraphIgnoringCallsiteLinesIdentical": true,
+  "cycleCallsiteNote": "SCC members, dependency directions, multiplicities and deferred classifications are identical; exact callsite coordinates move with Actor functions. Raw cyclesIdentical remains false to preserve that distinction.",
+  "diagnosticsIdentical": true,
+  "parity": {
+    "schemaVersion": 1,
+    "baselineRevision": "32c7096972212fea5a1e0607657103f77986d477",
+    "source": "src/lua/abyss_actor.lua",
+    "runtime": "v24.18.0",
+    "beforeSourceSha256": "789b529e74a6933e2295a5b054180aba84779156a2d6aef8ec5efd1a40ae9f01",
+    "afterSourceSha256": "088638d14d62df4b4ea3f4e652833211e4fb8498c468f1beaaae0864737cb1ea",
+    "fixtures": [
+      {
+        "fixture": "tests/lua/actor_damage_pipeline.lua",
+        "identical": true,
+        "boundaries": 112,
+        "bytes": 527659,
+        "traceSha256": "b3bf90fd0a5528138e7bc018719a60e9cb393c02d623ecb970dcb5961ffcf5f6"
+      },
+      {
+        "fixture": "tests/lua/plated_armor_queue.lua",
+        "identical": true,
+        "boundaries": 281,
+        "bytes": 7790328,
+        "traceSha256": "e29e1c73c1650f709ca27a2334c2d580c20389dc880278ac919b8ae012a99f6e"
+      },
+      {
+        "fixture": "tests/lua/fatal_hp_loss_callbacks.lua",
+        "identical": true,
+        "boundaries": 24,
+        "bytes": 415778,
+        "traceSha256": "6ddf05018ded7b389a183353d0e94ae4444f5980bfe62d87084d64c237b7d261"
+      },
+      {
+        "fixture": "tests/lua/ending_damage_hooks.lua",
+        "identical": true,
+        "boundaries": 25,
+        "bytes": 432199,
+        "traceSha256": "dd4024f401da1638bcaec652fd40d6d24563b0877d552f5706b7129d1839f2e5"
+      },
+      {
+        "fixture": "tests/lua/hp_loss_action_boundaries.lua",
+        "identical": true,
+        "boundaries": 30,
+        "bytes": 390413,
+        "traceSha256": "37dc37754433551c041dbca0dbef488198de8f713b6d3a31163b220a012700f3"
+      }
+    ],
+    "contract": "Complete return/state/event/reaction queue/RNG and graph aliases. Immutable catalog/rules/sourcePools/statusDefinitions omitted from trace only; public rollback separately verifies all original tables and values. Every fixture runs in independent old/new VMs under unchanged 30-second timeout; full output goes directly to disk."
+  },
+  "tests": {
+    "newWrapper": 3,
+    "semanticMutantsKilledByAssertion": 4,
+    "originalWrappers": 4,
+    "hpLoss": 27,
+    "blockDamage": 25,
+    "curlUp": 28,
+    "tungstenEdges": 6
+  },
+  "limitations": "Independent final combination review and required CI pending. No candidate/import/ready/device evidence or whole-M9 completion claim."
+}

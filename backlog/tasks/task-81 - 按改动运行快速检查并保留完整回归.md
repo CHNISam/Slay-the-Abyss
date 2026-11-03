@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 15:30'
-updated_date: '2026-11-03 05:02'
+updated_date: '2026-11-03 09:34'
 labels: []
 milestone: m-9
 dependencies: []
@@ -100,4 +100,6 @@ e22本地重放验证：相对basename参考与短模式原生CLI对当前360个
 2026-11-02 私有选测切片：已证Run主模块与五职责模块改动漏选公开API治理测试。只把治理测试实际读取路径显式化，选择器/分类/阈值不动；真实六选集各仅增加该integration测试，fast/Lua及原全部选集不减，无关选集不变、未知仍Full。参数名漂移真实负控在旧/新测试均被原断言拒绝；新选测合同先红后绿。106项定向测试通过、0skip，Backlog通过。详见docs/evidence/m4-run-governance-selection-20261102/；独立审查和其余检查待收口。不是fast覆盖修复或CI整体提速，未推送/合并，原性能AC不勾。
 
 本切片补验：Backlog doctor、verify:backlog、check:syntax和diff检查通过。独立review_governance_selection两项定向及六组真实选集/未知与删除/数据及共享基础设施Full核验PASS、无阻断；仅修related，integration543→544且fast9/Lua1277不变。源码测试切片就绪，待根按在途PR节奏集成与精确HEAD完整CI；父任务状态和AC全部保持。
+
+本轮实际自然Quality Fast样本0/20，advisory与取消占位不混入；P50/P90未知，性能AC3未达。完整原始采集371文件与成本工具见docs/backlog-details/TASK-75-81-M9-CI-20261103.md，第二批纯计算去重不更改选择器或门禁。
 <!-- SECTION:NOTES:END -->

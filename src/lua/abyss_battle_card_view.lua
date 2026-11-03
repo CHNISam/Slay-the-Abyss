@@ -26,7 +26,10 @@ local function handTarget(count, index, hot, point)
         baseY=point.baseY}
 end
 
-local function placeHandHit(box, pose, target)
+-- Successful geometry belongs to the last binding of a native handle. No view
+-- or hand entry is retained by this weak-key table.
+local handGeometry=setmetatable({},{__mode='k'})
+local function handValues(pose, target)
     local w,h=L.card.size[1],L.card.size[2]
     local r=target.restAngle*math.pi/180
     local c,s=math.abs(math.cos(r)),math.abs(math.sin(r))
@@ -36,18 +39,41 @@ local function placeHandHit(box, pose, target)
     local low=math.min(target.baseY-restH,hotY-hotH)
     local high=math.max(target.baseY+restH,hotY+hotH)
     local dy,a=(low+high)/2-pose.y,pose.angle*math.pi/180
-    local hit=box:GetChild('hit')
-    hit:SetAnchoredPosition(math.sin(a)*dy/pose.scale,math.cos(a)*dy/pose.scale)
-    hit:SetSizeDelta(math.max(restW*2,w*Theme.motion.hoverScale)/pose.scale,(high-low)/pose.scale)
-    hit:SetLocalScale(1,1,1);hit.localRotationZ=-pose.angle
+    return {pose.x,pose.y,pose.scale,pose.angle,
+        math.sin(a)*dy/pose.scale,math.cos(a)*dy/pose.scale,
+        math.max(restW*2,w*Theme.motion.hoverScale)/pose.scale,(high-low)/pose.scale}
 end
 
-local function applyHandPose(entry)
+local function sameHandValues(first,second)
+    for i=1,8 do if first[i]~=second[i] then return false end end
+    return true
+end
+local function writeHandValues(box,hit,v)
+    local accepted=box:SetAnchoredPosition(v[1],v[2])~=false
+    accepted=box:SetLocalScale(v[3],v[3],1)~=false and accepted
+    box.localRotationZ=v[4]
+    accepted=hit:SetAnchoredPosition(v[5],v[6])~=false and accepted
+    accepted=hit:SetSizeDelta(v[7],v[8])~=false and accepted
+    accepted=hit:SetLocalScale(1,1,1)~=false and accepted
+    hit.localRotationZ=-v[4]
+    return accepted
+end
+local function applyHandPose(entry,owner)
     local box,pose=entry.box,entry.current
-    box:SetAnchoredPosition(pose.x,pose.y)
-    box:SetLocalScale(pose.scale,pose.scale,1)
-    box.localRotationZ=pose.angle
-    placeHandHit(box,pose,entry.target)
+    local hit=box:GetChild('hit')
+    local values=handValues(pose,entry.target)
+    local painted=handGeometry[box]
+    if painted and painted.owner==owner and painted.hit[1]==hit and box.alive~=false
+        and hit.alive~=false and sameHandValues(painted.values,values) then return end
+    local pending={};handGeometry[box]=pending
+    local ok,accepted=pcall(writeHandValues,box,hit,values)
+    local current=handGeometry[box]==pending
+    handGeometry[box]=nil
+    if not ok then error(accepted,0) end
+    -- A nested setter may replace the pose or finish in a different order.
+    if accepted and current and sameHandValues(values,handValues(entry.current,entry.target)) then
+        handGeometry[box]={owner=owner,values=values,hit=setmetatable({hit},{__mode='v'})}
+    end
 end
 
 local function advancePose(entry, dt, fast)
@@ -125,6 +151,7 @@ function M.new(view, controls)
     local placeCard, placeReward = controls.placeCard, controls.placeReward
     local dragTarget, dragPose, enemyPosition = controls.dragTarget, controls.dragPose, controls.enemyPosition
     local handBattle,handPoses,previousPiles=nil,{},{}
+    local handGeometryOwner={}
     local handWidth,handHeight,openingHand,eventTail
     local recentDrawOrigins={}
     local function syncHandViewport(current)
@@ -138,6 +165,8 @@ function M.new(view, controls)
         end
     end
     local function handPose(box,instance,count,index,hot)
+        -- placeCard and drag write the same native geometry outside this cache.
+        handGeometry[box]=nil
         local point=placeCard(box,count,index,hot)
         local target=handTarget(count,index,hot,point)
         local entry=handPoses[instance.uid]
@@ -155,7 +184,7 @@ function M.new(view, controls)
             handPoses[instance.uid]=entry
         end
         entry.box,entry.target,entry.visible=box,target,true
-        applyHandPose(entry)
+        applyHandPose(entry,handGeometryOwner)
         return {entry.current.x,entry.current.y}
     end
     local function currentAim()
@@ -312,6 +341,7 @@ function M.new(view, controls)
     end
 
     local function placeDraggedCard(box, g, aiming)
+        handGeometry[box]=nil
         local x, y = dragPose(g)
         local h = L.card.size[2] * D.scale
         -- Mouse carry parks under the line. A held finger keeps its continuous
@@ -436,7 +466,7 @@ function M.new(view, controls)
         for uid,entry in pairs(handPoses) do
             if not (held and held.moving and held.uid==uid) then
                 advancePose(entry,dt,view.fastMode==true)
-                applyHandPose(entry)
+                applyHandPose(entry,handGeometryOwner)
                 view.cardPositions[uid]={entry.current.x,entry.current.y}
             end
         end

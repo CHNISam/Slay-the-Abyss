@@ -93,6 +93,10 @@ export function reviewRenderComplexity(diagnostics, sources) {
 // Budget only this governance slice and every extracted responsibility module.
 // Unrelated pre-existing Combat/UI hotspots keep their diagnostic reports.
 const responsibilityRoots = {
+  'src/lua/abyss_actor.lua': [
+    ...['damageAmount','consumeAttackBlock','modifyIncomingAttack','applyAttackHpLoss',
+      'queueHitPowers','queueAttackedPowers','M.damage'].map(name=>`function '${name}'`),
+  ],
   'src/lua/abyss_card_actions.lua': [
     ...['exhaustRandom','fiendFire','exhaustNonAttacks','exhaustSpecific','upgradeAllHand',
       'makeTemporaryCards','generateAttack','randomizeHandCost','upgradeHand','resolveCurlUp',

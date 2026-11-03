@@ -1,0 +1,5 @@
+ABYSS_RUN seed=1 source=explicit
+RUNTIME_HOST refresh battle renders=2
+RUNTIME_HOST settled cards=5 frames=300 position=3000 size=1500 scale=3000
+RUNTIME_HOST native visibility reentry final paint PASS
+RUNTIME_UI_HOTPATHS_PASS

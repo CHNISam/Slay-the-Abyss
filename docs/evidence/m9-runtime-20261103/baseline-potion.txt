@@ -1,0 +1,4 @@
+ABYSS_RUN seed=1 source=explicit
+POTION_DRAG_HOTPATH events=300 totalCandidates=2100 liveCandidates=1800 renders=300 previews=300
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=20
+POTION_DRAG_HOTPATH_PASS fresh/state-change/recovery/use
