@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-29 01:28'
-updated_date: '2026-11-03 07:39'
+updated_date: '2026-11-03 07:47'
 labels:
   - future
 milestone: m-7
@@ -65,10 +65,6 @@ TASK-47迁出原文（均未勾，保留完整历史）：
 2026-11-03 离线切片：新增8组雷电公开Run契约，定向现有7入口全通过；3项内存负对照均被断言拦截。初次测试雷眼预期和负对照诊断匹配的纠正、原始失败与精确耗时均见附件。生产缺陷未确认，源码与冻结输入无改动；六项AC仍未完成，状态保持In Progress，待主控独立复审与同候选平台验收。
 
 末次走查已加强晚失败边界：Q/强化普攻都由真实雷眼消耗次数完成击杀后再故障，保证眼次数确曾改变才验证回滚。聚焦重放32.131秒成功：新增2个Node测试/8组Lua合同通过、3负对照均红；最终当前测试SHA和原始输出见 evidence/raiden-v4-verification-20261103/results.json。7个未变既有入口沿用本轮原始收据，未重复全套验证。
+
+集成独审发现并修正新增证据LF/CRLF字节身份问题，原收据与hash不改写；两Lua合同迁至support由唯一Node入口跨平台执行，避免Windows raw重复。重放当前输出改build目录保留历史，旧参数仅历史基线适用。全部原8组断言保留，当前组合复验/最终SHA独审与CI收口中；六项AC继续未勾。
 <!-- SECTION:NOTES:END -->
-
-## Final Summary
-
-<!-- SECTION:FINAL_SUMMARY:BEGIN -->
-本轮离线验证切片已交付：8组雷电公开Run合同、7个现有Lua入口通过，3个负对照均命中断言；任务范围检查通过。精确命令、耗时、初次测试/取证纠正及原始输出见 docs/backlog-details/TASK-85-OFFLINE-20261103.md 和对应 evidence 目录。未确认生产缺陷；六项AC保持未勾，TASK-85保持In Progress / @Furinya，后续由主控复审并组织同候选平台验收。
-<!-- SECTION:FINAL_SUMMARY:END -->

@@ -1,6 +1,6 @@
 -- Faults occur after REAL reward preparation, including resource consumption,
 -- RNG, source card disposal and both command ledgers. No replacement game engine.
-local F=assert(loadfile('tests/lua/raiden_v4_public_commands.lua'))('fixture')
+local F=assert(loadfile('tests/lua/support/raiden_v4_public_commands.lua'))('fixture')
 local Run=require('abyss_run')
 local count=0
 for _,action in ipairs({'Q','normal'})do

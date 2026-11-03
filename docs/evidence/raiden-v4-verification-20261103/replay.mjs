@@ -20,7 +20,7 @@ const receipt={schemaVersion:1,stage:'offline-fengari-contracts',startedAt:new D
   commands:[],inputs:[],platformEvidence:{candidateGil:'NOT_RUN',officialImport:'NOT_RUN',ready:'NOT_RUN',pc:'NOT_RUN',phone:'NOT_RUN',naturalTwoActs:'NOT_RUN'}};
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 for (const path of ['data/original_v4/cards_v4.json','data/original_v4/rules_v4.json',
-  'tests/raiden-v4-verification.test.mjs','tests/lua/raiden_v4_public_commands.lua','tests/lua/raiden_v4_rollback.lua',
+  'tests/raiden-v4-verification.test.mjs','tests/lua/support/raiden_v4_public_commands.lua','tests/lua/support/raiden_v4_rollback.lua',
   'src/lua/abyss_run.lua','src/lua/abyss_combat.lua','src/lua/abyss_original_v4.lua','src/lua/abyss_snapshot.lua']) {
   const bytes=readFileSync(path);receipt.inputs.push({path,bytes:bytes.length,sha256:sha(bytes)});
 }
@@ -77,13 +77,13 @@ if (ok) {
   ];
   for (const mutant of mutants) {
     const accepted=run([receipt.dependencyResolution.cli,'-e',
-      `${mutant.code}dofile("tests/lua/raiden_v4_${mutant.script}.lua")`],{env:luaEnv,expectedFailure:mutant.needle});
+      `${mutant.code}dofile("tests/lua/support/raiden_v4_${mutant.script}.lua")`],{env:luaEnv,expectedFailure:mutant.needle});
     receipt.commands.at(-1).negativeControl=mutant.name;ok=accepted && ok;
   }
 }
 receipt.finishedAt=new Date().toISOString();
 receipt.result=ok?'PASS_WITH_EXPECTED_NEGATIVE_CONTROLS':'FAIL';
-const output=resolve(root,`docs/evidence/raiden-v4-verification-20261103/${negativeOnly?'negative-controls':'results'}.json`);
+const output=resolve(root,`build/raiden-v4-${negativeOnly?'negative-controls':'verification'}.json`);
 writeFileSync(output,JSON.stringify(receipt,null,2)+'\n');
 console.log(`Receipt: ${output}`);
 process.exitCode=ok?0:1;

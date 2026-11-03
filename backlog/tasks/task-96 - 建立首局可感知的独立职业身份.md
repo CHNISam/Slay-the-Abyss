@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-03 02:45'
-updated_date: '2026-11-03 07:34'
+updated_date: '2026-11-03 07:47'
 labels:
   - design
 milestone: m-7
@@ -27,7 +27,7 @@ ordinal: 138000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 以当前生产牌组/机制核对岩旅与 Ironclad 的共性与差异，说明哪些仅是表现换名，不冒称自研机制。
+- [x] #1 以当前生产牌组/机制核对岩旅与 Ironclad 的共性与差异，说明哪些仅是表现换名，不冒称自研机制。
 - [ ] #2 提出最小可行的角色差异化方案及首次十分钟可感知的特征，经 Owner 确认后实施；不擅改已冻结平衡数据、不删除历史旅行者版。
 - [ ] #3 复用 TASK-85 或获批的等价角色任务完成实际正式入口、玩法与必要美术/信息呈现；代码、候选与官方 PC/安卓实测分层留证，不重复开发现有 V4 卡牌。
 - [ ] #4 同候选试玩可明确辨认本作的职业机制和角色表现；未完成验收前不得宣称原创职业体验已交付。
@@ -47,4 +47,6 @@ ordinal: 138000
 执行者：TASK-96 事实审计；工作树 F:\New folder\.worktrees\character-identity-audit-20261103；分支 feat/character-identity-audit-20261103；基线 013535ae48198bd72616224a4729f90bb187ecd9。公开认领：PR479 评论6597919043。仅研究与提案，不参与 TASK-85 执行验证；新行为与视觉待 Owner 确认。
 
 事实审计/提案切片已交付，待主控独审：docs/backlog-details/TASK-96-CHARACTER-IDENTITY-20261103.md；事实快照 docs/evidence/character-identity-20261103/facts.json。核实生产仅ironclad；75红牌保留原作身份、72非基础池成员一致、余烬之心映射Burning Blood胜利回血6。提供A雷电主推荐+岩旅可选（推荐）、B雷电单入口保留历史岩旅、C既有胡桃V4三个下一版本待批准方向。首十分钟拔刀不保证：初始只有两张军令，爆发需愿力3。7项输入hash/75映射/3个内存生成模块、数据交叉核对、Geo开局目录盘点及guidance/backlog/附件diff轻量检查通过；无候选/官方导入/新ready/PC或安卓证据，未运行TASK-85测试。Owner待决定是否批准A及其验收后开放边界。AC1待主控独审，AC2–4未批准/未实施/未验收，全部保持未勾，状态保持In Progress；本轮不提交、不推送、不建PR、不合并。
+
+本批集成复核：独立审查OpenCode-gpt-6.1-sol-9450b8af-50d5-4a27-ae2a-07570e988d00实际重算75映射、初始资源、来源与3模块，主控据此接受AC1；AC2–4继续待Owner方向确认、实施及设备验收。按用户最新要求，本批先复审/CI/集成再领下一批，任务保持In Progress。
 <!-- SECTION:NOTES:END -->

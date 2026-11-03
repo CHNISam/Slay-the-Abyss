@@ -6,7 +6,7 @@
 
 - 执行者：OpenCode，负责人保留 `@Furinya`；认领来源 PR479 评论6597919043。
 - 唯一工作树：`F:\New folder\.worktrees\raiden-v4-verification-20261103`。
-- 分支：`feat/raiden-v4-verification-20261103`；基线/当前 HEAD：`013535ae48198bd72616224a4729f90bb187ecd9`。
+- 分支：`feat/raiden-v4-verification-20261103`；历史取证基线 HEAD：`013535ae48198bd72616224a4729f90bb187ecd9`，原始输入为该脏树当时字节，不冒充后续集成 HEAD。
 - 环境：Windows，Node `v22.22.1`，npm `10.9.4`；Node 实际路径 `C:\Program Files\nodejs\node.exe`。
 - 依赖直接从根 `F:\New folder\node_modules` 解析 `fengari` / `fengari-node-cli`；无需安装。
 - 证据：本轮脏树的真实 Lua/Fengari + mock 原生控件；不是官方 LuaHost、导入或自然两幕实测。没有 Git 提交/推送/PR/合并。
@@ -75,14 +75,22 @@
 # 从指定工作树运行；完整重放只涉及本切片，不是全量 check
 node docs/evidence/raiden-v4-verification-20261103/replay.mjs
 
-# 本轮诊断匹配修正后仅重跑负对照：先核对既有绿基线及全部记录输入SHA未变
+# 以下两参数仅用于原始013535ae脏树的历史诊断；当前提交使用上面的完整入口。
+# 原始测试布局保存在源切片提交22b75e9b；迁移后不复用历史SHA为当前通过凭证。
+# 历史诊断匹配修正后仅重跑负对照：先核对既有绿基线及全部记录输入SHA未变
 node docs/evidence/raiden-v4-verification-20261103/replay.mjs --negative-only
 
-# 本轮末次加强雷眼回滚边界：只重跑新增测试和负对照，引用未变的既有7入口
+# 历史末次加强雷眼回滚边界：只重跑新增测试和负对照，引用未变的既有7入口
 node docs/evidence/raiden-v4-verification-20261103/replay.mjs --focused
 ```
 
-完整/聚焦重放写 `results.json`；负对照重放写 `negative-controls.json`，各自包含新时间和原始输出。最初收据 `results-initial.json` 保留。开发期红例、探针与纠正见 [development-history.md](../evidence/raiden-v4-verification-20261103/development-history.md)。本轮完整重放88.361秒（首次匹配错误 exit 1）；匹配修正重放9.573秒（exit 0）；最后加强边界后的聚焦重放32.131秒（exit 0）。
+当前完整/聚焦重放写 `build/raiden-v4-verification.json`；负对照重放写 `build/raiden-v4-negative-controls.json`，各自包含新时间和原始输出；已提交的历史收据保持原样。历史初轮入口曾写证据目录，执行历史版本时须用独立副本。开发期红例、探针与纠正见 [development-history.md](../evidence/raiden-v4-verification-20261103/development-history.md)。本轮完整重放88.361秒（首次匹配错误 exit 1）；匹配修正重放9.573秒（exit 0）；最后加强边界后的聚焦重放32.131秒（exit 0）。
+
+### 集成前独审修正
+
+独立审查 `OpenCode-gpt-6.1-sol-9450b8af-50d5-4a27-ae2a-07570e988d00` 发现 Windows 默认检出将新增LF输入/收据改为CRLF，历史收据链的原始字节因此失配。通过现有 `.gitattributes` 固定新增收据与测试的LF字节；原始收据、失败记录与hash不改写。当前原始路径与字节可从源切片 `22b75e9b` 取回。
+
+两份Lua合同随后移到 `tests/lua/support/`，由唯一Node入口在Windows/POSIX调用，退出顶层raw Lua自动发现，保留全部8组断言并消除同平台重复执行。公开命令合同内容不变；回滚合同只更新共享夹具路径，Node与重放器同步路径。历史收据继续描述原布局，不能用历史路径/hash认证新布局。
 
 ## AC 与后续验收
 
@@ -103,8 +111,8 @@ TASK-85 保持 **In Progress / @Furinya，6项AC全部未勾**。本轮只证明
 
 - `backlog/tasks/task-85 - 验收下一版本雷电将军两幕玩法.md`（仅Backlog CLI更新）
 - `tests/raiden-v4-verification.test.mjs`
-- `tests/lua/raiden_v4_public_commands.lua`
-- `tests/lua/raiden_v4_rollback.lua`
+- `tests/lua/support/raiden_v4_public_commands.lua`
+- `tests/lua/support/raiden_v4_rollback.lua`
 - `docs/backlog-details/TASK-85-OFFLINE-20261103.md`
 - `docs/evidence/raiden-v4-verification-20261103/replay.mjs`
 - `docs/evidence/raiden-v4-verification-20261103/results-initial.json`
