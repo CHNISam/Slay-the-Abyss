@@ -51,7 +51,7 @@ export function auditMilestoneScope(titles) {
   });
   // Preserve M3/M4 frozen competition contracts while validating the post-submission plan.
   // Older fixtures may contain only M3/M4; require the M7/M8 pair once either exists.
-  const futurePresent = titles.some(title => /^M[78](?:[\\s｜|:：]|$)/.test(title));
+  const futurePresent = titles.some(title => /^M[78](?:[\s｜|:：]|$)/.test(title));
   const futureErrors = futurePresent ? [
     { stage: 'M7', required: ['产品体验', '核心特色'] },
     { stage: 'M8', required: ['内容建设', '扩充'] },

@@ -293,6 +293,7 @@ test('unfinished optional work needs an owner; historical Done records do not', 
 test('M7 product experience and M8 content expansion keep separate roadmap identities', () => {
   const titles = [...competitionTitles, 'M7｜产品体验与核心特色', 'M8｜内容建设与扩充'];
   assert.deepEqual(auditMilestoneScope(titles), []);
+  assert.deepEqual(auditMilestoneScope([...competitionTitles, 'M7 产品体验与核心特色', 'M8 内容建设与扩充']), []);
   assert.match(auditMilestoneScope([...competitionTitles, 'M7｜产品体验与核心特色']).join('\n'), /M8/);
   const phases = { ...milestone, 'm-7': 'M7', 'm-8': 'M8' };
   const next = [task('TASK-85', { milestone: 'm-7' }), task('TASK-97', { milestone: 'm-8' })];
