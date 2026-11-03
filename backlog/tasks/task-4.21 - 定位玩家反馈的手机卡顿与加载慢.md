@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-31 23:38'
-updated_date: '2026-11-03 02:45'
+updated_date: '2026-11-03 05:02'
 labels: []
 milestone: m-7
 dependencies: []
@@ -13,6 +13,7 @@ references:
   - docs/backlog-details/TASK-4.21.md
   - docs/evidence/mobile-readability-20261101/
   - docs/evidence/m4-deck-controller-lifecycle-20261102/
+  - docs/plans/2026-11-03-m9-engineering-foundation.md
 parent_task_id: TASK-4
 priority: medium
 type: bug

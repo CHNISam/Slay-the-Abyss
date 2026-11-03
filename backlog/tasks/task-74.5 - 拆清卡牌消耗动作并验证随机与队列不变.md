@@ -7,7 +7,10 @@ assignee:
 created_date: '2026-10-29 12:33'
 updated_date: '2026-11-03 06:50'
 labels: []
+milestone: m-9
 dependencies: []
+references:
+  - docs/plans/2026-11-03-m9-engineering-foundation.md
 parent_task_id: TASK-74
 priority: medium
 ordinal: 128000

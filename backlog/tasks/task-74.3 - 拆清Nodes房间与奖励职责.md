@@ -5,9 +5,12 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 15:25'
-updated_date: '2026-10-28 16:12'
+updated_date: '2026-11-03 05:02'
 labels: []
+milestone: m-9
 dependencies: []
+references:
+  - docs/plans/2026-11-03-m9-engineering-foundation.md
 parent_task_id: TASK-74
 priority: medium
 ordinal: 125000

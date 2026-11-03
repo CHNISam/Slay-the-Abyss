@@ -60,7 +60,12 @@ export function auditMilestoneScope(titles) {
     return matches.length === 1 && required.every(part => matches[0].includes(part)) ? []
       : [`${stage}: 赛后里程碑标题必须唯一且包含${required.join('、')}`];
   }) : [];
-  return [...historicalErrors, ...futureErrors];
+  const engineeringPresent = titles.some(title => /^M9(?:[\s｜|:：]|$)/.test(title));
+  const engineeringMatches = titles.filter(title => /^M9(?:[\s｜|:：]|$)/.test(title));
+  const engineeringErrors = !engineeringPresent || (engineeringMatches.length === 1
+    && ['工程架构', '性能强化'].every(part => engineeringMatches[0].includes(part))) ? []
+    : ['M9: 工程里程碑标题必须唯一且包含工程架构、性能强化'];
+  return [...historicalErrors, ...futureErrors, ...engineeringErrors];
 }
 
 export function auditCompetitionRoster(scope) {
@@ -110,7 +115,7 @@ export function auditRoadmap(tasks, roadmap, milestones, completed = []) {
   const sections = new Map();
   let section;
   for (const line of roadmap.split(/\r?\n/)) {
-    const heading = line.match(/^###\s+(M[1-8])(?:\s|[｜|:：]|$)/);
+    const heading = line.match(/^###\s+(M[1-9])(?:\s|[｜|:：]|$)/);
     if (heading) section = heading[1];
     else if (/^#{1,3} /.test(line)) section = null;
     if (section) for (const match of line.matchAll(/^- (TASK-\d+(?:\.\d+)*)(?=[：:\s])/g)) sections.set(match[1], section);
@@ -137,7 +142,7 @@ export function verifyBacklogRoadmap(root = '.') {
   const milestones = Object.fromEntries(files('backlog/milestones').map(({ source }) => {
     const id = source.match(/^id:\s*(m-\d+)/m)?.[1];
     const title = source.match(/^title:[ \t]*([^\r\n]*)/m)?.[1].trim().replace(/^['"]|['"]$/g, '') ?? '';
-    const stage = title.match(/^(M[1-8])(?:\s|[｜|:：]|$)/)?.[1];
+    const stage = title.match(/^(M[1-9])(?:\s|[｜|:：]|$)/)?.[1];
     return [id, stage];
   }).filter(([id, stage]) => id && stage));
   return [...new Set([...auditRoadmap(tasks, readFileSync(join(root, 'docs/MILESTONES.md'), 'utf8'), milestones, completed),
