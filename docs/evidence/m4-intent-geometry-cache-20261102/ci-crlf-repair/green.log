@@ -1,0 +1,20 @@
+✔ intent geometry preserves ownership, failed writes, reentry and native lifetime (815.44893ms)
+✔ real Host retains intent geometry without changing animation or the run graph (4170.852877ms)
+✔ intent geometry negative control (LF): ignored owner (891.909037ms)
+✔ intent geometry negative control (CRLF): ignored owner (761.661007ms)
+✔ intent geometry negative control (LF): missing alive guard (733.712094ms)
+✔ intent geometry negative control (CRLF): missing alive guard (714.027152ms)
+✔ intent geometry negative control (LF): cached rejected setter (670.419207ms)
+✔ intent geometry negative control (CRLF): cached rejected setter (761.934316ms)
+✔ intent geometry negative control (LF): cached overlapping write (737.522252ms)
+✔ intent geometry negative control (CRLF): cached overlapping write (719.506292ms)
+✔ intent geometry negative control (LF): retained nested promise after throw (754.593479ms)
+✔ intent geometry negative control (CRLF): retained nested promise after throw (740.351707ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12673.18805

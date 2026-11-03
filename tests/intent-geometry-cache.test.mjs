@@ -23,12 +23,14 @@ const mutations=[
  ['cached rejected setter','result~=false and current','current',/failed geometry promise survived/],
  ['cached overlapping write','result~=false and current','result~=false',/overlapping native write was incorrectly cached/],
  ['retained nested promise after throw',
-  /local current=(intentSizes|intentPositions)\[control\]==pending\n    \1\[control\]=nil\n    if not ok then error\(result,0\) end/g,
+  /local current=(intentSizes|intentPositions)\[control\]==pending\r?\n    \1\[control\]=nil\r?\n    if not ok then error\(result,0\) end/g,
   'if not ok then error(result,0) end\n    local current=$1[control]==pending\n    $1[control]=nil',
   /failed outer write retained a nested promise/],
 ];
-for(const [name,anchor,replacement,failure] of mutations)test(`intent geometry negative control: ${name}`,()=>{
- const path='src/lua/abyss_battle_render_actors.lua';const source=readFileSync(path,'utf8');
+// Exercise both checkout formats without rewriting the production file on disk.
+for(const [name,anchor,replacement,failure] of mutations)for(const [format,newline] of [['LF','\n'],['CRLF','\r\n']])test(`intent geometry negative control (${format}): ${name}`,()=>{
+ const path='src/lua/abyss_battle_render_actors.lua';const original=readFileSync(path,'utf8');
+ const source=original.replace(/\r?\n/g,newline);
  const matches=typeof anchor==='string'?source.split(anchor).length-1:[...source.matchAll(anchor)].length;
  assert.equal(matches,2,'exactly one boundary for each native setter');
  const mutant=source.replaceAll(anchor,replacement);
@@ -38,5 +40,5 @@ for(const [name,anchor,replacement,failure] of mutations)test(`intent geometry n
   const result=runLua(entry);assert.notEqual(result.status,0,'semantic regression must fail');
   assert.match(result.stdout+result.stderr,failure);
  }finally{unlinkSync(entry);}
- assert.equal(readFileSync(path,'utf8'),source,'negative control changed production source');
+ assert.equal(readFileSync(path,'utf8'),original,'negative control changed production source');
 });
