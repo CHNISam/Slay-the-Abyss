@@ -5,14 +5,15 @@ status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-29 01:28'
-updated_date: '2026-10-29 06:48'
+updated_date: '2026-11-03 02:45'
 labels:
   - future
+milestone: m-7
 dependencies: []
 references:
   - docs/backlog-details/TRAVELER-SCOPE-20261029.md
   - backlog/tasks/task-47 - M3-冻结第一幕首发内容清单与逐项可获得-可执行验收.md
-priority: low
+priority: medium
 ordinal: 126000
 ---
 
@@ -46,4 +47,5 @@ TASK-47迁出原文（均未勾，保留完整历史）：
 - TASK-47原AC13 [ ] 雷电将军V4机制及其合法构筑、奖励和跨幕状态逐项验证。
 - TASK-47原AC14 [ ] 雷电将军自然获取卡牌并连续战斗，保留实机证据。
 - TASK-47原AC15 [ ] 雷电将军愿力、雷眼和一心交互与回滚逐项验证。
+2026-11-03 赛后调整：none → M7（产品体验与核心特色）；保留状态和未验 AC；不设新期限。优先复用既有 V4 自研机制作为差异化正式角色候选，须按原 AC 实机验收；不改既有岩旅发布版。
 <!-- SECTION:NOTES:END -->

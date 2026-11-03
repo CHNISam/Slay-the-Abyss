@@ -5,11 +5,11 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-23 12:23'
-updated_date: '2026-11-03 02:20'
+updated_date: '2026-11-03 02:45'
 labels:
   - awaiting-live
   - release-qa-20261101
-milestone: m-5
+milestone: m-7
 dependencies: []
 references:
   - TASK-4
@@ -99,4 +99,5 @@ PR327手机反馈来源增量（基于20a74da的历史观察；不认证6795160�
 2026-11-01用户明确确认：此前屏幕两侧大块露空／UI覆盖不全已修复，按用户验收记录，不再作为未修缺陷重开；此确认不等于复合AC8全部完成。IMG_1254.png仍有进入页遮罩边缘少量留边、左侧断续蓝绿色细边，单独按本轮Bug1处理。结算用时错误交新子任务，伤害预览交TASK-4.5/TASK-30；本轮源码与截图版本未绑定，完整手机与帧率验收不补勾。
 
 用户确认比赛作品已投稿并归档；旧投稿期限不再适用。后续设备验收仅服务产品打磨，不回溯阻塞已完成的投稿。
+2026-11-03 赛后调整：m-5 → M7（产品体验与核心特色）；保留状态和未验 AC；不设新期限。
 <!-- SECTION:NOTES:END -->

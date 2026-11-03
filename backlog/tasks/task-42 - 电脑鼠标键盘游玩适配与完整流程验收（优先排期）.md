@@ -5,11 +5,10 @@ status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 12:23'
-updated_date: '2026-10-31 10:47'
-due_date: '2026-10-28'
+updated_date: '2026-11-03 02:45'
 labels:
   - awaiting-live
-milestone: m-5
+milestone: m-7
 dependencies: []
 references:
   - TASK-4
@@ -53,4 +52,5 @@ ordinal: 40000
 2026-10-28范围决定：比赛范围见 docs/SCOPE.md；旧验收文字保留于历史记录，本次未新增通过证据。原受影响验收：同一候选四职业及已批准原创角色的操作矩阵覆盖第一幕、第二幕、同局换幕、本局胜败与重开，优先前10分钟上手与反复操作；逐项保存真实事件和设备证据，未测内容明确留待验，不用预览替代。
 
 2026-10-31规划校正：AC6中的旧「两职业」按docs/SCOPE.md现行决定仅验旅行者两幕；原AC不重写、不勾选，候选/设备证据要求保留。
+2026-11-03 赛后调整：m-5 → M7（产品体验与核心特色）；保留状态和未验 AC；旧截止日期 '2026-10-28' 已移除，不设新期限。
 <!-- SECTION:NOTES:END -->
