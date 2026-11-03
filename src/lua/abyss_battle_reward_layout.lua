@@ -7,9 +7,13 @@ local function size(control,width,height,owner)
  local painted=sizes[control]
  if owner and painted and painted.owner==owner and painted.width==width
   and painted.height==height and control.alive~=false then return end
- -- A native setter can partially apply before returning false or throwing.
+ -- Revoke both promises when native setters overlap in either completion order.
+ local pending={};sizes[control]=pending
+ local ok,result=pcall(control.SetSizeDelta,control,width,height)
+ local current=sizes[control]==pending
  sizes[control]=nil
- if control:SetSizeDelta(width,height)~=false and owner then
+ if not ok then error(result,0)end
+ if result~=false and current and owner then
   sizes[control]={owner=owner,width=width,height=height}
  end
 end

@@ -104,6 +104,61 @@ test('expired native handles still reject repeated same dimensions',function()
   assert(h[name].writes==2,'dead object never reached native setter')
  end
 end)
+-- Re-enter the actual layout rather than a copy of its cache helper. Every size
+-- target must revoke both the outer and nested promises regardless of write order.
+for _,name in ipairs(sizeNames)do
+ for _,order in ipairs({'before','after'})do
+  for _,outcome in ipairs({'nil','false','throw'})do
+   for _,owners in ipairs({'same','different','outerless','nestedless'})do
+    for _,retry in ipairs({'outer','nested'})do
+     test('reentry '..name..' '..order..' '..outcome..' '..owners..' '..retry,function()
+      local h,c,a,f=fixture();local b={}
+      if owners=='same'then b=a elseif owners=='outerless'then a=nil elseif owners=='nestedless'then b=nil end
+      local target=h[name];local setter=target.SetSizeDelta
+      local armed=true;local applied={};local sentinel={}
+      local function apply(self,w,height)
+       setter(self,w,height);applied[#applied+1]={w,height}
+      end
+      target.SetSizeDelta=function(self,w,height)
+       if not armed then apply(self,w,height);return end
+       armed=false
+       if order=='before'then apply(self,w,height)end
+       Layout.render(f(false),c,b)
+       if order=='after'then apply(self,w,height)end
+       if outcome=='false'then return false elseif outcome=='throw'then error(sentinel,0)end
+      end
+      local ok,why=pcall(Layout.render,f(true),c,a)
+      assert(ok==(outcome~='throw') and (ok or why==sentinel),'original error object changed')
+      assert(#applied==2 and target.w==applied[2][1] and target.h==applied[2][2],'native completion order changed')
+      local expanded=retry=='outer';local token
+      if expanded then token=a else token=b end
+      local oracle,child,owner,frame=fixture();Layout.render(frame(expanded),child,owner)
+      local before=target.writes
+      Layout.render(f(expanded),c,token)
+      assert(target.writes==before+1,'overlap left a cached promise')
+      assert(target.w==oracle[name].w and target.h==oracle[name].h,'retry skipped required native geometry')
+      Layout.render(f(expanded),c,token)
+      assert(target.writes==before+(token and 1 or 2),'successful retry cache/ownerless behavior changed')
+     end)
+    end
+   end
+  end
+ end
+end
+test('reentrant replacement keeps old and fresh same-name handles independent',function()
+ local h,c,o,f,make=fixture();local old=h.rewardList;local setter=old.SetSizeDelta
+ local fresh
+ old.SetSizeDelta=function(self,w,height)
+  local result=setter(self,w,height)
+  fresh=make('rewardList');Layout.render(f(false),c,o)
+  return result
+ end
+ Layout.render(f(true),c,o)
+ assert(fresh~=old and fresh.writes==1,'replacement was not rendered independently')
+ Layout.render(f(true),c,o)
+ assert(fresh.h==Theme.layout.battleRewards.expanded.stage[4] and fresh.writes==2,'old handle poisoned fresh cache')
+ Layout.render(f(true),c,o);assert(fresh.writes==2,'fresh successful size did not deduplicate')
+end)
 local failed=0
 for _,t in ipairs(tests)do local ok,why=pcall(t[2]);print((ok and 'ok ' or 'FAIL ')..t[1]..(ok and '' or ': '..tostring(why)));if not ok then failed=failed+1 end end
 assert(failed==0,tostring(failed)..' reward size regressions failed')
