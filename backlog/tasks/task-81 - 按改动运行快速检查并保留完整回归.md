@@ -5,9 +5,12 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 15:30'
-updated_date: '2026-11-02 02:53'
+updated_date: '2026-11-03 05:02'
 labels: []
+milestone: m-9
 dependencies: []
+references:
+  - docs/plans/2026-11-03-m9-engineering-foundation.md
 priority: medium
 ordinal: 125000
 ---

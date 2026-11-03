@@ -303,3 +303,50 @@ test('M7 product experience and M8 content expansion keep separate roadmap ident
   assert.deepEqual(auditRoadmap(next, roadmap, phases), []);
   assert.ok(auditRoadmap(next, '### M7\n- TASK-85：正式角色\n', phases).some(err => err.includes('TASK-97') && err.includes('M8')));
 });
+
+
+test('M9 engineering tasks use native registry identity and stay separate from M7/M8', t => {
+  const entries = [['backlog/tasks/task-74.md', 'TASK-74', 'In Progress', 'milestone: m-42\nassignee: ["Furinya"]\n']];
+  const root = backlogFixture(t, entries, '### M9｜工程架构与性能强化\n- TASK-74：工程治理\n');
+  const registry = join(root, 'backlog/milestones/m-42.md');
+  for (const newline of ['\n', '\r\n']) for (const quote of ['', '"', "'"]) {
+    for (const separator of ['｜', '|', ' ', '：', ':']) {
+      writeFileSync(registry, ['---', 'id: m-42', `title: ${quote}M9${separator}工程架构与性能强化${quote}`, '---', ''].join(newline));
+      assert.deepEqual(verifyBacklogRoadmap(root), []);
+    }
+  }
+  for (const title of ['M90', 'M9x', 'M9other']) {
+    writeFileSync(registry, `---\nid: m-42\ntitle: ${title}\n---\n`);
+    assert.match(verifyBacklogRoadmap(root).join('\n'), /TASK-74.*里程碑/);
+  }
+  writeFileSync(registry, '---\nid: m-42\ntitle: M9｜工程架构与性能强化\n---\n');
+  for (const heading of ['M7', 'M8', 'M90', 'M9x']) {
+    writeFileSync(join(root, 'docs/MILESTONES.md'), `### ${heading}\n- TASK-74：工程治理\n`);
+    assert.match(verifyBacklogRoadmap(root).join('\n'), /TASK-74.*M9.*排期/);
+  }
+  rmSync(registry);
+  assert.match(verifyBacklogRoadmap(root).join('\n'), /TASK-74.*里程碑/);
+});
+
+test('M9 title contract is optional for historical fixtures but unique and explicit when present', () => {
+  const future = [...competitionTitles, 'M7｜产品体验与核心特色', 'M8｜内容建设与扩充'];
+  const engineering = 'M9｜工程架构与性能强化';
+  assert.deepEqual(auditMilestoneScope(future), []);
+  assert.deepEqual(auditMilestoneScope([...future, engineering]), []);
+  assert.deepEqual(auditMilestoneScope([...future, 'M9 工程架构与性能强化']), []);
+  for (const title of ['M9', 'M9｜工程架构', 'M9｜性能强化']) {
+    assert.match(auditMilestoneScope([...future, title]).join('\n'), /M9/);
+  }
+  assert.match(auditMilestoneScope([...future, engineering, engineering]).join('\n'), /M9/);
+  assert.match(auditMilestoneScope([...competitionTitles, 'M7｜产品体验与核心特色', engineering]).join('\n'), /M8/);
+  assert.match(auditMilestoneScope([competitionTitles[0], engineering]).join('\n'), /M4/);
+});
+
+test('M9 parent migration requires every active child to retain explicit phase ownership', () => {
+  const phases = { 'm-7': 'M7', 'm-42': 'M9' };
+  const parent = task('TASK-74', { milestone: 'm-42' });
+  const child = task('TASK-74.1', { milestone: null, parentTaskId: 'TASK-74' });
+  assert.match(auditRoadmap([parent, child], '### M9\n- TASK-74：工程\n', phases).join('\n'), /TASK-74\.1.*里程碑/);
+  assert.deepEqual(auditRoadmap([parent, { ...child, milestone: 'm-7' }],
+    '### M9\n- TASK-74：工程\n### M7\n- TASK-74.1：显示证据\n', phases), []);
+});

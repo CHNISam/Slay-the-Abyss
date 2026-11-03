@@ -5,11 +5,13 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-10-30 21:33'
+updated_date: '2026-11-03 05:02'
 labels: []
+milestone: m-9
 dependencies: []
 references:
   - docs/backlog-details/TASK-74.md
+  - docs/plans/2026-11-03-m9-engineering-foundation.md
 priority: medium
 ordinal: 118000
 ---
