@@ -41,21 +41,20 @@ for(const [name,anchor,replacement,failure]of mutations)test(`runtime UI negativ
   assert.ok((result.stdout+result.stderr).includes(failure),result.stdout+result.stderr);
  }finally{unlinkSync(entry);}
 });
-test('runtime UI negative control: duplicate GameUI render',()=>{
+test('runtime UI negative control: deferred activation violates render ordering',()=>{
  const module='abyss_game_ui',source=readFileSync(`src/lua/${module}.lua`,'utf8');
- const anchor='suspendBattle(run,deckOpen,potionOpen),self.mode == "battle")';assert.equal(source.split(anchor).length-1,1);
+ const anchor='suspendBattle(run,deckOpen,potionOpen))';assert.equal(source.split(anchor).length-1,1);
  const entry=join(tmpdir(),`gameui-render-mutant-${randomUUID()}.lua`);
- writeFileSync(entry,`package.preload[${luaString(module)}]=assert(load(${luaString(source.replace(anchor,'suspendBattle(run,deckOpen,potionOpen),false)'))},'@${module}-mutant'))\ndofile('tests/lua/runtime_ui_hotpaths.lua')\n`);
- try{const result=runLua(entry);assert.notEqual(result.status,0);assert.match(result.stdout+result.stderr,/GameUI refresh rendered battle twice/);}finally{unlinkSync(entry);}
+ writeFileSync(entry,`package.preload[${luaString(module)}]=assert(load(${luaString(source.replace(anchor,'suspendBattle(run,deckOpen,potionOpen),true)'))},'@${module}-mutant'))\ndofile('tests/lua/runtime_ui_hotpaths.lua')\n`);
+ try{const result=runLua(entry);assert.notEqual(result.status,0);assert.match(result.stdout+result.stderr,/GameUI refresh must preserve both observable render boundaries/);}finally{unlinkSync(entry);}
 });
 test('runtime UI negative control: early paint misses a native reentrant command',()=>{
  const module='abyss_game_ui';let source=readFileSync(`src/lua/${module}.lua`,'utf8').replaceAll('\r\n','\n');
- const anchor='suspendBattle(run,deckOpen,potionOpen),self.mode == "battle")';assert.equal(source.split(anchor).length-1,1);
- source=source.replace(anchor,'suspendBattle(run,deckOpen,potionOpen),false)');
+ const anchor='suspendBattle(run,deckOpen,potionOpen))';assert.equal(source.split(anchor).length-1,1);
  const final='        self.battleUI:render()\n';assert.equal(source.split(final).length-1,1);
  source=source.replace(final,'');
  const entry=join(tmpdir(),`gameui-early-paint-${randomUUID()}.lua`);
- writeFileSync(entry,`package.preload[${luaString(module)}]=assert(load(${luaString(source)},'@${module}-mutant'))\ndofile('tests/lua/runtime_ui_hotpaths.lua')\n`);
+ writeFileSync(entry,`ABYSS_RUNTIME_BASELINE=true;package.preload[${luaString(module)}]=assert(load(${luaString(source)},'@${module}-mutant'))\ndofile('tests/lua/runtime_ui_hotpaths.lua')\n`);
  try{const result=runLua(entry);assert.notEqual(result.status,0);assert.match(result.stdout+result.stderr,/GameUI final paint missed reentrant Run.play/);}finally{unlinkSync(entry);}
 });
 test('runtime UI negative control: a cached potion preflight misses in-place rule changes',()=>{

@@ -42,7 +42,6 @@ function M.new(root, data, presentation, clickEvent, platform)
     local exitPanel, exitEntry = child("exitPanel"), child("exitEntry")
     local runMenu = child("runMenu")
     local exitGeneration, menuGeneration = 0, 0
-    local pageVisibilityGeneration = 0
     local characterPanel = child("characterPanel")
     self.characterSelection=CharacterSelect.new(data,presentation,platform.campaignProfile or platform.characterProfile)
     self.fastMode=false
@@ -388,7 +387,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     local function refreshPageVisibility(run,inMenu,deckOpen,potionOpen,blocked)
         menu:SetVisible(inMenu and not self.characterOpen and not self.easterEggOpen)
         self.battleUI:setActive(self.mode == "battle" and not deckOpen and not potionOpen and not blocked,
-            suspendBattle(run,deckOpen,potionOpen),self.mode == "battle")
+            suspendBattle(run,deckOpen,potionOpen))
         child("battlePanel"):SetVisible(self.mode == "battle")
         self.mapUI:setVisible(self.mode == "map" and not deckOpen and not potionOpen and not blocked)
         child("mapPanel"):SetVisible(self.mode == "map")
@@ -396,25 +395,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.nodeUI:setVisible(self.mode == "node" and not deckOpen and not potionOpen and not blocked)
         child("nodePanel"):SetVisible(self.mode == "node")
     end
-    local function recoverBattleVisibility(visibilityError,generation)
-        -- A sibling native setter may throw after battle activation was
-        -- deferred. Finish its inactive lifecycle before propagating the
-        -- original error; normal refresh still paints only at the end.
-        -- Native cleanup may re-enter refresh; never retire a newer view.
-        if generation==pageVisibilityGeneration and not self.battleUI.active then
-            local painted=pcall(self.battleUI.render,self.battleUI)
-            if not painted and generation==pageVisibilityGeneration and not self.battleUI.active then
-                local released=pcall(self.battleUI.releaseMonsterSurfaces,self.battleUI)
-                -- Failed native release still owns retained resources, even if
-                -- its callback entered a newer (possibly disabled) view.
-                if not released then self.monsterCleanupPending=true
-                elseif generation==pageVisibilityGeneration then self.monsterCleanupPending=nil end
-            end
-        end
-        error(visibilityError,0)
-    end
     local function renderBattlePage(run)
-        -- Paint after every page visibility setter, which may re-enter state.
         self.battleUI:render()
         if run.phase == "combat" and self.presentedBattle ~= run.combat then
             self.presentedBattle = run.combat
@@ -584,10 +565,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         local blocked=overlaysBlocked() or covering
         local returnAvailable=syncRewardReturn(run,deckOpen,potionOpen,blocked,covering)
         refreshUtilities(run,inMenu,deckOpen,potionOpen,blocked,covering,returnAvailable)
-        pageVisibilityGeneration=pageVisibilityGeneration+1
-        local generation=pageVisibilityGeneration
-        local visible,visibilityError=pcall(refreshPageVisibility,run,inMenu,deckOpen,potionOpen,blocked)
-        if not visible then recoverBattleVisibility(visibilityError,generation) end
+        refreshPageVisibility(run,inMenu,deckOpen,potionOpen,blocked)
         renderCurrentPage(run,deckOpen,potionOpen,blocked,covering)
         bgm:update(self.settlementRequested and "stop" or Bgm.scene(self.mode, run, self.battleUI.busy, bgm.cue))
         present()

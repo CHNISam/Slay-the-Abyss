@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 import {join,dirname} from 'node:path';
 import {tmpdir} from 'node:os';
 import {pathToFileURL} from 'node:url';
-import {preCompendiumSource,preVisibilityGameUi} from './helpers/compendium-source-inverse.mjs';
+import {preCompendiumSource} from './helpers/compendium-source-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 // Normalize checkout endings before constructing the explicit CRLF variant.
 const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
@@ -62,7 +62,10 @@ test('M9 projection accepts only the exact two core registrations and preserves 
 });
 
 test('Runtime host projection recognizes complete before/after bytes but rejects partial, duplicate and foreign edits',()=>{
- const path='src/lua/abyss_game_ui.lua',source=preVisibilityGameUi(path,read(path));
+ const path='src/lua/abyss_game_ui.lua';
+ // Reconstruct the archived deferred variant from the restored eager host.
+ const source=read(path).replace('suspendBattle(run,deckOpen,potionOpen))','suspendBattle(run,deckOpen,potionOpen),self.mode == \"battle\")')
+  .replace('    local function renderBattlePage(run)\n','    local function renderBattlePage(run)\n        -- Paint after every page visibility setter, which may re-enter state.\n');
  assert.equal(hash(source),'4ab3ec613f79b1507c7c529c57547d42f93fa7eafc89aeb9afb1b8c64ab34c25');
  const call='            suspendBattle(run,deckOpen,potionOpen),self.mode == "battle")';
  const comment='        -- Paint after every page visibility setter, which may re-enter state.\n';
@@ -97,29 +100,4 @@ test('warm Runtime projections still reread actual linked host files and reject 
   rmSync(file);assert.throws(()=>project(path,input),/ENOENT/);
   writeFileSync(file,source);assert.equal(project(path,input),expected);
  }
-});
-
-
-test('visibility recovery exact inverse preserves Runtime proof and rejects partial or duplicated recovery',()=>{
- const path='src/lua/abyss_game_ui.lua',source=read(path);
- assert.equal(hash(source),'6f881f4c4e884f9a11225c5ecba7272205bc064099eaf2cd69ffd54de0775fa3');
- const previous=preVisibilityGameUi(path,source);
- assert.equal(hash(previous),'4ab3ec613f79b1507c7c529c57547d42f93fa7eafc89aeb9afb1b8c64ab34c25');
- assert.equal(preVisibilityGameUi(path,previous),previous);
- assert.equal(preVisibilityGameUi(path,source.replaceAll('\n','\r\n')),previous);
- assert.equal(preVisibilityGameUi('other.lua',source),source);
- assert.equal(preVisibilityGameUi(path,null),null);
- const generation='    local pageVisibilityGeneration = 0\n';
- const fallback='                if not released then self.monsterCleanupPending=true\n';
- const variants=[source.replace(generation,''),source.replace(generation,generation+generation),
-  source.replace(fallback,''),source.replace('error(visibilityError,0)','error(visibilityError)'),source+'\n-- foreign\n',source.slice(1)];
- for(const variant of variants){
-  assert.notEqual(variant,source);
-  assert.equal(preVisibilityGameUi(path,variant),variant);
-  assert.equal(preCompendiumSource(path,variant),variant);
-  for(const input of ['config/architecture.json','src/lua/abyss_node_ui_faces.lua',path])
-   assert.throws(()=>preCompendiumSource(input,read(input),{[path]:variant}),/reviewed compendium owner/);
- }
- for(const owner of [source,source.replaceAll('\n','\r\n'),previous])
-  assert.equal(preCompendiumSource(path,source,{[path]:owner}),preCompendiumSource(path,previous));
 });

@@ -1,3 +1,80 @@
+-- Real Host contract: preserve eager render ordering across native callbacks.
+local F=dofile('tests/lua/support/game_ui_fixture.lua')
+local Run=require('abyss_run')
+local Surfaces=require('abyss_monster_surfaces')
+local function fixture()
+ local host,root=F.fixture();assert(F.start(host));assert(Run.startCombat(host.run,'cultist_solo'));host:refresh()
+ local panel=root:GetChild('battlePanel')
+ return host,root,panel,F.actorControl(panel,'enemy1')
+end
+local function check(name,body)
+ if not ABYSS_VISIBILITY_CASE or ABYSS_VISIBILITY_CASE==name then body()end
+end
+-- Error-order boundary: both real native rendering and later sibling visibility reject.
+check("priority",function()
+ local host,root,panel,actor=fixture();local rm,vm={},{};local reached=false
+ panel:GetChild('start').SetVisible=function()error(rm)end
+ root:GetChild('mapPanel').SetVisible=function()reached=true;error(vm)end
+ local ok,why=pcall(host.openDeck,host)
+ assert(not ok)
+ assert(why==rm and not reached,'render error must precede later page setter');
+ print('CASE priority marker='..(why==rm and 'render' or why==vm and 'visibility' or 'other')..' map_reached='..tostring(reached))
+end)
+-- Active refresh must retain its committed display work before a later setter fails.
+check("active",function()
+ local host,root,panel=fixture();assert(panel:GetChild('energy').text=='3/3')
+ host.run.combat.energy=1;local vm={}
+ root:GetChild('mapPanel').SetVisible=function()error(vm)end
+ local ok,why=pcall(host.refresh,host);assert(not ok and why==vm)
+ assert(panel:GetChild('energy').text=='1/3','active display must commit before sibling failure');
+ print('CASE active_energy value='..panel:GetChild('energy').text..' active='..tostring(host.battleUI.active))
+end)
+-- Failing the first page setter is before this refresh's activation/render boundary.
+check("early",function()
+ local host,root,panel=fixture();assert(host:openDeck())
+ local count,render=0,host.battleUI.render;local vm={}
+ host.battleUI.render=function(self,...)count=count+1;return render(self,...)end
+ root:GetChild('menuPanel').SetVisible=function()error(vm)end
+ local before=host.battleUI.rewardRender
+ local ok,why=pcall(host.refresh,host);assert(not ok and why==vm)
+ assert(count==0 and host.battleUI.rewardRender==before,'pre-activation failure must not render');
+ print('CASE early_menu renders='..count..' rewardRender_delta='..(host.battleUI.rewardRender-before))
+end)
+-- Native callback commits a real lethal Run command without requesting a new Host refresh.
+check("lethal",function()
+ local host,root,panel,actor=fixture();local battle=host.run.combat
+ battle.enemies[1].hp=1;battle.enemies[1].block=0;host:refresh()
+ local uid
+ for _,card in ipairs(battle.hand)do
+  if battle.catalog.cards[card.cardId].type=='attack' and F.Combat.canPlay(battle,card.uid,1)then uid=card.uid;break end
+ end
+ assert(uid,'initial hand has usable attack')
+ local vm={};local page=root:GetChild('mapPanel');local setter=page.SetVisible
+ page.SetVisible=function()
+  assert(Run.play(host.run,uid,1));assert(host.run.phase=='reward');error(vm)
+ end
+ local ok,why=pcall(host.openDeck,host);assert(not ok and why==vm)
+ local manager=Surfaces.get(panel)
+ assert(actor.alive and not actor.visible and manager:find(battle.enemies[1].id)==actor,'lethal reentry must preserve already hidden actor on failure');
+ print('CASE lethal phase='..host.run.phase..' alive='..tostring(actor.alive)..' visible='..tostring(actor.visible)..' same='..tostring(manager:find(battle.enemies[1].id)==actor))
+ page.SetVisible=setter;local retried,err=pcall(host.refresh,host)
+ print('CASE lethal_retry ok='..tostring(retried)..' old_alive='..tostring(actor.alive)..' phase='..host.run.phase)
+ assert(retried,tostring(err))
+end)
+-- The setter makes an earlier native render operation invalid before throwing.
+check("condition",function()
+ local host,root,panel,actor=fixture();local vm,rm={},{}
+ root:GetChild('mapPanel').SetVisible=function()
+  panel:GetChild('start').SetVisible=function()error(rm)end
+  error(vm)
+ end
+ local ok,why=pcall(host.openDeck,host);assert(not ok and why==vm)
+ assert(actor.alive and not actor.visible,'later setter cannot retroactively invalidate hidden actor');
+ print('CASE changed_render_condition alive='..tostring(actor.alive)..' visible='..tostring(actor.visible))
+end)
+
+if ABYSS_VISIBILITY_CASE then return end
+
 -- Real Host lifecycle regression: a failed sibling page setter must not leave
 -- suspended native monster actors visible. This is offline native API injection.
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
@@ -22,130 +99,32 @@ for _,page in ipairs({'mapPanel','nodePanel'})do
  print('ok '..page..' failure preserves actor lifecycle and error identity')
 end
 
--- Successful covers still use one final paint, rather than repairing the
--- failure by restoring the old redundant render on every page refresh.
-local host,root=F.fixture();assert(F.start(host));assert(Run.startCombat(host.run,'cultist_solo'));host:refresh()
-local ui,panel=host.battleUI,root:GetChild('battlePanel')
-local actor=F.actorControl(panel,'enemy1')
-local render,renders=ui.render,0
-ui.render=function(self,...)renders=renders+1;return render(self,...)end
-assert(host:openDeck());assert(renders==1 and actor.alive and not actor.visible)
-renders=0;assert(host:closeDeck());assert(renders==1 and actor.alive and actor.visible)
-print('ok normal cover/uncover paints once and retains actor')
--- An active page failure is not a request to unmount or hide the battle.
-local page=root:GetChild('mapPanel');local setter=page.SetVisible;local marker={}
-page.SetVisible=function()error(marker)end
-local ok,why=pcall(host.refresh,host)
-assert(not ok and why==marker and actor.alive and actor.visible and ui.active)
--- If a native actor hide itself fails, the existing render lifecycle retires
--- its surfaces. Preserve the original sibling error, then allow fresh retry.
-actor.SetVisible=function()error('native actor hide rejected')end
-ok,why=pcall(host.openDeck,host)
-assert(not ok and why==marker and not actor.alive,'failed hide must release native actor')
-page.SetVisible=setter
-host:refresh();assert(host:closeDeck())
-local replacement=F.actorControl(panel,'enemy1')
-assert(replacement~=actor and replacement.alive and replacement.visible)
-print('ok failed native actor hide cleans up and recovers without masking page error')
--- A failure before render reaches its actor lifecycle must still release; a
--- failed release remains retryable via the Host's existing cleanup ownership.
-for _,rejectRelease in ipairs({false,true})do
- local host,root=F.fixture();assert(F.start(host));assert(Run.startCombat(host.run,'cultist_solo'));host:refresh()
- local ui=host.battleUI;local actor=F.actorControl(root:GetChild('battlePanel'),'enemy1')
- local render,release=ui.render,ui.releaseMonsterSurfaces
- local marker={};root:GetChild('mapPanel').SetVisible=function()error(marker)end
- ui.render=function()error('render failed before actor lifecycle')end
- if rejectRelease then ui.releaseMonsterSurfaces=function()error('release rejected')end end
- local ok,why=pcall(host.openDeck,host)
- assert(not ok and why==marker,'cleanup replaced original page error')
- if rejectRelease then
-  assert(host.monsterCleanupPending and actor.alive,'failed cleanup ownership lost')
- else assert(not actor.alive and not host.monsterCleanupPending,'fallback did not release actor')end
- ui.render,ui.releaseMonsterSurfaces=render,release
- -- Force the already-disabled retry branch, isolating pending cleanup from
- -- unrelated failing page setters. No native handles may survive it.
- if rejectRelease then host.disabled=true;assert(host:disable()==false);assert(not host.monsterCleanupPending and not actor.alive)end
- print('ok early render failure cleanup, rejected release='..tostring(rejectRelease))
+
+-- Two observable paints are required around arbitrary native callbacks. The
+-- first commits activation; the second reflects a successful reentrant command.
+do
+ local host,root,panel,actor=fixture()
+ local ui=host.battleUI;local render,count=ui.render,0
+ ui.render=function(self,...)count=count+1;return render(self,...)end
+ assert(host:openDeck());assert(count==2 and actor.alive and not actor.visible)
+ count=0;assert(host:closeDeck());assert(count==2 and actor.alive and actor.visible)
+ print('CASE normal cover/uncover ordered renders=2')
 end
+-- An early render error may itself reenter a newer view. Do not compensate by
+-- destroying or repainting that newer active or covered view after unwind.
 for _,coverAgain in ipairs({false,true})do
-local host,root=F.fixture();assert(F.start(host));assert(Run.startCombat(host.run,'cultist_solo'));host:refresh()
-local ui,panel=host.battleUI,root:GetChild('battlePanel')
-local actor=F.actorControl(panel,'enemy1')
-local page=root:GetChild('mapPanel');local pageSetter=page.SetVisible
-local marker={page='map'}
-page.SetVisible=function(self,value)
- self.SetVisible=pageSetter
- error(marker)
+ local host,root,panel,actor=fixture()
+ local start=panel:GetChild('start');local setter=start.SetVisible;local marker={}
+ start.SetVisible=function(self,value)
+  self.SetVisible=setter
+  assert(host:closeDeck())
+  if coverAgain then assert(host:openDeck())end
+  error(marker)
+ end
+ local ok,why=pcall(host.openDeck,host)
+ assert(not ok and why==marker and actor.alive)
+ assert(host.deckUI.visible==coverAgain and host.battleUI.active==not coverAgain)
+ assert(actor.visible==not coverAgain,'old unwind modified newer actor')
+ assert(host:disable());assert(not actor.alive)
+ print('CASE reentrant render preserves newer view '..tostring(coverAgain))
 end
-local start=panel:GetChild('start');local startSetter=start.SetVisible
-local entered=false
-start.SetVisible=function(self,value)
- self.SetVisible=startSetter
- entered=true
- assert(host:closeDeck(),'reentrant uncover must succeed')
- assert(ui.active and actor.alive and actor.visible,'new active scene should be valid before unwind')
- if coverAgain then assert(host:openDeck());assert(not ui.active and actor.alive and not actor.visible)end
- error('old recovery render failed after newer uncover',0)
-end
-local ok,why=pcall(host.openDeck,host)
-assert(not ok and why==marker and entered,'reentrant cover must preserve original error')
-print('ui_active='..tostring(ui.active)..', deck_visible='..tostring(host.deckUI.visible)..', actor_alive='..tostring(actor.alive)..', actor_visible='..tostring(actor.visible))
-assert(actor.alive and actor.visible==not coverAgain,'obsolete cleanup destroyed the newer battle view')
-assert(ui.active==not coverAgain and host.deckUI.visible==coverAgain)
-print('ok reentrant recovery respects newer view, covered='..tostring(coverAgain))
-end
-local F=dofile('tests/lua/support/game_ui_fixture.lua')
-local Run=require('abyss_run')
-local api=F.monsterActors()
-local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
-local host=F.GameUI.new(root,F.Data,F.Presentation,'click',{
- seed=1,monsterActors=api,imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end})
-assert(F.start(host));assert(Run.startCombat(host.run,'cultist_solo'));host:refresh()
-local ui,panel=host.battleUI,root:GetChild('battlePanel');local actor=F.actorControl(panel,'enemy1')
-local page=root:GetChild('mapPanel');local setter=page.SetVisible;local marker={}
-page.SetVisible=function(self,v)self.SetVisible=setter;error(marker)end
-local render=ui.render
-ui.render=function(self,...)self.render=render;error('fail before actor lifecycle',0)end
-local destroy=api.destroy;local entered=false
-api.destroy=function(control)
- api.destroy=destroy
- entered=true
- host:closeDeck() -- New refresh throws because native surface clear is still in progress.
- return destroy(control)
-end
-local ok,why=pcall(host.openDeck,host)
-local surfaces=require('abyss_monster_surfaces').get(panel)
-print('original_error='..tostring(not ok and why==marker)..', entered='..tostring(entered)..', active='..tostring(ui.active)..', actor_alive='..tostring(actor.alive)..', pending='..tostring(host.monsterCleanupPending)..', retained='..#surfaces.retained)
-assert(not ok and why==marker and entered)
-assert(host.monsterCleanupPending,'failed native release lost retry ownership after reentry')
-assert(host:disable());assert(not actor.alive and #surfaces.retained==0 and not host.monsterCleanupPending)
-print('ok native release reentry keeps retry ownership until disable succeeds')
-local F=dofile('tests/lua/support/game_ui_fixture.lua')
-local Run=require('abyss_run')
-local api=F.monsterActors()
-local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
-local host=F.GameUI.new(root,F.Data,F.Presentation,'click',{
- seed=1,monsterActors=api,imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end})
-assert(F.start(host));assert(Run.startCombat(host.run,'cultist_solo'));host:refresh()
-local ui,panel=host.battleUI,root:GetChild('battlePanel');local actor=F.actorControl(panel,'enemy1')
-local page=root:GetChild('mapPanel');local setter=page.SetVisible;local marker={}
-page.SetVisible=function(self,v)self.SetVisible=setter;error(marker)end
-local render=ui.render
-ui.render=function(self,...)self.render=render;error('fail before actor lifecycle',0)end
-local destroy=api.destroy;local entered=false
-api.destroy=function(control)
- api.destroy=destroy
- entered=true
- local changed=pcall(host.closeDeck,host)
- assert(not changed) -- Native teardown may continue after the callback rejects.
- assert(host:disable())
- error('native destroy rejected after disabling newer view',0)
-end
-local ok,why=pcall(host.openDeck,host)
-local surfaces=require('abyss_monster_surfaces').get(panel)
-print('original_error='..tostring(not ok and why==marker)..', entered='..tostring(entered)..', active='..tostring(ui.active)..', actor_alive='..tostring(actor.alive)..', pending='..tostring(host.monsterCleanupPending)..', retained='..#surfaces.retained)
-assert(not ok and why==marker and entered)
-print('disabled='..tostring(host.disabled))
-assert(host:disable()==false)
-print('after_disable_retry_alive='..tostring(actor.alive)..', retained='..#surfaces.retained)
-assert(not actor.alive,'already-disabled retry lost retained native actor')
