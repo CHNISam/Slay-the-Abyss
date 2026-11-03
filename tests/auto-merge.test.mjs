@@ -11,13 +11,13 @@ function fixture() {
     labels:[]};
   const review={reviewId:'independent-agent-evidence-100',reviewedHeadSha:sha('a'),
     reviewedBaseSha:sha('b'),conclusion:'pass',unresolved:[],repo,prNumber:510};
-  const settings={allow_auto_merge:true};
+  const settings={allow_auto_merge:true,allow_squash_merge:true};
   const ruleset={enforcement:'active',conditions:{ref_name:{include:['refs/heads/develop']}},
     rules:[
       {type:'pull_request',parameters:{allowed_merge_methods:['squash'],required_review_thread_resolution:true}},
       {type:'required_linear_history'},
       {type:'required_status_checks',parameters:{strict_required_status_checks_policy:false,
-        required_status_checks:requiredContexts.map(context=>({context}))}}
+        required_status_checks:requiredContexts.map(context=>({context,integration_id:context===reviewContext?null:15368}))}}
     ]};
   return {pr,review,settings,ruleset,repo,baseSha:sha('b'),dependencies:[]};
 }
@@ -102,6 +102,7 @@ test('review status must be a real required check; CI and squash protection cann
     f=>f.ruleset.rules.find(r=>r.type==='required_status_checks').parameters.required_status_checks=
       f.ruleset.rules.find(r=>r.type==='required_status_checks').parameters.required_status_checks.filter(x=>x.context!=='inventory'),
     f=>f.ruleset.rules.find(r=>r.type==='required_status_checks').parameters.required_status_checks.find(x=>x.context===reviewContext).integration_id=15368,
+    f=>f.ruleset.rules.find(r=>r.type==='required_status_checks').parameters.required_status_checks.find(x=>x.context==='check').integration_id=null,
     f=>f.ruleset.rules.find(r=>r.type==='pull_request').parameters.allowed_merge_methods.push('merge'),
     f=>f.ruleset.rules.find(r=>r.type==='pull_request').parameters.required_review_thread_resolution=false,
     f=>f.ruleset.enforcement='disabled',
