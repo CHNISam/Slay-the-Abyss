@@ -10,7 +10,7 @@ local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasu
 local addedStaged={dead_adventurer=true,designer=true,face_trader=true,knowing_skull=true,nloth=true}
 local function stagedEvent(id)return addedStaged[id] or id=='match_game' or id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end
 local events = {
-    designer={name='设计师'},face_trader={name='换脸商'},knowing_skull={name='智者头骨'},nloth={name="N'loth"},
+    designer={name='设计师'},face_trader={name='换脸商'},knowing_skull={name='智者头骨'},nloth={name='恩洛斯'},
     dead_adventurer={name='冒险者遗骸'},colosseum={name='竞技场'},masked_bandits={name='蒙面强盗'},
     cursed_tome={name='诅咒书本'},forgotten_altar={name='遗忘祭坛'},drug_dealer={name='增幅师'},vampires={name='吸血鬼'},
     neow={name='高塔恩赐'},
