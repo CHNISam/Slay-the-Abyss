@@ -43,12 +43,24 @@ export function auditMilestoneScope(titles) {
     { stage: 'M3', required: ['岩系旅行者', '第一幕', '第二幕', '核心闭环'] },
     { stage: 'M4', required: ['前两幕', '首局', 'UI', '输入', '音画', '性能'] },
   ];
-  return contracts.flatMap(({ stage, required }) => {
+  const historicalErrors = contracts.flatMap(({ stage, required }) => {
     const matches = titles.filter(title => new RegExp(`^${stage}(?:[\\s｜|:：]|$)`).test(title));
     const retiredScope = /第三幕|第四幕|四幕|全章节|两职业|双职业|四职业|八职业|全职业|雷电/;
     return matches.length === 1 && required.every(part => matches[0].includes(part)) && !retiredScope.test(matches[0]) ? []
       : [`${stage}: 里程碑范围必须明确包含${required.join('、')}，不得恢复两职业或扩大为四/八/全职业、第三/四幕，也不得退回仅第一幕或缺少该关口`];
   });
+  // Preserve M3/M4 frozen competition contracts while validating the post-submission plan.
+  // Older fixtures may contain only M3/M4; require the M7/M8 pair once either exists.
+  const futurePresent = titles.some(title => /^M[78](?:[\s｜|:：]|$)/.test(title));
+  const futureErrors = futurePresent ? [
+    { stage: 'M7', required: ['产品体验', '核心特色'] },
+    { stage: 'M8', required: ['内容建设', '扩充'] },
+  ].flatMap(({ stage, required }) => {
+    const matches = titles.filter(title => new RegExp(`^${stage}(?:[\\s｜|:：]|$)`).test(title));
+    return matches.length === 1 && required.every(part => matches[0].includes(part)) ? []
+      : [`${stage}: 赛后里程碑标题必须唯一且包含${required.join('、')}`];
+  }) : [];
+  return [...historicalErrors, ...futureErrors];
 }
 
 export function auditCompetitionRoster(scope) {
@@ -98,7 +110,7 @@ export function auditRoadmap(tasks, roadmap, milestones, completed = []) {
   const sections = new Map();
   let section;
   for (const line of roadmap.split(/\r?\n/)) {
-    const heading = line.match(/^###\s+(M[1-6])(?:\s|[｜|:：]|$)/);
+    const heading = line.match(/^###\s+(M[1-8])(?:\s|[｜|:：]|$)/);
     if (heading) section = heading[1];
     else if (/^#{1,3} /.test(line)) section = null;
     if (section) for (const match of line.matchAll(/^- (TASK-\d+(?:\.\d+)*)(?=[：:\s])/g)) sections.set(match[1], section);
@@ -125,7 +137,7 @@ export function verifyBacklogRoadmap(root = '.') {
   const milestones = Object.fromEntries(files('backlog/milestones').map(({ source }) => {
     const id = source.match(/^id:\s*(m-\d+)/m)?.[1];
     const title = source.match(/^title:[ \t]*([^\r\n]*)/m)?.[1].trim().replace(/^['"]|['"]$/g, '') ?? '';
-    const stage = title.match(/^(M[1-6])(?:\s|[｜|:：]|$)/)?.[1];
+    const stage = title.match(/^(M[1-8])(?:\s|[｜|:：]|$)/)?.[1];
     return [id, stage];
   }).filter(([id, stage]) => id && stage));
   return [...new Set([...auditRoadmap(tasks, readFileSync(join(root, 'docs/MILESTONES.md'), 'utf8'), milestones, completed),

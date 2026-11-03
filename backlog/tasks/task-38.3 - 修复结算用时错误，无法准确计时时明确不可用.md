@@ -1,13 +1,13 @@
 ---
 id: TASK-38.3
-title: 修复结算用时错误，无法准确计时时明确不可用
+title: 复验结算用时修复与异常降级
 status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-11-01 02:05'
+updated_date: '2026-11-03 02:20'
 labels:
   - release-qa-20261101
-  - release-blocker
 milestone: m-5
 dependencies: []
 references:
@@ -31,3 +31,9 @@ ordinal: 135000
 - [ ] #2 沿实际共用用时路径定向复验失败、胜利、退出结算和重新启程；旧局时间不污染新局，降级显示不阻断重新启程或结束并结算。
 - [ ] #3 保留异常计时输入与正常计时的回归，并在同一候选实体手机结算页取证；记录源码、候选和设备，未实测不得勾手机验收。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+PR #442 已合入结算用时修复及定向回归；投稿已完成，后续保留同候选设备复验，不再作为投稿前阻塞。
+<!-- SECTION:NOTES:END -->

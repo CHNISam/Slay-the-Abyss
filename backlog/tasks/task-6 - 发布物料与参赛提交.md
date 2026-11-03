@@ -5,8 +5,7 @@ status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-27 15:04'
-due_date: '2026-10-30'
+updated_date: '2026-11-03 02:20'
 labels: []
 milestone: m-0
 dependencies:
@@ -35,4 +34,6 @@ ordinal: 6000
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-26用户要求公开仓库禁止第三方未经授权商用、项目方保留商业化权利。本轮新增根LICENSE非商业源码许可、README显著声明、package许可元数据及AGENTS规则；第三方依赖/工具/素材按各自许可，既有有效授权不追溯撤销。不以公开源码视为商业授权或OSI开源，不因此勾选发布验收。
+
+2026-11-03 用户确认作品已提交比赛并完成报名；本记录不代替成功页面、作品编号及对应版本凭证。
 <!-- SECTION:NOTES:END -->

@@ -1,13 +1,13 @@
 ---
 id: TASK-76.1
-title: 修复手机地图漏松手后无法选节点
+title: 复验手机与电脑地图中断后的输入恢复
 status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 14:39'
-updated_date: '2026-11-01 12:07'
+updated_date: '2026-11-03 02:45'
 labels: []
-milestone: m-5
+milestone: m-7
 dependencies: []
 references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/304'
@@ -58,4 +58,7 @@ c695隔离实现现有◆回当前位置显式恢复：鼠标触屏可见，完�
 2026-10-31 M3最终事实核对：AC1：现有map-gesture-ownership标准回归涵盖背景/node漏Up、同/新touchId及匿名mouse的完整Focus恢复，原39组保护与新8组明确EndDrag/hide-show恢复通过；combined-focused.log含XY移动四矩阵和终止恢复项，旧Up/Click不误入、完整Map/RNG不变且下一合法tap只提交一次。恢复依可见“回当前位置”完整点击或明确终止，不以任意新Down抢占活跃owner。#2/#3仍缺同候选实体手机和PC各自的中断恢复、事件链、设备版本与截图，离线mouse/touch矩阵不当设备实测。
 
 2026-11-01阶段收尾：用户明确确认本轮已打Tag并进入master，发版阶段到此结束。已交付的M3核心实现不重做；本任务仅将剩余未验要求转由M4体验与设备改进承接，保留原状态、范围、全部AC及历史证据，不把发版确认等同逐条严格验收通过，也不重新阻塞已接受的v1.0.0。本次不打包、不追发布回执、不创建新门禁或新期限。
+
+地图中断恢复已有实现及离线回归；仍需分别记录同候选手机和电脑实测，避免将实现状态误读为尚未修复。
+2026-11-03 赛后排期：m-5 → M7 产品体验；任务状态与未验 AC 保留。未定新截止日。
 <!-- SECTION:NOTES:END -->

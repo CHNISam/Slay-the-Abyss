@@ -5,10 +5,9 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-11-01 14:58'
-due_date: '2026-10-28'
+updated_date: '2026-11-03 02:45'
 labels: []
-milestone: m-5
+milestone: m-7
 dependencies:
   - TASK-29
   - TASK-29.1
@@ -154,4 +153,5 @@ dot本轮已切换53fa164主线新隔离树：保留PR302全部生产安全修�
 合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
 
 2026-10-29 首屏三项目视觉是 M3 必做，记在 TASK-59.3，不把全部角色美术量产提前到本任务。实机品质验收仍在本任务，未勾。
+2026-11-03 赛后调整：m-5 → M7（产品体验与核心特色）；保留状态和未验 AC；旧截止日期 '2026-10-28' 已移除，不设新期限。
 <!-- SECTION:NOTES:END -->
