@@ -77,12 +77,18 @@ function runErrors(run,{head,event,runId,attempt,branch,repo}) {
     run.status!=='completed'||run.conclusion!=='success'||run.repository?.full_name!==repo||branch!==undefined&&run.head_branch!==branch)errors.push('Exact current-attempt Quality run is missing, incomplete, unsuccessful or mismatched');
   return errors;
 }
-// An early auto-merge arm is NOT a CI preflight. It binds the review and
-// synthetic merge identity before CI finishes; GitHub enforces Required Checks.
-// Only --merged can turn this into a verified delivery.
+// Auto-merge authorization includes exact Full preflight evidence. It remains
+// distinct from merged delivery, which also verifies the actual squash and push CI.
 export function verifyAutoMergeArm(e) {
   if(!e||typeof e!=='object')return ['Missing auto-merge arm evidence'];
   const errors=[];
+  if(e.fullPreflight?.schemaVersion!==3)errors.push('Auto-merge requires current Full preflight evidence');
+  else {
+    errors.push(...verifyDelivery(e.fullPreflight).map(error=>'Full preflight: '+error));
+    for(const field of ['repo','prNumber','head','base','tested','sourceTree'])
+      if(e.fullPreflight[field]!==e[field])errors.push('Full preflight differs from auto-merge '+field);
+    if(JSON.stringify(e.fullPreflight.review)!==JSON.stringify(e.review))errors.push('Full preflight review differs from authorization');
+  }
   if(e.schemaVersion!==4||e.kind!=='auto-merge-arm'||!/^[-\w.]+\/[-\w.]+$/.test(e.repo??'')||
     e.baseRef!=='develop'||!positiveId(e.prNumber))errors.push('Missing auto-merge arm identity');
   for(const key of ['head','base','tested','sourceTree','targetBeforeSha','targetAfterSha'])

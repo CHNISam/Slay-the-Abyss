@@ -1,8 +1,9 @@
 import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import {resolve} from 'node:path';
+import {randomUUID} from 'node:crypto';
 import {pathToFileURL} from 'node:url';
-import {isLowRiskDocumentationChange} from './verify-delivery.mjs';
+import {collectPrDelivery,verifyDelivery,isLowRiskDocumentationChange} from './verify-delivery.mjs';
 
 // Status on the reviewed HEAD, not a general-purpose label or an old CI run.
 // This status MUST be required by the develop ruleset before arming is allowed.
@@ -36,11 +37,16 @@ export function autoMergeErrors({repo,settings,pr,baseSha,ruleset,review,depende
   const labels=(pr?.labels??[]).map(label=>(typeof label==='string'?label:label?.name??'').toLowerCase());
   if(labels.some(label=>['hold','blocked','do-not-merge','manual-merge','merge:manual','risk:critical'].includes(label)))
     errors.push('PR has a manual/blocked merge label');
-  if(!ruleset||ruleset.enforcement!=='active'||!ruleset.conditions?.ref_name?.include?.includes('refs/heads/develop'))
+  // Conservative scope: reject unsupported/glob rules rather than assume they protect develop.
+  if(!ruleset||ruleset.target!=='branch'||ruleset.enforcement!=='active'||
+    JSON.stringify(ruleset.conditions?.ref_name?.include)!==JSON.stringify(['refs/heads/develop'])||
+    !Array.isArray(ruleset.conditions?.ref_name?.exclude)||ruleset.conditions.ref_name.exclude.length)
     errors.push('Active develop ruleset is missing');
   const rules=ruleset?.rules??[];
   const checks=rules.find(rule=>rule.type==='required_status_checks');
   const actualChecks=checks?.parameters?.required_status_checks??[];
+  if(checks?.parameters?.strict_required_status_checks_policy!==true)
+    errors.push('Auto-merge requires strict up-to-date branch protection; current non-strict queue cannot preserve reviewed BASE');
   for(const context of requiredContexts)if(!actualChecks.some(check=>check.context===context))
     errors.push('Required status check missing from develop ruleset: '+context);
   for(const context of requiredContexts.filter(name=>name!==reviewContext))
@@ -53,7 +59,7 @@ export function autoMergeErrors({repo,settings,pr,baseSha,ruleset,review,depende
     pull.parameters.allowed_merge_methods.length!==1||pull.parameters.required_review_thread_resolution!==true||
     !rules.some(rule=>rule.type==='required_linear_history'))
     errors.push('develop must require squash-only PRs, resolved threads and linear history');
-  if(!Array.isArray(dependencies)||dependencies.some(dep=>dep?.merged!==true))
+  if(!Array.isArray(dependencies)||dependencies.some(dep=>dep?.merged!==true||dep?.base?.ref!=='develop'||dep?.contained!==true))
     errors.push('A declared prerequisite PR is not confirmed merged');
   if(review?.disposition==='low-risk-docs') {
     if(!isLowRiskDocumentationChange(changedFiles,pr?.changed_files))
@@ -84,7 +90,13 @@ export function collectEligibility(repo,number,review,query=gh) {
     throw Error('Cannot read the actual develop commit');
   const dependsOn=parseDependencies(pr.body);
   if(dependsOn.includes(number))throw Error('PR cannot depend on itself');
-  const dependencies=dependsOn.map(id=>json(query,'api','repos/'+repo+'/pulls/'+id));
+  const dependencies=dependsOn.map(id=>{
+    const dep=json(query,'api','repos/'+repo+'/pulls/'+id);
+    if(dep?.merged!==true||dep?.base?.ref!=='develop'||!validSha(dep.merge_commit_sha))return dep;
+    const comparison=json(query,'api','repos/'+repo+'/compare/'+dep.merge_commit_sha+'...'+target.object.sha);
+    return {...dep,contained:['ahead','identical'].includes(comparison?.status)&&
+      comparison?.merge_base_commit?.sha===dep.merge_commit_sha};
+  });
   let changedFiles;
   if(review?.disposition==='low-risk-docs') {
     const pages=json(query,'api','--paginate','--slurp','repos/'+repo+'/pulls/'+number+'/files?per_page=100');
@@ -103,7 +115,7 @@ export function collectEligibility(repo,number,review,query=gh) {
     tested:pr.merge_commit_sha,parents,sourceTree:testedCommit.commit.tree.sha,changedFiles};
 }
 
-export function armAutoMerge(repo,number,review,query=gh,{dryRun=false}={}) {
+export function armAutoMerge(repo,number,review,query=gh,{dryRun=false,loadCheckout,persist=()=>{}}={}) {
   const before=collectEligibility(repo,number,review,query);
   if(before.errors.length)throw Error(before.errors.join('\n'));
   // Read the actual branch ref and PR a second time immediately before writing.
@@ -116,18 +128,70 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false}={}) {
     head:current.headSha,base:current.baseSha,tested:current.tested,parents:current.parents,
     sourceTree:current.sourceTree,review,targetBeforeSha:before.baseSha,targetAfterSha:current.baseSha,
     ...(review?.disposition==='low-risk-docs'?{changedFileCount:current.pr.changed_files,changedFiles:current.changedFiles}:{})};
+  // Required context names alone also accept Fast routing. Reuse the exact Full
+  // checkout/run/job contract before writing any review success.
+  const {evidence,current:fullCurrent}=collectPrDelivery(repo,number,review,query,loadCheckout);
+  const fullErrors=verifyDelivery(evidence);
+  if(fullErrors.length||evidence.schemaVersion!==3||evidence.head!==current.headSha||
+    evidence.base!==current.baseSha||evidence.tested!==current.tested||
+    evidence.sourceTree!==current.sourceTree||fullCurrent.head?.sha!==current.headSha||
+    fullCurrent.base?.sha!==current.baseSha)throw Error('Exact Full CI preflight failed: '+fullErrors.join('; '));
+  const final=collectEligibility(repo,number,review,query);
+  if(final.errors.length||final.headSha!==current.headSha||final.baseSha!==current.baseSha||
+    final.tested!==current.tested||final.pr.body!==current.pr.body||
+    JSON.stringify(final.pr.labels)!==JSON.stringify(current.pr.labels))
+    throw Error('PR admission changed during Full preflight');
+  // Recheck current Full after the slower rules/dependency admission reads.
+  // Reuse only the immutable artifact; a changed run/attempt fails its identity.
+  const refreshed=collectPrDelivery(repo,number,review,query,()=>({
+    checkout:evidence.checkout,checkoutArtifact:evidence.checkoutArtifact}));
+  const refreshedErrors=verifyDelivery(refreshed.evidence);
+  if(refreshedErrors.length||refreshed.evidence.runId!==evidence.runId||
+    refreshed.evidence.attempt!==evidence.attempt||refreshed.current.head?.sha!==current.headSha||
+    refreshed.current.base?.sha!==current.baseSha||refreshed.current.state!=='open'||
+    refreshed.current.draft||refreshed.current.body!==current.pr.body||
+    JSON.stringify(refreshed.current.labels)!==JSON.stringify(current.pr.labels))
+    throw Error('Exact Full CI or admission changed before authorization: '+refreshedErrors.join('; '));
+  proof.fullPreflight=refreshed.evidence;
+  proof.review=refreshed.evidence.review;
+  if(review?.disposition==='low-risk-docs')proof.changedFiles=refreshed.evidence.changedFiles;
   if(dryRun)return {state:'eligible',head:current.headSha,base:current.baseSha,dependsOn:current.dependsOn,proof};
+  persist({state:'prepared',proof});
   const desc=review?.disposition==='low-risk-docs'?'Verified narrow documentation waiver':
     'Independent review '+review.reviewId.slice(0,55);
-  query('api','--method','POST','repos/'+repo+'/statuses/'+current.headSha,
-    '-f','state=success','-f','context='+reviewContext,'-f','description='+desc);
-  query('pr','merge',String(number),'--repo',repo,'--auto','--squash',
-    '--match-head-commit',current.headSha);
-  const after=json(query,'api','repos/'+repo+'/pulls/'+number);
-  if(after.head?.sha!==current.headSha||after.base?.ref!=='develop')
-    throw Error('PR changed during auto-merge activation; recheck it immediately');
-  return {state:after.merged?'merged':'auto-merge-requested',head:current.headSha,
-    base:current.baseSha,dependsOn:current.dependsOn,proof};
+  const status=state=>query('api','--method','POST','repos/'+repo+'/statuses/'+current.headSha,
+    '-f','state='+state,'-f','context='+reviewContext,'-f','description='+desc);
+  try {
+    persist({state:'authorizing',proof});
+    status('success');
+    persist({state:'authorized',proof});
+    query('pr','merge',String(number),'--repo',repo,'--auto','--squash',
+      '--match-head-commit',current.headSha);
+    const after=json(query,'api','repos/'+repo+'/pulls/'+number);
+    if(after.head?.sha!==current.headSha||after.base?.ref!=='develop'||
+      after.base?.sha!==current.baseSha||after.body!==current.pr.body||
+      JSON.stringify(after.labels)!==JSON.stringify(current.pr.labels)||after.draft)
+      throw Error('PR admission changed during auto-merge activation');
+    if(after.merged) {
+      const commit=json(query,'api','repos/'+repo+'/commits/'+after.merge_commit_sha);
+      if(after.state!=='closed'||JSON.stringify((commit.parents??[]).map(p=>p.sha))!==JSON.stringify([current.baseSha])||
+        commit.commit?.tree?.sha!==current.sourceTree)throw Error('Merged identity differs from reviewed squash');
+    } else if(after.state!=='open'||after.auto_merge?.merge_method!=='squash')
+      throw Error('Native squash auto-merge was not confirmed by readback');
+    const result={state:after.merged?'merged':'auto-merge-requested',head:current.headSha,
+      base:current.baseSha,dependsOn:current.dependsOn,proof};
+    persist(result);return result;
+  } catch(error) {
+    // Even a failed API response may have committed. Revoke both authorizations,
+    // and preserve cleanup failures instead of claiming the queue was cancelled.
+    const cleanup=[];
+    try {status('failure');}catch(e){cleanup.push('status revocation uncertain: '+e.message);}
+    try {query('pr','merge',String(number),'--repo',repo,'--disable-auto');}
+    catch(e){cleanup.push('auto-merge cancellation uncertain: '+e.message);}
+    try {persist({state:'activation-failed',proof,error:error.message,cleanup});}
+    catch(e){cleanup.push('evidence persistence failed: '+e.message);}
+    throw Error(error.message+(cleanup.length?'\n'+cleanup.join('\n'):''));
+  }
 }
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
@@ -144,9 +208,10 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
       review.reviewedHeadSha=first.head?.sha;
       review.reviewedBaseSha=first.base?.sha;
     }
-    const result=armAutoMerge('CHNISam/Slay-the-Abyss',Number(numberArg),review,gh,
-      {dryRun:option==='--dry-run'});
     const dir='build/delivery';mkdirSync(dir,{recursive:true});
+    const journal=dir+'/auto-merge-'+numberArg+'-'+randomUUID()+'-attempt.json';
+    const result=armAutoMerge('CHNISam/Slay-the-Abyss',Number(numberArg),review,gh,
+      {dryRun:option==='--dry-run',persist:record=>writeFileSync(journal,JSON.stringify(record,null,2)+'\n')});
     const proofFile=dir+'/auto-merge-'+numberArg+'-'+result.head.slice(0,12)+'.json';
     if(option!=='--dry-run')writeFileSync(proofFile,JSON.stringify(result.proof,null,2)+'\n');
     console.log(JSON.stringify({state:result.state,head:result.head,base:result.base,

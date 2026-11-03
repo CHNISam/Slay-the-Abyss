@@ -38,9 +38,9 @@ Licenses 与 Quality、Quick feedback 一样使用 GitHub 原生同引用 concur
 
 develop的`strict_required_status_checks_policy: false`，不用为启动测试反复同步最新develop。合并前仍核对精确HEAD、当前base和真实合并冲突。旧`ownership`作业已删除，不再Required；新规则先active并读回，再删除旧保护，没有保护真空。日后发现CI作业改名应更新实际Required名称，不能留永久等待的检查。
 
-## PR 异步自动合并（独立评审后提前排队）
+## PR 自动合并准入（上线仍阻塞）
 
-日常 develop PR 采用「创建 PR → Required CI 与独立评审并行 → 评审通过后验证准入并立即启用 Auto-merge → GitHub 等必需检查全绿后 squash → 实际 develop push 复核」。**启用 Auto-merge 不等于已合并，更不代表 CI 成功**。此流程仅适用于普通 develop PR；master、release/hotfix 发布、Draft、冲突、未完成审查、未解决依赖或带 `hold` / `blocked` / `do-not-merge` / `manual-merge` / `merge:manual` / `risk:critical` 标签的 PR 不自动排队。
+develop PR 的独立评审与 CI 可并行，但启用 Auto-merge 前必须取得当前精确 HEAD/BASE 的完整 Full Quality 证明；同名 Required contexts 的 Fast 绿灯不足以授权。Draft、冲突、未解决依赖或锁定标签均拒绝。当前 Ruleset 为 non-strict，命令明确失败关闭，不能宣称异步工作流已上线。
 
 ### 一次性仓库门禁配置
 
@@ -59,11 +59,11 @@ npm run merge:auto -- <PR> <independent-review.json> --dry-run
 npm run merge:auto -- <PR> <independent-review.json>
 ```
 
-不等待完整 CI 即可申请自动合并；命令不禁用任何必需检查，不主动加长 timeout，不复用旧审查。成功后保存 `build/delivery/auto-merge-<PR>-<HEAD12>.json`，这是**审查/代码身份的早期准入证明（schemaVersion 4），不是 CI 预审 PASS**。已满足 GitHub 全部条件时，`--auto` 可能立即合入，务必在调用前完成审批。
+命令复用 `verify:delivery` 的完整 Full 作业、最新 run/attempt 和 checkout artifact 校验后才写审查状态；schemaVersion 4 准入证明内嵌 schemaVersion 3 Full 证据。远端操作前保存 attempt journal，失败尝试撤销 review success 和 native Auto-merge，并保留清理结果。最后读回必须确认真实 squash Auto-merge 或匹配的实际 squash commit；不确定结果不得报成功。已满足全部条件时 `--auto` 可能立即合入，调用前须完成评审。
 
 合并后运行 `npm run verify:delivery -- <PR> <上述证据.json> --merged`，只在实际 squash commit、源码树、父提交及 develop push Quality 均匹配时宣称 `merged_passed`；若实际 base 前移、快检路径缺少完整证明或验证失败，保持 `merged_pending` 并核查，不冒充完整验收。原 Full CI 预审和基础设施应急流程保持不变。
 
-当前 develop 的 `strict_required_status_checks_policy: false` 减少并发重跑，但**不是 Merge Queue**：在 Auto-merge 排队期间如果 develop 前移，可能出现旧组合测试通过、最终组合未测。跨模块/共享任务文件或存在顺序风险的 PR 应保持手动 HOLD，等前置 PR 合并并验证新组合之后再启用；不要把这个行为解释为自动队列的集成保证。未来如果需要真正的合并队列，应先评估仓库所有权和 GitHub Merge Queue 的适用条件。
+当前 develop 的 `strict_required_status_checks_policy: false` 不能保护受审 BASE，新增入口明确拒绝此配置；本 PR 不修改 Ruleset。即使 strict=true，也不能靠本机末次读取保证排队期间标签或 Depends-on 正文未变：还需经评审的持续准入撤销机制，或缩小为完整 CI 后的同步交付。此结构性问题未闭环前保持 Draft/HOLD，不以合后检查代替合前保证，也不宣称真实 PR 演练通过。
 
 ## 一次批准的基础设施应急合并
 

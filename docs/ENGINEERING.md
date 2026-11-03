@@ -73,7 +73,7 @@ CLI从候选旁收据和启动证据取得预期身份，重验原始日志与�
 
 正常交付检查读取所有分页及当前attempt作业，拒绝必需回归作业的queued/failed/cancelled/skipped/missing和旧head/base组合；Full路径未选中的fast作业按下述版本合同验证。PR合并测试SHA允许不同于head，但实际parents必须是当前base/head。独立审查记录提供 `reviewedHeadSha`、`reviewedBaseSha`、可追溯 `reviewId`、`conclusion: pass`、`unresolved: []`；字段通过不自证审查独立，须检查真实会话/审查来源。记录可放PR附属产物，避免提交记录包含自身SHA的循环。合并前再查head/base，用现成expected-head机制，并复查合并结果。唯一基础设施应急例外按[CI流程](CI.md)取得Owner对精确PR/HEAD的一次聊天批准后执行；不改本验证器、不伪造绿灯，明确记录缺失检查与独立证据。
 
-异步自动合并先验新增 schemaVersion 4（`kind: auto-merge-arm`），仅证明当前 reviewId、精确 HEAD/BASE、合成 merge 的双父及 sourceTree，**不**声称任何 CI 通过；启用前必须有 develop Ruleset 强制 `independent-review` commit status 与既有四项必需检查。目标分支变化、依赖未落地、评审过期或合并资格未知时拒绝启用。合并后的实测 push 仍走 `verify:delivery --merged` 和现有 schemaVersion 3 Quality 证明；如最终 squash 父不等于准入记录的 base，只可报告待复核，不能将初始快照升级成完成证明。
+自动合并准入 schemaVersion 4（`kind: auto-merge-arm`）内嵌当前 schemaVersion 3 Full CI 证据，绑定 reviewId、精确 HEAD/BASE、合成 merge 双父及 sourceTree。启用前须有 strict 目标保护、`independent-review` 与既有四项必需检查；现有 non-strict Ruleset 明确失败关闭。依赖必须合入 develop 且 squash commit 是当前目标祖先；启用异常撤销授权并保存清理证据。排队中的可变标签/依赖声明仍缺持续撤销机制，上线保持阻塞。合后仍须 `verify:delivery --merged` 验证实际 squash 和完整 push Quality，不能把初始快照当完成证明。
 
 保存预审收据后，合入结果必须另验。`pr_passed` 只证明PR组合；实际合入提交的完整CI尚缺时为 `merged_pending`，实际SHA、源码tree、唯一父=预审base及对应push Quality均通过才是 `merged_passed`。验证后base前移即使源码tree相同也不能沿用旧组合。历史schemaVersion 2冻结为原15项成功作业（三个必需作业、8个Windows及4个POSIX分片），不改写或升级旧收据。新采证使用schemaVersion 3：原15项仍须全部成功，另要求impact成功、未展开的fast作业completed/skipped，共17项；Fast矩阵通过不能代替Full，缺少路由作业不能回退历史合同。PR预审与实际push各按自己的版本验证。逐作业绑定run_id、head_sha和attempt；采证末尾重新核对运行与attempt，拒绝诊断运行或旧成功记录。POSIX继续按文件使用Node原生分片，片内串行，每片保留完整工程门禁与20分钟作业预算。未来调整已有matrix须同步交付合同与其回归，不能只保留聚合作业名称。
 
