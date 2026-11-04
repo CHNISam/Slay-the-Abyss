@@ -1,18 +1,24 @@
 import test from 'node:test';
+import {mkdtempSync,writeFileSync,readFileSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+import {spawnSync} from 'node:child_process';
+import * as autoMerge from '../scripts/arm-auto-merge.mjs';
 import assert from 'node:assert/strict';
 import {parseDependencies,autoMergeErrors,collectEligibility,armAutoMerge as activate,pauseAutoMerge,reviewContext,requiredContexts} from '../scripts/arm-auto-merge.mjs';
 import {verifyAutoMergeArm,verifyDelivery,verifyHistoricalAutoFull,verifyMergedDelivery,collectMergedDelivery,currentFullQualityJobs,qualityWorkflowPath} from '../scripts/verify-delivery.mjs';
 
 const sha=c=>c.repeat(40);
 const armAutoMerge=(repo,number,review,query,options={})=>activate(repo,number,review,query,{loadCheckout:query.loadCheckout,...options});
-const repo='CHNISam/Slay-the-Abyss';
+const repo='FurinyaWorks/Slay-the-Abyss';
 function fixture() {
   const pr={number:510,node_id:'PR_reviewed_510',state:'open',merged:false,draft:false,mergeable:true,changed_files:1,
     head:{sha:sha('a'),ref:'feat/reviewed',repo:{full_name:repo}},base:{ref:'develop',sha:sha('b')},merge_commit_sha:sha('d'),body:'Summary\n\nDepends-on: none',
     labels:[]};
   const review={reviewId:'independent-agent-evidence-100',reviewedHeadSha:sha('a'),
     reviewedBaseSha:sha('b'),conclusion:'pass',unresolved:[],repo,prNumber:510};
-  const settings={allow_auto_merge:true,allow_squash_merge:true};
+  const settings={id:1429751262,full_name:repo,allow_auto_merge:true,allow_squash_merge:true};
   const ruleset={target:'branch',enforcement:'active',conditions:{ref_name:{include:['refs/heads/develop'],exclude:[]}},
     rules:[
       {type:'pull_request',parameters:{allowed_merge_methods:['squash'],required_review_thread_resolution:true}},
@@ -364,6 +370,7 @@ test('pause cancels native auto-merge before revoking review and refuses uncerta
   const query=(...args)=>{
    calls.push(args);if(args[0]==='pr'){assert(args.includes('--disable-auto'));disabled=true;return '';}
    if(args.includes('POST'))return JSON.stringify({state:'failure',context:reviewContext});
+   if(args.at(-1)==='repos/'+repo)return JSON.stringify(f.settings);
    return JSON.stringify({...f.pr,auto_merge:disabled&&!blocked?null:{merge_method:'squash'}});
   };
   if(blocked){assert.throws(()=>pauseAutoMerge(repo,510,query),/not confirmed/);assert(!calls.some(c=>c.includes('POST')));}
@@ -421,4 +428,80 @@ test('merged collector accepts real empty PR links and selects the authorized so
  assert.deepEqual(evidence.prFull.run.pull_requests,[],'preserve actual API response');
  assert.equal(evidence.prFull.run.id,7);
  assert.equal(verifyMergedDelivery(evidence).state,'merged_passed');
+});
+
+test('canonical repository resolution binds the immutable project ID across transfers',()=>{
+ assert.equal(typeof autoMerge.resolveProjectRepository,'function');
+ const calls=[];
+ const query=(...args)=>{calls.push(args);return JSON.stringify({id:1429751262,full_name:repo});};
+ assert.equal(autoMerge.resolveProjectRepository(query),repo);
+ assert.deepEqual(calls,[['api','repositories/1429751262']]);
+ for(const result of [{id:1,full_name:repo},{id:1429751262,full_name:'other'},{id:1429751262,full_name:'owner/repo/extra'},{}])
+  assert.throws(()=>autoMerge.resolveProjectRepository(()=>JSON.stringify(result)),/repository|identity/i);
+});
+test('wrong immutable ID or stale repository alias blocks activation before any write',()=>{
+ for(const mutate of [m=>m.f.settings.id=99,m=>m.f.settings.full_name='CHNISam/Slay-the-Abyss']) {
+  const m=mock();mutate(m);
+  assert.throws(()=>armAutoMerge(repo,510,m.f.review,m.query),/repository|identity/i);
+  assert(!m.calls.some(c=>c.includes('POST')||c[0]==='pr'||c[1]==='graphql'));
+ }
+});
+test('pause rejects wrong project identity or fork before cancelling or writing status',()=>{
+ for(const mutate of [f=>f.settings.id=99,f=>f.settings.full_name='other/repository',f=>f.pr.head.repo.full_name='other/fork']) {
+  const f=fixture(),calls=[];mutate(f);
+  const query=(...args)=>{calls.push(args);return JSON.stringify(args.at(-1)==='repos/'+repo?f.settings:f.pr);};
+  assert.throws(()=>pauseAutoMerge(repo,510,query),/repository|identity|develop/i);
+  assert(!calls.some(c=>c.includes('POST')||c[0]==='pr'));
+ }
+});
+
+test('real CLI resolves the transferred project for both pause and low-risk dry-run',()=>{
+ const directory=mkdtempSync(join(tmpdir(),'project-repository-cli-'));
+ try {
+  const f=fixture();f.pr.draft=true;
+  const data=join(directory,'fixture.json'),log=join(directory,'calls.jsonl'),disabled=join(directory,'disabled');
+  writeFileSync(data,JSON.stringify(f));
+  const preload=join(directory,'mock-github.mjs');
+  writeFileSync(preload,`import {readFileSync,appendFileSync,existsSync,writeFileSync} from 'node:fs';
+import childProcess from 'node:child_process';
+import {syncBuiltinESMExports} from 'node:module';
+const f=JSON.parse(readFileSync(process.env.PROJECT_CLI_FIXTURE,'utf8'));
+childProcess.spawnSync=(command,a)=>{
+if(command!=='gh')throw Error('Unexpected child process');
+const p=a.at(-1);
+appendFileSync(process.env.PROJECT_CLI_LOG,JSON.stringify(a)+'\\n');
+let out;
+if(a[0]==='pr'&&a.includes('--disable-auto')){
+ if(a[a.indexOf('--repo')+1]!==f.repo)throw Error('Wrong cancellation repository');
+ writeFileSync(process.env.PROJECT_CLI_DISABLED,'yes');return {status:0,stdout:'',stderr:''};
+}
+if(a.includes('POST'))out={state:'failure',context:'independent-review'};
+else if(p==='repositories/1429751262'||p==='repos/'+f.repo)out=f.settings;
+else if(p==='repos/'+f.repo+'/pulls/510')out={...f.pr,auto_merge:existsSync(process.env.PROJECT_CLI_DISABLED)?null:{merge_method:'squash'}};
+else if(p==='repos/'+f.repo+'/rulesets/25870651')out=f.ruleset;
+else if(p==='repos/'+f.repo+'/git/ref/heads/develop')out={ref:'refs/heads/develop',object:{type:'commit',sha:f.baseSha}};
+else if(p==='repos/'+f.repo+'/pulls/510/files?per_page=100')out=[[{filename:'README.md',status:'modified',sha:'c'.repeat(40)}]];
+else if(p==='repos/'+f.repo+'/commits/'+f.pr.merge_commit_sha)out={parents:[{sha:f.baseSha},{sha:f.pr.head.sha}],commit:{tree:{sha:'f'.repeat(40)}}};
+else throw Error('Unexpected query '+JSON.stringify(a));
+return {status:0,stdout:JSON.stringify(out),stderr:''};
+};
+syncBuiltinESMExports();
+`);
+  const env={...process.env,GH_CONFIG_DIR:join(directory,'empty-gh-config'),PROJECT_CLI_FIXTURE:data,PROJECT_CLI_LOG:log,PROJECT_CLI_DISABLED:disabled};
+  for(const name of ['GH_TOKEN','GITHUB_TOKEN','GH_ENTERPRISE_TOKEN','GITHUB_ENTERPRISE_TOKEN'])delete env[name];
+  const cli=new URL('../scripts/arm-auto-merge.mjs',import.meta.url);
+  const paused=spawnSync(process.execPath,['--import',pathToFileURL(preload).href,fileURLToPath(cli),'510','--pause'],{env,encoding:'utf8'});
+  assert.equal(paused.status,0,paused.stderr);assert.equal(JSON.parse(paused.stdout).state,'paused');
+  let calls=readFileSync(log,'utf8').trim().split('\n').map(JSON.parse);
+  assert.deepEqual(calls[0],['api','repositories/1429751262']);
+  assert(calls.some(c=>c.includes('--disable-auto')&&c.includes(repo)));
+  writeFileSync(log,'');
+  const dry=spawnSync(process.execPath,['--import',pathToFileURL(preload).href,fileURLToPath(cli),'510','--low-risk-docs','--dry-run'],{env,encoding:'utf8'});
+  assert.equal(dry.status,1);assert.match(dry.stderr,/open, ready/);
+  calls=readFileSync(log,'utf8').trim().split('\n').map(JSON.parse);
+  assert.deepEqual(calls[0],['api','repositories/1429751262']);
+  assert(calls.some(c=>c.at(-1)==='repos/'+repo+'/pulls/510'));
+  assert(!calls.some(c=>c.includes('POST')||c[0]==='pr'||c[1]==='graphql'));
+  assert(!calls.flat().some(a=>a.includes('CHNISam/Slay-the-Abyss')));
+ }finally{rmSync(directory,{recursive:true,force:true});}
 });

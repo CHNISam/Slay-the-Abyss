@@ -52,6 +52,8 @@ develop PR 的独立评审与 CI 并行。审查与准入通过后可在 Full �
 
 ### 常规使用
 
+`merge:auto` 通过固定仓库 ID `1429751262` 读取 GitHub 当前规范名称，兼容项目迁移；启用及暂停前仍核对实际仓库 ID、规范名称和同仓库 HEAD。迁移后的目标为 `FurinyaWorks/Slay-the-Abyss`，不能将旧路径重定向或任意同名 fork 当作项目身份。旧审查证明不自动改写，仓库身份不一致须重新核验。
+
 PR 正文必须有一行 `Depends-on: none` 或 `Depends-on: #123, #456`；关联 PR 必须已确认合并。先由独立 Agent 复审并形成符合现有 `verify:delivery` 字段的 JSON（`reviewId`、`reviewedHeadSha`、`reviewedBaseSha`、`conclusion: "pass"`、`unresolved: []`）。本地在有 GitHub CLI 和已授权仓库身份的工作树中运行：
 
 ```bash
