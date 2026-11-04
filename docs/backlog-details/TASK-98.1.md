@@ -27,3 +27,14 @@
 ## 集成接续记录
 
 本切片由 PR #504 接续：当前入口从固定仓库 ID 解析 canonical，同时校验 settings、PR head/base 和排队读回的仓库 ID。历史迁移通过独立 witness、原授权文本及 SHA-256 衔接，不重写旧收据；补充 review、waiver、pause 三个 CLI 入口的真实函数路由及无效身份不写远端负例。原 PR #506 的构想与审查记录保留在上文，源 commit 保留恢复引用。当前组合定向测试83项通过，精确 HEAD CI 和实际合入另验。
+
+## PR506 剩余覆盖接续（2026-11-04）
+
+PR504已将实现与三条CLI入口回归合入 `c1cf79dfa8e81189546d95277d3bb891d831ba6e`，原PR506以接续完成关闭。本轮从该develop新建短分支，只修当前门禁配置链接及应急命令路径，补未逐例吸收的测试，不重新提交旧实现或改写历史别名/收据。
+
+- 44组review/waiver/pause的canonical、settings、PR head/base元数据负例：缺失ID、字符串ID、缺失/错误full_name；生产main真实调用被注入读回，逐组确认实际命中、拒绝且没有POST/GraphQL/gh pr写入。
+- 新canonical授权中的run/currentRun旧仓库名，缺少合法迁移见证时拒绝；原合法witness正例及历史证据保持。
+- 新文档回归在原路径复现1项失败；两处路径修复后，三组86/86，连同治理与分支历史共130/130通过。
+- 临时独立副本分别放宽ID比较、删除full_name比较、删除run owner比较，三项均被新断言检出；正式生产脚本未修改。doctor、verify:backlog、check:guidance及diff检查通过。
+
+这些是本轮定向与负对照证据，不替代新接续提交的Required CI、独立复审或合后验证；TASK-98.1 AC3保持未完成。

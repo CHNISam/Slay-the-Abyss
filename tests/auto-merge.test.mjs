@@ -645,3 +645,53 @@ test('merged collector accepts real empty PR links and selects the authorized so
  assert.equal(evidence.prFull.run.id,7);
  assert.equal(verifyMergedDelivery(evidence).state,'merged_passed');
 });
+
+test('all canonical CLI paths reject incomplete identity metadata before any remote mutation',()=>{
+ const canonical='FurinyaWorks/Slay-the-Abyss',dir=mkdtempSync(join(tmpdir(),'auto-merge-identity-')),file=join(dir,'review.json');
+ const mutations=[['missing ID',r=>delete r.id],['string ID',r=>r.id=String(projectRepositoryId)],
+  ['missing full name',r=>delete r.full_name],['wrong full name',r=>r.full_name='someone/Slay-the-Abyss']];
+ try{
+  writeFileSync(file,JSON.stringify(fixture(canonical).review));
+  for(const mode of ['review','waiver','pause'])for(const target of ['canonical','settings','head','base']){
+   if(mode==='pause'&&target==='settings')continue; // Pause binds the current resolver and actual PR repositories.
+   for(const [label,mutate]of mutations){
+    const m=mock({repository:canonical,pending:true}),calls=[];let injected=0;
+    const query=(...args)=>{
+     calls.push(args);const response=m.query(...args),endpoint=args.at(-1);
+     const resource=target==='canonical'&&endpoint==='repositories/'+projectRepositoryId||
+      target==='settings'&&endpoint==='repos/'+canonical;
+     const pull=['head','base'].includes(target)&&endpoint===`repos/${canonical}/pulls/510`;
+     if(!resource&&!pull)return response;
+     const value=JSON.parse(response);mutate(pull?value[target].repo:value);injected++;
+     return JSON.stringify(value);
+    };
+    const args=mode==='pause'?['510','--pause']:['510',mode==='waiver'?'--low-risk-docs':file];
+    assert.throws(()=>main(args,query),/identity|Pause requires/,`${mode}/${target}/${label}`);
+    assert(injected>0,`must exercise ${mode}/${target}/${label}`);
+    assert(!calls.some(c=>c.includes('POST')||c[0]==='pr'||c[1]==='graphql'),
+     `no remote mutation for ${mode}/${target}/${label}`);
+   }
+  }
+ }finally{assert(dir.startsWith(join(tmpdir(),'auto-merge-identity-')));rmSync(dir,{recursive:true,force:true});}
+});
+
+test('old Full repository names cannot certify new canonical authorization without a transfer witness',()=>{
+ const canonical='FurinyaWorks/Slay-the-Abyss',m=mock({repository:canonical});
+ const proof=armAutoMerge(canonical,510,m.f.review,m.query,{dryRun:true}).proof;
+ assert.deepEqual(verifyDelivery(proof),[]);
+ for(const fields of [['run'],['currentRun'],['run','currentRun']]){
+  const old=structuredClone(proof);
+  for(const field of fields)old.fullPreflight[field].repository.full_name=repo;
+  assert(verifyDelivery(old).length>0,'reject unbound legacy Full identity: '+fields.join(','));
+ }
+});
+
+test('current CI operation examples use canonical repository routes while historical aliases remain',()=>{
+ const ci=readFileSync('docs/CI.md','utf8'),canonical='FurinyaWorks/Slay-the-Abyss';
+ const setup=ci.split('### 一次性仓库门禁配置\n')[1]?.split('### 常规使用\n')[0];
+ assert(setup,'current gate setup section exists');
+ assert(setup.includes(`https://github.com/${canonical}/rules/25870651`));
+ assert.match(ci,new RegExp(`^gh api --method PUT repos/${canonical}/pulls/<PR>/merge --input approved-merge\\.json$`,'m'));
+ assert(ci.includes('`CHNISam/Slay-the-Abyss`'),'registered historical alias remains documented');
+ assert(ci.includes('https://github.com/CHNISam/Slay-the-Abyss/pull/220'),'historical audit URL is not rewritten');
+});

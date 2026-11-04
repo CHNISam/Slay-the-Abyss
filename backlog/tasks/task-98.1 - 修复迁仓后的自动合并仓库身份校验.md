@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 05:26'
-updated_date: '2026-11-04 08:39'
+updated_date: '2026-11-04 09:01'
 labels: []
 milestone: m-7
 dependencies: []
@@ -36,6 +36,8 @@ ordinal: 141000
 
 <!-- SECTION:PLAN:BEGIN -->
 1. 核对仓库ID、最新develop、规则与开放PR并隔离工作树。2. 最小修复启用/暂停的规范路径与身份校验，不重写历史证据。3. 用迁仓、旧路径、身份缺失/不符及暂停负例回归，并跑原交付合同。4. 独立复审后报告，PR及CI另行验证。
+
+PR510身份元数据、无witness旧Full与当前操作文档覆盖由PR508接续，避免同一工具切片重复基线验证；保留510原分支和提交，待508实际合入再关闭接续PR。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -46,4 +48,6 @@ ordinal: 141000
 本切片由PR504接续：采用固定ID numeric canonical和head/base ID、sameAdmission、迁移witness；保留原PR506记录，补三个CLI入口及身份失败不写远端、旧review拒绝负例。组合83项通过；实际新HEAD CI仍在queued，AC3保持未完成。
 
 本轮504原授权合后verify:delivery=merged_passed，真实PR Full41782457368、push Full41794339270与固定ID、实际squash父/tree、不可变收据均匹配。摘要docs/evidence/pr504-merged-delivery-20261104.json。核心迁仓AC已验收；510补充测试仍待当前SHA CI和正常合入，暂不将该补充宣称完成。
+
+吸收PR510原6f0b873a及CRLF修复132a96c2：保留现有TASK98.1验收、In Progress及已核验AC3，新增44组身份零写入负例、无见证旧Full拒绝和操作文档LF/CRLF覆盖。PR510尚未接续关闭，当前整合HEAD独审与CI另验。
 <!-- SECTION:NOTES:END -->

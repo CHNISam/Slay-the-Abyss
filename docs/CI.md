@@ -61,7 +61,7 @@ develop PR 的独立评审与 CI 并行。审查与准入通过后可在 Full �
 
 ### 一次性仓库门禁配置
 
-在现有 [develop Ruleset](https://github.com/CHNISam/Slay-the-Abyss/rules/25870651) 追加 `independent-review`（Any source）和 `full-quality`（GitHub Actions，15368），开启 strict；保留 `check`、`presentation`、`engineering-posix`、`inventory` 的原来源，以及 squash-only、线性历史、已解决讨论、防删除/强推等保护。配置未完成时 `merge:auto` 拒绝启用。先保存规则快照、清点在途 PR，再更新并读回，不能使用 bypass 冒充正常门禁。TASK-98 记录真实启用与演练证据；源码合入本身不代表规则已完成更新。
+在现有 [develop Ruleset](https://github.com/FurinyaWorks/Slay-the-Abyss/rules/25870651) 追加 `independent-review`（Any source）和 `full-quality`（GitHub Actions，15368），开启 strict；保留 `check`、`presentation`、`engineering-posix`、`inventory` 的原来源，以及 squash-only、线性历史、已解决讨论、防删除/强推等保护。配置未完成时 `merge:auto` 拒绝启用。先保存规则快照、清点在途 PR，再更新并读回，不能使用 bypass 冒充正常门禁。TASK-98 记录真实启用与演练证据；源码合入本身不代表规则已完成更新。
 
 `full-quality` 由原有 impact 作业开始时置 pending，再由原有 check 作业在 Windows、POSIX 和 presentation 全部结束后发布；不新增作业。发布器检查当前 run/attempt、全部27项真实作业身份/结果、PR HEAD、实际目标与合成双父；Fast 永不发布 success。只有 impact/check 增加 job-scoped `statuses: write`，所有回归、LFS 读取及默认权限仍只读。需要完整合并验证时使用已有 `ci:full` 标签，标签变动/ready 会重新触发正常 Quality；不以 Fast 反馈代替完整准入。
 
@@ -98,7 +98,7 @@ Full 未结束时，schemaVersion 4 授权保存精确组合和 pending run，�
 ```
 
 ```powershell
-gh api --method PUT repos/CHNISam/Slay-the-Abyss/pulls/<PR>/merge --input approved-merge.json
+gh api --method PUT repos/FurinyaWorks/Slay-the-Abyss/pulls/<PR>/merge --input approved-merge.json
 ```
 
 5. 仅HTTP成功且响应`merged: true`后，再读PR核对`merged`、`head.sha`、`base.ref`、`merge_commit_sha`和执行身份，保存批准/请求/响应与故障及验证证据。超时或返回不确定先读回，不能盲重试。HEAD变化、范围扩大、目标变化或批准无效时停止并重新询问；HTTP409不是让Agent换成最新SHA继续。权限拒绝时不改规则绕过，不把应急合并宣称为完整CI通过。仅在确认自己的分支无新工作后按既有规范清理。
