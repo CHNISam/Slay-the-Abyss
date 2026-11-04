@@ -11,6 +11,10 @@ function verifyDiscovery(files){
  const discovered=files.filter(name=>name.startsWith('battle_ui_card_play')&&name.endsWith('.lua')).sort();
  assert.deepEqual(discovered,partition.slices.map(row=>row.file).sort(),'exact card-play raw discovery');
 }
+function verifyGroups(slices){
+ const groups=slices.flatMap(({first,last})=>Array.from({length:last-first+1},(_,i)=>first+i));
+ assert.deepEqual(groups,Array.from({length:11},(_,i)=>i+1),'complete original card-play groups exactly once');
+}
 function restore(source){
  assert(source.startsWith(partition.header));
  assert(source.endsWith(partition.footer));
@@ -32,7 +36,8 @@ test('card-play partitions retain the complete original eleven cases and unchang
  const original=restore(source);
  assert.equal((original.match(/^test\("/gm)??[]).length,11);
  assert(source.includes("assert(registered==11 and executed==sliceLast-sliceFirst+1 and passed==executed,'incomplete card-play slice')"));
- assert.deepEqual(partition.slices.map(row=>[row.first,row.last]),[[1,3],[4,4],[5,8],[9,11]]);
+ assert.deepEqual(partition.slices.map(row=>[row.first,row.last]),[[1,3],[4,4],[5,6],[7,8],[9,11]]);
+ verifyGroups(partition.slices);
  const seen=[];
  for(const [index,row]of partition.slices.entries()){
   if(index===0)assert(source.includes(`sliceFirst,sliceLast=sliceFirst or ${row.first},sliceLast or ${row.last}`));
@@ -52,5 +57,11 @@ test('card-play original-body guard rejects assertion loss and duplicate selecto
 test('card-play raw discovery rejects missing slices and additional family entries',()=>{
  const files=partition.slices.map(row=>row.file);
  assert.throws(()=>verifyDiscovery(files.slice(0,-1)),/exact card-play raw discovery/);
- assert.throws(()=>verifyDiscovery([...files,'battle_ui_card_play_slice_5.lua']),/exact card-play raw discovery/);
+ assert.throws(()=>verifyDiscovery([...files,'battle_ui_card_play_slice_6.lua']),/exact card-play raw discovery/);
+});
+
+test('card-play group coverage rejects an omitted or duplicated group after splitting',()=>{
+ assert.throws(()=>verifyGroups(partition.slices.filter(row=>row.first!==7)),/complete original card-play groups/);
+ assert.throws(()=>verifyGroups(partition.slices.map(row=>row.first===7?{...row,first:6}:row)),/complete original card-play groups/);
+ assert.throws(()=>verifyGroups(partition.slices.map(row=>row.first===7?{...row,last:7}:row)),/complete original card-play groups/);
 });

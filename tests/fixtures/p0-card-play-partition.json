@@ -22,6 +22,11 @@
     {
       "file": "battle_ui_card_play_slice_2.lua",
       "first": 5,
+      "last": 6
+    },
+    {
+      "file": "battle_ui_card_play_slice_5.lua",
+      "first": 7,
       "last": 8
     },
     {

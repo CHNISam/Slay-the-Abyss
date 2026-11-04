@@ -8,14 +8,15 @@ import {verifiedHistoricalMonsterSources,historicalMonsterSourcePaths} from './h
 import {loadHistoricalBaselineInputs} from './helpers/historical-baseline-inputs.mjs';
 import {multiMonsterSourceLayer} from './helpers/multi-monster-art-source-inverse.mjs';
 const helperPaths=['tests/lua/support/game_ui_fixture.lua','tests/lua/support/battle_gesture_fixture.lua'];
-test('only thirteen exact frozen fixtures and the two-capture differential are historical',()=>{
+test('only fourteen exact frozen fixtures and the two-capture differential are historical',()=>{
  assert.deepEqual(historicalMonsterUiFixtures,[
   'tests/lua/battle_ui.lua',...Array.from({length:6},(_,i)=>`tests/lua/battle_ui_slice_${i+2}.lua`),
   'tests/lua/battle_ui_card_play.lua','tests/lua/battle_ui_card_play_slice_2.lua','tests/lua/battle_ui_card_play_slice_3.lua',
   'tests/lua/battle_ui_card_play_slice_4.lua',
+  'tests/lua/battle_ui_card_play_slice_5.lua',
  'tests/lua/battle_ui_drag_click_compatibility.lua','tests/lua/battle_ui_drag_click_compatibility_slice_2.lua',
  ]);
- for(const path of ['tests/lua/game_ui.lua','tests/lua/support/battle_ui_cases.lua','tests/lua/battle_ui_slice_8.lua','../tests/lua/battle_ui.lua','/tests/lua/battle_ui.lua'])
+ for(const path of ['tests/lua/game_ui.lua','tests/lua/support/battle_ui_cases.lua','tests/lua/battle_ui_slice_8.lua','tests/lua/battle_ui_card_play_slice_6.lua','../tests/lua/battle_ui.lua','/tests/lua/battle_ui.lua'])
   assert.throws(()=>runHistoricalMonsterUi(path),/only exact/);
  assert.throws(()=>runHistoricalMonsterUi(historicalMonsterUiFixtures[0],{caseName:'skip others'}),/complete frozen/);
 });
