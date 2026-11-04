@@ -32,7 +32,7 @@
 
 - #488 已合入：不重做营地/奖励/事件的 Copy 解耦。
 - #495 已合入：NodesCommon 的 copy-only Combat 依赖已由该 PR 解耦，不重复实施。
-- #487 已合入：保留事件文案与来源证明；#494 的 UI 生命周期、#496 的 Auto-merge 仍由原 PR 承担。
+- #487 已合入：保留事件文案与来源证明；#494 的 UI 生命周期修复已由 #501 合入，#496 的 Auto-merge 由独立接续 PR 处理，本设计不改写其实现。
 - #492 已合入：沿用其阶段编号与 Sprint 准入，复用 TASK-74，不另编阶段号、不手工改 Backlog。
 - 本轮修订以 develop `2d12b4e2a4ac4444af8f9c156512bb87ebd7047e` 核对上述状态；固定源码审计基线仍为页首 SHA。
 
@@ -139,7 +139,7 @@ CardActions 保留同签名公开委托入口；Actor 的 enqueue/reaction 调�
 
 借鉴 [OpenAI Harness Engineering](https://openai.com/index/harness-engineering/) 的“架构不变量 + 机械检查”，不照搬其应用层数或合并政策；这里的领域与具体依赖决策来自上述项目源码。
 
-原始设计轮次通过 connector 读取固定提交源码；当时容器不能解析 GitHub 域名，无法克隆/运行完整仓库，且 Backlog CLI 不存在，因此没有 Backlog、Lua/完整 CI 或独立审查结果。后续独立审查及本轮文档修订另行采证，不改写原始验证历史；PR 保持 Draft，局部设计一致性校验不等于运行时实施或生产验证。
+原始设计轮次通过 connector 读取固定提交源码；当时容器不能解析 GitHub 域名，无法克隆/运行完整仓库，且 Backlog CLI 不存在，因此当时没有 Backlog、Lua/完整 CI 或独立审查结果，原 PR 保持 Draft。后续接续版本的独立审查和精确 HEAD CI 另行取证，不改写原始验证历史；局部设计一致性校验不等于运行时实施或生产验证。
 
 [actor]: https://github.com/CHNISam/Slay-the-Abyss/blob/2f829579672e61a91374a2d8a0281d5cac4ca7fc/src/lua/abyss_actor.lua#L1-L90
 [actions]: https://github.com/CHNISam/Slay-the-Abyss/blob/2f829579672e61a91374a2d8a0281d5cac4ca7fc/src/lua/abyss_card_actions.lua#L1-L180
