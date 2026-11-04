@@ -12,13 +12,14 @@ local function intangible(actor)
 end
 local Darklings=require('abyss_darklings')
 
--- Reaction admission only queues data. Combat owns draining, choices,
--- death interruption and transactionality.
+-- Hooks admit data only. Combat owns draining, choices, death interruption
+-- and transactionality. The shared module preserves dynamic admission hooks.
+local Reactions = require("abyss_combat_reactions")
 local function enqueue(state,e,source,top)
     assert(not source or source==state.player,'reaction owner must be player')
-    require("abyss_combat_reactions").enqueueReaction(state,e,top)
+    Reactions.enqueueReaction(state,e,top)
 end
-local function reaction(state,e,top)require('abyss_combat_reactions').enqueueReaction(state,e,top)end
+local function reaction(state,e,top)Reactions.enqueueReaction(state,e,top)end
 -- Equal-priority original Powers are stably sorted: their hooks retain the
 -- order of first application. Legacy raw-status fixtures get an explicit order.
 function M.powerSequence(actor,ids)

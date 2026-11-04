@@ -5,16 +5,19 @@ local Events = require("abyss_events")
 local PlatedArmor = require('abyss_plated_armor')
 local Act2Powers = require('abyss_act2_powers')
 local TimeEater=require('abyss_time_eater')
-local Reactions=require('abyss_combat_reactions')
--- Keep the two public admission fields live: existing instrumentation replaces
--- CardActions.enqueue/Reaction, including callbacks originating in Actor.
--- Other CardActions members remain ordinary fields and never enter Reactions.
-local admission={enqueue=true,enqueueReaction=true}
+local Reactions = require('abyss_combat_reactions')
+-- Keep ordinary reads/writes of the two public admission entries live across
+-- Actor and CardActions. These virtual fields are absent from rawget/pairs.
+local function admissionIndex(_,key)
+    if key=='enqueue' or key=='enqueueReaction' then return Reactions[key] end
+end
+local function admissionNewIndex(self,key,value)
+    if key=='enqueue' or key=='enqueueReaction' then Reactions[key]=value
+    else rawset(self,key,value) end
+end
 local M = setmetatable({}, {
-    __index=function(_,key) if admission[key] then return Reactions[key] end end,
-    __newindex=function(self,key,value)
-        if admission[key] then Reactions[key]=value else rawset(self,key,value) end
-    end,
+    __index=admissionIndex,
+    __newindex=admissionNewIndex,
 })
 local operations = { timeEater=true, writhingRoll=true,writhingParasite=true, classPotion=true, silentFinal=true, discover=true, colorless=true, heal=true, originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,

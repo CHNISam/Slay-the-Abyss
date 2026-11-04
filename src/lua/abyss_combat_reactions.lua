@@ -1,4 +1,4 @@
--- Combat admission only. The caller owns draining and transaction boundaries.
+-- Combat effect admission only; Combat owns draining and transactions.
 local M={}
 function M.enqueue(state, effect, source, target, instance, top)
     state.cardActions = state.cardActions or {}

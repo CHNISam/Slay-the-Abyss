@@ -60,7 +60,7 @@ test('potion candidate helpers cannot move branching outside the responsibility 
 
 test('every extracted card action helper is required and bounded with its nested functions',()=>{
   const path='src/lua/abyss_card_actions.lua';
-  const names=['exhaustRandom','fiendFire','exhaustNonAttacks','exhaustSpecific',
+  const names=['admissionIndex','admissionNewIndex','exhaustRandom','fiendFire','exhaustNonAttacks','exhaustSpecific',
     'upgradeAllHand','makeTemporaryCards','generateAttack','randomizeHandCost',
     'upgradeHand','resolveCurlUp','obtainPotion','doubleStrength','spotWeakness','damageRandom',
     'feedReward','feed','reaper','heal','applyFallback','block','M.apply',

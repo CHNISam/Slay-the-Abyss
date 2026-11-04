@@ -99,6 +99,7 @@ const responsibilityRoots = {
       'queueHitPowers','queueAttackedPowers','M.damage'].map(name=>`function '${name}'`),
   ],
   'src/lua/abyss_card_actions.lua': [
+    "function 'admissionIndex'", "function 'admissionNewIndex'",
     ...['exhaustRandom','fiendFire','exhaustNonAttacks','exhaustSpecific','upgradeAllHand',
       'makeTemporaryCards','generateAttack','randomizeHandCost','upgradeHand','resolveCurlUp',
       'obtainPotion','doubleStrength','spotWeakness','damageRandom','feedReward','feed','reaper',

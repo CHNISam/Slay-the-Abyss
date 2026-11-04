@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-11-04 08:10'
+updated_date: '2026-11-04 08:14'
 labels: []
 milestone: m-7
 dependencies: []
@@ -141,4 +141,6 @@ PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触�
 本轮#493后两事件精确inverse合流：PR487新增inverse/组合/freshness/cache/preparation及真实中文控件20项通过；原生退出与不可用时钟新增1项通过，完整托管CI另验，不勾父任务最终AC。
 
 2026-11-04 Combat Reactions首切片已实际提取，Actor到CardActions的2处导入删除；AST职责边界含延迟导入并有旧检查器RED/修后GREEN。322→323模块，1876→1877导入位置，1506→1507唯一边；全图SCC仍1个105模块，内部位置809→807，即时图SCC仍0。新入口CC最大4，兼容代理增加总复杂度5，不宣称SCC消失或复杂度净下降。工程门禁、原注册器3组旧新状态/RNG差分、PlatedArmor49场景、职责17项及历史架构反例通过；完整CI与合后验证待取，任务保持In Progress。详见docs/evidence/combat-reactions-20261104.json。
+
+PR511整合既有远端feat/combat-reactions@1bd99a（无既有PR），复用其固定Oracle/四变异/命名兼容门面与Actor单次导入，原分支保留。新实测总导入位置1876→1876，唯一边1506→1507，SCC仍1个105模块且内部位置809→807/唯一边542→541；三模块总CC927→934，新门面和反应入口全部纳入原CC15。38项长批含Run三类晚奖励回滚已通过；历史Linux与本轮Windows证据分开，最终新SHA独审/Full/合后继续。
 <!-- SECTION:NOTES:END -->
