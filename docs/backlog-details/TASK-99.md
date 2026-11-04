@@ -30,3 +30,6 @@ Node v24.22.1，`node --test tests/delivery.test.mjs tests/full-quality.test.mjs
 独立只读复审覆盖继承链、publisher 调用边界及正反例，无阻断发现；独立运行两组 51/51。吸收到本基线后增加 auto-merge 回归，总计 81 项。
 
 以上是本地补丁验证，不代表当前远端主线已经通过该继承场景，也不是整库 Quality 结果。当前精确 HEAD 的完整 CI 由本 PR 统一运行；任务在实际合后 squash SHA、父提交、源码树及其独立 push Quality 验证完成前保持 In Progress。
+## 集成接续记录
+
+原修复 `528983e832b1961e7055d500c211c1b7da6ff95f` 已完整接入 PR #504，与迁移身份适配组合后的83项定向测试通过。候选验证器使用 #501 原 preflight、真实 attempt2 作业历史及不可变 checkout 收据得到 `merged_passed`，未改写原始 jobs/receipt；独立迁移 witness 保留原授权全文及 hash。原修复与审查证据保留在上文，当前组合 HEAD 的 Full 与实际 squash/push 尚待验证。

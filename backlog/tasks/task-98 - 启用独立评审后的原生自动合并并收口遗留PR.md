@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 02:34'
-updated_date: '2026-11-04 05:32'
+updated_date: '2026-11-04 05:55'
 labels: []
 milestone: m-7
 dependencies: []
@@ -57,4 +57,6 @@ Sapphire全部21组本轮7+4项合同回放通过；分片3/5原始入口8596/61
 PR502已原生自动合入67493f1a，PR Full41771126698及push Full41775894289均27项通过。随后仓库归属转FurinyaWorks，ID1429751262不变；PR504原1667轮取消（head/base未变），已显式暂停并保留原证据。CLI canonical变化导致旧授权repo字符串不能验收，继续修复身份衔接而不重写旧收据。
 
 固定ID/登记别名/原文hash迁移适配74项合同通过，guidance/backlog通过；候选验证器用502原授权与真实两轮Full、不可变收据验证merged_passed（76224ac7），旧preflight repo仍CHNISam，原文件SHA256一致。尚待本次新HEAD独立复审与Full，未宣称迁移修复已合入。
+
+已接入PR505严格继承修复，并保留PR506的TASK98.1及附件，避免两套迁移实现；按numeric canonical补review/waiver/pause三个CLI路由与旧review不可升级负例。组合83项通过。使用501原preflight及真实attempt2 API/不可变收据，候选验证得到merged_passed（eec92e2f），未改原jobs或receipt。
 <!-- SECTION:NOTES:END -->

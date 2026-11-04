@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 04:57'
-updated_date: '2026-11-04 04:58'
+updated_date: '2026-11-04 05:55'
 labels: []
 milestone: m-7
 dependencies: []
@@ -44,4 +44,6 @@ PR #501 合后仅重跑失败作业时，GitHub 将保留的成功首分片复�
 已查开放 PR 及现有任务，无收据修复接续项；TASK-98 保持原负责人及范围。task:pick TASK-99 返回 ALLOW。
 
 基于 67493f1 的 collector/publisher 共用校验已完成，81项交付/Full/自动合并定向测试通过；继承原型独立复审通过，真实 #501 快照回放及6负例通过。doctor、verify:backlog 和 guidance 结果记录于附件；完整 CI 与合后验证尚未完成，AC不提前勾选。
+
+原528983e修复已cherry-pick接入PR504，与仓库迁移witness组合83项通过。使用501原preflight及真实GitHub attempt2、不可变收据候选验收merged_passed（eec92e2f），不改原始jobs/receipt；当前组合HEAD独立复审、Full及实际合入另验。
 <!-- SECTION:NOTES:END -->

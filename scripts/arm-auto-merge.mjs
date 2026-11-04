@@ -292,13 +292,12 @@ export function pauseAutoMerge(repo,number,query=gh){
   return {state:'paused',prNumber:number,head:after.head.sha};
 }
 
-if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
-  try {
-    const [numberArg,reviewArg,option,...extra]=process.argv.slice(2);
-    const repository=currentProjectRepository(gh),repo=repository.full_name;
+export function main(args=process.argv.slice(2),query=gh) {
+    const [numberArg,reviewArg,option,...extra]=args;
+    const repository=currentProjectRepository(query),repo=repository.full_name;
     if(/^[1-9][0-9]*$/.test(numberArg??'')&&reviewArg==='--pause'&&option===undefined&&!extra.length){
-      console.log(JSON.stringify(pauseAutoMerge(repo,Number(numberArg)),null,2));
-      process.exit(0);
+      const result=pauseAutoMerge(repo,Number(numberArg),query);
+      console.log(JSON.stringify(result,null,2));return result;
     }
     if(!/^[1-9][0-9]*$/.test(numberArg??'')||!reviewArg||
       option!==undefined&&option!=='--dry-run'||extra.length)
@@ -307,13 +306,13 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
       JSON.parse(readFileSync(reviewArg,'utf8'));
     // Waiver is bound to the current SHA by the collector; no forged CI receipt.
     if(review.disposition==='low-risk-docs') {
-      const first=json(gh,'api',`repos/${repo}/pulls/`+Number(numberArg));
+      const first=json(query,'api',`repos/${repo}/pulls/`+Number(numberArg));
       review.reviewedHeadSha=first.head?.sha;
       review.reviewedBaseSha=first.base?.sha;
     }
     const dir='build/delivery';mkdirSync(dir,{recursive:true});
     const journal=dir+'/auto-merge-'+numberArg+'-'+randomUUID()+'-attempt.json';
-    const result=armAutoMerge(repo,Number(numberArg),review,gh,
+    const result=armAutoMerge(repo,Number(numberArg),review,query,
       {dryRun:option==='--dry-run',persist:record=>writeFileSync(journal,JSON.stringify(record,null,2)+'\n')});
     const proofFile=dir+'/auto-merge-'+numberArg+'-'+result.head.slice(0,12)+'.json';
     if(option!=='--dry-run')writeFileSync(proofFile,JSON.stringify(result.proof,null,2)+'\n');
@@ -321,5 +320,8 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
       dependsOn:result.dependsOn,...(option!=='--dry-run'?{proofFile}:{})},null,2));
     console.log(option==='--dry-run'?'Read-only eligibility PASS':
       'GitHub controls the required CI. After merge: npm run verify:delivery -- '+numberArg+' '+proofFile+' --merged');
-  }catch(error){console.error(error.message);process.exitCode=1;}
+    return result;
+}
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
+  try{main();}catch(error){console.error(error.message);process.exitCode=1;}
 }

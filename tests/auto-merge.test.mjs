@@ -1,19 +1,22 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {parseDependencies,autoMergeErrors,collectEligibility,armAutoMerge as activate,pauseAutoMerge,reviewContext,requiredContexts} from '../scripts/arm-auto-merge.mjs';
+import {parseDependencies,autoMergeErrors,collectEligibility,armAutoMerge as activate,pauseAutoMerge,reviewContext,requiredContexts,main} from '../scripts/arm-auto-merge.mjs';
+import {mkdtempSync,writeFileSync,readFileSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
 import {verifyAutoMergeArm,verifyDelivery,verifyHistoricalAutoFull,verifyMergedDelivery,collectMergedDelivery,currentFullQualityJobs,qualityWorkflowPath} from '../scripts/verify-delivery.mjs';
 import {projectRepositoryId,currentProjectRepository,collectIdentityWitness} from '../scripts/repository-identity.mjs';
 
 const sha=c=>c.repeat(40);
 const armAutoMerge=(repo,number,review,query,options={})=>activate(repo,number,review,query,{loadCheckout:query.loadCheckout,...options});
 const repo='CHNISam/Slay-the-Abyss';
-function fixture() {
+function fixture(repoName=repo) {
   const pr={number:510,node_id:'PR_reviewed_510',state:'open',merged:false,draft:false,mergeable:true,changed_files:1,
-    head:{sha:sha('a'),ref:'feat/reviewed',repo:{id:projectRepositoryId,full_name:repo}},base:{ref:'develop',sha:sha('b'),repo:{id:projectRepositoryId,full_name:repo}},merge_commit_sha:sha('d'),body:'Summary\n\nDepends-on: none',
+    head:{sha:sha('a'),ref:'feat/reviewed',repo:{id:projectRepositoryId,full_name:repoName}},base:{ref:'develop',sha:sha('b'),repo:{id:projectRepositoryId,full_name:repoName}},merge_commit_sha:sha('d'),body:'Summary\n\nDepends-on: none',
     labels:[]};
   const review={reviewId:'independent-agent-evidence-100',reviewedHeadSha:sha('a'),
-    reviewedBaseSha:sha('b'),conclusion:'pass',unresolved:[],repo,prNumber:510};
-  const settings={id:projectRepositoryId,full_name:repo,allow_auto_merge:true,allow_squash_merge:true};
+    reviewedBaseSha:sha('b'),conclusion:'pass',unresolved:[],repo:repoName,prNumber:510};
+  const settings={id:projectRepositoryId,full_name:repoName,allow_auto_merge:true,allow_squash_merge:true};
   const ruleset={target:'branch',enforcement:'active',conditions:{ref_name:{include:['refs/heads/develop'],exclude:[]}},
     rules:[
       {type:'pull_request',parameters:{allowed_merge_methods:['squash'],required_review_thread_resolution:true}},
@@ -21,7 +24,7 @@ function fixture() {
       {type:'required_status_checks',parameters:{strict_required_status_checks_policy:true,
         required_status_checks:requiredContexts.map(context=>({context,integration_id:context===reviewContext?null:15368}))}}
     ]};
-  return {pr,review,settings,ruleset,repo,baseSha:sha('b'),dependencies:[]};
+  return {pr,review,settings,ruleset,repo:repoName,baseSha:sha('b'),dependencies:[]};
 }
 test('repository transfer resolves the pinned project and rejects namespace reuse and forks',()=>{
  const canonical='FurinyaWorks/Slay-the-Abyss';
@@ -39,7 +42,8 @@ test('repository transfer resolves the pinned project and rejects namespace reus
  }
 });
 function mock(opts={}) {
-  const f=fixture(),calls=[];let pulls=0,armed=false,statusId=10;
+  const repo=opts.repository??'CHNISam/Slay-the-Abyss';
+  const f=fixture(repo),calls=[];let pulls=0,armed=false,statusId=10;
   let reviewStatus={id:statusId,context:reviewContext,state:'success'};
   const run={id:7,run_attempt:1,event:'pull_request',head_sha:sha('a'),path:qualityWorkflowPath,
     repository:{full_name:repo},status:'completed',conclusion:'success',pull_requests:[{number:510}]};
@@ -64,6 +68,7 @@ function mock(opts={}) {
       throw Error('Unexpected gh pr invocation');
     }
     const last=args.includes('--method')?args.find(x=>x.startsWith('repos/')):args.at(-1);
+    if(last==='repositories/'+projectRepositoryId)return JSON.stringify(f.settings);
     if(args.includes('POST')){
       reviewStatus={id:++statusId,context:reviewContext,state:args.find(a=>a.startsWith('state=')).slice(6)};
       return JSON.stringify(reviewStatus);
@@ -108,6 +113,35 @@ function mock(opts={}) {
   query.loadCheckout=()=>({checkout,checkoutArtifact});
   return {query,calls,f};
 }
+
+test('review, waiver and pause CLI paths resolve canonical identity and never upgrade an old review',()=>{
+ const canonical='FurinyaWorks/Slay-the-Abyss',dir=mkdtempSync(join(tmpdir(),'auto-merge-cli-')),file=join(dir,'review.json');
+ try{
+  writeFileSync(file,JSON.stringify(fixture(canonical).review));
+  for(const mode of ['review','waiver','pause']){
+   const m=mock({repository:canonical,pending:true}),calls=[];
+   const query=(...args)=>{
+    calls.push(args);
+    const endpoint=args.find(a=>a.startsWith('repos/'))??args.at(-1);
+    if(endpoint.startsWith('repos/'))assert(endpoint===`repos/${canonical}`||endpoint.startsWith(`repos/${canonical}/`));
+    if(args[0]==='pr')assert(args.includes(canonical));
+    if(endpoint.endsWith('/files?per_page=100'))return JSON.stringify([[{filename:'README.md',status:'modified',sha:sha('a')}]]);
+    return m.query(...args);
+   };
+   const args=mode==='pause'?['510','--pause']:['510',mode==='waiver'?'--low-risk-docs':file,'--dry-run'];
+   assert.equal(main(args,query).state,mode==='pause'?'paused':'eligible');
+   if(mode!=='pause')assert(!calls.some(c=>c.includes('POST')||c[0]==='pr'));
+   const badCalls=[];
+   assert.throws(()=>main(args,(...args)=>{badCalls.push(args);return JSON.stringify({id:1,full_name:canonical});}),/identity/);
+   assert(!badCalls.some(c=>c.includes('POST')||c[0]==='pr'));
+  }
+  const old={...fixture(canonical).review,repo};writeFileSync(file,JSON.stringify(old));
+  const m=mock({repository:canonical,pending:true});
+  assert.throws(()=>main(['510',file],m.query),/different repository\/PR/);
+  assert(!m.calls.some(c=>c.includes('POST')||c[0]==='pr'));
+  assert.deepEqual(JSON.parse(readFileSync(file,'utf8')),old);
+ }finally{assert(dir.startsWith(join(tmpdir(),'auto-merge-cli-')));rmSync(dir,{recursive:true,force:true});}
+});
 
 test('dependency declarations are mandatory, unambiguous and same-repo',()=>{
   assert.deepEqual(parseDependencies('Depends-on: none'),[]);
