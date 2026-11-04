@@ -10,7 +10,7 @@
     "node": "v22.22.1",
     "platform": "win32"
   },
-  "method": "Pinned Luacheck 1.2.0 W561 for every function and chunk, per-module Lua AST function counts including nested/anonymous functions; exact actual develop archive and clean candidate source, identical .luacheckrc.",
+  "method": "Pinned Luacheck 1.2.0 W561 for every function and chunk, per-module Lua AST function counts including nested/anonymous functions; exact actual develop archive and clean candidate source, identical .luacheckrc. Source Git identity independently checked after LF normalization; recorded module SHA256 describes original CRLF bytes under core.autocrlf=true.",
   "before": {
     "modules": 322,
     "functions": 4777,
@@ -53,7 +53,8 @@
         "subject": "function 'M.new'",
         "complexity": 82
       }
-    ]
+    ],
+    "longestConstructorLines": 1004
   },
   "after": {
     "modules": 323,
@@ -97,7 +98,21 @@
         "subject": "function 'M.new'",
         "complexity": 82
       }
-    ]
+    ],
+    "longestConstructorLines": 1004
   },
-  "rawDirectory": "F:\\New folder\\worktrees\\combat-reactions-integrated\\build\\global-complexity-uFbsR5"
+  "rawDirectory": "F:\\New folder\\worktrees\\combat-reactions-integrated\\build\\global-complexity-uFbsR5",
+  "independentAudit": {
+    "reviewId": "domain_final_review:global-complexity-20261104",
+    "conclusion": "pass",
+    "unresolved": [],
+    "method": "Existing measureSources correlates every W561 to the exact AST position in both complete source sets; errors=[] for each. All source blobs match their recorded Git revision after LF normalization.",
+    "longestConstructor": {
+      "file": "src/lua/abyss_game_ui.lua",
+      "name": "M.new",
+      "line": 25,
+      "lines": 1004
+    },
+    "archive": "F:/New folder/.artifacts/m7-closeout-20261104/global-complexity"
+  }
 }

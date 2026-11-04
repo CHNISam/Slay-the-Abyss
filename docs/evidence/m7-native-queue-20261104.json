@@ -343,7 +343,7 @@
   "timingMethod": "GitHub run created_at to updated_at wall; sum of job started_at to completed_at is unweighted execution minutes, not billed minutes. Failed/cancelled diagnostic samples are separate from completed successful Full; first-job delay is not every job queue delay. Queue activation has no established causal speedup from these samples.",
   "domainGlobalComplexity": {
     "evidence": "docs/evidence/combat-reactions-global-complexity-20261104.json",
-    "sha256": "0ef9b3953511c22e34fb192f589c385c3ca869fdf3432f248af3dc64ef62571e",
+    "sha256": "e78ab1ccd6c9e0b5357af4f2a9edf2b2ada84d50a5dcef05ef5cd510482db8b4",
     "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
     "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
     "before": {
