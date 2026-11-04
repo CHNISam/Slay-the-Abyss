@@ -8,12 +8,15 @@ function M.capture(root,target)
     assert(type(root)=='table','snapshot requires a table')
     local saved,pending={[root]={}},{root}
     local top,kind=1,type
+    local keyTables={}
     while top>0 do
         local original=pending[top];pending[top]=nil;top=top-1
         local values=saved[original]
         for k,v in next,original do
             values[k]=v
-            if kind(k)=='table' and not saved[k] then
+            local tableKey=keyTables[k]
+            if tableKey==nil then tableKey=kind(k)=='table';keyTables[k]=tableKey end
+            if tableKey and not saved[k] then
                 saved[k]={};top=top+1;pending[top]=k
             end
             if kind(v)=='table' and not saved[v] then

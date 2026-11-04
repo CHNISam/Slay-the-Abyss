@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "base": "b4ac63145689b9dd632db100eee49087f6182b39",
+  "path": "src/lua/abyss_snapshot.lua",
+  "beforeSourceSha256": "ad6ad705a56c0ebaa5ef8c3ad7966cebf9473280f302c0d659f3ecde0f86b3d2",
+  "afterSourceSha256": "8952ff07bea54c924d9a04200acce11be26cbb4bc66096de72a1b6a39e079b63",
+  "changes": [
+    {
+      "before": "local top,kind=1,type",
+      "after": "local top,kind=1,type\n    local keyTables={}"
+    },
+    {
+      "before": "if kind(k)=='table' and not saved[k] then",
+      "after": "local tableKey=keyTables[k]\n            if tableKey==nil then tableKey=kind(k)=='table';keyTables[k]=tableKey end\n            if tableKey and not saved[k] then"
+    }
+  ]
+}
