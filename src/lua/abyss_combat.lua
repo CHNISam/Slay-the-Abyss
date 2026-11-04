@@ -531,69 +531,93 @@ end
 -- resolution uses. Without an aimed enemy, only player modifiers apply. Aimed
 -- cards add receiving modifiers; area calculations retain per-monster values
 -- and display the first monster slot. Never invent a min/max damage range.
+local function previewDamage(state, player, aimed, op, base)
+    local neutral = {statuses = {}}
+    local targeted = Actors.isActive(aimed)
+    local targets, value
+    if op == "damageAll" and targeted then
+        targets = {}
+        for i, enemy in ipairs(state.enemies) do
+            targets[i] = Actors.attackAmount(state, player, Actors.isActive(enemy) and enemy or neutral, base)
+        end
+        value = targets[1]
+    else
+        value = Actors.attackAmount(state, player, targeted and aimed or neutral, base)
+    end
+    return {op = op, low = value, high = value, targets = targets}
+end
+local function directAttackPreview(effect)
+    return effect.op=='barrageDamage' or effect.op=='bowlingBash' or effect.op=='ftlDamage' or effect.op=='heelHook'
+        or effect.op=='fiendFire' or effect.op=='fearNoEvil' or effect.op=='wallop' or effect.op=='flowDamage'
+end
+local function finalAttackPreview(effect)
+    return effect.op=='sunderDamage' or effect.op=='finisherDamage' or effect.op=='flechettesDamage'
+        or effect.op=='skewer' or effect.op=='glassKnife' or effect.op=='watcherFinalRagnarok'
+        or effect.op=='watcherFinalExpungerHits' or effect.op=='watcherFinalLessonLearned'
+end
+local function targetedEffectPreview(state, player, aimed, effect)
+    local result
+    if effect.op == "damage" or effect.op == "damageAll" then result = previewDamage(state, player, aimed, effect.op, effect.value)
+    elseif effect.op=='colorless'and (effect.kind=='ritual'or effect.kind=='greed')then
+        result=previewDamage(state, player, aimed, 'damage',effect.damage or effect.value)
+    elseif directAttackPreview(effect) or finalAttackPreview(effect) then
+        result=previewDamage(state, player, aimed, 'damage',effect.value);result.op=effect.op
+    end
+    return result
+end
+local function damageEffectPreview(state, player, aimed, effect)
+    local result
+    if effect.op=='feed' or effect.op=='reaper' or effect.op=='damageRandom' then
+        result=previewDamage(state, player, aimed, effect.op=='reaper' and 'damageAll' or 'damage',effect.value);result.op=effect.op
+    elseif effect.op=='blizzardDamage' then
+        result=previewDamage(state, player, aimed, 'damageAll',effect.value);result.op=effect.op
+    elseif effect.op=='randomEngineAttack' or effect.op=='thunderStrike' then
+        local amount=Actors.attackAmount(state,player,{statuses={}},effect.value)
+        result={op=effect.op,low=amount,high=amount}
+    elseif effect.op == "whirlwind" or effect.op == "reaperDamage" then
+        result = previewDamage(state, player, aimed, "damageAll",effect.value)
+        result.op = effect.op
+    elseif effect.op == "damageEqualToBlock" then result = previewDamage(state, player, aimed, "damage", player.block)
+        result.op = effect.op
+    end
+    return result
+end
+local function blockEffectPreview(state, player, instance, effect)
+    local result
+    if effect.op == "block" or effect.op=='nextBlock' or effect.op=='xBlock'
+        or effect.op=='secondWind' or effect.op=='stackBlock' or effect.op=='autoShields' or effect.op=='escapePlan' then
+        local amount = Actors.blockAmount(state, player, effect.value)
+        result = {op = effect.op, low = amount, high = amount}
+    elseif effect.op=='watcherFinalSpiritShield' then
+        local others=#state.hand
+        for _,held in ipairs(state.hand)do if held.uid==instance.uid then others=others-1;break end end
+        local amount=Actors.blockAmount(state,player,effect.value*others)
+        result={op=effect.op,low=amount,high=amount}
+    elseif effect.op=='halt' then
+        local amount=Actors.blockAmount(state,player,effect.value)
+        if player.stance=='Wrath' then amount=amount+Actors.blockAmount(state,player,effect.wrathValue) end
+        result={op=effect.op,low=amount,high=amount}
+    end
+    return result
+end
+local function previews(state, player, aimed, instance, effects)
+    local result={}
+    for i,effect in ipairs(effects)do
+        local slot=targetedEffectPreview(state, player, aimed, effect)
+            or damageEffectPreview(state, player, aimed, effect) or blockEffectPreview(state, player, instance, effect)
+        if slot then result[i]=slot
+        elseif effect.op=='conditional' then
+            result[i]={op=effect.op,['then']=previews(state, player, aimed, instance, effect['then'])}
+        end
+    end
+    return result
+end
+
 function M.cardPreview(state, instance, targetIndex)
     local card, player = M.cardDefinition(state, instance), state.player
     if card.originalV4 then return require('abyss_original_v4').preview(M,state,instance,targetIndex) end
     local aimed = state.enemies[targetIndex]
-    local function previewDamage(op, base)
-        local neutral = {statuses = {}}
-        local targeted = Actors.isActive(aimed)
-        local targets, value
-        if op == "damageAll" and targeted then
-            targets = {}
-            for i, enemy in ipairs(state.enemies) do
-                targets[i] = Actors.attackAmount(state, player, Actors.isActive(enemy) and enemy or neutral, base)
-            end
-            value = targets[1]
-        else
-            value = Actors.attackAmount(state, player, targeted and aimed or neutral, base)
-        end
-        return {op = op, low = value, high = value, targets = targets}
-    end
-    local function previews(effects)
-      local result={}
-      for i, effect in ipairs(effects) do
-        if effect.op == "damage" or effect.op == "damageAll" then result[i] = previewDamage(effect.op, effect.value)
-        elseif effect.op=='colorless'and (effect.kind=='ritual'or effect.kind=='greed')then
-            result[i]=previewDamage('damage',effect.damage or effect.value)
-        elseif effect.op=='barrageDamage' or effect.op=='bowlingBash' or effect.op=='ftlDamage' or effect.op=='heelHook'
-            or effect.op=='fiendFire' or effect.op=='fearNoEvil' or effect.op=='wallop' or effect.op=='flowDamage'
-            or effect.op=='sunderDamage' or effect.op=='finisherDamage' or effect.op=='flechettesDamage'
-            or effect.op=='skewer' or effect.op=='glassKnife' or effect.op=='watcherFinalRagnarok'
-            or effect.op=='watcherFinalExpungerHits' or effect.op=='watcherFinalLessonLearned' then
-            result[i]=previewDamage('damage',effect.value);result[i].op=effect.op
-        elseif effect.op=='feed' or effect.op=='reaper' or effect.op=='damageRandom' then
-            result[i]=previewDamage(effect.op=='reaper' and 'damageAll' or 'damage',effect.value);result[i].op=effect.op
-        elseif effect.op=='blizzardDamage' then
-            result[i]=previewDamage('damageAll',effect.value);result[i].op=effect.op
-        elseif effect.op=='randomEngineAttack' or effect.op=='thunderStrike' then
-            local amount=Actors.attackAmount(state,player,{statuses={}},effect.value)
-            result[i]={op=effect.op,low=amount,high=amount}
-        elseif effect.op == "whirlwind" or effect.op == "reaperDamage" then
-            result[i] = previewDamage("damageAll",effect.value)
-            result[i].op = effect.op
-        elseif effect.op == "damageEqualToBlock" then result[i] = previewDamage("damage", player.block)
-            result[i].op = effect.op
-        elseif effect.op == "block" or effect.op=='nextBlock' or effect.op=='xBlock'
-            or effect.op=='secondWind' or effect.op=='stackBlock' or effect.op=='autoShields' or effect.op=='escapePlan' then
-            local amount = Actors.blockAmount(state, player, effect.value)
-            result[i] = {op = effect.op, low = amount, high = amount}
-        elseif effect.op=='watcherFinalSpiritShield' then
-            local others=#state.hand
-            for _,held in ipairs(state.hand)do if held.uid==instance.uid then others=others-1;break end end
-            local amount=Actors.blockAmount(state,player,effect.value*others)
-            result[i]={op=effect.op,low=amount,high=amount}
-        elseif effect.op=='halt' then
-            local amount=Actors.blockAmount(state,player,effect.value)
-            if player.stance=='Wrath' then amount=amount+Actors.blockAmount(state,player,effect.wrathValue) end
-            result[i]={op=effect.op,low=amount,high=amount}
-        elseif effect.op=='conditional' then
-            result[i]={op=effect.op,['then']=previews(effect['then'])}
-        end
-      end
-      return result
-    end
-    return previews(card.effects)
+    return previews(state, player, aimed, instance, card.effects)
 end
 
 local function findInstance(state, uid)
