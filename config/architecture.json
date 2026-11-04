@@ -576,6 +576,12 @@
   ],
   "dependencyBoundaries": [
     {
+      "id": "living-wall-copy-isolation",
+      "from": ["abyss_living_wall"],
+      "forbiddenTargets": ["abyss_combat"],
+      "reason": "Living Wall filters detached card copies through Foundation; Session commands remain owned by Run."
+    },
+    {
       "id": "nob-reaction-admission",
       "from": ["abyss_gremlin_nob_ai"],
       "forbiddenTargets": ["abyss_card_actions"],

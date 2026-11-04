@@ -119,7 +119,14 @@ test('combat play, turn and constructor stages are required, bounded and fully m
     'constructorOptions','validateConstructorOptions','constructorState',
     'detectConstructorMechanics','constructorRandomStreams','constructorDevelopmentResources',
     'constructorCardUid','appendConstructorCard','constructorDeck','constructorEnemies',
-    'constructorCardStreams','constructorEmeraldBoost','constructorOpening','M.new'];
+    'constructorCardStreams','constructorEmeraldBoost','constructorOpening','M.new',
+    'nativeEthereal','resetNativeTurnCosts','prepareNativePlayerEnd','autoUseNativeEndCards',
+    'endNativePlayerPowers','resolveNativeRetainPowers','discardNativeRetainedHand',
+    'cleanupNativePlayerEnd','startNativeEnemyGroup','runNativeEnemyGroup','finishNativeRound','endNativeTurn',
+    'resetExperimentalTurnCosts','autoUseExperimentalEndCards','prepareExperimentalPlayerEnd',
+    'startExperimentalEnemyGroup','runExperimentalEnemyGroup','finishExperimentalRound','endExperimentalTurn',
+    'catalogNeedsTurnCleanup','powersNeedTurnCleanup','cardNeedsTurnCleanup','advancedTurnCleanup',
+    'resumeRetainedEndTurn','endTurnNeedsTransaction','endTurnRestore','invokeEndTurnResolver','M.endTurn'];
   const source=names.map(name=>`function ${name}() return function() end end`).join('\n');
   const diagnostics=[row(path,1,1,'main chunk',1)];
   for(const [i,name] of names.entries()){

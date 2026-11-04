@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "baselineRevision": "f26aeb30c0995de70cf340af977d3c8579c1a2b5",
+  "baselineGitBlob": "355d40b0e94decec318d9dabc24ca7d2d96c27b8",
+  "runtime": "v24.18.0",
+  "file": "src/lua/abyss_combat.lua",
+  "beforeSourceSha256": "05a24758f0815a8186a868048029c3e4bb22d23e99b1199c697ad69b665ce80a",
+  "afterSourceSha256": "84239aa2945d36fdbc0aa46e3ae6cb676bd8d593a915f1c308bd54420327d71f",
+  "fixture": "tests/lua/end_turn_admission.lua",
+  "fixtureSha256": "cc06af440d506ba6c77ea04ec85c021a2e2220d7fae73790daa1d469bd124050",
+  "scenarios": 12,
+  "scenarioNames": [
+    "potion-first",
+    "direct-native",
+    "direct-experimental-and-reads",
+    "second-predicate-fallback",
+    "catalog-short-circuit",
+    "relic-false",
+    "relic-pause",
+    "relic-terminal",
+    "retained-public-resume",
+    "original-overrides-experimental",
+    "snapshot-before-resolver-read",
+    "owner-and-atomic-alias-restore"
+  ],
+  "parity": {
+    "fullGraphBytes": 2739223,
+    "fullGraphSha256": "d05b686fa93c2566ef548a525c262b1597ddd45e611c4015eaa8981ec5967559",
+    "timeoutMilliseconds": 30000,
+    "maxBufferBytes": 67108864,
+    "oldAndNewIndependentVms": true,
+    "excludedSubtrees": [],
+    "includes": [
+      "complete mutable state",
+      "catalog/rules/sourcePools",
+      "caller-visible aliases/cycles",
+      "events",
+      "RNG after real consumption",
+      "paused queues",
+      "return pack.n and nil slots",
+      "table exception identity"
+    ],
+    "functionRepresentation": "function type marker; owner identity, callback order and selected capability consumption asserted separately"
+  },
+  "semanticMutations": {
+    "count": 12,
+    "allKilledByBehavioralAssertions": true,
+    "labels": [
+      "potion first refusal",
+      "relic false carries reason",
+      "relic pause returns immediately",
+      "retained pending refusal",
+      "catalog field short-circuit order",
+      "second advanced decision retains fallback",
+      "exact parent owner consumed",
+      "late errors restore full graph",
+      "transaction nil reason retains return slot",
+      "direct native single return",
+      "V4 overrides experimental flag",
+      "snapshot precedes resolver property reads"
+    ]
+  },
+  "verification": {
+    "newDifferentialAndMutations": {
+      "tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "milliseconds": 25671.3767
+    },
+    "existingNativeAndExperimentalAndResponsibility": {
+      "tests": 18,
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "milliseconds": 40301.7899
+    },
+    "raw": {
+      "scenarios": 12,
+      "milliseconds": 4344,
+      "largeTracePrinted": false
+    }
+  },
+  "limitations": [
+    "Retained public-resume checkpoint uses the actual data-only paused ownerEndRetain shape; existing native/experimental suites cover natural Well-Laid Plans choice continuations.",
+    "Changing catalog proxy reads and capture callback state are explicit observable boundary counterexamples, not normal user routes.",
+    "Source prefix/suffix are not frozen; complete old-source authentication and behavioral assertions remain.",
+    "No candidate write, official import, ready or device verification; precise Full and post-merge status separate."
+  ]
+}

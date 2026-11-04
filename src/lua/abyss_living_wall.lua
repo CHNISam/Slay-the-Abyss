@@ -1,5 +1,5 @@
 -- LivingWall at fixed source 319009d5. No event-pool registration here.
-local C = require('abyss_combat')
+local C = require('abyss_copy')
 local Transform = require('abyss_transform_card')
 local Capability = require('abyss_card_capability')
 local Context = require('abyss_event_transform_context')

@@ -1533,17 +1533,27 @@ local function platedGroupEnd(state)
     CardActions.drain(M,state)
 end
 
-local function advancedTurnCleanup(state)
-    if state.catalog.cards.evolve or state.catalog.cards.claw or state.catalog.cards.blur or state.catalog.cards.wallop then return true end
-    local powers=state.player and state.player.statuses or {}
+local function catalogNeedsTurnCleanup(state)
+    return state.catalog.cards.evolve or state.catalog.cards.claw or state.catalog.cards.blur or state.catalog.cards.wallop
+end
+local function powersNeedTurnCleanup(powers)
     if (powers.corruption or 0)~=0 or (powers.feel_no_pain or 0)>0 or (powers.dark_embrace or 0)>0 then return true end
     for _,id in ipairs({'combust','brutality','berserk','rage','energized','energized_blue','next_turn_block'}) do
         if powers[id]~=nil then return true end
     end
+    return false
+end
+local function cardNeedsTurnCleanup(state,instance)
+    local card=state.catalog.cards[instance.cardId]
+    return card and (card.id=='burn' or card.selfRetain or card.ethereal or instance.upgraded and card.upgrade
+        and (card.upgrade.selfRetain or card.upgrade.ethereal))
+end
+local function advancedTurnCleanup(state)
+    if catalogNeedsTurnCleanup(state) then return true end
+    local powers=state.player and state.player.statuses or {}
+    if powersNeedTurnCleanup(powers) then return true end
     for _,instance in ipairs(state.hand or {}) do
-        local card=state.catalog.cards[instance.cardId]
-        if card and (card.id=='burn' or card.selfRetain or card.ethereal or instance.upgraded and card.upgrade
-            and (card.upgrade.selfRetain or card.upgrade.ethereal)) then return true end
+        if cardNeedsTurnCleanup(state,instance) then return true end
     end
     return false
 end
@@ -1584,21 +1594,16 @@ local function discardOwnerEnd(state)
     assert(queue.run(state,queuedHandlers)==true,'unexpected end-turn selection')
     drainNative(state)
 end
-local function endExperimentalTurn(state)
-    if state.pendingChoice or state.cardActions then return false,'card_choice_pending' end
-    if state.pendingPlay or state.pendingScry or state.pendingHandChoice or state.actionQueue then return false, "selection_pending" end
-    if state.pendingDiscard then return false, "discard_choice_pending" end
-    if state.phase ~= "player" then return false, "not_player_turn" end
-    if not state.silentRetainResume then Rare.onPlayerEndTurn(state);CardActions.drain(M,state);if finish(state)then return true end end
-    if not state.silentRetainResume then
+local function resetExperimentalTurnCosts(state)
     for _,pile in ipairs({state.hand,state.draw,state.discard}) do for _,c in ipairs(pile) do c.costForTurn=nil end end
     local resetCosts=(state.player.statuses.corruption or 0)~=0
     for _,pile in ipairs({state.hand,state.draw,state.discard}) do
         for _,instance in ipairs(pile) do if instance.turnCost~=nil then resetCosts=true end end
     end
     if resetCosts then require("abyss_corruption").resetEndTurn(state) end
-    preCardPowers(state)
-    if finish(state)then return true end
+end
+
+local function autoUseExperimentalEndCards(state)
     -- Regret snapshots every copy's amount before the end-turn card queue runs.
     -- Auto-use is not a player play: no energy, play hooks or attack modifiers.
     local handSize, regrets = #state.hand, {}
@@ -1620,6 +1625,15 @@ local function endExperimentalTurn(state)
         if (state.player.statuses.corruption or 0)~=0 then require("abyss_corruption").onDrawOrDiscard(state) end
         state.cardInUse = nil
     end
+end
+
+local function prepareExperimentalPlayerEnd(state)
+    if not state.silentRetainResume then Rare.onPlayerEndTurn(state);CardActions.drain(M,state);if finish(state)then return true end end
+    if not state.silentRetainResume then
+    resetExperimentalTurnCosts(state)
+    preCardPowers(state)
+    if finish(state)then return true end
+    if autoUseExperimentalEndCards(state)then return true end
     if ordinaryOwnerEnd(state)=='pause'then return true end
     if finish(state)then return true end
     -- No Draw's end-turn RemovePower is ahead of DiscardAtEndOfTurn.
@@ -1630,16 +1644,9 @@ local function endExperimentalTurn(state)
         event(state,"no_draw_removed",{target=state.player.id})
     end
     end
-    state.silentRetainResume=nil
-    discardOwnerEnd(state)
-    if finish(state) then return true end
-    if state.skipMonsterTurn then
-        state.skipMonsterTurn=nil
-        M.startPlayerTurn(state)
-        return true
-    end
-    state.phase = "enemy"
-    event(state, "enemy_turn")
+end
+
+local function startExperimentalEnemyGroup(state)
     -- The group pre-turn hook clears every monster's old Block before its
     -- queued start powers resolve. Drain supported start powers before moves,
     -- so ally Block granted during a move survives later teammates' actions.
@@ -1660,6 +1667,9 @@ local function endExperimentalTurn(state)
             if finish(state) then return true end
         end
     end
+end
+
+local function runExperimentalEnemyGroup(state)
     local actionQueue = {}
     for i, enemy in ipairs(state.enemies) do actionQueue[i] = enemy end
     for _, enemy in ipairs(actionQueue) do
@@ -1676,8 +1686,9 @@ local function endExperimentalTurn(state)
             if finish(state) then return true end
         end
     end
-    platedGroupEnd(state)
-    if finish(state)then return true end
+end
+
+local function finishExperimentalRound(state)
     for _,enemy in ipairs(state.enemies)do require('abyss_act3_powers').ownerEnd(Actors,state,enemy)end
     -- Duration powers belong to the shared round boundary, after all actions.
     -- A new monster-sourced power can suppress its first reduction.
@@ -1697,6 +1708,29 @@ local function endExperimentalTurn(state)
     require('abyss_defect_engine_cards').endRound(state)
     require('abyss_defect_final_cards').endRound(state)
     M.startPlayerTurn(state)
+end
+
+local function endExperimentalTurn(state)
+    if state.pendingChoice or state.cardActions then return false,'card_choice_pending' end
+    if state.pendingPlay or state.pendingScry or state.pendingHandChoice or state.actionQueue then return false, "selection_pending" end
+    if state.pendingDiscard then return false, "discard_choice_pending" end
+    if state.phase ~= "player" then return false, "not_player_turn" end
+    if prepareExperimentalPlayerEnd(state)then return true end
+    state.silentRetainResume=nil
+    discardOwnerEnd(state)
+    if finish(state) then return true end
+    if state.skipMonsterTurn then
+        state.skipMonsterTurn=nil
+        M.startPlayerTurn(state)
+        return true
+    end
+    state.phase = "enemy"
+    event(state, "enemy_turn")
+    if startExperimentalEnemyGroup(state)then return true end
+    if runExperimentalEnemyGroup(state)then return true end
+    platedGroupEnd(state)
+    if finish(state)then return true end
+    finishExperimentalRound(state)
     return true
 end
 
@@ -1708,28 +1742,30 @@ local function nativeEthereal(state)
     CardActions.drain(M,state)
     return finish(state)
 end
-local function endNativeTurn(state)
-    if state.phase ~= "player" then return false, "not_player_turn" end
-    if state.pendingChoice or state.cardActions then return false,"card_choice_pending" end
-    local resumingRetain=state.silentRetainResume
-    if not resumingRetain and not state.originalV4 then Rare.onPlayerEndTurn(state);CardActions.drain(M,state);if finish(state)then return true end end
-    if not resumingRetain then
-    if state.originalV4 then require('abyss_original_v4').endPhase(M,state);if finish(state)then return true end end
-    if state.originalV4 then RelicHooks.onPlayerEndTurn(state)end
+local function resetNativeTurnCosts(state)
     -- AbstractRoom.endTurn resets these three piles before queued end-turn
     -- cleanup; exhaust is deliberately excluded. Exhume can recover a card
     -- that kept a temporary cost while it was out of those piles.
     for _,pile in ipairs({state.hand,state.draw,state.discard}) do
         for _,c in ipairs(pile) do c.costForTurn=nil end
     end
+end
+
+local function prepareNativePlayerEnd(state,resumingRetain)
+    if not resumingRetain and not state.originalV4 then Rare.onPlayerEndTurn(state);CardActions.drain(M,state);if finish(state)then return true end end
+    if not resumingRetain then
+    if state.originalV4 then require('abyss_original_v4').endPhase(M,state);if finish(state)then return true end end
+    if state.originalV4 then RelicHooks.onPlayerEndTurn(state)end
+    resetNativeTurnCosts(state)
     if state.originalV4 then
     PlatedArmor.preEndCards(state,state.player,CardActions.enqueueReaction)
     CardActions.drain(M,state)
     if finish(state)then return true end
     else preCardPowers(state);if finish(state)then return true end end
     end
-    local function cleanupPlayerEnd()
-    if not resumingRetain then
+end
+
+local function autoUseNativeEndCards(state)
     -- Regret snapshots every copy's amount before the end-turn card queue runs.
     -- Auto-use is not a player play: no energy, play hooks or attack modifiers.
     local handSize, endCards = #state.hand, {}
@@ -1755,6 +1791,9 @@ local function endNativeTurn(state)
         state.discard[#state.discard + 1] = instance
         state.cardInUse = nil
     end
+end
+
+local function endNativePlayerPowers(state)
     if state.originalV4 then
         local p=state.player
         if (p.statuses.combust or 0)>0 then
@@ -1771,32 +1810,45 @@ local function endNativeTurn(state)
         if ordinaryOwnerEnd(state)=='pause'then return true end
         if finish(state)then return true end
     end
+end
+
+local function resolveNativeRetainPowers(state)
     if state.originalV4 and nativeEthereal(state)then return true end
     if state.originalV4 and (state.player.statuses.well_laid_plans or 0)>0 then
         Actors.endTurn(state,state.player);CardActions.drain(M,state)
         if finish(state)then return true end
         state.silentOwnerEndResolved=true
     end
+end
+
+local function discardNativeRetainedHand(state)
+    local retained={}
+    for _,instance in ipairs(state.hand)do
+        local definition=M.cardDefinition(state,instance)
+        if (instance.silentRetainTurn==state.turn or Boss.retainsHand(state))and not definition.ethereal then retained[#retained+1]=instance
+        else state.discard[#state.discard+1]=instance end
+    end
+    state.hand=retained
+end
+
+local function cleanupNativePlayerEnd(state,resumingRetain)
+    if not resumingRetain then
+    if autoUseNativeEndCards(state) then return true end
+    if endNativePlayerPowers(state) then return true end
+    if resolveNativeRetainPowers(state) then return true end
     end
     state.silentRetainResume=nil
     if state.originalV4 and require('abyss_silent_final_cards').beginRetain(state)then return true end
     if state.originalV4 then
-        local retained={}
-        for _,instance in ipairs(state.hand)do
-            local definition=M.cardDefinition(state,instance)
-            if (instance.silentRetainTurn==state.turn or Boss.retainsHand(state))and not definition.ethereal then retained[#retained+1]=instance
-            else state.discard[#state.discard+1]=instance end
-        end
-        state.hand=retained
+        discardNativeRetainedHand(state)
     else discardOwnerEnd(state)end
     if state.originalV4 and not state.silentOwnerEndResolved then Actors.endTurn(state,state.player)end
     state.silentOwnerEndResolved=nil
     CardActions.drain(M,state)
     if finish(state) then return true end
-    end
-    if not state.originalV4 and cleanupPlayerEnd() then return true end
-    state.phase = "enemy"
-    event(state, "enemy_turn")
+end
+
+local function startNativeEnemyGroup(state)
     -- The group pre-turn hook clears every monster's old Block before its
     -- queued start powers resolve. Drain supported start powers before moves,
     -- so ally Block granted during a move survives later teammates' actions.
@@ -1811,6 +1863,9 @@ local function endNativeTurn(state)
             if finish(state) then return true end
         end
     end
+end
+
+local function runNativeEnemyGroup(state)
     local actionQueue = {}
     for i, enemy in ipairs(state.enemies) do actionQueue[i] = enemy end
     for _, enemy in ipairs(actionQueue) do
@@ -1828,12 +1883,9 @@ local function endNativeTurn(state)
             if finish(state) then return true end
         end
     end
-    platedGroupEnd(state)
-    if finish(state)then return true end
-    if state.originalV4 then
-        if cleanupPlayerEnd() then return true end
-        require('abyss_original_v4').cleanup(state)
-    end
+end
+
+local function finishNativeRound(state)
     -- Duration powers belong to the shared round boundary, after all actions.
     -- A new monster-sourced power can suppress its first reduction.
     for _,enemy in ipairs(state.enemies)do require('abyss_act3_powers').ownerEnd(Actors,state,enemy)end
@@ -1843,6 +1895,25 @@ local function endNativeTurn(state)
     end
     EnemyAI.endRound(state)
     M.startPlayerTurn(state)
+end
+
+local function endNativeTurn(state)
+    if state.phase ~= "player" then return false, "not_player_turn" end
+    if state.pendingChoice or state.cardActions then return false,"card_choice_pending" end
+    local resumingRetain=state.silentRetainResume
+    if prepareNativePlayerEnd(state,resumingRetain) then return true end
+    if not state.originalV4 and cleanupNativePlayerEnd(state,resumingRetain) then return true end
+    state.phase = "enemy"
+    event(state, "enemy_turn")
+    if startNativeEnemyGroup(state) then return true end
+    if runNativeEnemyGroup(state) then return true end
+    platedGroupEnd(state)
+    if finish(state)then return true end
+    if state.originalV4 then
+        if cleanupNativePlayerEnd(state,resumingRetain) then return true end
+        require('abyss_original_v4').cleanup(state)
+    end
+    finishNativeRound(state)
     return true
 end
 
@@ -1873,11 +1944,7 @@ local function beginRelicEndTurn(state)
     return result
 end
 
-function M.endTurn(state,rollbackOwner)
-    if state.pendingPotionChoice then return false,'potion_choice_pending'end
-    local relicResult,relicReason=beginRelicEndTurn(state)
-    if relicResult=='pause'or relicResult=='terminal'then return true end
-    if relicResult==false then return false,relicReason end
+local function resumeRetainedEndTurn(state)
     if not state.originalV4 and state.silentRetainResume and state.actionQueue and state.actionQueue.paused
         and state.actionQueue.current.effect.op=='ownerEndRetain'then
         if state.pendingChoice then return false,'card_choice_pending'end
@@ -1887,21 +1954,37 @@ function M.endTurn(state,rollbackOwner)
         local result=require('abyss_action_queue').resume(state,queuedHandlers)
         if result=='pause'or finish(state)then return true end
     end
-    if state.originalV4 or advancedTurnCleanup(state)or require('abyss_act3_powers').active(state)
+end
+local function endTurnNeedsTransaction(state)
+    return state.originalV4 or advancedTurnCleanup(state)or require('abyss_act3_powers').active(state)
         or Darklings.active(state) or Awakened.active(state) or require('abyss_giant_head').active(state)
-        or require('abyss_end_turn_powers').needed(state,require('abyss_act3_powers'))then
-        local restore=rollbackOwner and require('abyss_snapshot').ownedRestore(rollbackOwner,state)or require('abyss_snapshot').capture(state)
+        or require('abyss_end_turn_powers').needed(state,require('abyss_act3_powers'))
+end
+local function endTurnRestore(state,rollbackOwner)
+    return rollbackOwner and require('abyss_snapshot').ownedRestore(rollbackOwner,state)or require('abyss_snapshot').capture(state)
+end
+local function invokeEndTurnResolver(state,resolver,restore)
+    local called,ok,reason=pcall(resolver,state)
+    if not called then restore();error(ok,0)end
+    return ok,reason
+end
+function M.endTurn(state,rollbackOwner)
+    if state.pendingPotionChoice then return false,'potion_choice_pending'end
+    local relicResult,relicReason=beginRelicEndTurn(state)
+    if relicResult=='pause'or relicResult=='terminal'then return true end
+    if relicResult==false then return false,relicReason end
+    local retainedResult,retainedReason=resumeRetainedEndTurn(state)
+    if retainedResult==false then return false,retainedReason end
+    if retainedResult then return true end
+    if endTurnNeedsTransaction(state)then
+        local restore=endTurnRestore(state,rollbackOwner)
         local resolver=(state.originalV4 or not state.experimentalMechanics)and endNativeTurn or endExperimentalTurn
-        local called,ok,reason=pcall(resolver,state)
-        if not called then restore();error(ok,0)end
-        return ok,reason
+        return invokeEndTurnResolver(state,resolver,restore)
     end
     if not state.experimentalMechanics then return endNativeTurn(state) end
     if not advancedTurnCleanup(state) then return endExperimentalTurn(state) end
-    local restore=rollbackOwner and require('abyss_snapshot').ownedRestore(rollbackOwner,state)or require('abyss_snapshot').capture(state)
-    local called,ok,reason=pcall(endExperimentalTurn,state)
-    if not called then restore();error(ok,0) end
-    return ok,reason
+    local restore=endTurnRestore(state,rollbackOwner)
+    return invokeEndTurnResolver(state,endExperimentalTurn,restore)
 end
 
 local function constructorOptions(data,options)

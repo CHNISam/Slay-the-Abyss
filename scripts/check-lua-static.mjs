@@ -127,6 +127,15 @@ const responsibilityRoots = {
   'src/lua/abyss_run_potion_candidate.lua': [],
   'src/lua/abyss_effects.lua': ["function 'M.apply'", "function 'continueEffects'", "function 'applyOne'"],
   'src/lua/abyss_combat.lua': [
+    ...['nativeEthereal','resetNativeTurnCosts','prepareNativePlayerEnd','autoUseNativeEndCards',
+      'endNativePlayerPowers','resolveNativeRetainPowers','discardNativeRetainedHand',
+      'cleanupNativePlayerEnd','startNativeEnemyGroup','runNativeEnemyGroup',
+      'finishNativeRound','endNativeTurn','resetExperimentalTurnCosts',
+      'autoUseExperimentalEndCards','prepareExperimentalPlayerEnd','startExperimentalEnemyGroup',
+      'runExperimentalEnemyGroup','finishExperimentalRound','endExperimentalTurn',
+      'catalogNeedsTurnCleanup','powersNeedTurnCleanup','cardNeedsTurnCleanup','advancedTurnCleanup',
+      'resumeRetainedEndTurn','endTurnNeedsTransaction','endTurnRestore','invokeEndTurnResolver','M.endTurn']
+      .map(name=>`function '${name}'`),
     ...['constructorOptions','validateConstructorOptions','constructorState',
       'detectConstructorMechanics','constructorRandomStreams','constructorDevelopmentResources',
       'constructorCardUid','appendConstructorCard','constructorDeck','constructorEnemies',
