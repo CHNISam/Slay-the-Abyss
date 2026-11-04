@@ -532,12 +532,26 @@ test('old Full repository names cannot certify new canonical authorization witho
  }
 });
 
-test('current CI operation examples use canonical repository routes while historical aliases remain',()=>{
- const ci=readFileSync('docs/CI.md','utf8'),canonical='FurinyaWorks/Slay-the-Abyss';
+function assertCanonicalCiExamples(source){
+ const ci=source.replaceAll('\r\n','\n'),canonical='FurinyaWorks/Slay-the-Abyss';
  const setup=ci.split('### 一次性仓库门禁配置\n')[1]?.split('### 常规使用\n')[0];
  assert(setup,'current gate setup section exists');
  assert(setup.includes(`https://github.com/${canonical}/rules/25870651`));
  assert.match(ci,new RegExp(`^gh api --method PUT repos/${canonical}/pulls/<PR>/merge --input approved-merge\\.json$`,'m'));
  assert(ci.includes('`CHNISam/Slay-the-Abyss`'),'registered historical alias remains documented');
  assert(ci.includes('https://github.com/CHNISam/Slay-the-Abyss/pull/220'),'historical audit URL is not rewritten');
+}
+
+test('current CI operation examples use canonical repository routes while historical aliases remain',()=>{
+ assertCanonicalCiExamples(readFileSync('docs/CI.md','utf8'));
+});
+
+test('canonical CI example checks accept LF and CRLF but reject a missing setup heading',()=>{
+ const lf=readFileSync('docs/CI.md','utf8').replaceAll('\r\n','\n');
+ for(const eol of ['\n','\r\n']){
+  const ci=lf.replaceAll('\n',eol);
+  assertCanonicalCiExamples(ci);
+  assert.throws(()=>assertCanonicalCiExamples(ci.replace('### 一次性仓库门禁配置','### Missing setup')),
+   /current gate setup section exists/);
+ }
 });

@@ -38,3 +38,7 @@ PR504已将实现与三条CLI入口回归合入 `c1cf79dfa8e81189546d95277d3bb89
 - 临时独立副本分别放宽ID比较、删除full_name比较、删除run owner比较，三项均被新断言检出；正式生产脚本未修改。doctor、verify:backlog、check:guidance及diff检查通过。
 
 这些是本轮定向与负对照证据，不替代新接续提交的Required CI、独立复审或合后验证；TASK-98.1 AC3保持未完成。
+
+## PR510 Windows CRLF 接续修复
+
+独立复审在 `6f0b873a421557b294a099e5d4f5385ec953e3cc` 复现：文档测试直接按 LF 标题分割，Windows CRLF checkout 使 setup 为空。新增 LF/CRLF 与缺标题负例后，旧分割实现为34通过/2失败；将原断言抽为共享 helper，仅先规范化 CRLF 后，三组定向87/87通过。原路径、历史别名及标题存在断言均保留，生产脚本不变。guidance、verify:backlog、doctor 与 diff whitespace 检查通过；本地提交仍待独立复审、精确 HEAD Required CI 和合后验证，不提前完成 AC3。
