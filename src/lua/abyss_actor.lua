@@ -310,46 +310,64 @@ function M.addTemporaryDexterity(actor, amount, state)
     return addTemporaryStat(actor, "dexterity", amount, state)
 end
 
--- UI receives values, never references to the combat state or definitions.
-function M.statusView(actor)
-    local ids, result = {}, {}
-    if actor.definitionId then
-        -- Actual monster list, never an alphabetical reconstruction of history.
-        local seen={}
-        for _,id in ipairs(actor.powerOrder or {})do
-            if actor.statuses[id]~=nil then ids[#ids+1]=id;seen[id]=true end
-        end
-        for id,amount in pairs(actor.statuses)do
-            local zeroPower=id=='slow' or id=='time_warp' or id=='invincible' or id=='nemesis_intangible'
-            assert(amount==0 and not zeroPower or seen[id],'monster Power missing source order: '..id)
-        end
-    else
-        -- Player primitive/synthetic Power migration is outside the bounded
-        -- monster renderer port; retain its existing presentation contract.
-        for id, amount in pairs(actor.statuses) do
-            if amount ~= 0 or id == "time_warp" or id == "focus" or id=='slow' or id=='invincible' or temporaryFields[id] and (actor[temporaryFields[id]] or 0) > 0 then
-                ids[#ids + 1] = id
-            end
-        end
-        table.sort(ids)
+-- Status selection preserves monster acquisition history and player sorting.
+local function monsterStatusIds(actor)
+    local ids = {}
+    -- Actual monster list, never an alphabetical reconstruction of history.
+    local seen={}
+    for _,id in ipairs(actor.powerOrder or {})do
+        if actor.statuses[id]~=nil then ids[#ids+1]=id;seen[id]=true end
     end
-    for _, id in ipairs(ids) do
-        local definition = assert(actor.statusDefinitions[id], "unknown active status")
-        local facts=actor.definitionId and require('abyss_power_order').sourceFacts[id]
-        result[#result + 1] = { id = id, amount = actor.statuses[id], name = definition.name,
-            canGoNegative=facts and facts.canGoNegative, isTurnBased=facts and facts.isTurnBased,
-            sourceAmount=facts and facts.sourceAmount,
-            sourceVerified=actor.definitionId and facts~=nil,
-            icon=require('abyss_colorless_cards').powerIcon(id),
-            kind = (id == "focus" or actor.definitionId and (id=="strength" or id=="dexterity"))
-                and (actor.statuses[id] > 0 and "buff" or "debuff") or definition.kind, stack = definition.stack, decay = definition.decay,
-            description = require('abyss_silent_final_cards').powerDescription(actor,id)or require('abyss_colorless_cards').powerDescription(actor,id) or definition.description,
-            temporary = temporaryFields[id] and (actor[temporaryFields[id]] or 0) or 0 }
+    for id,amount in pairs(actor.statuses)do
+        local zeroPower=id=='slow' or id=='time_warp' or id=='invincible' or id=='nemesis_intangible'
+        assert(amount==0 and not zeroPower or seen[id],'monster Power missing source order: '..id)
     end
-    local function resource(id,name,amount,description,icon,duration,kind)
-        result[#result+1]={id='original_v4_'..id,name=name,amount=amount,description=description,icon=icon or 'strength',
-            kind=kind or 'buff',stack='intensity',decay='none',temporary=0,originalV4=true,duration=duration or '本场战斗'}
+    return ids
+end
+
+local function playerStatusIds(actor)
+    local ids = {}
+    -- Player primitive/synthetic Power migration is outside the bounded
+    -- monster renderer port; retain its existing presentation contract.
+    for id, amount in pairs(actor.statuses) do
+        if amount ~= 0 or id == "time_warp" or id == "focus" or id=='slow' or id=='invincible' or temporaryFields[id] and (actor[temporaryFields[id]] or 0) > 0 then
+            ids[#ids + 1] = id
+        end
     end
+    table.sort(ids)
+    return ids
+end
+
+local function statusKind(actor, id, definition)
+    return (id == "focus" or actor.definitionId and (id=="strength" or id=="dexterity"))
+        and (actor.statuses[id] > 0 and "buff" or "debuff") or definition.kind
+end
+
+local function statusEntry(actor, id)
+    local definition = assert(actor.statusDefinitions[id], "unknown active status")
+    local facts=actor.definitionId and require('abyss_power_order').sourceFacts[id]
+    return { id = id, amount = actor.statuses[id], name = definition.name,
+        canGoNegative=facts and facts.canGoNegative, isTurnBased=facts and facts.isTurnBased,
+        sourceAmount=facts and facts.sourceAmount,
+        sourceVerified=actor.definitionId and facts~=nil,
+        icon=require('abyss_colorless_cards').powerIcon(id),
+        kind = statusKind(actor, id, definition), stack = definition.stack, decay = definition.decay,
+        description = require('abyss_silent_final_cards').powerDescription(actor,id)or require('abyss_colorless_cards').powerDescription(actor,id) or definition.description,
+        temporary = temporaryFields[id] and (actor[temporaryFields[id]] or 0) or 0 }
+end
+
+local function statusResource(result,id,name,amount,description,icon,duration,kind)
+    result[#result+1]={id='original_v4_'..id,name=name,amount=amount,description=description,icon=icon or 'strength',
+        kind=kind or 'buff',stack='intensity',decay='none',temporary=0,originalV4=true,duration=duration or '本场战斗'}
+end
+
+local function appendRaidenResources(v,resource)
+    resource('resolve','愿力',v.resolve,'本回合已增长 '..v.resolveGained..'/2；愿力最多6。','strength')
+    if v.eye.uses>0 and v.eye.ends>0 then resource('eye','雷眼',v.eye.uses,'剩余次数；普通主动伤害实际扣血后追击。','thorns','剩余 '..v.eye.ends..' 个结束阶段')end
+    if v.musou.uses>0 and v.musou.ends>0 then resource('musou','一心',v.musou.uses,'剩余强化普攻次数；本回合返能 '..v.musouRefunded..'/1。','strength','剩余 '..v.musou.ends..' 个结束阶段')end
+end
+
+local function appendOriginalV4Resources(actor,resource)
     local v=actor.originalV4
     if v then
         if v.role=='HT' and v.infuse>0 then resource('infuse','蝶引',v.infuse,'剩余结束阶段；本回合已强化重击 '..v.chargedUsed..'/2。','strength','剩余 '..v.infuse..' 个结束阶段')
@@ -358,15 +376,26 @@ function M.statusView(actor)
             resource('mode',v.mode=='ousia' and '荒性' or '芒性',1,v.mode=='ousia' and '只有宾客行动，歌者暂停。' or '只有歌者行动，宾客暂停。','regen')
             resource('fan','气氛',v.fan,'本回合已增长 '..v.fanGained..'/4；气氛最多12。','strength')
         elseif v.role=='RD' then
-            resource('resolve','愿力',v.resolve,'本回合已增长 '..v.resolveGained..'/2；愿力最多6。','strength')
-            if v.eye.uses>0 and v.eye.ends>0 then resource('eye','雷眼',v.eye.uses,'剩余次数；普通主动伤害实际扣血后追击。','thorns','剩余 '..v.eye.ends..' 个结束阶段')end
-            if v.musou.uses>0 and v.musou.ends>0 then resource('musou','一心',v.musou.uses,'剩余强化普攻次数；本回合返能 '..v.musouRefunded..'/1。','strength','剩余 '..v.musou.ends..' 个结束阶段')end
+            appendRaidenResources(v,resource)
         end
         resource('healing','治疗余量',(v.healCap or 12)-v.healUsed,'本战已实际治疗 '..v.healUsed..'/'..(v.healCap or 12)..'；切换和重召不会重置。','regen')
     end
+end
+
+local function appendTargetV4Resources(actor,resource)
     if actor.v4Bloom then resource('bloom','血梅香',actor.v4Bloom.strength,'每次造成强度×2固定伤害。','poison','剩余 '..actor.v4Bloom.ticks..' 次','debuff')end
     if actor.v4Directive then resource('directive',actor.v4Directive.mature and '成熟勒令' or '勒令',1,
         actor.v4Directive.mature and '吸收获得6契；死亡回收4契。' or '下次己方回合开始成熟；当前吸收获得2契。','vulnerable','被吸收或死亡时清除','debuff')end
+end
+
+-- UI receives values, never references to the combat state or definitions.
+function M.statusView(actor)
+    local ids = actor.definitionId and monsterStatusIds(actor) or playerStatusIds(actor)
+    local result = {}
+    for _, id in ipairs(ids) do result[#result + 1] = statusEntry(actor, id) end
+    local function resource(...) statusResource(result,...) end
+    appendOriginalV4Resources(actor,resource)
+    appendTargetV4Resources(actor,resource)
     return result
 end
 
