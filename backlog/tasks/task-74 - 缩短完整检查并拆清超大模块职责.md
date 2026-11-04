@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-11-04 08:33'
+updated_date: '2026-11-04 09:16'
 labels: []
 milestone: m-7
 dependencies: []
@@ -145,4 +145,6 @@ PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触�
 PR511整合既有远端feat/combat-reactions@1bd99a（无既有PR），复用其固定Oracle/四变异/命名兼容门面与Actor单次导入，原分支保留。新实测总导入位置1876→1876，唯一边1506→1507，SCC仍1个105模块且内部位置809→807/唯一边542→541；三模块总CC927→934，新门面和反应入口全部纳入原CC15。38项长批含Run三类晚奖励回滚已通过；历史Linux与本轮Windows证据分开，最终新SHA独审/Full/合后继续。
 
 PR511同切片补齐Nob窄能力接线：只用Reactions.enqueue，不误用enqueueReaction，保留enemy source、TOP、typed存在时的legacy路由及CardActions动态观察。新增生产职责规则先红/恢复旧依赖负例；7项入队架构通过，既有Nob12组（全roll/history/HPseed/RNG/失败出牌回滚）及Pain19组（先于Enrage及致死取消）通过。实测SCC105→104成员，内部位置809→805/唯一边542→539，SCC数量仍1；Nob复杂度16不变。更新原始测量证据，最终新SHA独审/Full/合后另验。
+
+PR511@8bb93734官方Full41800684802真实失败：POSIX9 architecture-composition-format、POSIX1 card-origin-source-inverse、POSIX5 compendium-source-inverse。根因是本轮架构注册/职责边界/删除旧deferred尚未接入历史精确逆投影，提前return也使旧linked-owner错误负例未执行。本地复现首两文件3/4失败；仅测试helper补精确外层逆转，完整lexical token+fresh配置hash锁后恢复原c1完整字节，旧oracle/hash/断言保持；LF/CRLF与布局、注册/边界漂移/重复/顺序/warm磁盘变化删除负例和15项共享链已通过。其他快速同源消费者及独审继续；生产源码和架构指标不变。按主控要求补丁先本地，待508实际新基线再推同一PR及完整CI；未合并、不勾AC。
 <!-- SECTION:NOTES:END -->

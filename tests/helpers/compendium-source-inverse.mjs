@@ -3,10 +3,10 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {architectureSourceFormat} from './architecture-source-format.mjs';
+import {architectureSourceFormat,preCombatReactionArchitecture} from './architecture-source-format.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const normalize=s=>s.replaceAll('\r\n','\n');
-const read=p=>normalize(readFileSync(new URL('../../'+p,import.meta.url),'utf8'));
+const read=p=>preCombatReactionArchitecture(p,normalize(readFileSync(new URL('../../'+p,import.meta.url),'utf8')));
 const owners={
  'src/lua/abyss_game_ui.lua':'165e2ad1180cab9daf5321b46d1f87fe9c34ed6ebbcd3c3a8b495d23974e0933',
  'src/lua/abyss_compendium_catalog.lua':'d6594b4d276ab2f02983429227102282e51565acceca266c8971adfa9e32706a',
@@ -41,7 +41,7 @@ function preRuntimeGameUi(path,source){
 }
 export function preCompendiumSource(path,source,overrides={}){
  if(typeof source!=='string')return source;
- const current=preRuntimeGameUi(path,normalize(source));let previous;
+ const current=preRuntimeGameUi(path,preCombatReactionArchitecture(path,normalize(source)));let previous;
  if(path==='config/architecture.json'){
   try{
    const {formatted,tokensEqual}=architectureSourceFormat(path,preM9ProtocolRegistrations(current));
