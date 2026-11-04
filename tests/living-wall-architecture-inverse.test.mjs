@@ -5,6 +5,7 @@ import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {pathToFileURL} from 'node:url';
 import {createHash} from 'node:crypto';
+import {spawnSync} from 'node:child_process';
 import {preLivingWallCopyArchitecture,preCombatReactionArchitecture} from './helpers/architecture-source-format.mjs';
 import {preCardOriginSource} from './helpers/card-origin-source-inverse.mjs';
 import {preCompendiumSource} from './helpers/compendium-source-inverse.mjs';
@@ -81,4 +82,36 @@ test('warm LivingWall projections freshly bind linked policy bytes, including gu
  unlinkSync(file);
  assert.equal(outer(path,source),source);
  assert.equal(reaction(path,source),source);
+});
+
+test('both outer entries authenticate foreign tokens before IO and reread reviewed linked inputs after warmup',t=>{
+ const root=mkdtempSync(join(tmpdir(),'living-wall-token-reads-'));
+ t.after(()=>rmSync(root,{recursive:true,force:true}));
+ const reads={};
+ for(const mode of ['foreign','reviewed']){
+  const output=join(root,mode+'.json');
+  const script=`
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {createTracing} from 'node:trace_events';
+import {preLivingWallCopyArchitecture as outer,preCombatReactionArchitecture as reaction} from ${JSON.stringify(new URL('./helpers/architecture-source-format.mjs',import.meta.url).href)};
+const path='config/architecture.json',source=readFileSync(path,'utf8');
+const policy=JSON.parse(source);policy.unreviewed_token_probe=true;
+const input=${JSON.stringify(mode)}==='foreign'?JSON.stringify(policy):source;
+const trace=createTracing({categories:['node.fs.sync']});
+trace.enable();
+for(let repeat=0;repeat<2;repeat++)for(const project of [outer,reaction]){
+ const result=project(path,input);
+ if(${JSON.stringify(mode)}==='foreign')assert.equal(result,input);
+ else assert.notEqual(result,input);
+}
+trace.disable();`;
+  const result=spawnSync(process.execPath,['--trace-event-file-pattern='+output,'--input-type=module','-e',script],
+   {encoding:'utf8',timeout:30000,maxBuffer:1024*1024,windowsHide:true});
+  assert.ifError(result.error);assert.equal(result.status,0,result.stdout+result.stderr);
+  reads[mode]=JSON.parse(readFileSync(output,'utf8')).traceEvents
+   .filter(event=>event.ph==='B'&&event.name.startsWith('fs.sync.read')).length;
+ }
+ assert.equal(reads.foreign,0,'neither outer entry reads a linked owner for foreign tokens');
+ assert.ok(reads.reviewed>=4,'each reviewed call, including warm repeats, reads the actual linked policy');
 });
