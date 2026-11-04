@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-11-04T13:45:28.795Z",
+  "capturedAt": "2026-11-04T14:16:21.396Z",
   "repository": "FurinyaWorks/Slay-the-Abyss",
   "repositoryId": 1429751262,
   "delivery508": {
@@ -217,11 +217,21 @@
       "jobCount": 27,
       "runnerExecutionMinutes": 364.95000000000005,
       "maxJobMinutes": 25.783333333333335
+    },
+    {
+      "id": 41840544490,
+      "head": "b4ac63145689b9dd632db100eee49087f6182b39",
+      "event": "merge_group",
+      "result": "success",
+      "wallMinutes": 30.666666666666668,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 386.06666666666666,
+      "maxJobMinutes": 25.666666666666668
     }
   ],
   "liveQueueValidation": {
-    "capturedAt": "2026-11-04T13:45:28.795Z",
-    "state": "reviewed-head-real-queue-full-running",
+    "capturedAt": "2026-11-04T14:16:21.396Z",
+    "state": "native-automatic-merge-succeeded-post-push-pending",
     "pr": 511,
     "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
     "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
@@ -268,7 +278,7 @@
       "proofSha256": "8403110382a82e5ce9bed3091e30773344b4773c3b64a5a1a715d0043caaf510",
       "prHead": "3598949d8e71fedba59af88cf7a443554e77f910"
     },
-    "successfulNativeQueueMerge": false,
+    "successfulNativeQueueMerge": true,
     "currentAttempt": {
       "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
       "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
@@ -282,9 +292,9 @@
       "implementationTests": 118,
       "newPermissions": false,
       "newJobs": false,
-      "nativeState": "queued",
-      "successfulNativeQueueMerge": false,
-      "observedAt": "2026-11-04T13:45:28.795Z",
+      "nativeState": "merged",
+      "successfulNativeQueueMerge": true,
+      "observedAt": "2026-11-04T14:16:21.396Z",
       "sourceFull": "pr_passed",
       "sourceFullRawSha256": "3b99d6fa60e651de101272b16b20150c58482036d8f53428e44338372442c808",
       "sourceFullReceipt": {
@@ -323,10 +333,57 @@
       "admissionPassed": true,
       "admissionAuthority": "Operator API with actual public redacted rules snapshot; this is not proof of the workflow token execution.",
       "admissionProofSha256": "4b29cf677c721a5ec00256fc0889ab13c723bc095311b3fea20268d445867183",
-      "state": "full-running"
+      "state": "native_group_full_passed",
+      "conclusion": "success",
+      "rawEvidenceSha256": "f55d01f643e3d5e270b5b3d62b93a62af23df67ddd079c45f7915a533e5d3dbe",
+      "checkout": {
+        "schemaVersion": 1,
+        "event": "merge_group",
+        "runId": 41840544490,
+        "attempt": 1,
+        "tested": "b4ac63145689b9dd632db100eee49087f6182b39",
+        "head": "b4ac63145689b9dd632db100eee49087f6182b39",
+        "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+        "parents": [
+          "a73e6a8ffa9d3299f09e88e90f031738d83549b4"
+        ]
+      },
+      "checkoutArtifact": {
+        "id": 13329164326,
+        "name": "quality-41840544490-1-check",
+        "digest": "sha256:fa685d842073b7eaa8ebf645b2300ddd74f0f1d9a1252274eb1f72a5fd014986"
+      },
+      "tree": "c8df464685403619981ff28f2d4b4985c82a6e63",
+      "parents": [
+        "a73e6a8ffa9d3299f09e88e90f031738d83549b4"
+      ]
+    },
+    "automaticMerge": {
+      "commit": "b4ac63145689b9dd632db100eee49087f6182b39",
+      "mergedAt": "2026-11-04T14:13:32Z",
+      "mergedByAttribution": "CHNISam",
+      "event": {
+        "__typename": "MergedEvent",
+        "id": "ME_lADOVThF3s8AAAABcX1xnM8AAAAILk6GTQ",
+        "createdAt": "2026-11-04T14:13:32Z",
+        "actor": {
+          "login": "CHNISam"
+        },
+        "commit": {
+          "oid": "b4ac63145689b9dd632db100eee49087f6182b39"
+        },
+        "mergeRefName": "develop"
+      },
+      "equalsPreviouslyQueuedAndTestedGroup": true,
+      "operatorDirectMergeRequest": false,
+      "proof": "Previously captured live queue entry prepared this exact commit; merge_group Full and required status releases succeeded, then GitHub merged that identical group commit. GitHub attributes mergedBy to its enqueuer."
+    },
+    "postMerge": {
+      "state": "pending",
+      "pushFullRunId": 41845430335
     }
   },
-  "boundary": "PR511 current exact source Full and immutable receipt passed. Current native group has verified real membership and rules authorization; workflow-token group completion, automatic merge and post-push delivery still pending. Real failure removal/dequeue and earlier failed publisher logs remain preserved. Runtime/device evidence is not covered.",
+  "boundary": "Native Merge Queue successfully auto-merged PR511 and exact immutable group Full receipt passed. Separate post-push Full/delivery is still pending; parent AC5 remains unchecked until that verification. Runtime/device evidence is not covered.",
   "failedCiTimings": [
     {
       "id": 41828843134,

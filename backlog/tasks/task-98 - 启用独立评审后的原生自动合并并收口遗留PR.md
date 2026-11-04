@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 02:34'
-updated_date: '2026-11-04 13:45'
+updated_date: '2026-11-04 14:16'
 labels: []
 milestone: m-7
 dependencies: []
@@ -80,4 +80,6 @@ PR502已原生自动合入67493f1a，PR Full41771126698及push Full41775894289�
 真实发布器修复已正常快进原511至944575c8，独审independent-agent:/root/review_rules_visibility:944575c8通过，113项门禁和19个自构造负例拒绝均实跑通过；管理员/匿名规则摘要同一9a80615f，时区规范化，当前admin/id/enqueuer及版本绑定，无新权限/密钥/jobs。已新SHA授权并真实读回原生waiting，Full41836216986进行中。前359授权已pause；原失败/取消与成功CI成本分开记，成功359 Full27.4min不替代新SHA。AC5仍待真实成功组合及合后验收。
 
 944当前精确PR Full41836216986成功（27.633min/27jobs），不可变收据验证pr_passed=387a9689。GitHub自动入队b4ac6314，entry MQE_lQDOVThF3s8AAAABMwfM_M4ABTCPzgO30CA，组合Full41840544490执行中；真实公开redacted规则+管理员身份/当前成员授权实测admission通过，但不冒充workflow令牌发布已成功。AC5保持未勾。
+
+原生Queue成功：b4ac6314组合Full41840544490完整27jobs成功，真实workflow令牌发布器及Metadata权限通过，原生于14:13:32UTC自动将同一队列组合提交合入develop。不可变组合收据验证native_group_full_passed，artifact13329164326；单父a73且tree精确匹配944授权。GitHub mergedBy归属CHNISam=enqueuer，不伪称queue bot；期间无root direct merge请求。组合wall30.667min，≤30目标仍有超标样本。合后push Full41845430335在途，父AC5待merged_passed再勾。
 <!-- SECTION:NOTES:END -->
