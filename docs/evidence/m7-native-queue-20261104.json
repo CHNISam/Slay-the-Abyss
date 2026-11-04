@@ -290,5 +290,38 @@
       "runnerExecutionMinutes": 363.2333333333333,
       "maxJobMinutes": 25.7
     }
-  ]
+  ],
+  "diagnosticCiTimings": [
+    {
+      "id": 41818991963,
+      "event": "pull_request",
+      "head": "1a24acf18326df41cb5ac562c44c04ff0323fcdb",
+      "result": "failure",
+      "wallMinutes": 28.983333333333334,
+      "firstJobDelayMinutes": 0.06666666666666667,
+      "runnerExecutionMinutes": 367.41666666666663,
+      "jobs": 27
+    },
+    {
+      "id": 41827310450,
+      "event": "merge_group",
+      "head": "20d6fafd5c2aad200881d4f88d8d4a068f8f4d87",
+      "result": "cancelled",
+      "wallMinutes": 7.383333333333334,
+      "firstJobDelayMinutes": 0.05,
+      "runnerExecutionMinutes": 115.41666666666664,
+      "jobs": 27
+    },
+    {
+      "id": 41828183215,
+      "event": "merge_group",
+      "head": "7f5ebeb126f13b682a37eeec6e4d579012ba2c21",
+      "result": "cancelled",
+      "wallMinutes": 5.7,
+      "firstJobDelayMinutes": 1.35,
+      "runnerExecutionMinutes": 59.16666666666667,
+      "jobs": 27
+    }
+  ],
+  "timingMethod": "GitHub run created_at to updated_at wall; sum of job started_at to completed_at is unweighted execution minutes, not billed minutes. Failed/cancelled diagnostic samples are separate from completed successful Full; first-job delay is not every job queue delay. Queue activation has no established causal speedup from these samples."
 }
