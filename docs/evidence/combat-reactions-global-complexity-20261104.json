@@ -1,0 +1,103 @@
+{
+  "capturedAt": "2026-11-04T13:23:50.177Z",
+  "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+  "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
+  "tool": {
+    "version": "1.2.0",
+    "sha256": "0f1c69c4d09f1ebb4d8df14c215e4553e2e639bd4cb7bf3c639b0daa6198317b"
+  },
+  "environment": {
+    "node": "v22.22.1",
+    "platform": "win32"
+  },
+  "method": "Pinned Luacheck 1.2.0 W561 for every function and chunk, per-module Lua AST function counts including nested/anonymous functions; exact actual develop archive and clean candidate source, identical .luacheckrc.",
+  "before": {
+    "modules": 322,
+    "functions": 4777,
+    "chunks": 322,
+    "totalMeasurements": 5099,
+    "totalComplexityIncludingChunks": 29712,
+    "maxComplexity": 82,
+    "functionsAbove15": 282,
+    "functionsAbove30": 78,
+    "functionsAbove50": 21,
+    "longestFunctionLines": 1004,
+    "modulesAbove1000Lines": [
+      {
+        "file": "src/lua/abyss_combat.lua",
+        "lines": 2031,
+        "sha256": "3704b17118f3f7a1fbbde06725725d8828ae3730a2c2edacb5e160d61f59c90d"
+      },
+      {
+        "file": "src/lua/abyss_game_ui.lua",
+        "lines": 1029,
+        "sha256": "40a0bd95a83e2700697566a563fc4218151b94efc8e502745345e37b1d9127ce"
+      }
+    ],
+    "worstFunctions": [
+      {
+        "file": "src/lua/abyss_colorless_cards.lua",
+        "line": 340,
+        "column": 1,
+        "code": "W561",
+        "message": "cyclomatic complexity of function 'M.apply' is too high (82 > 0)",
+        "subject": "function 'M.apply'",
+        "complexity": 82
+      },
+      {
+        "file": "src/lua/abyss_combat.lua",
+        "line": 1891,
+        "column": 1,
+        "code": "W561",
+        "message": "cyclomatic complexity of function 'M.new' is too high (82 > 0)",
+        "subject": "function 'M.new'",
+        "complexity": 82
+      }
+    ]
+  },
+  "after": {
+    "modules": 323,
+    "functions": 4779,
+    "chunks": 323,
+    "totalMeasurements": 5102,
+    "totalComplexityIncludingChunks": 29719,
+    "maxComplexity": 82,
+    "functionsAbove15": 282,
+    "functionsAbove30": 78,
+    "functionsAbove50": 21,
+    "longestFunctionLines": 1004,
+    "modulesAbove1000Lines": [
+      {
+        "file": "src/lua/abyss_combat.lua",
+        "lines": 2031,
+        "sha256": "3704b17118f3f7a1fbbde06725725d8828ae3730a2c2edacb5e160d61f59c90d"
+      },
+      {
+        "file": "src/lua/abyss_game_ui.lua",
+        "lines": 1029,
+        "sha256": "40a0bd95a83e2700697566a563fc4218151b94efc8e502745345e37b1d9127ce"
+      }
+    ],
+    "worstFunctions": [
+      {
+        "file": "src/lua/abyss_colorless_cards.lua",
+        "line": 340,
+        "column": 1,
+        "code": "W561",
+        "message": "cyclomatic complexity of function 'M.apply' is too high (82 > 0)",
+        "subject": "function 'M.apply'",
+        "complexity": 82
+      },
+      {
+        "file": "src/lua/abyss_combat.lua",
+        "line": 1891,
+        "column": 1,
+        "code": "W561",
+        "message": "cyclomatic complexity of function 'M.new' is too high (82 > 0)",
+        "subject": "function 'M.new'",
+        "complexity": 82
+      }
+    ]
+  },
+  "rawDirectory": "F:\\New folder\\worktrees\\combat-reactions-integrated\\build\\global-complexity-uFbsR5"
+}

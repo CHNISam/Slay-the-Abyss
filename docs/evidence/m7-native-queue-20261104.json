@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-11-04T11:28:23.131Z",
+  "capturedAt": "2026-11-04T13:25:33.866Z",
   "repository": "FurinyaWorks/Slay-the-Abyss",
   "repositoryId": 1429751262,
   "delivery508": {
@@ -210,7 +210,7 @@
     }
   ],
   "liveQueueValidation": {
-    "capturedAt": "2026-11-04T13:07:23.084Z",
+    "capturedAt": "2026-11-04T13:21:54.129Z",
     "state": "rules-visibility-fix-new-head-full-running",
     "pr": 511,
     "head": "3598949d8e71fedba59af88cf7a443554e77f910",
@@ -291,7 +291,8 @@
       "newPermissions": false,
       "newJobs": false,
       "nativeState": "waiting-for-source-full",
-      "successfulNativeQueueMerge": false
+      "successfulNativeQueueMerge": false,
+      "observedAt": "2026-11-04T13:21:54.129Z"
     }
   },
   "boundary": "Queue enabled and real rejection/dequeue proven. Ruleset read-visibility repair has exact-SHA independent pass and renewed native authorization, but the new source Full, successful native group merge and post-push delivery remain incomplete. Runtime/device evidence is not covered.",
@@ -339,5 +340,33 @@
       "jobs": 27
     }
   ],
-  "timingMethod": "GitHub run created_at to updated_at wall; sum of job started_at to completed_at is unweighted execution minutes, not billed minutes. Failed/cancelled diagnostic samples are separate from completed successful Full; first-job delay is not every job queue delay. Queue activation has no established causal speedup from these samples."
+  "timingMethod": "GitHub run created_at to updated_at wall; sum of job started_at to completed_at is unweighted execution minutes, not billed minutes. Failed/cancelled diagnostic samples are separate from completed successful Full; first-job delay is not every job queue delay. Queue activation has no established causal speedup from these samples.",
+  "domainGlobalComplexity": {
+    "evidence": "docs/evidence/combat-reactions-global-complexity-20261104.json",
+    "sha256": "0ef9b3953511c22e34fb192f589c385c3ca869fdf3432f248af3dc64ef62571e",
+    "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+    "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
+    "before": {
+      "modules": 322,
+      "functions": 4777,
+      "measurements": 5099,
+      "totalCC": 29712,
+      "maxCC": 82,
+      "above15": 282,
+      "above30": 78,
+      "above50": 21
+    },
+    "after": {
+      "modules": 323,
+      "functions": 4779,
+      "measurements": 5102,
+      "totalCC": 29719,
+      "maxCC": 82,
+      "above15": 282,
+      "above30": 78,
+      "above50": 21
+    },
+    "boundary": "No net global CC improvement claimed. This slice removes verified reverse dependencies while retaining existing hotspots."
+  },
+  "deploymentSummaryCapturedAt": "2026-11-04T11:28:23.131Z"
 }
