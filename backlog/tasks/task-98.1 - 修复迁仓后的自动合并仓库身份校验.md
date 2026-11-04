@@ -50,4 +50,6 @@ PR510身份元数据、无witness旧Full与当前操作文档覆盖由PR508接�
 本轮504原授权合后verify:delivery=merged_passed，真实PR Full41782457368、push Full41794339270与固定ID、实际squash父/tree、不可变收据均匹配。摘要docs/evidence/pr504-merged-delivery-20261104.json。核心迁仓AC已验收；510补充测试仍待当前SHA CI和正常合入，暂不将该补充宣称完成。
 
 吸收PR510原6f0b873a及CRLF修复132a96c2：保留现有TASK98.1验收、In Progress及已核验AC3，新增44组身份零写入负例、无见证旧Full拒绝和操作文档LF/CRLF覆盖。PR510尚未接续关闭，当前整合HEAD独审与CI另验。
+
+PR510的CRLF问题已先红后绿修复，当前接续保留原504迁仓验收及已勾选AC3；510新增覆盖的独立复审、精确整合HEAD完整CI与实际合入仍另行核验，不将历史验收扩大为新覆盖已交付。
 <!-- SECTION:NOTES:END -->
