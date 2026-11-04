@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-04T11:28:23.131Z",
+  "repository": "FurinyaWorks/Slay-the-Abyss",
+  "repositoryId": 1429751262,
+  "delivery508": {
+    "state": "merged_passed",
+    "errors": [],
+    "rawSha256": "318d70ba1dacf3f53e1d55ac3fd3740ae225e2a50880edb10fad95f10021a9ef",
+    "head": "675ce59ffbaf8aa953d4c3a62d070760eab5ac4e",
+    "base": "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+    "tested": "57d600f5765bb7d927c2de24b59074070b431d95",
+    "review": {
+      "reviewId": "/root/review_queue_activation",
+      "reviewedHeadSha": "675ce59ffbaf8aa953d4c3a62d070760eab5ac4e",
+      "reviewedBaseSha": "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+      "conclusion": "pass",
+      "unresolved": [],
+      "supplementalReviews": [
+        {
+          "reviewId": "/root/review_queue_activation:208eeb63",
+          "scope": "Queue activation and failure cleanup; five-file independent 103/103",
+          "conclusion": "pass",
+          "unresolved": []
+        },
+        {
+          "reviewId": "codex:/root/queue_review:7eea66ca",
+          "scope": "Prior queue preparation and Full contracts",
+          "conclusion": "pass",
+          "unresolved": []
+        }
+      ]
+    },
+    "squash": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+    "parents": [
+      "c1cf79dfa8e81189546d95277d3bb891d831ba6e"
+    ],
+    "tree": "0d2176008368ac22522cbc4c6503eb395443646b",
+    "prFull": {
+      "runId": 41804489286,
+      "attempt": 1,
+      "event": "pull_request",
+      "head": "675ce59ffbaf8aa953d4c3a62d070760eab5ac4e",
+      "conclusion": "success",
+      "url": "https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/41804489286",
+      "jobCount": 27,
+      "receipt": {
+        "schemaVersion": 1,
+        "event": "pull_request",
+        "runId": 41804489286,
+        "attempt": 1,
+        "tested": "57d600f5765bb7d927c2de24b59074070b431d95",
+        "head": "675ce59ffbaf8aa953d4c3a62d070760eab5ac4e",
+        "base": "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+        "prNumber": 508,
+        "parents": [
+          "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+          "675ce59ffbaf8aa953d4c3a62d070760eab5ac4e"
+        ]
+      },
+      "artifact": {
+        "id": 13310863039,
+        "name": "quality-41804489286-1-check",
+        "digest": "sha256:618166585e5aa072301c136116bc7f902d3a4caf42f42da322458ce682fd461a"
+      }
+    },
+    "pushFull": {
+      "runId": 41810232029,
+      "attempt": 1,
+      "event": "push",
+      "head": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+      "conclusion": "success",
+      "url": "https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/41810232029",
+      "jobCount": 27,
+      "receipt": {
+        "schemaVersion": 1,
+        "event": "push",
+        "runId": 41810232029,
+        "attempt": 1,
+        "tested": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+        "head": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+        "base": "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+        "parents": [
+          "c1cf79dfa8e81189546d95277d3bb891d831ba6e"
+        ]
+      },
+      "artifact": {
+        "id": 13312608932,
+        "name": "quality-41810232029-1-check",
+        "digest": "sha256:93a58ba407166e5d8b46237cab48582bc72d4afc5c54c1eb79a8f4c27c693e79"
+      }
+    }
+  },
+  "deployment": {
+    "rulesetId": 25870651,
+    "queueId": "MQ_kwDOVThF3s4ABTCP",
+    "url": "https://github.com/FurinyaWorks/Slay-the-Abyss/queue/develop",
+    "parameters": {
+      "merge_method": "SQUASH",
+      "max_entries_to_build": 1,
+      "min_entries_to_merge": 1,
+      "max_entries_to_merge": 1,
+      "min_entries_to_merge_wait_minutes": 0,
+      "grouping_strategy": "ALLGREEN",
+      "check_response_timeout_minutes": 120
+    },
+    "requiredChecks": {
+      "strict_required_status_checks_policy": true,
+      "do_not_enforce_on_create": false,
+      "required_status_checks": [
+        {
+          "context": "check",
+          "integration_id": 15368
+        },
+        {
+          "context": "presentation",
+          "integration_id": 15368
+        },
+        {
+          "context": "engineering-posix",
+          "integration_id": 15368
+        },
+        {
+          "context": "inventory",
+          "integration_id": 15368
+        },
+        {
+          "context": "independent-review"
+        },
+        {
+          "context": "full-quality",
+          "integration_id": 15368
+        }
+      ]
+    },
+    "byPassActors": [],
+    "independentReferenceRule": 25870646,
+    "referenceRuleUnchanged": true,
+    "writeResponse": 502,
+    "retriedWrite": false,
+    "exactReadbackMatchesReviewedCandidate": true,
+    "reviewId": "/root/review_queue_activation",
+    "scriptSha256": "12645db8157311a5ed04cf52e4eae43b5668bc9702e50982430fa9d867129031",
+    "candidateSha256": "29b1ed9e55543c308ec0bf307fd68468ea15070a8f1dcdcdee8b10b52cac8f4b",
+    "beforeRulesSha256": "1cc06e31a52b7fe7935cdd18dbea413f3a1dc1310ba9a85a601cad9b9569400a",
+    "afterRulesSha256": "90a7bad5eea3220cdad2a85b870371d6a1767386397fcd233c07edc57bc334c6",
+    "referenceBeforeSha256": "365afcb65e8d88701cdc7bd66618db35ce803e8ae29561a681bdc1fe6ea0f5eb",
+    "referenceAfterSha256": "365afcb65e8d88701cdc7bd66618db35ce803e8ae29561a681bdc1fe6ea0f5eb"
+  },
+  "completedCiTimings": [
+    {
+      "id": 41771126698,
+      "head": "3df397af79988307685ffc62b0434345382b45f7",
+      "event": "pull_request",
+      "result": "success",
+      "wallMinutes": 47.016666666666666,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 350.2166666666667,
+      "maxJobMinutes": 25.666666666666668
+    },
+    {
+      "id": 41782457368,
+      "head": "305dce5c4b6793ad38d38fe42f360fbb77e592c0",
+      "event": "pull_request",
+      "result": "success",
+      "wallMinutes": 105.26666666666667,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 379.93333333333334,
+      "maxJobMinutes": 25.6
+    },
+    {
+      "id": 41794339270,
+      "head": "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+      "event": "push",
+      "result": "success",
+      "wallMinutes": 52.61666666666667,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 384.88333333333344,
+      "maxJobMinutes": 26.016666666666666
+    },
+    {
+      "id": 41804489286,
+      "head": "675ce59ffbaf8aa953d4c3a62d070760eab5ac4e",
+      "event": "pull_request",
+      "result": "success",
+      "wallMinutes": 45.6,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 357.4833333333334,
+      "maxJobMinutes": 25.633333333333333
+    },
+    {
+      "id": 41810232029,
+      "head": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+      "event": "push",
+      "result": "success",
+      "wallMinutes": 25.716666666666665,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 360.13333333333327,
+      "maxJobMinutes": 24.666666666666668
+    }
+  ],
+  "liveQueueValidation": {
+    "state": "waiting-for-real-entry",
+    "pr": 511,
+    "head": "1a24acf18326df41cb5ac562c44c04ff0323fcdb",
+    "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+    "headFull": 41818991963,
+    "successfulNativeQueueMerge": false
+  },
+  "boundary": "Deployment and PR508 merged delivery are proven. Native Queue failure-removal/automatic merge and PR511 delivery remain incomplete at this snapshot. Runtime/device evidence is not covered."
+}

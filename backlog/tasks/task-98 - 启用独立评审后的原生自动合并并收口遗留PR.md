@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 02:34'
-updated_date: '2026-11-04 08:39'
+updated_date: '2026-11-04 11:27'
 labels: []
 milestone: m-7
 dependencies: []
@@ -25,10 +25,11 @@ Owner确认保留并启用PR496的自动合并目标，修复当前冲突、完�
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 审查通过后可在完整CI未结束时启用原生Auto-merge，Fast或缺失失败取消的Full回归不能放行
-- [ ] #2 新HEAD或过期基线不能沿用旧审查授权；暂停能真实取消Auto-merge并读回
-- [ ] #3 当前精确HEAD完整CI、独立复审、Ruleset读回与真实PR自动合并演练有对应证据
+- [x] #1 审查通过后可在完整CI未结束时启用原生Auto-merge，Fast或缺失失败取消的Full回归不能放行
+- [x] #2 新HEAD或过期基线不能沿用旧审查授权；暂停能真实取消Auto-merge并读回
+- [x] #3 当前精确HEAD完整CI、独立复审、Ruleset读回与真实PR自动合并演练有对应证据
 - [ ] #4 PR496和498成果完成合并接续，旧PR及无新工作分支收口，未提交内容完整保留
+- [ ] #5 原生Merge Queue保留六项Required及来源、Strict和无bypass，真实PR验证入队、组合Full、失败剔除、重新授权自动合并及合后收据
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -39,6 +40,8 @@ Owner确认保留并启用PR496的自动合并目标，修复当前冲突、完�
 启用前先将独立审查门禁置pending并核对状态ID，显式原生排队后复核最新CI与基线再success放行；取消全部同步合并回退。首个接续PR502也可在Full进行中实测。
 
 仓库转移后以固定ID1429751262解析当前canonical，修复coordinator owner硬编码；历史授权保持原文，以独立迁移见证及原文SHA256衔接合后验收。新提交触发迁移后的完整CI，不借取消的旧event重跑。
+
+按本轮Owner要求接续原生Merge Queue：508完整CI及正常合入后精确追加队列规则，用511验证真实入队、受控失败剔除、重新授权与自动合并，合后分别验收Full和收据；未完成演练保持AC5未勾。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -65,4 +68,6 @@ PR502已原生自动合入67493f1a，PR Full41771126698及push Full41775894289�
 508受控挂起首次最终读回未确认，失败关闭并成功撤销；第二次记录完整API边界后原握手成功，原生squash Auto-merge已确认（08:10:59UTC），授权build/delivery/auto-merge-508-7eea66caaf97.json，仍待Full41796102717。规则候选独立复审仅追加merge_queue，通过；未启用。510真实CRLF负例问题已独审修复132a96c2快进原PR，等待当前Full。
 
 504真实合后验收已通过merged_passed，摘要docs/evidence/pr504-merged-delivery-20261104.json；TASK99完成。另上线审计发现queue状态readback/catch缺少已入队处理，已暂停508读回paused且auto_merge=null，原PR最小修复在途；远端Queue仍未启用，绝无绕过。
+
+508最终675ce59f已于09:50UTC正常自动合入a73e6a8f，PR Full41804489286、push Full41810232029及不可变收据均通过，verify:delivery=merged_passed（86b86945）。510全部有效增益随508接续，原分支/提交保留并关闭PR。原生Queue已真实启用：MQ_kwDOVThF3s4ABTCP，SQUASH/ALLGREEN，build/merge/min1，wait0/timeout120min；PUT502后只读精确确认已提交，未盲重试。原六Required/Strict/no bypass及25870646完整快照不变。511当前1a24acf1/basea73独审通过，原生等待握手成功，Full41818991963执行中；真实入队/失败剔除/自动合并尚未验收。
 <!-- SECTION:NOTES:END -->
