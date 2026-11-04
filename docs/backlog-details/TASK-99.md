@@ -33,3 +33,7 @@ Node v24.22.1，`node --test tests/delivery.test.mjs tests/full-quality.test.mjs
 ## 集成接续记录
 
 原修复 `528983e832b1961e7055d500c211c1b7da6ff95f` 已完整接入 PR #504，与迁移身份适配组合后的83项定向测试通过。候选验证器使用 #501 原 preflight、真实 attempt2 作业历史及不可变 checkout 收据得到 `merged_passed`，未改写原始 jobs/receipt；独立迁移 witness 保留原授权全文及 hash。原修复与审查证据保留在上文，当前组合 HEAD 的 Full 与实际 squash/push 尚待验证。
+
+## 本轮合后验收
+
+2026-11-04 使用 #504 原始 schema4 授权重新执行 `verify:delivery -- 504 <原授权> --merged`，结果为 `merged_passed`。真实 PR Full `41782457368`、develop push Full `41794339270` 及各自不可变 checkout 收据均通过；实际 squash `c1cf79dfa8e81189546d95277d3bb891d831ba6e` 的唯一父与 tree 匹配原受审组合。摘要及原始证据摘要哈希见 [交付证据](../evidence/pr504-merged-delivery-20261104.json)。本结论仅收口迁仓与严格收据继承，不代表原生 Merge Queue 或实机验收。

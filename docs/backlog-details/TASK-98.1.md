@@ -27,3 +27,22 @@
 ## 集成接续记录
 
 本切片由 PR #504 接续：当前入口从固定仓库 ID 解析 canonical，同时校验 settings、PR head/base 和排队读回的仓库 ID。历史迁移通过独立 witness、原授权文本及 SHA-256 衔接，不重写旧收据；补充 review、waiver、pause 三个 CLI 入口的真实函数路由及无效身份不写远端负例。原 PR #506 的构想与审查记录保留在上文，源 commit 保留恢复引用。当前组合定向测试83项通过，精确 HEAD CI 和实际合入另验。
+
+## PR506 剩余覆盖接续（2026-11-04）
+
+PR504已将实现与三条CLI入口回归合入 `c1cf79dfa8e81189546d95277d3bb891d831ba6e`，原PR506以接续完成关闭。本轮从该develop新建短分支，只修当前门禁配置链接及应急命令路径，补未逐例吸收的测试，不重新提交旧实现或改写历史别名/收据。
+
+- 44组review/waiver/pause的canonical、settings、PR head/base元数据负例：缺失ID、字符串ID、缺失/错误full_name；生产main真实调用被注入读回，逐组确认实际命中、拒绝且没有POST/GraphQL/gh pr写入。
+- 新canonical授权中的run/currentRun旧仓库名，缺少合法迁移见证时拒绝；原合法witness正例及历史证据保持。
+- 新文档回归在原路径复现1项失败；两处路径修复后，三组86/86，连同治理与分支历史共130/130通过。
+- 临时独立副本分别放宽ID比较、删除full_name比较、删除run owner比较，三项均被新断言检出；正式生产脚本未修改。doctor、verify:backlog、check:guidance及diff检查通过。
+
+这些是本轮定向与负对照证据，不替代新接续提交的Required CI、独立复审或合后验证；TASK-98.1 AC3保持未完成。
+
+## PR510 Windows CRLF 接续修复
+
+独立复审在 `6f0b873a421557b294a099e5d4f5385ec953e3cc` 复现：文档测试直接按 LF 标题分割，Windows CRLF checkout 使 setup 为空。新增 LF/CRLF 与缺标题负例后，旧分割实现为34通过/2失败；将原断言抽为共享 helper，仅先规范化 CRLF 后，三组定向87/87通过。原路径、历史别名及标题存在断言均保留，生产脚本不变。guidance、verify:backlog、doctor 与 diff whitespace 检查通过；本地提交仍待独立复审、精确 HEAD Required CI 和合后验证，不提前完成 AC3。
+
+## PR508 统一接续
+
+从 `208eeb63d1a530be1891c91d14b0644659fb0fa9` 接续 PR510 原提交与 CRLF 修复，保留现有原生队列逻辑及 TASK98/98.1/99 验收记录。TASK98.1 AC3 已由 PR504 合后证据勾选；上文未完成说法为对应历史时点，不撤销该验收，也不扩大为新增覆盖已合入。五组定向107/107通过（admission 6、queue 6、auto-merge 44、Full 14、delivery 37），guidance/backlog/doctor/diff 通过。当前整合仍待独立复审、精确 HEAD Full 与实际合入；PR510 保留，待 PR508 合入后接续关闭。

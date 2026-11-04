@@ -45,6 +45,10 @@ export function autoMergeErrors({repo,settings,pr,baseSha,ruleset,review,depende
     !Array.isArray(ruleset.conditions?.ref_name?.exclude)||ruleset.conditions.ref_name.exclude.length)
     errors.push('Active develop ruleset is missing');
   const rules=ruleset?.rules??[];
+  const queues=rules.filter(rule=>rule.type==='merge_queue');
+  if(queues.length&&(queues.length!==1||queues[0].parameters?.merge_method!=='SQUASH'||
+    queues[0].parameters?.grouping_strategy!=='ALLGREEN'||!Array.isArray(ruleset.bypass_actors)||ruleset.bypass_actors.length))
+    errors.push('Native queue requires SQUASH, ALLGREEN and no bypass actors');
   const checks=rules.find(rule=>rule.type==='required_status_checks');
   const actualChecks=checks?.parameters?.required_status_checks??[];
   if(checks?.parameters?.strict_required_status_checks_policy!==true)
@@ -79,7 +83,7 @@ export function autoMergeErrors({repo,settings,pr,baseSha,ruleset,review,depende
 // Every unmerged readback must still name the reviewed PR and merge proposal.
 // Comparing SHAs alone does not bind the target branch or repository identity.
 function sameAdmission(actual,expected) {
-  return actual?.number===expected.number&&actual.state==='open'&&actual.merged===false&&
+  return actual?.number===expected.number&&actual.node_id===expected.node_id&&actual.state==='open'&&actual.merged===false&&
     actual.draft===false&&actual.mergeable===true&&actual.base?.ref==='develop'&&
     actual.base.sha===expected.base.sha&&actual.head?.sha===expected.head.sha&&
     actual.head.repo?.full_name===expected.head.repo.full_name&&
@@ -130,6 +134,7 @@ export function collectEligibility(repo,number,review,query=gh) {
     throw Error('Proposed merge commit is stale or lacks the reviewed source tree');
   const errors=autoMergeErrors({repo,pr,settings,baseSha:target.object.sha,ruleset,review,dependencies,changedFiles});
   return {pr,baseSha:target.object.sha,headSha:pr.head?.sha,dependsOn,errors,
+    queueRequired:ruleset?.rules?.some(rule=>rule.type==='merge_queue')===true,
     tested:pr.merge_commit_sha,parents,sourceTree:testedCommit.commit.tree.sha,changedFiles};
 }
 
@@ -138,7 +143,7 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false,loadCheck
   if(before.errors.length)throw Error(before.errors.join('\n'));
   // Read the actual branch ref and PR a second time immediately before writing.
   const current=collectEligibility(repo,number,review,query);
-  if(current.errors.length||before.headSha!==current.headSha||before.baseSha!==current.baseSha||
+  if(current.errors.length||before.headSha!==current.headSha||before.baseSha!==current.baseSha||before.queueRequired!==current.queueRequired||
     !sameAdmission(current.pr,before.pr))
     throw Error('PR or review eligibility changed while preparing auto-merge: '+current.errors.join('; '));
   if(before.tested!==current.tested||before.sourceTree!==current.sourceTree)
@@ -179,7 +184,7 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false,loadCheck
     if([...effective.values()].some(j=>['failure','cancelled','timed_out','action_required'].includes(j.conclusion)))
       throw Error('Current Full CI already failed or was cancelled');
     const final=collectEligibility(repo,number,review,query),lastRun=latest();
-    if(final.errors.length||!sameAdmission(final.pr,current.pr)||lastRun?.id!==pending.id||lastRun.run_attempt!==pending.run_attempt)
+    if(final.errors.length||final.queueRequired!==current.queueRequired||!sameAdmission(final.pr,current.pr)||lastRun?.id!==pending.id||lastRun.run_attempt!==pending.run_attempt)
       throw Error('PR admission or Full attempt changed before authorization');
     proof.pendingRun={id:pending.id,attempt:pending.run_attempt,head:pending.head_sha};
     return requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persist,verifyWitness});
@@ -192,7 +197,7 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false,loadCheck
     evidence.base!==current.baseSha||evidence.tested!==current.tested||
     evidence.sourceTree!==current.sourceTree||!sameAdmission(fullCurrent,current.pr))throw Error('Exact Full CI preflight failed: '+fullErrors.join('; '));
   const final=collectEligibility(repo,number,review,query);
-  if(final.errors.length||final.headSha!==current.headSha||final.baseSha!==current.baseSha||
+  if(final.errors.length||final.queueRequired!==current.queueRequired||final.headSha!==current.headSha||final.baseSha!==current.baseSha||
     final.tested!==current.tested||!sameAdmission(final.pr,current.pr))
     throw Error('PR admission changed during Full preflight');
   // Recheck current Full after the slower rules/dependency admission reads.
@@ -217,7 +222,7 @@ function requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persi
   const status=state=>{
     const created=json(query,'api','--method','POST','repos/'+repo+'/statuses/'+current.headSha,
       '-f','state='+state,'-f','context='+reviewContext,'-f','description='+
-      (state==='pending'?'Review accepted; arming native auto-merge':desc));
+      (state==='pending'?'Review accepted; arming native auto-merge':desc+(state==='success'?` [base:${current.baseSha}]`:'')));
     if(!prId(created.id)||created.state!==state||created.context!==reviewContext)throw Error('Review status write was not confirmed');
     return created;
   };
@@ -225,6 +230,18 @@ function requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persi
     const pages=json(query,'api','--paginate','--slurp',`repos/${repo}/commits/${current.headSha}/statuses?per_page=100`);
     const latest=pages.flat().filter(s=>s.context===reviewContext).sort((a,b)=>b.id-a.id)[0];
     if(latest?.id!==id||latest.state!=='pending')throw Error('Arming review gate was replaced or not confirmed');
+  };
+  const confirmNative=pr=>{
+    if(!current.queueRequired)return pr.auto_merge?.merge_method==='squash';
+    const node=readNativeQueueState(repo,number,pr,query,true);
+    if(proof.nativeQueue&&(proof.nativeQueue.id!==node.mergeQueue.id||
+      proof.nativeQueue.entryId&&proof.nativeQueue.entryId!==node.mergeQueueEntry?.id))
+      throw Error('Native queue entry identity changed during activation');
+    // The queue ignores the enable mutation's mergeMethod. Its live policy,
+    // exact PR identity and entry are authoritative, not REST auto_merge.
+    proof.nativeQueue={id:node.mergeQueue.id,state:node.isInMergeQueue?'queued':'waiting',
+      entryId:node.mergeQueueEntry?.id??null};
+    return node.isInMergeQueue||['MERGE','SQUASH','REBASE'].includes(node.autoMergeRequest?.mergeMethod);
   };
   try {
     persist({state:'authorizing',proof});
@@ -239,13 +256,13 @@ function requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persi
       after=json(query,'api','repos/'+repo+'/pulls/'+number);
       if(after.merged)throw Error('PR merged while the arming review gate was pending; handshake anomaly');
       if(!sameAdmission(after,current.pr))throw Error('PR admission changed during native activation');
-      if(after.auto_merge?.merge_method==='squash')break;
+      if(confirmNative(after))break;
       if(attempt===1||after.auto_merge!==null)throw enableError??Error('Native squash auto-merge was not confirmed');
       requirePending(pending.id);
     }
     persist({state:'native-queued',proof});
     const final=collectEligibility(repo,number,review,query);
-    if(final.errors.length||!sameAdmission(final.pr,current.pr)||final.sourceTree!==current.sourceTree)
+    if(final.errors.length||final.queueRequired!==current.queueRequired||!sameAdmission(final.pr,current.pr)||final.sourceTree!==current.sourceTree)
       throw Error('PR admission changed before review release');
     verifyWitness();requirePending(pending.id);
     persist({state:'releasing',proof});status('success');persist({state:'authorized',proof});
@@ -256,7 +273,7 @@ function requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persi
       const commit=json(query,'api','repos/'+repo+'/commits/'+after.merge_commit_sha);
       if(after.state!=='closed'||JSON.stringify((commit.parents??[]).map(p=>p.sha))!==JSON.stringify([current.baseSha])||
         commit.commit?.tree?.sha!==current.sourceTree)throw Error('Merged identity differs from reviewed squash');
-    } else if(!sameAdmission(after,current.pr)||after.auto_merge?.merge_method!=='squash')
+    } else if(!sameAdmission(after,current.pr)||!confirmNative(after))
       throw Error('Native squash auto-merge was not confirmed by readback');
     const result={state:after.merged?'merged':'auto-merge-requested',head:current.headSha,
       base:current.baseSha,dependsOn:current.dependsOn,proof};
@@ -266,24 +283,62 @@ function requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persi
     // and preserve cleanup failures instead of claiming the queue was cancelled.
     const cleanup=[];
     try {status('failure');}catch(e){cleanup.push('status revocation uncertain: '+e.message);}
-    try {query('pr','merge',String(number),'--repo',repo,'--disable-auto');}
-    catch(e){cleanup.push('auto-merge cancellation uncertain: '+e.message);}
+    try {cancelNativeMerge(repo,number,current.pr,query);}
+    catch(e){cleanup.push('native queue/auto-merge cancellation uncertain: '+e.message);}
     try {persist({state:'activation-failed',proof,error:error.message,cleanup});}
     catch(e){cleanup.push('evidence persistence failed: '+e.message);}
     throw Error(error.message+(cleanup.length?'\n'+cleanup.join('\n'):''));
   }
 }
 
-export function pauseAutoMerge(repo,number,query=gh){
-  const endpoint=`repos/${repo}/pulls/${number}`,before=json(query,'api',endpoint);
-  if(before.number!==number||before.state!=='open'||before.merged||before.base?.ref!=='develop'||!validSha(before.head?.sha)||
-    !projectRepositoryMatches(before.head?.repo,repo)||!projectRepositoryMatches(before.base?.repo,repo))
-    throw Error('Pause requires the open develop PR');
+function readNativeQueueState(repo,number,pr,query,requirePolicy=false){
+    const result=json(query,'api','graphql','-f','query=query($id:ID!){node(id:$id){... on PullRequest{id number state baseRefName headRefOid repository{databaseId nameWithOwner} isInMergeQueue '+
+      (requirePolicy?'isMergeQueueEnabled autoMergeRequest{mergeMethod} mergeQueue{id configuration{mergeMethod mergingStrategy}} mergeQueueEntry{id state mergeQueue{id} pullRequest{id number headRefOid baseRefName}}':'mergeQueueEntry{id}')+'}}}',
+      '-f','id='+pr.node_id),node=result?.data?.node;
+    if(result?.errors?.length||!node||node.id!==pr.node_id||node.number!==number||node.state!=='OPEN'||
+      node.baseRefName!=='develop'||node.headRefOid!==pr.head.sha||
+      node.repository?.databaseId!==projectRepositoryId||node.repository?.nameWithOwner!==repo||
+      typeof node.isInMergeQueue!=='boolean'||
+      (node.isInMergeQueue?typeof node.mergeQueueEntry?.id!=='string'||!node.mergeQueueEntry.id:
+        node.mergeQueueEntry!==null))
+      throw Error('Native queue identity/capability could not be confirmed');
+    if(requirePolicy){
+      const queue=node.mergeQueue,entry=node.mergeQueueEntry,p=entry?.pullRequest;
+      if(node.isMergeQueueEnabled!==true||typeof queue?.id!=='string'||!queue.id||
+        queue.configuration?.mergeMethod!=='SQUASH'||queue.configuration?.mergingStrategy!=='ALLGREEN'||
+        node.isInMergeQueue&&(!['QUEUED','AWAITING_CHECKS','MERGEABLE','LOCKED'].includes(entry.state)||
+          entry.mergeQueue?.id!==queue.id||p?.id!==pr.node_id||p.number!==number||p.headRefOid!==pr.head.sha||p.baseRefName!=='develop'))
+        throw Error('Native queue policy or entry identity could not be confirmed');
+    }
+    return node;
+}
+
+// --disable-auto only cancels the waiting request. An existing native entry
+// needs its own dequeue and both surfaces must be read back before success.
+function cancelNativeMerge(repo,number,before,query){
+  const state=readNativeQueueState(repo,number,before,query);
+  if(state.isInMergeQueue){
+    const removed=json(query,'api','graphql','-f','query=mutation($id:ID!){dequeuePullRequest(input:{id:$id}){mergeQueueEntry{id}}}',
+      '-f','id='+before.node_id);
+    if(removed?.errors?.length||removed?.data?.dequeuePullRequest?.mergeQueueEntry?.id!==state.mergeQueueEntry.id)
+      throw Error('Native queue dequeue failed or was not confirmed');
+    if(readNativeQueueState(repo,number,before,query).isInMergeQueue)throw Error('Native queue removal was not confirmed');
+  }
   query('pr','merge',String(number),'--repo',repo,'--disable-auto');
-  const after=json(query,'api',endpoint);
+  const after=json(query,'api',`repos/${repo}/pulls/${number}`);
   if(after.number!==number||after.state!=='open'||after.merged||after.auto_merge!==null||after.base?.ref!=='develop'||!validSha(after.head?.sha)||
     !projectRepositoryMatches(after.head?.repo,repo)||!projectRepositoryMatches(after.base?.repo,repo))
     throw Error('Native auto-merge cancellation was not confirmed; PR may already be merged');
+  if(after.node_id!==before.node_id||readNativeQueueState(repo,number,after,query).isInMergeQueue)throw Error('Native queue removal was not confirmed');
+  return after;
+}
+
+export function pauseAutoMerge(repo,number,query=gh){
+  const before=json(query,'api',`repos/${repo}/pulls/${number}`);
+  if(before.number!==number||typeof before.node_id!=='string'||!before.node_id.trim()||before.state!=='open'||before.merged||before.base?.ref!=='develop'||!validSha(before.head?.sha)||
+    !projectRepositoryMatches(before.head?.repo,repo)||!projectRepositoryMatches(before.base?.repo,repo))
+    throw Error('Pause requires the open develop PR');
+  const after=cancelNativeMerge(repo,number,before,query);
   for(const head of new Set([before.head.sha,after.head.sha])){
     const status=json(query,'api','--method','POST',`repos/${repo}/statuses/${head}`,
       '-f','state=failure','-f','context='+reviewContext,'-f','description=Auto-merge explicitly paused; new authorization required');

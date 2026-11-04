@@ -38,6 +38,21 @@ Licenses 与 Quality、Quick feedback 一样使用 GitHub 原生同引用 concur
 
 2026-11-04已读回 develop 的 `strict_required_status_checks_policy: true` 与六项必需 context。原四项及 full-quality 指定 GitHub Actions 15368，independent-review 为 Any source；旧 ownership 作业不恢复，原保护与 PR 豁免保留。
 
+## GitHub 原生 Merge Queue（切换准备，尚未开启）
+
+FurinyaWorks 的公开 STA 仓库可免费启用 GitHub 原生 Merge Queue；不安装第三方 App、不增加 Runner 或常驻调度服务。此代码变更**只准备 CI 兼容性**，合入本 PR 不代表已修改远端 Ruleset，也不代表经过真实队列演练。
+
+- `quality.yml` / `licenses.yml` 监听 `merge_group(checks_requested)`，只针对 develop。已有 impact 选择器在非 PR 事件强制 **Full**，继续执行原 13 片 Windows、9 片 POSIX、presentation、inventory，Fast 绝不能放行。
+- 队列生成的组合提交与原 PR HEAD 不相同。现有 PR 侧 `independent-review` 仍由协调 Agent 核实真实独立审查；队列侧同名状态仅在 GitHub 原生队列准入、原六项 Required contexts 和整个组合 Full 均经校验后发布。**它不是对组合代码重新做独立人工审查**。队列的代码组合由 Full 验证。
+- `full-quality` 与 `independent-review` 在队列开始时置 pending，成功前复用既有 `checkoutReceipt` / 当前 27 作业、实际 checkout SHA 和不可变 artifact 校验；失败、缺片、过期 run/attempt、Ruleset 漂移或无法验证的组合均不发布 success。保留 PR/push 的原验证及合后收据，不能从队列绿灯反推原 PR 实机验收。
+- #504 已合入迁仓身份和 #505 的严格收据继承；本切片在其上接续。队列发布同时核对实际收据的有效执行 attempt；不会用最新 run attempt 冒充未重跑首片的原执行。
+- 组合放行前读取原生队列的完整成员前缀、当前组合 ref 和 develop BASE；逐 PR 检查当前 HEAD、hold、依赖落地及最新审查授权。成功授权描述追加精确 `[base:<SHA>]`，旧的无 BASE 标记状态须重新授权。下载不可变收据后重读授权与 Ruleset，要求 Squash、ALLGREEN、无 bypass；缺能力、缺页或无法唯一证明成员时关闭门禁，不猜测 GitHub 队列形状。首版最多验证 100 条完整队列成员，更多成员保持阻塞。
+- **上线顺序**：本 PR 经独立审查与当前 HEAD Full 通过并合入；再由管理员在 GitHub `develop` Ruleset 25870651 中开启 **Require merge queue**（Squash、Only merge non-failing PRs、无 bypass、保留原六项 Required），核对规则读回。首批用小型不相关 PR 观察实际 `merge_group` 成员与 base/head 形状、六项状态、完整回归、暂停/失败剔除和合后 push Full，确认后才扩大 build concurrency。当前只完成离线负例和 API 读取，不宣称已通过真实队列演练。
+- 先维持原 Strict 门禁和 `npm run merge:auto`，避免切换时放宽旧准入；要实现真正免更新分支的吞吐收益，还须**在演练后**适配旧协调器对固定 BASE / Strict 的假设，再决定是否关闭 Strict。禁止先关闭 Strict 或临时删除 `independent-review`/`full-quality` 来消除队列等待。
+- **回退**：关闭 Require merge queue 回到原规则，保留所有六项 Required 和 Strict；不回退有效源码、不取消既有 PR、不使用管理员 bypass。组织迁移后的唯一仓库是 `FurinyaWorks/Slay-the-Abyss`。
+
+官方依据：[GitHub Merge Queue 配置](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue)；[merge_group 事件](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#merge_group)。
+
 ## PR 自动合并准入
 
 当前仓库为 `FurinyaWorks/Slay-the-Abyss`，固定 ID 为 `1429751262`。协调入口通过 `/repositories/1429751262` 解析当前名称，核对 settings、PR head/base 的真实 ID；不能用同名仓库或 fork 接续。迁移前的授权和 schema2/3/4/5 收据保留原文。合后验收仅可用单独的迁移见证衔接登记的旧名 `CHNISam/Slay-the-Abyss`：保存原授权文本及 SHA-256、固定 ID 的当前响应与旧名重定向响应，并核对本轮 PR/run 的仓库 ID，不能改写旧证据中的 owner。迁移前取消的 event 不作新 Full 证明，使用迁移后的新提交触发完整验证。
@@ -46,7 +61,7 @@ develop PR 的独立评审与 CI 并行。审查与准入通过后可在 Full �
 
 ### 一次性仓库门禁配置
 
-在现有 [develop Ruleset](https://github.com/CHNISam/Slay-the-Abyss/rules/25870651) 追加 `independent-review`（Any source）和 `full-quality`（GitHub Actions，15368），开启 strict；保留 `check`、`presentation`、`engineering-posix`、`inventory` 的原来源，以及 squash-only、线性历史、已解决讨论、防删除/强推等保护。配置未完成时 `merge:auto` 拒绝启用。先保存规则快照、清点在途 PR，再更新并读回，不能使用 bypass 冒充正常门禁。TASK-98 记录真实启用与演练证据；源码合入本身不代表规则已完成更新。
+在现有 [develop Ruleset](https://github.com/FurinyaWorks/Slay-the-Abyss/rules/25870651) 追加 `independent-review`（Any source）和 `full-quality`（GitHub Actions，15368），开启 strict；保留 `check`、`presentation`、`engineering-posix`、`inventory` 的原来源，以及 squash-only、线性历史、已解决讨论、防删除/强推等保护。配置未完成时 `merge:auto` 拒绝启用。先保存规则快照、清点在途 PR，再更新并读回，不能使用 bypass 冒充正常门禁。TASK-98 记录真实启用与演练证据；源码合入本身不代表规则已完成更新。
 
 `full-quality` 由原有 impact 作业开始时置 pending，再由原有 check 作业在 Windows、POSIX 和 presentation 全部结束后发布；不新增作业。发布器检查当前 run/attempt、全部27项真实作业身份/结果、PR HEAD、实际目标与合成双父；Fast 永不发布 success。只有 impact/check 增加 job-scoped `statuses: write`，所有回归、LFS 读取及默认权限仍只读。需要完整合并验证时使用已有 `ci:full` 标签，标签变动/ready 会重新触发正常 Quality；不以 Fast 反馈代替完整准入。
 
@@ -65,7 +80,7 @@ Full 未结束时，schemaVersion 4 授权保存精确组合和 pending run，�
 
 合并后运行 `npm run verify:delivery -- <PR> <上述证据.json> --merged`。早期授权另外采集 schema5 历史 PR Full：验证实际 PR checkout artifact、全部作业和最新 attempt，不把合后目标引用伪造成合前观测；同时核对实际 squash 的唯一父/树和独立的 develop push Full。任一缺失保持 `merged_pending`，均通过才是 `merged_passed`。schema2/3 原验收与原始收据不改写。
 
-暂停使用 `npm run merge:auto -- <PR> --pause` 或 GitHub 原生 Disable auto-merge；命令先取消并读回，再撤销审查状态。仅添加 hold 标签不是已确认取消。改变依赖/授权意图前先暂停，重新审查后再启用；已声明依赖必须是已纳入受审基线的提交，不允许授权未落地依赖。strict 会阻止落后的 head；更新分支形成新 head 后须有新审查状态，不自动强推、自动重基或假定旧审查仍有效。原生 API 不提供可变正文/标签的原子条件，本流程不作此承诺。
+暂停使用 `npm run merge:auto -- <PR> --pause`；若已在原生 Merge Queue，命令先调用 dequeue 并读回成员身份消失，再关闭并读回 Auto-merge，最后撤销审查状态。不能仅凭 `gh pr merge --disable-auto` 的退出码认定已出队。移除失败、能力未知或重新入队均不报告 paused。仅添加 hold 标签不是已确认取消。改变依赖/授权意图前先暂停，重新审查后再启用；已声明依赖必须是已纳入受审基线的提交，不允许授权未落地依赖。strict 会阻止落后的 head；更新分支形成新 head 后须有新审查状态，不自动强推、自动重基或假定旧审查仍有效。队列 BASE 变化仍要求新授权；原生 API 不提供可变正文/标签的原子条件，本流程不作此承诺。
 
 自动入口仅用于同仓库的 develop PR，不改变 master 的 release/hotfix CI。Fork 的只读 token 不能发布新必需状态，其成果须由维护者接续到同仓库短分支后重新审查、验证；不是直接绕过门禁手动合入 fork PR。旧 run/attempt 的 planner 与 aggregate 不得覆盖新运行已写入的 pending/success。
 
@@ -83,7 +98,7 @@ Full 未结束时，schemaVersion 4 授权保存精确组合和 pending run，�
 ```
 
 ```powershell
-gh api --method PUT repos/CHNISam/Slay-the-Abyss/pulls/<PR>/merge --input approved-merge.json
+gh api --method PUT repos/FurinyaWorks/Slay-the-Abyss/pulls/<PR>/merge --input approved-merge.json
 ```
 
 5. 仅HTTP成功且响应`merged: true`后，再读PR核对`merged`、`head.sha`、`base.ref`、`merge_commit_sha`和执行身份，保存批准/请求/响应与故障及验证证据。超时或返回不确定先读回，不能盲重试。HEAD变化、范围扩大、目标变化或批准无效时停止并重新询问；HTTP409不是让Agent换成最新SHA继续。权限拒绝时不改规则绕过，不把应急合并宣称为完整CI通过。仅在确认自己的分支无新工作后按既有规范清理。

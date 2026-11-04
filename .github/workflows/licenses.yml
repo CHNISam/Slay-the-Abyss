@@ -2,6 +2,9 @@ name: Licenses
 on:
   pull_request:
     branches: [develop, master]
+  merge_group:
+    types: [checks_requested]
+    branches: [develop]
   push:
     branches: [develop, master]
   workflow_dispatch:
