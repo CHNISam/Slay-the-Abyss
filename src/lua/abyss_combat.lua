@@ -400,7 +400,7 @@ function M.validSearingBlowCopy(instance)
         and type(instance.upgraded)=='boolean' and instance.upgraded==(n>base)
 end
 
-function M.cardDefinition(state, instance)
+local function baseCardDefinition(state,instance)
     assert(M.validSearingBlowCopy(instance),"invalid Searing Blow constructor copy")
     local card = copy(assert(state.catalog.cards[instance.cardId], "unknown card"))
     if instance.upgraded then for k, v in pairs(card.upgrade or {}) do card[k] = copy(v) end end
@@ -416,7 +416,10 @@ function M.cardDefinition(state, instance)
         card.dontTriggerOnUseCard=instance.dontTriggerOnUseCard
     end
     if card.burnDamage==nil and card.endTurnDamage~=nil then card.burnDamage=card.endTurnDamage end
-    local native=nativeDefinition(state,card)
+    return card
+end
+
+local function nativeStrikeDefinition(state,card,native)
     if native and card.id=='perfected_strike' then
         local count=0
         for _,pile in ipairs({state.hand or {},state.draw or {},state.discard or {}}) do
@@ -424,6 +427,10 @@ function M.cardDefinition(state, instance)
         end
         card.effects[1].value=6+count*card.strikeBonus
     end
+    return card
+end
+
+local function classCardDefinition(state,instance,card,native)
     card=require("abyss_silent_discard_cards").costAdapter(state,instance,card)
     if state.player then card=require("abyss_retained_cards").adaptDefinition(state,instance,card) end
     if state.player then
@@ -434,6 +441,10 @@ function M.cardDefinition(state, instance)
         card=require('abyss_defect_final_cards').adaptDefinition(state,instance,card)
         card=require('abyss_silent_tactics_cards').adaptDefinition(state,instance,card)
     end
+    return card
+end
+
+local function damageCardDefinition(state,instance,card)
     local strikeBonus=Uncommon.strikeBonus(state,card)
     if strikeBonus>0 then
         for _,effect in ipairs(card.effects)do
@@ -453,6 +464,10 @@ function M.cardDefinition(state, instance)
             end
         end
     end
+    return card
+end
+
+local function costCardDefinition(state,instance,card,native)
     if instance.combatCost~=nil or instance.turnCost~=nil then
         card=require("abyss_corruption").adaptDefinition(state,instance,card)
     end
@@ -463,6 +478,10 @@ function M.cardDefinition(state, instance)
     end
     if instance.costForTurn~=nil then card.cost=instance.costForTurn end
     if native and state.player and not state.experimentalMechanics and card.type=='skill' and (state.player.statuses.corruption or 0)>0 then card.cost=0 end
+    return card
+end
+
+local function finishCardDefinition(state,instance,card)
     if card.originalV4 then card.target=require('abyss_original_v4').needsTarget(state,card) and 'ENEMY' or 'SELF' end
     card=require('abyss_colorless_cards').adapt(state,instance,card)
     card=require('abyss_silent_final_cards').adapt(state,instance,card)
@@ -472,6 +491,16 @@ function M.cardDefinition(state, instance)
     card=ShopRelics.medicalCard(state,card)
     if Uncommon.canPlayCurse(state,card)then card.exhaust=true;card.cost=math.max(0,card.cost)end
     return card
+end
+
+function M.cardDefinition(state, instance)
+    local card=baseCardDefinition(state,instance)
+    local native=nativeDefinition(state,card)
+    card=nativeStrikeDefinition(state,card,native)
+    card=classCardDefinition(state,instance,card,native)
+    card=damageCardDefinition(state,instance,card)
+    card=costCardDefinition(state,instance,card,native)
+    return finishCardDefinition(state,instance,card)
 end
 function M.canUpgrade(state,instance)
     local d=state.catalog.cards[instance.cardId]
@@ -1286,6 +1315,42 @@ function M.intent(state, enemyIndex)
     return copy(enemy.intents[enemy.intentIndex]) -- UI cannot mutate the queued intent
 end
 
+local function clearNativeTurnPowers(state)
+    for _,id in ipairs({"rage","flame_barrier"}) do
+        require('abyss_power_schedule').remove(state,state.player,id)
+        state.player.statuses[id]=nil
+    end
+    state.player.statuses.double_tap=nil -- Double Tap has no scheduled Power membership.
+end
+
+local function enqueueNativeTurnPowers(state,p)
+    require('abyss_colorless_cards').startTurn(state)
+    require('abyss_silent_final_cards').startTurn(state,false)
+    for _,id in ipairs(Actors.powerSequence(p,{'demon_form','berserk'})) do
+        CardActions.enqueue(state,id=='demon_form' and {op="gainStatus",status="strength",value=p.statuses[id]}
+            or {op="energy",value=p.statuses[id]})
+    end
+end
+
+local function enqueueNativeOpeningDraw(state,originalExtra)
+    -- The source queues ordinary draw and post-draw Powers before executing
+    -- DrawCardAction. Draw hooks append behind those already queued actions.
+    if state.turn==1 and ShopRelics.owns(state,'toolbox')then CardActions.enqueue(state,{op='shopRelic',kind='toolbox'})end
+    CardActions.enqueue(state,{op='draw',value=TimeEater.drawCount(state,state.rules.player.drawPerTurn+originalExtra)})
+    if state.turn==1 and state.openingInnateExtra then
+        CardActions.enqueue(state,{op='draw',value=state.openingInnateExtra});state.openingInnateExtra=nil
+    end
+end
+
+local function enqueueNativePostDraw(state,p)
+    RelicHooks.enqueuePostDraw(state)
+    require('abyss_silent_final_cards').startTurn(state,true)
+    if (p.statuses.brutality or 0)>0 then
+        CardActions.enqueue(state,{op="draw",value=p.statuses.brutality})
+        CardActions.enqueue(state,{op="loseHp",value=p.statuses.brutality})
+    end
+end
+
 local function startNativePlayerTurn(state, beforeOpeningDraw)
     if finish(state) then return end
     state.turn = state.turn + 1
@@ -1313,31 +1378,11 @@ local function startNativePlayerTurn(state, beforeOpeningDraw)
     for _,action in ipairs(RelicHooks.prepareTurnStart(state))do CardActions.enqueue(state,action.effect)end
     if state.energy+0.0+state.rules.player.energyPerTurn>2147483647 then return false,'effect_overflow' end
     state.energy = state.energy + state.rules.player.energyPerTurn
-    for _,id in ipairs({"rage","flame_barrier"}) do
-        require('abyss_power_schedule').remove(state,state.player,id)
-        state.player.statuses[id]=nil
-    end
-    state.player.statuses.double_tap=nil -- Double Tap has no scheduled Power membership.
+    clearNativeTurnPowers(state)
     local p=state.player
-    require('abyss_colorless_cards').startTurn(state)
-    require('abyss_silent_final_cards').startTurn(state,false)
-    for _,id in ipairs(Actors.powerSequence(p,{'demon_form','berserk'})) do
-        CardActions.enqueue(state,id=='demon_form' and {op="gainStatus",status="strength",value=p.statuses[id]}
-            or {op="energy",value=p.statuses[id]})
-    end
-    -- The source queues ordinary draw and post-draw Powers before executing
-    -- DrawCardAction. Draw hooks append behind those already queued actions.
-    if state.turn==1 and ShopRelics.owns(state,'toolbox')then CardActions.enqueue(state,{op='shopRelic',kind='toolbox'})end
-    CardActions.enqueue(state,{op='draw',value=TimeEater.drawCount(state,state.rules.player.drawPerTurn+originalExtra)})
-    if state.turn==1 and state.openingInnateExtra then
-        CardActions.enqueue(state,{op='draw',value=state.openingInnateExtra});state.openingInnateExtra=nil
-    end
-    RelicHooks.enqueuePostDraw(state)
-    require('abyss_silent_final_cards').startTurn(state,true)
-    if (p.statuses.brutality or 0)>0 then
-        CardActions.enqueue(state,{op="draw",value=p.statuses.brutality})
-        CardActions.enqueue(state,{op="loseHp",value=p.statuses.brutality})
-    end
+    enqueueNativeTurnPowers(state,p)
+    enqueueNativeOpeningDraw(state,originalExtra)
+    enqueueNativePostDraw(state,p)
     CardActions.drain(M,state)
     if finish(state) then return end
     event(state, "player_turn", state.turn)
@@ -1517,17 +1562,27 @@ local function platedGroupEnd(state)
     CardActions.drain(M,state)
 end
 
-local function advancedTurnCleanup(state)
-    if state.catalog.cards.evolve or state.catalog.cards.claw or state.catalog.cards.blur or state.catalog.cards.wallop then return true end
-    local powers=state.player and state.player.statuses or {}
+local function catalogNeedsTurnCleanup(state)
+    return state.catalog.cards.evolve or state.catalog.cards.claw or state.catalog.cards.blur or state.catalog.cards.wallop
+end
+local function powersNeedTurnCleanup(powers)
     if (powers.corruption or 0)~=0 or (powers.feel_no_pain or 0)>0 or (powers.dark_embrace or 0)>0 then return true end
     for _,id in ipairs({'combust','brutality','berserk','rage','energized','energized_blue','next_turn_block'}) do
         if powers[id]~=nil then return true end
     end
+    return false
+end
+local function cardNeedsTurnCleanup(state,instance)
+    local card=state.catalog.cards[instance.cardId]
+    return card and (card.id=='burn' or card.selfRetain or card.ethereal or instance.upgraded and card.upgrade
+        and (card.upgrade.selfRetain or card.upgrade.ethereal))
+end
+local function advancedTurnCleanup(state)
+    if catalogNeedsTurnCleanup(state) then return true end
+    local powers=state.player and state.player.statuses or {}
+    if powersNeedTurnCleanup(powers) then return true end
     for _,instance in ipairs(state.hand or {}) do
-        local card=state.catalog.cards[instance.cardId]
-        if card and (card.id=='burn' or card.selfRetain or card.ethereal or instance.upgraded and card.upgrade
-            and (card.upgrade.selfRetain or card.upgrade.ethereal)) then return true end
+        if cardNeedsTurnCleanup(state,instance) then return true end
     end
     return false
 end
@@ -1568,21 +1623,16 @@ local function discardOwnerEnd(state)
     assert(queue.run(state,queuedHandlers)==true,'unexpected end-turn selection')
     drainNative(state)
 end
-local function endExperimentalTurn(state)
-    if state.pendingChoice or state.cardActions then return false,'card_choice_pending' end
-    if state.pendingPlay or state.pendingScry or state.pendingHandChoice or state.actionQueue then return false, "selection_pending" end
-    if state.pendingDiscard then return false, "discard_choice_pending" end
-    if state.phase ~= "player" then return false, "not_player_turn" end
-    if not state.silentRetainResume then Rare.onPlayerEndTurn(state);CardActions.drain(M,state);if finish(state)then return true end end
-    if not state.silentRetainResume then
+local function resetExperimentalTurnCosts(state)
     for _,pile in ipairs({state.hand,state.draw,state.discard}) do for _,c in ipairs(pile) do c.costForTurn=nil end end
     local resetCosts=(state.player.statuses.corruption or 0)~=0
     for _,pile in ipairs({state.hand,state.draw,state.discard}) do
         for _,instance in ipairs(pile) do if instance.turnCost~=nil then resetCosts=true end end
     end
     if resetCosts then require("abyss_corruption").resetEndTurn(state) end
-    preCardPowers(state)
-    if finish(state)then return true end
+end
+
+local function autoUseExperimentalEndCards(state)
     -- Regret snapshots every copy's amount before the end-turn card queue runs.
     -- Auto-use is not a player play: no energy, play hooks or attack modifiers.
     local handSize, regrets = #state.hand, {}
@@ -1604,6 +1654,15 @@ local function endExperimentalTurn(state)
         if (state.player.statuses.corruption or 0)~=0 then require("abyss_corruption").onDrawOrDiscard(state) end
         state.cardInUse = nil
     end
+end
+
+local function prepareExperimentalPlayerEnd(state)
+    if not state.silentRetainResume then Rare.onPlayerEndTurn(state);CardActions.drain(M,state);if finish(state)then return true end end
+    if not state.silentRetainResume then
+    resetExperimentalTurnCosts(state)
+    preCardPowers(state)
+    if finish(state)then return true end
+    if autoUseExperimentalEndCards(state)then return true end
     if ordinaryOwnerEnd(state)=='pause'then return true end
     if finish(state)then return true end
     -- No Draw's end-turn RemovePower is ahead of DiscardAtEndOfTurn.
@@ -1614,16 +1673,9 @@ local function endExperimentalTurn(state)
         event(state,"no_draw_removed",{target=state.player.id})
     end
     end
-    state.silentRetainResume=nil
-    discardOwnerEnd(state)
-    if finish(state) then return true end
-    if state.skipMonsterTurn then
-        state.skipMonsterTurn=nil
-        M.startPlayerTurn(state)
-        return true
-    end
-    state.phase = "enemy"
-    event(state, "enemy_turn")
+end
+
+local function startExperimentalEnemyGroup(state)
     -- The group pre-turn hook clears every monster's old Block before its
     -- queued start powers resolve. Drain supported start powers before moves,
     -- so ally Block granted during a move survives later teammates' actions.
@@ -1644,6 +1696,9 @@ local function endExperimentalTurn(state)
             if finish(state) then return true end
         end
     end
+end
+
+local function runExperimentalEnemyGroup(state)
     local actionQueue = {}
     for i, enemy in ipairs(state.enemies) do actionQueue[i] = enemy end
     for _, enemy in ipairs(actionQueue) do
@@ -1660,8 +1715,9 @@ local function endExperimentalTurn(state)
             if finish(state) then return true end
         end
     end
-    platedGroupEnd(state)
-    if finish(state)then return true end
+end
+
+local function finishExperimentalRound(state)
     for _,enemy in ipairs(state.enemies)do require('abyss_act3_powers').ownerEnd(Actors,state,enemy)end
     -- Duration powers belong to the shared round boundary, after all actions.
     -- A new monster-sourced power can suppress its first reduction.
@@ -1681,6 +1737,29 @@ local function endExperimentalTurn(state)
     require('abyss_defect_engine_cards').endRound(state)
     require('abyss_defect_final_cards').endRound(state)
     M.startPlayerTurn(state)
+end
+
+local function endExperimentalTurn(state)
+    if state.pendingChoice or state.cardActions then return false,'card_choice_pending' end
+    if state.pendingPlay or state.pendingScry or state.pendingHandChoice or state.actionQueue then return false, "selection_pending" end
+    if state.pendingDiscard then return false, "discard_choice_pending" end
+    if state.phase ~= "player" then return false, "not_player_turn" end
+    if prepareExperimentalPlayerEnd(state)then return true end
+    state.silentRetainResume=nil
+    discardOwnerEnd(state)
+    if finish(state) then return true end
+    if state.skipMonsterTurn then
+        state.skipMonsterTurn=nil
+        M.startPlayerTurn(state)
+        return true
+    end
+    state.phase = "enemy"
+    event(state, "enemy_turn")
+    if startExperimentalEnemyGroup(state)then return true end
+    if runExperimentalEnemyGroup(state)then return true end
+    platedGroupEnd(state)
+    if finish(state)then return true end
+    finishExperimentalRound(state)
     return true
 end
 
@@ -1692,28 +1771,30 @@ local function nativeEthereal(state)
     CardActions.drain(M,state)
     return finish(state)
 end
-local function endNativeTurn(state)
-    if state.phase ~= "player" then return false, "not_player_turn" end
-    if state.pendingChoice or state.cardActions then return false,"card_choice_pending" end
-    local resumingRetain=state.silentRetainResume
-    if not resumingRetain and not state.originalV4 then Rare.onPlayerEndTurn(state);CardActions.drain(M,state);if finish(state)then return true end end
-    if not resumingRetain then
-    if state.originalV4 then require('abyss_original_v4').endPhase(M,state);if finish(state)then return true end end
-    if state.originalV4 then RelicHooks.onPlayerEndTurn(state)end
+local function resetNativeTurnCosts(state)
     -- AbstractRoom.endTurn resets these three piles before queued end-turn
     -- cleanup; exhaust is deliberately excluded. Exhume can recover a card
     -- that kept a temporary cost while it was out of those piles.
     for _,pile in ipairs({state.hand,state.draw,state.discard}) do
         for _,c in ipairs(pile) do c.costForTurn=nil end
     end
+end
+
+local function prepareNativePlayerEnd(state,resumingRetain)
+    if not resumingRetain and not state.originalV4 then Rare.onPlayerEndTurn(state);CardActions.drain(M,state);if finish(state)then return true end end
+    if not resumingRetain then
+    if state.originalV4 then require('abyss_original_v4').endPhase(M,state);if finish(state)then return true end end
+    if state.originalV4 then RelicHooks.onPlayerEndTurn(state)end
+    resetNativeTurnCosts(state)
     if state.originalV4 then
     PlatedArmor.preEndCards(state,state.player,CardActions.enqueueReaction)
     CardActions.drain(M,state)
     if finish(state)then return true end
     else preCardPowers(state);if finish(state)then return true end end
     end
-    local function cleanupPlayerEnd()
-    if not resumingRetain then
+end
+
+local function autoUseNativeEndCards(state)
     -- Regret snapshots every copy's amount before the end-turn card queue runs.
     -- Auto-use is not a player play: no energy, play hooks or attack modifiers.
     local handSize, endCards = #state.hand, {}
@@ -1739,6 +1820,9 @@ local function endNativeTurn(state)
         state.discard[#state.discard + 1] = instance
         state.cardInUse = nil
     end
+end
+
+local function endNativePlayerPowers(state)
     if state.originalV4 then
         local p=state.player
         if (p.statuses.combust or 0)>0 then
@@ -1755,32 +1839,45 @@ local function endNativeTurn(state)
         if ordinaryOwnerEnd(state)=='pause'then return true end
         if finish(state)then return true end
     end
+end
+
+local function resolveNativeRetainPowers(state)
     if state.originalV4 and nativeEthereal(state)then return true end
     if state.originalV4 and (state.player.statuses.well_laid_plans or 0)>0 then
         Actors.endTurn(state,state.player);CardActions.drain(M,state)
         if finish(state)then return true end
         state.silentOwnerEndResolved=true
     end
+end
+
+local function discardNativeRetainedHand(state)
+    local retained={}
+    for _,instance in ipairs(state.hand)do
+        local definition=M.cardDefinition(state,instance)
+        if (instance.silentRetainTurn==state.turn or Boss.retainsHand(state))and not definition.ethereal then retained[#retained+1]=instance
+        else state.discard[#state.discard+1]=instance end
+    end
+    state.hand=retained
+end
+
+local function cleanupNativePlayerEnd(state,resumingRetain)
+    if not resumingRetain then
+    if autoUseNativeEndCards(state) then return true end
+    if endNativePlayerPowers(state) then return true end
+    if resolveNativeRetainPowers(state) then return true end
     end
     state.silentRetainResume=nil
     if state.originalV4 and require('abyss_silent_final_cards').beginRetain(state)then return true end
     if state.originalV4 then
-        local retained={}
-        for _,instance in ipairs(state.hand)do
-            local definition=M.cardDefinition(state,instance)
-            if (instance.silentRetainTurn==state.turn or Boss.retainsHand(state))and not definition.ethereal then retained[#retained+1]=instance
-            else state.discard[#state.discard+1]=instance end
-        end
-        state.hand=retained
+        discardNativeRetainedHand(state)
     else discardOwnerEnd(state)end
     if state.originalV4 and not state.silentOwnerEndResolved then Actors.endTurn(state,state.player)end
     state.silentOwnerEndResolved=nil
     CardActions.drain(M,state)
     if finish(state) then return true end
-    end
-    if not state.originalV4 and cleanupPlayerEnd() then return true end
-    state.phase = "enemy"
-    event(state, "enemy_turn")
+end
+
+local function startNativeEnemyGroup(state)
     -- The group pre-turn hook clears every monster's old Block before its
     -- queued start powers resolve. Drain supported start powers before moves,
     -- so ally Block granted during a move survives later teammates' actions.
@@ -1795,6 +1892,9 @@ local function endNativeTurn(state)
             if finish(state) then return true end
         end
     end
+end
+
+local function runNativeEnemyGroup(state)
     local actionQueue = {}
     for i, enemy in ipairs(state.enemies) do actionQueue[i] = enemy end
     for _, enemy in ipairs(actionQueue) do
@@ -1812,12 +1912,9 @@ local function endNativeTurn(state)
             if finish(state) then return true end
         end
     end
-    platedGroupEnd(state)
-    if finish(state)then return true end
-    if state.originalV4 then
-        if cleanupPlayerEnd() then return true end
-        require('abyss_original_v4').cleanup(state)
-    end
+end
+
+local function finishNativeRound(state)
     -- Duration powers belong to the shared round boundary, after all actions.
     -- A new monster-sourced power can suppress its first reduction.
     for _,enemy in ipairs(state.enemies)do require('abyss_act3_powers').ownerEnd(Actors,state,enemy)end
@@ -1827,6 +1924,25 @@ local function endNativeTurn(state)
     end
     EnemyAI.endRound(state)
     M.startPlayerTurn(state)
+end
+
+local function endNativeTurn(state)
+    if state.phase ~= "player" then return false, "not_player_turn" end
+    if state.pendingChoice or state.cardActions then return false,"card_choice_pending" end
+    local resumingRetain=state.silentRetainResume
+    if prepareNativePlayerEnd(state,resumingRetain) then return true end
+    if not state.originalV4 and cleanupNativePlayerEnd(state,resumingRetain) then return true end
+    state.phase = "enemy"
+    event(state, "enemy_turn")
+    if startNativeEnemyGroup(state) then return true end
+    if runNativeEnemyGroup(state) then return true end
+    platedGroupEnd(state)
+    if finish(state)then return true end
+    if state.originalV4 then
+        if cleanupNativePlayerEnd(state,resumingRetain) then return true end
+        require('abyss_original_v4').cleanup(state)
+    end
+    finishNativeRound(state)
     return true
 end
 
@@ -1857,11 +1973,7 @@ local function beginRelicEndTurn(state)
     return result
 end
 
-function M.endTurn(state,rollbackOwner)
-    if state.pendingPotionChoice then return false,'potion_choice_pending'end
-    local relicResult,relicReason=beginRelicEndTurn(state)
-    if relicResult=='pause'or relicResult=='terminal'then return true end
-    if relicResult==false then return false,relicReason end
+local function resumeRetainedEndTurn(state)
     if not state.originalV4 and state.silentRetainResume and state.actionQueue and state.actionQueue.paused
         and state.actionQueue.current.effect.op=='ownerEndRetain'then
         if state.pendingChoice then return false,'card_choice_pending'end
@@ -1871,30 +1983,40 @@ function M.endTurn(state,rollbackOwner)
         local result=require('abyss_action_queue').resume(state,queuedHandlers)
         if result=='pause'or finish(state)then return true end
     end
-    if state.originalV4 or advancedTurnCleanup(state)or require('abyss_act3_powers').active(state)
+end
+local function endTurnNeedsTransaction(state)
+    return state.originalV4 or advancedTurnCleanup(state)or require('abyss_act3_powers').active(state)
         or Darklings.active(state) or Awakened.active(state) or require('abyss_giant_head').active(state)
-        or require('abyss_end_turn_powers').needed(state,require('abyss_act3_powers'))then
-        local restore=rollbackOwner and require('abyss_snapshot').ownedRestore(rollbackOwner,state)or require('abyss_snapshot').capture(state)
+        or require('abyss_end_turn_powers').needed(state,require('abyss_act3_powers'))
+end
+local function endTurnRestore(state,rollbackOwner)
+    return rollbackOwner and require('abyss_snapshot').ownedRestore(rollbackOwner,state)or require('abyss_snapshot').capture(state)
+end
+local function invokeEndTurnResolver(state,resolver,restore)
+    local called,ok,reason=pcall(resolver,state)
+    if not called then restore();error(ok,0)end
+    return ok,reason
+end
+function M.endTurn(state,rollbackOwner)
+    if state.pendingPotionChoice then return false,'potion_choice_pending'end
+    local relicResult,relicReason=beginRelicEndTurn(state)
+    if relicResult=='pause'or relicResult=='terminal'then return true end
+    if relicResult==false then return false,relicReason end
+    local retainedResult,retainedReason=resumeRetainedEndTurn(state)
+    if retainedResult==false then return false,retainedReason end
+    if retainedResult then return true end
+    if endTurnNeedsTransaction(state)then
+        local restore=endTurnRestore(state,rollbackOwner)
         local resolver=(state.originalV4 or not state.experimentalMechanics)and endNativeTurn or endExperimentalTurn
-        local called,ok,reason=pcall(resolver,state)
-        if not called then restore();error(ok,0)end
-        return ok,reason
+        return invokeEndTurnResolver(state,resolver,restore)
     end
     if not state.experimentalMechanics then return endNativeTurn(state) end
     if not advancedTurnCleanup(state) then return endExperimentalTurn(state) end
-    local restore=rollbackOwner and require('abyss_snapshot').ownedRestore(rollbackOwner,state)or require('abyss_snapshot').capture(state)
-    local called,ok,reason=pcall(endExperimentalTurn,state)
-    if not called then restore();error(ok,0) end
-    return ok,reason
+    local restore=endTurnRestore(state,rollbackOwner)
+    return invokeEndTurnResolver(state,endExperimentalTurn,restore)
 end
 
-function M.new(data, options)
-    local originalData=data
-    local catalog
-    data,catalog=require('abyss_combat_catalog').prepare(data)
-    -- Registration owns fresh, detached pools when it returns a new bundle.
-    -- Reuse that private copy; registered caller bundles still need a copy.
-    local sourcePools=data~=originalData and data.cards.sourcePools or copy(data.cards.sourcePools)
+local function constructorOptions(data,options)
     options = options or {}
     if data.runCardCatalog then
         -- Only default scalar options. Formation callbacks and roomStreams
@@ -1905,12 +2027,19 @@ function M.new(data, options)
         if options.enableStances==nil then options.enableStances=true end
         if options.orbSlots==nil then options.orbSlots=data.runCardCharacter=='defect'and 3 or 0 end
     end
+    return options
+end
+
+local function validateConstructorOptions(options)
     if options.sourceEncounter ~= nil then
         assert(Formation.supports(options.sourceEncounter), "unknown source formation")
         assert(options.enemies == nil, "source formation cannot mix with explicit enemies")
         assert(type(options.encounterBoundary) == "table", "source formation needs explicit boundaries")
     end
     assert(type(options.seed or 1) == "number" and (options.seed or 1) % 1 == 0, "seed must be an integer")
+end
+
+local function constructorState(data,catalog,sourcePools,options)
     local rules = copy(data.rules)
     rules.player.maxHp=options.maxHp or rules.player.maxHp
     local hp = options.hp or rules.player.maxHp
@@ -1919,12 +2048,13 @@ function M.new(data, options)
     assert(goldInteger(gold), "invalid starting gold")
     catalog.enemies=require('abyss_combat_catalog').enemies(data)
     catalog.potions=index(data.potions and data.potions.potions or {})
-    local state = { scoreStats = require("abyss_run_score").newBattleStats(), stolenGoldReward = 0, mugged = false, rules = rules,sourcePools=sourcePools,experimentalCharacter=data.experimentalCharacter, catalog = catalog,
+    return { scoreStats = require("abyss_run_score").newBattleStats(), stolenGoldReward = 0, mugged = false, rules = rules,sourcePools=sourcePools,experimentalCharacter=data.experimentalCharacter, catalog = catalog,
         seed = (options.seed or 1) % 65536, turn = 0, energy = 0, phase = "setup", nextUid = 1, nextEnemyId = 1,
         player = { id = "player", gold = gold, hp = hp, maxHp = rules.player.maxHp, block = 0, statuses = {} },
-        enemies = {}, draw = {}, hand = {}, discard = {}, exhaust = {}, events = {} }
-    if data.originalV4Role then require('abyss_original_v4').init(state,data.originalV4Role,copy(data.originalV4Rules)) end
-    EnemySetup.register(state.catalog)
+        enemies = {}, draw = {}, hand = {}, discard = {}, exhaust = {}, events = {} },rules
+end
+
+local function detectConstructorMechanics(state,data)
     -- Helper opt-in is independent of character selection: mixed native cards
     -- must still run the experimental on-use/draw hooks they were prepared with.
     for key,value in pairs(data) do
@@ -1935,6 +2065,9 @@ function M.new(data, options)
             state.experimentalMechanics=true
         end
     end
+end
+
+local function constructorRandomStreams(state,data,options)
     if data.cards.sourcePools then state.cardRandomRng=SourceRandom.fromSeed(options.cardRandomSeed or string.format('%.0f',options.seed or 1)) end
     if options.shuffleSeed then state.shuffleRng=SourceRandom.fromSeed(options.shuffleSeed) end
     if options.roomStreams then
@@ -1951,6 +2084,9 @@ function M.new(data, options)
         assert(type(options.cardRandomSeed)=="string","card random seed must be a raw source string")
         state.cardRandomRng=SourceRandom.fromSeed(options.cardRandomSeed)
     end
+end
+
+local function constructorDevelopmentResources(state,options)
     -- Opt-in development mechanics; ordinary Ironclad construction is unchanged.
     assert(options.enableStances == nil or type(options.enableStances) == "boolean", "invalid stance option")
     if options.enableStances then
@@ -1965,35 +2101,49 @@ function M.new(data, options)
         end
         require("abyss_orbs").init(state, options.orbSlots)
     end
-    Actors.bindStatuses(state.player, state.catalog.statuses)
+end
+
+local function constructorCardUid(state,value)
+    local uid=state.nextUid
+    if state.originalV4 and type(value)=='table' and value.uid~=nil then
+        assert(type(value.uid)=='number' and value.uid>0 and value.uid%1==0 and value.uid<9007199254740991,'invalid permanent card UID')
+        uid=value.uid
+        for _,existing in ipairs(state.draw)do assert(existing.uid~=uid,'duplicate permanent card UID')end
+    end
+    return uid
+end
+
+local function appendConstructorCard(state,value,id,uid)
+    local copyBase
+    if type(value)=='table'then
+        assert(M.validSearingBlowCopy(value),'invalid Searing Blow constructor copy')
+        copyBase=value.searingBlowCopyUpgrades
+    end
+    state.draw[#state.draw + 1] = { uid = uid, uuid=uid, cardId = id, upgraded = type(value) == "table" and value.upgraded == true,
+            upgrades=type(value)=='table' and value.upgrades or nil,deckUid=type(value)=='table' and value.uid or nil,
+            misc=type(value)=='table' and value.misc or nil,costOverride=type(value)=='table' and value.costOverride or nil,
+            searingBlowCopyUpgrades=copyBase }
+    if type(value)=='table'then
+        local instance=state.draw[#state.draw]
+        instance.inBottleFlame=value.inBottleFlame;instance.inBottleLightning=value.inBottleLightning;instance.inBottleTornado=value.inBottleTornado
+    end
+end
+
+local function constructorDeck(state,data,options)
     local deck = options.deck or data.cards.starter_deck.cards
     -- Removing the final permanent card is legal; draw already handles empty piles.
     assert(type(deck) == "table", "invalid deck")
     for _, value in ipairs(deck) do
         local id = type(value) == "table" and value.cardId or value
         assert(state.catalog.cards[id], "unknown deck card: " .. tostring(id))
-        local uid=state.nextUid
-        if state.originalV4 and type(value)=='table' and value.uid~=nil then
-            assert(type(value.uid)=='number' and value.uid>0 and value.uid%1==0 and value.uid<9007199254740991,'invalid permanent card UID')
-            uid=value.uid
-            for _,existing in ipairs(state.draw)do assert(existing.uid~=uid,'duplicate permanent card UID')end
-        end
-        local copyBase
-        if type(value)=='table'then
-            assert(M.validSearingBlowCopy(value),'invalid Searing Blow constructor copy')
-            copyBase=value.searingBlowCopyUpgrades
-        end
-        state.draw[#state.draw + 1] = { uid = uid, uuid=uid, cardId = id, upgraded = type(value) == "table" and value.upgraded == true,
-            upgrades=type(value)=='table' and value.upgrades or nil,deckUid=type(value)=='table' and value.uid or nil,
-            misc=type(value)=='table' and value.misc or nil,costOverride=type(value)=='table' and value.costOverride or nil,
-            searingBlowCopyUpgrades=copyBase }
-        if type(value)=='table'then
-            local instance=state.draw[#state.draw]
-            instance.inBottleFlame=value.inBottleFlame;instance.inBottleLightning=value.inBottleLightning;instance.inBottleTornado=value.inBottleTornado
-        end
+        local uid=constructorCardUid(state,value)
+        appendConstructorCard(state,value,id,uid)
         assert(M.validSearingBlowCopy(state.draw[#state.draw]),'invalid Searing Blow constructor copy')
         state.nextUid = math.max(state.nextUid,uid)+1
     end
+end
+
+local function constructorEnemies(state,options,rules)
     if options.preparedEncounter then EnemySetup.adopt(state,options)
     else EnemySetup.group(state,options,makeEnemy)end
     for _, enemy in ipairs(state.enemies) do EnemyAI.initialize(state, enemy, aiRandom) end
@@ -2003,10 +2153,17 @@ function M.new(data, options)
     -- MonsterRoom initializes all actors first; preBattlePrep shuffles the
     -- deck before calling the group's pre-battle powers in encounter order.
     for _, enemy in ipairs(state.enemies) do EnemyAI.preBattle(state, enemy, hpRandom) end
+    return openingDraw
+end
+
+local function constructorCardStreams(state,options)
     state.cardRng=options.cardRng and SourceRandom.cloneState(options.cardRng) or SourceRandom.fromSeed(options.cardSeed or string.format('%.0f',options.seed or 1))
     require('abyss_writhing_mass').bindMaster(state,options.masterDeck,options.nextMasterDeckUid)
     local misc=options.roomStreams and options.roomStreams.miscRng or options.miscRng
     if misc then state.miscRng=SourceRandom.cloneState(misc)end
+end
+
+local function constructorEmeraldBoost(state,options)
     if options.emeraldBoost then
         local ok,reason=require('abyss_emerald_elite').apply(state.enemies,options.emeraldBoost,{
             applyPower=function(actor,id,amount)return Actors.applyPower(state,actor,id,amount,actor)end,
@@ -2018,6 +2175,12 @@ function M.new(data, options)
             end})
         if not ok then return nil,reason end
     end
+    return true
+end
+
+local function constructorOpening(state,options,openingDraw)
+    local boosted,boostReason=constructorEmeraldBoost(state,options)
+    if not boosted then return nil,boostReason end
     if options.beforeFirstTurn then
         local ok, reason = options.beforeFirstTurn(state)
         if not ok then return nil, reason end
@@ -2026,6 +2189,28 @@ function M.new(data, options)
     local ok, reason = M.startPlayerTurn(state, options.beforeOpeningDraw)
     if ok == false then return nil, reason end
     return state
+end
+
+function M.new(data, options)
+    local originalData=data
+    local catalog
+    data,catalog=require('abyss_combat_catalog').prepare(data)
+    -- Registration owns fresh, detached pools when it returns a new bundle.
+    -- Reuse that private copy; registered caller bundles still need a copy.
+    local sourcePools=data~=originalData and data.cards.sourcePools or copy(data.cards.sourcePools)
+    options=constructorOptions(data,options)
+    validateConstructorOptions(options)
+    local state,rules=constructorState(data,catalog,sourcePools,options)
+    if data.originalV4Role then require('abyss_original_v4').init(state,data.originalV4Role,copy(data.originalV4Rules)) end
+    EnemySetup.register(state.catalog)
+    detectConstructorMechanics(state,data)
+    constructorRandomStreams(state,data,options)
+    constructorDevelopmentResources(state,options)
+    Actors.bindStatuses(state.player, state.catalog.statuses)
+    constructorDeck(state,data,options)
+    local openingDraw=constructorEnemies(state,options,rules)
+    constructorCardStreams(state,options)
+    return constructorOpening(state,options,openingDraw)
 end
 
 return M

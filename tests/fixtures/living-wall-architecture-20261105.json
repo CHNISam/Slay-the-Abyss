@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "baseRevision": "b4ac63145689b9dd632db100eee49087f6182b39",
+  "afterRevision": "d1cd30104efaff03af287b0902263b420641697e",
+  "path": "config/architecture.json",
+  "beforeSha256": "f610861cba597e017340433a1d0dcdc4930745bcbe0347ec24facdb3630bf96a",
+  "beforeGitBlob": "e358230bf43abefad01494365e3f69901d139de6",
+  "afterSha256": "e50c2b19ba16cc334bc438ab3fcceb4b1fba822caf094076325ca7fcaacd6e11",
+  "afterCanonicalSha256": "b34a39a6e244d8b5c3da3dfa03ba2dc1a41af60e8fd0f311cc402774312c625c",
+  "boundary": {
+    "id": "living-wall-copy-isolation",
+    "from": ["abyss_living_wall"],
+    "forbiddenTargets": ["abyss_combat"],
+    "reason": "Living Wall filters detached card copies through Foundation; Session commands remain owned by Run."
+  }
+}

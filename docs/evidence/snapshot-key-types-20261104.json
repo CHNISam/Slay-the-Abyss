@@ -1,0 +1,290 @@
+{
+  "schemaVersion": 1,
+  "baselineRevision": "b4ac63145689b9dd632db100eee49087f6182b39",
+  "runtime": "v24.18.0",
+  "source": "src/lua/abyss_snapshot.lua",
+  "beforeSourceSha256": "ad6ad705a56c0ebaa5ef8c3ad7966cebf9473280f302c0d659f3ecde0f86b3d2",
+  "afterSourceSha256": "8952ff07bea54c924d9a04200acce11be26cbb4bc66096de72a1b6a39e079b63",
+  "graph": {
+    "fixture": "Run.new(data,177136,{character=silent,experimental=true}) plus real cultist_solo combat",
+    "tables": 8122,
+    "fields": 31060,
+    "uniqueKeys": 1444,
+    "tableKeyEdges": 0,
+    "includesAllRunDataAndCombatCatalog": true
+  },
+  "microbenchmark": {
+    "clock": "Lua os.clock, 12 capture calls per sample, no restore execution",
+    "warmup": "one complete capture per version",
+    "order": "8 alternating before/after and after/before pairs in each fresh process",
+    "rounds": [
+      {
+        "log": "bench.log",
+        "logSha256": "38d663aafcdc80bc569d9d3e2d1eeae5b78a379abddd4890e95b6c16e28977ca",
+        "samples": [
+          {
+            "pair": 1,
+            "version": "before",
+            "seconds": 0.7406458,
+            "captures": 12
+          },
+          {
+            "pair": 1,
+            "version": "after",
+            "seconds": 0.7041405,
+            "captures": 12
+          },
+          {
+            "pair": 2,
+            "version": "after",
+            "seconds": 0.8284695,
+            "captures": 12
+          },
+          {
+            "pair": 2,
+            "version": "before",
+            "seconds": 1.196361,
+            "captures": 12
+          },
+          {
+            "pair": 3,
+            "version": "before",
+            "seconds": 1.1632862,
+            "captures": 12
+          },
+          {
+            "pair": 3,
+            "version": "after",
+            "seconds": 1.0563514,
+            "captures": 12
+          },
+          {
+            "pair": 4,
+            "version": "after",
+            "seconds": 1.27063,
+            "captures": 12
+          },
+          {
+            "pair": 4,
+            "version": "before",
+            "seconds": 1.2133816,
+            "captures": 12
+          },
+          {
+            "pair": 5,
+            "version": "before",
+            "seconds": 1.137765,
+            "captures": 12
+          },
+          {
+            "pair": 5,
+            "version": "after",
+            "seconds": 1.0051314,
+            "captures": 12
+          },
+          {
+            "pair": 6,
+            "version": "after",
+            "seconds": 0.9822262,
+            "captures": 12
+          },
+          {
+            "pair": 6,
+            "version": "before",
+            "seconds": 1.1672541,
+            "captures": 12
+          },
+          {
+            "pair": 7,
+            "version": "before",
+            "seconds": 1.1149806,
+            "captures": 12
+          },
+          {
+            "pair": 7,
+            "version": "after",
+            "seconds": 1.0444947,
+            "captures": 12
+          },
+          {
+            "pair": 8,
+            "version": "after",
+            "seconds": 1.0043192,
+            "captures": 12
+          },
+          {
+            "pair": 8,
+            "version": "before",
+            "seconds": 1.0923264,
+            "captures": 12
+          }
+        ],
+        "totalBeforeSeconds": 8.8260007,
+        "totalAfterSeconds": 7.8957629,
+        "relativeReductionPercent": 10.539743102445025
+      },
+      {
+        "log": "bench2.log",
+        "logSha256": "f536b7132a6ab3dd21c993e84549024e854dad399c9f8c1543c835cb7a5a254a",
+        "samples": [
+          {
+            "pair": 1,
+            "version": "before",
+            "seconds": 0.7456224,
+            "captures": 12
+          },
+          {
+            "pair": 1,
+            "version": "after",
+            "seconds": 0.7045304,
+            "captures": 12
+          },
+          {
+            "pair": 2,
+            "version": "after",
+            "seconds": 0.806073,
+            "captures": 12
+          },
+          {
+            "pair": 2,
+            "version": "before",
+            "seconds": 1.1066311,
+            "captures": 12
+          },
+          {
+            "pair": 3,
+            "version": "before",
+            "seconds": 1.0464115,
+            "captures": 12
+          },
+          {
+            "pair": 3,
+            "version": "after",
+            "seconds": 1.0808256,
+            "captures": 12
+          },
+          {
+            "pair": 4,
+            "version": "after",
+            "seconds": 0.9734537,
+            "captures": 12
+          },
+          {
+            "pair": 4,
+            "version": "before",
+            "seconds": 1.011569,
+            "captures": 12
+          },
+          {
+            "pair": 5,
+            "version": "before",
+            "seconds": 1.0850512,
+            "captures": 12
+          },
+          {
+            "pair": 5,
+            "version": "after",
+            "seconds": 1.1054143,
+            "captures": 12
+          },
+          {
+            "pair": 6,
+            "version": "after",
+            "seconds": 1.243392,
+            "captures": 12
+          },
+          {
+            "pair": 6,
+            "version": "before",
+            "seconds": 1.2059435,
+            "captures": 12
+          },
+          {
+            "pair": 7,
+            "version": "before",
+            "seconds": 1.0801935,
+            "captures": 12
+          },
+          {
+            "pair": 7,
+            "version": "after",
+            "seconds": 0.996042,
+            "captures": 12
+          },
+          {
+            "pair": 8,
+            "version": "after",
+            "seconds": 1.1488021,
+            "captures": 12
+          },
+          {
+            "pair": 8,
+            "version": "before",
+            "seconds": 1.2979505,
+            "captures": 12
+          }
+        ],
+        "totalBeforeSeconds": 8.5793727,
+        "totalAfterSeconds": 8.0585331,
+        "relativeReductionPercent": 6.07083545863441
+      }
+    ]
+  },
+  "silentReplay": [
+    {
+      "log": "silent-before.log",
+      "logSha256": "6b9d284139f53dcc2467511c26871e0f1ea44f43fba5b1f878ff2a1d0cb4d280",
+      "version": "before",
+      "milliseconds": 24005,
+      "traceSha256": "32216f006d434649c73848a4712e123a045c9d3aa2da7abbe9fb91687b6275b0",
+      "traceBytes": 654,
+      "sourceFixture": "tests/lua/silent_natural_build.lua",
+      "sourceFixtureSha256": "979708a7554d9d6467c34646e089f70dccdaee648f09893366ac5b7eccecf3e5",
+      "timeoutMilliseconds": 30000,
+      "passed": true
+    },
+    {
+      "log": "silent-after.log",
+      "logSha256": "a7417ee5ea15b3b5336c0b32134542176bdfa483fbb41109338ce75ae44278e1",
+      "version": "after",
+      "milliseconds": 23056,
+      "traceSha256": "32216f006d434649c73848a4712e123a045c9d3aa2da7abbe9fb91687b6275b0",
+      "traceBytes": 654,
+      "sourceFixture": "tests/lua/silent_natural_build.lua",
+      "sourceFixtureSha256": "979708a7554d9d6467c34646e089f70dccdaee648f09893366ac5b7eccecf3e5",
+      "timeoutMilliseconds": 30000,
+      "passed": true
+    },
+    {
+      "log": "silent-after2.log",
+      "logSha256": "f7391838b8fbeebd2f5ce769339510c92c7966ee9ae09ad81b9fd1f756341fdd",
+      "version": "after",
+      "milliseconds": 23713,
+      "traceSha256": "32216f006d434649c73848a4712e123a045c9d3aa2da7abbe9fb91687b6275b0",
+      "traceBytes": 654,
+      "sourceFixture": "tests/lua/silent_natural_build.lua",
+      "sourceFixtureSha256": "979708a7554d9d6467c34646e089f70dccdaee648f09893366ac5b7eccecf3e5",
+      "timeoutMilliseconds": 30000,
+      "passed": true
+    },
+    {
+      "log": "silent-before2.log",
+      "logSha256": "e19d3b3bea08509908fefb535b4581371cc4ea2dcf0a7f6db14082669b8f5e60",
+      "version": "before",
+      "milliseconds": 25144,
+      "traceSha256": "32216f006d434649c73848a4712e123a045c9d3aa2da7abbe9fb91687b6275b0",
+      "traceBytes": 654,
+      "sourceFixture": "tests/lua/silent_natural_build.lua",
+      "sourceFixtureSha256": "979708a7554d9d6467c34646e089f70dccdaee648f09893366ac5b7eccecf3e5",
+      "timeoutMilliseconds": 30000,
+      "passed": true
+    }
+  ],
+  "limitations": [
+    "Local Fengari/Node24 timings only; no inference about official native Lua or devices.",
+    "Original hosted 30s timeout is not locally reproduced; current local baseline passes, so hosted repair awaits exact HEAD Full.",
+    "Both microbenchmark rounds have reverse-direction pairs; concurrent machine workload and JIT/GC drift remain possible.",
+    "Key cache adds one transient table per capture; heap/native GC effects unmeasured.",
+    "Restore/owner closures contain no key cache references by exact source comparison; no native weak-table/GC experiment."
+  ]
+}

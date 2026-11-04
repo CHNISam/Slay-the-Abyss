@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "baselineRevision": "f26aeb30c0995de70cf340af977d3c8579c1a2b5",
+  "runtime": "v24.18.0",
+  "source": "src/lua/abyss_combat.lua",
+  "beforeSha256": "05a24758f0815a8186a868048029c3e4bb22d23e99b1199c697ad69b665ce80a",
+  "afterSha256": "84239aa2945d36fdbc0aa46e3ae6cb676bd8d593a915f1c308bd54420327d71f",
+  "before": {
+    "modules": 323,
+    "functions": 4794,
+    "measurements": 5117,
+    "above15": 279,
+    "above30": 75,
+    "maxComplexity": 82,
+    "dependencyPairs": 1507,
+    "dependencyCallSites": 1876,
+    "largestSccMembers": 104,
+    "largestSccInternalCalls": 804,
+    "diagnostics": 15,
+    "scope": [
+      {
+        "name": "advancedTurnCleanup",
+        "cc": 25,
+        "line": 1520,
+        "lines": 14
+      },
+      {
+        "name": "M.endTurn",
+        "cc": 34,
+        "line": 1921,
+        "lines": 30
+      }
+    ],
+    "scopedTotalCC": 59,
+    "scopedBranchCount": 57
+  },
+  "after": {
+    "modules": 323,
+    "functions": 4801,
+    "measurements": 5124,
+    "above15": 277,
+    "above30": 74,
+    "maxComplexity": 82,
+    "dependencyPairs": 1507,
+    "dependencyCallSites": 1874,
+    "largestSccMembers": 104,
+    "largestSccInternalCalls": 804,
+    "diagnostics": 15,
+    "scope": [
+      {
+        "name": "catalogNeedsTurnCleanup",
+        "cc": 4,
+        "line": 1520,
+        "lines": 3
+      },
+      {
+        "name": "powersNeedTurnCleanup",
+        "cc": 9,
+        "line": 1523,
+        "lines": 7
+      },
+      {
+        "name": "cardNeedsTurnCleanup",
+        "cc": 8,
+        "line": 1530,
+        "lines": 5
+      },
+      {
+        "name": "advancedTurnCleanup",
+        "cc": 8,
+        "line": 1535,
+        "lines": 9
+      },
+      {
+        "name": "resumeRetainedEndTurn",
+        "cc": 12,
+        "line": 1931,
+        "lines": 11
+      },
+      {
+        "name": "endTurnNeedsTransaction",
+        "cc": 7,
+        "line": 1942,
+        "lines": 5
+      },
+      {
+        "name": "endTurnRestore",
+        "cc": 3,
+        "line": 1947,
+        "lines": 3
+      },
+      {
+        "name": "invokeEndTurnResolver",
+        "cc": 2,
+        "line": 1950,
+        "lines": 5
+      },
+      {
+        "name": "M.endTurn",
+        "cc": 13,
+        "line": 1955,
+        "lines": 18
+      }
+    ],
+    "scopedTotalCC": 66,
+    "scopedBranchCount": 57
+  },
+  "regressions": {
+    "runtime": "v24.18.0",
+    "rows": [
+      {
+        "fixture": "tests/lua/run_nested_snapshot_owner_turn.lua",
+        "status": 0,
+        "durationMs": 9930
+      },
+      {
+        "fixture": "tests/lua/run_turn_reward_rollback_retain.lua",
+        "status": 0,
+        "durationMs": 7691
+      },
+      {
+        "fixture": "tests/lua/owner_end_rollback.lua",
+        "status": 0,
+        "durationMs": 2048
+      },
+      {
+        "fixture": "tests/lua/owner_end_retention.lua",
+        "status": 0,
+        "durationMs": 1189
+      },
+      {
+        "fixture": "tests/lua/owner_end_native_cleanup.lua",
+        "status": 0,
+        "durationMs": 836
+      },
+      {
+        "fixture": "tests/lua/original_v4_lifecycle.lua",
+        "status": 0,
+        "durationMs": 10009
+      }
+    ]
+  },
+  "limits": [
+    "Capability reads and both advanced checks remain dynamic; snapshot acquisition stays before resolver selection.",
+    "Two duplicated syntactic Snapshot require call sites became one shared restore responsibility; actual per-path lookups remain unchanged.",
+    "New independent-VM protocol/arity/mutation results recorded separately by test implementer; exact HEAD independent review, Full and merged push pending.",
+    "No candidate/import/ready/device or performance claim."
+  ]
+}

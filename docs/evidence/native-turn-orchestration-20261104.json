@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "baseSha": "b4ac63145689b9dd632db100eee49087f6182b39",
+  "sourceFile": "src/lua/abyss_combat.lua",
+  "oldSourceSha256": "2e6a406674d95f0037892120301b684857414dc75b9b225fec2052ff8ed6b55a",
+  "newSourceSha256": "2d9dfa94c855e07dc112ca09e6d94db7332ec77acd7971f69400bc417e7add7c",
+  "tools": {
+    "node": "v24.18.0",
+    "luacheck": "1.2.0",
+    "parser": "luaparse@0.3.1"
+  },
+  "before": {
+    "modules": 323,
+    "functions": 4779,
+    "measurements": 5102,
+    "complexitySum": 29376,
+    "maxComplexity": 82,
+    "over15": 282,
+    "over30": 78,
+    "longestFunction": 1004,
+    "over1000Lines": 2
+  },
+  "after": {
+    "modules": 323,
+    "functions": 4783,
+    "measurements": 5106,
+    "complexitySum": 29380,
+    "maxComplexity": 82,
+    "over15": 281,
+    "over30": 78,
+    "longestFunction": 1004,
+    "over1000Lines": 2
+  },
+  "beforeFunctions": [
+    {
+      "id": "$/startNativePlayerTurn#1",
+      "name": "startNativePlayerTurn",
+      "kind": "function",
+      "constructorName": false,
+      "line": 1289,
+      "column": 7,
+      "endLine": 1345,
+      "lines": 57,
+      "complexity": 22
+    },
+    {
+      "id": "$/endNativeTurn#1",
+      "name": "endNativeTurn",
+      "kind": "function",
+      "constructorName": false,
+      "line": 1695,
+      "column": 7,
+      "endLine": 1831,
+      "lines": 137,
+      "complexity": 38
+    }
+  ],
+  "afterFunctions": [
+    {
+      "id": "$/clearNativeTurnPowers#1",
+      "name": "clearNativeTurnPowers",
+      "kind": "function",
+      "constructorName": false,
+      "line": 1289,
+      "column": 7,
+      "endLine": 1295,
+      "lines": 7,
+      "complexity": 2
+    },
+    {
+      "id": "$/enqueueNativeTurnPowers#1",
+      "name": "enqueueNativeTurnPowers",
+      "kind": "function",
+      "constructorName": false,
+      "line": 1297,
+      "column": 7,
+      "endLine": 1304,
+      "lines": 8,
+      "complexity": 4
+    },
+    {
+      "id": "$/enqueueNativeOpeningDraw#1",
+      "name": "enqueueNativeOpeningDraw",
+      "kind": "function",
+      "constructorName": false,
+      "line": 1306,
+      "column": 7,
+      "endLine": 1314,
+      "lines": 9,
+      "complexity": 5
+    },
+    {
+      "id": "$/enqueueNativePostDraw#1",
+      "name": "enqueueNativePostDraw",
+      "kind": "function",
+      "constructorName": false,
+      "line": 1316,
+      "column": 7,
+      "endLine": 1323,
+      "lines": 8,
+      "complexity": 3
+    },
+    {
+      "id": "$/startNativePlayerTurn#1",
+      "name": "startNativePlayerTurn",
+      "kind": "function",
+      "constructorName": false,
+      "line": 1325,
+      "column": 7,
+      "endLine": 1361,
+      "lines": 37,
+      "complexity": 12
+    },
+    {
+      "id": "$/endNativeTurn#1",
+      "name": "endNativeTurn",
+      "kind": "function",
+      "constructorName": false,
+      "line": 1711,
+      "column": 7,
+      "endLine": 1847,
+      "lines": 137,
+      "complexity": 38
+    }
+  ],
+  "dependencies": {
+    "modules": 323,
+    "uniquePairs": 1507,
+    "beforeCallSites": 1876,
+    "afterCallSites": 1876,
+    "scc": [
+      {
+        "members": 104,
+        "callSites": 805
+      }
+    ],
+    "changedUniquePairs": 0
+  },
+  "warnings": 15,
+  "officialImport": "UNVERIFIED",
+  "ready": "UNVERIFIED",
+  "devices": "UNVERIFIED"
+}

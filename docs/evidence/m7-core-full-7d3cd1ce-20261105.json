@@ -1,0 +1,42 @@
+{
+  "runId": 41864047016,
+  "head": "7d3cd1ce731065265c657eb41c11b8de693d1d8a",
+  "base": "b4ac63145689b9dd632db100eee49087f6182b39",
+  "tested": "dc9a9a737abc1d717642a404576e03dea867acf2",
+  "receiptAttempt": 1,
+  "receiptSha256": "e66333c4b92ee2c3917782e3bee0093dcf78fc159195c8973c44c0658b33a3b3",
+  "firstAttempt": {
+    "conclusion": "failure",
+    "createdAt": "2026-11-04T16:05:38Z",
+    "lastRegressionCompletedAt": "2026-11-04T16:33:06Z",
+    "aggregateCompletedAt": "2026-11-04T16:33:45Z",
+    "runCompletedAt": "2026-11-04T16:34:44Z",
+    "aggregateWallSeconds": 1687,
+    "runWallSeconds": 1746,
+    "successJobs": 25,
+    "failedJobs": 1
+  },
+  "secondAttempt": {
+    "conclusion": "success",
+    "startedAt": "2026-11-04T16:51:15Z",
+    "fullQualityPublishedAt": "2026-11-04T16:52:09Z",
+    "aggregateCompletedAt": "2026-11-04T16:52:14Z",
+    "runCompletedAt": "2026-11-04T16:52:15Z",
+    "rerunWallSeconds": 60,
+    "totalRecoveryWallSeconds": 2797,
+    "successJobs": 26,
+    "skippedJobs": 1
+  },
+  "silent": {
+    "executionAttempt": 1,
+    "shard": "rules (2/13)",
+    "durationMs": 19713,
+    "passMarkerAt": "2026-11-04T16:11:52.075667Z"
+  },
+  "limitations": [
+    "Attempt1 regressions succeeded but Full aggregate failed; only attempt2 is successful Full",
+    "Attempt2 copied successful jobs preserve original execution timestamps and must not be counted as newly executed work",
+    "Host timing comparisons do not establish causal speedup"
+  ],
+  "runUrl": "https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/41864047016"
+}

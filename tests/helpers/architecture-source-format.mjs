@@ -5,6 +5,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 const cache=new Map();
 const tokens=text=>text.replace(/"(?:\\.|[^"\\])*"|[ \t\r\n]+/g,token=>token.startsWith('"')?token:'');
+const hash=text=>createHash('sha256').update(text).digest('hex');
 export function architectureSourceFormat(path,source){
  const cacheable=path==='config/architecture.json'&&typeof source==='string';
  if(cacheable&&cache.has(source))return cache.get(source);
@@ -17,16 +18,46 @@ export function architectureSourceFormat(path,source){
  return result;
 }
 
+// Exact outer inverse of the LivingWall copy-only boundary. It is deliberately
+// in this file: detached historical hosts already copy this formatting owner.
+// A warm token cache never substitutes for the fresh linked production bytes.
+function isLivingWallArchitectureSource(source){
+ const {formatted,tokensEqual}=architectureSourceFormat('config/architecture.json',source);
+ return tokensEqual&&hash(formatted)==='b34a39a6e244d8b5c3da3dfa03ba2dc1a41af60e8fd0f311cc402774312c625c';
+}
+function livingWallCopyInverse(source,live){
+ if(!isLivingWallArchitectureSource(source)
+   ||hash(live)!=='e50c2b19ba16cc334bc438ab3fcceb4b1fba822caf094076325ca7fcaacd6e11')return source;
+ const boundary='    {\n      "id": "living-wall-copy-isolation",\n      "from": ["abyss_living_wall"],\n      "forbiddenTargets": ["abyss_combat"],\n      "reason": "Living Wall filters detached card copies through Foundation; Session commands remain owned by Run."\n    },\n';
+ assert.equal(live.split(boundary).length,2,'one complete reviewed LivingWall boundary');
+ const previous=live.replace(boundary,'');
+ assert.equal(hash(previous),'f610861cba597e017340433a1d0dcdc4930745bcbe0347ec24facdb3630bf96a',
+  'complete pre-LivingWall architecture identity');
+ return previous;
+}
+export function preLivingWallCopyArchitecture(path,source){
+ if(path!=='config/architecture.json'||typeof source!=='string')return source;
+ try{
+  if(!isLivingWallArchitectureSource(source))return source;
+  const live=readFileSync(new URL('../../config/architecture.json',import.meta.url),'utf8').replaceAll('\r\n','\n');
+  return livingWallCopyInverse(source,live);
+ }catch{return source;}
+}
+
 // Exact outer inverse of PR511's three architecture changes. Keep all older
 // complete-byte witnesses untouched. Layout-only inputs still require the
 // current full token identity and a fresh, complete linked production file.
 export function preCombatReactionArchitecture(path,source){
  if(path!=='config/architecture.json'||typeof source!=='string')return source;
- const hash=text=>createHash('sha256').update(text).digest('hex');
  try{
-  const {formatted,tokensEqual}=architectureSourceFormat(path,source);
+  if(!isLivingWallArchitectureSource(source))return source;
+  const linked=readFileSync(new URL('../../config/architecture.json',import.meta.url),'utf8').replaceAll('\r\n','\n');
+  const current=livingWallCopyInverse(source,linked);
+  // A missing outer guard is not permission to enter an older proof epoch.
+  if(current===source)return source;
+  const {formatted,tokensEqual}=architectureSourceFormat(path,current);
   if(!tokensEqual||hash(formatted)!=='0a0cd90ea0b42968622379ebc3b92c50c3621543dce9210ead805a33b9a7fac1')return source;
-  const live=readFileSync(new URL('../../config/architecture.json',import.meta.url),'utf8').replaceAll('\r\n','\n');
+  const live=livingWallCopyInverse(linked,linked);
   if(hash(live)!=='f610861cba597e017340433a1d0dcdc4930745bcbe0347ec24facdb3630bf96a')return source;
   const layer='    "abyss_combat_reactions": "core",\n';
   assert.equal(live.split(layer).length,2,'one reviewed reaction registration');

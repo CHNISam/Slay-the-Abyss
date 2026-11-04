@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "baselineRevision": "b4ac63145689b9dd632db100eee49087f6182b39",
+  "sameTargetInFrozenCombination": "d1cd30104efaff03af287b0902263b420641697e",
+  "runtime": "v24.18.0",
+  "source": "src/lua/abyss_combat.lua",
+  "beforeSha256": "2e6a406674d95f0037892120301b684857414dc75b9b225fec2052ff8ed6b55a",
+  "afterSha256": "5501bec075d05706b39f349a075c33d830738f3f605e5e18e0d03ab33dd75bbb",
+  "beforeTargetSha256": "9238e05722ad7dbe21135743891f825de96351eb38477421377222934d0f3329",
+  "unchangedCardPreviewSha256": "d05aa784ab754e201cc7760ff2fe77afd9422fee46bc1c059f8ae613ea441e87",
+  "fullSourceInverse": {
+    "equal": true,
+    "sha256": "2e6a406674d95f0037892120301b684857414dc75b9b225fec2052ff8ed6b55a",
+    "method": "Inline the six live helper calls, remove their return-card boundaries and declarations; compare complete normalized source. One-time proof, not a normal-test prefix lock."
+  },
+  "before": {
+    "modules": 323,
+    "functions": 4779,
+    "measurements": 5102,
+    "above15": 282,
+    "above30": 78,
+    "maxComplexity": 82,
+    "dependencyPairs": 1507,
+    "dependencyCallSites": 1876,
+    "largestSccMembers": 104,
+    "largestSccInternalCalls": 805,
+    "diagnostics": 15,
+    "scope": [
+      {
+        "name": "M.cardDefinition",
+        "cc": 61,
+        "line": 403,
+        "lines": 73
+      }
+    ],
+    "scopedTotalCC": 61,
+    "scopedBranchCount": 60
+  },
+  "after": {
+    "modules": 323,
+    "functions": 4785,
+    "measurements": 5108,
+    "above15": 281,
+    "above30": 77,
+    "maxComplexity": 82,
+    "dependencyPairs": 1507,
+    "dependencyCallSites": 1876,
+    "largestSccMembers": 104,
+    "largestSccInternalCalls": 805,
+    "diagnostics": 15,
+    "scope": [
+      {
+        "name": "baseCardDefinition",
+        "cc": 14,
+        "line": 403,
+        "lines": 18
+      },
+      {
+        "name": "nativeStrikeDefinition",
+        "cc": 9,
+        "line": 422,
+        "lines": 10
+      },
+      {
+        "name": "classCardDefinition",
+        "cc": 5,
+        "line": 433,
+        "lines": 13
+      },
+      {
+        "name": "damageCardDefinition",
+        "cc": 13,
+        "line": 447,
+        "lines": 22
+      },
+      {
+        "name": "costCardDefinition",
+        "cc": 14,
+        "line": 470,
+        "lines": 13
+      },
+      {
+        "name": "finishCardDefinition",
+        "cc": 11,
+        "line": 484,
+        "lines": 11
+      },
+      {
+        "name": "M.cardDefinition",
+        "cc": 1,
+        "line": 496,
+        "lines": 9
+      }
+    ],
+    "scopedTotalCC": 67,
+    "scopedBranchCount": 60
+  },
+  "previewRegressions": {
+    "runtime": "v24.18.0",
+    "rows": [
+      {
+        "fixture": "tests/lua/card_preview.lua",
+        "status": 0,
+        "durationMs": 18392
+      },
+      {
+        "fixture": "tests/lua/explicit_target_preview.lua",
+        "status": 0,
+        "durationMs": 12787
+      },
+      {
+        "fixture": "tests/lua/card_detail_preview.lua",
+        "status": 0,
+        "durationMs": 13992
+      },
+      {
+        "fixture": "tests/lua/original_v4_contract.lua",
+        "status": 0,
+        "durationMs": 2826
+      },
+      {
+        "fixture": "tests/lua/original_v4_face_native.lua",
+        "status": 0,
+        "durationMs": 4169
+      },
+      {
+        "fixture": "tests/lua/original_v4_vampire_attack.lua",
+        "status": 0,
+        "durationMs": 4629
+      }
+    ]
+  },
+  "limits": [
+    "Standalone b4 worktree measurements; final combined d1 successor requires separate source-bound metrics and acceptance.",
+    "No cardPreview/previews body changes, no caching, registry, new module or gameplay changes.",
+    "New independent-VM definition/order/arity/error/mutation results recorded separately by the test implementer; exact HEAD review, Full and merged push pending.",
+    "No candidate/import/ready/device or performance claim."
+  ]
+}

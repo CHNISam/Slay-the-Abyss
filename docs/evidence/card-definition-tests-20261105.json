@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "baselineRevision": "b4ac63145689b9dd632db100eee49087f6182b39",
+  "baselineFullSourceSha256": "2e6a406674d95f0037892120301b684857414dc75b9b225fec2052ff8ed6b55a",
+  "testedFullSourceSha256": "5501bec075d05706b39f349a075c33d830738f3f605e5e18e0d03ab33dd75bbb",
+  "runtime": "v24.18.0",
+  "fixture": "tests/lua/card_definition_pipeline.lua",
+  "fixtureSha256": "f32a91154d27cc6702d244308d28c64a8e3bdaa38a134bd4c59fe19519bb5247",
+  "groups": [
+    {
+      "group": "native",
+      "fullGraphBytes": 135581,
+      "fullGraphSha256": "1a9758206807b2e3796aa8c5618d080746e8882d94503abfd7d6e04a5f45f33f"
+    },
+    {
+      "group": "adapters",
+      "fullGraphBytes": 138365,
+      "fullGraphSha256": "ac517140a4bb9c2fa1704c372f30cd728e61afe8af8fb3b7b39f2df027f8cf1a"
+    },
+    {
+      "group": "costs",
+      "fullGraphBytes": 141104,
+      "fullGraphSha256": "279e2adae645f6f38c40e4460e228f0f54f42bd001aa366a98a905b18a562e21"
+    },
+    {
+      "group": "copies-errors",
+      "fullGraphBytes": 135241,
+      "fullGraphSha256": "b046820249660e1ac6227bcb1ed3e1d0c0eca4bf9c8f51c50e3c1333b9de0e1d"
+    }
+  ],
+  "definitionQueries": 24,
+  "errorPriorityCases": 4,
+  "independentOldNewVms": true,
+  "timeoutPerVmMilliseconds": 30000,
+  "maxBufferBytes": 67108864,
+  "excludedInputSubtrees": [],
+  "inputMutationProof": "Every individual query serializes the complete state+instance graph before/after and requires equality, including all actual RNG streams and catalog. Group traces retain every returned definition/error and the complete final shared input graph; group state setup may change between queries, so traces are not claimed as separate immutable input snapshots for every query.",
+  "rngStreams": [
+    "monsterHpRng",
+    "aiRng",
+    "shuffleRng",
+    "cardRandomRng",
+    "cardRng",
+    "miscRng",
+    "legacy seed"
+  ],
+  "adapterProof": "Twelve actual adapters wrapped to execute their real function, then return a detached replacement object carrying inherited ordered markers. No RNG API is disabled.",
+  "functionRepresentation": "function type marker; replacement object, catalog detachment, alias/cycle and independent-result identities asserted separately",
+  "errorNormalization": "Only Lua diagnostic file:line prefix removed from string exceptions; exact messages, precedence and non-string values retained.",
+  "semanticMutations": {
+    "count": 12,
+    "allKilledByBehavioralAssertions": true,
+    "labels": [
+      "native Perfected Strike double count",
+      "native recomputation after adapter",
+      "discard adapter return ignored",
+      "zero cost absent",
+      "persistent Blood double reduction",
+      "native Corruption disabled",
+      "Necronomicon snapshot after free Attack",
+      "X mode ordinary free Attack",
+      "Medical Kit replacement ignored",
+      "catalog copy removed",
+      "Searing validation reordered after lookup",
+      "Shiv overwrite after per-instance bonus"
+    ]
+  },
+  "verification": {
+    "differentialsAndMutations": {
+      "tests": 5,
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "milliseconds": 46554.2341
+    },
+    "noPlayerAssertionsStrengthened": {
+      "groups": [
+        "native",
+        "costs"
+      ],
+      "passed": true,
+      "outputIdentitiesUnchanged": true
+    },
+    "raw": {
+      "groups": 4,
+      "milliseconds": 10925,
+      "largeTracePrinted": false
+    },
+    "complexityMissingAndOverLimitContracts": {
+      "tests": 14,
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "milliseconds": 265.807
+    }
+  },
+  "originalRegressions": [
+    {
+      "fixture": "tests/lua/corruption_cost.lua",
+      "milliseconds": 1615,
+      "status": 0
+    },
+    {
+      "fixture": "tests/lua/corruption_cost_integration.lua",
+      "milliseconds": 1309,
+      "status": 0
+    },
+    {
+      "fixture": "tests/lua/warrior_strength_build.lua",
+      "milliseconds": 2188,
+      "status": 0
+    },
+    {
+      "fixture": "tests/lua/silent_shivs.lua",
+      "milliseconds": 2313,
+      "status": 0
+    },
+    {
+      "fixture": "tests/lua/molten_egg_searing_copy.lua",
+      "milliseconds": 9117,
+      "status": 0
+    },
+    {
+      "fixture": "tests/lua/defect_genetic_copies.lua",
+      "milliseconds": 1516,
+      "status": 0
+    },
+    {
+      "fixture": "tests/lua/free_attack_x.lua",
+      "milliseconds": 1174,
+      "status": 0
+    },
+    {
+      "fixture": "tests/lua/colorless_attack_display.lua",
+      "milliseconds": 2510,
+      "status": 0
+    }
+  ],
+  "previewRegressions": "Executed separately by implementation agent; see card-definition-source-20261105.json and TASK-74.13.md. No duplicated or disabled random execution.",
+  "limitations": [
+    "Controlled mixed-card and relic checkpoints, not natural acquisition or native client evidence.",
+    "Legacy zero all-energy mode and source -1 all-energy mode both preserved.",
+    "Existing outside-combat nil retained-marker equality remains selfRetain=true; no unrelated semantic repair.",
+    "No unrelated source prefix/suffix lock. Exact combined source, independent final review, Full and post-merge validation owned by coordinator.",
+    "No official import, ready or device/FPS evidence."
+  ]
+}
