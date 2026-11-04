@@ -425,6 +425,112 @@ test('overwritten review gate, replaced CI attempt and a merge before release ar
   assert(m.calls.some(c=>c.includes('state=failure')));
  }
 });
+
+function nativeArmFixture({queuedAt='release',corrupt=()=>{},stuck=false,dequeueError=false,wrongDequeue=false,failAfterRelease=false,noAuto=false,mergeBeforeRelease=false,driftRules=false,requeue=false}={}){
+ const m=mock(),calls=[];let queued=false,released=false,enabled=false;
+ m.f.ruleset.bypass_actors=[];
+ m.f.ruleset.rules.push({type:'merge_queue',parameters:{merge_method:'SQUASH',grouping_strategy:'ALLGREEN'}});
+ const query=(...args)=>{
+  calls.push(args);
+  if(args[1]==='graphql'&&args.some(a=>a.includes('dequeuePullRequest('))){
+   assert(args.includes('id='+m.f.pr.node_id));
+   if(dequeueError)return JSON.stringify({errors:[{message:'denied'}],data:{dequeuePullRequest:null}});
+   if(!stuck)queued=false;
+   return JSON.stringify({data:{dequeuePullRequest:{mergeQueueEntry:{id:wrongDequeue?'OTHER':'MQE_510'}}}});
+  }
+  if(args[1]==='graphql'&&args.some(a=>a.includes('... on PullRequest'))){
+   const node={id:m.f.pr.node_id,number:510,state:'OPEN',baseRefName:'develop',headRefOid:m.f.pr.head.sha,
+    repository:{databaseId:projectRepositoryId,nameWithOwner:repo},isMergeQueueEnabled:true,
+    isInMergeQueue:queued,autoMergeRequest:enabled&&!queued&&!noAuto?{mergeMethod:'MERGE'}:null,
+    mergeQueue:{id:'MQ_develop',configuration:{mergeMethod:'SQUASH',mergingStrategy:'ALLGREEN'}},
+    mergeQueueEntry:queued?{id:'MQE_510',state:'AWAITING_CHECKS',mergeQueue:{id:'MQ_develop'},
+     pullRequest:{id:m.f.pr.node_id,number:510,headRefOid:m.f.pr.head.sha,baseRefName:'develop'}}:null};
+   const response={data:{node}};corrupt(response,{released,queued});return JSON.stringify(response);
+  }
+  const response=m.query(...args);
+  if(args.some(a=>a.includes('enablePullRequestAutoMerge'))){enabled=true;if(queuedAt==='enable')queued=true;}
+  if(args.includes('state=success')){released=true;if(queuedAt==='release')queued=true;}
+  if(args[0]==='pr'&&args.includes('--disable-auto')){enabled=false;if(requeue)queued=true;}
+  if(driftRules&&enabled&&args.at(-1)==='repos/'+repo+'/rulesets/25870651'){
+   const rules=JSON.parse(response);rules.rules=rules.rules.filter(r=>r.type!=='merge_queue');return JSON.stringify(rules);
+  }
+  if(args.at(-1)===`repos/${repo}/pulls/510`){
+   const pr=JSON.parse(response);
+   // The queue chooses its own SQUASH policy; the auto-merge input method is ignored.
+   pr.auto_merge=enabled&&!queued&&!noAuto?{merge_method:'merge'}:null;
+   if(failAfterRelease&&released)pr.labels=['hold'];
+   if(mergeBeforeRelease&&enabled&&!released){pr.merged=true;pr.state='closed';}
+   return JSON.stringify(pr);
+  }
+  return response;
+ };
+ query.loadCheckout=m.query.loadCheckout;
+ return {...m,query,calls,queued:()=>queued};
+}
+
+test('native queue arm accepts waiting and exact queued readback independently of REST auto_merge',()=>{
+ for(const queuedAt of ['never','release','enable']){
+  const m=nativeArmFixture({queuedAt});
+  assert.equal(armAutoMerge(repo,510,m.f.review,m.query).state,'auto-merge-requested',queuedAt);
+  assert.equal(m.queued(),queuedAt!=='never');
+  assert(!m.calls.some(c=>c.includes('state=failure')));
+ }
+});
+
+test('native queue arm rejects unknown capability, policy, PR and entry identities before release',()=>{
+ const mutations=[r=>r.errors=[{message:'partial'}],r=>delete r.data,r=>delete r.data.node.isInMergeQueue,
+  r=>r.data.node.repository.databaseId=1,r=>r.data.node.headRefOid=sha('c'),r=>r.data.node.number=511,
+  r=>r.data.node.id='OTHER',r=>r.data.node.repository.nameWithOwner='other/repository',
+  r=>r.data.node.baseRefName='master',r=>r.data.node.isMergeQueueEnabled=false,
+  r=>r.data.node.mergeQueue.configuration.mergeMethod='MERGE',r=>r.data.node.mergeQueue.configuration.mergingStrategy='HEADGREEN',
+  r=>r.data.node.mergeQueueEntry=null,r=>r.data.node.mergeQueueEntry.id='',
+  r=>r.data.node.mergeQueueEntry.pullRequest.id='OTHER',r=>r.data.node.mergeQueueEntry.pullRequest.headRefOid=sha('c'),
+  r=>r.data.node.mergeQueueEntry.pullRequest.number=511,r=>r.data.node.mergeQueueEntry.pullRequest.baseRefName='master',
+  r=>r.data.node.mergeQueueEntry.state='UNMERGEABLE',
+  r=>r.data.node.mergeQueueEntry.mergeQueue.id='OTHER'];
+ for(const mutate of mutations){
+  const m=nativeArmFixture({queuedAt:'enable',corrupt:mutate});
+  assert.throws(()=>armAutoMerge(repo,510,m.f.review,m.query),/queue|identity|capability/i,String(mutate));
+  assert(!m.calls.some(c=>c.includes('state=success')),'invalid native state cannot release review');
+ }
+ const m=nativeArmFixture({queuedAt:'never',noAuto:true});
+ assert.throws(()=>armAutoMerge(repo,510,m.f.review,m.query),/queue|auto-merge/i);
+ assert(!m.calls.some(c=>c.includes('state=success')));
+});
+
+test('native queue release rejects a replacement entry, policy removal and a pre-release merge',()=>{
+ const replace=nativeArmFixture({queuedAt:'enable',corrupt:(r,{released})=>{if(released)r.data.node.mergeQueueEntry.id='REPLACED';}});
+ assert.throws(()=>armAutoMerge(repo,510,replace.f.review,replace.query),/queue|identity/i);
+ for(const options of [{driftRules:true},{mergeBeforeRelease:true}]){
+  const m=nativeArmFixture(options);
+  assert.throws(()=>armAutoMerge(repo,510,m.f.review,m.query),/admission|handshake/i);
+  assert(!m.calls.some(c=>c.includes('state=success')));
+ }
+});
+
+test('native queue policy must retain SQUASH, ALLGREEN and all original protections before mutation',()=>{
+ for(const mutate of [f=>f.ruleset.rules.at(-1).parameters.merge_method='MERGE',
+  f=>f.ruleset.rules.at(-1).parameters.grouping_strategy='HEADGREEN',f=>f.ruleset.bypass_actors=[{actor_id:1}],
+  f=>f.ruleset.rules.find(r=>r.type==='required_status_checks').parameters.strict_required_status_checks_policy=false,
+  f=>f.ruleset.rules.find(r=>r.type==='pull_request').parameters.allowed_merge_methods=['merge','squash'],
+  f=>f.ruleset.rules=f.ruleset.rules.filter(r=>r.type!=='required_linear_history')]){
+  const m=nativeArmFixture();mutate(m.f);
+  assert.throws(()=>armAutoMerge(repo,510,m.f.review,m.query));
+  assert(!m.calls.some(c=>c.includes('POST')||c[1]==='graphql'),'unsafe policy rejected before authorization');
+ }
+});
+
+test('failed native queue activation dequeues and reads back absence; uncertain cleanup is retained',()=>{
+ for(const options of [{},{stuck:true},{dequeueError:true},{wrongDequeue:true},{requeue:true}]){
+  const m=nativeArmFixture({...options,failAfterRelease:true}),journal=[];
+  assert.throws(()=>armAutoMerge(repo,510,m.f.review,m.query,{persist:r=>journal.push(r)}),/changed|confirmed/);
+  assert(m.calls.some(c=>c.some(a=>a.includes('dequeuePullRequest('))),'failed activation must dequeue');
+  assert(m.calls.some(c=>c.includes('state=failure')));
+  const failure=journal.at(-1);assert.equal(failure.state,'activation-failed');
+  if(Object.keys(options).length){assert(failure.cleanup.some(s=>/queue|cancellation/i.test(s)));}
+  else{assert.equal(m.queued(),false);assert.deepEqual(failure.cleanup,[]);}
+ }
+});
 function pauseFixture({queued=true,stuck=false,unavailable=false,foreign=false,missing=false,mutationError=false,autoStuck=false,requeue=false}={}) {
  const f=fixture(),calls=[];let disabled=false,inQueue=queued;
  const query=(...args)=>{

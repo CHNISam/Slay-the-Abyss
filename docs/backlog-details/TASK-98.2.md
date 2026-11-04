@@ -17,3 +17,17 @@
 本地最初 mutation 检查因新工作树没有 build/lua 报 infrastructure_error；先运行既有 build:data/build:ui，再验证，不修改门槛。最终 mutation 与精确 HEAD hosted Full 以本轮实际命令/PR状态为准。
 
 原生 schema 和只读 PR 查询已实测；dequeue 写入、队列组合布局和动态成员负例均为隔离模拟，没有启用远端 Merge Queue、改规则或实测误合并。超过100成员、缺页、共享head等无法唯一确认布局保持阻塞；真实队列小型PR演练、基线推进后的吞吐收益仍待后续管理员启用及实证，不能由本地测试代替。
+
+## 原生 arm 读回与失败清理接续
+
+从 `7eea66caaf97a546c5d84a498f72b241611162da` 隔离接续，未带入主控对 TASK-98/98.1/99 的收口修改。
+
+官方 [GraphQL 合同](https://docs.github.com/en/graphql/reference/pulls#enablepullrequestautomergeinput) 明确队列忽略 enable mutation 的 mergeMethod，由队列合并策略决定；[队列操作合同](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/merging-a-pull-request-with-a-merge-queue)区分等待 Auto-merge 与已入队。旧 arm 只接受 REST `auto_merge.merge_method=squash`，且失败清理仅 Disable auto-merge，不能证明已入队条目消失。
+
+- 只有实际读取到 `merge_queue` 规则才允许队列读回；原非队列路径仍要求 REST squash。原六项 Required 及来源、Strict、squash-only PR、线程与线性历史均保留，队列另要求 SQUASH/ALLGREEN、无 bypass，放行前规则移除也拒绝。
+- 队列路径核对 GraphQL 的固定仓库 ID、PR node/number、当前 HEAD/develop、真实队列策略与 entry 关联；接受已启用等待或精确已入队，兼容已入队后 REST `auto_merge:null`。已观测 entry/queue 的替换拒绝，不以合成 entry.headCommit 冒充 PR HEAD。
+- arm 失败与显式 pause 共用 native dequeue、对应 entry 收据及移除读回，再关闭 Auto-merge 并重读两面；错误收据、无效移除、重新入队与能力未知均保留 cancellation uncertain。放行前意外 merged 仍拒绝。
+
+先补4组回归，旧源码35通过/4失败；修复后再补条目替换回归，39通过/1失败，修复后通过。最终固定 Node24.18.0 标准子进程隔离执行原五组加 governance/PR history 共113/113；guidance、verify:backlog、doctor、两份JS syntax和diff whitespace通过。新树起初缺luaparse，复用原工作树已安装依赖后执行；未变更锁文件或测试预算。
+
+本轮只读真实 PR508 GraphQL 查询接受全部新增字段：当前 HEAD 为原 `7eea66ca...`、`isMergeQueueEnabled:false`、`isInMergeQueue:false`、autoMergeRequest/mergeQueue/entry均null。这只证明 schema 与暂停状态读回；queued/null、dequeue写入及故障均仍是隔离回归，不声称真实队列已启用或演练完成。当前补丁本地提交后由主控另行独审、更新508及验证精确HEAD完整CI；最终AC保持未完成。
