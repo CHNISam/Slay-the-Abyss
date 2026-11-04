@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-04T20:47:03.707Z",
+  "sourceBase": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
+  "node": "v24.18.0",
+  "beforeSha256": "19e4ea5820e34b47ec2fc121ecb422ca0636047ff39838898962d3fdacb79879",
+  "afterSha256": "4e5eb125a764ca52ac1edf3916f6807c1ae05cd6108e91e1913e86990ecfe577",
+  "order": "BAAB",
+  "samples": [
+    {
+      "variant": "before",
+      "mode": "helper",
+      "importMs": 55.57090000000001,
+      "cold": {
+        "reads": [
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/event-487-source-inverse.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/event-488-source-inverse.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/deck-delivery-source-composition.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/delivery-source-composition.json.gz",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/beta-ui-historical-host.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/beta-integration-sources.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/deck-browse-source-layer.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/pr372-integration-sources.json"
+        ],
+        "parsedBytes": 6245151
+      },
+      "warm": {
+        "reads": [
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/event-487-source-inverse.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/event-488-source-inverse.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/deck-delivery-source-composition.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/delivery-source-composition.json.gz",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/beta-ui-historical-host.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/beta-integration-sources.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/deck-browse-source-layer.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/pr372-integration-sources.json"
+        ],
+        "parsedBytes": 6245151
+      }
+    },
+    {
+      "variant": "after",
+      "mode": "helper",
+      "importMs": 3.4130000000000003,
+      "cold": {
+        "reads": [],
+        "parsedBytes": 0
+      },
+      "warm": {
+        "reads": [],
+        "parsedBytes": 0
+      }
+    },
+    {
+      "variant": "after",
+      "mode": "helper",
+      "importMs": 3.4557,
+      "cold": {
+        "reads": [],
+        "parsedBytes": 0
+      },
+      "warm": {
+        "reads": [],
+        "parsedBytes": 0
+      }
+    },
+    {
+      "variant": "before",
+      "mode": "helper",
+      "importMs": 63.894999999999996,
+      "cold": {
+        "reads": [
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/event-487-source-inverse.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/event-488-source-inverse.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/deck-delivery-source-composition.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/delivery-source-composition.json.gz",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/beta-ui-historical-host.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/beta-integration-sources.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/deck-browse-source-layer.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/pr372-integration-sources.json"
+        ],
+        "parsedBytes": 6245151
+      },
+      "warm": {
+        "reads": [
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/event-487-source-inverse.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/event-488-source-inverse.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/deck-delivery-source-composition.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/delivery-source-composition.json.gz",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/beta-ui-historical-host.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/beta-integration-sources.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/deck-browse-source-layer.json",
+          "F:/New folder/worktrees/m7-closeout/tests/fixtures/pr372-integration-sources.json"
+        ],
+        "parsedBytes": 6245151
+      }
+    }
+  ],
+  "meanImportMs": {
+    "before": 59.73295,
+    "after": 3.4343500000000002
+  },
+  "limits": "Two local fresh-process observations per variant, fs/JSON observer included. No hosted Full wall-time or native-device inference."
+}
