@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 02:34'
-updated_date: '2026-11-04 12:46'
+updated_date: '2026-11-04 13:07'
 labels: []
 milestone: m-7
 dependencies: []
@@ -74,4 +74,6 @@ PR502已原生自动合入67493f1a，PR Full41771126698及push Full41775894289�
 本轮只读复核496/498为CLOSED，502/504/508为MERGED，505/506/510为CLOSED并有接续来源；git ls-remote确认496/498及502/504/505/506/508旧feature refs已不存在，无新工作。510原132a分支按承诺保留恢复历史。父任务仅AC5真实原生Queue演练保持未完成。511的1a最新Full仅历史UI slice2触原30秒，真实暂停读回auto_merge=null且无entry；原body/11组/预算不变的359修复已独审141项+五原CLI全组通过，新Full41823316178执行中。
 
 359最终PR Full41823316178已完整成功并真实自动入队。首次组20d6/41827310450经现有admission实测通过；仅给该组合Required审查门禁注入明确controlled failure后，GitHub原生事件actor=github-merge-queue/reason=failed_checks自动剔除，发生在任何手动dequeue之前，PR与BASE均未变。第二组7f5/41828183215已实际测试pause/dequeue与双面空读回，原生事件reason=manual。随后全新授权最终组05cc/41828843134，admission真实通过，完整Group Full仍执行；AC5待自动合并和合后收据，不提前勾。首次/第二/最终授权原文分别保留，原规则六Required/Strict/no bypass未动。
+
+组合组05cc的Full41828843134回归全部通过，最终check发布器因只读GITHUB_TOKEN的ruleset API隐藏bypass_actors而失败；原生队列于12:51:50UTC再次failed_checks剔除，PR仍未合并。管理员读回保护仍active/[]，官方API文档确认字段仅向规则写权限可见。准备以已有coordinator显式空bypass核验+规则版本摘要绑定当前HEAD/BASE授权修复，不新增CI权限/令牌/作业，不把缺失字段直接当空。AC5继续未完成，保留原组日志与授权。
 <!-- SECTION:NOTES:END -->

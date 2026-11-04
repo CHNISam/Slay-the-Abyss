@@ -197,11 +197,21 @@
       "jobCount": 27,
       "runnerExecutionMinutes": 360.13333333333327,
       "maxJobMinutes": 24.666666666666668
+    },
+    {
+      "id": 41823316178,
+      "head": "3598949d8e71fedba59af88cf7a443554e77f910",
+      "event": "pull_request",
+      "result": "success",
+      "wallMinutes": 27.4,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 380.5499999999999,
+      "maxJobMinutes": 25.383333333333333
     }
   ],
   "liveQueueValidation": {
-    "capturedAt": "2026-11-04T12:46:42.268Z",
-    "state": "final-group-full-running",
+    "capturedAt": "2026-11-04T13:07:23.084Z",
+    "state": "publisher-ruleset-field-visibility-failure",
     "pr": 511,
     "head": "3598949d8e71fedba59af88cf7a443554e77f910",
     "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
@@ -250,9 +260,35 @@
       "head": "05ccff3f51c1a9f4dbd4fe0b37085c6b224a2981",
       "runId": 41828843134,
       "entryId": "MQE_lQDOVThF3s8AAAABMwfM_M4ABTCPzgO3UnQ",
-      "admissionPassed": true
+      "admissionPassed": true,
+      "conclusion": "failure",
+      "failedJob": "check",
+      "failedJobId": 126584211089,
+      "regressionJobsPassed": true,
+      "error": "Native develop Merge Queue protection is not active or has bypass actors",
+      "reason": "Read-only ruleset API omits bypass_actors; publisher currently rejects omitted field.",
+      "officialContract": "https://docs.github.com/en/rest/repos/rules#get-a-repository-ruleset",
+      "administratorReadback": {
+        "bypassActors": [],
+        "updatedAt": "2026-11-04T17:51:23.025+08:00",
+        "enforcement": "active"
+      },
+      "logSha256": "47421a33bf76a501565a6281020cef9c7bf7a6ce3bd8e22f2d8740dfeeb740af",
+      "snapshotSha256": "e3ad8c7bb831b4a78401909efd3e9f0a68ccbe845606c35506a7cc1f718aeeb2"
     },
     "successfulNativeQueueMerge": false
   },
-  "boundary": "Deployment, PR508 merged delivery, real native entry/failure-removal and explicit dequeue are proven. Final native automatic merge/Group Full and PR511 merged delivery remain incomplete at this snapshot. Runtime/device evidence is not covered."
+  "boundary": "Queue enabled; real failed-check automatic removal and explicit dequeue proven. PR511 source Full passed, but native success is incomplete because the group publisher rejects the read-only API redaction. No protection or CI permission was relaxed. Runtime/device evidence is not covered.",
+  "failedCiTimings": [
+    {
+      "id": 41828843134,
+      "head": "05ccff3f51c1a9f4dbd4fe0b37085c6b224a2981",
+      "event": "merge_group",
+      "result": "failure",
+      "wallMinutes": 28.416666666666668,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 363.2333333333333,
+      "maxJobMinutes": 25.7
+    }
+  ]
 }
