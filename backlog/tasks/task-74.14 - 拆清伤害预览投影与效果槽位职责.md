@@ -5,12 +5,14 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 20:41'
-updated_date: '2026-11-04 20:41'
+updated_date: '2026-11-04 20:58'
 labels: []
 milestone: m-7
 dependencies: []
 references:
   - docs/SPRINT_EXECUTION.md
+documentation:
+  - docs/backlog-details/M7-QUERY-BATCH-20261105.md
 parent_task_id: TASK-74
 priority: medium
 type: task
@@ -25,8 +27,8 @@ ordinal: 151000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 预览编排及全部新增职责函数圈复杂度不超过15并受可执行门禁检查
-- [ ] #2 固定完整旧源与当前实现在独立VM差分一致，保留目标槽位、错误、输入全图及随机边界，关键变异可拒绝
+- [x] #1 预览编排及全部新增职责函数圈复杂度不超过15并受可执行门禁检查
+- [x] #2 固定完整旧源与当前实现在独立VM差分一致，保留目标槽位、错误、输入全图及随机边界，关键变异可拒绝
 - [ ] #3 独立复审、精确HEAD完整CI与实际合入提交验证通过，剩余热点和设备边界有记录
 <!-- AC:END -->
 
@@ -35,3 +37,9 @@ ordinal: 151000
 <!-- SECTION:PLAN:BEGIN -->
 1.固定完整a308旧源和现有入口合同。2.以同模块效果族及槽位职责拆分，保留捕获、稀疏槽、短路和V4克隆语义。3.独立VM旧新差分、边界与变异、全helper绝对CC门禁。4.独立复审与精确HEAD及合后完整CI。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+预览编排48→6，其余静态职责最高13，避免每查询闭包；完整旧新图/RNG及8真变异通过，组合24项与工程门禁通过。独审新增重入捕获反例通过。精确最终HEAD Full及合后验证待，AC3不勾。
+<!-- SECTION:NOTES:END -->

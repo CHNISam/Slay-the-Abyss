@@ -45,3 +45,5 @@ a308的独立push Full41900003124成功，原验证器给出`merged_passed / err
 旧snapshot-only harness及90秒诊断profile不能作为最终组合原预算验收，本次已用四模块、严格30秒重新补测。没有逐片开关实验或原生Lua/设备对照，不把净收益单独归因某个helper，也不将跨host的19.713/25.768秒当因果比较。
 
 剩余273个CC>15、71个CC>30、104成员SCC和1004行UI构造器仍公开记录；旧选择任务的drain25也未在本批改动。没有官方候选、导入、ready、PC/手机或原生Lua内存取证，不作为M7整体退出或发布许可。
+
+本批独有原始证据与完整可恢复Git bundle已归档至工作区`.artifacts/m7-runtime-20261105/`：`source-7ae`、`source-complement`、`delivery-closeout`各有逐文件SHA清单。合并后核实旧feature无新工作、与实际squash树相同，再清理其干净工作树及本地分支；其他在途和脏树保留。后续查询切片的计量见[接续批次](M7-QUERY-BATCH-20261105.md)，不改写本批历史数值。

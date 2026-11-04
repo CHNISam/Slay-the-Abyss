@@ -5,12 +5,14 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 20:41'
-updated_date: '2026-11-04 20:41'
+updated_date: '2026-11-04 20:58'
 labels: []
 milestone: m-7
 dependencies: []
 references:
   - docs/SPRINT_EXECUTION.md
+documentation:
+  - docs/backlog-details/M7-QUERY-BATCH-20261105.md
 parent_task_id: TASK-74
 priority: medium
 type: task
@@ -25,8 +27,8 @@ Actor.statusView复杂度60，将敌人来源顺序、玩家状态筛选和实�
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 状态投影及全部新增职责函数圈复杂度不超过15并受可执行门禁检查
-- [ ] #2 固定完整旧源与当前实现的顺序、零负状态、字段nil与false、异常及输入图和随机状态差分一致，关键变异可拒绝
+- [x] #1 状态投影及全部新增职责函数圈复杂度不超过15并受可执行门禁检查
+- [x] #2 固定完整旧源与当前实现的顺序、零负状态、字段nil与false、异常及输入图和随机状态差分一致，关键变异可拒绝
 - [ ] #3 独立复审、精确HEAD完整CI与实际合入提交验证通过，M8与设备验收不代领
 <!-- AC:END -->
 
@@ -35,3 +37,9 @@ Actor.statusView复杂度60，将敌人来源顺序、玩家状态筛选和实�
 <!-- SECTION:PLAN:BEGIN -->
 1.固定完整a308旧源及statusView导出别名。2.按来源顺序、玩家筛选、资源与目标行拆分同模块职责，不加查询缓存。3.独立VM比较所有字段/顺序/错误/输入图并拒绝语义变异，全helper绝对CC门禁。4.独立复审与精确HEAD及合后完整CI。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+statusView60→4，八helper最高13，嵌套resource1。252边界完整旧新图及14变异、元表独立反例通过，既有四类消费者通过；组合工程门禁通过。M8和设备未代验，最终HEAD及合后Full待。
+<!-- SECTION:NOTES:END -->

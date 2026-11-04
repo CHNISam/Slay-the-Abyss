@@ -19,6 +19,9 @@ Lua手写源保存在平铺的 [src/lua](../src/lua/)；模块名用于 `require
 | 两种出牌准备 | [abyss_combat_native_play.lua](../src/lua/abyss_combat_native_play.lua)、[abyss_combat_queued_play.lua](../src/lua/abyss_combat_queued_play.lua) | 分别保留原生与队列协议的快照、RNG、事件和暂停边界；公开事务仍由Combat持有 |
 | 构造与回合阶段 | [abyss_combat.lua](../src/lua/abyss_combat.lua) 的构造、开回合及两套结束协议 | 同模块窄职责保持原编排；原生/V4清理时机、保留恢复、敌人引用快照保持独立，公开结束入口持有事务owner与回滚 |
 | 卡牌定义查询 | [abyss_combat.lua](../src/lua/abyss_combat.lua) 的 `M.cardDefinition` | 脱离定义、原生计数、职业适配、伤害、费用和遗物收尾按原序读取；UI只取临时查询结果，零/nil/X及动态输入不作跨调用缓存 |
+| 卡牌预览投影 | [abyss_combat.lua](../src/lua/abyss_combat.lua) 的 `M.cardPreview` | 静态效果族helper读取原捕获player/目标，保持稀疏槽和原生/V4边界；不推进原局随机、不跨调用缓存 |
+| 效果支持判定 | [abyss_effects.lua](../src/lua/abyss_effects.lua) 的 `M.supported` | 图预检、scry序列、动态动作能力、递归分支和元数据按原拒绝顺序判断，不用静态白名单替代动态查询 |
+| 角色状态投影 | [abyss_actor.lua](../src/lua/abyss_actor.lua) 的 `M.statusView` | 怪物按来源、玩家按既有排序选状态，再构造独立值行和资源行；保持nil/false与读取顺序，不向UI泄漏核心引用 |
 | 完整回滚与纯复制 | [abyss_snapshot.lua](../src/lua/abyss_snapshot.lua)、[abyss_copy.lua](../src/lua/abyss_copy.lua) | Snapshot捕获并恢复完整图/别名，key类型缓存仅属一次capture；Copy提供纯复制能力，不接管Session或Combat提交权 |
 | 普通伤害阶段 | [abyss_actor.lua](../src/lua/abyss_actor.lua) 的 `M.damage` | 六个同模块阶段按原顺序处理数值、格挡、减伤、失血和反击队列；七个职责及嵌套函数受CC15约束，directDamage保持独立 |
 | 手牌几何与药水拖动 | [abyss_battle_card_view.lua](../src/lua/abyss_battle_card_view.lua)、[abyss_battle_potion_bindings.lua](../src/lua/abyss_battle_potion_bindings.lua) | 几何承诺按原生对象及binding隔离并在失败/重入时失效；药水每事件重新查询单槽，使用前重验规则 |
