@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 02:34'
-updated_date: '2026-11-04 13:07'
+updated_date: '2026-11-04 13:17'
 labels: []
 milestone: m-7
 dependencies: []
@@ -76,4 +76,6 @@ PR502已原生自动合入67493f1a，PR Full41771126698及push Full41775894289�
 359最终PR Full41823316178已完整成功并真实自动入队。首次组20d6/41827310450经现有admission实测通过；仅给该组合Required审查门禁注入明确controlled failure后，GitHub原生事件actor=github-merge-queue/reason=failed_checks自动剔除，发生在任何手动dequeue之前，PR与BASE均未变。第二组7f5/41828183215已实际测试pause/dequeue与双面空读回，原生事件reason=manual。随后全新授权最终组05cc/41828843134，admission真实通过，完整Group Full仍执行；AC5待自动合并和合后收据，不提前勾。首次/第二/最终授权原文分别保留，原规则六Required/Strict/no bypass未动。
 
 组合组05cc的Full41828843134回归全部通过，最终check发布器因只读GITHUB_TOKEN的ruleset API隐藏bypass_actors而失败；原生队列于12:51:50UTC再次failed_checks剔除，PR仍未合并。管理员读回保护仍active/[]，官方API文档确认字段仅向规则写权限可见。准备以已有coordinator显式空bypass核验+规则版本摘要绑定当前HEAD/BASE授权修复，不新增CI权限/令牌/作业，不把缺失字段直接当空。AC5继续未完成，保留原组日志与授权。
+
+真实发布器修复已正常快进原511至944575c8，独审independent-agent:/root/review_rules_visibility:944575c8通过，113项门禁和19个自构造负例拒绝均实跑通过；管理员/匿名规则摘要同一9a80615f，时区规范化，当前admin/id/enqueuer及版本绑定，无新权限/密钥/jobs。已新SHA授权并真实读回原生waiting，Full41836216986进行中。前359授权已pause；原失败/取消与成功CI成本分开记，成功359 Full27.4min不替代新SHA。AC5仍待真实成功组合及合后验收。
 <!-- SECTION:NOTES:END -->
