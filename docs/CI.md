@@ -38,6 +38,19 @@ Licenses 与 Quality、Quick feedback 一样使用 GitHub 原生同引用 concur
 
 2026-11-04已读回 develop 的 `strict_required_status_checks_policy: true` 与六项必需 context。原四项及 full-quality 指定 GitHub Actions 15368，independent-review 为 Any source；旧 ownership 作业不恢复，原保护与 PR 豁免保留。
 
+## GitHub 原生 Merge Queue（切换准备，尚未开启）
+
+FurinyaWorks 的公开 STA 仓库可免费启用 GitHub 原生 Merge Queue；不安装第三方 App、不增加 Runner 或常驻调度服务。此代码变更**只准备 CI 兼容性**，合入本 PR 不代表已修改远端 Ruleset，也不代表经过真实队列演练。
+
+- `quality.yml` / `licenses.yml` 监听 `merge_group(checks_requested)`，只针对 develop。已有 impact 选择器在非 PR 事件强制 **Full**，继续执行原 13 片 Windows、9 片 POSIX、presentation、inventory，Fast 绝不能放行。
+- 队列生成的组合提交与原 PR HEAD 不相同。现有 PR 侧 `independent-review` 仍由协调 Agent 核实真实独立审查；队列侧同名状态仅在 GitHub 原生队列准入、原六项 Required contexts 和整个组合 Full 均经校验后发布。**它不是对组合代码重新做独立人工审查**。队列的代码组合由 Full 验证。
+- `full-quality` 与 `independent-review` 在队列开始时置 pending，成功前复用既有 `checkoutReceipt` / 当前 27 作业、实际 checkout SHA 和不可变 artifact 校验；失败、缺片、过期 run/attempt、Ruleset 漂移或无法验证的组合均不发布 success。保留 PR/push 的原验证及合后收据，不能从队列绿灯反推原 PR 实机验收。
+- **上线顺序**：先解决在途 #505 的收据继承问题；本 PR 经独立审查与当前 HEAD Full 通过并合入；再在 GitHub `develop` Ruleset 25870651 中开启 **Require merge queue**（Squash、Only merge non-failing PRs、无 bypass、保留原六项 Required），核对规则读回。首批用小型不相关 PR 观察实际 `merge_group` 的六项状态、完整回归、暂停/失败剔除和合后 push Full，确认后才扩大 build concurrency。
+- 先维持原 Strict 门禁和 `npm run merge:auto`，避免切换时放宽旧准入；要实现真正免更新分支的吞吐收益，还须**在演练后**适配旧协调器对固定 BASE / Strict 的假设，再决定是否关闭 Strict。禁止先关闭 Strict 或临时删除 `independent-review`/`full-quality` 来消除队列等待。
+- **回退**：关闭 Require merge queue 回到原规则，保留所有六项 Required 和 Strict；不回退有效源码、不取消既有 PR、不使用管理员 bypass。组织迁移后的唯一仓库是 `FurinyaWorks/Slay-the-Abyss`。
+
+官方依据：[GitHub Merge Queue 配置](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue)；[merge_group 事件](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#merge_group)。
+
 ## PR 自动合并准入
 
 当前仓库为 `FurinyaWorks/Slay-the-Abyss`，固定 ID 为 `1429751262`。协调入口通过 `/repositories/1429751262` 解析当前名称，核对 settings、PR head/base 的真实 ID；不能用同名仓库或 fork 接续。迁移前的授权和 schema2/3/4/5 收据保留原文。合后验收仅可用单独的迁移见证衔接登记的旧名 `CHNISam/Slay-the-Abyss`：保存原授权文本及 SHA-256、固定 ID 的当前响应与旧名重定向响应，并核对本轮 PR/run 的仓库 ID，不能改写旧证据中的 owner。迁移前取消的 event 不作新 Full 证明，使用迁移后的新提交触发完整验证。
