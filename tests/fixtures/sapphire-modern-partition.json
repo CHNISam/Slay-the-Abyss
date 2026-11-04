@@ -18,11 +18,15 @@
     ],
     [
       15,
-      21
+      18
     ],
     [
       14,
       14
+    ],
+    [
+      19,
+      21
     ]
   ],
   "uiHelper": "tests/lua/support/sapphire_treasure_ui_cases.lua",

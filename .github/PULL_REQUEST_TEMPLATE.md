@@ -9,6 +9,10 @@
 - [ ] feature/* → `develop`
 - [ ] release/* or hotfix/* → `master` (+ back-merge into `develop`)
 
+## PR dependencies
+Depends-on: none
+<!-- Replace none with #123, #456 if another PR must merge first. Required by merge:auto. -->
+
 ## How to test
 1.
 

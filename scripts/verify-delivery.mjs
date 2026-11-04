@@ -27,7 +27,7 @@ export function isLowRiskDocumentationChange(files,count) {
       !file.filename.includes('\\')&&!file.filename.split('/').some(segment=>segment==='.'||segment==='..')&&
       ['added','modified'].includes(file.status)&&validSha(file.sha));
 }
-function qualityErrors(jobs,{attempt,runId,head,schemaVersion}) {
+function qualityErrors(jobs,{attempt,runId,head,schemaVersion,allowRunningAggregate=false}) {
   // Collect filter=all, not one attempt: reruns preserve GITHUB_SHA/GITHUB_REF
   // and only reexecute selected jobs. Never search for the last *successful*
   // execution; a newer failure must supersede an older success.
@@ -51,7 +51,8 @@ function qualityErrors(jobs,{attempt,runId,head,schemaVersion}) {
     // A false job-level condition skips `fast` before matrix expansion. Fast
     // coverage (including expanded matrix jobs) can never certify Full.
     const conclusion=name==='fast'?'skipped':'success';
-    if(job?.status!=='completed'||job.conclusion!==conclusion)errors.push(`Quality job ${name} is missing, incomplete or does not have required conclusion ${conclusion} on its latest execution`);
+    const runningAggregate=allowRunningAggregate&&name==='check'&&job?.status==='in_progress'&&job.conclusion==null&&job.run_attempt===attempt;
+    if(!runningAggregate&&(job?.status!=='completed'||job.conclusion!==conclusion))errors.push(`Quality job ${name} is missing, incomplete or does not have required conclusion ${conclusion} on its latest execution`);
   }
   return errors;
 }
@@ -77,8 +78,47 @@ function runErrors(run,{head,event,runId,attempt,branch,repo}) {
     run.status!=='completed'||run.conclusion!=='success'||run.repository?.full_name!==repo||branch!==undefined&&run.head_branch!==branch)errors.push('Exact current-attempt Quality run is missing, incomplete, unsuccessful or mismatched');
   return errors;
 }
+// Auto-merge authorization includes exact Full preflight evidence. It remains
+// distinct from merged delivery, which also verifies the actual squash and push CI.
+export function verifyAutoMergeArm(e) {
+  if(!e||typeof e!=='object')return ['Missing auto-merge arm evidence'];
+  const errors=[];
+  if(e.fullPreflight===undefined){
+    if(!positiveId(e.pendingRun?.id)||!positiveId(e.pendingRun?.attempt)||e.pendingRun.head!==e.head)
+      errors.push('Auto-merge requires the exact pending Full run identity');
+  }else if(e.fullPreflight.schemaVersion!==3)errors.push('Auto-merge requires current Full preflight evidence');
+  else {
+    errors.push(...verifyDelivery(e.fullPreflight).map(error=>'Full preflight: '+error));
+    for(const field of ['repo','prNumber','head','base','tested','sourceTree'])
+      if(e.fullPreflight[field]!==e[field])errors.push('Full preflight differs from auto-merge '+field);
+    if(JSON.stringify(e.fullPreflight.review)!==JSON.stringify(e.review))errors.push('Full preflight review differs from authorization');
+  }
+  if(e.schemaVersion!==4||e.kind!=='auto-merge-arm'||!/^[-\w.]+\/[-\w.]+$/.test(e.repo??'')||
+    e.baseRef!=='develop'||!positiveId(e.prNumber))errors.push('Missing auto-merge arm identity');
+  for(const key of ['head','base','tested','sourceTree','targetBeforeSha','targetAfterSha'])
+    if(!validSha(e[key]))errors.push('Missing or invalid auto-merge '+key);
+  if(e.targetBeforeSha!==e.base||e.targetAfterSha!==e.base)
+    errors.push('Auto-merge target moved during review authorization');
+  if(JSON.stringify(e.parents)!==JSON.stringify([e.base,e.head]))
+    errors.push('Auto-merge proposed merge parents differ from reviewed HEAD/BASE');
+  if(e.review?.disposition==='low-risk-docs') {
+    if(!isLowRiskDocumentationChange(e.changedFiles,e.changedFileCount))
+      errors.push('Auto-merge documentation waiver is outside the allowed scope');
+  } else if(e.review?.reviewedHeadSha!==e.head||e.review?.reviewedBaseSha!==e.base||
+    typeof e.review?.reviewId!=='string'||!e.review.reviewId.trim()||
+    e.review.conclusion!=='pass'||!Array.isArray(e.review.unresolved)||e.review.unresolved.length)
+    errors.push('Auto-merge independent review is missing, stale or unresolved');
+  if(e.review?.reviewedHeadSha!==e.head||e.review?.reviewedBaseSha!==e.base)
+    errors.push('Auto-merge review does not match exact HEAD/BASE');
+  if(e.review?.repo!=null&&e.review.repo!==e.repo||
+    e.review?.prNumber!=null&&e.review.prNumber!==e.prNumber)
+    errors.push('Auto-merge review is for another PR');
+  return errors;
+}
 export function verifyDelivery(e) {
   if(!e||typeof e!=='object')return ['Missing preflight evidence'];
+  if(e.schemaVersion===4)return [...verifyAutoMergeArm(e),
+    ...(e.fullPreflight===undefined?['Review authorization is not successful Full preflight evidence']:[])];
   const errors=[];
   if(![2,3].includes(e.schemaVersion)||!/^[-\w.]+\/[-\w.]+$/.test(e.repo??'')||!['develop','master'].includes(e.baseRef))errors.push('Missing versioned repository/target evidence');
   for(const field of ['head','base','tested','sourceTree'])if(!validSha(e[field]))errors.push(`Invalid ${field}`);
@@ -103,7 +143,9 @@ export function verifyDelivery(e) {
 }
 export function verifyMergedDelivery(e) {
   if(!e||typeof e!=='object')return {state:'merged_pending',errors:['Missing merged evidence']};
-  const preflight=e.preflight??{},errors=verifyDelivery(preflight).map(error=>`Preflight: ${error}`);
+  const preflight=e.preflight??{},early=preflight.schemaVersion===4&&preflight.fullPreflight===undefined;
+  const errors=(early?verifyAutoMergeArm(preflight):verifyDelivery(preflight)).map(error=>`Preflight: ${error}`);
+  if(early)errors.push(...verifyHistoricalAutoFull(e.prFull,preflight));
   if(![2,3].includes(e.schemaVersion))errors.push('Missing versioned merged evidence');
   if(e.repo!==preflight.repo)errors.push('Merged evidence repository differs from preflight');
   if(preflight.review?.disposition==='low-risk-docs'&&
@@ -125,6 +167,28 @@ export function verifyMergedDelivery(e) {
   if(e.checkout?.prNumber!==undefined||JSON.stringify(e.checkout?.parents)!==JSON.stringify([preflight.base]))errors.push('Merged checkout is not the actual squash commit');
   return {state:errors.length?'merged_pending':'merged_passed',errors};
 }
+
+// This is historical PR CI collected AFTER native auto-merge. It is not a
+// schema3 preflight and does not invent target-ref observations after merge.
+// The surrounding merged verifier separately proves the actual squash parent
+// and tree match the independently observed target/source in the saved arm.
+export function verifyHistoricalAutoFull(e,arm){
+  if(!e||e.schemaVersion!==5||e.kind!=='historical-auto-full')return ['Missing historical PR Full evidence'];
+  const errors=[],run=e.run??{},checkout=e.checkout??{};
+  errors.push(...runErrors(run,{head:arm.head,event:'pull_request',runId:run.id,attempt:run.run_attempt,repo:arm.repo}),
+    ...runErrors(e.currentRun,{head:arm.head,event:'pull_request',runId:run.id,attempt:run.run_attempt,repo:arm.repo}),
+    ...qualityErrors(e.jobs,{attempt:run.run_attempt,runId:run.id,head:arm.head,schemaVersion:3}),
+    ...receiptErrors(checkout,e.checkoutArtifact,e.jobs,run,3));
+  if(!Array.isArray(run.pull_requests)||run.pull_requests.length>0&&!run.pull_requests.some(p=>p.number===arm.prNumber)||run.id<arm.pendingRun?.id||
+    run.id===arm.pendingRun?.id&&run.run_attempt<arm.pendingRun.attempt)
+    errors.push('Historical Full does not belong to the authorized PR/run');
+  for(const [field,value]of Object.entries({head:arm.head,base:arm.base,tested:arm.tested,prNumber:arm.prNumber,event:'pull_request',runId:run.id}))
+    if(checkout[field]!==value)errors.push('Historical PR checkout differs from authorization: '+field);
+  if(JSON.stringify(checkout.parents)!==JSON.stringify([arm.base,arm.head])||e.testedCommit?.sha!==arm.tested||
+    JSON.stringify(parentShas(e.testedCommit))!==JSON.stringify([arm.base,arm.head])||e.testedCommit?.commit?.tree?.sha!==arm.sourceTree)
+    errors.push('Historical PR tested commit/parents/tree differs from authorization');
+  return errors;
+}
 function gh(...args) {
   const result=spawnSync('gh',args,{encoding:'utf8',timeout:60000,maxBuffer:16*1024*1024});
   if(result.error||result.status!==0)throw new Error(`GitHub query failed: ${result.error?.message||result.stderr}`);return result.stdout;
@@ -144,8 +208,8 @@ function lowRiskFiles(query,repo,number,expectedCount) {
     throw new Error('Low-risk waiver denied: PR files are not exclusively eligible documentation');
   return files;
 }
-export function checkoutReceipt(repo,run,jobs,dir,query=gh,schemaVersion=deliverySchemaVersion) {
-  const errors=qualityErrors(jobs,{attempt:run.run_attempt,runId:run.id,head:run.head_sha,schemaVersion});
+export function checkoutReceipt(repo,run,jobs,dir,query=gh,schemaVersion=deliverySchemaVersion,{allowRunningAggregate=false}={}) {
+  const errors=qualityErrors(jobs,{attempt:run.run_attempt,runId:run.id,head:run.head_sha,schemaVersion,allowRunningAggregate});
   if(errors.length)throw new Error(errors.join('\n'));
   const attempt=latestJob(jobs,firstRulesJob(schemaVersion)).run_attempt,name=`quality-${run.id}-${attempt}-check`;
   const artifacts=pages(query,`repos/${repo}/actions/runs/${run.id}/artifacts?per_page=100`,'artifacts').filter(a=>a?.name===name);
@@ -158,11 +222,11 @@ export function checkoutReceipt(repo,run,jobs,dir,query=gh,schemaVersion=deliver
   if(current.id!==artifact.id||current.name!==name||receiptErrors({schemaVersion:1,attempt},current,jobs,run,schemaVersion).length)throw new Error('Checkout artifact changed during download');
   return {checkout:JSON.parse(readFileSync(join(dir,'ci-checkout.json'),'utf8')),checkoutArtifact:artifact};
 }
-function latestQualityRun(query,repo,{event,head,branch,number}) {
+function latestQualityRun(query,repo,{event,head,branch,number,allowMissingPrLink=false}) {
   const runs=pages(query,`repos/${repo}/actions/workflows/quality.yml/runs?event=${event}&head_sha=${head}&per_page=100`,'workflow_runs');
   return runs.filter(run=>run.head_sha===head&&run.event===event&&
     (branch===undefined||run.head_branch===branch)&&
-    (number===undefined||Array.isArray(run.pull_requests)&&run.pull_requests.some(pr=>pr.number===number)))
+    (number===undefined||Array.isArray(run.pull_requests)&&(run.pull_requests.some(pr=>pr.number===number)||allowMissingPrLink&&run.pull_requests.length===0)))
     .sort((a,b)=>b.id-a.id)[0];
 }
 function targetHead(query,repo,baseRef) {
@@ -210,6 +274,16 @@ export function collectMergedDelivery(repo,number,preflight,query=gh,loadCheckou
   const pr=JSON.parse(query('api',`repos/${repo}/pulls/${number}`));
   if(!pr.merged||!validSha(pr.merge_commit_sha))throw new Error('PR is not merged; its passing preflight is only pr_passed');
   const commit=JSON.parse(query('api',`repos/${repo}/commits/${pr.merge_commit_sha}`));
+  let prFull;
+  if(preflight.schemaVersion===4&&preflight.fullPreflight===undefined){
+    const identity={event:'pull_request',head:preflight.head,branch:pr.head.ref,number,allowMissingPrLink:true};
+    const run=latestQualityRun(query,repo,identity);
+    const jobs=run?.status==='completed'?pages(query,`repos/${repo}/actions/runs/${run.id}/jobs?filter=all&per_page=100`,'jobs'):[];
+    const receipt=run?.status==='completed'&&run.conclusion==='success'?loadCheckout(run,jobs):{};
+    prFull={schemaVersion:5,kind:'historical-auto-full',run,jobs,...receipt,
+      testedCommit:JSON.parse(query('api',`repos/${repo}/commits/${preflight.tested}`)),
+      currentRun:latestQualityRun(query,repo,identity)};
+  }
   const identity={event:'push',head:pr.merge_commit_sha,branch:pr.base.ref};
   const run=latestQualityRun(query,repo,identity);
   const jobs=run?.status==='completed'?pages(query,`repos/${repo}/actions/runs/${run.id}/jobs?filter=all&per_page=100`,'jobs'):[];
@@ -219,7 +293,7 @@ export function collectMergedDelivery(repo,number,preflight,query=gh,loadCheckou
   const waived=preflight.review?.disposition==='low-risk-docs';
   const changedFileCount=waived?pr.changed_files:undefined;
   const changedFiles=waived?lowRiskFiles(query,repo,number,changedFileCount):undefined;
-  return {schemaVersion:deliverySchemaVersion,repo,preflight,pr,commit,run,jobs,...receipt,current,currentRun,
+  return {schemaVersion:deliverySchemaVersion,repo,preflight,pr,commit,run,jobs,...receipt,current,currentRun,...(prFull?{prFull}:{}),
     ...(waived?{changedFileCount,changedFiles}:{})};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
@@ -230,8 +304,9 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
     const dir=join('build/delivery',randomUUID());mkdirSync(dir,{recursive:true});
     if(mode==='--merged') {
       const preflight=JSON.parse(readFileSync(evidenceFile,'utf8'));
-      if(preflight.repo!==repo||preflight.prNumber!==Number(number)||verifyDelivery(preflight).length)throw new Error('Preflight evidence is invalid, stale or belongs to a different PR/repository');
-      const evidence=collectMergedDelivery(repo,Number(number),preflight,gh,(run,jobs)=>checkoutReceipt(repo,run,jobs,dir));
+      const errors=preflight.schemaVersion===4?verifyAutoMergeArm(preflight):verifyDelivery(preflight);
+      if(preflight.repo!==repo||preflight.prNumber!==Number(number)||errors.length)throw new Error('Preflight evidence is invalid, stale or belongs to a different PR/repository');
+      const evidence=collectMergedDelivery(repo,Number(number),preflight,gh,(run,jobs)=>checkoutReceipt(repo,run,jobs,join(dir,String(run.id))));
       const result=verifyMergedDelivery(evidence);
       writeFileSync(join(dir,'evidence.json'),JSON.stringify({...evidence,...result},null,2)+'\n');
       console.log(`Delivery state: ${result.state}; actual merged commit ${evidence.pr.merge_commit_sha}; evidence ${dir}`);

@@ -30,6 +30,7 @@ export function beforeQualityArtifacts(text) {
 // two reviewed quality additions, including the exact new entry position.
 // Partial, reordered or altered wiring is left intact for the old hash to reject.
 export function beforeQualityPackage(text) {
+  text=text.replace('    "merge:auto": "node scripts/arm-auto-merge.mjs",\n','');
   const platform = beforePlatformPackage(text);
   if (platform === null) return text;
   text = platform;

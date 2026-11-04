@@ -105,7 +105,7 @@ test('current Windows matrix consumes the shared thirteen-shard shape without ch
   for(const command of ['node scripts/ci-shards.mjs --prepare=','node scripts/ci-shards.mjs --shard='])
     assert.ok(rules.includes(command+'${{ matrix.shard }}/${{ strategy.job-total }}'));
   assert.ok(rules.includes("node scripts/test-lua.mjs --shard ${{ matrix.shard }}/${{ strategy.job-total }} --workers ${{ inputs.runner_pool == 'local-special' && 1 || 2 }}"));
-  assert.match(job('check'),/^    needs: \[impact, rules, fast\]\n    if: always\(\)$/m);
+  assert.match(job('check'),/^    needs: \[impact, rules, fast, presentation, engineering-posix\]\n    if: always\(\)$/m);
   assert.doesNotMatch(rules,/continue-on-error:|--test-name-pattern|--test-skip-pattern/);
 });
 

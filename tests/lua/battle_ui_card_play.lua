@@ -1,5 +1,5 @@
 local sliceFirst,sliceLast=...
-sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 4
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 3
 assert(sliceFirst>=1 and sliceLast<=11 and sliceFirst<=sliceLast,'invalid card-play slice')
 local registered,executed=0,0
 local H = dofile("tests/lua/support/battle_gesture_fixture.lua")

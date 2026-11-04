@@ -2,16 +2,21 @@
   "base": "bcca9de518a628e9558db893888cb6b780833df3",
   "entry": "tests/lua/battle_ui_card_play.lua",
   "originalSha256LF": "3f07a7f2fd72f35feac148261039616e7f43a1bb4bc5e04f11b4167f321fde0d",
-  "currentSha256LF": "ba2238566d0580eb19d0288abc661c93bed61dc0194a650f2dbe05b93d6fe717",
+  "currentSha256LF": "f7e3e48abd31d6953da2fb835208505c12eaece13536690f11a4724b27b8d69e",
   "total": 11,
   "timeoutMilliseconds": 30000,
-  "header": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 4\nassert(sliceFirst>=1 and sliceLast<=11 and sliceFirst<=sliceLast,'invalid card-play slice')\nlocal registered,executed=0,0\n",
+  "header": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 3\nassert(sliceFirst>=1 and sliceLast<=11 and sliceFirst<=sliceLast,'invalid card-play slice')\nlocal registered,executed=0,0\n",
   "registration": "    registered=registered+1\n    if registered<sliceFirst or registered>sliceLast then return end\n    executed=executed+1\n",
   "footer": "assert(registered==11 and executed==sliceLast-sliceFirst+1 and passed==executed,'incomplete card-play slice')\nprint('P0_CARD_PLAY_SLICE '..sliceFirst..' '..sliceLast..' '..executed)\n",
   "slices": [
     {
       "file": "battle_ui_card_play.lua",
       "first": 1,
+      "last": 3
+    },
+    {
+      "file": "battle_ui_card_play_slice_4.lua",
+      "first": 4,
       "last": 4
     },
     {

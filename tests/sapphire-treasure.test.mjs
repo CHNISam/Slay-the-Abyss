@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import {join} from 'node:path';
 import { createHash } from 'node:crypto';
 import { runLua } from '../scripts/test-lua.mjs';
 import {nodesGovernanceWitness, nodesGovernanceSources} from './helpers/nodes-governance-source.mjs';
@@ -133,7 +134,8 @@ test('live extracted treasure RNG and Boss preparation bodies cannot evade the o
 // ranges change; the complete original 21-group body and fixture stay frozen.
 const sapphireSlices=[
   ['sapphire_treasure.lua',1,7],['sapphire_treasure_slice_2.lua',8,13],
-  ['sapphire_treasure_slice_3.lua',15,21],['sapphire_treasure_slice_4.lua',14,14],
+  ['sapphire_treasure_slice_3.lua',15,18],['sapphire_treasure_slice_4.lua',14,14],
+  ['sapphire_treasure_slice_5.lua',19,21],
 ];
 test('Sapphire budget partition keeps every original body and discovers each of 21 groups exactly once',()=>{
   const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
@@ -160,6 +162,9 @@ test('frozen Nodes chest choice remains linked, source-bound, once-only and tran
     // boundary. Replay its complete matching source layer; current effects
     // have separate real Run/Nodes and native UI coverage.
     const root=launchBaselineFixture();
+    // Only the validated thin range wrapper is new. Keep the entire original
+    // historical scenario body, source layer and per-process 30s budget intact.
+    if(file!=='sapphire_treasure.lua')writeFileSync(join(root,'tests/lua',file),readFileSync('tests/lua/'+file));
     const remaining=()=>{const value=Math.floor(30000-(performance.now()-started));assert.ok(value>0,'original Sapphire process deadline');return value;};
     const build=spawnSync(process.execPath,['scripts/build-lua-data.mjs'],{cwd:root,encoding:'utf8',timeout:remaining(),windowsHide:true});
     assert.ifError(build.error);assert.equal(build.status,0,build.stdout+build.stderr);

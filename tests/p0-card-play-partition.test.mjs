@@ -32,7 +32,7 @@ test('card-play partitions retain the complete original eleven cases and unchang
  const original=restore(source);
  assert.equal((original.match(/^test\("/gm)??[]).length,11);
  assert(source.includes("assert(registered==11 and executed==sliceLast-sliceFirst+1 and passed==executed,'incomplete card-play slice')"));
- assert.deepEqual(partition.slices.map(row=>[row.first,row.last]),[[1,4],[5,8],[9,11]]);
+ assert.deepEqual(partition.slices.map(row=>[row.first,row.last]),[[1,3],[4,4],[5,8],[9,11]]);
  const seen=[];
  for(const [index,row]of partition.slices.entries()){
   if(index===0)assert(source.includes(`sliceFirst,sliceLast=sliceFirst or ${row.first},sliceLast or ${row.last}`));
@@ -52,5 +52,5 @@ test('card-play original-body guard rejects assertion loss and duplicate selecto
 test('card-play raw discovery rejects missing slices and additional family entries',()=>{
  const files=partition.slices.map(row=>row.file);
  assert.throws(()=>verifyDiscovery(files.slice(0,-1)),/exact card-play raw discovery/);
- assert.throws(()=>verifyDiscovery([...files,'battle_ui_card_play_slice_4.lua']),/exact card-play raw discovery/);
+ assert.throws(()=>verifyDiscovery([...files,'battle_ui_card_play_slice_5.lua']),/exact card-play raw discovery/);
 });

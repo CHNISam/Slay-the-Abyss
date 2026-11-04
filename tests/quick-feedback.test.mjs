@@ -117,7 +117,7 @@ for (const [helper, fixtures] of [
   assert.deepEqual(plan.integration, ['tests/conditional.test.mjs']);
   if(helper==='historical-presentation-runner') {
     const archive='tests/fixtures/pr323-historical-fixtures.json.gz';
-    assert.equal(fixtures.length,6,'trace, wording and all four Sapphire entries');
+    assert.equal(fixtures.length,7,'trace, wording and all five Sapphire entries');
     assert.equal(selectTests([archive,path],sources).full,true,'archive changes still require Full');
     assert.deepEqual(selectQuickPlan([archive,path],sources).lua,fixtures,'mixed advisory retains every mapped runtime entry');
     assert.equal(selectQuickPlan([archive],sources).full,true,'archive-only advisory cannot claim a partial test pass');

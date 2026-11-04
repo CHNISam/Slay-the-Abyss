@@ -1,3 +1,4 @@
+import {beforeAutoMergeWorkflow} from './auto-merge-workflow.mjs';
 // Only the exact reviewed additions may be removed for historical replay.
 // Partial, moved or altered wiring stays visible to the old hash guards.
 const uploadAction = 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4';
@@ -64,6 +65,8 @@ function beforeLightweightRunners(text) {
   return text;
 }
 export function beforePlatformWorkflow(text) {
+  text=beforeAutoMergeWorkflow(text);
+  if(text===null)return null;
   const runners = beforeLightweightRunners(text);
   return runners === null ? null : invert(runners, platformWorkflowEdits);
 }
