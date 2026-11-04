@@ -88,7 +88,7 @@ test('Full publication reuses existing jobs and grants status writes only to pla
  const jobs=[...workflow.slice(workflow.indexOf('\njobs:\n')).matchAll(/^  ([\w-]+):\n([\s\S]*?)(?=^  [\w-]+:|(?![\s\S]))/gm)];
  assert.deepEqual(jobs.map(j=>j[1]),['impact','fast','rules','check','presentation','engineering-posix-shards','engineering-posix']);
  for(const [,name,body]of jobs){
-  if(['impact','check'].includes(name))assert.match(body,/^    permissions:\n      contents: read\n      statuses: write$/m);
+  if(['impact','check'].includes(name))assert.match(body,/^    permissions:\n      contents: read\n      actions: read\n      pull-requests: read\n      statuses: write$/m);
   else assert.doesNotMatch(body,/statuses: write|contents: write|pull-requests: write|checks: write/);
  }
  assert.match(workflow,/^permissions:\n  contents: read$/m);

@@ -22,6 +22,8 @@ jobs:
     runs-on: ubuntu-slim
     permissions:
       contents: read
+      actions: read
+      pull-requests: read
       statuses: write
     timeout-minutes: 3
     outputs:
@@ -347,6 +349,8 @@ jobs:
     timeout-minutes: 2
     permissions:
       contents: read
+      actions: read
+      pull-requests: read
       statuses: write
     steps:
       - name: Require every regression shard
