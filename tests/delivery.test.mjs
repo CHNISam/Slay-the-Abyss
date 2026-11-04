@@ -34,6 +34,120 @@ function mergedEvidence(schemaVersion=2) {
   evidence.currentRun=structuredClone(evidence.run);return evidence;
 }
 
+// GitHub rerun-failed copies retained successes into the new attempt with new
+// IDs, but the original execution times/steps and checkout artifact stay put.
+function inheritedReceipt(proof,depth=1) {
+  proof.run.run_attempt=4;proof.currentRun.run_attempt=4;
+  if(proof.event==='pull_request')proof.attempt=4;
+  proof.jobs.forEach(job=>job.run_attempt=4);
+  const first=proof.jobs.find(job=>job.name===firstReceiptName(proof.schemaVersion));
+  Object.assign(first,{run_attempt:4-depth,created_at:'2026-11-04T02:00:00Z',
+    started_at:'2026-11-04T02:01:00Z',completed_at:'2026-11-04T02:02:00Z',
+    runner_id:12,runner_name:'Hosted Agent',runner_group_id:0,labels:['ubuntu-24.04'],
+    steps:[{number:1,name:'Set up job',status:'completed',conclusion:'success',
+      started_at:'2026-11-04T02:01:00Z',completed_at:'2026-11-04T02:01:10Z'},
+    {number:2,name:'Write and upload checkout receipt',status:'completed',conclusion:'success',
+      started_at:'2026-11-04T02:01:10Z',completed_at:'2026-11-04T02:02:00Z'}]});
+  for(let i=1;i<=depth;i++)proof.jobs.push({...structuredClone(first),id:700+i,run_attempt:first.run_attempt+i,
+    created_at:`2026-11-04T02:0${2+i}:00Z`,runner_group_id:null});
+  proof.checkout.attempt=first.run_attempt;
+  proof.checkoutArtifact.name=`quality-${proof.run.id}-${first.run_attempt}-check`;
+  return {first,copied:proof.jobs.at(-1)};
+}
+const firstReceiptName=version=>version===2?'rules (1/8)':qualityShardJobs[0];
+const proofErrors=(e,layer)=>layer==='preflight'?verifyDelivery(e.preflight):verifyMergedDelivery(e).errors;
+
+test('inherited first-shard copies resolve the original execution receipt without changing raw attempts',()=>{
+  for(const version of [2,3])for(const layer of ['preflight','push'])for(const depth of [1,2]) {
+    const e=mergedEvidence(version),proof=layer==='preflight'?e.preflight:e;
+    inheritedReceipt(proof,depth);proof.jobs.reverse();
+    const original=JSON.stringify(proof);
+    assert.deepEqual(proofErrors(e,layer),[],`${version}/${layer}/${depth}`);
+    assert.equal(JSON.stringify(proof),original,'Evidence must never be normalized or rewritten');
+  }
+});
+
+test('inherited receipt resolution rejects incomplete, ambiguous or changed execution history',()=>{
+  const mutations=[
+    (p,a,b)=>p.jobs.splice(p.jobs.indexOf(a),1),
+    (p,a,b)=>p.jobs.splice(p.jobs.indexOf(b)-1,1),
+    (p,a,b)=>p.jobs.push({...a,id:900}),
+    (p,a,b)=>b.id=a.id,(p,a,b)=>b.run_id++,(p,a,b)=>b.head_sha=sha('f'),
+    (p,a,b)=>b.name='rules (99/99)',
+    (p,a,b)=>b.started_at='invalid',(p,a,b)=>b.completed_at=null,
+    (p,a,b)=>b.created_at='invalid',(p,a,b)=>b.created_at=b.completed_at,
+    (p,a,b)=>a.created_at='2026-11-04T02:01:30Z',
+    (p,a,b)=>b.created_at='2026-11-04T02:02:30Z',
+    (p,a,b)=>b.started_at='2026-11-04T02:01:01Z',
+    (p,a,b)=>b.runner_id++,(p,a,b)=>delete b.runner_name,
+    (p,a,b)=>b.labels=['windows-2025'],
+    (p,a,b)=>b.steps=[],(p,a,b)=>delete b.steps,
+    (p,a,b)=>b.steps.reverse(),(p,a,b)=>b.steps[0].number=0,
+    (p,a,b)=>b.steps[0].name='Different execution',
+    (p,a,b)=>b.steps[0].status='in_progress',(p,a,b)=>b.steps[0].conclusion='failure',
+    (p,a,b)=>b.steps[0].started_at='invalid',(p,a,b)=>b.steps[0].completed_at=null,
+    (p,a,b)=>b.steps[0].completed_at='2026-11-04T02:01:11Z',
+    (p,a,b)=>a.conclusion='failure',
+    (p,a,b)=>p.jobs.find(j=>j.name===a.name&&j.run_attempt===3).steps[0].name='Intervening execution',
+  ];
+  for(const version of [2,3])for(const layer of ['preflight','push'])for(const mutate of mutations) {
+    const e=mergedEvidence(version),proof=layer==='preflight'?e.preflight:e;
+    const {first,copied}=inheritedReceipt(proof,2);mutate(proof,first,copied);
+    assert(proofErrors(e,layer).length,`${version}/${layer}: ${mutate}`);
+  }
+});
+
+test('actual first-shard reruns and newer failed jobs never borrow an inherited receipt',()=>{
+  for(const version of [2,3])for(const layer of ['preflight','push']) {
+    for(const name of [firstReceiptName(version),'check'])for(const conclusion of ['failure','cancelled','skipped',null]) {
+      const e=mergedEvidence(version),proof=layer==='preflight'?e.preflight:e;
+      inheritedReceipt(proof);proof.jobs.find(j=>j.name===name&&j.run_attempt===4).conclusion=conclusion;
+      assert(proofErrors(e,layer).length,`${name}/${conclusion}`);
+    }
+    const e=mergedEvidence(version),proof=layer==='preflight'?e.preflight:e;
+    const {copied}=inheritedReceipt(proof);
+    Object.assign(copied,{created_at:'2026-11-04T03:00:00Z',started_at:'2026-11-04T03:01:00Z',completed_at:'2026-11-04T03:02:00Z'});
+    assert(proofErrors(e,layer).length,'A real new execution cannot borrow the prior receipt');
+    proof.checkout.attempt=4;proof.checkoutArtifact.name=`quality-${proof.run.id}-4-check`;
+    assert.deepEqual(proofErrors(e,layer),[],'Its own new receipt remains valid');
+  }
+});
+
+test('inherited checkout keeps artifact, exact SHA/parents and final-run identity gates',()=>{
+  const mutations=[
+    p=>p.checkoutArtifact.expired=true,p=>p.checkoutArtifact.workflow_run.head_sha=sha('f'),
+    p=>p.checkoutArtifact.name=`quality-${p.run.id}-4-check`,p=>p.checkout.attempt=4,
+    p=>p.checkout.head=sha('f'),p=>p.checkout.base=sha('f'),p=>p.checkout.tested=sha('f'),
+    p=>p.checkout.parents=[sha('f')],p=>p.currentRun.run_attempt++,
+  ];
+  for(const version of [2,3])for(const layer of ['preflight','push'])for(const mutate of mutations) {
+    const e=mergedEvidence(version),proof=layer==='preflight'?e.preflight:e;
+    inheritedReceipt(proof);mutate(proof);assert(proofErrors(e,layer).length,String(mutate));
+  }
+});
+
+test('receipt collector selects only a proven original execution and still rechecks artifact identity',()=>{
+  for(const version of [2,3]) {
+    const e=mergedEvidence(version);inheritedReceipt(e,2);
+    const dir=mkdtempSync(join(tmpdir(),'inherited-checkout-')),calls=[];
+    const artifact=e.checkoutArtifact;
+    const query=(...args)=>{
+      calls.push(args);const endpoint=args.at(-1);
+      if(endpoint.includes('/artifacts?'))return JSON.stringify([{artifacts:[{...artifact,name:'quality-9-1-check'}]},{artifacts:[artifact]}]);
+      if(args[0]==='run'){assert(args.includes('quality-9-2-check'));writeFileSync(join(dir,'ci-checkout.json'),JSON.stringify(e.checkout));return '';}
+      if(endpoint.endsWith('/artifacts/200'))return JSON.stringify(artifact);
+      throw Error(`Unexpected query ${args}`);
+    };
+    try {
+      assert.deepEqual(checkoutReceipt(e.repo,e.run,e.jobs,dir,query,version),{checkout:e.checkout,checkoutArtifact:artifact});
+      assert(calls[0].includes('--paginate'));assert.equal(calls.length,3);
+      assert.throws(()=>checkoutReceipt(e.repo,e.run,e.jobs,dir,(...args)=>args.at(-1).endsWith('/artifacts/200')?JSON.stringify({...artifact,id:201}):query(...args),version),/changed/);
+      e.jobs.at(-1).steps=[];
+      assert.throws(()=>checkoutReceipt(e.repo,e.run,e.jobs,dir,()=>{throw Error('Must reject ambiguous origin before artifact lookup');},version),/execution|origin|attempt/i);
+    }finally{rmSync(dir,{recursive:true,force:true});}
+  }
+});
+
 test('current PR proof binds independent target refs even when PR, synthetic merge and CI all agree on the old base',()=>{
   for(const field of ['targetBeforeSha','targetAfterSha'])for(const value of [sha('f'),undefined,null,'invalid']) {
     const e=mergedEvidence(3).preflight;e[field]=value;

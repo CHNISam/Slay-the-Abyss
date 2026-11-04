@@ -16,6 +16,86 @@ function fixture(){return {repo,runId:7,attempt:1,number:510,head:sha('a'),base:
  checkout:{schemaVersion:1,attempt:1,runId:7,head:sha('a'),base:sha('b'),tested:sha('d'),event:'pull_request',prNumber:510,parents:[sha('b'),sha('a')]},
  checkoutArtifact:{id:200,name:'quality-7-1-check',expired:false,workflow_run:{id:7,head_sha:sha('a')}}};}
 test('Full gate accepts the exact running aggregate only after every actual shard succeeds',()=>assert.deepEqual(fullGateErrors(fixture()),[]));
+function inheritedFullReceipt(depth=1){
+ const e=fixture();e.attempt=e.run.run_attempt=e.latestRun.run_attempt=depth+1;
+ e.jobs.forEach(j=>j.run_attempt=depth+1);
+ const first=e.jobs.find(j=>j.name.startsWith('rules (1/'));
+ Object.assign(first,{run_attempt:1,created_at:'2026-11-04T02:00:00Z',
+  started_at:'2026-11-04T02:01:00Z',completed_at:'2026-11-04T02:02:00Z',
+  runner_id:12,runner_name:'Hosted Agent',runner_group_id:0,labels:['windows-2025'],
+  steps:[{number:1,name:'Set up job',status:'completed',conclusion:'success',
+   started_at:'2026-11-04T02:01:00Z',completed_at:'2026-11-04T02:01:10Z'},
+  {number:4,name:'Skipped conditional',status:'completed',conclusion:'skipped',
+   started_at:'2026-11-04T02:01:10Z',completed_at:'2026-11-04T02:01:10Z'},
+  {number:50,name:'Upload receipt',status:'completed',conclusion:'success',
+   started_at:'2026-11-04T02:01:10Z',completed_at:'2026-11-04T02:02:00Z'}]});
+ for(let i=1;i<=depth;i++)e.jobs.push({...structuredClone(first),id:600+i,run_attempt:1+i,
+  created_at:`2026-11-04T02:0${2+i}:00Z`,runner_group_id:null});
+ return e;
+}
+test('Full publisher shares proven inherited receipt identity without rewriting raw attempts',()=>{
+ for(const depth of [1,2]){
+  const e=inheritedFullReceipt(depth);e.jobs.reverse();const before=JSON.stringify(e);
+  assert.deepEqual(fullGateErrors(e),[]);
+  const writes=[];
+  assert.equal(publishFullQuality(e,(...args)=>{writes.push(args);return JSON.stringify({state:'success',context:'full-quality'});}).state,'success');
+  assert.equal(writes.length,1);assert(writes[0].includes('state=success'));
+  assert.equal(JSON.stringify(e),before);
+ }
+});
+test('Full publisher never borrows an ambiguous, failed, different or stale execution receipt',()=>{
+ const mutations=[
+  (e,a,b)=>e.jobs.splice(e.jobs.indexOf(a),1),
+  (e,a,b)=>e.jobs=e.jobs.filter(j=>j.name!==a.name||j.run_attempt!==2),
+  (e,a,b)=>e.jobs.push({...a,id:900}),
+  (e,a,b)=>b.id=a.id,(e,a,b)=>b.run_id++,(e,a,b)=>b.head_sha=sha('f'),
+  (e,a,b)=>b.conclusion='failure',(e,a,b)=>b.status='in_progress',
+  (e,a,b)=>a.conclusion='failure',(e,a,b)=>b.steps=[],
+  (e,a,b)=>b.steps[0].name='Different execution',
+  (e,a,b)=>b.runner_id++,(e,a,b)=>b.created_at='invalid',
+  (e,a,b)=>Object.assign(b,{created_at:'2026-11-04T03:00:00Z',started_at:'2026-11-04T03:01:00Z',completed_at:'2026-11-04T03:02:00Z'}),
+  e=>e.checkout.attempt=e.attempt,e=>e.checkoutArtifact.name=`quality-7-${e.attempt}-check`,
+  e=>e.checkoutArtifact.expired=true,e=>e.checkout.head=sha('f'),
+  e=>e.checkout.base=sha('f'),e=>e.checkout.tested=sha('f'),e=>e.checkout.parents.reverse(),
+  e=>e.latestRun.run_attempt++,
+ ];
+ for(const mutate of mutations){
+  const e=inheritedFullReceipt(2),first=e.jobs.find(j=>j.name.startsWith('rules (1/'));
+  mutate(e,first,e.jobs.at(-1));assert(fullGateErrors(e).length,String(mutate));
+  let state;const result=publishFullQuality(e,(...args)=>{state=args.find(a=>a.startsWith('state=')).slice(6);return JSON.stringify({state,context:'full-quality'});});
+  assert.notEqual(result.state,'success');assert.notEqual(state,'success');
+ }
+});
+test('real Full entrypoint collects and publishes inherited receipt with only the current aggregate running',()=>{
+ for(const missingPrior of [false,true]){
+  const e=inheritedFullReceipt(),dir=mkdtempSync(join(tmpdir(),'inherited-full-event-')),eventPath=join(dir,'event.json'),writes=[],downloads=[];
+  if(missingPrior)e.jobs=e.jobs.filter(j=>j.name!=='rules (1/13)'||j.run_attempt!==1);
+  writeFileSync(eventPath,JSON.stringify({pull_request:e.pr}));
+  const env={GITHUB_EVENT_PATH:eventPath,GITHUB_EVENT_NAME:'pull_request',GITHUB_REPOSITORY:repo,
+   GITHUB_SHA:e.tested,GITHUB_RUN_ID:'7',GITHUB_RUN_ATTEMPT:'2',FULL_MODE:e.mode,FULL_NEEDS:JSON.stringify(e.needs)};
+  const query=(...args)=>{
+   const endpoint=args.at(-1);
+   if(args.includes('POST')){const state=args.find(a=>a.startsWith('state=')).slice(6);writes.push(state);return JSON.stringify({state,context:'full-quality'});}
+   if(args[0]==='run'){
+    downloads.push(args);assert.equal(args[args.indexOf('--name')+1],'quality-7-1-check');
+    writeFileSync(join(args[args.indexOf('--dir')+1],'ci-checkout.json'),JSON.stringify(e.checkout));return '';
+   }
+   if(endpoint.endsWith('/actions/runs/7'))return JSON.stringify(e.run);
+   if(endpoint.includes('/jobs?'))return JSON.stringify([{jobs:e.jobs}]);
+   if(endpoint.includes('/actions/workflows/'))return JSON.stringify([{workflow_runs:[e.run]}]);
+   if(endpoint.includes('/artifacts?'))return JSON.stringify([{artifacts:[e.checkoutArtifact]}]);
+   if(endpoint.endsWith('/artifacts/200'))return JSON.stringify(e.checkoutArtifact);
+   if(endpoint.endsWith('/pulls/510'))return JSON.stringify(e.pr);
+   if(endpoint.endsWith('/git/ref/heads/develop'))return JSON.stringify({object:{sha:e.target}});
+   if(endpoint.endsWith('/commits/'+e.tested))return JSON.stringify(e.commit);
+   throw Error('Unexpected query '+endpoint);
+  };
+  try{
+   if(missingPrior){assert.throws(()=>main(env,query),/receipt|artifact|execution/i);assert.deepEqual(writes,['failure']);assert.equal(downloads.length,0);}
+   else{main(env,query);assert.deepEqual(writes,['success']);assert.equal(downloads.length,1);}
+  }finally{rmSync(dir,{recursive:true,force:true});}
+ }
+});
 test('Full gate rejects Fast, missing, failed, cancelled and skipped dependencies',()=>{
  for(const mutate of [f=>f.mode='fast',f=>delete f.needs.rules,
   ...['failure','cancelled','skipped'].map(value=>f=>f.needs['engineering-posix'].result=value),
