@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 20:41'
-updated_date: '2026-11-04 21:09'
+updated_date: '2026-11-04 21:13'
 labels: []
 milestone: m-7
 dependencies: []
@@ -44,4 +44,6 @@ Effects私有supported复杂度67，目标图、条件、选择与动作能力�
 私有supported67→14，八helper最高13；动态能力/递归/拒绝优先级旧新差分和13变异通过，独立新增分支拒绝顺序反例通过。组合工程门禁通过；精确最终HEAD与合后Full待，AC3不勾。
 
 13ff Full规划被新增夹具EOF多余空行拒绝，未进入完整回归；仅移除空行并按base到完整候选范围diff --check通过，保留原失败。
+
+27d5 Quick暴露新Effects raw入口没有默认源，先新增回归RED；只在未注入时默认当前Effects路径，显式源仍原样加载，所有3raw及Effects差分/13变异5项通过。原完整trace SHA保持；生产与runner未改。
 <!-- SECTION:NOTES:END -->

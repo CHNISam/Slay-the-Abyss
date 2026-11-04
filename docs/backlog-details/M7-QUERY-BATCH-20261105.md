@@ -37,6 +37,8 @@ Actor新增mutation测试本机约57秒，保留全部252边界和14变异；这
 
 同头Full41912002713在规划阶段因新增Effects夹具末尾空行被原`git diff --check`拒绝，未启动完整回归；删除唯一多余EOF空行后按完整base→候选范围重查。两次真实失败都保留，不当作Full成功或托管提速样本。
 
+27d5的Quick41913379175确认两个raw输出已通过，随后Effects新夹具因缺少默认`EFFECTS_SOURCE`而尝试stdin。第三份raw回归先RED；仅在未注入source时使用当前Effects路径，显式注入的旧新/变异源继续按原路径执行，不能回退无效的已提供source。全部三个raw及Effects旧新/13变异共5项通过，完整支持判定trace SHA不变；生产和原runner未改。
+
 ## 历史证明按需加载
 
 75.2只将历史卡牌输入的重依赖移到原exact fixture/root guard之后，保留同步调用和call-local新鲜reader。三个原历史入口仍执行原12组断言，原30秒、输出上限、caseName与失败传播保持。普通helper/完整runner的冷暖导入不读取历史证明；初次成功后的缺失/损坏、有效gzip源篡改和同reader关联源漂移仍拒绝，失败不伪装为空prelude。

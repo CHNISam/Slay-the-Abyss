@@ -1,5 +1,5 @@
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
-local E=dofile(EFFECTS_SOURCE)
+local E=dofile(EFFECTS_SOURCE==nil and 'src/lua/abyss_effects.lua' or EFFECTS_SOURCE)
 local A=require('abyss_card_actions')
 local original=A.supports
 local function eq(a,b,label) assert(a==b,'[EFFECTS_SUPPORTED] '..label..': '..tostring(a)..' ~= '..tostring(b)) end

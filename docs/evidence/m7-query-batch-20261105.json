@@ -1821,6 +1821,21 @@
       "previewFullTraceBytes": 1140260,
       "previewFullTraceSha256": "36b7e2879ba071acee9e602da47516b06c715efe782cc7bd3867c892fa5a1978",
       "rawLog": "build/query-ci-13ff/raw-output-green.log"
+    },
+    "rawEffectsCorrection": {
+      "failedHead": "27d5fac158182a3e0a56709786622973bdf7dd81",
+      "quickRun": 41913379175,
+      "cause": "Missing EFFECTS_SOURCE at newly discovered raw entry caused dofile(nil) to read stdin",
+      "defaultOnlyWhenSourceIsNil": true,
+      "productionAndRunnerUnchanged": true,
+      "redTests": 1,
+      "greenTests": 5,
+      "pass": 5,
+      "skip": 0,
+      "retainedEffectsMutants": 13,
+      "fullTraceSha256": "ec42ef1b871f45edd0a41f877db7fab027d9d4289a906bd09624a9f5b5bb229a",
+      "rawLog": "build/query-ci-27d5/all-raw-and-effects-green.log",
+      "nilGuardFocusedPass": 1
     }
   },
   "limits": [
