@@ -22,6 +22,7 @@ test('production policy permanently protects Actor and the independently loadabl
  const policy=JSON.parse(readFileSync('config/architecture.json','utf8'));
  const boundaries=policy.dependencyBoundaries??[];
  const required=[['actor-reaction-admission','abyss_actor',['abyss_card_actions']],
+  ['nob-reaction-admission','abyss_gremlin_nob_ai',['abyss_card_actions']],
   ['combat-reaction-independence','abyss_combat_reactions',['abyss_actor','abyss_card_actions','abyss_combat']]];
  for(const [id,from,targets] of required){
   const row=boundaries.find(row=>row.id===id);assert(row,id);assert(row.from.includes(from));
@@ -29,4 +30,11 @@ test('production policy permanently protects Actor and the independently loadabl
  }
  const report=checkArchitecture();assert.deepEqual(report.errors,[]);
  assert(!report.edges.some(edge=>edge.from==='abyss_actor'&&edge.to==='abyss_card_actions'));
+ assert(!report.edges.some(edge=>edge.from==='abyss_gremlin_nob_ai'&&edge.to==='abyss_card_actions'));
+ const nob=readFileSync('src/lua/abyss_gremlin_nob_ai.lua','utf8');
+ const restored=nob.replace('require("abyss_combat_reactions")','require("abyss_card_actions")');
+ assert.notEqual(restored,nob,'restore the actual old dependency');
+ const mutant=analyzeSources({abyss_gremlin_nob_ai:restored,abyss_card_actions:'return {}'},
+  {layers:policy.layers,dependencyBoundaries:boundaries.filter(row=>row.id==='nob-reaction-admission')},{});
+ assert(mutant.errors.some(error=>error.message.includes('Dependency boundary nob-reaction-admission')));
 });

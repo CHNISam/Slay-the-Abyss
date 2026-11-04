@@ -576,6 +576,12 @@
   ],
   "dependencyBoundaries": [
     {
+      "id": "nob-reaction-admission",
+      "from": ["abyss_gremlin_nob_ai"],
+      "forbiddenTargets": ["abyss_card_actions"],
+      "reason": "Nob Enrage only admits source-owned legacy actions and does not depend on card execution."
+    },
+    {
       "id": "actor-reaction-admission",
       "from": [
         "abyss_actor"

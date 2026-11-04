@@ -33,9 +33,9 @@
     "fullSCCCount": 1,
     "fullSCC": [
       {
-        "members": 105,
-        "internalSites": 807,
-        "internalUniqueEdges": 541
+        "members": 104,
+        "internalSites": 805,
+        "internalUniqueEdges": 539
       }
     ],
     "eagerSCCCount": 0
@@ -129,7 +129,7 @@
     ]
   },
   "policyInputs": {
-    "config/architecture.json": "1b949c768295392e233b7731653861f9b6e81c33f26019bb0bc3eaf3f0d019cb",
+    "config/architecture.json": "f610861cba597e017340433a1d0dcdc4930745bcbe0347ec24facdb3630bf96a",
     "scripts/check-architecture.mjs": "6e8b193664ef197400665293bdd5f3263ad9c054f3ddbf25972181386c38ee21",
     "scripts/check-lua-static.mjs": "34234b582a2512d6a4a018f4ba2eeaba7266a39852f0b985c845b33ba141c6c9"
   },
@@ -144,5 +144,28 @@
       "Merged squash and develop push validation",
       "Official import and devices"
     ]
+  },
+  "nobAdmission": {
+    "reason": "Only Reactions.enqueue replaces CardActions.enqueue; enemy source, top and legacy ownership stay unchanged even with a typed actionQueue.",
+    "complexity": {
+      "before": {
+        "file": "src/lua/abyss_gremlin_nob_ai.lua",
+        "sha256": "7dceb41181045423abcd752f664e56805ec0639f47f9f469b4f1b41dbc2f07cb",
+        "lines": 40,
+        "measurements": 6,
+        "max": 6,
+        "sum": 16
+      },
+      "after": {
+        "file": "src/lua/abyss_gremlin_nob_ai.lua",
+        "sha256": "b6739284fccfb553e229ce4f228cc8db602decbd9ee3ef4f93340ba39eeaa7e2",
+        "lines": 40,
+        "measurements": 6,
+        "max": 6,
+        "sum": 16
+      }
+    },
+    "structuralRegression": "Production rule nob-reaction-admission is mandatory; restoring actual old import fails analyzer; rule absence failed before implementation.",
+    "tests": "New source/legacy/typed/monkeypatch fixture plus existing gremlin_nob_ai and basic_curses (Pain/Nob order, lethal cancellation, RNG/history and failed card rollback)."
   }
 }

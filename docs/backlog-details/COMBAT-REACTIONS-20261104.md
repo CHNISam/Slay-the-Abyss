@@ -12,6 +12,8 @@
 
 队列优先级、top/bottom、默认 source、effect/instance 引用、nil 返回和 typed 校验错误沿用原实现。Combat 的 drain、事务、RNG 与胜败/暂停策略未改。真实 plated armor、复活尾巴与 Act 3 测试保留，覆盖暂停续动与失败后的状态、RNG、对象身份恢复。
 
+Nob 的 `beforeCard` 也接入 `Reactions.enqueue`，仅替换其单一依赖；保留 enemy source 和旧 legacy 入队，即使存在 typed actionQueue 也不改路由，不替换成 `enqueueReaction`。共享门面确保现有 `CardActions.enqueue` 动态观察仍有效。新政策禁止 Nob 再导入 CardActions；规则缺失先红，恢复实际旧导入的负例由原分析器拒绝。
+
 ## 结构约束与测量
 
 现有 analyzeSources 复用同一次 AST 的全部 edges，按 dependencyBoundaries 拒绝 Actor→CardActions 及反应入口→Actor/CardActions/Combat；延迟导入不豁免。原 Actor 延迟例外删除，新模块显式分类 core。规则数组、重复、空值、未知模块有负例；生产规则删除/清空有语义防回退测试。新入队模块和两个门面函数均受原 CC15 硬门槛约束。
@@ -21,11 +23,11 @@
 | 模块 | 322 | 323 |
 | require 位置 | 1876 | 1876 |
 | 唯一依赖对 | 1506 | 1507 |
-| 最大 SCC 成员 | 105 | 105 |
-| SCC 内部引用位置 | 809 | 807 |
-| SCC 内部唯一依赖 | 542 | 541 |
+| 最大 SCC 成员 | 105 | 104 |
+| SCC 内部引用位置 | 809 | 805 |
+| SCC 内部唯一依赖 | 542 | 539 |
 
-Actor→CardActions 两处直接引用消失；大 SCC 仍存在。Actor、CardActions 加新模块的 CC 总和（包含模块 chunk）从 927 增至 934；Actor 最大 CC60、CardActions 最大 CC25 的旧热点仍在，新模块最大 CC4、两个门面各 CC3。不能据拆文件声称全局复杂度下降或运行时提速。
+Actor→CardActions 两处直接引用消失；Nob 接入窄入队入口后退出大 SCC，SCC 数量仍为 1。Actor、CardActions 加新模块的 CC 总和（包含模块 chunk）从 927 增至 934；Nob 自身 CC 总和仍 16、最大 6。Actor 最大 CC60、CardActions 最大 CC25 的旧热点仍在，新模块最大 CC4、两个门面各 CC3。不能据拆文件声称全局复杂度下降或运行时提速。
 
 ## 验证与退出边界
 
@@ -33,4 +35,6 @@ Actor→CardActions 两处直接引用消失；大 SCC 仍存在。Actor、CardA
 
 已有分支附件报告的 Node24.19/Linux 结果（聚焦61、历史20、候选9、原生UI6及七个真实Lua入口）属于该提交的历史证据，不冒充当前 HEAD 已通过。本轮 Node22.22.1/Windows 重新测量前后指标；初版工程门禁通过，38项伤害、选择、职责与 Run 回合/选择/保留牌晚奖励失败回滚通过，原注册器三组完整状态/队列/返回值/RNG差分通过，Plated Armor 49场景通过；集成后重新运行固定Oracle、四种反应变异、独立加载、候选清单、AST边界及复杂度测试。候选清单包含新依赖，不把离线清单检查当作官方导入。
 
-本切片不修改工作流、Required Checks、Ruleset、超时、原阈值或历史黄金。全分支独立审查、精确 HEAD 托管 Full、合后 squash/push 验证另验；官方导入、ready 与设备未测，父任务最终 AC 不勾。保持 Draft，不自动合并或发布。
+本切片不修改工作流、Required Checks、Ruleset、超时、原阈值或历史黄金。全分支独立审查、精确 HEAD 托管 Full、合后 squash/push 验证另验；官方导入、ready 与设备未测，父任务最终 AC 不勾，正常门禁合并由主控协调，不自动发布。
+
+Nob 接线后本轮实际验证：独立入队/架构 7 项通过；既有 `gremlin_nob_ai.lua` 12 组通过（含全部 100 roll × 9 histories、128 HP seeds、32局12回合历史、失败出牌事务回滚），`basic_curses.lua` 19 组通过（含 Pain 先于 Enrage、致死 Pain 取消 Enrage）。这些是离线真实生产调用，不冒充设备或合后验证。

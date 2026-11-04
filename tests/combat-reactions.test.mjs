@@ -14,6 +14,11 @@ test('reaction facade preserves both nil restorations and ordinary writes',()=>{
 test('candidate script inventory includes combat reaction admission exactly once',()=>{
  assert.equal(candidateScriptFiles('src/lua','build/lua',[]).filter(row=>row.name==='abyss_combat_reactions').length,1);
 });
+test('Nob uses the shared source-owned legacy admission without rerouting typed queues',()=>{
+ const result=runLua('tests/lua/nob_reaction_admission.lua');
+ assert.equal(result.status,0,result.stdout+result.stderr);
+ assert.match(result.stdout,/NOB_REACTION_ADMISSION_PASS/);
+});
 
 test('Combat Reactions preserves pinned admission oracle and dynamic facade',()=>{
  const result=runLua('tests/lua/combat_reactions.lua');
