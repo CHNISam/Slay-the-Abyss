@@ -101,7 +101,7 @@
     ],
     "longestConstructorLines": 1004
   },
-  "rawDirectory": "F:\\New folder\\worktrees\\combat-reactions-integrated\\build\\global-complexity-uFbsR5",
+  "rawDirectory": "F:/New folder/.artifacts/m7-closeout-20261104/global-complexity/global-complexity-uFbsR5",
   "independentAudit": {
     "reviewId": "domain_final_review:global-complexity-20261104",
     "conclusion": "pass",
@@ -114,5 +114,6 @@
       "lines": 1004
     },
     "archive": "F:/New folder/.artifacts/m7-closeout-20261104/global-complexity"
-  }
+  },
+  "originalRawDirectory": "F:\\New folder\\worktrees\\combat-reactions-integrated\\build\\global-complexity-uFbsR5"
 }
