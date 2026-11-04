@@ -128,7 +128,9 @@ test('combat play, turn and constructor stages are required, bounded and fully m
     'catalogNeedsTurnCleanup','powersNeedTurnCleanup','cardNeedsTurnCleanup','advancedTurnCleanup',
     'resumeRetainedEndTurn','endTurnNeedsTransaction','endTurnRestore','invokeEndTurnResolver','M.endTurn',
     'baseCardDefinition','nativeStrikeDefinition','classCardDefinition','damageCardDefinition',
-    'costCardDefinition','finishCardDefinition','M.cardDefinition'];
+    'costCardDefinition','finishCardDefinition','M.cardDefinition',
+    'previewDamage','directAttackPreview','finalAttackPreview','targetedEffectPreview',
+    'damageEffectPreview','blockEffectPreview','previews','M.cardPreview'];
   const source=names.map(name=>`function ${name}() return function() end end`).join('\n');
   const diagnostics=[row(path,1,1,'main chunk',1)];
   for(const [i,name] of names.entries()){
@@ -149,10 +151,12 @@ test('combat play, turn and constructor stages are required, bounded and fully m
       .some(e=>e.file===path&&e.message.includes('entry missing')));
   }
 });
-test('Actor damage stages and nested callbacks cannot escape the production CC15 policy',()=>{
+test('Actor damage and status stages plus nested callbacks cannot escape the production CC15 policy',()=>{
   const path='src/lua/abyss_actor.lua';
   const names=['damageAmount','consumeAttackBlock','modifyIncomingAttack','applyAttackHpLoss',
-    'queueHitPowers','queueAttackedPowers','M.damage'];
+    'queueHitPowers','queueAttackedPowers','M.damage',
+    'monsterStatusIds','playerStatusIds','statusKind','statusEntry','statusResource',
+    'appendRaidenResources','appendOriginalV4Resources','appendTargetV4Resources','M.statusView'];
   const lines=names.map(name=>`function ${name}() return function() end end`);
   lines.push('local function unrelatedLegacy() end');
   const source=lines.join('\n'),diagnostics=[row(path,1,1,'main chunk',1)];
@@ -174,6 +178,29 @@ test('Actor damage stages and nested callbacks cannot escape the production CC15
     assert.ok(errors(removed).some(e=>e.message.includes('entry missing')));
   }
   assert.ok(reviewResponsibilityComplexity([],{}).errors.some(e=>e.file===path&&e.message.includes('module missing')));
+});
+
+test('effect support responsibilities remain required and bounded with their nested callbacks',()=>{
+ const path='src/lua/abyss_effects.lua';
+ const names=['M.apply','continueEffects','applyOne','denseEffectCount','scrySequenceSupported',
+  'supportedEffectOp','conditionalAllowed','nonConditionalOpSupported','selectionAmountsSupported',
+  'mantraAmountSupported','effectMetadataSupported','supported','M.supported'];
+ const lines=names.map(name=>`function ${name}() return function() end end`);
+ const source=lines.join('\n'),diagnostics=[row(path,1,1,'main chunk',1)];
+ for(const [i,name]of names.entries()){
+  diagnostics.push(row(path,i+1,1,`function '${name}'`,15));
+  diagnostics.push(row(path,i+1,lines[i].indexOf('function()')+1,'function',1));
+ }
+ const errors=(rows=diagnostics)=>reviewResponsibilityComplexity(rows,{[path]:source}).errors.filter(e=>e.file===path);
+ assert.deepEqual(errors(),[]);
+ for(const diagnostic of diagnostics.slice(1)){
+  const original=diagnostic.message;
+  diagnostic.message=original.replace(/\(\d+ > 0\)/,'(16 > 0)');
+  assert.ok(errors().some(e=>e.message.includes('16 exceeds 15')));
+  diagnostic.message=original;
+ }
+ for(const name of names)
+  assert.ok(errors(diagnostics.filter(d=>!d.message.includes(`'${name}'`))).some(e=>e.message.includes('entry missing')));
 });
 
 test('restoring the original Run potion candidate hotspot fails the production policy', () => {

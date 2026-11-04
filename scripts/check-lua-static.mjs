@@ -97,6 +97,9 @@ const responsibilityRoots = {
   'src/lua/abyss_actor.lua': [
     ...['damageAmount','consumeAttackBlock','modifyIncomingAttack','applyAttackHpLoss',
       'queueHitPowers','queueAttackedPowers','M.damage'].map(name=>`function '${name}'`),
+    ...['monsterStatusIds','playerStatusIds','statusKind','statusEntry','statusResource',
+      'appendRaidenResources','appendOriginalV4Resources','appendTargetV4Resources','M.statusView']
+      .map(name=>`function '${name}'`),
   ],
   'src/lua/abyss_card_actions.lua': [
     "function 'admissionIndex'", "function 'admissionNewIndex'",
@@ -125,8 +128,13 @@ const responsibilityRoots = {
   'src/lua/abyss_run.lua': [],
   'src/lua/abyss_run_potions.lua': ["function 'potionCandidate'"],
   'src/lua/abyss_run_potion_candidate.lua': [],
-  'src/lua/abyss_effects.lua': ["function 'M.apply'", "function 'continueEffects'", "function 'applyOne'"],
+  'src/lua/abyss_effects.lua': ["function 'M.apply'", "function 'continueEffects'", "function 'applyOne'",
+    ...['denseEffectCount','scrySequenceSupported','supportedEffectOp','conditionalAllowed',
+      'nonConditionalOpSupported','selectionAmountsSupported','mantraAmountSupported',
+      'effectMetadataSupported','supported','M.supported'].map(name=>`function '${name}'`)],
   'src/lua/abyss_combat.lua': [
+    ...['previewDamage','directAttackPreview','finalAttackPreview','targetedEffectPreview',
+      'damageEffectPreview','blockEffectPreview','previews','M.cardPreview'].map(name=>`function '${name}'`),
     ...['baseCardDefinition','nativeStrikeDefinition','classCardDefinition','damageCardDefinition',
       'costCardDefinition','finishCardDefinition','M.cardDefinition'].map(name=>`function '${name}'`),
     ...['nativeEthereal','resetNativeTurnCosts','prepareNativePlayerEnd','autoUseNativeEndCards',
