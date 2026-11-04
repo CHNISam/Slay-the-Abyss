@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {parseDependencies,autoMergeErrors,collectEligibility,armAutoMerge as activate,pauseAutoMerge,reviewContext,requiredContexts} from '../scripts/arm-auto-merge.mjs';
-import {verifyAutoMergeArm,verifyDelivery,verifyHistoricalAutoFull,verifyMergedDelivery,currentFullQualityJobs,qualityWorkflowPath} from '../scripts/verify-delivery.mjs';
+import {verifyAutoMergeArm,verifyDelivery,verifyHistoricalAutoFull,verifyMergedDelivery,collectMergedDelivery,currentFullQualityJobs,qualityWorkflowPath} from '../scripts/verify-delivery.mjs';
 
 const sha=c=>c.repeat(40);
 const armAutoMerge=(repo,number,review,query,options={})=>activate(repo,number,review,query,{loadCheckout:query.loadCheckout,...options});
@@ -341,6 +341,12 @@ test('early authorization requires separate exact historical PR Full and actual 
  const p=completed.fullPreflight;
  const historical={schemaVersion:5,kind:'historical-auto-full',...Object.fromEntries(['run','jobs','checkout','checkoutArtifact','testedCommit','currentRun'].map(key=>[key,p[key]]))};
  assert.deepEqual(verifyHistoricalAutoFull(historical,arm),[]);
+ const detachedLink=structuredClone(historical);detachedLink.run.pull_requests=[];detachedLink.currentRun.pull_requests=[];
+ assert.deepEqual(verifyHistoricalAutoFull(detachedLink,arm),[],'GitHub may clear PR association after merge; immutable checkout still binds the PR');
+ detachedLink.checkout.prNumber=511;
+ assert(verifyHistoricalAutoFull(detachedLink,arm).length,'empty API link must not permit a different artifact PR');
+ const futureArm={...arm,pendingRun:{...arm.pendingRun,attempt:2}};
+ assert(verifyHistoricalAutoFull(historical,futureArm).length,'older attempt cannot certify a newer authorization');
  const pushRun={...p.run,id:9,head_sha:sha('e'),event:'push',head_branch:'develop'};
  const pr={number:510,merged:true,state:'closed',head:{sha:arm.head},base:{ref:'develop'},merge_commit_sha:sha('e')};
  const e={schemaVersion:3,repo,preflight:arm,pr,current:pr,prFull:historical,
@@ -354,4 +360,30 @@ test('early authorization requires separate exact historical PR Full and actual 
   e=>e.prFull.currentRun.run_attempt=2,e=>e.prFull.checkoutArtifact.id=0]){
   const broken=structuredClone(e);mutate(broken);assert.equal(verifyMergedDelivery(broken).state,'merged_pending',String(mutate));
  }
+});
+test('merged collector accepts real empty PR links and selects the authorized source branch',()=>{
+ const m=mock(),completed=armAutoMerge(repo,510,m.f.review,m.query,{dryRun:true}).proof;
+ const arm={...completed,pendingRun:{id:7,attempt:1,head:sha('a')}};delete arm.fullPreflight;
+ const p=completed.fullPreflight,branch='feat/reviewed-source';
+ const pr={number:510,merged:true,state:'closed',head:{sha:arm.head,ref:branch},base:{ref:'develop'},merge_commit_sha:sha('e')};
+ const prRun={...p.run,head_branch:branch,pull_requests:[]};
+ const pushRun={...prRun,id:9,event:'push',head_sha:sha('e'),head_branch:'develop'};
+ const query=(...args)=>{
+  const endpoint=args.at(-1);
+  if(endpoint.endsWith('/pulls/510'))return JSON.stringify(pr);
+  if(endpoint.endsWith('/commits/'+sha('d')))return JSON.stringify(p.testedCommit);
+  if(endpoint.endsWith('/commits/'+sha('e')))return JSON.stringify({sha:sha('e'),parents:[{sha:arm.base}],commit:{tree:{sha:arm.sourceTree}}});
+  if(endpoint.includes('/actions/workflows/')&&endpoint.includes('event=pull_request'))return JSON.stringify([{workflow_runs:[prRun,{...prRun,id:8,head_branch:'feat/other-source'}]}]);
+  if(endpoint.includes('/actions/workflows/')&&endpoint.includes('event=push'))return JSON.stringify([{workflow_runs:[pushRun]}]);
+  if(endpoint.includes('/actions/runs/7/jobs'))return JSON.stringify([{jobs:p.jobs}]);
+  if(endpoint.includes('/actions/runs/9/jobs'))return JSON.stringify([{jobs:p.jobs.map(j=>({...j,run_id:9,head_sha:sha('e')}))}]);
+  throw Error('Unexpected query '+endpoint);
+ };
+ const evidence=collectMergedDelivery(repo,510,arm,query,(run)=>run.id===7?
+  {checkout:p.checkout,checkoutArtifact:p.checkoutArtifact}:
+  {checkout:{...p.checkout,prNumber:undefined,event:'push',runId:9,head:sha('e'),tested:sha('e'),parents:[arm.base]},
+   checkoutArtifact:{id:250,name:'quality-9-1-check',expired:false,workflow_run:{id:9,head_sha:sha('e')}}});
+ assert.deepEqual(evidence.prFull.run.pull_requests,[],'preserve actual API response');
+ assert.equal(evidence.prFull.run.id,7);
+ assert.equal(verifyMergedDelivery(evidence).state,'merged_passed');
 });

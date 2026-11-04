@@ -178,7 +178,8 @@ export function verifyHistoricalAutoFull(e,arm){
     ...runErrors(e.currentRun,{head:arm.head,event:'pull_request',runId:run.id,attempt:run.run_attempt,repo:arm.repo}),
     ...qualityErrors(e.jobs,{attempt:run.run_attempt,runId:run.id,head:arm.head,schemaVersion:3}),
     ...receiptErrors(checkout,e.checkoutArtifact,e.jobs,run,3));
-  if(!run.pull_requests?.some(p=>p.number===arm.prNumber)||run.id<arm.pendingRun?.id)
+  if(!Array.isArray(run.pull_requests)||run.pull_requests.length>0&&!run.pull_requests.some(p=>p.number===arm.prNumber)||run.id<arm.pendingRun?.id||
+    run.id===arm.pendingRun?.id&&run.run_attempt<arm.pendingRun.attempt)
     errors.push('Historical Full does not belong to the authorized PR/run');
   for(const [field,value]of Object.entries({head:arm.head,base:arm.base,tested:arm.tested,prNumber:arm.prNumber,event:'pull_request',runId:run.id}))
     if(checkout[field]!==value)errors.push('Historical PR checkout differs from authorization: '+field);
@@ -220,11 +221,11 @@ export function checkoutReceipt(repo,run,jobs,dir,query=gh,schemaVersion=deliver
   if(current.id!==artifact.id||current.name!==name||receiptErrors({schemaVersion:1,attempt},current,jobs,run,schemaVersion).length)throw new Error('Checkout artifact changed during download');
   return {checkout:JSON.parse(readFileSync(join(dir,'ci-checkout.json'),'utf8')),checkoutArtifact:artifact};
 }
-function latestQualityRun(query,repo,{event,head,branch,number}) {
+function latestQualityRun(query,repo,{event,head,branch,number,allowMissingPrLink=false}) {
   const runs=pages(query,`repos/${repo}/actions/workflows/quality.yml/runs?event=${event}&head_sha=${head}&per_page=100`,'workflow_runs');
   return runs.filter(run=>run.head_sha===head&&run.event===event&&
     (branch===undefined||run.head_branch===branch)&&
-    (number===undefined||Array.isArray(run.pull_requests)&&run.pull_requests.some(pr=>pr.number===number)))
+    (number===undefined||Array.isArray(run.pull_requests)&&(run.pull_requests.some(pr=>pr.number===number)||allowMissingPrLink&&run.pull_requests.length===0)))
     .sort((a,b)=>b.id-a.id)[0];
 }
 function targetHead(query,repo,baseRef) {
@@ -274,7 +275,7 @@ export function collectMergedDelivery(repo,number,preflight,query=gh,loadCheckou
   const commit=JSON.parse(query('api',`repos/${repo}/commits/${pr.merge_commit_sha}`));
   let prFull;
   if(preflight.schemaVersion===4&&preflight.fullPreflight===undefined){
-    const identity={event:'pull_request',head:preflight.head,number};
+    const identity={event:'pull_request',head:preflight.head,branch:pr.head.ref,number,allowMissingPrLink:true};
     const run=latestQualityRun(query,repo,identity);
     const jobs=run?.status==='completed'?pages(query,`repos/${repo}/actions/runs/${run.id}/jobs?filter=all&per_page=100`,'jobs'):[];
     const receipt=run?.status==='completed'&&run.conclusion==='success'?loadCheckout(run,jobs):{};

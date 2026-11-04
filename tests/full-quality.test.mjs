@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
-import {fullGateErrors,publishFullQuality} from '../scripts/publish-full-quality.mjs';
+import {readFileSync,mkdtempSync,writeFileSync,rmSync} from 'node:fs';
+import {join} from 'node:path';
+import {tmpdir} from 'node:os';
+import {fullGateErrors,publishFullQuality,beginFullQuality,main} from '../scripts/publish-full-quality.mjs';
 import {currentFullQualityJobs,qualityWorkflowPath} from '../scripts/verify-delivery.mjs';
 import {beforeAutoMergeWorkflow} from './helpers/auto-merge-workflow.mjs';
 const sha=c=>c.repeat(40),repo='CHNISam/Slay-the-Abyss';
@@ -39,6 +41,47 @@ test('publisher binds success to reviewed head and current run URL and verifies 
  assert.equal(publishFullQuality(f,(...args)=>{writes.push(args);return JSON.stringify({state:'success',context:'full-quality'});}).state,'success');
  assert(writes[0].includes(`repos/${repo}/statuses/${f.head}`));assert(writes[0].includes(`target_url=https://github.com/${repo}/actions/runs/7`));
  assert.throws(()=>publishFullQuality(f,()=>JSON.stringify({state:'pending',context:'full-quality'})),/readback/);
+});
+test('superseded planner and aggregate never overwrite a newer run or attempt status',()=>{
+ for(const mutate of [f=>f.latestRun.id=8,f=>f.latestRun.run_attempt=2]){
+  const f=fixture();mutate(f);let writes=0;const query=()=>{writes++;throw Error('stale writer must not run');};
+  assert.equal(beginFullQuality(f,query).state,'superseded');
+  assert.equal(publishFullQuality(f,query).state,'superseded');assert.equal(writes,0);
+ }
+ const f=fixture(),writes=[];
+ assert.equal(beginFullQuality(f,(...args)=>{writes.push(args);return JSON.stringify({state:'pending',context:'full-quality'});}).state,'pending');
+ assert(writes[0].includes('state=pending'));
+});
+function mainFixture(change,check){
+ const f=fixture();change(f);
+ const dir=mkdtempSync(join(tmpdir(),'full-quality-event-')),eventPath=join(dir,'event.json');
+ writeFileSync(eventPath,JSON.stringify({pull_request:f.pr}));
+ const env={GITHUB_EVENT_PATH:eventPath,GITHUB_EVENT_NAME:'pull_request',GITHUB_REPOSITORY:repo,
+  GITHUB_SHA:f.tested,GITHUB_RUN_ID:'7',GITHUB_RUN_ATTEMPT:'1',FULL_MODE:f.mode,FULL_NEEDS:JSON.stringify(f.needs)};
+ try{check(f,env);}finally{rmSync(dir,{recursive:true,force:true});}
+}
+test('real publisher entrypoint preserves master and fork flows without status writes or API queries',()=>{
+ for(const change of [f=>f.pr.base.ref='master',f=>f.pr.head.repo.full_name='someone/fork'])mainFixture(change,(_f,env)=>{
+  for(const pending of [false,true])assert.doesNotThrow(()=>main(env,()=>{throw Error('not a develop same-repo publisher');},{pending}));
+ });
+});
+test('real publisher entrypoint collects API identities before current pending and success publication',()=>{
+ mainFixture(()=>{},(f,env)=>{
+  for(const pending of [true,false]){
+   const writes=[],query=(...args)=>{
+    const endpoint=args.at(-1);
+    if(args.includes('POST')){writes.push(args);return JSON.stringify({state:pending?'pending':'success',context:'full-quality'});}
+    if(endpoint.endsWith('/actions/runs/7'))return JSON.stringify(f.run);
+    if(endpoint.includes('/jobs?'))return JSON.stringify([{jobs:f.jobs}]);
+    if(endpoint.includes('/actions/workflows/'))return JSON.stringify([{workflow_runs:[f.run]}]);
+    if(endpoint.endsWith('/pulls/510'))return JSON.stringify(f.pr);
+    if(endpoint.endsWith('/git/ref/heads/develop'))return JSON.stringify({object:{sha:f.target}});
+    if(endpoint.endsWith('/commits/'+f.tested))return JSON.stringify(f.commit);
+    throw Error('Unexpected API query '+endpoint);
+   };
+   main(env,query,{pending});assert.equal(writes.length,1);
+  }
+ });
 });
 test('Full publication reuses existing jobs and grants status writes only to planner and final aggregate',()=>{
  const workflow=readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n');

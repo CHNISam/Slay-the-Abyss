@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 02:34'
-updated_date: '2026-11-04 02:49'
+updated_date: '2026-11-04 02:59'
 labels: []
 milestone: m-7
 dependencies: []
@@ -41,4 +41,6 @@ Owner确认保留并启用PR496的自动合并目标，修复当前冲突、完�
 
 <!-- SECTION:NOTES:BEGIN -->
 已重放PR496并修复冲突；Node24上64项授权/验收定向测试通过；新增Full发布器保留27作业、严格基线与显式pause。CI历史投影保留旧hash，当前仅余汇总命令提取适配，尚未远端启用。
+
+独立深审已修旧run写状态覆盖、master适用范围及真实GitHub合后空PR关联三项问题，并补同run attempt下界。Node24授权/交付/Full发布器70项全过，另CI汇总历史合同3项通过；schema2/3原验证保持。
 <!-- SECTION:NOTES:END -->

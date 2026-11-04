@@ -65,6 +65,8 @@ Full 未结束时，schemaVersion 4 授权保存精确组合和 pending run，�
 
 暂停使用 `npm run merge:auto -- <PR> --pause` 或 GitHub 原生 Disable auto-merge；命令先取消并读回，再撤销审查状态。仅添加 hold 标签不是已确认取消。改变依赖/授权意图前先暂停，重新审查后再启用；已声明依赖必须是已纳入受审基线的提交，不允许授权未落地依赖。strict 会阻止落后的 head；更新分支形成新 head 后须有新审查状态，不自动强推、自动重基或假定旧审查仍有效。原生 API 不提供可变正文/标签的原子条件，本流程不作此承诺。
 
+自动入口仅用于同仓库的 develop PR，不改变 master 的 release/hotfix CI。Fork 的只读 token 不能发布新必需状态，其成果须由维护者接续到同仓库短分支后重新审查、验证；不是直接绕过门禁手动合入 fork PR。旧 run/attempt 的 planner 与 aggregate 不得覆盖新运行已写入的 pending/success。
+
 ## 一次批准的基础设施应急合并
 
 正常开发仍须当前SHA的完整Quality成功。GitHub的用户豁免是能力；聊天批准是Agent使用这项能力的前提，GitHub不会识别聊天记录，也不会自动区分业务失败和基础设施故障。
