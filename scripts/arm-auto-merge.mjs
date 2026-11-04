@@ -7,10 +7,15 @@ import {collectPrDelivery,verifyDelivery,isLowRiskDocumentationChange} from './v
 
 // Status on the reviewed HEAD, not a general-purpose label or an old CI run.
 // This status MUST be required by the develop ruleset before arming is allowed.
+// A transfer changes the route, not the repository identity. Never trust a redirect alone.
+export const repositoryFullName='FurinyaWorks/Slay-the-Abyss';
+export const repositoryId=1429751262;
 export const reviewContext='independent-review';
 export const requiredContexts=['check','presentation','engineering-posix','inventory','full-quality',reviewContext];
 const validSha=sha=>typeof sha==='string'&&/^[0-9a-f]{40}$/.test(sha);
 const prId=id=>Number.isSafeInteger(id)&&id>0;
+const expectedRepository=(repo,settings)=>repo===repositoryFullName&&
+  settings?.id===repositoryId&&settings?.full_name===repositoryFullName;
 
 export function parseDependencies(body) {
   const declarations=[...(body??'').matchAll(/^\s*Depends-on:\s*(.*?)\s*$/gim)];
@@ -25,7 +30,7 @@ export function parseDependencies(body) {
 
 export function autoMergeErrors({repo,settings,pr,baseSha,ruleset,review,dependencies,changedFiles}) {
   const errors=[];
-  if(repo!=='CHNISam/Slay-the-Abyss')errors.push('Unexpected repository');
+  if(!expectedRepository(repo,settings))errors.push('Unexpected repository identity');
   if(settings?.allow_auto_merge!==true||settings?.allow_squash_merge!==true)
     errors.push('Repository auto-merge and squash must both be enabled');
   if(!prId(pr?.number)||typeof pr?.node_id!=='string'||!pr.node_id.trim()||pr?.state!=='open'||pr?.merged||pr?.draft)errors.push('PR must be open, ready and unmerged');
@@ -94,6 +99,7 @@ function gh(...args) {
 function json(query,...args) {return JSON.parse(query(...args));}
 
 export function collectEligibility(repo,number,review,query=gh) {
+  if(repo!==repositoryFullName)throw Error('Unexpected repository route');
   const pr=json(query,'api','repos/'+repo+'/pulls/'+number);
   if(pr?.number!==number)throw Error('GitHub returned a different PR identity');
   const settings=json(query,'api','repos/'+repo);
@@ -271,6 +277,8 @@ function requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persi
 }
 
 export function pauseAutoMerge(repo,number,query=gh){
+  if(repo!==repositoryFullName)throw Error('Unexpected repository route');
+  if(!expectedRepository(repo,json(query,'api','repos/'+repo)))throw Error('Unexpected repository identity');
   const endpoint=`repos/${repo}/pulls/${number}`,before=json(query,'api',endpoint);
   if(before.number!==number||before.state!=='open'||before.merged||before.base?.ref!=='develop'||!validSha(before.head?.sha))
     throw Error('Pause requires the open develop PR');
@@ -286,12 +294,11 @@ export function pauseAutoMerge(repo,number,query=gh){
   return {state:'paused',prNumber:number,head:after.head.sha};
 }
 
-if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
-  try {
-    const [numberArg,reviewArg,option,...extra]=process.argv.slice(2);
+export function main(args=process.argv.slice(2),query=gh) {
+    const [numberArg,reviewArg,option,...extra]=args;
     if(/^[1-9][0-9]*$/.test(numberArg??'')&&reviewArg==='--pause'&&option===undefined&&!extra.length){
-      console.log(JSON.stringify(pauseAutoMerge('CHNISam/Slay-the-Abyss',Number(numberArg)),null,2));
-      process.exit(0);
+      console.log(JSON.stringify(pauseAutoMerge(repositoryFullName,Number(numberArg),query),null,2));
+      return;
     }
     if(!/^[1-9][0-9]*$/.test(numberArg??'')||!reviewArg||
       option!==undefined&&option!=='--dry-run'||extra.length)
@@ -300,13 +307,13 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
       JSON.parse(readFileSync(reviewArg,'utf8'));
     // Waiver is bound to the current SHA by the collector; no forged CI receipt.
     if(review.disposition==='low-risk-docs') {
-      const first=json(gh,'api','repos/CHNISam/Slay-the-Abyss/pulls/'+Number(numberArg));
+      const first=json(query,'api','repos/'+repositoryFullName+'/pulls/'+Number(numberArg));
       review.reviewedHeadSha=first.head?.sha;
       review.reviewedBaseSha=first.base?.sha;
     }
     const dir='build/delivery';mkdirSync(dir,{recursive:true});
     const journal=dir+'/auto-merge-'+numberArg+'-'+randomUUID()+'-attempt.json';
-    const result=armAutoMerge('CHNISam/Slay-the-Abyss',Number(numberArg),review,gh,
+    const result=armAutoMerge(repositoryFullName,Number(numberArg),review,query,
       {dryRun:option==='--dry-run',persist:record=>writeFileSync(journal,JSON.stringify(record,null,2)+'\n')});
     const proofFile=dir+'/auto-merge-'+numberArg+'-'+result.head.slice(0,12)+'.json';
     if(option!=='--dry-run')writeFileSync(proofFile,JSON.stringify(result.proof,null,2)+'\n');
@@ -314,5 +321,8 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
       dependsOn:result.dependsOn,...(option!=='--dry-run'?{proofFile}:{})},null,2));
     console.log(option==='--dry-run'?'Read-only eligibility PASS':
       'GitHub controls the required CI. After merge: npm run verify:delivery -- '+numberArg+' '+proofFile+' --merged');
-  }catch(error){console.error(error.message);process.exitCode=1;}
+}
+
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
+  try {main();}catch(error){console.error(error.message);process.exitCode=1;}
 }

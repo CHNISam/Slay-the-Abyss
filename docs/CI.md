@@ -30,9 +30,9 @@ Licenses 与 Quality、Quick feedback 一样使用 GitHub 原生同引用 concur
 
 | 规则 | 分支 | 生效要求 | 豁免 |
 |---|---|---|---|
-| [25870646](https://github.com/CHNISam/Slay-the-Abyss/rules/25870646) | master、develop | 禁止强推、禁止删除 | 无，包含Owner |
-| [25870648](https://github.com/CHNISam/Slay-the-Abyss/rules/25870648) | master | 必须PR、解决讨论；不绑定未验证的CI | 两个指定个人，仅PR |
-| [25870651](https://github.com/CHNISam/Slay-the-Abyss/rules/25870651) | develop | 必须PR、仅squash、线性历史、解决讨论、三个Quality检查及inventory（GitHub Actions app 15368） | 两个指定个人，仅PR |
+| [25870646](https://github.com/FurinyaWorks/Slay-the-Abyss/rules/25870646) | master、develop | 禁止强推、禁止删除 | 无，包含Owner |
+| [25870648](https://github.com/FurinyaWorks/Slay-the-Abyss/rules/25870648) | master | 必须PR、解决讨论；不绑定未验证的CI | 两个指定个人，仅PR |
+| [25870651](https://github.com/FurinyaWorks/Slay-the-Abyss/rules/25870651) | develop | 必须PR、仅squash、线性历史、解决讨论、三个Quality检查及inventory（GitHub Actions app 15368） | 两个指定个人，仅PR |
 
 两个个人分别为CHNISam（111138384）和v5g95m7t8m-max（337201427），均为`actor_type: User`、`bypass_mode: pull_request`。第二人仍为Write，无Write/Admin角色级豁免。防强推/删除单独成规则且不列豁免，避免PR豁免扩大为引用破坏权限。两分支均不额外要求他人批准；这是强制PR，不是额外审批系统。
 
@@ -44,13 +44,15 @@ develop PR 的独立评审与 CI 并行。审查与准入通过后可在 Full �
 
 ### 一次性仓库门禁配置
 
-在现有 [develop Ruleset](https://github.com/CHNISam/Slay-the-Abyss/rules/25870651) 追加 `independent-review`（Any source）和 `full-quality`（GitHub Actions，15368），开启 strict；保留 `check`、`presentation`、`engineering-posix`、`inventory` 的原来源，以及 squash-only、线性历史、已解决讨论、防删除/强推等保护。配置未完成时 `merge:auto` 拒绝启用。先保存规则快照、清点在途 PR，再更新并读回，不能使用 bypass 冒充正常门禁。TASK-98 记录真实启用与演练证据；源码合入本身不代表规则已完成更新。
+在现有 [develop Ruleset](https://github.com/FurinyaWorks/Slay-the-Abyss/rules/25870651) 追加 `independent-review`（Any source）和 `full-quality`（GitHub Actions，15368），开启 strict；保留 `check`、`presentation`、`engineering-posix`、`inventory` 的原来源，以及 squash-only、线性历史、已解决讨论、防删除/强推等保护。配置未完成时 `merge:auto` 拒绝启用。先保存规则快照、清点在途 PR，再更新并读回，不能使用 bypass 冒充正常门禁。TASK-98 记录真实启用与演练证据；源码合入本身不代表规则已完成更新。
 
 `full-quality` 由原有 impact 作业开始时置 pending，再由原有 check 作业在 Windows、POSIX 和 presentation 全部结束后发布；不新增作业。发布器检查当前 run/attempt、全部27项真实作业身份/结果、PR HEAD、实际目标与合成双父；Fast 永不发布 success。只有 impact/check 增加 job-scoped `statuses: write`，所有回归、LFS 读取及默认权限仍只读。需要完整合并验证时使用已有 `ci:full` 标签，标签变动/ready 会重新触发正常 Quality；不以 Fast 反馈代替完整准入。
 
 该额外 commit status 绑定受审的精确 HEAD：协调 Agent 检查独立评审记录、实际 develop ref、GitHub 合成 merge commit 的父节点和源码树、前置依赖及 Ruleset，先发布并读回自己的 `independent-review: pending`。保持该门禁关闭时显式调用 GraphQL `enablePullRequestAutoMerge`，绑定 `expectedHeadOid` 与 SQUASH，确认原生排队，再复核相同准入、最新 CI run/attempt 和 pending 状态 ID，最后写入 success 放行。即使 Full 已完成也使用同一握手；没有同步合并回退。每个 PR 同时只能有一个协调者。新 HEAD 必须重新审查、授权。**审查 JSON 不自证独立**，协调 Agent 须核对真实 reviewId 来源和未解决问题。
 
 ### 常规使用
+
+仓库于2026-11-04迁至 `FurinyaWorks/Slay-the-Abyss`，不可变ID仍为 `1429751262`，develop规则ID仍为 `25870651`。启用和暂停入口同时校验规范路径和仓库ID，不把旧路径重定向当作授权。旧评审或CI证据若仍绑定原仓库名，须重新核对并采集当前身份，不能批量替换历史证据冒充新验证。
 
 PR 正文必须有一行 `Depends-on: none` 或 `Depends-on: #123, #456`；关联 PR 必须已确认合并。先由独立 Agent 复审并形成符合现有 `verify:delivery` 字段的 JSON（`reviewId`、`reviewedHeadSha`、`reviewedBaseSha`、`conclusion: "pass"`、`unresolved: []`）。本地在有 GitHub CLI 和已授权仓库身份的工作树中运行：
 
@@ -81,7 +83,7 @@ Full 未结束时，schemaVersion 4 授权保存精确组合和 pending run，�
 ```
 
 ```powershell
-gh api --method PUT repos/CHNISam/Slay-the-Abyss/pulls/<PR>/merge --input approved-merge.json
+gh api --method PUT repos/FurinyaWorks/Slay-the-Abyss/pulls/<PR>/merge --input approved-merge.json
 ```
 
 5. 仅HTTP成功且响应`merged: true`后，再读PR核对`merged`、`head.sha`、`base.ref`、`merge_commit_sha`和执行身份，保存批准/请求/响应与故障及验证证据。超时或返回不确定先读回，不能盲重试。HEAD变化、范围扩大、目标变化或批准无效时停止并重新询问；HTTP409不是让Agent换成最新SHA继续。权限拒绝时不改规则绕过，不把应急合并宣称为完整CI通过。仅在确认自己的分支无新工作后按既有规范清理。

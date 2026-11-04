@@ -1,18 +1,21 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {parseDependencies,autoMergeErrors,collectEligibility,armAutoMerge as activate,pauseAutoMerge,reviewContext,requiredContexts} from '../scripts/arm-auto-merge.mjs';
+import {mkdtempSync,writeFileSync,rmSync} from 'node:fs';
+import {join} from 'node:path';
+import {tmpdir} from 'node:os';
+import {parseDependencies,autoMergeErrors,collectEligibility,armAutoMerge as activate,pauseAutoMerge,reviewContext,requiredContexts,main,repositoryFullName,repositoryId} from '../scripts/arm-auto-merge.mjs';
 import {verifyAutoMergeArm,verifyDelivery,verifyHistoricalAutoFull,verifyMergedDelivery,collectMergedDelivery,currentFullQualityJobs,qualityWorkflowPath} from '../scripts/verify-delivery.mjs';
 
 const sha=c=>c.repeat(40);
 const armAutoMerge=(repo,number,review,query,options={})=>activate(repo,number,review,query,{loadCheckout:query.loadCheckout,...options});
-const repo='CHNISam/Slay-the-Abyss';
+const repo='FurinyaWorks/Slay-the-Abyss';
 function fixture() {
   const pr={number:510,node_id:'PR_reviewed_510',state:'open',merged:false,draft:false,mergeable:true,changed_files:1,
     head:{sha:sha('a'),ref:'feat/reviewed',repo:{full_name:repo}},base:{ref:'develop',sha:sha('b')},merge_commit_sha:sha('d'),body:'Summary\n\nDepends-on: none',
     labels:[]};
   const review={reviewId:'independent-agent-evidence-100',reviewedHeadSha:sha('a'),
     reviewedBaseSha:sha('b'),conclusion:'pass',unresolved:[],repo,prNumber:510};
-  const settings={allow_auto_merge:true,allow_squash_merge:true};
+  const settings={id:1429751262,full_name:repo,allow_auto_merge:true,allow_squash_merge:true};
   const ruleset={target:'branch',enforcement:'active',conditions:{ref_name:{include:['refs/heads/develop'],exclude:[]}},
     rules:[
       {type:'pull_request',parameters:{allowed_merge_methods:['squash'],required_review_thread_resolution:true}},
@@ -362,7 +365,8 @@ test('pause cancels native auto-merge before revoking review and refuses uncerta
  for(const blocked of [false,true]){
   const f=fixture(),calls=[];let disabled=false;
   const query=(...args)=>{
-   calls.push(args);if(args[0]==='pr'){assert(args.includes('--disable-auto'));disabled=true;return '';}
+   calls.push(args);if(args.at(-1)==='repos/'+repo)return JSON.stringify(f.settings);
+   if(args[0]==='pr'){assert(args.includes('--disable-auto'));disabled=true;return '';}
    if(args.includes('POST'))return JSON.stringify({state:'failure',context:reviewContext});
    return JSON.stringify({...f.pr,auto_merge:disabled&&!blocked?null:{merge_method:'squash'}});
   };
@@ -421,4 +425,54 @@ test('merged collector accepts real empty PR links and selects the authorized so
  assert.deepEqual(evidence.prFull.run.pull_requests,[],'preserve actual API response');
  assert.equal(evidence.prFull.run.id,7);
  assert.equal(verifyMergedDelivery(evidence).state,'merged_passed');
+});
+
+
+test('migrated repository requires the canonical name and immutable repository ID together',()=>{
+ assert.deepEqual(autoMergeErrors(fixture()),[]);
+ for(const mutate of [f=>f.repo='CHNISam/Slay-the-Abyss',f=>f.repo='someone/Slay-the-Abyss',
+  f=>f.settings.id=1429751263,f=>delete f.settings.id,f=>f.settings.id='1429751262',
+  f=>f.settings.full_name='CHNISam/Slay-the-Abyss',f=>delete f.settings.full_name]){
+  const f=fixture();mutate(f);assert(autoMergeErrors(f).some(e=>/repository/i.test(e)),String(mutate));
+ }
+});
+test('arming and pausing refuse a replaced or unidentified repository before remote mutations',()=>{
+ for(const identity of [{id:1429751263,full_name:repo},{id:1429751262,full_name:'CHNISam/Slay-the-Abyss'},
+  {full_name:repo},{id:1429751262}]){
+  for(const pause of [false,true]){
+   const m=mock(),query=(...args)=>args.at(-1)==='repos/'+repo?
+    JSON.stringify({...m.f.settings,id:undefined,full_name:undefined,...identity}):m.query(...args);
+   query.loadCheckout=m.query.loadCheckout;
+   assert.throws(()=>pause?pauseAutoMerge(repo,510,query):armAutoMerge(repo,510,m.f.review,query),/repository/i);
+   assert(!m.calls.some(c=>c.includes('POST')||c[0]==='pr'||c[1]==='graphql'),'no mutations for '+JSON.stringify(identity));
+  }
+ }
+ const m=mock();
+ assert.throws(()=>pauseAutoMerge('CHNISam/Slay-the-Abyss',510,m.query),/repository/i);
+ assert.equal(m.calls.length,0,'legacy route must be rejected before querying it');
+});
+test('migration never rewrites legacy review or Full evidence into current authorization',()=>{
+ const m=mock();m.f.review.repo='CHNISam/Slay-the-Abyss';
+ assert.throws(()=>armAutoMerge(repo,510,m.f.review,m.query),/different repository/);
+ assert(!m.calls.some(c=>c.includes('POST')||c[0]==='pr'||c[1]==='graphql'));
+ const good=mock(),proof=armAutoMerge(repo,510,good.f.review,good.query,{dryRun:true}).proof;
+ assert.deepEqual(verifyDelivery(proof),[]);
+ const old=structuredClone(proof);old.fullPreflight.run.repository.full_name='CHNISam/Slay-the-Abyss';
+ assert(verifyDelivery(old).length>0,'legacy run identity must not certify a current-repository proof');
+});
+
+
+test('all CLI entrypoints use the migrated canonical route, including pause and documentation waiver',()=>{
+ assert.equal(repositoryFullName,'FurinyaWorks/Slay-the-Abyss');assert.equal(repositoryId,1429751262);
+ const dir=mkdtempSync(join(tmpdir(),'auto-merge-migration-')),reviewPath=join(dir,'review.json');
+ try{
+  for(const mode of ['review','waiver','pause']){
+   const m=mock({pending:true});writeFileSync(reviewPath,JSON.stringify(m.f.review));
+   main(mode==='pause'?['510','--pause']:['510',mode==='review'?reviewPath:'--low-risk-docs','--dry-run'],m.query);
+   assert(m.calls.some(c=>c.at(-1)==='repos/'+repo),'repository settings must be read');
+   assert(!m.calls.some(c=>c.some(arg=>arg.includes('CHNISam/'))),'no legacy API route');
+   if(mode==='pause')assert(m.calls.some(c=>c[0]==='pr'&&c.includes(repo)&&c.includes('--disable-auto')));
+   else assert(!m.calls.some(c=>c.includes('POST')||c[0]==='pr'||c[1]==='graphql'),'dry run is read-only');
+  }
+ }finally{rmSync(dir,{recursive:true,force:true});}
 });
