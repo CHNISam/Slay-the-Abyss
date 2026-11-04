@@ -6,6 +6,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {verifyAutoMergeArm,verifyDelivery,verifyHistoricalAutoFull,verifyMergedDelivery,collectMergedDelivery,currentFullQualityJobs,qualityWorkflowPath} from '../scripts/verify-delivery.mjs';
 import {projectRepositoryId,currentProjectRepository,collectIdentityWitness} from '../scripts/repository-identity.mjs';
+import {queueRulesFingerprint} from '../scripts/merge-queue-policy.mjs';
 
 const sha=c=>c.repeat(40);
 const armAutoMerge=(repo,number,review,query,options={})=>activate(repo,number,review,query,{loadCheckout:query.loadCheckout,...options});
@@ -429,6 +430,7 @@ test('overwritten review gate, replaced CI attempt and a merge before release ar
 function nativeArmFixture({queuedAt='release',corrupt=()=>{},stuck=false,dequeueError=false,wrongDequeue=false,failAfterRelease=false,noAuto=false,mergeBeforeRelease=false,driftRules=false,requeue=false}={}){
  const m=mock(),calls=[];let queued=false,released=false,enabled=false;
  m.f.ruleset.bypass_actors=[];
+ m.f.ruleset.id=25870651;m.f.ruleset.updated_at='2026-11-04T17:51:23.025+08:00';
  m.f.ruleset.rules.push({type:'merge_queue',parameters:{merge_method:'SQUASH',grouping_strategy:'ALLGREEN'}});
  const query=(...args)=>{
   calls.push(args);
@@ -474,6 +476,37 @@ test('native queue arm accepts waiting and exact queued readback independently o
   assert.equal(armAutoMerge(repo,510,m.f.review,m.query).state,'auto-merge-requested',queuedAt);
   assert.equal(m.queued(),queuedAt!=='never');
   assert(!m.calls.some(c=>c.includes('state=failure')));
+ }
+});
+
+test('native queue review status and journal bind the privileged policy version within 140 characters',()=>{
+ const m=nativeArmFixture();m.f.review.reviewId='independent-agent-'.repeat(20);
+ const result=armAutoMerge(repo,510,m.f.review,m.query);
+ const digest=queueRulesFingerprint(m.f.ruleset);
+ assert.equal(result.proof.queueRulesFingerprint,digest);
+ const status=m.calls.find(args=>args.includes('state=success'));
+ const description=status.find(arg=>arg.startsWith('description=')).slice(12);
+ assert(description.endsWith(` [rules:${digest}] [base:${sha('b')}]`));
+ assert(description.length<=140);
+ assert.equal(result.proof.review.reviewId,m.f.review.reviewId,'journal keeps untruncated provenance');
+ for(const mutate of [f=>delete f.ruleset.updated_at,f=>delete f.ruleset.bypass_actors,f=>f.ruleset.id=7]){
+  const invalid=nativeArmFixture();mutate(invalid.f);
+  assert.throws(()=>armAutoMerge(repo,510,invalid.f.review,invalid.query));
+  assert(!invalid.calls.some(args=>args.includes('POST')));
+ }
+});
+
+test('policy version changes before activation or final release require fresh authorization',()=>{
+ for(const changedRead of [2,3,4]){
+  const m=nativeArmFixture(),query=m.query;let reads=0;
+  const drifting=(...args)=>{
+   if(args.at(-1)===`repos/${repo}/rulesets/25870651`&&++reads>=changedRead)
+    m.f.ruleset.updated_at='2026-11-04T09:51:24.025Z';
+   return query(...args);
+  };
+  drifting.loadCheckout=query.loadCheckout;
+  assert.throws(()=>armAutoMerge(repo,510,m.f.review,drifting),/admission|eligibility/i,'policy read '+changedRead);
+  assert(!m.calls.some(args=>args.includes('state=success')));
  }
 });
 

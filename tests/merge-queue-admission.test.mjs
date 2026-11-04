@@ -6,6 +6,7 @@ import {tmpdir} from 'node:os';
 import {main} from '../scripts/publish-merge-group.mjs';
 
 import {admissionFixture,admissionQuery} from './helpers/merge-queue-admission.mjs';
+import {queueRulesFingerprint} from '../scripts/merge-queue-policy.mjs';
 const sha=c=>c.repeat(40);
 function execute(f,query=admissionQuery(f),options){
  const dir=mkdtempSync(join(tmpdir(),'queue-admission-'));
@@ -20,6 +21,62 @@ test('real checkout loader accepts only the effective receipt execution attempt'
   assert.throws(()=>execute(f,admissionQuery(f,writes)),/receipt|artifact|attempt/i);
   assert.deepEqual(writes,[]);
  }
+});
+
+test('read-only ruleset visibility can release only a matching privileged authorization',()=>{
+ const f=admissionFixture();
+ delete f.ruleset.bypass_actors;
+ assert.equal(execute(f).state,'success');
+});
+
+test('hidden bypass configuration requires immutable policy version and exact current coordinator',()=>{
+ for(const mutate of [
+  f=>f.review.description=`Independent review [base:${f.event.merge_group.base_sha}]`,
+  f=>f.review.description=f.review.description.replace(/rules:[0-9a-f]{64}/,'rules:'+ '0'.repeat(64)),
+  f=>delete f.ruleset.updated_at,f=>f.ruleset.updated_at='not-a-date',
+  f=>f.ruleset.updated_at='2026-11-04T17:51:24.025+08:00',
+  f=>f.ruleset.id=7,f=>f.ruleset.rules[0].parameters.check_response_timeout_minutes=121,
+  f=>f.ruleset.bypass_actors=null,f=>f.ruleset.bypass_actors=[{actor_id:51}],
+  f=>delete f.review.creator,f=>f.review.creator.id=52,f=>f.review.creator.login='other',
+  f=>delete f.entry.enqueuer,f=>f.entry.enqueuer.databaseId=52,f=>f.entry.enqueuer.login='other',
+  f=>delete f.permission.permission,f=>f.permission.permission='write',f=>f.permission.permission='maintain',
+  f=>delete f.permission.user,f=>f.permission.user.id=52,f=>f.permission.user.login='other'
+ ]){
+  for(const duringDownload of [false,true]){
+   const f=admissionFixture(),writes=[];
+   delete f.ruleset.bypass_actors;
+   const receipt={checkout:structuredClone(f.checkout),checkoutArtifact:structuredClone(f.artifact)};
+   if(!duringDownload)mutate(f);
+   assert.throws(()=>execute(f,admissionQuery(f,writes),{loadCheckout:()=>{
+    if(duringDownload)mutate(f);return receipt;
+   }}),undefined,String(mutate));
+   assert.deepEqual(writes,[],String(mutate));
+  }
+ }
+});
+
+test('policy digest is stable across JSON key order but never authorizes invisible bypass at coordinator',()=>{
+ const f=admissionFixture(),full=f.ruleset;
+ const reversed=Object.fromEntries(Object.entries(full).reverse());
+ assert.equal(queueRulesFingerprint(full),queueRulesFingerprint(reversed));
+ assert.equal(queueRulesFingerprint(full),queueRulesFingerprint({...full,updated_at:'2026-11-04T09:51:23.025Z'}),
+  'real public and privileged API timezone renderings identify the same policy instant');
+ const redacted=structuredClone(full);delete redacted.bypass_actors;
+ assert.throws(()=>queueRulesFingerprint(redacted),/explicitly empty bypass/);
+ assert.equal(queueRulesFingerprint(redacted,{allowRedacted:true}),queueRulesFingerprint(full));
+ for(const bypass_actors of [undefined,null,[{}],{}])
+  assert.throws(()=>queueRulesFingerprint({...full,bypass_actors},{allowRedacted:true}),/bypass/);
+ for(const updated_at of [null,'','1','2026-11-04','2026-11-04T09:51:23','not-a-date'])
+  assert.throws(()=>queueRulesFingerprint({...full,updated_at}),/versioned/);
+});
+
+test('missing administrator metadata capability cannot publish queue gates',()=>{
+ const f=admissionFixture(),writes=[],query=admissionQuery(f,writes);
+ assert.throws(()=>execute(f,(...args)=>{
+  if(args.some(arg=>arg.includes('/collaborators/')))throw Error('HTTP 403 metadata unavailable');
+  return query(...args);
+ }),/403/);
+ assert.deepEqual(writes,[]);
 });
 test('queue release rejects paused, held, changed dependency and stale-base PR authorization',()=>{
  for(const mutate of [

@@ -1,5 +1,6 @@
 import {parseDependencies} from './arm-auto-merge.mjs';
 import {projectRepositoryId,projectRepositoryMatches} from './repository-identity.mjs';
+import {queueRulesFingerprint} from './merge-queue-policy.mjs';
 
 const repo='FurinyaWorks/Slay-the-Abyss';
 const validSha=value=>typeof value==='string'&&/^[a-f0-9]{40}$/.test(value);
@@ -9,7 +10,7 @@ const queryText=`query {
   databaseId nameWithOwner ref(qualifiedName:"refs/heads/develop") { target { oid } }
   mergeQueue(branch:"develop") { entries(first:100) {
    pageInfo { hasNextPage }
-   nodes { id position state baseCommit { oid } headCommit { oid }
+   nodes { id position state enqueuer { login ... on User { databaseId } ... on Bot { databaseId } } baseCommit { oid } headCommit { oid }
     pullRequest { number headRefOid baseRefName isDraft state mergeQueueEntry { id } }
    }
   } }
@@ -19,7 +20,8 @@ const queryText=`query {
 // The native queue owns scheduling. This bounded, read-only admission check
 // only releases a group whose live prefix and project-specific authorization
 // can still be proven. Ambiguous/oversized queues require operator attention.
-export function collectQueueAdmission(event,env,query){
+export function collectQueueAdmission(event,env,query,ruleset){
+ const fingerprint=queueRulesFingerprint(ruleset??JSON.parse(query('api',`repos/${repo}/rulesets/25870651`)),{allowRedacted:true});
  const response=JSON.parse(query('api','graphql','-f','query='+queryText));
  const repository=response?.data?.repository;
  const entries=repository?.mergeQueue?.entries;
@@ -60,8 +62,16 @@ export function collectQueueAdmission(event,env,query){
    throw Error('Complete current review status pages are missing');
   const review=statuses.flat().filter(s=>s?.context==='independent-review').sort((a,b)=>b.id-a.id)[0];
   if(!positive(review?.id)||review.state!=='success'||typeof review.description!=='string'||
-   !review.description.endsWith(` [base:${base}]`))
+   !review.description.endsWith(` [rules:${fingerprint}] [base:${base}]`))
    throw Error('Queue PR review is paused, missing or bound to a different BASE: '+p.number);
+  if(!positive(entry.enqueuer?.databaseId)||review.creator?.id!==entry.enqueuer.databaseId||
+   typeof entry.enqueuer.login!=='string'||!entry.enqueuer.login||
+   typeof review.creator.login!=='string'||review.creator.login.toLowerCase()!==entry.enqueuer.login.toLowerCase())
+   throw Error('Queue PR rules authorization does not belong to its enqueuer: '+p.number);
+  const permission=JSON.parse(query('api',`repos/${repo}/collaborators/${encodeURIComponent(review.creator.login)}/permission`));
+  if(permission?.permission!=='admin'||permission.user?.id!==review.creator.id||
+   typeof permission.user?.login!=='string'||permission.user.login.toLowerCase()!==review.creator.login.toLowerCase())
+   throw Error('Queue PR rules authorization requires the current repository administrator: '+p.number);
   const dependencies=parseDependencies(pr.body),dependencyEvidence=[];
   for(const number of dependencies){
    if(number===p.number)throw Error('Queue PR cannot depend on itself');
@@ -75,7 +85,8 @@ export function collectQueueAdmission(event,env,query){
    dependencyEvidence.push({number,merge:dep.merge_commit_sha});
   }
   snapshot.push({id:entry.id,position:entry.position,base:entry.baseCommit.oid,head:entry.headCommit.oid,
-   number:p.number,prHead:p.headRefOid,review:review.id,dependencies:dependencyEvidence});
+   number:p.number,prHead:p.headRefOid,review:review.id,rulesFingerprint:fingerprint,
+   enqueuer:entry.enqueuer.databaseId,dependencies:dependencyEvidence});
  }
  return JSON.stringify(snapshot);
 }

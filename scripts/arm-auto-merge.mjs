@@ -5,6 +5,7 @@ import {randomUUID} from 'node:crypto';
 import {pathToFileURL} from 'node:url';
 import {collectPrDelivery,verifyDelivery,isLowRiskDocumentationChange} from './verify-delivery.mjs';
 import {projectRepositoryId,currentProjectRepository,projectRepositoryMatches} from './repository-identity.mjs';
+import {queueRulesFingerprint} from './merge-queue-policy.mjs';
 
 // Status on the reviewed HEAD, not a general-purpose label or an old CI run.
 // This status MUST be required by the develop ruleset before arming is allowed.
@@ -133,8 +134,11 @@ export function collectEligibility(repo,number,review,query=gh) {
     !validSha(testedCommit.commit?.tree?.sha))
     throw Error('Proposed merge commit is stale or lacks the reviewed source tree');
   const errors=autoMergeErrors({repo,pr,settings,baseSha:target.object.sha,ruleset,review,dependencies,changedFiles});
+  const queueRequired=ruleset?.rules?.some(rule=>rule.type==='merge_queue')===true;
+  let rulesFingerprint;
+  if(queueRequired)try{rulesFingerprint=queueRulesFingerprint(ruleset);}catch(error){errors.push(error.message);}
   return {pr,baseSha:target.object.sha,headSha:pr.head?.sha,dependsOn,errors,
-    queueRequired:ruleset?.rules?.some(rule=>rule.type==='merge_queue')===true,
+    queueRequired,rulesFingerprint,
     tested:pr.merge_commit_sha,parents,sourceTree:testedCommit.commit.tree.sha,changedFiles};
 }
 
@@ -143,7 +147,7 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false,loadCheck
   if(before.errors.length)throw Error(before.errors.join('\n'));
   // Read the actual branch ref and PR a second time immediately before writing.
   const current=collectEligibility(repo,number,review,query);
-  if(current.errors.length||before.headSha!==current.headSha||before.baseSha!==current.baseSha||before.queueRequired!==current.queueRequired||
+  if(current.errors.length||before.headSha!==current.headSha||before.baseSha!==current.baseSha||before.queueRequired!==current.queueRequired||before.rulesFingerprint!==current.rulesFingerprint||
     !sameAdmission(current.pr,before.pr))
     throw Error('PR or review eligibility changed while preparing auto-merge: '+current.errors.join('; '));
   if(before.tested!==current.tested||before.sourceTree!==current.sourceTree)
@@ -151,6 +155,7 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false,loadCheck
   const proof={schemaVersion:4,kind:'auto-merge-arm',repo,repositoryId:projectRepositoryId,prNumber:number,baseRef:'develop',
     head:current.headSha,base:current.baseSha,tested:current.tested,parents:current.parents,
     sourceTree:current.sourceTree,review,targetBeforeSha:before.baseSha,targetAfterSha:current.baseSha,
+    ...(current.queueRequired?{queueRulesFingerprint:current.rulesFingerprint}:{}),
     ...(review?.disposition==='low-risk-docs'?{changedFileCount:current.pr.changed_files,changedFiles:current.changedFiles}:{})};
   // The server-side full-quality context remains pending until the existing
   // aggregate has checked every actual shard. Review authorization can precede
@@ -184,7 +189,7 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false,loadCheck
     if([...effective.values()].some(j=>['failure','cancelled','timed_out','action_required'].includes(j.conclusion)))
       throw Error('Current Full CI already failed or was cancelled');
     const final=collectEligibility(repo,number,review,query),lastRun=latest();
-    if(final.errors.length||final.queueRequired!==current.queueRequired||!sameAdmission(final.pr,current.pr)||lastRun?.id!==pending.id||lastRun.run_attempt!==pending.run_attempt)
+    if(final.errors.length||final.queueRequired!==current.queueRequired||final.rulesFingerprint!==current.rulesFingerprint||!sameAdmission(final.pr,current.pr)||lastRun?.id!==pending.id||lastRun.run_attempt!==pending.run_attempt)
       throw Error('PR admission or Full attempt changed before authorization');
     proof.pendingRun={id:pending.id,attempt:pending.run_attempt,head:pending.head_sha};
     return requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persist,verifyWitness});
@@ -197,7 +202,7 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false,loadCheck
     evidence.base!==current.baseSha||evidence.tested!==current.tested||
     evidence.sourceTree!==current.sourceTree||!sameAdmission(fullCurrent,current.pr))throw Error('Exact Full CI preflight failed: '+fullErrors.join('; '));
   const final=collectEligibility(repo,number,review,query);
-  if(final.errors.length||final.queueRequired!==current.queueRequired||final.headSha!==current.headSha||final.baseSha!==current.baseSha||
+  if(final.errors.length||final.queueRequired!==current.queueRequired||final.rulesFingerprint!==current.rulesFingerprint||final.headSha!==current.headSha||final.baseSha!==current.baseSha||
     final.tested!==current.tested||!sameAdmission(final.pr,current.pr))
     throw Error('PR admission changed during Full preflight');
   // Recheck current Full after the slower rules/dependency admission reads.
@@ -219,10 +224,13 @@ function requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persi
   persist({state:'prepared',proof});
   const desc=review?.disposition==='low-risk-docs'?'Verified narrow documentation waiver':
     'Independent review '+review.reviewId.slice(0,55);
+  const authorizedDescription=current.queueRequired?
+    (review?.disposition==='low-risk-docs'?'Docs waiver':review.reviewId.slice(0,19))+
+      ` [rules:${current.rulesFingerprint}] [base:${current.baseSha}]`:desc+` [base:${current.baseSha}]`;
   const status=state=>{
     const created=json(query,'api','--method','POST','repos/'+repo+'/statuses/'+current.headSha,
       '-f','state='+state,'-f','context='+reviewContext,'-f','description='+
-      (state==='pending'?'Review accepted; arming native auto-merge':desc+(state==='success'?` [base:${current.baseSha}]`:'')));
+      (state==='pending'?'Review accepted; arming native auto-merge':state==='success'?authorizedDescription:desc));
     if(!prId(created.id)||created.state!==state||created.context!==reviewContext)throw Error('Review status write was not confirmed');
     return created;
   };
@@ -262,7 +270,7 @@ function requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persi
     }
     persist({state:'native-queued',proof});
     const final=collectEligibility(repo,number,review,query);
-    if(final.errors.length||final.queueRequired!==current.queueRequired||!sameAdmission(final.pr,current.pr)||final.sourceTree!==current.sourceTree)
+    if(final.errors.length||final.queueRequired!==current.queueRequired||final.rulesFingerprint!==current.rulesFingerprint||!sameAdmission(final.pr,current.pr)||final.sourceTree!==current.sourceTree)
       throw Error('PR admission changed before review release');
     verifyWitness();requirePending(pending.id);
     persist({state:'releasing',proof});status('success');persist({state:'authorized',proof});
