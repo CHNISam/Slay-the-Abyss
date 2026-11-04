@@ -8,7 +8,7 @@ const row = (path, line, column, subject, value) => ({file:path,line,column,code
   message:`cyclomatic complexity of ${subject} is too high (${value} > 0)`});
 test('presentation extractions are required and their nested callbacks remain budgeted',()=>{
   for(const path of ['src/lua/abyss_feedback_actor_painter.lua','src/lua/abyss_game_ui_menu_view.lua',
-    'src/lua/abyss_combat_native_play.lua','src/lua/abyss_combat_queued_play.lua']){
+    'src/lua/abyss_combat_native_play.lua','src/lua/abyss_combat_queued_play.lua','src/lua/abyss_combat_reactions.lua']){
     const source='local function paint() return function() end end';
     const diagnostics=[row(path,1,1,'main chunk',1),row(path,1,7,"function 'paint'",15),
       row(path,1,source.indexOf('function()')+1,'function',16)];

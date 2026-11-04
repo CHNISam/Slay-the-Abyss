@@ -5,7 +5,17 @@ local Events = require("abyss_events")
 local PlatedArmor = require('abyss_plated_armor')
 local Act2Powers = require('abyss_act2_powers')
 local TimeEater=require('abyss_time_eater')
-local M = {}
+local Reactions=require('abyss_combat_reactions')
+-- Keep the two public admission fields live: existing instrumentation replaces
+-- CardActions.enqueue/Reaction, including callbacks originating in Actor.
+-- Other CardActions members remain ordinary fields and never enter Reactions.
+local admission={enqueue=true,enqueueReaction=true}
+local M = setmetatable({}, {
+    __index=function(_,key) if admission[key] then return Reactions[key] end end,
+    __newindex=function(self,key,value)
+        if admission[key] then Reactions[key]=value else rawset(self,key,value) end
+    end,
+})
 local operations = { timeEater=true, writhingRoll=true,writhingParasite=true, classPotion=true, silentFinal=true, discover=true, colorless=true, heal=true, originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,
     secondWind=true, fiendFire=true, recoverExhaust=true, upgradeHand=true,
@@ -15,21 +25,6 @@ local operations = { timeEater=true, writhingRoll=true,writhingParasite=true, cl
 for _,op in ipairs({'rareGamblingChip','rareRelicGenerate','rareRelicDamageAll','rareRelicWeak','shopRelic'})do operations[op]=true end
 function M.supports(op) return operations[op] == true end
 
-function M.enqueue(state, effect, source, target, instance, top)
-    state.cardActions = state.cardActions or {}
-    local item = {effect=effect, source=source or state.player, target=target, instance=instance}
-    if top then table.insert(state.cardActions, 1, item) else state.cardActions[#state.cardActions+1] = item end
-end
-
--- Damage/HP-loss callbacks join the queue that already owns the action.
--- This enqueues an effect, never a second action manager or a continuation.
-function M.enqueueReaction(state,effect,top)
-    if state.actionQueue then
-        local queue=require('abyss_action_queue')
-        local action={kind='effect',effect=effect}
-        if top then queue.pushTop(state,action)else queue.pushBottom(state,action)end
-    else M.enqueue(state,effect,nil,nil,nil,top)end
-end
 function M.reactionRetained(effect)
     if effect.op=='rareRelicDamageAll'then return true end
     if require('abyss_corrupt_heart').retained(effect)then return true end

@@ -48,7 +48,8 @@ function assertActionPolicies(source){
     return source.slice(at, source.indexOf(end, at));
   };
   for (const [kind,start,end] of [['admission','local operations =','function M.enqueue('],['victory','local retained=','return M']])
-    assert.equal(preRelicActionPolicySection(section(source,start,end),kind),section(read(before),start,end));
+    assert.equal(preRelicActionPolicySection(section(source,start,
+      kind==='admission'&&!source.includes(end)?'function M.reactionRetained':end),kind),section(read(before),start,end));
 }
 test('fixed 9293405d action oracle, supports admission and victory policy remain unchanged', () => {
   assert.equal(sha(read(before)), '614ff20df48f8b2e10d9750f9857a2a4d68a8d4961c6be45a7e5144436d756c1');

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-11-03 15:31'
+updated_date: '2026-11-04 08:10'
 labels: []
 milestone: m-7
 dependencies: []
@@ -69,6 +69,8 @@ ordinal: 118000
 2026-11-03 独立切片：从远端568da4e4核对camp/rewards/DrugDealer三个copy-only使用者，直接依赖既有abyss_copy，保留Combat.copy兼容；旧新图复制/真实UI与事件行为差分、负例、独立复审及精确HEAD完整CI后交付。避开PR486初始化模块，不重做已合切片。
 
 本轮PR487/488以14223f4b为基线串接完整身份测试侧inverse，保留#493缓存与每次关联新鲜读取；两源码组合漂移、一次准备及写前物化校验后独审，提交现有PR观察精确head完整CI。
+
+2026-11-04 领域切片：按已合设计先固定入队与公开替换合同，提取Combat Reactions；复用AST边检查职责边界，记录同基线SCC/边/复杂度，独立复审及完整CI后再收口。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -137,4 +139,6 @@ PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触�
 2026-11-03 copy-only三个模块切片本轮仅完成查重与隔离树准备，未修改实现、未测量收益、未完成新验收；待下一独立代码PR推进，本轮不将计划记作交付。
 
 本轮#493后两事件精确inverse合流：PR487新增inverse/组合/freshness/cache/preparation及真实中文控件20项通过；原生退出与不可用时钟新增1项通过，完整托管CI另验，不勾父任务最终AC。
+
+2026-11-04 Combat Reactions首切片已实际提取，Actor到CardActions的2处导入删除；AST职责边界含延迟导入并有旧检查器RED/修后GREEN。322→323模块，1876→1877导入位置，1506→1507唯一边；全图SCC仍1个105模块，内部位置809→807，即时图SCC仍0。新入口CC最大4，兼容代理增加总复杂度5，不宣称SCC消失或复杂度净下降。工程门禁、原注册器3组旧新状态/RNG差分、PlatedArmor49场景、职责17项及历史架构反例通过；完整CI与合后验证待取，任务保持In Progress。详见docs/evidence/combat-reactions-20261104.json。
 <!-- SECTION:NOTES:END -->

@@ -1,5 +1,6 @@
 {
   "layers": {
+    "abyss_combat_reactions": "core",
     "abyss_compendium_catalog": "ui",
     "abyss_relic_text": "core",
     "abyss_card_origin": "core",
@@ -499,11 +500,6 @@
     },
     {
       "from": "abyss_actor",
-      "to": "abyss_card_actions",
-      "reason": "Only enqueue callback bodies run after module initialization; Actor never invokes this import at load time."
-    },
-    {
-      "from": "abyss_actor",
       "to": "abyss_relic_hooks",
       "reason": "Only runtime HP-change and Poison-construction callbacks import relic hooks; never during Actor module initialization."
     },
@@ -576,6 +572,30 @@
       "from": "abyss_writhing_mass",
       "to": "abyss_inventory",
       "reason": "Darkstone uses the existing in-combat max-health/healing adapter only during a permanent obtain action."
+    }
+  ],
+  "dependencyBoundaries": [
+    {
+      "id": "actor-reaction-admission",
+      "from": [
+        "abyss_actor"
+      ],
+      "forbiddenTargets": [
+        "abyss_card_actions"
+      ],
+      "reason": "Actor arithmetic admits reactions without importing card dispatch."
+    },
+    {
+      "id": "combat-reaction-independence",
+      "from": [
+        "abyss_combat_reactions"
+      ],
+      "forbiddenTargets": [
+        "abyss_actor",
+        "abyss_card_actions",
+        "abyss_combat"
+      ],
+      "reason": "Reaction admission cannot depend on actor arithmetic or execution orchestration."
     }
   ]
 }
