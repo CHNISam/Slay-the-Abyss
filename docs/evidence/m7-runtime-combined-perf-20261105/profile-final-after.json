@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "variant": "after",
+  "mode": "profile",
+  "index": "final",
+  "sourceRevision": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
+  "startedAt": "2026-11-04T20:18:00.939Z",
+  "wallMilliseconds": 19267.8767,
+  "status": 0,
+  "signal": null,
+  "error": null,
+  "passed": true,
+  "fixtureSha256": "979708a7554d9d6467c34646e089f70dccdaee648f09893366ac5b7eccecf3e5",
+  "driverSha256": "194502ca740ff7f995b6481ef4420e2cf34e1257a2caad6503081ddab8405e5c",
+  "stdoutSha256": "d175814b2f08e990316273e82f3a18aa88032d097d428e04c3494d38a00e8253",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "businessSha256": "32216f006d434649c73848a4712e123a045c9d3aa2da7abbe9fb91687b6275b0",
+  "businessBytes": 654,
+  "canonicals": [
+    {
+      "bytes": 6464,
+      "sha256": "2c9c5170ab97fa9b2edcb5b3562b076d8003aef325567ebf87baf9c52d48d49a"
+    },
+    {
+      "bytes": 6464,
+      "sha256": "2c9c5170ab97fa9b2edcb5b3562b076d8003aef325567ebf87baf9c52d48d49a"
+    }
+  ],
+  "profileLine": "COMBINED_SNAPSHOT_PROFILE\t142\t13.4994599\t19.0803298",
+  "graphLines": [
+    "COMBINED_GRAPH_ROOT\t8248\t31521\t0\t8317",
+    "COMBINED_GRAPH_DATA\t4022\t15502\t0\t4022"
+  ],
+  "timeoutMilliseconds": 30000
+}

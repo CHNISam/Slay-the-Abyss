@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-04T20:27:01.274Z",
+  "prNumber": 513,
+  "state": "merged_passed",
+  "errors": [],
+  "head": "7ae3b66dd4355165d22edfbe0dc1d005095dca30",
+  "base": "b4ac63145689b9dd632db100eee49087f6182b39",
+  "tested": "e424022dd92f3ca5644ea62aa1527bffffee7348",
+  "sourceTree": "a60b1a30856584656a98989c4681580f1610215a",
+  "squash": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
+  "mergedAt": "2026-11-04T19:45:21Z",
+  "parents": [
+    "b4ac63145689b9dd632db100eee49087f6182b39"
+  ],
+  "review": {
+    "reviewId": "codex-fresh-runtime-final-7ae3b66d-20261105",
+    "reviewer": "/root/runtime_final_review",
+    "head": "7ae3b66dd4355165d22edfbe0dc1d005095dca30",
+    "base": "b4ac63145689b9dd632db100eee49087f6182b39",
+    "tree": "a60b1a30856584656a98989c4681580f1610215a",
+    "conclusion": "pass",
+    "unresolved": []
+  },
+  "sourceFull": {
+    "id": 41883245183,
+    "event": "pull_request",
+    "attempt": 1,
+    "head": "7ae3b66dd4355165d22edfbe0dc1d005095dca30",
+    "conclusion": "success",
+    "createdAt": "2026-11-04T18:03:35Z",
+    "completedAt": "2026-11-04T18:38:36Z",
+    "wallSeconds": 2101,
+    "jobs": {
+      "total": 27,
+      "success": 26,
+      "skipped": [
+        "fast"
+      ],
+      "failed": []
+    },
+    "checkout": {
+      "schemaVersion": 1,
+      "event": "pull_request",
+      "runId": 41883245183,
+      "attempt": 1,
+      "tested": "e424022dd92f3ca5644ea62aa1527bffffee7348",
+      "head": "7ae3b66dd4355165d22edfbe0dc1d005095dca30",
+      "base": "b4ac63145689b9dd632db100eee49087f6182b39",
+      "prNumber": 513,
+      "parents": [
+        "b4ac63145689b9dd632db100eee49087f6182b39",
+        "7ae3b66dd4355165d22edfbe0dc1d005095dca30"
+      ]
+    },
+    "artifact": {
+      "id": 13350719628,
+      "name": "quality-41883245183-1-check",
+      "digest": "sha256:fc93e8a69c99936a5dc9799d7bfef783953337182841218a13d644ce4db9175d",
+      "expired": false
+    }
+  },
+  "queueFailure": {
+    "id": 41889284736,
+    "head": "7a08219c0ef5e95edeb43bc6cfb2c33a971b7513",
+    "attempt": 1,
+    "conclusion": "failure",
+    "createdAt": "2026-11-04T18:39:20Z",
+    "completedAt": "2026-11-04T19:10:29Z",
+    "wallSeconds": 1869,
+    "jobs": {
+      "total": 27,
+      "success": 25,
+      "skipped": [
+        "fast"
+      ],
+      "failed": [
+        {
+          "id": 126799387885,
+          "name": "check"
+        }
+      ]
+    },
+    "error": "Merge Queue GitHub API failed: unexpected end of JSON input",
+    "observedStatuses": [
+      {
+        "id": 58078325167,
+        "context": "full-quality",
+        "state": "success",
+        "createdAt": "2026-11-04T19:10:23Z"
+      },
+      {
+        "id": 58075423623,
+        "context": "independent-review",
+        "state": "pending",
+        "createdAt": "2026-11-04T18:39:48Z"
+      },
+      {
+        "id": 58075421788,
+        "context": "full-quality",
+        "state": "pending",
+        "createdAt": "2026-11-04T18:39:47Z"
+      }
+    ],
+    "recovery": "Unified merge:auto --pause returned paused; same reviewed HEAD/BASE re-authorized with fresh readback and a new native group; no direct alteration of failed-group statuses or CI source changes"
+  },
+  "queueFull": {
+    "id": 41895552479,
+    "event": "merge_group",
+    "attempt": 1,
+    "head": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
+    "conclusion": "success",
+    "createdAt": "2026-11-04T19:17:45Z",
+    "completedAt": "2026-11-04T19:44:54Z",
+    "wallSeconds": 1629,
+    "jobs": {
+      "total": 27,
+      "success": 26,
+      "skipped": [
+        "fast"
+      ],
+      "failed": []
+    },
+    "checkout": {
+      "schemaVersion": 1,
+      "event": "merge_group",
+      "runId": 41895552479,
+      "attempt": 1,
+      "tested": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
+      "head": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
+      "base": "b4ac63145689b9dd632db100eee49087f6182b39",
+      "parents": [
+        "b4ac63145689b9dd632db100eee49087f6182b39"
+      ]
+    },
+    "artifact": {
+      "id": 13356717414,
+      "name": "quality-41895552479-1-check",
+      "digest": "sha256:8bb759cc7aeb5f76d33e3ba89557d7a3c1c88ad7c0b813f453af78cba0a154a7",
+      "expired": false
+    }
+  },
+  "pushFull": {
+    "id": 41900003124,
+    "event": "push",
+    "attempt": 1,
+    "head": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
+    "conclusion": "success",
+    "createdAt": "2026-11-04T19:45:23Z",
+    "completedAt": "2026-11-04T20:19:50Z",
+    "wallSeconds": 2067,
+    "jobs": {
+      "total": 27,
+      "success": 26,
+      "skipped": [
+        "fast"
+      ],
+      "failed": []
+    },
+    "checkout": {
+      "schemaVersion": 1,
+      "event": "push",
+      "runId": 41900003124,
+      "attempt": 1,
+      "tested": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
+      "head": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
+      "base": "b4ac63145689b9dd632db100eee49087f6182b39",
+      "parents": [
+        "b4ac63145689b9dd632db100eee49087f6182b39"
+      ]
+    },
+    "artifact": {
+      "id": 13359063117,
+      "name": "quality-41900003124-1-check",
+      "digest": "sha256:0b9bcae19a4c29b95f3dd8586393ff2a44f00367f3e8fd78479b688b1775e7f3",
+      "expired": false
+    }
+  },
+  "metrics": "m7-runtime-batch-20261105.json",
+  "performance": "m7-runtime-combined-perf-20261105/report.json",
+  "rawEvidence": {
+    "post": {
+      "path": "build/delivery/22932b37-c395-4ee3-93c1-fa3c9210ee96/evidence.json",
+      "sha256": "030be976b55836765157b9607e9948001835f453018a5df1aaeab59e774b3638"
+    },
+    "source": {
+      "path": "F:\\New folder\\worktrees\\m7-turn-domain\\build\\delivery\\f3aeb547-333f-466f-8da8-95d1c49f1535\\evidence.json",
+      "sha256": "2972a66c9b10c870c343c90724dcd9022d1c54cc6f2fd763fe74fe3fd5203d7e"
+    }
+  },
+  "limitations": [
+    "Only one of these successful Full runs is under30 minutes; source35:01, failed queue and push recovery costs remain, so no stable CI-target acceptance",
+    "M7 overall, parents74/75, remaining273 CC>15 /71 CC>30 /104-member SCC and1004-line constructor remain incomplete",
+    "No current official candidate/import/ready, PC/mobile, native-Lua GC/memory/FPS or release claim"
+  ]
+}

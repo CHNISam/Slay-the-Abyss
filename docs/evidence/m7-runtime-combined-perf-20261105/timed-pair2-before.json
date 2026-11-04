@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "variant": "before",
+  "mode": "timed",
+  "index": "pair2",
+  "sourceRevision": "b4ac63145689b9dd632db100eee49087f6182b39",
+  "startedAt": "2026-11-04T20:16:09.760Z",
+  "wallMilliseconds": 20771.6644,
+  "status": 0,
+  "signal": null,
+  "error": null,
+  "passed": true,
+  "fixtureSha256": "979708a7554d9d6467c34646e089f70dccdaee648f09893366ac5b7eccecf3e5",
+  "driverSha256": "5e7f165e11bb65466e79b3d40e192d451fef53d4cff48567e82f17be06ee9c6f",
+  "stdoutSha256": "787e9abdaf50fd0b423f92beb86b13054d4decec3e96d78e165fa2aee3f1404c",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "businessSha256": "32216f006d434649c73848a4712e123a045c9d3aa2da7abbe9fb91687b6275b0",
+  "businessBytes": 654,
+  "canonicals": [
+    {
+      "bytes": 6464,
+      "sha256": "2c9c5170ab97fa9b2edcb5b3562b076d8003aef325567ebf87baf9c52d48d49a"
+    },
+    {
+      "bytes": 6464,
+      "sha256": "2c9c5170ab97fa9b2edcb5b3562b076d8003aef325567ebf87baf9c52d48d49a"
+    }
+  ],
+  "graphLines": [],
+  "timeoutMilliseconds": 30000
+}

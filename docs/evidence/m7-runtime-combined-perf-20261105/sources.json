@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "comparison": "four complete changed Lua modules, all other runtime context identical",
+  "sources": {
+    "before": {
+      "revision": "b4ac63145689b9dd632db100eee49087f6182b39",
+      "modules": {
+        "abyss_combat": {
+          "path": "src/lua/abyss_combat.lua",
+          "saved": "build\\runtime-combined-perf\\before\\abyss_combat.lua",
+          "gitBlob": "c50e369c46b276e5aeb50a5e886222e36e446999",
+          "bytes": 107881,
+          "sha256": "2e6a406674d95f0037892120301b684857414dc75b9b225fec2052ff8ed6b55a"
+        },
+        "abyss_colorless_cards": {
+          "path": "src/lua/abyss_colorless_cards.lua",
+          "saved": "build\\runtime-combined-perf\\before\\abyss_colorless_cards.lua",
+          "gitBlob": "93e404b26e9b7aa8eed2bd23c963be07c72bcf14",
+          "bytes": 30557,
+          "sha256": "0e27a235638b74f9390fb9ef3f51e8e4b50df4234c55a892fa99dc41ae980806"
+        },
+        "abyss_snapshot": {
+          "path": "src/lua/abyss_snapshot.lua",
+          "saved": "build\\runtime-combined-perf\\before\\abyss_snapshot.lua",
+          "gitBlob": "69eb3c21e6c1b3ebe2d432ab50951827f5f1d8c8",
+          "bytes": 1815,
+          "sha256": "ad6ad705a56c0ebaa5ef8c3ad7966cebf9473280f302c0d659f3ecde0f86b3d2"
+        },
+        "abyss_living_wall": {
+          "path": "src/lua/abyss_living_wall.lua",
+          "saved": "build\\runtime-combined-perf\\before\\abyss_living_wall.lua",
+          "gitBlob": "b39a3f37443e61115038b44dc4b329f3f3203266",
+          "bytes": 4799,
+          "sha256": "5305065ae60d0938b7f95c2dfb4162f0e416170f637561274947500aaac2567f"
+        }
+      }
+    },
+    "after": {
+      "revision": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
+      "modules": {
+        "abyss_combat": {
+          "path": "src/lua/abyss_combat.lua",
+          "saved": "build\\runtime-combined-perf\\after\\abyss_combat.lua",
+          "gitBlob": "9d2b5471d88c58b5ba241ccf220cec7e9d5e1dd7",
+          "bytes": 112849,
+          "sha256": "03f028b6dfd90d867beca29a820bd5221377bf688c4ec5dfe0b00a3e69f55a1a"
+        },
+        "abyss_colorless_cards": {
+          "path": "src/lua/abyss_colorless_cards.lua",
+          "saved": "build\\runtime-combined-perf\\after\\abyss_colorless_cards.lua",
+          "gitBlob": "6638067f8e0bf1bcc22b4ca0b885e7042b346c85",
+          "bytes": 30899,
+          "sha256": "9b7e39e717c939963523fec507ce32b468874a3eaef5b98d73aa5b57eac8683e"
+        },
+        "abyss_snapshot": {
+          "path": "src/lua/abyss_snapshot.lua",
+          "saved": "build\\runtime-combined-perf\\after\\abyss_snapshot.lua",
+          "gitBlob": "446db705ac66a87450bf32bf9d6cff2bbaec7d1e",
+          "bytes": 1956,
+          "sha256": "8952ff07bea54c924d9a04200acce11be26cbb4bc66096de72a1b6a39e079b63"
+        },
+        "abyss_living_wall": {
+          "path": "src/lua/abyss_living_wall.lua",
+          "saved": "build\\runtime-combined-perf\\after\\abyss_living_wall.lua",
+          "gitBlob": "5afe2f952d7fb29d201afa8b67bc361c59e4dbdf",
+          "bytes": 4797,
+          "sha256": "6216528eecca0c6e2be5db454a39547b124c3302948f8347ae6535a78328311c"
+        }
+      }
+    }
+  },
+  "ambientHead": "0e2008f5f1af0fad3604c65d99338dad63345a74",
+  "ambientHeadDifferencesFromA308": "\"backlog/tasks/task-98 - \\345\\220\\257\\347\\224\\250\\347\\213\\254\\347\\253\\213\\350\\257\\204\\345\\256\\241\\345\\220\\216\\347\\232\\204\\345\\216\\237\\347\\224\\237\\350\\207\\252\\345\\212\\250\\345\\220\\210\\345\\271\\266\\345\\271\\266\\346\\224\\266\\345\\217\\243\\351\\201\\227\\347\\225\\231PR.md\"\n\"backlog/tasks/task-98.1 - \\344\\277\\256\\345\\244\\215\\350\\277\\201\\344\\273\\223\\345\\220\\216\\347\\232\\204\\350\\207\\252\\345\\212\\250\\345\\220\\210\\345\\271\\266\\344\\273\\223\\345\\272\\223\\350\\272\\253\\344\\273\\275\\346\\240\\241\\351\\252\\214.md\"\n\"backlog/tasks/task-98.2 - \\344\\277\\256\\345\\244\\215\\345\\216\\237\\347\\224\\237\\345\\220\\210\\345\\271\\266\\351\\230\\237\\345\\210\\227CI\\344\\270\\216\\345\\256\\211\\345\\205\\250\\351\\227\\250\\347\\246\\201.md\"\ndocs/evidence/combat-reactions-global-complexity-20261104.json\ndocs/evidence/m7-native-queue-20261104.json",
+  "runtimeDiff": "",
+  "fixture": {
+    "path": "tests/lua/silent_natural_build.lua",
+    "gitBlob": "32dee2dac7148d1b4682a4963b44c2c569fe0e78",
+    "normalizedSha256": "979708a7554d9d6467c34646e089f70dccdaee648f09893366ac5b7eccecf3e5",
+    "rawSha256": "73d86b9528d95922e291408cc106e4993317f28114d5c522b1bfd88740b02669"
+  },
+  "runtime": {
+    "node": "v24.18.0",
+    "nodeExecutable": "F:\\New folder\\build\\tools\\node-v24.18.0-win-x64\\node.exe",
+    "nodeExecutableSha256": "9a4eb5f1c29c6a2e93852ead46b999e284a6a5ca8bab4d4e241d587d025a52de",
+    "fengariCli": "F:\\New folder\\worktrees\\combat-reactions\\node_modules\\fengari-node-cli\\src\\lua-cli.js",
+    "fengariCliSha256": "dd3642afeffa41e547bb4ea970feacff98e53ef4a81f8c7659eeaa6f1579e972",
+    "fengariNodeCliVersion": "0.1.0"
+  },
+  "packageLockSha256": "b3f3cbd334fee96bcebeb6645c909a9b64425d0d704fd179b4279b19e1cf2ed9",
+  "generated": [
+    {
+      "path": "build/lua/abyss_data.lua",
+      "sha256": "c8dd7a050839a50b2e895787f6a72824187f9c6eaaea4002261f82f4ad0de9a4"
+    },
+    {
+      "path": "build/lua/abyss_original_v4_data.lua",
+      "sha256": "63e4983d6d80241f287e153087efd81e7ab287efbb15e195ef80ad90230fb2cb"
+    }
+  ],
+  "contract": {
+    "timeoutMilliseconds": 30000,
+    "maxBufferBytes": 1048576,
+    "fixtureChanged": false,
+    "fullFourRoomsTwice": true,
+    "canonicalObserver": "Wrap table.concat without changing its return to print the two complete existing stateSignature canonical manifests. Exact top-level 20 fields/prefix are required; the original fixture bytes/assertions/RNG run unchanged.",
+    "primarySamples": "two independent alternating pairs: before->after, after->before; no capture profiling in primary samples",
+    "profile": "optional one extra pair; complete first root/data graph counts and every capture elapsed using Fengari os.clock; no data/catalog exclusions",
+    "scope": "Old snapshot-only/90-second profile harness is not reused as combination proof. Preload all four complete old/new modules lazily, before any Run require."
+  }
+}

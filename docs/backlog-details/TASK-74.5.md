@@ -1,5 +1,7 @@
 # 卡牌消耗动作整理
 
+下文保留2026-10-29第一次消耗切片。后续选择治理已合入；现行实现与本轮重新验收见文末，不以旧入口CC102作为当前状态。
+
 本切片仅整理 `abyss_card_actions` 的五种消耗动作：随机消耗、焚烧之火、消耗非攻击牌、重振精神、指定UID消耗。四个同模块局部函数按动作职责承接原循环；两种非攻击牌动作共用同一职责。选择、队列推进、伤害治疗、战斗构造器、RNG与回滚实现均未改动。入口仍在原分支位置分派，保留原TOP插入及抽牌钩子顺序。
 
 基线为 `a5da67aaaf018bfd6d92e32af5c7bcd9a0866a59`。机器证据摘要见 [core-exhaust-20261029.json](../evidence/core-exhaust-20261029.json)。原始报告、冻结旧源与轨迹保存在本切片工作树 `build/exhaust-parity/`。
@@ -31,3 +33,15 @@
 重放：先执行 `npm run build:data`、`npm run build:ui`、`npm run build:theme` 与 `node scripts/map-ui-layout.mjs`，再运行 `node --test tests/card-actions-exhaust.test.mjs tests/responsibility-complexity.test.mjs`。旧新差分的旧源按上述固定提交的完整文件及机器证据中的规范化hash核对后预载；fixture设 `ABYSS_EXHAUST_TRACE=true` 开启边界轨迹。普通回归不打印大型轨迹，不引入新的全源码inverse链。
 
 远端当前HEAD完整Quality与独立PR审查尚待。没有构建候选、官方导入、真实ready或实机测试，不据此关闭任何产品关口。
+
+## 2026-11-05 现行选择与消耗职责复验
+
+后续#490已合入选择治理：`candidates/selection/M.applyChoice/M.choose` 为16/18/26/34→6/12/2/10。20项职责含四入口，最高CC12；范围CC之和94→96、分支90→76。当前`M.apply`为CC5；完整当前模块除明确保留的`M.drain` CC25外，其余函数最高13，受原CC15合同保护。原五消耗第一次118→102及范围总和118→118的记录不改写。
+
+[原冻结报告](../evidence/m9-core-selection-20261103.json)使用aa4d56f5完整旧模块。依赖对1461、SCC成员103/内部调用789等量，原`cyclesIdentical=false`保留，不推断整个图对象相同或原因。本轮没有改生产源码，也不据此完成父TASK-74或其他热点。
+
+原#490审查记录绑定f61abd9b/base969a；实际squash32b60d31的唯一父为5129、tree d288e85a。不能将原审查当实际5129组合的同一份独审，也未恢复旧build产物。本轮由新的独立审查者直接核对完整选择/消耗提取diff、a308现行模块及调用者，以当前集成重新验收。
+
+[本轮机器证据](../evidence/m7-task745-current-audit-20261105.json)绑定当前模块LF SHA256 `112797fa882da595e9016f41c111a8e0cebcd12ba7ec39fd2709fc4717cf883a`。独立六VM再次得到76/39/169边界，三个完整轨迹hash与原记录逐字相同；按原合同只在轨迹序列化省略四类不可变目录，rollback另核对全部原表。现有八个真实语义变异及新增“删除当前token重验”变异均被行为断言拒绝。
+
+本轮五项定向实际通过：首次四项行为通过、CC项因缺固定工具报基础设施失败；提供hash一致Luacheck后只补该项通过，零跳过、原预算不变，不将首轮改写为全绿。当前a308的新鲜审查和严格交付作为最终收口依据；最终文档绑定及PR513合后验收状态见本轮机器证据与[M7组合记录](M7-RUNTIME-BATCH-20261105.md)。官方候选、设备和M7整体不在本任务完成范围。

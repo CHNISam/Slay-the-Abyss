@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-04T20:10:53.899Z",
+  "task": "TASK-74.5",
+  "reviewer": "/root/closeout_audit",
+  "reviewedProductionSha": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
+  "source": "src/lua/abyss_card_actions.lua",
+  "sourceSha256": "112797fa882da595e9016f41c111a8e0cebcd12ba7ec39fd2709fc4717cf883a",
+  "parity": {
+    "schemaVersion": 1,
+    "baselineRevision": "aa4d56f57c15727668ef8675e626b44e67a5aaa5",
+    "source": "src/lua/abyss_card_actions.lua",
+    "beforeSourceSha256": "599fadabd5b702006eebee279cb17215d8335e764eb8e108e420827a1af52ba3",
+    "afterSourceSha256": "112797fa882da595e9016f41c111a8e0cebcd12ba7ec39fd2709fc4717cf883a",
+    "runtime": "v24.18.0",
+    "fixtures": [
+      {
+        "fixture": "tests/lua/card_selection_protocol.lua",
+        "identical": true,
+        "traceSha256": "193300bb83214a31761afc365129282dd78c12ddbea07b6b0fc91aabe1ba712b",
+        "bytes": 340022,
+        "boundaries": 76
+      },
+      {
+        "fixture": "tests/lua/support/card_actions_registry_fixture.lua",
+        "identical": true,
+        "traceSha256": "d36e9ec22ae646f5c736c778ab45dbd09ce17b4262353cc900552a602cefb36c",
+        "bytes": 176327,
+        "boundaries": 39
+      },
+      {
+        "fixture": "tests/lua/card_actions_exhaust.lua",
+        "identical": true,
+        "traceSha256": "ad9a93b799201f1e03df905e2b6af15d05eb221685f0b90aca7d93cc6cb28926",
+        "bytes": 1063471,
+        "boundaries": 169
+      }
+    ],
+    "traceContract": "Complete mutable state and return values, stable graph aliases, events, RNG states, queues and choice tokens; only catalog/rules/sourcePools/statusDefinitions omitted from serialization. Rollback fixture separately checks every original table, including immutable directories."
+  },
+  "existingSemanticMutants": 8,
+  "additionalTokenMutation": {
+    "mutation": "Remove current choice token revalidation",
+    "status": 1,
+    "killedBy": "[SELECTION_CONTRACT] old token",
+    "stdout": "",
+    "stderr": "tests/lua/card_selection_protocol.lua:5: [SELECTION_CONTRACT] old token: true ~= false\nstack traceback:\n\t[JS]: in function 'assert'\n\ttests/lua/card_selection_protocol.lua:5: in upvalue 'eq'\n\ttests/lua/card_selection_protocol.lua:37: in local 'fn'\n\ttests/lua/card_selection_protocol.lua:32: in local 'test'\n\ttests/lua/card_selection_protocol.lua:33: in main chunk\n\t[JS]: in function 'dofile'\n\t...closeout\\build\\closeout-audit\\selection-token-driver.lua:1: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\n"
+  },
+  "targeted": {
+    "totalPassing": 5,
+    "skipped": 0,
+    "firstRun": {
+      "passing": 4,
+      "infrastructureFailures": 1,
+      "reason": "Fixed Luacheck missing"
+    },
+    "supplement": {
+      "passing": 1,
+      "reproduceCommand": "node --test --test-name-pattern=\"CardActions includes every helper\" tests/card-selection-protocol.test.mjs"
+    },
+    "originalBudgetsUnchanged": true
+  },
+  "complexity": {
+    "current": [
+      {
+        "name": "candidates",
+        "cc": 6
+      },
+      {
+        "name": "selection",
+        "cc": 12
+      },
+      {
+        "name": "M.applyChoice",
+        "cc": 2
+      },
+      {
+        "name": "M.choose",
+        "cc": 10
+      },
+      {
+        "name": "M.apply",
+        "cc": 5
+      },
+      {
+        "name": "M.drain",
+        "cc": 25
+      }
+    ],
+    "allOtherFunctionsMax": 13,
+    "frozenSelection": {
+      "beforeCC": 94,
+      "afterCC": 96,
+      "beforeBranches": 90,
+      "afterBranches": 76,
+      "afterResponsibilitiesIncludingEntries": 20,
+      "maxCC": 12,
+      "dependencyPairs": 1461,
+      "sccMembers": 103,
+      "sccInternalCallSites": 789,
+      "cyclesIdentical": false
+    }
+  },
+  "historical490": {
+    "head": "f61abd9b2d47a391971f4baaea9bf8db41ba96da",
+    "reviewBase": "969a1fe94c15eb8571684869eb9a80d91387373d",
+    "reviewId": "codex-independent-m9-batch1-20261103-f61abd9b",
+    "reviewSource": "https://github.com/FurinyaWorks/Slay-the-Abyss/pull/490",
+    "actualSquash": "32b60d31c18eaeb1eef1617fafe930737a408c2f",
+    "actualParent": "5129a2f5e0ba78e342342a4f7cfacb1fe08fb96e",
+    "actualTree": "d288e85a0781056da752a013eb43cb67aea7eb3f",
+    "prFull": 41600599657,
+    "pushFull": 41611272335,
+    "scope": "Original review base differs from the actual merge parent; do not claim identical combination review or reconstruct an old pr_passed"
+  },
+  "artifacts": [
+    {
+      "path": "build/closeout-audit/initial-audit.md",
+      "sha256": "4bbc304b8e061df638dff72ec5ee52b199258ec375ad880f586c36db27048c58"
+    },
+    {
+      "path": "build/closeout-audit/task745-targeted.log",
+      "sha256": "33eea2d7744dcd9008d75c1d2db286bbc5c8cf576e890270019a4db461f80405"
+    },
+    {
+      "path": "build/closeout-audit/task745-cc.log",
+      "sha256": "f90027d7d16f19f26ffc409beb56bdec807411a1b4251f785d751bc981c50835"
+    },
+    {
+      "path": "build/closeout-audit/task745-current-parity.log",
+      "sha256": "0bd2aeaa85de4bea5d7cd7f96ef82f152b1e1c3dacede2b26b19c94ac4a3d962"
+    },
+    {
+      "path": "build/closeout-audit/selection-parity/report.json",
+      "sha256": "b51143faca96728c16d3ae353b76213e82e9d5fbabe98b58a946b051f2162f68"
+    },
+    {
+      "path": "build/closeout-audit/selection-token-mutant.json",
+      "sha256": "c1544aae97362dbf507822a78032661095c5487a3a4e9bb82e7f91fbbbd87344"
+    }
+  ],
+  "limitations": [
+    "Original immutable directories are omitted from boundary serialization as declared; rollback separately checks every original table",
+    "Current independent review and six-VM parity attest the present scoped implementation; original490 build artifact was not recovered",
+    "The documented unchanged drain CC25 remains; parent74 and M7 are not completed",
+    "Actual PR513 post-push merged_passed now verified; final documentation SHA binding is separate; no official/device claim"
+  ],
+  "currentDelivery": {
+    "state": "merged_passed",
+    "pr": 513,
+    "head": "7ae3b66dd4355165d22edfbe0dc1d005095dca30",
+    "squash": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
+    "pushFull": 41900003124,
+    "pushAttempt": 1,
+    "evidence": "m7-runtime-delivery-20261105.json",
+    "verifiedAt": "2026-11-04T20:36:18.473Z"
+  },
+  "updatedAt": "2026-11-04T20:36:18.473Z"
+}

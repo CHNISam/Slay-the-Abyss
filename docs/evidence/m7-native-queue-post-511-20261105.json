@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-04T19:59:53.569Z",
+  "prNumber": 511,
+  "state": "merged_passed",
+  "errors": [],
+  "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
+  "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+  "tested": "ac7f7d1ce45dc8c0b2d5b55b255cb56d7fb2ae47",
+  "sourceTree": "c8df464685403619981ff28f2d4b4985c82a6e63",
+  "squash": "b4ac63145689b9dd632db100eee49087f6182b39",
+  "mergedAt": "2026-11-04T14:13:32Z",
+  "parents": [
+    "a73e6a8ffa9d3299f09e88e90f031738d83549b4"
+  ],
+  "review": {
+    "repo": "FurinyaWorks/Slay-the-Abyss",
+    "prNumber": 511,
+    "reviewId": "independent-agent:/root/review_rules_visibility:944575c8",
+    "reviewedHeadSha": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
+    "reviewedBaseSha": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+    "conclusion": "pass",
+    "unresolved": [],
+    "supplementalReviews": [
+      {
+        "reviewId": "domain-final-review-20261104-1a24acf1",
+        "scope": "Production domain refactor, architecture boundaries, historical source inverses, real behavior and complexity",
+        "conclusion": "pass",
+        "unresolved": []
+      },
+      {
+        "reviewId": "domain-incremental-review-20261104-3598949d",
+        "scope": "Historical 11-group fixture partition; production code unchanged",
+        "conclusion": "pass",
+        "unresolved": []
+      }
+    ]
+  },
+  "preflight": {
+    "schemaVersion": 4,
+    "kind": "auto-merge-arm",
+    "repo": "FurinyaWorks/Slay-the-Abyss",
+    "repositoryId": 1429751262,
+    "prNumber": 511,
+    "baseRef": "develop",
+    "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
+    "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+    "tested": "ac7f7d1ce45dc8c0b2d5b55b255cb56d7fb2ae47",
+    "parents": [
+      "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+      "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1"
+    ],
+    "sourceTree": "c8df464685403619981ff28f2d4b4985c82a6e63",
+    "review": {
+      "repo": "FurinyaWorks/Slay-the-Abyss",
+      "prNumber": 511,
+      "reviewId": "independent-agent:/root/review_rules_visibility:944575c8",
+      "reviewedHeadSha": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
+      "reviewedBaseSha": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+      "conclusion": "pass",
+      "unresolved": [],
+      "supplementalReviews": [
+        {
+          "reviewId": "domain-final-review-20261104-1a24acf1",
+          "scope": "Production domain refactor, architecture boundaries, historical source inverses, real behavior and complexity",
+          "conclusion": "pass",
+          "unresolved": []
+        },
+        {
+          "reviewId": "domain-incremental-review-20261104-3598949d",
+          "scope": "Historical 11-group fixture partition; production code unchanged",
+          "conclusion": "pass",
+          "unresolved": []
+        }
+      ]
+    },
+    "targetBeforeSha": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+    "targetAfterSha": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+    "queueRulesFingerprint": "9a80615fd7882c0c631885fc2a7ea110f1ac2ef335b2dcf73bb333344d48b5d1",
+    "pendingRun": {
+      "id": 41836216986,
+      "attempt": 1,
+      "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1"
+    },
+    "reviewGate": {
+      "pendingStatusId": 58044040272
+    },
+    "nativeQueue": {
+      "id": "MQ_kwDOVThF3s4ABTCP",
+      "state": "waiting",
+      "entryId": null
+    }
+  },
+  "sourceFull": {
+    "id": 41836216986,
+    "attempt": 1,
+    "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
+    "conclusion": "success",
+    "checkout": {
+      "schemaVersion": 1,
+      "event": "pull_request",
+      "runId": 41836216986,
+      "attempt": 1,
+      "tested": "ac7f7d1ce45dc8c0b2d5b55b255cb56d7fb2ae47",
+      "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
+      "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+      "prNumber": 511,
+      "parents": [
+        "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+        "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1"
+      ]
+    },
+    "artifact": {
+      "id": 13328895476,
+      "name": "quality-41836216986-1-check",
+      "digest": "sha256:b7333d7d1dfbd902fb7076734d0670bdc463576bd75822df2e0992a5c904b0ba",
+      "expired": false
+    },
+    "jobs": {
+      "raw": 27,
+      "effective": 27,
+      "success": 26,
+      "skipped": [
+        "fast"
+      ],
+      "retainedFailedExecutions": []
+    }
+  },
+  "pushFull": {
+    "id": 41845430335,
+    "attempt": 2,
+    "head": "b4ac63145689b9dd632db100eee49087f6182b39",
+    "conclusion": "success",
+    "createdAt": "2026-11-04T14:13:34Z",
+    "completedAt": "2026-11-04T15:13:02Z",
+    "totalRecoveryWallSeconds": 3568,
+    "checkout": {
+      "schemaVersion": 1,
+      "event": "push",
+      "runId": 41845430335,
+      "attempt": 1,
+      "tested": "b4ac63145689b9dd632db100eee49087f6182b39",
+      "head": "b4ac63145689b9dd632db100eee49087f6182b39",
+      "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+      "parents": [
+        "a73e6a8ffa9d3299f09e88e90f031738d83549b4"
+      ]
+    },
+    "artifact": {
+      "id": 13333755426,
+      "name": "quality-41845430335-1-check",
+      "digest": "sha256:6f0e2d7632d0feeca2783a2349d6d641ae7d24b6abfe19c381267cab5a9109db",
+      "expired": false
+    },
+    "jobs": {
+      "raw": 54,
+      "effective": 27,
+      "success": 26,
+      "skipped": [
+        "fast"
+      ],
+      "retainedFailedExecutions": [
+        {
+          "id": 126628552718,
+          "name": "rules (3/13)",
+          "attempt": 1
+        },
+        {
+          "id": 126648307776,
+          "name": "check",
+          "attempt": 1
+        }
+      ]
+    }
+  },
+  "rawEvidence": {
+    "file": "build/delivery/cd1f37ce-0805-4456-a870-b95bbae27b4e/evidence.json",
+    "sha256": "d20ea3263966c4a9bcc656c56d62bb707d8dede015244ea7db053ab608742f99"
+  },
+  "priorSnapshot": "m7-native-queue-20261104.json",
+  "corrections": [
+    {
+      "path": "liveQueueValidation.headFull",
+      "priorSnapshotValue": 41823316178,
+      "verifiedExactHeadRun": 41836216986,
+      "reason": "The exact 944575c8 source Full is the latest historical PR run verified by the original delivery validator; the prior snapshot retains its original bytes."
+    }
+  ],
+  "limitations": [
+    "Original failed executions and total recovery wall are retained; attempt2 is not a new execution of inherited successful jobs",
+    "Original attempt1 checkout receipt/artifact is intentionally preserved and was validated against its effective rules1 execution",
+    "This closes the original PR511 queue delivery only; PR513/a308 post-push, M7 performance targets and official/device requirements are separate"
+  ]
+}

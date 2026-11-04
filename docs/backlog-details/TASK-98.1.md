@@ -46,3 +46,7 @@ PR504已将实现与三条CLI入口回归合入 `c1cf79dfa8e81189546d95277d3bb89
 ## PR508 统一接续
 
 从 `208eeb63d1a530be1891c91d14b0644659fb0fa9` 接续 PR510 原提交与 CRLF 修复，保留现有原生队列逻辑及 TASK98/98.1/99 验收记录。TASK98.1 AC3 已由 PR504 合后证据勾选；上文未完成说法为对应历史时点，不撤销该验收，也不扩大为新增覆盖已合入。五组定向107/107通过（admission 6、queue 6、auto-merge 44、Full 14、delivery 37），guidance/backlog/doctor/diff 通过。当前整合仍待独立复审、精确 HEAD Full 与实际合入；PR510 保留，待 PR508 合入后接续关闭。
+
+## 2026-11-05 接续已完成
+
+上述等待为历史时点；PR508的675ce59f已正常squash为a73，原独审、源码Full41804489286、合后Full41810232029与`merged_passed`在[原记录](../evidence/m7-native-queue-20261104.json)逐项保留。后续真实原生队列及原PR511合后attempt2已由[新鲜原验证器记录](../evidence/m7-native-queue-post-511-20261105.json)收口，不将迁仓修复与M7性能/设备验收混为一项。

@@ -1,0 +1,475 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-04T14:33:11.824Z",
+  "repository": "FurinyaWorks/Slay-the-Abyss",
+  "repositoryId": 1429751262,
+  "delivery508": {
+    "state": "merged_passed",
+    "errors": [],
+    "rawSha256": "318d70ba1dacf3f53e1d55ac3fd3740ae225e2a50880edb10fad95f10021a9ef",
+    "head": "675ce59ffbaf8aa953d4c3a62d070760eab5ac4e",
+    "base": "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+    "tested": "57d600f5765bb7d927c2de24b59074070b431d95",
+    "review": {
+      "reviewId": "/root/review_queue_activation",
+      "reviewedHeadSha": "675ce59ffbaf8aa953d4c3a62d070760eab5ac4e",
+      "reviewedBaseSha": "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+      "conclusion": "pass",
+      "unresolved": [],
+      "supplementalReviews": [
+        {
+          "reviewId": "/root/review_queue_activation:208eeb63",
+          "scope": "Queue activation and failure cleanup; five-file independent 103/103",
+          "conclusion": "pass",
+          "unresolved": []
+        },
+        {
+          "reviewId": "codex:/root/queue_review:7eea66ca",
+          "scope": "Prior queue preparation and Full contracts",
+          "conclusion": "pass",
+          "unresolved": []
+        }
+      ]
+    },
+    "squash": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+    "parents": [
+      "c1cf79dfa8e81189546d95277d3bb891d831ba6e"
+    ],
+    "tree": "0d2176008368ac22522cbc4c6503eb395443646b",
+    "prFull": {
+      "runId": 41804489286,
+      "attempt": 1,
+      "event": "pull_request",
+      "head": "675ce59ffbaf8aa953d4c3a62d070760eab5ac4e",
+      "conclusion": "success",
+      "url": "https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/41804489286",
+      "jobCount": 27,
+      "receipt": {
+        "schemaVersion": 1,
+        "event": "pull_request",
+        "runId": 41804489286,
+        "attempt": 1,
+        "tested": "57d600f5765bb7d927c2de24b59074070b431d95",
+        "head": "675ce59ffbaf8aa953d4c3a62d070760eab5ac4e",
+        "base": "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+        "prNumber": 508,
+        "parents": [
+          "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+          "675ce59ffbaf8aa953d4c3a62d070760eab5ac4e"
+        ]
+      },
+      "artifact": {
+        "id": 13310863039,
+        "name": "quality-41804489286-1-check",
+        "digest": "sha256:618166585e5aa072301c136116bc7f902d3a4caf42f42da322458ce682fd461a"
+      }
+    },
+    "pushFull": {
+      "runId": 41810232029,
+      "attempt": 1,
+      "event": "push",
+      "head": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+      "conclusion": "success",
+      "url": "https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/41810232029",
+      "jobCount": 27,
+      "receipt": {
+        "schemaVersion": 1,
+        "event": "push",
+        "runId": 41810232029,
+        "attempt": 1,
+        "tested": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+        "head": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+        "base": "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+        "parents": [
+          "c1cf79dfa8e81189546d95277d3bb891d831ba6e"
+        ]
+      },
+      "artifact": {
+        "id": 13312608932,
+        "name": "quality-41810232029-1-check",
+        "digest": "sha256:93a58ba407166e5d8b46237cab48582bc72d4afc5c54c1eb79a8f4c27c693e79"
+      }
+    }
+  },
+  "deployment": {
+    "rulesetId": 25870651,
+    "queueId": "MQ_kwDOVThF3s4ABTCP",
+    "url": "https://github.com/FurinyaWorks/Slay-the-Abyss/queue/develop",
+    "parameters": {
+      "merge_method": "SQUASH",
+      "max_entries_to_build": 1,
+      "min_entries_to_merge": 1,
+      "max_entries_to_merge": 1,
+      "min_entries_to_merge_wait_minutes": 0,
+      "grouping_strategy": "ALLGREEN",
+      "check_response_timeout_minutes": 120
+    },
+    "requiredChecks": {
+      "strict_required_status_checks_policy": true,
+      "do_not_enforce_on_create": false,
+      "required_status_checks": [
+        {
+          "context": "check",
+          "integration_id": 15368
+        },
+        {
+          "context": "presentation",
+          "integration_id": 15368
+        },
+        {
+          "context": "engineering-posix",
+          "integration_id": 15368
+        },
+        {
+          "context": "inventory",
+          "integration_id": 15368
+        },
+        {
+          "context": "independent-review"
+        },
+        {
+          "context": "full-quality",
+          "integration_id": 15368
+        }
+      ]
+    },
+    "byPassActors": [],
+    "independentReferenceRule": 25870646,
+    "referenceRuleUnchanged": true,
+    "writeResponse": 502,
+    "retriedWrite": false,
+    "exactReadbackMatchesReviewedCandidate": true,
+    "reviewId": "/root/review_queue_activation",
+    "scriptSha256": "12645db8157311a5ed04cf52e4eae43b5668bc9702e50982430fa9d867129031",
+    "candidateSha256": "29b1ed9e55543c308ec0bf307fd68468ea15070a8f1dcdcdee8b10b52cac8f4b",
+    "beforeRulesSha256": "1cc06e31a52b7fe7935cdd18dbea413f3a1dc1310ba9a85a601cad9b9569400a",
+    "afterRulesSha256": "90a7bad5eea3220cdad2a85b870371d6a1767386397fcd233c07edc57bc334c6",
+    "referenceBeforeSha256": "365afcb65e8d88701cdc7bd66618db35ce803e8ae29561a681bdc1fe6ea0f5eb",
+    "referenceAfterSha256": "365afcb65e8d88701cdc7bd66618db35ce803e8ae29561a681bdc1fe6ea0f5eb"
+  },
+  "completedCiTimings": [
+    {
+      "id": 41771126698,
+      "head": "3df397af79988307685ffc62b0434345382b45f7",
+      "event": "pull_request",
+      "result": "success",
+      "wallMinutes": 47.016666666666666,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 350.2166666666667,
+      "maxJobMinutes": 25.666666666666668
+    },
+    {
+      "id": 41782457368,
+      "head": "305dce5c4b6793ad38d38fe42f360fbb77e592c0",
+      "event": "pull_request",
+      "result": "success",
+      "wallMinutes": 105.26666666666667,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 379.93333333333334,
+      "maxJobMinutes": 25.6
+    },
+    {
+      "id": 41794339270,
+      "head": "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+      "event": "push",
+      "result": "success",
+      "wallMinutes": 52.61666666666667,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 384.88333333333344,
+      "maxJobMinutes": 26.016666666666666
+    },
+    {
+      "id": 41804489286,
+      "head": "675ce59ffbaf8aa953d4c3a62d070760eab5ac4e",
+      "event": "pull_request",
+      "result": "success",
+      "wallMinutes": 45.6,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 357.4833333333334,
+      "maxJobMinutes": 25.633333333333333
+    },
+    {
+      "id": 41810232029,
+      "head": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+      "event": "push",
+      "result": "success",
+      "wallMinutes": 25.716666666666665,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 360.13333333333327,
+      "maxJobMinutes": 24.666666666666668
+    },
+    {
+      "id": 41823316178,
+      "head": "3598949d8e71fedba59af88cf7a443554e77f910",
+      "event": "pull_request",
+      "result": "success",
+      "wallMinutes": 27.4,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 380.5499999999999,
+      "maxJobMinutes": 25.383333333333333
+    },
+    {
+      "id": 41836216986,
+      "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
+      "event": "pull_request",
+      "result": "success",
+      "wallMinutes": 27.633333333333333,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 364.95000000000005,
+      "maxJobMinutes": 25.783333333333335
+    },
+    {
+      "id": 41840544490,
+      "head": "b4ac63145689b9dd632db100eee49087f6182b39",
+      "event": "merge_group",
+      "result": "success",
+      "wallMinutes": 30.666666666666668,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 386.06666666666666,
+      "maxJobMinutes": 25.666666666666668
+    }
+  ],
+  "liveQueueValidation": {
+    "capturedAt": "2026-11-04T14:33:11.824Z",
+    "state": "native-automatic-merge-succeeded-post-push-pending",
+    "pr": 511,
+    "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
+    "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+    "headFull": 41823316178,
+    "failureRemoval": {
+      "group": "20d6fafd5c2aad200881d4f88d8d4a068f8f4d87",
+      "runId": 41827310450,
+      "controlledStatus": 58039190364,
+      "operatorManualDequeueBeforeRemoval": false,
+      "event": {
+        "__typename": "RemovedFromMergeQueueEvent",
+        "id": "RFMQE_lADOVThF3s8AAAABcX1xnM8AAAAILadDeQ",
+        "createdAt": "2026-11-04T12:15:26Z",
+        "reason": "failed_checks",
+        "actor": {
+          "login": "github-merge-queue"
+        },
+        "beforeCommit": {
+          "oid": "20d6fafd5c2aad200881d4f88d8d4a068f8f4d87"
+        }
+      },
+      "prUnmerged": true,
+      "proofSha256": "68c33f2874e047f1c44692f2eba1713c2c1979b4da975e8595c7d079a562e1e3",
+      "prHead": "3598949d8e71fedba59af88cf7a443554e77f910"
+    },
+    "explicitPause": {
+      "group": "7f5ebeb126f13b682a37eeec6e4d579012ba2c21",
+      "runId": 41828183215,
+      "confirmedPaused": true,
+      "event": {
+        "__typename": "RemovedFromMergeQueueEvent",
+        "id": "RFMQE_lADOVThF3s8AAAABcX1xnM8AAAAILa1yvQ",
+        "createdAt": "2026-11-04T12:20:00Z",
+        "reason": "manual",
+        "actor": {
+          "login": "CHNISam"
+        },
+        "beforeCommit": {
+          "oid": "7f5ebeb126f13b682a37eeec6e4d579012ba2c21"
+        }
+      },
+      "emptyEntry": true,
+      "emptyAutoMerge": true,
+      "proofSha256": "8403110382a82e5ce9bed3091e30773344b4773c3b64a5a1a715d0043caaf510",
+      "prHead": "3598949d8e71fedba59af88cf7a443554e77f910"
+    },
+    "successfulNativeQueueMerge": true,
+    "currentAttempt": {
+      "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
+      "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+      "runId": 41836216986,
+      "authorizationSha256": "686e80da9def325c651f88b3aa17e462d187b6e820374928f57974ab48e8a9da",
+      "rulesFingerprint": "9a80615fd7882c0c631885fc2a7ea110f1ac2ef335b2dcf73bb333344d48b5d1",
+      "reviewId": "independent-agent:/root/review_rules_visibility:944575c8",
+      "reviewConclusion": "pass",
+      "independentTests": 113,
+      "independentNegativeCases": 19,
+      "implementationTests": 118,
+      "newPermissions": false,
+      "newJobs": false,
+      "nativeState": "merged",
+      "successfulNativeQueueMerge": true,
+      "observedAt": "2026-11-04T14:33:11.824Z",
+      "sourceFull": "pr_passed",
+      "sourceFullRawSha256": "3b99d6fa60e651de101272b16b20150c58482036d8f53428e44338372442c808",
+      "sourceFullReceipt": {
+        "runId": 41836216986,
+        "attempt": 1,
+        "tested": "ac7f7d1ce45dc8c0b2d5b55b255cb56d7fb2ae47",
+        "artifactId": 13328895476,
+        "digest": "sha256:b7333d7d1dfbd902fb7076734d0670bdc463576bd75822df2e0992a5c904b0ba"
+      }
+    },
+    "initialExperimentHead": "3598949d8e71fedba59af88cf7a443554e77f910",
+    "rulesVisibilityFailure": {
+      "head": "05ccff3f51c1a9f4dbd4fe0b37085c6b224a2981",
+      "runId": 41828843134,
+      "entryId": "MQE_lQDOVThF3s8AAAABMwfM_M4ABTCPzgO3UnQ",
+      "admissionPassed": true,
+      "conclusion": "failure",
+      "failedJob": "check",
+      "failedJobId": 126584211089,
+      "regressionJobsPassed": true,
+      "error": "Native develop Merge Queue protection is not active or has bypass actors",
+      "reason": "Read-only ruleset API omits bypass_actors; publisher currently rejects omitted field.",
+      "officialContract": "https://docs.github.com/en/rest/repos/rules#get-a-repository-ruleset",
+      "administratorReadback": {
+        "bypassActors": [],
+        "updatedAt": "2026-11-04T17:51:23.025+08:00",
+        "enforcement": "active"
+      },
+      "logSha256": "47421a33bf76a501565a6281020cef9c7bf7a6ce3bd8e22f2d8740dfeeb740af",
+      "snapshotSha256": "e3ad8c7bb831b4a78401909efd3e9f0a68ccbe845606c35506a7cc1f718aeeb2"
+    },
+    "finalGroup": {
+      "head": "b4ac63145689b9dd632db100eee49087f6182b39",
+      "runId": 41840544490,
+      "entryId": "MQE_lQDOVThF3s8AAAABMwfM_M4ABTCPzgO30CA",
+      "admissionPassed": true,
+      "admissionAuthority": "Operator API with actual public redacted rules snapshot; this is not proof of the workflow token execution.",
+      "admissionProofSha256": "4b29cf677c721a5ec00256fc0889ab13c723bc095311b3fea20268d445867183",
+      "state": "native_group_full_passed",
+      "conclusion": "success",
+      "rawEvidenceSha256": "f55d01f643e3d5e270b5b3d62b93a62af23df67ddd079c45f7915a533e5d3dbe",
+      "checkout": {
+        "schemaVersion": 1,
+        "event": "merge_group",
+        "runId": 41840544490,
+        "attempt": 1,
+        "tested": "b4ac63145689b9dd632db100eee49087f6182b39",
+        "head": "b4ac63145689b9dd632db100eee49087f6182b39",
+        "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+        "parents": [
+          "a73e6a8ffa9d3299f09e88e90f031738d83549b4"
+        ]
+      },
+      "checkoutArtifact": {
+        "id": 13329164326,
+        "name": "quality-41840544490-1-check",
+        "digest": "sha256:fa685d842073b7eaa8ebf645b2300ddd74f0f1d9a1252274eb1f72a5fd014986"
+      },
+      "tree": "c8df464685403619981ff28f2d4b4985c82a6e63",
+      "parents": [
+        "a73e6a8ffa9d3299f09e88e90f031738d83549b4"
+      ]
+    },
+    "automaticMerge": {
+      "commit": "b4ac63145689b9dd632db100eee49087f6182b39",
+      "mergedAt": "2026-11-04T14:13:32Z",
+      "mergedByAttribution": "CHNISam",
+      "event": {
+        "__typename": "MergedEvent",
+        "id": "ME_lADOVThF3s8AAAABcX1xnM8AAAAILk6GTQ",
+        "createdAt": "2026-11-04T14:13:32Z",
+        "actor": {
+          "login": "CHNISam"
+        },
+        "commit": {
+          "oid": "b4ac63145689b9dd632db100eee49087f6182b39"
+        },
+        "mergeRefName": "develop"
+      },
+      "equalsPreviouslyQueuedAndTestedGroup": true,
+      "operatorDirectMergeRequest": false,
+      "proof": "Previously captured live queue entry prepared this exact commit; merge_group Full and required status releases succeeded, then GitHub merged that identical group commit. GitHub attributes mergedBy to its enqueuer.",
+      "nativeQueueEvent": {
+        "__typename": "RemovedFromMergeQueueEvent",
+        "id": "RFMQE_lADOVThF3s8AAAABcX1xnM8AAAAILk6IqQ",
+        "createdAt": "2026-11-04T14:13:32Z",
+        "reason": "merged",
+        "actor": {
+          "login": "github-merge-queue"
+        },
+        "beforeCommit": {
+          "oid": "b4ac63145689b9dd632db100eee49087f6182b39"
+        }
+      },
+      "nativeQueueEventSnapshotSha256": "8fe6db4e25b733b78388804828db4ed239ff80dd7df96ee27ea01e53d7cede26"
+    },
+    "postMerge": {
+      "state": "pending",
+      "pushFullRunId": 41845430335,
+      "observedAt": "2026-11-04T14:33:11.824Z"
+    }
+  },
+  "boundary": "Native Merge Queue successfully auto-merged PR511 and exact immutable group Full receipt passed. Separate post-push Full/delivery is still pending; parent AC5 remains unchecked until that verification. Runtime/device evidence is not covered.",
+  "failedCiTimings": [
+    {
+      "id": 41828843134,
+      "head": "05ccff3f51c1a9f4dbd4fe0b37085c6b224a2981",
+      "event": "merge_group",
+      "result": "failure",
+      "wallMinutes": 28.416666666666668,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 363.2333333333333,
+      "maxJobMinutes": 25.7
+    }
+  ],
+  "diagnosticCiTimings": [
+    {
+      "id": 41818991963,
+      "event": "pull_request",
+      "head": "1a24acf18326df41cb5ac562c44c04ff0323fcdb",
+      "result": "failure",
+      "wallMinutes": 28.983333333333334,
+      "firstJobDelayMinutes": 0.06666666666666667,
+      "runnerExecutionMinutes": 367.41666666666663,
+      "jobs": 27
+    },
+    {
+      "id": 41827310450,
+      "event": "merge_group",
+      "head": "20d6fafd5c2aad200881d4f88d8d4a068f8f4d87",
+      "result": "cancelled",
+      "wallMinutes": 7.383333333333334,
+      "firstJobDelayMinutes": 0.05,
+      "runnerExecutionMinutes": 115.41666666666664,
+      "jobs": 27
+    },
+    {
+      "id": 41828183215,
+      "event": "merge_group",
+      "head": "7f5ebeb126f13b682a37eeec6e4d579012ba2c21",
+      "result": "cancelled",
+      "wallMinutes": 5.7,
+      "firstJobDelayMinutes": 1.35,
+      "runnerExecutionMinutes": 59.16666666666667,
+      "jobs": 27
+    }
+  ],
+  "timingMethod": "GitHub run created_at to updated_at wall; sum of job started_at to completed_at is unweighted execution minutes, not billed minutes. Failed/cancelled diagnostic samples are separate from completed successful Full; first-job delay is not every job queue delay. Queue activation has no established causal speedup from these samples.",
+  "domainGlobalComplexity": {
+    "evidence": "docs/evidence/combat-reactions-global-complexity-20261104.json",
+    "sha256": "04f3c15f80683890c6e4b6320e1435ae43e66f352afa55ba8a3a39943d739c84",
+    "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+    "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
+    "before": {
+      "modules": 322,
+      "functions": 4777,
+      "measurements": 5099,
+      "totalCC": 29712,
+      "maxCC": 82,
+      "above15": 282,
+      "above30": 78,
+      "above50": 21
+    },
+    "after": {
+      "modules": 323,
+      "functions": 4779,
+      "measurements": 5102,
+      "totalCC": 29719,
+      "maxCC": 82,
+      "above15": 282,
+      "above30": 78,
+      "above50": 21
+    },
+    "boundary": "No net global CC improvement claimed. This slice removes verified reverse dependencies while retaining existing hotspots.",
+    "hashContract": "UTF8 LF normalized"
+  },
+  "deploymentSummaryCapturedAt": "2026-11-04T11:28:23.131Z"
+}

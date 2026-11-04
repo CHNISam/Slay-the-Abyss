@@ -34,4 +34,16 @@
 
 首批精确7d3cd1ce的 [Full](https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/41864047016) 最终attempt2通过，并由原交付验证器采得pr_passed；[摘要](../evidence/m7-core-full-7d3cd1ce-20261105.json) 保留原checkout attempt1身份。全部原回归成功后，attempt1聚合误判两份分片未完成；当前快照核实成功后仅重跑失败聚合，未重跑回归或修改收据。首轮仍计失败，总恢复wall为46分37秒，不能计入Full≤30分钟达标。精确7d的原Silent入口hosted为19713ms并PASS，原30秒预算未变；跨host比较不是因果提速证明。
 
-7d绿灯不验收本报告的新增源码。最终HEAD独立组合复审、Full、实际squash和develop push须另验；对应AC与任务状态保持未完成。剩余273个CC>15、71个CC>30、104成员SCC和长UI构造器仍公开记录。没有官方候选、导入、ready、PC/手机或原生Lua内存取证，不作为M7整体退出或发布许可。
+7d绿灯没有代替新增源码验收。本批最终7ae3b66d/base b4ac6314已取得全新上下文独立PASS，源码Full41883245183成功、原交付验证器`pr_passed`。首次原生组合41889284736的22片回归全部通过，但发布第二个授权状态时GitHub CLI返回`unexpected end of JSON input`；只观察到full-quality成功、independent-review仍pending。统一入口pause读回后重新授权，新组合41895552479完整成功并由GitHub自动squash为a308edbf，源码树a60b1a30与受审树相同。
+
+a308的独立push Full41900003124成功，原验证器给出`merged_passed / errors=[]`，见[最终交付](../evidence/m7-runtime-delivery-20261105.json)。源码35:01、失败组合31:09、成功组合27:09、合后34:27分别保留；不能拿唯一低于30分钟的组合样本宣称CI稳定达标。TASK-74.6–74.13及75.1按各自范围收口，父74/75及M7整体继续未完成。
+
+## 最终组合性能补验
+
+[固定四模块完整旧新比较](../evidence/m7-runtime-combined-perf-20261105/README.md)覆盖b4→a308真正变化的Combat、Colorless、Snapshot、LivingWall；其他运行时上下文相同。两对交错的原Silent双回放均在原30秒内通过，均值20.892→19.646秒（本机有限样本快5.96%），业务输出及原夹具完整canonical/RNG字符串逐字一致。额外唯一一对profile的capture均142次、累计14.908→13.499秒；首root/data图表数和字段数相同，未豁免目录。计数只覆盖首个capture，不当作142个瞬间图拓扑全等；此场景也不覆盖LivingWall事件和全部无色动作。
+
+旧snapshot-only harness及90秒诊断profile不能作为最终组合原预算验收，本次已用四模块、严格30秒重新补测。没有逐片开关实验或原生Lua/设备对照，不把净收益单独归因某个helper，也不将跨host的19.713/25.768秒当因果比较。
+
+剩余273个CC>15、71个CC>30、104成员SCC和1004行UI构造器仍公开记录；旧选择任务的drain25也未在本批改动。没有官方候选、导入、ready、PC/手机或原生Lua内存取证，不作为M7整体退出或发布许可。
+
+本批独有原始证据与完整可恢复Git bundle已归档至工作区`.artifacts/m7-runtime-20261105/`：`source-7ae`、`source-complement`、`delivery-closeout`各有逐文件SHA清单。合并后核实旧feature无新工作、与实际squash树相同，再清理其干净工作树及本地分支；其他在途和脏树保留。后续查询切片的计量见[接续批次](M7-QUERY-BATCH-20261105.md)，不改写本批历史数值。

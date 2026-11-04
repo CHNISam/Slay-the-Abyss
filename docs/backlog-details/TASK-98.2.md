@@ -31,3 +31,7 @@
 先补4组回归，旧源码35通过/4失败；修复后再补条目替换回归，39通过/1失败，修复后通过。最终固定 Node24.18.0 标准子进程隔离执行原五组加 governance/PR history 共113/113；guidance、verify:backlog、doctor、两份JS syntax和diff whitespace通过。新树起初缺luaparse，复用原工作树已安装依赖后执行；未变更锁文件或测试预算。
 
 本轮只读真实 PR508 GraphQL 查询接受全部新增字段：当前 HEAD 为原 `7eea66ca...`、`isMergeQueueEnabled:false`、`isInMergeQueue:false`、autoMergeRequest/mergeQueue/entry均null。这只证明 schema 与暂停状态读回；queued/null、dequeue写入及故障均仍是隔离回归，不声称真实队列已启用或演练完成。当前补丁本地提交后由主控另行独审、更新508及验证精确HEAD完整CI；最终AC保持未完成。
+
+## 2026-11-05 接续已完成
+
+以上未启用/等待为该修复阶段的历史事实。PR508最终675ce59f→a73的独审、源码及合后Full与原验证器`merged_passed`已在[原机器记录](../evidence/m7-native-queue-20261104.json)保存；其后启用、失败剔除、显式出队、重新授权和自动squash由父TASK-98的真实演练承接。[本轮补充](../evidence/m7-native-queue-post-511-20261105.json)核实原PR511的b4合后attempt2成功、继承的attempt1不可变收据及`merged_passed`，并显式纠正旧快照headFull编号。父98已按实证完成，不扩大为M7整体、稳定Full≤30或实机许可。

@@ -1,0 +1,292 @@
+{
+  "schemaVersion": 1,
+  "metadata": "sources.json",
+  "sourceBefore": "b4ac63145689b9dd632db100eee49087f6182b39",
+  "sourceAfter": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
+  "afterTree": "a60b1a30856584656a98989c4681580f1610215a",
+  "scope": "four complete changed Lua modules, all other runtime context identical",
+  "samples": [
+    {
+      "schemaVersion": 1,
+      "variant": "before",
+      "mode": "timed",
+      "index": "pair1",
+      "sourceRevision": "b4ac63145689b9dd632db100eee49087f6182b39",
+      "startedAt": "2026-11-04T20:13:57.024Z",
+      "wallMilliseconds": 21011.7474,
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "passed": true,
+      "fixtureSha256": "979708a7554d9d6467c34646e089f70dccdaee648f09893366ac5b7eccecf3e5",
+      "driverSha256": "5e7f165e11bb65466e79b3d40e192d451fef53d4cff48567e82f17be06ee9c6f",
+      "stdoutSha256": "787e9abdaf50fd0b423f92beb86b13054d4decec3e96d78e165fa2aee3f1404c",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "businessSha256": "32216f006d434649c73848a4712e123a045c9d3aa2da7abbe9fb91687b6275b0",
+      "businessBytes": 654,
+      "canonicals": [
+        {
+          "bytes": 6464,
+          "sha256": "2c9c5170ab97fa9b2edcb5b3562b076d8003aef325567ebf87baf9c52d48d49a"
+        },
+        {
+          "bytes": 6464,
+          "sha256": "2c9c5170ab97fa9b2edcb5b3562b076d8003aef325567ebf87baf9c52d48d49a"
+        }
+      ],
+      "graphLines": [],
+      "timeoutMilliseconds": 30000,
+      "recordFile": "timed-pair1-before.json"
+    },
+    {
+      "schemaVersion": 1,
+      "variant": "after",
+      "mode": "timed",
+      "index": "pair1",
+      "sourceRevision": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
+      "startedAt": "2026-11-04T20:14:29.992Z",
+      "wallMilliseconds": 19635.224,
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "passed": true,
+      "fixtureSha256": "979708a7554d9d6467c34646e089f70dccdaee648f09893366ac5b7eccecf3e5",
+      "driverSha256": "913c731abbb06a608c47adcd0a3f680d6668af2a51560267413f4b66333d59df",
+      "stdoutSha256": "787e9abdaf50fd0b423f92beb86b13054d4decec3e96d78e165fa2aee3f1404c",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "businessSha256": "32216f006d434649c73848a4712e123a045c9d3aa2da7abbe9fb91687b6275b0",
+      "businessBytes": 654,
+      "canonicals": [
+        {
+          "bytes": 6464,
+          "sha256": "2c9c5170ab97fa9b2edcb5b3562b076d8003aef325567ebf87baf9c52d48d49a"
+        },
+        {
+          "bytes": 6464,
+          "sha256": "2c9c5170ab97fa9b2edcb5b3562b076d8003aef325567ebf87baf9c52d48d49a"
+        }
+      ],
+      "graphLines": [],
+      "timeoutMilliseconds": 30000,
+      "recordFile": "timed-pair1-after.json"
+    },
+    {
+      "schemaVersion": 1,
+      "variant": "after",
+      "mode": "timed",
+      "index": "pair2",
+      "sourceRevision": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
+      "startedAt": "2026-11-04T20:15:31.072Z",
+      "wallMilliseconds": 19656.2777,
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "passed": true,
+      "fixtureSha256": "979708a7554d9d6467c34646e089f70dccdaee648f09893366ac5b7eccecf3e5",
+      "driverSha256": "913c731abbb06a608c47adcd0a3f680d6668af2a51560267413f4b66333d59df",
+      "stdoutSha256": "787e9abdaf50fd0b423f92beb86b13054d4decec3e96d78e165fa2aee3f1404c",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "businessSha256": "32216f006d434649c73848a4712e123a045c9d3aa2da7abbe9fb91687b6275b0",
+      "businessBytes": 654,
+      "canonicals": [
+        {
+          "bytes": 6464,
+          "sha256": "2c9c5170ab97fa9b2edcb5b3562b076d8003aef325567ebf87baf9c52d48d49a"
+        },
+        {
+          "bytes": 6464,
+          "sha256": "2c9c5170ab97fa9b2edcb5b3562b076d8003aef325567ebf87baf9c52d48d49a"
+        }
+      ],
+      "graphLines": [],
+      "timeoutMilliseconds": 30000,
+      "recordFile": "timed-pair2-after.json"
+    },
+    {
+      "schemaVersion": 1,
+      "variant": "before",
+      "mode": "timed",
+      "index": "pair2",
+      "sourceRevision": "b4ac63145689b9dd632db100eee49087f6182b39",
+      "startedAt": "2026-11-04T20:16:09.760Z",
+      "wallMilliseconds": 20771.6644,
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "passed": true,
+      "fixtureSha256": "979708a7554d9d6467c34646e089f70dccdaee648f09893366ac5b7eccecf3e5",
+      "driverSha256": "5e7f165e11bb65466e79b3d40e192d451fef53d4cff48567e82f17be06ee9c6f",
+      "stdoutSha256": "787e9abdaf50fd0b423f92beb86b13054d4decec3e96d78e165fa2aee3f1404c",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "businessSha256": "32216f006d434649c73848a4712e123a045c9d3aa2da7abbe9fb91687b6275b0",
+      "businessBytes": 654,
+      "canonicals": [
+        {
+          "bytes": 6464,
+          "sha256": "2c9c5170ab97fa9b2edcb5b3562b076d8003aef325567ebf87baf9c52d48d49a"
+        },
+        {
+          "bytes": 6464,
+          "sha256": "2c9c5170ab97fa9b2edcb5b3562b076d8003aef325567ebf87baf9c52d48d49a"
+        }
+      ],
+      "graphLines": [],
+      "timeoutMilliseconds": 30000,
+      "recordFile": "timed-pair2-before.json"
+    },
+    {
+      "schemaVersion": 1,
+      "variant": "before",
+      "mode": "profile",
+      "index": "final",
+      "sourceRevision": "b4ac63145689b9dd632db100eee49087f6182b39",
+      "startedAt": "2026-11-04T20:16:53.129Z",
+      "wallMilliseconds": 20651.0645,
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "passed": true,
+      "fixtureSha256": "979708a7554d9d6467c34646e089f70dccdaee648f09893366ac5b7eccecf3e5",
+      "driverSha256": "1cbaad4befd827e3a7b0d970f5eae32dce1de4d9095fc9790ec8cb4e517954f5",
+      "stdoutSha256": "a0f01dc3efa96aa7c127f4986e9f574e0acb9291db71a74157970eaf82eb0dfa",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "businessSha256": "32216f006d434649c73848a4712e123a045c9d3aa2da7abbe9fb91687b6275b0",
+      "businessBytes": 654,
+      "canonicals": [
+        {
+          "bytes": 6464,
+          "sha256": "2c9c5170ab97fa9b2edcb5b3562b076d8003aef325567ebf87baf9c52d48d49a"
+        },
+        {
+          "bytes": 6464,
+          "sha256": "2c9c5170ab97fa9b2edcb5b3562b076d8003aef325567ebf87baf9c52d48d49a"
+        }
+      ],
+      "profileLine": "COMBINED_SNAPSHOT_PROFILE\t142\t14.9075007\t20.4632263",
+      "graphLines": [
+        "COMBINED_GRAPH_ROOT\t8248\t31521\t0\t8317",
+        "COMBINED_GRAPH_DATA\t4022\t15502\t0\t4022"
+      ],
+      "timeoutMilliseconds": 30000,
+      "recordFile": "profile-final-before.json"
+    },
+    {
+      "schemaVersion": 1,
+      "variant": "after",
+      "mode": "profile",
+      "index": "final",
+      "sourceRevision": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
+      "startedAt": "2026-11-04T20:18:00.939Z",
+      "wallMilliseconds": 19267.8767,
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "passed": true,
+      "fixtureSha256": "979708a7554d9d6467c34646e089f70dccdaee648f09893366ac5b7eccecf3e5",
+      "driverSha256": "194502ca740ff7f995b6481ef4420e2cf34e1257a2caad6503081ddab8405e5c",
+      "stdoutSha256": "d175814b2f08e990316273e82f3a18aa88032d097d428e04c3494d38a00e8253",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "businessSha256": "32216f006d434649c73848a4712e123a045c9d3aa2da7abbe9fb91687b6275b0",
+      "businessBytes": 654,
+      "canonicals": [
+        {
+          "bytes": 6464,
+          "sha256": "2c9c5170ab97fa9b2edcb5b3562b076d8003aef325567ebf87baf9c52d48d49a"
+        },
+        {
+          "bytes": 6464,
+          "sha256": "2c9c5170ab97fa9b2edcb5b3562b076d8003aef325567ebf87baf9c52d48d49a"
+        }
+      ],
+      "profileLine": "COMBINED_SNAPSHOT_PROFILE\t142\t13.4994599\t19.0803298",
+      "graphLines": [
+        "COMBINED_GRAPH_ROOT\t8248\t31521\t0\t8317",
+        "COMBINED_GRAPH_DATA\t4022\t15502\t0\t4022"
+      ],
+      "timeoutMilliseconds": 30000,
+      "recordFile": "profile-final-after.json"
+    }
+  ],
+  "pairs": [
+    {
+      "order": [
+        "before",
+        "after"
+      ],
+      "before": 21011.7474,
+      "after": 19635.224,
+      "reductionPercent": 6.551208587249635
+    },
+    {
+      "order": [
+        "after",
+        "before"
+      ],
+      "before": 20771.6644,
+      "after": 19656.2777,
+      "reductionPercent": 5.369751207804044
+    }
+  ],
+  "primaryMeanMilliseconds": {
+    "before": 20891.7059,
+    "after": 19645.750849999997,
+    "reductionPercent": 5.963874161180892
+  },
+  "semanticProof": {
+    "passCount": 6,
+    "timeouts": 0,
+    "failures": 0,
+    "businessBytes": 654,
+    "businessSha256": "32216f006d434649c73848a4712e123a045c9d3aa2da7abbe9fb91687b6275b0",
+    "canonicalBytes": 6464,
+    "canonicalSha256": "2c9c5170ab97fa9b2edcb5b3562b076d8003aef325567ebf87baf9c52d48d49a",
+    "canonicalCopiesCompared": 12,
+    "allPrimaryStdoutByteIdentical": true,
+    "allFullCanonicalStringsByteIdentical": true
+  },
+  "profiles": [
+    {
+      "variant": "before",
+      "calls": 142,
+      "captureSeconds": 14.9075007,
+      "programSeconds": 20.4632263,
+      "captureSharePercent": 72.85019713631374,
+      "nonCaptureResidualSeconds": 5.555725599999999,
+      "wallMilliseconds": 20651.0645,
+      "graphs": [
+        "COMBINED_GRAPH_ROOT\t8248\t31521\t0\t8317",
+        "COMBINED_GRAPH_DATA\t4022\t15502\t0\t4022"
+      ]
+    },
+    {
+      "variant": "after",
+      "calls": 142,
+      "captureSeconds": 13.4994599,
+      "programSeconds": 19.0803298,
+      "captureSharePercent": 70.75066333497023,
+      "nonCaptureResidualSeconds": 5.5808699000000015,
+      "wallMilliseconds": 19267.8767,
+      "graphs": [
+        "COMBINED_GRAPH_ROOT\t8248\t31521\t0\t8317",
+        "COMBINED_GRAPH_DATA\t4022\t15502\t0\t4022"
+      ]
+    }
+  ],
+  "conclusion": "In these two local alternating pairs, the complete a308 four-module combination is faster; added responsibility calls did not erase the observed net improvement for this exact Silent workload. Contributions of individual slices are not causally isolated.",
+  "limitations": [
+    "Only two primary pairs on this machine/Fengari; no confidence bound, percentile, performance guarantee or device/native Lua inference.",
+    "Every timed sample includes the same lightweight table.concat observer that emits existing complete canonical manifests. No capture timing/graph traversal is enabled in primary samples; observer overhead is included and not separately calibrated.",
+    "The single extra profile pair is diagnostic only, uses Fengari os.clock, includes JIT/GC effects and is not added to the primary sample mean.",
+    "Root/data graph counts are from the first capture only; equal counts do not prove every graph during all 142 captures is identical. Existing whole-graph contracts remain separate.",
+    "Four complete source versions are pinned and lazily registered. The four-combat Silent path does not exercise the LivingWall event or every Colorless action; no claim that every branch of all nine slices ran.",
+    "No comparison to prior cross-host CI19713/25768 or older snapshot-only samples is used as causal evidence. No unfavorable sample was retried and no budget was raised.",
+    "Actual a308 post-merge Full remains a separate verification owned by coordinator. No official capacity, ready, phone or FPS evidence."
+  ],
+  "toolingNotes": [
+    {
+      "stage": "summary generation only",
+      "issue": "First summary invocation could not spawn read-only git rev-parse under default sandbox (EPERM).",
+      "resolution": "Re-ran summary with normal tool escalation; did not re-run or replace any performance sample."
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 ---
 id: TASK-98.1
 title: 修复迁仓后的自动合并仓库身份校验
-status: In Progress
+status: Done
 assignee:
   - Furinya
 created_date: '2026-11-04 05:26'
-updated_date: '2026-11-04 09:01'
+updated_date: '2026-11-04 11:27'
 labels: []
 milestone: m-7
 dependencies: []
@@ -52,4 +52,12 @@ PR510身份元数据、无witness旧Full与当前操作文档覆盖由PR508接�
 吸收PR510原6f0b873a及CRLF修复132a96c2：保留现有TASK98.1验收、In Progress及已核验AC3，新增44组身份零写入负例、无见证旧Full拒绝和操作文档LF/CRLF覆盖。PR510尚未接续关闭，当前整合HEAD独审与CI另验。
 
 PR510的CRLF问题已先红后绿修复，当前接续保留原504迁仓验收及已勾选AC3；510新增覆盖的独立复审、精确整合HEAD完整CI与实际合入仍另行核验，不将历史验收扩大为新覆盖已交付。
+
+510有效增益已完整随508最终675ce59f独审、107项定向和精确HEAD完整CI通过合入；PR Full41804489286及push Full41810232029、固定ID、实际squash父/tree和不可变收据核验merged_passed。510已接续完成关闭，原历史保留。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+固定仓库身份与迁仓覆盖由504/508完成接续；两轮实际合后merged_passed，510补充覆盖已落地并关闭，原授权/收据身份不改写。
+<!-- SECTION:FINAL_SUMMARY:END -->
