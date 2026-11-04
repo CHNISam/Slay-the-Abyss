@@ -12,7 +12,9 @@ function fixture(){return {repo,runId:7,attempt:1,number:510,head:sha('a'),base:
  run:{id:7,run_attempt:1,event:'pull_request',head_sha:sha('a'),path:qualityWorkflowPath,status:'in_progress',repository:{full_name:repo},pull_requests:[{number:510}]},
  jobs:currentFullQualityJobs.map((name,i)=>({id:i+100,name,run_id:7,run_attempt:1,head_sha:sha('a'),status:name==='check'?'in_progress':'completed',conclusion:name==='check'?null:name==='fast'?'skipped':'success'})),
  latestRun:{id:7,run_attempt:1},pr:{number:510,state:'open',merged:false,head:{sha:sha('a'),repo:{full_name:repo}},base:{ref:'develop',sha:sha('b')},merge_commit_sha:sha('d')},
- target:sha('b'),commit:{sha:sha('d'),parents:[{sha:sha('b')},{sha:sha('a')}]}};}
+ target:sha('b'),commit:{sha:sha('d'),parents:[{sha:sha('b')},{sha:sha('a')}]},
+ checkout:{schemaVersion:1,attempt:1,runId:7,head:sha('a'),base:sha('b'),tested:sha('d'),event:'pull_request',prNumber:510,parents:[sha('b'),sha('a')]},
+ checkoutArtifact:{id:200,name:'quality-7-1-check',expired:false,workflow_run:{id:7,head_sha:sha('a')}}};}
 test('Full gate accepts the exact running aggregate only after every actual shard succeeds',()=>assert.deepEqual(fullGateErrors(fixture()),[]));
 test('Full gate rejects Fast, missing, failed, cancelled and skipped dependencies',()=>{
  for(const mutate of [f=>f.mode='fast',f=>delete f.needs.rules,
@@ -28,6 +30,15 @@ test('Full gate rejects stale run, attempt, head, target and merge parent identi
   f=>f.pr.head.sha=sha('c'),f=>f.target=sha('c'),f=>f.pr.base.ref='master',
   f=>f.commit.parents.reverse(),f=>f.commit.parents.push({sha:sha('c')}),f=>f.jobs[0].head_sha=sha('c')]){
   const f=fixture();mutate(f);assert(fullGateErrors(f).length,String(mutate));
+ }
+});
+test('Full success requires the actual immutable receipt, not merely green job metadata',()=>{
+ for(const mutate of [f=>delete f.checkout,f=>delete f.checkoutArtifact,f=>f.checkout.prNumber=511,
+  f=>f.checkout.base=sha('c'),f=>f.checkout.tested=sha('c'),f=>f.checkout.parents.reverse(),
+  f=>f.checkout.attempt=2,f=>f.checkoutArtifact.expired=true,f=>f.checkoutArtifact.workflow_run.head_sha=sha('c')]){
+  const f=fixture();mutate(f);let state;
+  assert.equal(publishFullQuality(f,(...args)=>{state=args.find(a=>a.startsWith('state=')).slice(6);return JSON.stringify({state,context:'full-quality'});}).state,'failure');
+  assert.equal(state,'failure');
  }
 });
 test('publisher posts failure for invalid evidence and never hides a transport failure',()=>{
@@ -79,7 +90,7 @@ test('real publisher entrypoint collects API identities before current pending a
     if(endpoint.endsWith('/commits/'+f.tested))return JSON.stringify(f.commit);
     throw Error('Unexpected API query '+endpoint);
    };
-   main(env,query,{pending});assert.equal(writes.length,1);
+   main(env,query,{pending,loadCheckout:()=>({checkout:f.checkout,checkoutArtifact:f.checkoutArtifact})});assert.equal(writes.length,1);
   }
  });
 });

@@ -27,7 +27,7 @@ export function isLowRiskDocumentationChange(files,count) {
       !file.filename.includes('\\')&&!file.filename.split('/').some(segment=>segment==='.'||segment==='..')&&
       ['added','modified'].includes(file.status)&&validSha(file.sha));
 }
-function qualityErrors(jobs,{attempt,runId,head,schemaVersion}) {
+function qualityErrors(jobs,{attempt,runId,head,schemaVersion,allowRunningAggregate=false}) {
   // Collect filter=all, not one attempt: reruns preserve GITHUB_SHA/GITHUB_REF
   // and only reexecute selected jobs. Never search for the last *successful*
   // execution; a newer failure must supersede an older success.
@@ -51,7 +51,8 @@ function qualityErrors(jobs,{attempt,runId,head,schemaVersion}) {
     // A false job-level condition skips `fast` before matrix expansion. Fast
     // coverage (including expanded matrix jobs) can never certify Full.
     const conclusion=name==='fast'?'skipped':'success';
-    if(job?.status!=='completed'||job.conclusion!==conclusion)errors.push(`Quality job ${name} is missing, incomplete or does not have required conclusion ${conclusion} on its latest execution`);
+    const runningAggregate=allowRunningAggregate&&name==='check'&&job?.status==='in_progress'&&job.conclusion==null&&job.run_attempt===attempt;
+    if(!runningAggregate&&(job?.status!=='completed'||job.conclusion!==conclusion))errors.push(`Quality job ${name} is missing, incomplete or does not have required conclusion ${conclusion} on its latest execution`);
   }
   return errors;
 }
@@ -207,8 +208,8 @@ function lowRiskFiles(query,repo,number,expectedCount) {
     throw new Error('Low-risk waiver denied: PR files are not exclusively eligible documentation');
   return files;
 }
-export function checkoutReceipt(repo,run,jobs,dir,query=gh,schemaVersion=deliverySchemaVersion) {
-  const errors=qualityErrors(jobs,{attempt:run.run_attempt,runId:run.id,head:run.head_sha,schemaVersion});
+export function checkoutReceipt(repo,run,jobs,dir,query=gh,schemaVersion=deliverySchemaVersion,{allowRunningAggregate=false}={}) {
+  const errors=qualityErrors(jobs,{attempt:run.run_attempt,runId:run.id,head:run.head_sha,schemaVersion,allowRunningAggregate});
   if(errors.length)throw new Error(errors.join('\n'));
   const attempt=latestJob(jobs,firstRulesJob(schemaVersion)).run_attempt,name=`quality-${run.id}-${attempt}-check`;
   const artifacts=pages(query,`repos/${repo}/actions/runs/${run.id}/artifacts?per_page=100`,'artifacts').filter(a=>a?.name===name);

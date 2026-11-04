@@ -1,15 +1,16 @@
-import {readFileSync} from 'node:fs';
+import {readFileSync,mkdtempSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
 import {spawnSync} from 'node:child_process';
-import {resolve} from 'node:path';
+import {resolve,join,sep} from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {currentFullQualityJobs,qualityWorkflowPath} from './verify-delivery.mjs';
+import {currentFullQualityJobs,qualityWorkflowPath,checkoutReceipt} from './verify-delivery.mjs';
 
 export const fullQualityContext='full-quality';
 const currentRun=e=>e.run?.id===e.runId&&e.run.run_attempt===e.attempt&&
  e.latestRun?.id===e.runId&&e.latestRun.run_attempt===e.attempt&&e.run.head_sha===e.head&&
  e.run.repository?.full_name===e.repo&&e.run.path===qualityWorkflowPath&&e.run.event==='pull_request'&&
  e.run.pull_requests?.some(p=>p.number===e.number);
-export function fullGateErrors(e){
+export function fullGateErrors(e,{metadataOnly=false}={}){
  const errors=[],sha=value=>/^[a-f0-9]{40}$/.test(value??'');
  if(e.mode!=='full')errors.push('Fast is feedback, not Full validation; request ci:full');
  for(const name of ['impact','rules','presentation','engineering-posix'])
@@ -40,6 +41,17 @@ export function fullGateErrors(e){
    if(job?.run_attempt!==e.attempt||job.status!=='in_progress'||job.conclusion!=null)errors.push('Not the current check aggregate');
   }else if(job?.status!=='completed'||job.conclusion!==(name==='fast'?'skipped':'success'))errors.push('Incomplete or failed Full job: '+name);
  }
+ if(!metadataOnly){
+  const first=(e.jobs??[]).filter(j=>/^rules \(1\/\d+\)$/.test(j.name)).sort((a,b)=>b.run_attempt-a.run_attempt)[0];
+  const c=e.checkout??{},a=e.checkoutArtifact??{};
+  if(c.schemaVersion!==1||c.attempt!==first?.run_attempt||a.id<1||!Number.isSafeInteger(a.id)||a.expired!==false||
+   a.name!==`quality-${e.runId}-${first?.run_attempt}-check`||a.workflow_run?.id!==e.runId||a.workflow_run?.head_sha!==e.head)
+   errors.push('Missing, stale or mismatched immutable checkout artifact');
+  for(const [key,value]of Object.entries({runId:e.runId,head:e.head,base:e.base,tested:e.tested,prNumber:e.number,event:'pull_request'}))
+   if(c[key]!==value)errors.push('Actual checkout receipt differs from Full source: '+key);
+  if(JSON.stringify(c.parents)!==JSON.stringify([e.base,e.head]))errors.push('Actual checkout parent order differs from Full source');
+  if(e.receiptError)errors.push('Checkout receipt collection failed: '+e.receiptError);
+ }
  return errors;
 }
 export function publishFullQuality(e,query){
@@ -68,7 +80,15 @@ function gh(...args){
  if(result.error||result.status!==0)throw Error('Full gate GitHub query failed: '+(result.error?.message??result.stderr));
  return result.stdout;
 }
-export function main(env=process.env,query=gh,{pending=false}={}){
+function obtainReceipt(repo,run,jobs,query){
+ const directory=mkdtempSync(join(tmpdir(),'abyss-full-gate-'));
+ try{return checkoutReceipt(repo,run,jobs,directory,query,3,{allowRunningAggregate:true});}
+ finally{
+  if(!resolve(directory).startsWith(resolve(tmpdir())+sep+'abyss-full-gate-'))throw Error('Unexpected receipt temporary path');
+  rmSync(directory,{recursive:true,force:true});
+ }
+}
+export function main(env=process.env,query=gh,{pending=false,loadCheckout}={}){
  const event=JSON.parse(readFileSync(env.GITHUB_EVENT_PATH,'utf8')),prEvent=event.pull_request;
  if(env.GITHUB_EVENT_NAME!=='pull_request'||prEvent?.base?.ref!=='develop'||prEvent?.head?.repo?.full_name!==env.GITHUB_REPOSITORY)return;
  const repo=env.GITHUB_REPOSITORY,head=prEvent.head.sha,base=prEvent.base.sha,tested=env.GITHUB_SHA;
@@ -76,12 +96,20 @@ export function main(env=process.env,query=gh,{pending=false}={}){
  const pages=(endpoint,key)=>JSON.parse(query('api','--paginate','--slurp',`repos/${repo}/${endpoint}`)).flatMap(p=>p[key]);
  const runId=Number(env.GITHUB_RUN_ID),attempt=Number(env.GITHUB_RUN_ATTEMPT),number=prEvent.number;
  const run=get('actions/runs/'+runId);
- const runs=pages(`actions/workflows/quality.yml/runs?event=pull_request&head_sha=${head}&per_page=100`,'workflow_runs');
- const latestRun=runs.filter(r=>r.head_sha===head&&r.pull_requests?.some(p=>p.number===number)).sort((a,b)=>b.id-a.id)[0];
+ const latest=()=>pages(`actions/workflows/quality.yml/runs?event=pull_request&head_sha=${head}&per_page=100`,'workflow_runs')
+  .filter(r=>r.head_sha===head&&r.pull_requests?.some(p=>p.number===number)).sort((a,b)=>b.id-a.id)[0];
+ const latestRun=latest();
  if(pending){console.log(JSON.stringify(beginFullQuality({repo,head,runId,attempt,number,run,latestRun,pr:get('pulls/'+number)},query)));return;}
  const jobs=pages(`actions/runs/${runId}/jobs?filter=all&per_page=100`,'jobs');
  const evidence={repo,head,base,tested,runId,attempt,number,mode:env.FULL_MODE,needs:JSON.parse(env.FULL_NEEDS),
   run,jobs,latestRun,pr:get('pulls/'+number),target:get('git/ref/heads/develop').object?.sha,commit:get('commits/'+tested)};
+ if(currentRun(evidence)&&fullGateErrors(evidence,{metadataOnly:true}).length===0){
+  try{Object.assign(evidence,(loadCheckout??((r,j)=>obtainReceipt(repo,r,j,query)))(run,jobs));}
+  catch(error){evidence.receiptError=error.message;}
+ }
+ // Downloads can outlast a rerun start. Re-read the actual latest attempt
+ // before deciding whether this writer is still allowed to touch the status.
+ evidence.latestRun=latest();
  const result=publishFullQuality(evidence,query);console.log(JSON.stringify(result));
  // A Fast result is expected feedback. Its original required checks keep their
  // meaning, but the separate Full status cannot authorize automatic merging.

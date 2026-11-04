@@ -48,7 +48,7 @@ develop PR 的独立评审与 CI 并行。审查与准入通过后可在 Full �
 
 `full-quality` 由原有 impact 作业开始时置 pending，再由原有 check 作业在 Windows、POSIX 和 presentation 全部结束后发布；不新增作业。发布器检查当前 run/attempt、全部27项真实作业身份/结果、PR HEAD、实际目标与合成双父；Fast 永不发布 success。只有 impact/check 增加 job-scoped `statuses: write`，所有回归、LFS 读取及默认权限仍只读。需要完整合并验证时使用已有 `ci:full` 标签，标签变动/ready 会重新触发正常 Quality；不以 Fast 反馈代替完整准入。
 
-该额外 commit status 绑定受审的精确 HEAD：协调 Agent 检查独立评审记录、实际 develop ref、GitHub 合成 merge commit 的父节点和源码树、前置依赖及 Ruleset，再写入 `independent-review: success`。所有自动请求显式调用 GraphQL `enablePullRequestAutoMerge`，绑定 `expectedHeadOid` 与 SQUASH，避免 `gh --auto` 把 UNSTABLE 转为直接合并。若 GitHub 拒绝已 CLEAN 的 PR 启用，必须重新取得精确 Full、六项原生必需检查全绿、inventory 的 Actions App/最新 Licenses run/attempt/HEAD 证据和末次一致准入，才允许精确 SHA 同步合并；不按错误文字或字段缺失放行。新 HEAD 必须重新审查、授权。**审查 JSON 不自证独立**，协调 Agent 须核对真实 reviewId 来源和未解决问题。
+该额外 commit status 绑定受审的精确 HEAD：协调 Agent 检查独立评审记录、实际 develop ref、GitHub 合成 merge commit 的父节点和源码树、前置依赖及 Ruleset，先发布并读回自己的 `independent-review: pending`。保持该门禁关闭时显式调用 GraphQL `enablePullRequestAutoMerge`，绑定 `expectedHeadOid` 与 SQUASH，确认原生排队，再复核相同准入、最新 CI run/attempt 和 pending 状态 ID，最后写入 success 放行。即使 Full 已完成也使用同一握手；没有同步合并回退。每个 PR 同时只能有一个协调者。新 HEAD 必须重新审查、授权。**审查 JSON 不自证独立**，协调 Agent 须核对真实 reviewId 来源和未解决问题。
 
 ### 常规使用
 
@@ -59,7 +59,7 @@ npm run merge:auto -- <PR> <independent-review.json> --dry-run
 npm run merge:auto -- <PR> <independent-review.json>
 ```
 
-Full 未结束时，schemaVersion 4 授权保存精确组合和 pending run，不能当作 Full 证明。Full 已完成时仍复用原 schema3 checkout artifact 完整校验。远端动作前保存 journal；失败尝试撤销 review success 与 Auto-merge，读回须确认真实 squash 排队状态或匹配的实际提交。全部条件已满足时 `--auto` 可能立即合并，调用前必须完成评审。
+Full 未结束时，schemaVersion 4 授权保存精确组合和 pending run，不能当作 Full 证明。Full 已完成时仍复用原 schema3 checkout artifact 完整校验。Full 发布器同时下载第一片不可变收据，核对实际 run/attempt、PR、HEAD/BASE、测试提交及双父，不能只用绿色作业元数据放行。远端动作前保存 journal；失败尝试撤销 review success 与 Auto-merge，读回须确认真实 squash 排队状态或匹配的实际提交。握手放行之前意外合并视为异常。
 
 合并后运行 `npm run verify:delivery -- <PR> <上述证据.json> --merged`。早期授权另外采集 schema5 历史 PR Full：验证实际 PR checkout artifact、全部作业和最新 attempt，不把合后目标引用伪造成合前观测；同时核对实际 squash 的唯一父/树和独立的 develop push Full。任一缺失保持 `merged_pending`，均通过才是 `merged_passed`。schema2/3 原验收与原始收据不改写。
 

@@ -263,6 +263,12 @@ test('receipt collection uses only the effective first shard artifact, paginates
   try {
     assert.deepEqual(checkoutReceipt(e.repo,e.run,e.jobs,dir,query,version),{checkout:e.checkout,checkoutArtifact:artifact});
     assert(calls[0].includes('--paginate'));assert.equal(calls.length,3);
+    const aggregate=e.jobs.find(j=>j.name==='check');
+    aggregate.status='in_progress';aggregate.conclusion=null;
+    assert.throws(()=>checkoutReceipt(e.repo,e.run,e.jobs,dir,query,version),/check/);
+    assert.deepEqual(checkoutReceipt(e.repo,e.run,e.jobs,dir,query,version,{allowRunningAggregate:true}),{checkout:e.checkout,checkoutArtifact:artifact});
+    assert.equal(verifyMergedDelivery(e).state,'merged_pending');
+    aggregate.status='completed';aggregate.conclusion='success';
     for(const bad of [[],[artifact,artifact],[{...artifact,expired:true}],[{...artifact,workflow_run:{id:8,head_sha:sha('e')}}]]) {
       assert.throws(()=>checkoutReceipt(e.repo,e.run,e.jobs,dir,(...args)=>{
         assert.equal(args[0],'api');assert(args.at(-1).includes('/artifacts?'));
