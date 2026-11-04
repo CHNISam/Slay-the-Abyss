@@ -4,6 +4,7 @@ import {resolve} from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {pathToFileURL} from 'node:url';
 import {collectPrDelivery,verifyDelivery,isLowRiskDocumentationChange} from './verify-delivery.mjs';
+import {projectRepositoryId,currentProjectRepository,projectRepositoryMatches} from './repository-identity.mjs';
 
 // Status on the reviewed HEAD, not a general-purpose label or an old CI run.
 // This status MUST be required by the develop ruleset before arming is allowed.
@@ -25,7 +26,8 @@ export function parseDependencies(body) {
 
 export function autoMergeErrors({repo,settings,pr,baseSha,ruleset,review,dependencies,changedFiles}) {
   const errors=[];
-  if(repo!=='CHNISam/Slay-the-Abyss')errors.push('Unexpected repository');
+  if(!projectRepositoryMatches(settings,repo)||!projectRepositoryMatches(pr?.head?.repo,repo)||
+    !projectRepositoryMatches(pr?.base?.repo,repo))errors.push('Unexpected project repository identity');
   if(settings?.allow_auto_merge!==true||settings?.allow_squash_merge!==true)
     errors.push('Repository auto-merge and squash must both be enabled');
   if(!prId(pr?.number)||typeof pr?.node_id!=='string'||!pr.node_id.trim()||pr?.state!=='open'||pr?.merged||pr?.draft)errors.push('PR must be open, ready and unmerged');
@@ -81,6 +83,8 @@ function sameAdmission(actual,expected) {
     actual.draft===false&&actual.mergeable===true&&actual.base?.ref==='develop'&&
     actual.base.sha===expected.base.sha&&actual.head?.sha===expected.head.sha&&
     actual.head.repo?.full_name===expected.head.repo.full_name&&
+    actual.head.repo?.id===expected.head.repo.id&&actual.base.repo?.id===expected.base.repo.id&&
+    actual.base.repo?.full_name===expected.base.repo.full_name&&
     actual.merge_commit_sha===expected.merge_commit_sha&&actual.body===expected.body&&
     actual.changed_files===expected.changed_files&&
     JSON.stringify(actual.labels)===JSON.stringify(expected.labels);
@@ -139,7 +143,7 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false,loadCheck
     throw Error('PR or review eligibility changed while preparing auto-merge: '+current.errors.join('; '));
   if(before.tested!==current.tested||before.sourceTree!==current.sourceTree)
     throw Error('Proposed merge commit changed while preparing auto-merge');
-  const proof={schemaVersion:4,kind:'auto-merge-arm',repo,prNumber:number,baseRef:'develop',
+  const proof={schemaVersion:4,kind:'auto-merge-arm',repo,repositoryId:projectRepositoryId,prNumber:number,baseRef:'develop',
     head:current.headSha,base:current.baseSha,tested:current.tested,parents:current.parents,
     sourceTree:current.sourceTree,review,targetBeforeSha:before.baseSha,targetAfterSha:current.baseSha,
     ...(review?.disposition==='low-risk-docs'?{changedFileCount:current.pr.changed_files,changedFiles:current.changedFiles}:{})};
@@ -272,11 +276,13 @@ function requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persi
 
 export function pauseAutoMerge(repo,number,query=gh){
   const endpoint=`repos/${repo}/pulls/${number}`,before=json(query,'api',endpoint);
-  if(before.number!==number||before.state!=='open'||before.merged||before.base?.ref!=='develop'||!validSha(before.head?.sha))
+  if(before.number!==number||before.state!=='open'||before.merged||before.base?.ref!=='develop'||!validSha(before.head?.sha)||
+    !projectRepositoryMatches(before.head?.repo,repo)||!projectRepositoryMatches(before.base?.repo,repo))
     throw Error('Pause requires the open develop PR');
   query('pr','merge',String(number),'--repo',repo,'--disable-auto');
   const after=json(query,'api',endpoint);
-  if(after.number!==number||after.state!=='open'||after.merged||after.auto_merge!==null||after.base?.ref!=='develop'||!validSha(after.head?.sha))
+  if(after.number!==number||after.state!=='open'||after.merged||after.auto_merge!==null||after.base?.ref!=='develop'||!validSha(after.head?.sha)||
+    !projectRepositoryMatches(after.head?.repo,repo)||!projectRepositoryMatches(after.base?.repo,repo))
     throw Error('Native auto-merge cancellation was not confirmed; PR may already be merged');
   for(const head of new Set([before.head.sha,after.head.sha])){
     const status=json(query,'api','--method','POST',`repos/${repo}/statuses/${head}`,
@@ -286,12 +292,12 @@ export function pauseAutoMerge(repo,number,query=gh){
   return {state:'paused',prNumber:number,head:after.head.sha};
 }
 
-if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
-  try {
-    const [numberArg,reviewArg,option,...extra]=process.argv.slice(2);
+export function main(args=process.argv.slice(2),query=gh) {
+    const [numberArg,reviewArg,option,...extra]=args;
+    const repository=currentProjectRepository(query),repo=repository.full_name;
     if(/^[1-9][0-9]*$/.test(numberArg??'')&&reviewArg==='--pause'&&option===undefined&&!extra.length){
-      console.log(JSON.stringify(pauseAutoMerge('CHNISam/Slay-the-Abyss',Number(numberArg)),null,2));
-      process.exit(0);
+      const result=pauseAutoMerge(repo,Number(numberArg),query);
+      console.log(JSON.stringify(result,null,2));return result;
     }
     if(!/^[1-9][0-9]*$/.test(numberArg??'')||!reviewArg||
       option!==undefined&&option!=='--dry-run'||extra.length)
@@ -300,13 +306,13 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
       JSON.parse(readFileSync(reviewArg,'utf8'));
     // Waiver is bound to the current SHA by the collector; no forged CI receipt.
     if(review.disposition==='low-risk-docs') {
-      const first=json(gh,'api','repos/CHNISam/Slay-the-Abyss/pulls/'+Number(numberArg));
+      const first=json(query,'api',`repos/${repo}/pulls/`+Number(numberArg));
       review.reviewedHeadSha=first.head?.sha;
       review.reviewedBaseSha=first.base?.sha;
     }
     const dir='build/delivery';mkdirSync(dir,{recursive:true});
     const journal=dir+'/auto-merge-'+numberArg+'-'+randomUUID()+'-attempt.json';
-    const result=armAutoMerge('CHNISam/Slay-the-Abyss',Number(numberArg),review,gh,
+    const result=armAutoMerge(repo,Number(numberArg),review,query,
       {dryRun:option==='--dry-run',persist:record=>writeFileSync(journal,JSON.stringify(record,null,2)+'\n')});
     const proofFile=dir+'/auto-merge-'+numberArg+'-'+result.head.slice(0,12)+'.json';
     if(option!=='--dry-run')writeFileSync(proofFile,JSON.stringify(result.proof,null,2)+'\n');
@@ -314,5 +320,8 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
       dependsOn:result.dependsOn,...(option!=='--dry-run'?{proofFile}:{})},null,2));
     console.log(option==='--dry-run'?'Read-only eligibility PASS':
       'GitHub controls the required CI. After merge: npm run verify:delivery -- '+numberArg+' '+proofFile+' --merged');
-  }catch(error){console.error(error.message);process.exitCode=1;}
+    return result;
+}
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
+  try{main();}catch(error){console.error(error.message);process.exitCode=1;}
 }

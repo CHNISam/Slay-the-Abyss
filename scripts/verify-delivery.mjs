@@ -4,6 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import {qualityShardJobs} from './ci-quality-shape.mjs';
+import {projectRepositoryId,currentProjectRepository,projectRepositoryMatches,collectIdentityWitness,identityWitnessValid} from './repository-identity.mjs';
 
 export const requiredJobs=['check','presentation','engineering-posix'];
 export const qualityWorkflowPath='.github/workflows/quality.yml';
@@ -60,11 +61,55 @@ function latestJob(jobs,name) {
   return Array.isArray(jobs)?jobs.filter(job=>job?.name===name).sort((a,b)=>b.run_attempt-a.run_attempt)[0]:undefined;
 }
 const firstRulesJob=schemaVersion=>schemaVersion===2?'rules (1/8)':qualityShardJobs[0];
-function receiptErrors(checkout,artifact,jobs,run,schemaVersion) {
+function executionTime(value) {
+  if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(value))return NaN;
+  const time=Date.parse(value);
+  return Number.isFinite(time)&&new Date(time).toISOString()===value.replace('Z','.000Z')?time:NaN;
+}
+function executionFingerprint(job) {
+  const start=executionTime(job?.started_at),end=executionTime(job?.completed_at);
+  if(job?.status!=='completed'||job.conclusion!=='success'||!Number.isFinite(start)||!Number.isFinite(end)||start>end||
+    !positiveId(job.runner_id)||typeof job.runner_name!=='string'||!job.runner_name.trim()||
+    !Array.isArray(job.labels)||!job.labels.length||job.labels.some(label=>typeof label!=='string'||!label)||
+    !Array.isArray(job.steps)||!job.steps.length)return undefined;
+  let previous=0;const steps=[];
+  for(const step of job.steps) {
+    const a=executionTime(step?.started_at),b=executionTime(step?.completed_at);
+    if(!positiveId(step?.number)||step.number<=previous||typeof step.name!=='string'||!step.name.trim()||
+      step.status!=='completed'||!['success','skipped'].includes(step.conclusion)||
+      !Number.isFinite(a)||!Number.isFinite(b)||a<start||a>b||b>end)return undefined;
+    previous=step.number;
+    steps.push([step.number,step.name,step.status,step.conclusion,step.started_at,step.completed_at]);
+  }
+  return JSON.stringify([job.started_at,job.completed_at,job.runner_id,job.runner_name,job.labels,steps]);
+}
+function receiptExecutionAttempt(jobs,schemaVersion) {
+  let job=latestJob(jobs,firstRulesJob(schemaVersion));
+  if(!positiveId(job?.run_attempt))return undefined;
+  // Ordinary and historical sparse evidence keeps its declared attempt. Only
+  // a record created after execution finished can justify inherited evidence.
+  if(!(executionTime(job.created_at)>executionTime(job.completed_at)))return job.run_attempt;
+  while(job) {
+    const fingerprint=executionFingerprint(job),created=executionTime(job.created_at);
+    if(!fingerprint||!Number.isFinite(created)||!positiveId(job.id)||!positiveId(job.run_id)||!validSha(job.head_sha))return undefined;
+    if(created<=executionTime(job.started_at))return job.run_attempt;
+    if(created<=executionTime(job.completed_at))return undefined;
+    // Do not search past a different/failed execution or missing attempt. New
+    // record IDs and runner_group_id may differ, but execution must not.
+    const prior=jobs.filter(candidate=>candidate?.name===job.name&&candidate.run_attempt===job.run_attempt-1);
+    if(prior.length!==1||prior[0].id===job.id||prior[0].run_id!==job.run_id||prior[0].head_sha!==job.head_sha||
+      !(executionTime(prior[0].created_at)<created)||executionFingerprint(prior[0])!==fingerprint)return undefined;
+    job=prior[0];
+  }
+  return undefined;
+}
+// Shared artifact/attempt association only. Callers separately validate all
+// jobs, run identity and the checkout's exact SHA/parent identity.
+export function receiptErrors(checkout,artifact,jobs,run,schemaVersion) {
   // Only the shape's first rules shard writes this artifact. Its execution may
   // predate the run's latest attempt; the receipt still binds the exact base,
   // head, tested commit and parents, checked separately below.
-  const jobName=firstRulesJob(schemaVersion),attempt=latestJob(jobs,jobName)?.run_attempt;
+  const jobName=firstRulesJob(schemaVersion),attempt=receiptExecutionAttempt(jobs,schemaVersion);
   if(checkout?.schemaVersion!==1||!positiveId(attempt)||checkout?.attempt!==attempt||
     !positiveId(artifact?.id)||artifact.name!==`quality-${run?.id}-${attempt}-check`||artifact.expired!==false||
     artifact.workflow_run?.id!==run?.id||artifact.workflow_run?.head_sha!==run?.head_sha)
@@ -83,6 +128,7 @@ function runErrors(run,{head,event,runId,attempt,branch,repo}) {
 export function verifyAutoMergeArm(e) {
   if(!e||typeof e!=='object')return ['Missing auto-merge arm evidence'];
   const errors=[];
+  if(e.repositoryId!==undefined&&e.repositoryId!==projectRepositoryId)errors.push('Auto-merge repository ID differs from the project');
   if(e.fullPreflight===undefined){
     if(!positiveId(e.pendingRun?.id)||!positiveId(e.pendingRun?.attempt)||e.pendingRun.head!==e.head)
       errors.push('Auto-merge requires the exact pending Full run identity');
@@ -145,9 +191,16 @@ export function verifyMergedDelivery(e) {
   if(!e||typeof e!=='object')return {state:'merged_pending',errors:['Missing merged evidence']};
   const preflight=e.preflight??{},early=preflight.schemaVersion===4&&preflight.fullPreflight===undefined;
   const errors=(early?verifyAutoMergeArm(preflight):verifyDelivery(preflight)).map(error=>`Preflight: ${error}`);
-  if(early)errors.push(...verifyHistoricalAutoFull(e.prFull,preflight));
+  const transferred=identityWitnessValid(e.identityWitness,preflight,e.repo);
+  if(e.identityWitness!==undefined&&!transferred)errors.push('Repository transfer witness is invalid or changed');
+  if(transferred){
+    const repositories=[e.pr?.head?.repo,e.pr?.base?.repo,e.current?.head?.repo,e.current?.base?.repo,
+      e.run?.repository,e.currentRun?.repository,...(early?[e.prFull?.run?.repository,e.prFull?.currentRun?.repository]:[])];
+    if(repositories.some(repository=>!projectRepositoryMatches(repository,e.repo)))errors.push('Transferred PR/run repository identity differs from the fixed project');
+  }
+  if(early)errors.push(...verifyHistoricalAutoFull(e.prFull,preflight,e.identityWitness));
   if(![2,3].includes(e.schemaVersion))errors.push('Missing versioned merged evidence');
-  if(e.repo!==preflight.repo)errors.push('Merged evidence repository differs from preflight');
+  if(e.repo!==preflight.repo&&!transferred)errors.push('Merged evidence repository differs from preflight');
   if(preflight.review?.disposition==='low-risk-docs'&&
     (e.changedFileCount!==preflight.changedFileCount||JSON.stringify(e.changedFiles)!==JSON.stringify(preflight.changedFiles)))
     errors.push('Post-merge GitHub files differ from the verified low-risk waiver');
@@ -172,11 +225,14 @@ export function verifyMergedDelivery(e) {
 // schema3 preflight and does not invent target-ref observations after merge.
 // The surrounding merged verifier separately proves the actual squash parent
 // and tree match the independently observed target/source in the saved arm.
-export function verifyHistoricalAutoFull(e,arm){
+export function verifyHistoricalAutoFull(e,arm,identityWitness){
   if(!e||e.schemaVersion!==5||e.kind!=='historical-auto-full')return ['Missing historical PR Full evidence'];
   const errors=[],run=e.run??{},checkout=e.checkout??{};
-  errors.push(...runErrors(run,{head:arm.head,event:'pull_request',runId:run.id,attempt:run.run_attempt,repo:arm.repo}),
-    ...runErrors(e.currentRun,{head:arm.head,event:'pull_request',runId:run.id,attempt:run.run_attempt,repo:arm.repo}),
+  const transferred=identityWitnessValid(identityWitness,arm,identityWitness?.canonicalFullName),repo=transferred?identityWitness.canonicalFullName:arm.repo;
+  if(identityWitness!==undefined&&(!transferred||![run.repository,e.currentRun?.repository].every(r=>projectRepositoryMatches(r,repo))))
+    errors.push('Historical Full repository transfer identity is invalid');
+  errors.push(...runErrors(run,{head:arm.head,event:'pull_request',runId:run.id,attempt:run.run_attempt,repo}),
+    ...runErrors(e.currentRun,{head:arm.head,event:'pull_request',runId:run.id,attempt:run.run_attempt,repo}),
     ...qualityErrors(e.jobs,{attempt:run.run_attempt,runId:run.id,head:arm.head,schemaVersion:3}),
     ...receiptErrors(checkout,e.checkoutArtifact,e.jobs,run,3));
   if(!Array.isArray(run.pull_requests)||run.pull_requests.length>0&&!run.pull_requests.some(p=>p.number===arm.prNumber)||run.id<arm.pendingRun?.id||
@@ -211,7 +267,9 @@ function lowRiskFiles(query,repo,number,expectedCount) {
 export function checkoutReceipt(repo,run,jobs,dir,query=gh,schemaVersion=deliverySchemaVersion,{allowRunningAggregate=false}={}) {
   const errors=qualityErrors(jobs,{attempt:run.run_attempt,runId:run.id,head:run.head_sha,schemaVersion,allowRunningAggregate});
   if(errors.length)throw new Error(errors.join('\n'));
-  const attempt=latestJob(jobs,firstRulesJob(schemaVersion)).run_attempt,name=`quality-${run.id}-${attempt}-check`;
+  const attempt=receiptExecutionAttempt(jobs,schemaVersion);
+  if(!positiveId(attempt))throw new Error('Cannot prove first rules shard execution attempt');
+  const name=`quality-${run.id}-${attempt}-check`;
   const artifacts=pages(query,`repos/${repo}/actions/runs/${run.id}/artifacts?per_page=100`,'artifacts').filter(a=>a?.name===name);
   const artifact=artifacts[0];
   if(artifacts.length!==1||receiptErrors({schemaVersion:1,attempt},artifact,jobs,run,schemaVersion).length)throw new Error('Missing, duplicate, expired or mismatched checkout artifact');
@@ -301,12 +359,15 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
     const [number,evidenceFile,mode,...extra]=process.argv.slice(2);
     if(!/^[1-9]\d*$/.test(number??'')||!evidenceFile||mode!==undefined&&mode!=='--merged'||extra.length)throw new Error('Usage: npm run verify:delivery -- <PR-number> <independent-review.json>|--low-risk-docs OR <PR-number> <preflight-evidence.json> --merged');
     const repo=gh('repo','view','--json','nameWithOwner','--jq','.nameWithOwner').trim();
+    if(!projectRepositoryMatches(currentProjectRepository(gh),repo))throw Error('Current repository differs from the fixed project');
     const dir=join('build/delivery',randomUUID());mkdirSync(dir,{recursive:true});
     if(mode==='--merged') {
-      const preflight=JSON.parse(readFileSync(evidenceFile,'utf8'));
+      const preflightText=readFileSync(evidenceFile,'utf8'),preflight=JSON.parse(preflightText);
       const errors=preflight.schemaVersion===4?verifyAutoMergeArm(preflight):verifyDelivery(preflight);
-      if(preflight.repo!==repo||preflight.prNumber!==Number(number)||errors.length)throw new Error('Preflight evidence is invalid, stale or belongs to a different PR/repository');
+      const identityWitness=preflight.repo!==repo?collectIdentityWitness(preflightText,repo,gh):undefined;
+      if(preflight.prNumber!==Number(number)||errors.length)throw new Error('Preflight evidence is invalid, stale or belongs to a different PR/repository');
       const evidence=collectMergedDelivery(repo,Number(number),preflight,gh,(run,jobs)=>checkoutReceipt(repo,run,jobs,join(dir,String(run.id))));
+      if(identityWitness)evidence.identityWitness=identityWitness;
       const result=verifyMergedDelivery(evidence);
       writeFileSync(join(dir,'evidence.json'),JSON.stringify({...evidence,...result},null,2)+'\n');
       console.log(`Delivery state: ${result.state}; actual merged commit ${evidence.pr.merge_commit_sha}; evidence ${dir}`);

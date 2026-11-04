@@ -30,15 +30,17 @@ Licenses 与 Quality、Quick feedback 一样使用 GitHub 原生同引用 concur
 
 | 规则 | 分支 | 生效要求 | 豁免 |
 |---|---|---|---|
-| [25870646](https://github.com/CHNISam/Slay-the-Abyss/rules/25870646) | master、develop | 禁止强推、禁止删除 | 无，包含Owner |
-| [25870648](https://github.com/CHNISam/Slay-the-Abyss/rules/25870648) | master | 必须PR、解决讨论；不绑定未验证的CI | 两个指定个人，仅PR |
-| [25870651](https://github.com/CHNISam/Slay-the-Abyss/rules/25870651) | develop | 必须PR、仅squash、线性历史、解决讨论、三个Quality检查及inventory（GitHub Actions app 15368） | 两个指定个人，仅PR |
+| [25870646](https://github.com/FurinyaWorks/Slay-the-Abyss/rules/25870646) | master、develop | 禁止强推、禁止删除 | 无，包含Owner |
+| [25870648](https://github.com/FurinyaWorks/Slay-the-Abyss/rules/25870648) | master | 必须PR、解决讨论；不绑定未验证的CI | 两个指定个人，仅PR |
+| [25870651](https://github.com/FurinyaWorks/Slay-the-Abyss/rules/25870651) | develop | 必须PR、仅squash、线性历史、解决讨论、严格基线、原四项检查及independent-review/full-quality | 两个指定个人，仅PR |
 
 两个个人分别为CHNISam（111138384）和v5g95m7t8m-max（337201427），均为`actor_type: User`、`bypass_mode: pull_request`。第二人仍为Write，无Write/Admin角色级豁免。防强推/删除单独成规则且不列豁免，避免PR豁免扩大为引用破坏权限。两分支均不额外要求他人批准；这是强制PR，不是额外审批系统。
 
-原 develop 使用 `strict_required_status_checks_policy: false`。自动合并启用须将其改为 true，配合下面的两个新增 context；启用前以实际 Ruleset 读回为准。旧 `ownership` 作业不恢复，原四项来源、保护与 PR 豁免不变。
+2026-11-04已读回 develop 的 `strict_required_status_checks_policy: true` 与六项必需 context。原四项及 full-quality 指定 GitHub Actions 15368，independent-review 为 Any source；旧 ownership 作业不恢复，原保护与 PR 豁免保留。
 
 ## PR 自动合并准入
+
+当前仓库为 `FurinyaWorks/Slay-the-Abyss`，固定 ID 为 `1429751262`。协调入口通过 `/repositories/1429751262` 解析当前名称，核对 settings、PR head/base 的真实 ID；不能用同名仓库或 fork 接续。迁移前的授权和 schema2/3/4/5 收据保留原文。合后验收仅可用单独的迁移见证衔接登记的旧名 `CHNISam/Slay-the-Abyss`：保存原授权文本及 SHA-256、固定 ID 的当前响应与旧名重定向响应，并核对本轮 PR/run 的仓库 ID，不能改写旧证据中的 owner。迁移前取消的 event 不作新 Full 证明，使用迁移后的新提交触发完整验证。
 
 develop PR 的独立评审与 CI 并行。审查与准入通过后可在 Full 仍运行时挂起原生 Auto-merge；这只是授权，不是 `pr_passed`。GitHub 必须等原四项门禁、`independent-review`、`full-quality` 全绿并满足严格基线才 squash。Draft、冲突、未落地依赖、已知 CI 失败及锁定标签在启用前拒绝。
 
