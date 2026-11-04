@@ -17,11 +17,16 @@ Lua手写源保存在平铺的 [src/lua](../src/lua/)；模块名用于 `require
 | 药水候选事务 | [abyss_run_potion_candidate.lua](../src/lua/abyss_run_potion_candidate.lua) | 分别准备资格、效果、局外及战斗候选；最终状态仍由Run提交，全部提取函数受复杂度上限约束 |
 | 战斗结算 | [abyss_combat.lua](../src/lua/abyss_combat.lua)、[abyss_action_queue.lua](../src/lua/abyss_action_queue.lua)、[abyss_effects.lua](../src/lua/abyss_effects.lua)、[abyss_actor.lua](../src/lua/abyss_actor.lua) | 出牌、动作队列、效果、伤害和状态；职业、敌人及遗物规则通过对应模块协作 |
 | 两种出牌准备 | [abyss_combat_native_play.lua](../src/lua/abyss_combat_native_play.lua)、[abyss_combat_queued_play.lua](../src/lua/abyss_combat_queued_play.lua) | 分别保留原生与队列协议的快照、RNG、事件和暂停边界；公开事务仍由Combat持有 |
+| 构造与回合阶段 | [abyss_combat.lua](../src/lua/abyss_combat.lua) 的构造、开回合及两套结束协议 | 同模块窄职责保持原编排；原生/V4清理时机、保留恢复、敌人引用快照保持独立，公开结束入口持有事务owner与回滚 |
+| 卡牌定义查询 | [abyss_combat.lua](../src/lua/abyss_combat.lua) 的 `M.cardDefinition` | 脱离定义、原生计数、职业适配、伤害、费用和遗物收尾按原序读取；UI只取临时查询结果，零/nil/X及动态输入不作跨调用缓存 |
+| 完整回滚与纯复制 | [abyss_snapshot.lua](../src/lua/abyss_snapshot.lua)、[abyss_copy.lua](../src/lua/abyss_copy.lua) | Snapshot捕获并恢复完整图/别名，key类型缓存仅属一次capture；Copy提供纯复制能力，不接管Session或Combat提交权 |
 | 普通伤害阶段 | [abyss_actor.lua](../src/lua/abyss_actor.lua) 的 `M.damage` | 六个同模块阶段按原顺序处理数值、格挡、减伤、失血和反击队列；七个职责及嵌套函数受CC15约束，directDamage保持独立 |
 | 手牌几何与药水拖动 | [abyss_battle_card_view.lua](../src/lua/abyss_battle_card_view.lua)、[abyss_battle_potion_bindings.lua](../src/lua/abyss_battle_potion_bindings.lua) | 几何承诺按原生对象及binding隔离并在失败/重入时失效；药水每事件重新查询单槽，使用前重验规则 |
 | 内容与表现源 | [data](../data/README.md)、[主题](../data/presentation/ui_theme.json)、[设计依据](design/UI_DESIGN.md) | 数据和核心决定规则，界面读取状态；主题及批准稿决定视觉，不使用原型演示数值替代玩法数据 |
 
 模块逐项分类与延迟导入审查在 [config/architecture.json](../config/architecture.json)。[架构检查](../scripts/check-architecture.mjs)要求手写模块显式分类：`core`只依赖核心层且不直接访问平台全局，`ui`不依赖`platform`模块，平台API由入口注入。检查还拒绝未知/动态加载和未经审查的循环；函数内导入例外不能绕过层次限制。
+
+LivingWall的卡牌复制筛选直接使用Foundation的Copy；已验证边界拒绝其直接或延迟重新导入Combat。事件确认仍经Run公共命令提交，不能把筛选冷载减负称作整个事件脱离战斗编排。完整SCC和未治理热点继续由质量报告公开。
 
 ## 生成物与构建入口
 

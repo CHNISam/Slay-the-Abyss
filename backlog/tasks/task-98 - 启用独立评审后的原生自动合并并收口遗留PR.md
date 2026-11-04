@@ -1,17 +1,19 @@
 ---
 id: TASK-98
 title: 启用独立评审后的原生自动合并并收口遗留PR
-status: In Progress
+status: Done
 assignee:
   - Furinya
 created_date: '2026-11-04 02:34'
-updated_date: '2026-11-04 14:16'
+updated_date: '2026-11-04 19:59'
 labels: []
 milestone: m-7
 dependencies: []
 references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/496'
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/498'
+documentation:
+  - docs/evidence/m7-native-queue-post-511-20261105.json
 priority: medium
 type: chore
 ordinal: 140000
@@ -29,7 +31,7 @@ Owner确认保留并启用PR496的自动合并目标，修复当前冲突、完�
 - [x] #2 新HEAD或过期基线不能沿用旧审查授权；暂停能真实取消Auto-merge并读回
 - [x] #3 当前精确HEAD完整CI、独立复审、Ruleset读回与真实PR自动合并演练有对应证据
 - [x] #4 PR496和498成果完成合并接续，旧PR及无新工作分支收口，未提交内容完整保留
-- [ ] #5 原生Merge Queue保留六项Required及来源、Strict和无bypass，真实PR验证入队、组合Full、失败剔除、重新授权自动合并及合后收据
+- [x] #5 原生Merge Queue保留六项Required及来源、Strict和无bypass，真实PR验证入队、组合Full、失败剔除、重新授权自动合并及合后收据
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -82,4 +84,12 @@ PR502已原生自动合入67493f1a，PR Full41771126698及push Full41775894289�
 944当前精确PR Full41836216986成功（27.633min/27jobs），不可变收据验证pr_passed=387a9689。GitHub自动入队b4ac6314，entry MQE_lQDOVThF3s8AAAABMwfM_M4ABTCPzgO30CA，组合Full41840544490执行中；真实公开redacted规则+管理员身份/当前成员授权实测admission通过，但不冒充workflow令牌发布已成功。AC5保持未勾。
 
 原生Queue成功：b4ac6314组合Full41840544490完整27jobs成功，真实workflow令牌发布器及Metadata权限通过，原生于14:13:32UTC自动将同一队列组合提交合入develop。不可变组合收据验证native_group_full_passed，artifact13329164326；单父a73且tree精确匹配944授权。GitHub mergedBy归属CHNISam=enqueuer，不伪称queue bot；期间无root direct merge请求。组合wall30.667min，≤30目标仍有超标样本。合后push Full41845430335在途，父AC5待merged_passed再勾。
+
+原PR511精确944575c8的源码Full41836216986与实际b4合后Full41845430335 attempt2已由原验证器复验为merged_passed。旧14:33快照和原失败记录保留；其中headFull旧编号在新附件显式纠正。原attempt1收据按真实有效执行身份继承，不重写为attempt2。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+原生队列入队、失败剔除、显式暂停、重新授权和自动squash均有实证；原PR511的精确合后收据终验通过。M7性能和设备验收独立保留。
+<!-- SECTION:FINAL_SUMMARY:END -->
