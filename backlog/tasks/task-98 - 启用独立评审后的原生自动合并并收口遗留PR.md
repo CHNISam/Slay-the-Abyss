@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 02:34'
-updated_date: '2026-11-04 08:18'
+updated_date: '2026-11-04 08:39'
 labels: []
 milestone: m-7
 dependencies: []
@@ -63,4 +63,6 @@ PR502已原生自动合入67493f1a，PR Full41771126698及push Full41775894289�
 本轮M7收口核对：502/504已合入，505/506关闭并由504接续；develop=c1cf79df。504原授权真实合后验证为merged_pending，push Full 41794339270仍在执行，不提前完成。508精确HEAD7eea66ca/basec1cf79df独立复审codex:/root/queue_review:7eea66ca通过，98/98定向通过；Full41796102717尚未完成，merge:auto只读预检在impact路由前拒绝，未写授权。已保存25870651原规则和仅追加单PR/SQUASH/ALLGREEN的候选，待508完整CI正常合入后启用及真实PR演练；六项Required/Strict/无bypass保持。
 
 508受控挂起首次最终读回未确认，失败关闭并成功撤销；第二次记录完整API边界后原握手成功，原生squash Auto-merge已确认（08:10:59UTC），授权build/delivery/auto-merge-508-7eea66caaf97.json，仍待Full41796102717。规则候选独立复审仅追加merge_queue，通过；未启用。510真实CRLF负例问题已独审修复132a96c2快进原PR，等待当前Full。
+
+504真实合后验收已通过merged_passed，摘要docs/evidence/pr504-merged-delivery-20261104.json；TASK99完成。另上线审计发现queue状态readback/catch缺少已入队处理，已暂停508读回paused且auto_merge=null，原PR最小修复在途；远端Queue仍未启用，绝无绕过。
 <!-- SECTION:NOTES:END -->

@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-04T08:39:10.963Z",
+  "repositoryId": 1429751262,
+  "repository": "FurinyaWorks/Slay-the-Abyss",
+  "prNumber": 504,
+  "state": "merged_passed",
+  "errors": [],
+  "localRawEvidenceSha256": "94750eb839b0888039b7b41c7fca438d444d8809724dd864df185023d65cc6ad",
+  "review": {
+    "reviewId": "/root/review_auto_enable",
+    "reviewedHeadSha": "305dce5c4b6793ad38d38fe42f360fbb77e592c0",
+    "reviewedBaseSha": "67493f1a707dd5332788b4081adb3c3ce6e46761",
+    "conclusion": "pass",
+    "unresolved": [],
+    "supplementalReviews": [
+      {
+        "reviewId": "/root/review_501/pr504-combined-receipt",
+        "scope": "Strict inherited receipt and publisher combination",
+        "conclusion": "pass",
+        "unresolved": []
+      },
+      {
+        "reviewId": "/root/review_498",
+        "scope": "Four design documents and 13 source references",
+        "conclusion": "pass",
+        "unresolved": []
+      }
+    ]
+  },
+  "head": "305dce5c4b6793ad38d38fe42f360fbb77e592c0",
+  "base": "67493f1a707dd5332788b4081adb3c3ce6e46761",
+  "tested": "d228b5cc5bc5db10c2afdc42eb51ab483c4fdc59",
+  "sourceTree": "b7f5721edf5f8f99cd1e912a15033c6c535c6b98",
+  "actualSquash": "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+  "actualParents": [
+    "67493f1a707dd5332788b4081adb3c3ce6e46761"
+  ],
+  "actualTree": "b7f5721edf5f8f99cd1e912a15033c6c535c6b98",
+  "prFull": {
+    "runId": 41782457368,
+    "attempt": 1,
+    "event": "pull_request",
+    "head": "305dce5c4b6793ad38d38fe42f360fbb77e592c0",
+    "conclusion": "success",
+    "url": "https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/41782457368",
+    "elapsedMinutes": 105.26666666666667,
+    "jobCount": 27,
+    "receipt": {
+      "schemaVersion": 1,
+      "event": "pull_request",
+      "runId": 41782457368,
+      "attempt": 1,
+      "tested": "d228b5cc5bc5db10c2afdc42eb51ab483c4fdc59",
+      "head": "305dce5c4b6793ad38d38fe42f360fbb77e592c0",
+      "base": "67493f1a707dd5332788b4081adb3c3ce6e46761",
+      "prNumber": 504,
+      "parents": [
+        "67493f1a707dd5332788b4081adb3c3ce6e46761",
+        "305dce5c4b6793ad38d38fe42f360fbb77e592c0"
+      ]
+    },
+    "artifact": {
+      "id": 13302459168,
+      "name": "quality-41782457368-1-check",
+      "digest": "sha256:331b0354a2b5b189f999a590083a05f8bf2b523661a2596794316f327cd9b2f7"
+    }
+  },
+  "pushFull": {
+    "runId": 41794339270,
+    "attempt": 1,
+    "event": "push",
+    "head": "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+    "conclusion": "success",
+    "url": "https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/41794339270",
+    "elapsedMinutes": 52.61666666666667,
+    "jobCount": 27,
+    "receipt": {
+      "schemaVersion": 1,
+      "event": "push",
+      "runId": 41794339270,
+      "attempt": 1,
+      "tested": "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+      "head": "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+      "base": "67493f1a707dd5332788b4081adb3c3ce6e46761",
+      "parents": [
+        "67493f1a707dd5332788b4081adb3c3ce6e46761"
+      ]
+    },
+    "artifact": {
+      "id": 13305764772,
+      "name": "quality-41794339270-1-check",
+      "digest": "sha256:948b5651ec3e51ef066caf26fd2fa8db6adfc41224a917cf7faec7ee3bdbc955"
+    }
+  },
+  "boundary": "This proves PR504 auto-merge migration and receipt delivery; it is not native Merge Queue or runtime/device evidence."
+}

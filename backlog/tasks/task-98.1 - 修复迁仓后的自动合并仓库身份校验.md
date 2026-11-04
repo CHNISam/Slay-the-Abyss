@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 05:26'
-updated_date: '2026-11-04 05:55'
+updated_date: '2026-11-04 08:39'
 labels: []
 milestone: m-7
 dependencies: []
@@ -29,7 +29,7 @@ ordinal: 141000
 <!-- AC:BEGIN -->
 - [x] #1 启用和暂停使用新规范仓库路径，并校验不可变仓库ID；旧路径、异仓和缺失身份继续拒绝
 - [x] #2 既有严格基线、独立评审、Full回归与失败撤销门禁保留，迁仓正负例及原合同定向测试通过
-- [ ] #3 当前SHA独立复审、Required CI和合后实际身份有证据，未验证部分保持未完成
+- [x] #3 当前SHA独立复审、Required CI和合后实际身份有证据，未验证部分保持未完成
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -44,4 +44,6 @@ ordinal: 141000
 已核实固定ID与规则，修复canonical路由及暂停身份。Node24三组定向77/77、治理41/41、doctor/backlog/guidance与diff检查通过；新增迁仓夹具在旧源码复现25失败。独立只读复审通过并独立重跑77项。完整CI、当前最终SHA复审绑定与合后身份尚待验证，保持In Progress。
 
 本切片由PR504接续：采用固定ID numeric canonical和head/base ID、sameAdmission、迁移witness；保留原PR506记录，补三个CLI入口及身份失败不写远端、旧review拒绝负例。组合83项通过；实际新HEAD CI仍在queued，AC3保持未完成。
+
+本轮504原授权合后verify:delivery=merged_passed，真实PR Full41782457368、push Full41794339270与固定ID、实际squash父/tree、不可变收据均匹配。摘要docs/evidence/pr504-merged-delivery-20261104.json。核心迁仓AC已验收；510补充测试仍待当前SHA CI和正常合入，暂不将该补充宣称完成。
 <!-- SECTION:NOTES:END -->
