@@ -38,6 +38,15 @@ function scan(dir) {
 }
 export function main() {
   const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
+  // A merge queue group is a new integration commit, not an ordinary PR.
+  // Require GitHub's exact queue identity and always run the complete suite.
+  if (process.env.GITHUB_EVENT_NAME === 'merge_group') {
+    const group=event.merge_group;
+    if (event.action!=='checks_requested'||group?.base_ref!=='refs/heads/develop'||
+      group?.head_sha!==process.env.GITHUB_SHA||group?.head_ref!==process.env.GITHUB_REF||
+      !/^[0-9a-f]{40}$/.test(group?.base_sha??''))
+      throw Error('Invalid native merge group identity');
+  }
   let changed = [];
   if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
     const base = event.pull_request.base.sha;
