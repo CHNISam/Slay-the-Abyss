@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-11-04T13:25:33.866Z",
+  "capturedAt": "2026-11-04T13:45:28.795Z",
   "repository": "FurinyaWorks/Slay-the-Abyss",
   "repositoryId": 1429751262,
   "delivery508": {
@@ -207,13 +207,23 @@
       "jobCount": 27,
       "runnerExecutionMinutes": 380.5499999999999,
       "maxJobMinutes": 25.383333333333333
+    },
+    {
+      "id": 41836216986,
+      "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
+      "event": "pull_request",
+      "result": "success",
+      "wallMinutes": 27.633333333333333,
+      "jobCount": 27,
+      "runnerExecutionMinutes": 364.95000000000005,
+      "maxJobMinutes": 25.783333333333335
     }
   ],
   "liveQueueValidation": {
-    "capturedAt": "2026-11-04T13:21:54.129Z",
-    "state": "rules-visibility-fix-new-head-full-running",
+    "capturedAt": "2026-11-04T13:45:28.795Z",
+    "state": "reviewed-head-real-queue-full-running",
     "pr": 511,
-    "head": "3598949d8e71fedba59af88cf7a443554e77f910",
+    "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
     "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
     "headFull": 41823316178,
     "failureRemoval": {
@@ -234,7 +244,8 @@
         }
       },
       "prUnmerged": true,
-      "proofSha256": "68c33f2874e047f1c44692f2eba1713c2c1979b4da975e8595c7d079a562e1e3"
+      "proofSha256": "68c33f2874e047f1c44692f2eba1713c2c1979b4da975e8595c7d079a562e1e3",
+      "prHead": "3598949d8e71fedba59af88cf7a443554e77f910"
     },
     "explicitPause": {
       "group": "7f5ebeb126f13b682a37eeec6e4d579012ba2c21",
@@ -254,9 +265,38 @@
       },
       "emptyEntry": true,
       "emptyAutoMerge": true,
-      "proofSha256": "8403110382a82e5ce9bed3091e30773344b4773c3b64a5a1a715d0043caaf510"
+      "proofSha256": "8403110382a82e5ce9bed3091e30773344b4773c3b64a5a1a715d0043caaf510",
+      "prHead": "3598949d8e71fedba59af88cf7a443554e77f910"
     },
-    "finalGroup": {
+    "successfulNativeQueueMerge": false,
+    "currentAttempt": {
+      "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
+      "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+      "runId": 41836216986,
+      "authorizationSha256": "686e80da9def325c651f88b3aa17e462d187b6e820374928f57974ab48e8a9da",
+      "rulesFingerprint": "9a80615fd7882c0c631885fc2a7ea110f1ac2ef335b2dcf73bb333344d48b5d1",
+      "reviewId": "independent-agent:/root/review_rules_visibility:944575c8",
+      "reviewConclusion": "pass",
+      "independentTests": 113,
+      "independentNegativeCases": 19,
+      "implementationTests": 118,
+      "newPermissions": false,
+      "newJobs": false,
+      "nativeState": "queued",
+      "successfulNativeQueueMerge": false,
+      "observedAt": "2026-11-04T13:45:28.795Z",
+      "sourceFull": "pr_passed",
+      "sourceFullRawSha256": "3b99d6fa60e651de101272b16b20150c58482036d8f53428e44338372442c808",
+      "sourceFullReceipt": {
+        "runId": 41836216986,
+        "attempt": 1,
+        "tested": "ac7f7d1ce45dc8c0b2d5b55b255cb56d7fb2ae47",
+        "artifactId": 13328895476,
+        "digest": "sha256:b7333d7d1dfbd902fb7076734d0670bdc463576bd75822df2e0992a5c904b0ba"
+      }
+    },
+    "initialExperimentHead": "3598949d8e71fedba59af88cf7a443554e77f910",
+    "rulesVisibilityFailure": {
       "head": "05ccff3f51c1a9f4dbd4fe0b37085c6b224a2981",
       "runId": 41828843134,
       "entryId": "MQE_lQDOVThF3s8AAAABMwfM_M4ABTCPzgO3UnQ",
@@ -276,26 +316,17 @@
       "logSha256": "47421a33bf76a501565a6281020cef9c7bf7a6ce3bd8e22f2d8740dfeeb740af",
       "snapshotSha256": "e3ad8c7bb831b4a78401909efd3e9f0a68ccbe845606c35506a7cc1f718aeeb2"
     },
-    "successfulNativeQueueMerge": false,
-    "currentAttempt": {
-      "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
-      "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
-      "runId": 41836216986,
-      "authorizationSha256": "686e80da9def325c651f88b3aa17e462d187b6e820374928f57974ab48e8a9da",
-      "rulesFingerprint": "9a80615fd7882c0c631885fc2a7ea110f1ac2ef335b2dcf73bb333344d48b5d1",
-      "reviewId": "independent-agent:/root/review_rules_visibility:944575c8",
-      "reviewConclusion": "pass",
-      "independentTests": 113,
-      "independentNegativeCases": 19,
-      "implementationTests": 118,
-      "newPermissions": false,
-      "newJobs": false,
-      "nativeState": "waiting-for-source-full",
-      "successfulNativeQueueMerge": false,
-      "observedAt": "2026-11-04T13:21:54.129Z"
+    "finalGroup": {
+      "head": "b4ac63145689b9dd632db100eee49087f6182b39",
+      "runId": 41840544490,
+      "entryId": "MQE_lQDOVThF3s8AAAABMwfM_M4ABTCPzgO30CA",
+      "admissionPassed": true,
+      "admissionAuthority": "Operator API with actual public redacted rules snapshot; this is not proof of the workflow token execution.",
+      "admissionProofSha256": "4b29cf677c721a5ec00256fc0889ab13c723bc095311b3fea20268d445867183",
+      "state": "full-running"
     }
   },
-  "boundary": "Queue enabled and real rejection/dequeue proven. Ruleset read-visibility repair has exact-SHA independent pass and renewed native authorization, but the new source Full, successful native group merge and post-push delivery remain incomplete. Runtime/device evidence is not covered.",
+  "boundary": "PR511 current exact source Full and immutable receipt passed. Current native group has verified real membership and rules authorization; workflow-token group completion, automatic merge and post-push delivery still pending. Real failure removal/dequeue and earlier failed publisher logs remain preserved. Runtime/device evidence is not covered.",
   "failedCiTimings": [
     {
       "id": 41828843134,
@@ -343,7 +374,7 @@
   "timingMethod": "GitHub run created_at to updated_at wall; sum of job started_at to completed_at is unweighted execution minutes, not billed minutes. Failed/cancelled diagnostic samples are separate from completed successful Full; first-job delay is not every job queue delay. Queue activation has no established causal speedup from these samples.",
   "domainGlobalComplexity": {
     "evidence": "docs/evidence/combat-reactions-global-complexity-20261104.json",
-    "sha256": "e78ab1ccd6c9e0b5357af4f2a9edf2b2ada84d50a5dcef05ef5cd510482db8b4",
+    "sha256": "04f3c15f80683890c6e4b6320e1435ae43e66f352afa55ba8a3a39943d739c84",
     "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
     "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
     "before": {
