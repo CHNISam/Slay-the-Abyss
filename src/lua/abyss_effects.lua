@@ -122,17 +122,21 @@ function M.allowedAfterVictory(effect)
         or effect.op == "damageEqualToBlock" or effect.op == "loseHp"
 end
 
-local function supported(effects, branch)
-    if type(effects) ~= "table" then return false, "invalid_effect" end
+local function denseEffectCount(effects)
+    if type(effects) ~= "table" then return nil, "invalid_effect" end
     -- Both levels must be nonempty dense arrays: ipairs alone would silently
     -- accept objects, empty branches or unknown operations after a hole.
     local count = 0
     for key in pairs(effects) do
-        if type(key) ~= "number" or key % 1 ~= 0 or key < 1 then return false, "invalid_effect" end
+        if type(key) ~= "number" or key % 1 ~= 0 or key < 1 then return nil, "invalid_effect" end
         count = count + 1
     end
-    if count == 0 then return false, "invalid_effect" end
-    for i = 1, count do if effects[i] == nil then return false, "invalid_effect" end end
+    if count == 0 then return nil, "invalid_effect" end
+    for i = 1, count do if effects[i] == nil then return nil, "invalid_effect" end end
+    return count
+end
+
+local function scrySequenceSupported(effects)
     local hasScry = false
     for _,effect in ipairs(effects) do if type(effect)=="table" and effect.op=="scry" then hasScry=true end end
     if hasScry then
@@ -141,37 +145,77 @@ local function supported(effects, branch)
             if type(effect) ~= "table" or not allowed[effect.op] then return false, "unsupported_scry_sequence" end
         end
     end
+    return true
+end
+
+local function supportedEffectOp(effect)
+    if type(effect) ~= "table" then return nil, "invalid_effect" end
+    local op = effect.op
+    if type(op) ~= "string" then return nil, "invalid_effect" end
+    if op=='defectFinal' and not require('abyss_defect_final_cards').supports(effect) then return nil,'invalid_defect_final' end
+    return op
+end
+
+local function conditionalAllowed(effect, branch, targetChecked)
+    -- Combat preflights top-level damage targets; never enable a
+    -- conditional-only card or recursively hidden target requirement.
+    return not (branch or not targetChecked or (effect["if"] ~= "target_vulnerable" and effect['if']~='target_poison')
+        or effect["else"] ~= nil)
+end
+
+local function nonConditionalOpSupported(op, branch)
+    return (coreOps[op] or extensionOps[op] or CardActions.supports(op))
+        and not (branch and not (branch=='target_poison' and op=='damage') and op ~= "energy" and op ~= "draw")
+end
+
+local function selectionAmountsSupported(effect, op, branch, effectIndex, count)
+    if op == "requestDiscard" and (branch or effectIndex ~= count
+        or type(effect.value) ~= "number" or effect.value % 1 ~= 0 or effect.value < 0 or effect.value > 10) then
+        return false, "discard_must_end_card"
+    end
+    if op == "scry" and (type(effect.value) ~= "number" or effect.value % 1 ~= 0
+        or effect.value < 0 or effect.value > 2147483647) then return false, "invalid_scry_amount" end
+    return true
+end
+
+local function mantraAmountSupported(effect, op)
+    if (op=="gainMantra" or op=="gainDevotion") and (type(effect.value)~="number" or effect.value%1~=0
+        or effect.value<0 or effect.value>2147483647) then return false,"invalid_mantra_amount" end
+    return true
+end
+
+local function effectMetadataSupported(effect, op)
+    if effect.fixed ~= nil and (type(effect.fixed) ~= "boolean"
+        or not (op=="block" or op=="damage" or op=="damageAll" or CardActions.supports(op))) then
+        return false, "invalid_fixed_block"
+    end
+    if effect.target ~= nil and (op ~= "block" or effect.target ~= "random_ally" and effect.target~='automaton' and effect.target~='all_allies') then
+        return false, "invalid_effect_target"
+    end
+    return true
+end
+
+local function supported(effects, branch)
+    local count, invalid = denseEffectCount(effects)
+    if not count then return false, invalid end
+    local ok, unsupported = scrySequenceSupported(effects)
+    if not ok then return false, unsupported end
     local targetChecked = false
     for effectIndex, effect in ipairs(effects) do
-        if type(effect) ~= "table" then return false, "invalid_effect" end
-        local op = effect.op
-        if type(op) ~= "string" then return false, "invalid_effect" end; if op=='defectFinal' and not require('abyss_defect_final_cards').supports(effect)then return false,'invalid_defect_final' end
+        local op
+        op, unsupported = supportedEffectOp(effect)
+        if not op then return false, unsupported end
         if op == "conditional" then
-            -- Combat preflights top-level damage targets; never enable a
-            -- conditional-only card or recursively hidden target requirement.
-            if branch or not targetChecked or (effect["if"] ~= "target_vulnerable" and effect['if']~='target_poison')
-                or effect["else"] ~= nil then return false, "conditional" end
-            local ok, unsupported = supported(effect["then"], effect['if'])
+            if not conditionalAllowed(effect, branch, targetChecked) then return false, "conditional" end
+            ok, unsupported = supported(effect["then"], effect['if'])
             if not ok then return false, unsupported end
-        elseif not (coreOps[op] or extensionOps[op] or CardActions.supports(op))
-            or (branch and not (branch=='target_poison' and op=='damage') and op ~= "energy" and op ~= "draw") then
-            return false, op or "invalid_effect"
-        end
-        if op == "requestDiscard" and (branch or effectIndex ~= count
-            or type(effect.value) ~= "number" or effect.value % 1 ~= 0 or effect.value < 0 or effect.value > 10) then
-            return false, "discard_must_end_card"
-        end
-        if op == "scry" and (type(effect.value) ~= "number" or effect.value % 1 ~= 0
-            or effect.value < 0 or effect.value > 2147483647) then return false, "invalid_scry_amount" end
-        if (op=="gainMantra" or op=="gainDevotion") and (type(effect.value)~="number" or effect.value%1~=0
-            or effect.value<0 or effect.value>2147483647) then return false,"invalid_mantra_amount" end
-        if effect.fixed ~= nil and (type(effect.fixed) ~= "boolean"
-            or not (op=="block" or op=="damage" or op=="damageAll" or CardActions.supports(op))) then
-            return false, "invalid_fixed_block"
-        end
-        if effect.target ~= nil and (op ~= "block" or effect.target ~= "random_ally" and effect.target~='automaton' and effect.target~='all_allies') then
-            return false, "invalid_effect_target"
-        end
+        elseif not nonConditionalOpSupported(op, branch) then return false, op or "invalid_effect" end
+        ok, unsupported = selectionAmountsSupported(effect, op, branch, effectIndex, count)
+        if not ok then return false, unsupported end
+        ok, unsupported = mantraAmountSupported(effect, op)
+        if not ok then return false, unsupported end
+        ok, unsupported = effectMetadataSupported(effect, op)
+        if not ok then return false, unsupported end
         if op == "damage" then targetChecked = true end
     end
     return true
