@@ -7,7 +7,7 @@ const hash=text=>createHash('sha256').update(text).digest('hex');
 const lock=JSON.parse(read('tests/fixtures/sapphire-modern-partition.json'));
 // Real fixture dependencies stay explicit so the existing related-test selector sees them.
 const coreEntries=['tests/lua/sapphire_treasure.lua','tests/lua/sapphire_treasure_slice_2.lua',
- 'tests/lua/sapphire_treasure_slice_3.lua','tests/lua/sapphire_treasure_slice_4.lua'];
+ 'tests/lua/sapphire_treasure_slice_3.lua','tests/lua/sapphire_treasure_slice_4.lua','tests/lua/sapphire_treasure_slice_5.lua'];
 function assertFrozenSapphireUI(source){
  // Restore exactly the reviewed mock-only edits; never normalize scenario bodies.
  const loader="local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')\n";

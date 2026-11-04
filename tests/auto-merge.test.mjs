@@ -7,8 +7,8 @@ const sha=c=>c.repeat(40);
 const armAutoMerge=(repo,number,review,query,options={})=>activate(repo,number,review,query,{loadCheckout:query.loadCheckout,...options});
 const repo='CHNISam/Slay-the-Abyss';
 function fixture() {
-  const pr={number:510,state:'open',merged:false,draft:false,mergeable:true,changed_files:1,
-    head:{sha:sha('a'),repo:{full_name:repo}},base:{ref:'develop',sha:sha('b')},merge_commit_sha:sha('d'),body:'Summary\n\nDepends-on: none',
+  const pr={number:510,node_id:'PR_reviewed_510',state:'open',merged:false,draft:false,mergeable:true,changed_files:1,
+    head:{sha:sha('a'),ref:'feat/reviewed',repo:{full_name:repo}},base:{ref:'develop',sha:sha('b')},merge_commit_sha:sha('d'),body:'Summary\n\nDepends-on: none',
     labels:[]};
   const review={reviewId:'independent-agent-evidence-100',reviewedHeadSha:sha('a'),
     reviewedBaseSha:sha('b'),conclusion:'pass',unresolved:[],repo,prNumber:510};
@@ -23,7 +23,7 @@ function fixture() {
   return {pr,review,settings,ruleset,repo,baseSha:sha('b'),dependencies:[]};
 }
 function mock(opts={}) {
-  const f=fixture(),calls=[];let pulls=0,armed=false;
+  const f=fixture(),calls=[];let pulls=0,armed=false,enableAttempted=false,syncMerged=false;
   const run={id:7,run_attempt:1,event:'pull_request',head_sha:sha('a'),path:qualityWorkflowPath,
     repository:{full_name:repo},status:'completed',conclusion:'success',pull_requests:[{number:510}]};
   const jobs=currentFullQualityJobs.map((name,i)=>({id:100+i,name,status:'completed',
@@ -36,8 +36,15 @@ function mock(opts={}) {
   const checkoutArtifact={id:200,name:'quality-7-1-check',expired:false,workflow_run:{id:7,head_sha:sha('a')}};
   const query=(...args)=>{
     calls.push(args);
+    if(args[0]==='api'&&args[1]==='graphql'){
+      enableAttempted=true;
+      assert(args.some(arg=>arg.includes('enablePullRequestAutoMerge')));
+      assert(!args.some(arg=>arg.includes('mergePullRequest(input')));
+      if(opts.activationFails||opts.cleanFallback)throw Error('activation failed');armed=true;return '{}';
+    }
     if(args[0]==='pr') {
-      if(args[1]==='merge') {if(args.includes('--disable-auto'))return '';if(opts.activationFails)throw Error('activation failed');armed=true;return '';}
+      if(args[1]==='checks')return JSON.stringify(requiredContexts.filter(name=>name!==opts.missingRequired).map(name=>({name,state:name==='inventory'?(opts.inventoryState??'SUCCESS'):'SUCCESS'})));
+      if(args[1]==='merge') {if(args.includes('--disable-auto'))return '';if(opts.activationFails)throw Error('activation failed');syncMerged=true;return '';}
       throw Error('Unexpected gh pr invocation');
     }
     const last=args.includes('--method')?args.find(x=>x.startsWith('repos/')):args.at(-1);
@@ -45,9 +52,11 @@ function mock(opts={}) {
     if(last==='repos/'+repo+'/pulls/510') {
       ++pulls;
       const pr=structuredClone(f.pr);
+      pr.auto_merge=null;pr.mergeable_state=opts.cleanFallback&&enableAttempted?'clean':'blocked';
+      if(opts.missingAutoField)delete pr.auto_merge;
       if(opts.nextHead&&pulls>=2)pr.head.sha=opts.nextHead;
       if(opts.nextBase&&pulls>=2)pr.base.sha=opts.nextBase;
-      if(armed&&opts.mergeImmediately){pr.merged=true;pr.state='closed';pr.merge_commit_sha=sha('e');}
+      if(syncMerged||armed&&opts.mergeImmediately){pr.merged=true;pr.state='closed';pr.merge_commit_sha=sha('e');}
       if(armed&&!opts.missingAutoMerge)pr.auto_merge={merge_method:opts.mergeMethod??'squash'};
       if(pulls===7&&opts.finalTarget)pr.base.ref=opts.finalTarget;
       if(pulls===7&&opts.finalNumber)pr.number=opts.finalNumber;
@@ -60,6 +69,13 @@ function mock(opts={}) {
     if(last==='repos/'+repo+'/rulesets/25870651')return JSON.stringify(f.ruleset);
     if(last==='repos/'+repo+'/git/ref/heads/develop')
       return JSON.stringify({ref:'refs/heads/develop',object:{type:'commit',sha:opts.nextTarget&&pulls>=2?opts.nextTarget:f.baseSha}});
+    if(last.includes('/actions/workflows/licenses.yml/'))return JSON.stringify([{workflow_runs:[{
+      id:17,run_attempt:1,path:'.github/workflows/licenses.yml',repository:{full_name:repo},check_suite_id:41,
+      event:'pull_request',head_sha:sha('a'),head_branch:f.pr.head.ref,pull_requests:[{number:510}],status:'completed',conclusion:'success'}]}]);
+    if(last.includes('/actions/runs/17/jobs'))return JSON.stringify([{jobs:[{id:900,name:'inventory',run_id:17,run_attempt:opts.inventoryOldAttempt?0:1,
+      head_sha:sha('a'),status:'completed',conclusion:'success',check_run_url:`https://api.github.com/repos/${repo}/check-runs/900`}]}]);
+    if(last===`repos/${repo}/check-runs/900`)return JSON.stringify({id:900,name:'inventory',app:{id:opts.inventoryApp??15368},
+      head_sha:sha('a'),status:'completed',conclusion:'success',check_suite:{id:41}});
     if(last.includes('/actions/workflows/'))return JSON.stringify([{workflow_runs:[opts.rerun&&pulls>=5?{...run,run_attempt:2,status:'in_progress',conclusion:null}:run]}]);
     if(last.includes('/jobs?'))return JSON.stringify([{jobs}]);
     if(last==='repos/'+repo+'/commits/'+sha('d'))
@@ -158,14 +174,13 @@ test('dry run makes no writes, while approved activation writes status before ar
   const b=mock();
   const r=armAutoMerge(repo,510,b.f.review,b.query);
   assert.equal(r.state,'auto-merge-requested');
-  const write=b.calls.findIndex(call=>call.includes('POST')),merge=b.calls.findIndex(call=>call[0]==='pr');
+  const write=b.calls.findIndex(call=>call.includes('POST')),merge=b.calls.findIndex(call=>call[1]==='graphql');
   assert(write>=0&&merge>write);
   assert(b.calls[write].includes('context='+reviewContext));
   assert(b.calls[write].includes('repos/'+repo+'/statuses/'+sha('a')));
-  assert(b.calls[merge].includes('--match-head-commit'));
-  assert(b.calls[merge].includes(sha('a')));
-  assert(b.calls[merge].includes('--auto'));
-  assert(b.calls[merge].includes('--squash'));
+  assert(b.calls[merge].includes('head='+sha('a')));
+  assert(b.calls[merge].includes('id=PR_reviewed_510'));
+  assert(b.calls[merge].some(arg=>arg.includes('expectedHeadOid:$head,mergeMethod:SQUASH')));
 });
 test('a new HEAD or develop tip blocks status writes and merge even after an earlier pass',()=>{
   for(const [options,pattern] of [[{nextHead:sha('e')},/changed|stale/i],
@@ -291,6 +306,10 @@ test('independent review can arm while Full is pending without claiming Full suc
  const result=armAutoMerge(repo,510,m.f.review,m.query);
  assert.equal(result.state,'auto-merge-requested');
  assert.equal(result.proof.fullPreflight,undefined);
+ assert(!m.calls.some(c=>c[0]==='pr'&&!c.includes('--disable-auto')),'pending path cannot use CLI immediate-merge dispatch');
+ const mutation=m.calls.find(c=>c[1]==='graphql');
+ assert(mutation.includes('id=PR_reviewed_510'));assert(mutation.includes('head='+sha('a')));
+ assert(mutation.some(c=>c.includes('expectedHeadOid:$head,mergeMethod:SQUASH')));
  assert.deepEqual(result.proof.pendingRun,{id:7,attempt:1,head:sha('a')});
  assert.deepEqual(verifyAutoMergeArm(result.proof),[]);
  assert(verifyDelivery(result.proof).some(e=>e.includes('not successful Full')));
@@ -321,6 +340,21 @@ test('Full gate cannot be omitted or lose the Actions source when arming',()=>{
   if(source==='missing')checks.required_status_checks=checks.required_status_checks.filter(c=>c.context!=='full-quality');
   else checks.required_status_checks.find(c=>c.context==='full-quality').integration_id=source;
   assert(autoMergeErrors(f).length);
+ }
+});
+test('CLEAN fallback revalidates fresh Full and every required native context before a direct exact-head merge',()=>{
+ const good=mock({cleanFallback:true});
+ assert.equal(armAutoMerge(repo,510,good.f.review,good.query).state,'merged');
+ const direct=good.calls.find(c=>c[0]==='pr'&&c[1]==='merge'&&!c.includes('--disable-auto'));
+ assert(direct.includes('--match-head-commit'));assert(direct.includes(sha('a')));assert(!direct.includes('--auto'));
+ for(const options of [{cleanFallback:true,inventoryState:'FAILURE'},{cleanFallback:true,inventoryState:'CANCELLED'},
+  {cleanFallback:true,inventoryState:'PENDING'},{cleanFallback:true,missingRequired:'inventory'},
+  {cleanFallback:true,missingRequired:'full-quality'},{cleanFallback:true,missingRequired:reviewContext},
+  {cleanFallback:true,inventoryApp:123},{cleanFallback:true,inventoryOldAttempt:true},
+  {cleanFallback:true,missingAutoField:true},
+  {cleanFallback:true,fastOnly:true}]){
+  const m=mock(options);assert.throws(()=>armAutoMerge(repo,510,m.f.review,m.query));
+  assert(!m.calls.some(c=>c[0]==='pr'&&c[1]==='merge'&&!c.includes('--disable-auto')),'no unverified direct merge');
  }
 });
 test('pause cancels native auto-merge before revoking review and refuses uncertain cancellation',()=>{

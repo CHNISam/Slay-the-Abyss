@@ -3,13 +3,13 @@
 import assert from 'node:assert/strict';
 import {join} from 'node:path';
 import {createHistoricalRuntimeRoots,applyHistoricalRuntimeTarget} from './historical-runtime-root.mjs';
-import {existsSync,readFileSync} from 'node:fs';
+import {existsSync,readFileSync,writeFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import {runLua} from '../../scripts/test-lua.mjs';
 import {historicalSapphireFixtures} from './historical-presentation-runner.mjs';
 import {relicCompletionInverse,relicCompletionAddedPaths,requireRelicCompletionSource,preRelicCompletionSource} from './relic-completion-inverse.mjs';
 const script=process.argv[2],timeout=Number(process.argv[3]),started=Date.now();
-assert.ok(historicalSapphireFixtures.includes(script),'only the four exact frozen Sapphire core fixtures');
+assert.ok(historicalSapphireFixtures.includes(script),'only the exact frozen Sapphire core fixtures');
 assert.ok(Number.isSafeInteger(timeout)&&timeout>0&&timeout<=30000,'original Sapphire total deadline');
 const remaining=()=>{const value=timeout-(Date.now()-started);assert.ok(value>0,'historical Sapphire exceeded its original total deadline');return value;};
 const runtime=createHistoricalRuntimeRoots({source:false}),{directory}=runtime;
@@ -30,6 +30,11 @@ try{
   projected[path]=preRelicCompletionSource(path,source);
  }
  applyHistoricalRuntimeTarget(directory,projected);
+ if(script!=='tests/lua/sapphire_treasure.lua'){
+  const wrapper=readFileSync(new URL('../../'+script,import.meta.url),'utf8').replaceAll('\r\n','\n');
+  assert.match(wrapper,/^assert\(loadfile\('tests\/lua\/sapphire_treasure\.lua'\)\)\(\d+,\d+\)\n$/,'thin range only, no replacement historical cases');
+  writeFileSync(join(directory,script),wrapper);
+ }
  console.error('HISTORICAL_PROJECTED '+(Date.now()-started)+'ms');
  process.chdir(directory);
  const built=spawnSync(process.execPath,['scripts/build-lua-data.mjs'],{cwd:directory,encoding:'utf8',timeout:remaining(),windowsHide:true});

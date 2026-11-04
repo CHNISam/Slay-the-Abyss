@@ -65,7 +65,16 @@ try{
   console.log(JSON.stringify({before,after}));
  }else{
   const layout=script.includes('battle_ui_card_play')?'':`ABYSS_TEST_LAYOUT=${toLua(battleLayout())}\n`;
-  const result=execute(`${layout}${prelude}dofile(${luaString(script)})`);
+  let invocation=`dofile(${luaString(script)})`;
+  if(script.includes('battle_ui_card_play')){
+   const partition=JSON.parse(readFileSync(new URL('../fixtures/p0-card-play-partition.json',import.meta.url),'utf8'));
+   const range=partition.slices.find(row=>'tests/lua/'+row.file===script);
+   assert(range&&Number.isSafeInteger(range.first)&&Number.isSafeInteger(range.last)&&range.first>=1&&range.last<=11&&range.first<=range.last,'complete registered card-play range');
+   // Execute the original frozen body with explicit range arguments, rather
+   // than replacing it with a current or shortened historical fixture.
+   invocation=`assert(loadfile('tests/lua/battle_ui_card_play.lua'))(${range.first},${range.last})`;
+  }
+  const result=execute(`${layout}${prelude}${invocation}`);
   process.stdout.write(result.stdout);process.stderr.write(result.stderr);process.exitCode=result.status??1;
  }
 }finally{runtime.close();}

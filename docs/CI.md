@@ -48,7 +48,7 @@ develop PR 的独立评审与 CI 并行。审查与准入通过后可在 Full �
 
 `full-quality` 由原有 impact 作业开始时置 pending，再由原有 check 作业在 Windows、POSIX 和 presentation 全部结束后发布；不新增作业。发布器检查当前 run/attempt、全部27项真实作业身份/结果、PR HEAD、实际目标与合成双父；Fast 永不发布 success。只有 impact/check 增加 job-scoped `statuses: write`，所有回归、LFS 读取及默认权限仍只读。需要完整合并验证时使用已有 `ci:full` 标签，标签变动/ready 会重新触发正常 Quality；不以 Fast 反馈代替完整准入。
 
-该额外 commit status 绑定受审的精确 HEAD：协调 Agent 检查独立评审记录、实际 develop ref、GitHub 合成 merge commit 的父节点和源码树、PR 声明的前置依赖及 Ruleset，再写入 `independent-review: success` 并使用 `gh pr merge --auto --squash --match-head-commit <HEAD>`。后续推送新 HEAD 时，旧 HEAD 的状态不应授权新提交，须重新审查、重新启用。**审查 JSON 的字段并不能证明审查者真实独立**；协调 Agent 仍须核对外部审查来源、reviewId 和未解决问题，不能自行伪造审查通过。
+该额外 commit status 绑定受审的精确 HEAD：协调 Agent 检查独立评审记录、实际 develop ref、GitHub 合成 merge commit 的父节点和源码树、前置依赖及 Ruleset，再写入 `independent-review: success`。所有自动请求显式调用 GraphQL `enablePullRequestAutoMerge`，绑定 `expectedHeadOid` 与 SQUASH，避免 `gh --auto` 把 UNSTABLE 转为直接合并。若 GitHub 拒绝已 CLEAN 的 PR 启用，必须重新取得精确 Full、六项原生必需检查全绿、inventory 的 Actions App/最新 Licenses run/attempt/HEAD 证据和末次一致准入，才允许精确 SHA 同步合并；不按错误文字或字段缺失放行。新 HEAD 必须重新审查、授权。**审查 JSON 不自证独立**，协调 Agent 须核对真实 reviewId 来源和未解决问题。
 
 ### 常规使用
 

@@ -28,7 +28,7 @@ export function autoMergeErrors({repo,settings,pr,baseSha,ruleset,review,depende
   if(repo!=='CHNISam/Slay-the-Abyss')errors.push('Unexpected repository');
   if(settings?.allow_auto_merge!==true||settings?.allow_squash_merge!==true)
     errors.push('Repository auto-merge and squash must both be enabled');
-  if(!prId(pr?.number)||pr?.state!=='open'||pr?.merged||pr?.draft)errors.push('PR must be open, ready and unmerged');
+  if(!prId(pr?.number)||typeof pr?.node_id!=='string'||!pr.node_id.trim()||pr?.state!=='open'||pr?.merged||pr?.draft)errors.push('PR must be open, ready and unmerged');
   if(pr?.base?.ref!=='develop'||!validSha(pr?.base?.sha)||!validSha(pr?.head?.sha))
     errors.push('PR must target develop with valid HEAD and BASE SHAs');
   if(pr?.head?.repo?.full_name!==repo)errors.push('Cross-repository PRs require manual handling');
@@ -166,7 +166,7 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false,loadCheck
     if(final.errors.length||!sameAdmission(final.pr,current.pr)||lastRun?.id!==pending.id||lastRun.run_attempt!==pending.run_attempt)
       throw Error('PR admission or Full attempt changed before authorization');
     proof.pendingRun={id:pending.id,attempt:pending.run_attempt,head:pending.head_sha};
-    return requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persist});
+    return requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persist,loadCheckout});
   }
   // Completed CI still uses the original exact Full proof, including its
   // immutable checkout artifact. Fast greens cannot take this path.
@@ -190,10 +190,32 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false,loadCheck
   proof.fullPreflight=refreshed.evidence;
   proof.review=refreshed.evidence.review;
   if(review?.disposition==='low-risk-docs')proof.changedFiles=refreshed.evidence.changedFiles;
-  return requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persist});
+  return requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persist,loadCheckout});
 }
 
-function requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persist}){
+function inventoryEvidence(repo,number,current,query){
+  const latest=()=>json(query,'api','--paginate','--slurp',`repos/${repo}/actions/workflows/licenses.yml/runs?event=pull_request&head_sha=${current.headSha}&per_page=100`)
+    .flatMap(p=>p.workflow_runs).filter(r=>r.head_sha===current.headSha&&r.event==='pull_request'&&
+      r.head_branch===current.pr.head.ref&&r.pull_requests?.some(p=>p.number===number)).sort((a,b)=>b.id-a.id)[0];
+  const run=latest();
+  if(!run||run.path!=='.github/workflows/licenses.yml'||run.status!=='completed'||run.conclusion!=='success'||
+    run.repository?.full_name!==repo||!Number.isSafeInteger(run.run_attempt)||run.run_attempt<1)
+    throw Error('Exact current Licenses run is not successful');
+  const jobs=json(query,'api','--paginate','--slurp',`repos/${repo}/actions/runs/${run.id}/jobs?filter=all&per_page=100`).flatMap(p=>p.jobs);
+  const job=jobs.filter(j=>j.name==='inventory').sort((a,b)=>b.run_attempt-a.run_attempt||b.id-a.id)[0];
+  if(job?.run_id!==run.id||job.run_attempt!==run.run_attempt||job.head_sha!==current.headSha||
+    job.status!=='completed'||job.conclusion!=='success')throw Error('Latest inventory job does not match the exact run/attempt/HEAD');
+  const prefix=`https://api.github.com/repos/${repo}/check-runs/`;
+  const id=job.check_run_url?.startsWith(prefix)?job.check_run_url.slice(prefix.length):'';
+  if(!/^[1-9]\d*$/.test(id))throw Error('Inventory check-run URL is invalid');
+  const check=json(query,'api',`repos/${repo}/check-runs/${id}`),again=latest();
+  if(String(check.id)!==id||check.name!=='inventory'||check.app?.id!==15368||check.head_sha!==current.headSha||
+    check.status!=='completed'||check.conclusion!=='success'||check.check_suite?.id!==run.check_suite_id||
+    again?.id!==run.id||again.run_attempt!==run.run_attempt)throw Error('Inventory source or latest attempt is not verified');
+  return {run,job,check};
+}
+
+function requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persist,loadCheckout}){
   if(dryRun)return {state:'eligible',head:current.headSha,base:current.baseSha,dependsOn:current.dependsOn,proof};
   persist({state:'prepared',proof});
   const desc=review?.disposition==='low-risk-docs'?'Verified narrow documentation waiver':
@@ -204,9 +226,40 @@ function requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persi
     persist({state:'authorizing',proof});
     status('success');
     persist({state:'authorized',proof});
-    query('pr','merge',String(number),'--repo',repo,'--auto','--squash',
-      '--match-head-commit',current.headSha);
-    const after=json(query,'api','repos/'+repo+'/pulls/'+number);
+    let enableError;
+    try{
+      // Never let gh --auto dispatch UNSTABLE to an unverified direct merge.
+      query('api','graphql','-f','query=mutation($id:ID!,$head:GitObjectID!){enablePullRequestAutoMerge(input:{pullRequestId:$id,expectedHeadOid:$head,mergeMethod:SQUASH}){pullRequest{number}}}',
+        '-f','id='+current.pr.node_id,'-f','head='+current.headSha);
+    }catch(error){enableError=error;}
+    let after=json(query,'api','repos/'+repo+'/pulls/'+number);
+    if(enableError&&!after.merged&&after.auto_merge===null&&after.mergeable_state==='clean'&&sameAdmission(after,current.pr)){
+      // GitHub can reject enabling auto-merge when the PR is already CLEAN.
+      // Error text is not permission to merge: obtain a fresh exact Full proof
+      // AND every native required context, including inventory and both new gates.
+      const refreshed=collectPrDelivery(repo,number,review,query,loadCheckout);
+      const errors=verifyDelivery(refreshed.evidence);
+      if(errors.length||!sameAdmission(refreshed.current,current.pr)||
+        ['head','base','tested','sourceTree'].some(key=>refreshed.evidence[key]!==proof[key])||
+        proof.pendingRun&&(refreshed.evidence.runId<proof.pendingRun.id||
+          refreshed.evidence.runId===proof.pendingRun.id&&refreshed.evidence.attempt<proof.pendingRun.attempt))
+        throw Error('Fresh Full proof required for verified synchronous merge: '+errors.join('; '));
+      const checks=json(query,'pr','checks',String(number),'--repo',repo,'--required','--json','name,state');
+      if(!Array.isArray(checks)||new Set(checks.map(c=>c.name)).size!==checks.length||
+        requiredContexts.some(name=>!checks.some(c=>c.name===name&&c.state==='SUCCESS'))||
+        checks.some(c=>c.state!=='SUCCESS'))throw Error('Every native required check must pass before synchronous merge');
+      const inventory=inventoryEvidence(repo,number,current,query);
+      const final=collectEligibility(repo,number,review,query);
+      if(final.errors.length||!sameAdmission(final.pr,current.pr)||final.pr.mergeable_state!=='clean')
+        throw Error('PR changed before verified synchronous merge');
+      proof.fullPreflight=refreshed.evidence;proof.review=refreshed.evidence.review;
+      proof.synchronousChecks={checks,inventory};
+      if(review?.disposition==='low-risk-docs')proof.changedFiles=refreshed.evidence.changedFiles;
+      persist({state:'verified-synchronous',proof});
+      query('pr','merge',String(number),'--repo',repo,'--squash','--match-head-commit',current.headSha);
+      after=json(query,'api','repos/'+repo+'/pulls/'+number);
+    }
+    if(enableError&&!after.merged&&after.auto_merge?.merge_method!=='squash')throw enableError;
     if(after.head?.sha!==current.headSha||after.base?.ref!=='develop'||
       after.base?.sha!==current.baseSha||after.body!==current.pr.body||
       JSON.stringify(after.labels)!==JSON.stringify(current.pr.labels)||after.draft)
