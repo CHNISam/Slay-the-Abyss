@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-11-04T14:16:21.396Z",
+  "capturedAt": "2026-11-04T14:33:11.824Z",
   "repository": "FurinyaWorks/Slay-the-Abyss",
   "repositoryId": 1429751262,
   "delivery508": {
@@ -230,7 +230,7 @@
     }
   ],
   "liveQueueValidation": {
-    "capturedAt": "2026-11-04T14:16:21.396Z",
+    "capturedAt": "2026-11-04T14:33:11.824Z",
     "state": "native-automatic-merge-succeeded-post-push-pending",
     "pr": 511,
     "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
@@ -294,7 +294,7 @@
       "newJobs": false,
       "nativeState": "merged",
       "successfulNativeQueueMerge": true,
-      "observedAt": "2026-11-04T14:16:21.396Z",
+      "observedAt": "2026-11-04T14:33:11.824Z",
       "sourceFull": "pr_passed",
       "sourceFullRawSha256": "3b99d6fa60e651de101272b16b20150c58482036d8f53428e44338372442c808",
       "sourceFullReceipt": {
@@ -376,11 +376,25 @@
       },
       "equalsPreviouslyQueuedAndTestedGroup": true,
       "operatorDirectMergeRequest": false,
-      "proof": "Previously captured live queue entry prepared this exact commit; merge_group Full and required status releases succeeded, then GitHub merged that identical group commit. GitHub attributes mergedBy to its enqueuer."
+      "proof": "Previously captured live queue entry prepared this exact commit; merge_group Full and required status releases succeeded, then GitHub merged that identical group commit. GitHub attributes mergedBy to its enqueuer.",
+      "nativeQueueEvent": {
+        "__typename": "RemovedFromMergeQueueEvent",
+        "id": "RFMQE_lADOVThF3s8AAAABcX1xnM8AAAAILk6IqQ",
+        "createdAt": "2026-11-04T14:13:32Z",
+        "reason": "merged",
+        "actor": {
+          "login": "github-merge-queue"
+        },
+        "beforeCommit": {
+          "oid": "b4ac63145689b9dd632db100eee49087f6182b39"
+        }
+      },
+      "nativeQueueEventSnapshotSha256": "8fe6db4e25b733b78388804828db4ed239ff80dd7df96ee27ea01e53d7cede26"
     },
     "postMerge": {
       "state": "pending",
-      "pushFullRunId": 41845430335
+      "pushFullRunId": 41845430335,
+      "observedAt": "2026-11-04T14:33:11.824Z"
     }
   },
   "boundary": "Native Merge Queue successfully auto-merged PR511 and exact immutable group Full receipt passed. Separate post-push Full/delivery is still pending; parent AC5 remains unchecked until that verification. Runtime/device evidence is not covered.",
@@ -454,7 +468,8 @@
       "above30": 78,
       "above50": 21
     },
-    "boundary": "No net global CC improvement claimed. This slice removes verified reverse dependencies while retaining existing hotspots."
+    "boundary": "No net global CC improvement claimed. This slice removes verified reverse dependencies while retaining existing hotspots.",
+    "hashContract": "UTF8 LF normalized"
   },
   "deploymentSummaryCapturedAt": "2026-11-04T11:28:23.131Z"
 }
