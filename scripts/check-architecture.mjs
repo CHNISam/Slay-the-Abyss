@@ -128,6 +128,27 @@ export function analyzeSources(sources,policy,generated=generatedRuntimeModules)
     seenDeferredImports.add(key);
   }
   const active=new Set(),done=new Set();
+  const boundaryIds=new Set();
+  const policyError=message=>errors.push({file:'config/architecture.json',line:1,message});
+  if(policy.dependencyBoundaries!==undefined&&!Array.isArray(policy.dependencyBoundaries))
+    policyError('dependencyBoundaries must be an array');
+  for(const rule of Array.isArray(policy.dependencyBoundaries)?policy.dependencyBoundaries:[]) {
+    if(!rule||typeof rule!=='object'){policyError('Invalid dependency boundary');continue;}
+    const {id,from,forbiddenTargets,reason}=rule;
+    if(typeof id!=='string'||!id.trim()||boundaryIds.has(id))policyError('Invalid or duplicate dependency boundary id');
+    boundaryIds.add(id);
+    if(typeof reason!=='string'||!reason.trim())policyError(`Dependency boundary ${id} needs a reason`);
+    let valid=true;
+    for(const [key,members] of Object.entries({from,forbiddenTargets})) {
+      if(!Array.isArray(members)||!members.length||new Set(members).size!==members.length
+        ||members.some(name=>typeof name!=='string'||!nodes.includes(name))) {
+        policyError(`Dependency boundary ${id} needs unique known modules in ${key}`);valid=false;
+      }
+    }
+    if(valid)for(const edge of edges)if(from.includes(edge.from)&&forbiddenTargets.includes(edge.to))
+      errors.push({file:`src/lua/${edge.from}.lua`,line:edge.line,
+        message:`Dependency boundary ${id}: ${edge.from} cannot depend on ${edge.to}`});
+  }
   function cycle(name,trail=[]) {
     if(active.has(name)){errors.push({file:`src/lua/${name}.lua`,line:1,message:`Dependency cycle: ${[...trail,name].join(' -> ')}`});return;}
     if(done.has(name))return;

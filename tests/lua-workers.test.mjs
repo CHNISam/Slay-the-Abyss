@@ -106,13 +106,14 @@ test('partition costs charge exclusive fixtures for both slots and keep a conser
   assert.equal(luaSchedulingWeight(30000, 1), 30000);
 });
 
-test('all observed hosted timeout fixtures retain exclusive execution under the real profile', async t => {
+test('hosted timeout fixture families retain exclusive execution under the real profile', async t => {
   const f = fixture(t), timedOut = [
     'encounter_coverage', 'potion_reward_effects', 'node_combat_generation',
     'silent_natural_build', 'silent_final_sources', 'shockwave_group', 'act2_intent_ui',
     'battle_ui_potion_target_failures', 'card_pool', 'unknown_event_routing',
     'battle_ui_potion_target_pointers', 'unknown_event_routing_upper', 'game_ui_class_choices',
     'battle_ui_card_play', 'battle_ui_card_play_slice_2', 'battle_ui_card_play_slice_3',
+    'battle_ui_card_play_slice_4', 'battle_ui_card_play_slice_5',
     'battle_ui_drag_click_compatibility', 'battle_ui_drag_click_compatibility_slice_2',
     'competition_roster_prepared_ui', 'competition_roster_prepared_ui_slice_2',
   ].map(name => `tests/lua/${name}.lua`);

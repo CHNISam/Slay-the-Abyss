@@ -2,7 +2,7 @@
 
 当前进度与阻塞见 [HANDOFF](HANDOFF.md)，产品范围见 [SCOPE](SCOPE.md)，平台工具和输入协调见 [TOOLCHAIN](TOOLCHAIN.md)。本页用于定位源码职责；实现、离线检查、官方导入和实机验收分别取证。
 
-领域职责、状态提交责任与真实依赖缺口见[领域架构设计（待实施）](plans/2026-11-03-domain-architecture-design.md)。该设计与源码定位不代表新门禁或运行时解耦已上线；实施及验收另见设计内的执行计划。
+Session、Combat、Exploration、Catalog、Foundation 的职责与技术分层见[领域架构设计](plans/2026-11-03-domain-architecture-design.md)。首个实现切片提取 Combat Reactions，只负责两种队列的反应入队；Actor 和 Nob AI 不再导入 CardActions，后者保留公开入队字段及动态替换兼容。现有 AST 检查器守住已验证职责边界（含延迟导入）；全库领域归属与 RelicHooks 拆分仍待后续验证，不把局部实现当作全库领域化完成。
 
 ## 手写源码与职责
 

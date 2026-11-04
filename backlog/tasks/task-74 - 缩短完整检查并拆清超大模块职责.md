@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-11-03 15:31'
+updated_date: '2026-11-04 11:39'
 labels: []
 milestone: m-7
 dependencies: []
@@ -69,6 +69,8 @@ ordinal: 118000
 2026-11-03 独立切片：从远端568da4e4核对camp/rewards/DrugDealer三个copy-only使用者，直接依赖既有abyss_copy，保留Combat.copy兼容；旧新图复制/真实UI与事件行为差分、负例、独立复审及精确HEAD完整CI后交付。避开PR486初始化模块，不重做已合切片。
 
 本轮PR487/488以14223f4b为基线串接完整身份测试侧inverse，保留#493缓存与每次关联新鲜读取；两源码组合漂移、一次准备及写前物化校验后独审，提交现有PR观察精确head完整CI。
+
+2026-11-04 领域切片：按已合设计先固定入队与公开替换合同，提取Combat Reactions；复用AST边检查职责边界，记录同基线SCC/边/复杂度，独立复审及完整CI后再收口。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -137,4 +139,18 @@ PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触�
 2026-11-03 copy-only三个模块切片本轮仅完成查重与隔离树准备，未修改实现、未测量收益、未完成新验收；待下一独立代码PR推进，本轮不将计划记作交付。
 
 本轮#493后两事件精确inverse合流：PR487新增inverse/组合/freshness/cache/preparation及真实中文控件20项通过；原生退出与不可用时钟新增1项通过，完整托管CI另验，不勾父任务最终AC。
+
+2026-11-04 Combat Reactions首切片已实际提取，Actor到CardActions的2处导入删除；AST职责边界含延迟导入并有旧检查器RED/修后GREEN。322→323模块，1876→1877导入位置，1506→1507唯一边；全图SCC仍1个105模块，内部位置809→807，即时图SCC仍0。新入口CC最大4，兼容代理增加总复杂度5，不宣称SCC消失或复杂度净下降。工程门禁、原注册器3组旧新状态/RNG差分、PlatedArmor49场景、职责17项及历史架构反例通过；完整CI与合后验证待取，任务保持In Progress。详见docs/evidence/combat-reactions-20261104.json。
+
+PR511整合既有远端feat/combat-reactions@1bd99a（无既有PR），复用其固定Oracle/四变异/命名兼容门面与Actor单次导入，原分支保留。新实测总导入位置1876→1876，唯一边1506→1507，SCC仍1个105模块且内部位置809→807/唯一边542→541；三模块总CC927→934，新门面和反应入口全部纳入原CC15。38项长批含Run三类晚奖励回滚已通过；历史Linux与本轮Windows证据分开，最终新SHA独审/Full/合后继续。
+
+PR511同切片补齐Nob窄能力接线：只用Reactions.enqueue，不误用enqueueReaction，保留enemy source、TOP、typed存在时的legacy路由及CardActions动态观察。新增生产职责规则先红/恢复旧依赖负例；7项入队架构通过，既有Nob12组（全roll/history/HPseed/RNG/失败出牌回滚）及Pain19组（先于Enrage及致死取消）通过。实测SCC105→104成员，内部位置809→805/唯一边542→539，SCC数量仍1；Nob复杂度16不变。更新原始测量证据，最终新SHA独审/Full/合后另验。
+
+PR511@8bb93734官方Full41800684802真实失败：POSIX9 architecture-composition-format、POSIX1 card-origin-source-inverse、POSIX5 compendium-source-inverse。根因是本轮架构注册/职责边界/删除旧deferred尚未接入历史精确逆投影，提前return也使旧linked-owner错误负例未执行。本地复现首两文件3/4失败；仅测试helper补精确外层逆转，完整lexical token+fresh配置hash锁后恢复原c1完整字节，旧oracle/hash/断言保持；LF/CRLF与布局、注册/边界漂移/重复/顺序/warm磁盘变化删除负例和15项共享链已通过。其他快速同源消费者及独审继续；生产源码和架构指标不变。按主控要求补丁先本地，待508实际新基线再推同一PR及完整CI；未合并、不勾AC。
+
+从实际508已合入基线a73e6a8f新建干净工作树feat/combat-reactions-integrated-20261104，线性重放c1..1d6完整组合，无merge提交；原完整历史已读回archive/pr511-before-integration-20261104@1d6b38b7。Git核对原c1与a73基线src/lua tree=94dcb51f、architecture blob=f21566d6相同；重放后源码tree=2c26863b/架构blob=e358230b与1d6已审源码相同，轻量重算图仍SCC104/内部位置805/内部唯一539。证据仅追加integrationBase与等价身份，旧测量基线不重写。定向源码/反应验证在新树执行，最终fresh-context独审/Full及队列与合后验收待取；原PR远端8bb未变，推送由主控协调。
+
+a73新基线重放后49/49定向测试通过（42源码/架构消费者+7反应/边界，0skip），含LF/CRLF、完整旧hash、注册/边界/重复键/顺序/escape和fresh linked-owner负例；guidance/backlog通过。未重复长UI/游戏整套；新精确HEAD Full与fresh-context最终组合独审、队列真实合并及合后验证待取。
+
+最终组合1a24acf1干净Context独审49领域/107工具及真实Run回滚、固定hash Luacheck通过后，Full41818991963的Windows5历史battle_ui_card_play_slice_2.lua触及原30秒（ETIMEDOUT），原生Queue等待已暂停，PR未入队。该夹具本已独占，5–8四组断言全过但总快照/构建/清理超过预算；现按既有11组合同拆5–6/7–8，原body/current hash、archive/oracle、每片30秒、调度与生产源码不变。141项定向和五片11组本地通过；托管精确新HEAD Full与实际Queue演练仍未完成，主任务不提前Done。
 <!-- SECTION:NOTES:END -->

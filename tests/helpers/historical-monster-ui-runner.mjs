@@ -5,6 +5,7 @@ export const historicalMonsterUiFixtures=Object.freeze([
  'tests/lua/battle_ui.lua',...Array.from({length:6},(_,i)=>`tests/lua/battle_ui_slice_${i+2}.lua`),
  'tests/lua/battle_ui_card_play.lua','tests/lua/battle_ui_card_play_slice_2.lua','tests/lua/battle_ui_card_play_slice_3.lua',
  'tests/lua/battle_ui_card_play_slice_4.lua',
+ 'tests/lua/battle_ui_card_play_slice_5.lua',
  'tests/lua/battle_ui_drag_click_compatibility.lua','tests/lua/battle_ui_drag_click_compatibility_slice_2.lua',
 ]);
 export function runHistoricalMonsterUi(script,{timeout,cwd=process.cwd(),caseName,maxBuffer}={}){

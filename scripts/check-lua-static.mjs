@@ -93,11 +93,13 @@ export function reviewRenderComplexity(diagnostics, sources) {
 // Budget only this governance slice and every extracted responsibility module.
 // Unrelated pre-existing Combat/UI hotspots keep their diagnostic reports.
 const responsibilityRoots = {
+  'src/lua/abyss_combat_reactions.lua': ["function 'M.enqueue'", "function 'M.enqueueReaction'"],
   'src/lua/abyss_actor.lua': [
     ...['damageAmount','consumeAttackBlock','modifyIncomingAttack','applyAttackHpLoss',
       'queueHitPowers','queueAttackedPowers','M.damage'].map(name=>`function '${name}'`),
   ],
   'src/lua/abyss_card_actions.lua': [
+    "function 'admissionIndex'", "function 'admissionNewIndex'",
     ...['exhaustRandom','fiendFire','exhaustNonAttacks','exhaustSpecific','upgradeAllHand',
       'makeTemporaryCards','generateAttack','randomizeHandCost','upgradeHand','resolveCurlUp',
       'obtainPotion','doubleStrength','spotWeakness','damageRandom','feedReward','feed','reaper',
@@ -162,7 +164,7 @@ const responsibilityRoots = {
 };
 // Existing catalog/seed/red-card contracts are separate, unchanged responsibilities.
 // All Run orchestration and newly extracted Run helpers receive the full budget.
-const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|combat_catalog|combat_native_play|combat_queued_play|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui(?:_.+)?|game_ui_.+|run(?:_(?!(?:card_catalog|red_card_contract|seed)\.lua$).+)?|nodes(?:_.+)?)\.lua$/.test(file);
+const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|combat_catalog|combat_reactions|combat_native_play|combat_queued_play|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui(?:_.+)?|game_ui_.+|run(?:_(?!(?:card_catalog|red_card_contract|seed)\.lua$).+)?|nodes(?:_.+)?)\.lua$/.test(file);
 export function reviewModuleSize(sources, budgets = {'src/lua/abyss_run.lua': 1000, 'src/lua/abyss_nodes.lua': 1000}) {
   const modules = [], errors = [];
   for (const [file, limit] of Object.entries(budgets)) {

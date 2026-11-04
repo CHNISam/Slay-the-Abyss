@@ -6,6 +6,7 @@ import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {checkoutReceipt,receiptErrors,currentFullQualityJobs,qualityWorkflowPath} from './verify-delivery.mjs';
 import {collectQueueAdmission} from './merge-queue-admission.mjs';
+import {queueRulesAttested} from './merge-queue-policy.mjs';
 
 const expectedRepo='FurinyaWorks/Slay-the-Abyss';
 const contexts=['check','presentation','engineering-posix','inventory','full-quality','independent-review'];
@@ -28,7 +29,7 @@ export function queueEventErrors(event,env) {
  return errors;
 }
 
-export function queueFullErrors({event,env,needs,ruleset,run,latest,jobs,checkout},{metadataOnly=false}={}) {
+export function queueFullErrors({event,env,needs,ruleset,run,latest,jobs,checkout,admission},{metadataOnly=false}={}) {
  const errors=queueEventErrors(event,env);
  const statusPolicy=ruleset?.rules?.find(rule=>rule.type==='required_status_checks')?.parameters;
  const checks=statusPolicy?.required_status_checks;
@@ -36,7 +37,9 @@ export function queueFullErrors({event,env,needs,ruleset,run,latest,jobs,checkou
  if(ruleset?.target!=='branch'||ruleset?.enforcement!=='active'||
   JSON.stringify(ruleset?.conditions?.ref_name?.include)!==JSON.stringify(['refs/heads/develop'])||
   JSON.stringify(ruleset?.conditions?.ref_name?.exclude)!=='[]'||
-  ruleset?.bypass_actors?.length!==0||!ruleset.rules?.some(rule=>rule.type==='merge_queue'&&
+  (Object.hasOwn(ruleset??{},'bypass_actors')?
+   !Array.isArray(ruleset.bypass_actors)||ruleset.bypass_actors.length!==0:!queueRulesAttested(ruleset,admission))||
+  !ruleset.rules?.some(rule=>rule.type==='merge_queue'&&
    rule.parameters?.merge_method==='SQUASH'&&rule.parameters?.grouping_strategy==='ALLGREEN'))
   errors.push('Native develop Merge Queue protection is not active or has bypass actors');
  if(statusPolicy?.strict_required_status_checks_policy!==true||
@@ -115,13 +118,13 @@ export function main(env=process.env,query=gh,{pending=false,loadCheckout}={}) {
   .filter(r=>r.head_sha===head&&r.event==='merge_group').sort((a,b)=>b.id-a.id)[0];
  const ruleset=get('rulesets/25870651'),jobs=pages(`actions/runs/${runId}/jobs?filter=all&per_page=100`,'jobs');
  const needs=JSON.parse(env.FULL_NEEDS);
- const context={event,env,needs,ruleset,run,latest,jobs};
+ const admission=collectQueueAdmission(event,env,query,ruleset);
+ const context={event,env,needs,ruleset,run,latest,jobs,admission};
  // Do not download or publish on an already-invalid run.
  // Validate all metadata first; actual receipt contents are checked below.
  const pre=queueFullErrors({...context,checkout:{checkout:{schemaVersion:1,event:'merge_group',runId,
   tested:head,head,base:event.merge_group.base_sha,parents:[]}}},{metadataOnly:true});
  if(pre.length)throw Error(pre.join('\n'));
- const admission=collectQueueAdmission(event,env,query);
  const dir=mkdtempSync(join(tmpdir(),'abyss-queue-'));
  let receipt;
  try{receipt=(loadCheckout??((r,j)=>checkoutReceipt(expectedRepo,r,j,dir,query,3,{allowRunningAggregate:true})))(run,jobs);}
@@ -141,9 +144,10 @@ export function main(env=process.env,query=gh,{pending=false,loadCheckout}={}) {
  if(current.run_attempt!==run.run_attempt||current.status!=='in_progress'||
   again?.id!==run.id||again.run_attempt!==run.run_attempt)
   throw Error('Queue Full run changed during artifact verification');
- const finalErrors=queueFullErrors({...context,ruleset:get('rulesets/25870651'),checkout:receipt});
+ const finalRules=get('rulesets/25870651');
+ const finalErrors=queueFullErrors({...context,ruleset:finalRules,checkout:receipt});
  if(finalErrors.length)throw Error(finalErrors.join('\n'));
- if(collectQueueAdmission(event,env,query)!==admission)
+ if(collectQueueAdmission(event,env,query,finalRules)!==admission)
   throw Error('Native group PR authorization changed during artifact verification');
  for(const name of ['full-quality','independent-review'])post(query,head,'success',name,runId);
  return {state:'success',runId,head};

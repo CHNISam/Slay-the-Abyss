@@ -1,6 +1,7 @@
 import {writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {currentFullQualityJobs,qualityWorkflowPath} from '../../scripts/verify-delivery.mjs';
+import {queueRulesFingerprint} from '../../scripts/merge-queue-policy.mjs';
 const sha=c=>c.repeat(40),repo='FurinyaWorks/Slay-the-Abyss';
 export function admissionFixture(){
  const head=sha('a'),base=sha('b'),prHead=sha('c');
@@ -14,7 +15,7 @@ export function admissionFixture(){
  env.FULL_NEEDS=JSON.stringify(needs);
  const jobs=currentFullQualityJobs.map((name,i)=>({name,id:100+i,run_id:7,run_attempt:1,head_sha:head,
   status:name==='check'?'in_progress':'completed',conclusion:name==='check'?null:name==='fast'?'skipped':'success'}));
- const ruleset={target:'branch',enforcement:'active',bypass_actors:[],conditions:{ref_name:{include:['refs/heads/develop'],exclude:[]}},
+ const ruleset={id:25870651,updated_at:'2026-11-04T17:51:23.025+08:00',target:'branch',enforcement:'active',bypass_actors:[],conditions:{ref_name:{include:['refs/heads/develop'],exclude:[]}},
   rules:[{type:'merge_queue',parameters:{merge_method:'SQUASH',grouping_strategy:'ALLGREEN'}},
    {type:'required_status_checks',parameters:{strict_required_status_checks_policy:true,required_status_checks:
     ['check','presentation','engineering-posix','inventory','full-quality','independent-review'].map(context=>({context,integration_id:context==='independent-review'?null:15368}))}},
@@ -24,12 +25,14 @@ export function admissionFixture(){
  const checkout={schemaVersion:1,event:'merge_group',runId:7,attempt:1,tested:head,head,base,parents:[base]};
  const pr={number:510,node_id:'PR_510',state:'open',merged:false,draft:false,head:{sha:prHead,repo:{id:1429751262,full_name:repo}},
   base:{sha:base,ref:'develop',repo:{id:1429751262,full_name:repo}},labels:[],body:'Depends-on: none'};
- const review={id:90,context:'independent-review',state:'success',description:`Independent review test [base:${base}]`};
- const entry={id:'ENTRY_510',position:1,state:'AWAITING_CHECKS',baseCommit:{oid:base},headCommit:{oid:head},
+ const review={id:90,context:'independent-review',state:'success',creator:{id:51,login:'maintainer'},
+  description:`Independent review [rules:${queueRulesFingerprint(ruleset)}] [base:${base}]`};
+ const entry={id:'ENTRY_510',position:1,state:'AWAITING_CHECKS',enqueuer:{databaseId:51,login:'maintainer'},baseCommit:{oid:base},headCommit:{oid:head},
   pullRequest:{number:510,headRefOid:prHead,baseRefName:'develop',isDraft:false,state:'OPEN',mergeQueueEntry:{id:'ENTRY_510'}}};
  const repository={databaseId:1429751262,nameWithOwner:repo,ref:{target:{oid:base}},
   mergeQueue:{entries:{nodes:[entry],pageInfo:{hasNextPage:false}}}};
- return {env,event,run,needs,jobs,ruleset,artifact,checkout,pr,review,entry,repository};
+ const permission={permission:'admin',user:{id:51,login:'maintainer'}};
+ return {env,event,run,needs,jobs,ruleset,artifact,checkout,pr,review,entry,repository,permission};
 }
 export function admissionQuery(f,writes=[]){
  return (...args)=>{
@@ -49,6 +52,7 @@ export function admissionQuery(f,writes=[]){
   if(url.includes('/artifacts?'))return JSON.stringify([{artifacts:[f.artifact]}]);
   if(url.endsWith('/actions/artifacts/42'))return JSON.stringify(f.artifact);
   if(url.endsWith('/pulls/510'))return JSON.stringify(f.pr);
+  if(url.includes('/collaborators/'))return JSON.stringify(f.permission);
   if(url.endsWith('/commits/'+f.env.GITHUB_SHA))return JSON.stringify({sha:f.env.GITHUB_SHA,parents:[{sha:f.event.merge_group.base_sha}]});
   if(url.includes(`/commits/${f.pr.head.sha}/statuses?`))return JSON.stringify([[f.review]]);
   if(url.endsWith('/git/ref/heads/'+f.env.GITHUB_REF.slice('refs/heads/'.length)))

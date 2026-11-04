@@ -1,5 +1,5 @@
 -- Act 1 / Ascension 0 only. Fixed-source evidence: TASK-15-gremlin-nob-ai.md.
-local CardActions = require("abyss_card_actions")
+local Reactions = require("abyss_combat_reactions")
 local M = {}
 
 local function select(enemy, id)
@@ -32,7 +32,7 @@ function M.beforeCard(state, card)
     -- hand Pain callback must precede this action and may interrupt it by death.
     for _,enemy in ipairs(state.enemies) do
         if enemy.hp > 0 and (enemy.statuses.enrage or 0) > 0 then
-            CardActions.enqueue(state,{op='gainStatus',status='strength',value=enemy.statuses.enrage},enemy,nil,nil,true)
+            Reactions.enqueue(state,{op='gainStatus',status='strength',value=enemy.statuses.enrage},enemy,nil,nil,true)
         end
     end
 end

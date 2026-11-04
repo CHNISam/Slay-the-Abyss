@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "baseline": "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+  "provenance": {
+    "existingImplementation": "1bd99a285832029d0b9690356c56bf3699fc2110",
+    "initialLocalImplementation": "7fe5ee11c4f735b10e050b93501efe71ad4e0003",
+    "integration": "PR511 reuses existing production admission facade, single Actor import, pinned oracle and four mutations; retains local malformed-policy, required roots, independent loading and candidate-inventory coverage. Existing branch and commit preserved."
+  },
+  "environment": {
+    "node": "v22.22.1",
+    "platform": "win32",
+    "luacheck": "1.2.0"
+  },
+  "method": "Existing AST edges, dependencyCycles on all edges and eager edges, pinned Luacheck with AST-correlated function/chunk measurements. Same environment for before/after; historical results are not current CI.",
+  "before": {
+    "modules": 322,
+    "requireSites": 1876,
+    "uniqueEdges": 1506,
+    "fullSCCCount": 1,
+    "fullSCC": [
+      {
+        "members": 105,
+        "internalSites": 809,
+        "internalUniqueEdges": 542
+      }
+    ],
+    "eagerSCCCount": 0
+  },
+  "after": {
+    "modules": 323,
+    "requireSites": 1876,
+    "uniqueEdges": 1507,
+    "fullSCCCount": 1,
+    "fullSCC": [
+      {
+        "members": 104,
+        "internalSites": 805,
+        "internalUniqueEdges": 539
+      }
+    ],
+    "eagerSCCCount": 0
+  },
+  "complexity": {
+    "before": [
+      {
+        "file": "src/lua/abyss_actor.lua",
+        "sha256": "088638d14d62df4b4ea3f4e652833211e4fb8498c468f1beaaae0864737cb1ea",
+        "lines": 938,
+        "measurements": 69,
+        "max": 60,
+        "sum": 636,
+        "admissionFunctions": [
+          {
+            "name": "enqueue",
+            "complexity": 2
+          }
+        ]
+      },
+      {
+        "file": "src/lua/abyss_card_actions.lua",
+        "sha256": "7edfb1059288c23199af864795e704819cd5db091d696df8cbcff001067e93ad",
+        "lines": 547,
+        "measurements": 77,
+        "max": 25,
+        "sum": 291,
+        "admissionFunctions": [
+          {
+            "name": "M.enqueue",
+            "complexity": 4
+          },
+          {
+            "name": "M.enqueueReaction",
+            "complexity": 3
+          }
+        ]
+      }
+    ],
+    "after": [
+      {
+        "file": "src/lua/abyss_actor.lua",
+        "sha256": "eb45b19b4a3d75cbf15e4a22df44d1cafcebfaa2c111b3a72cf6203a243d4c70",
+        "lines": 939,
+        "measurements": 69,
+        "max": 60,
+        "sum": 636,
+        "admissionFunctions": [
+          {
+            "name": "enqueue",
+            "complexity": 2
+          }
+        ]
+      },
+      {
+        "file": "src/lua/abyss_card_actions.lua",
+        "sha256": "112797fa882da595e9016f41c111a8e0cebcd12ba7ec39fd2709fc4717cf883a",
+        "lines": 545,
+        "measurements": 77,
+        "max": 25,
+        "sum": 290,
+        "admissionFunctions": [
+          {
+            "name": "admissionIndex",
+            "complexity": 3
+          },
+          {
+            "name": "admissionNewIndex",
+            "complexity": 3
+          }
+        ]
+      },
+      {
+        "file": "src/lua/abyss_combat_reactions.lua",
+        "sha256": "2772aa238ce72d7628958bcf625602cd40b437cc6c24570d48dcacd578ddb06d",
+        "lines": 18,
+        "measurements": 3,
+        "max": 4,
+        "sum": 8,
+        "admissionFunctions": [
+          {
+            "name": "M.enqueue",
+            "complexity": 4
+          },
+          {
+            "name": "M.enqueueReaction",
+            "complexity": 3
+          }
+        ]
+      }
+    ]
+  },
+  "policyInputs": {
+    "config/architecture.json": "f610861cba597e017340433a1d0dcdc4930745bcbe0347ec24facdb3630bf96a",
+    "scripts/check-architecture.mjs": "6e8b193664ef197400665293bdd5f3263ad9c054f3ddbf25972181386c38ee21",
+    "scripts/check-lua-static.mjs": "34234b582a2512d6a4a018f4ba2eeaba7266a39852f0b985c845b33ba141c6c9"
+  },
+  "reflectionBoundary": "Two admission fields are virtual; rawget/pairs/next omit them, rawset/metatable replacement can break forwarding. No existing consumers found. Ordinary read/write/nil restoration are supported.",
+  "verification": {
+    "currentLocal": [
+      "Initial implementation: check:engineering pass, registered historical old/new state/queue/return/RNG differences pass; 38 focused/rollback/responsibility tests pass including Run turn/choice/retain late reward rollback",
+      "Integrated source: reaction oracle/four admission mutations, independent loading, candidate inventory, architecture and complexity tests rerun; results recorded in PR review"
+    ],
+    "notCompleted": [
+      "Exact HEAD hosted Full",
+      "Merged squash and develop push validation",
+      "Official import and devices"
+    ]
+  },
+  "nobAdmission": {
+    "reason": "Only Reactions.enqueue replaces CardActions.enqueue; enemy source, top and legacy ownership stay unchanged even with a typed actionQueue.",
+    "complexity": {
+      "before": {
+        "file": "src/lua/abyss_gremlin_nob_ai.lua",
+        "sha256": "7dceb41181045423abcd752f664e56805ec0639f47f9f469b4f1b41dbc2f07cb",
+        "lines": 40,
+        "measurements": 6,
+        "max": 6,
+        "sum": 16
+      },
+      "after": {
+        "file": "src/lua/abyss_gremlin_nob_ai.lua",
+        "sha256": "b6739284fccfb553e229ce4f228cc8db602decbd9ee3ef4f93340ba39eeaa7e2",
+        "lines": 40,
+        "measurements": 6,
+        "max": 6,
+        "sum": 16
+      }
+    },
+    "structuralRegression": "Production rule nob-reaction-admission is mandatory; restoring actual old import fails analyzer; rule absence failed before implementation.",
+    "tests": "New source/legacy/typed/monkeypatch fixture plus existing gremlin_nob_ai and basic_curses (Pain/Nob order, lethal cancellation, RNG/history and failed card rollback)."
+  },
+  "integrationBase": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+  "integration": {
+    "replayOf": "1d6b38b7907d622330d795d4499d794abb46b734",
+    "replayedSourceHead": "ac4018403974aecbdf502ff9cc4c43a58a9a91cc",
+    "originalBaselinePreserved": "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+    "priorBaselineSourceTree": "94dcb51f21573fbc37d1e44d901a092354988d76",
+    "integrationBaseSourceTree": "94dcb51f21573fbc37d1e44d901a092354988d76",
+    "priorBaselineArchitectureBlob": "f21566d6bda2c753b61d92c9b863bab1c634316e",
+    "integrationBaseArchitectureBlob": "f21566d6bda2c753b61d92c9b863bab1c634316e",
+    "replayedSourceTree": "2c26863bd78aa900187e1ef8e31351bd01afb835",
+    "priorReviewedSourceTree": "2c26863bd78aa900187e1ef8e31351bd01afb835",
+    "replayedArchitectureBlob": "e358230bf43abefad01494365e3f69901d139de6",
+    "priorReviewedArchitectureBlob": "e358230bf43abefad01494365e3f69901d139de6",
+    "allEqual": true,
+    "remeasuredGraphMatchesPriorEvidence": true,
+    "archive": "archive/pr511-before-integration-20261104",
+    "validation": {
+      "focusedTests": 49,
+      "passed": 49,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "42 quick source-inverse/architecture consumer checks plus 7 reaction and boundary checks on the actual a73 integration; original long gameplay/UI suite not repeated locally",
+      "guidance": "pass",
+      "backlog": "pass",
+      "hostedFull": "pending exact final HEAD",
+      "freshContextReview": "pending final combination"
+    }
+  }
+}
