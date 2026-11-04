@@ -99,6 +99,7 @@ test('current Windows matrix consumes the shared thirteen-shard shape without ch
   assert.ok(rules.includes('Pillow==12.3.0'));
   assert.ok(rules.includes('npm run setup:lua-static'));
   assert.match(rules,/^      fail-fast: false$/m);
+  assert.doesNotMatch(rules,/max-parallel:/);
   assert.ok(rules.includes("timeout-minutes: ${{ inputs.runner_pool == 'local-special' && 75 || 30 }}"));
   for(const gate of ['check:network','verify:backlog','check:syntax','validate:data','build:theme','check:engineering'])
     assert.ok(rules.includes(`      - run: npm run ${gate}\n        if: matrix.shard == 1\n`),gate);

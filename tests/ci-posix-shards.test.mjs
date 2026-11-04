@@ -76,6 +76,7 @@ test('current POSIX matrix consumes nine shared shards with serial full regressi
   assert.match(shards,/^    needs: impact\n    if: needs.impact.outputs.mode == 'full'$/m);
   assert.match(shards,/^    runs-on: ubuntu-24\.04\n    timeout-minutes: 20$/m);
   assert.match(shards,/^      fail-fast: false$/m);
+  assert.match(shards,/^      max-parallel: 6$/m);
   assert.match(workflow,/^permissions:\n  contents: read$/m);
   assert.match(shards,/node-version: '24\.18\.0'/);
   assert.ok(shards.includes('Pillow==12.3.0'));
