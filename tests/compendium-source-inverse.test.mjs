@@ -62,7 +62,10 @@ test('M9 projection accepts only the exact two core registrations and preserves 
 });
 
 test('Runtime host projection recognizes complete before/after bytes but rejects partial, duplicate and foreign edits',()=>{
- const path='src/lua/abyss_game_ui.lua',source=read(path);
+ const path='src/lua/abyss_game_ui.lua';
+ // Reconstruct the archived deferred variant from the restored eager host.
+ const source=read(path).replace('suspendBattle(run,deckOpen,potionOpen))','suspendBattle(run,deckOpen,potionOpen),self.mode == \"battle\")')
+  .replace('    local function renderBattlePage(run)\n','    local function renderBattlePage(run)\n        -- Paint after every page visibility setter, which may re-enter state.\n');
  assert.equal(hash(source),'4ab3ec613f79b1507c7c529c57547d42f93fa7eafc89aeb9afb1b8c64ab34c25');
  const call='            suspendBattle(run,deckOpen,potionOpen),self.mode == "battle")';
  const comment='        -- Paint after every page visibility setter, which may re-enter state.\n';

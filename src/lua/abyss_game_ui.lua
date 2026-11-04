@@ -387,7 +387,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     local function refreshPageVisibility(run,inMenu,deckOpen,potionOpen,blocked)
         menu:SetVisible(inMenu and not self.characterOpen and not self.easterEggOpen)
         self.battleUI:setActive(self.mode == "battle" and not deckOpen and not potionOpen and not blocked,
-            suspendBattle(run,deckOpen,potionOpen),self.mode == "battle")
+            suspendBattle(run,deckOpen,potionOpen))
         child("battlePanel"):SetVisible(self.mode == "battle")
         self.mapUI:setVisible(self.mode == "map" and not deckOpen and not potionOpen and not blocked)
         child("mapPanel"):SetVisible(self.mode == "map")
@@ -396,7 +396,6 @@ function M.new(root, data, presentation, clickEvent, platform)
         child("nodePanel"):SetVisible(self.mode == "node")
     end
     local function renderBattlePage(run)
-        -- Paint after every page visibility setter, which may re-enter state.
         self.battleUI:render()
         if run.phase == "combat" and self.presentedBattle ~= run.combat then
             self.presentedBattle = run.combat

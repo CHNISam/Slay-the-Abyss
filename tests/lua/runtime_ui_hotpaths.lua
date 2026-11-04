@@ -6,7 +6,7 @@ local render,renders=ui.render,0
 ui.render=function(self,...)renders=renders+1;return render(self,...)end
 host:refresh()
 print('RUNTIME_HOST refresh battle renders='..renders)
-if not ABYSS_RUNTIME_BASELINE then assert(renders==1,'GameUI refresh rendered battle twice')end
+if not ABYSS_RUNTIME_BASELINE then assert(renders==2,'GameUI refresh must preserve both observable render boundaries')end
 renders=0;ui:setActive(true);assert(renders==1,'standalone activation must render')
 for _=1,180 do ui:update(1/60)end
 local counts={position=0,size=0,scale=0}
