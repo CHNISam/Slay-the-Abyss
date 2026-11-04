@@ -88,4 +88,3 @@ reads={};A.supports=original
 local throwing=watched({op='scry'},'value',nil,true)
 local before=graph(throwing);local r=table.pack(pcall(E.supported,{throwing}));eq(r[1],false,'getter error');eq(r[2],errorObject,'table error identity');eq(r.n,2,'error arity');eq(graph(throwing),before,'throw input unchanged');print('error identity|'..graph(r)..'|'..graph(reads))
 print('EFFECTS_SUPPORTED_PASS')
-

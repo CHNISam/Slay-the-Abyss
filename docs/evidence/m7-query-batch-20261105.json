@@ -1785,7 +1785,8 @@
       "nodeTests": 24,
       "pass": 24,
       "skip": 0,
-      "durationMs": 97413.2045
+      "durationMs": 97413.2045,
+      "codeHead": "b99c8865063e1020436483da0fd96eace3489b4a"
     },
     "runner": {
       "uniqueNodeTests": 21,
@@ -1800,7 +1801,27 @@
     },
     "hostedFull": "PENDING",
     "actualMerge": "PENDING",
-    "mergedPushFull": "PENDING"
+    "mergedPushFull": "PENDING",
+    "rawOutputCorrection": {
+      "failedHead": "13ff5ce4b7e083202057f75b9635d1fe489b1b70",
+      "quickRun": 41911996783,
+      "fullRun": 41912002713,
+      "quickCause": "New Actor raw fixture full trace exceeded original 1 MiB output limit; both new raw entries independently reproduced ENOBUFS",
+      "fullCause": "Planner git diff --check rejected one extra Effects fixture EOF blank line; full regression matrices did not start",
+      "redRawTests": 2,
+      "correctedTests": 7,
+      "correctedPass": 7,
+      "skip": 0,
+      "retainedSemanticMutants": 22,
+      "originalRunnerBudgetsUnchanged": true,
+      "productionSourcesUnchanged": true,
+      "fullTraceOptIn": true,
+      "requiredStatusTraceLines": 252,
+      "requiredPreviewTraceLines": 164,
+      "previewFullTraceBytes": 1140260,
+      "previewFullTraceSha256": "36b7e2879ba071acee9e602da47516b06c715efe782cc7bd3867c892fa5a1978",
+      "rawLog": "build/query-ci-13ff/raw-output-green.log"
+    }
   },
   "limits": [
     "Only three existing query responsibilities are governed; other hotspots remain.",

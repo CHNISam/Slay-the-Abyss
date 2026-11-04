@@ -63,7 +63,9 @@ local function check(actor,label)
  end
  unchanged()
  assert(before==serialize(input),'[STATUS_VIEW] readonly failure graph')
- print('STATUS_BOUNDARY '..label..' '..serialize({result=packed,input=input,trace=trace,errorIdentity=errorIdentity}))
+ if QUERY_DIFFERENTIAL_TRACE then
+  print('STATUS_BOUNDARY '..label..' '..serialize({result=packed,input=input,trace=trace,errorIdentity=errorIdentity}))
+ end
 end
 local function actor(monster)
  return {definitionId=monster,statuses={},statusDefinitions=defs,powerOrder={},temporaryStrength=0,temporaryDexterity=0}

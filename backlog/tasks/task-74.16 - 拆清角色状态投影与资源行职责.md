@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 20:41'
-updated_date: '2026-11-04 20:58'
+updated_date: '2026-11-04 21:09'
 labels: []
 milestone: m-7
 dependencies: []
@@ -42,4 +42,6 @@ Actor.statusView复杂度60，将敌人来源顺序、玩家状态筛选和实�
 
 <!-- SECTION:NOTES:BEGIN -->
 statusView60→4，八helper最高13，嵌套resource1。252边界完整旧新图及14变异、元表独立反例通过，既有四类消费者通过；组合工程门禁通过。M8和设备未代验，最终HEAD及合后Full待。
+
+13ff Quick真实ENOBUFS，新增原默认raw入口红例。修复只按显式模式打印252完整轨迹，raw仍252边界及全部输入图断言；原14变异和新raw回归通过，默认预算未改。
 <!-- SECTION:NOTES:END -->

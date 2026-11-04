@@ -92,5 +92,7 @@ eq(graph(staged.shuffleRng)~=rngBefore,true,'real V4 draw reshuffles clone RNG')
 eq(staged.rngAlias==staged.shuffleRng,true,'clone retains RNG alias')
 records[#records+1]=graph({staged=staged})
 C.play=plays
-for _,record in ipairs(records)do print('COMBAT_PREVIEWS_TRACE '..record)end
+if QUERY_DIFFERENTIAL_TRACE then
+ for _,record in ipairs(records)do print('COMBAT_PREVIEWS_TRACE '..record)end
+end
 print('COMBAT_PREVIEWS_PASS '..#records)

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 20:41'
-updated_date: '2026-11-04 20:58'
+updated_date: '2026-11-04 21:09'
 labels: []
 milestone: m-7
 dependencies: []
@@ -42,4 +42,6 @@ ordinal: 151000
 
 <!-- SECTION:NOTES:BEGIN -->
 预览编排48→6，其余静态职责最高13，避免每查询闭包；完整旧新图/RNG及8真变异通过，组合24项与工程门禁通过。独审新增重入捕获反例通过。精确最终HEAD Full及合后验证待，AC3不勾。
+
+13ff的raw入口复现ENOBUFS；仅按显式差分模式输出164条完整轨迹，默认raw保留全部断言和摘要，不改runner上限。新增raw红绿及轨迹条数门禁、去opt-in真负例通过；原8变异与完整trace SHA保持。
 <!-- SECTION:NOTES:END -->

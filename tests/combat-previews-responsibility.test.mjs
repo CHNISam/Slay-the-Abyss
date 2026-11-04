@@ -16,13 +16,16 @@ function execute(source){
  const dir=mkdtempSync(join(tmpdir(),'combat-previews-'));
  try{
   const module=join(dir,'combat.lua'),driver=join(dir,'driver.lua');writeFileSync(module,source);
-  writeFileSync(driver,`package.path='src/lua/?.lua;build/lua/?.lua;'..package.path;package.loaded.abyss_combat=dofile(${luaString(module.replaceAll('\\','/'))});dofile(${luaString(resolve('tests/lua/combat_previews_responsibility.lua').replaceAll('\\','/'))})`);
+  writeFileSync(driver,`QUERY_DIFFERENTIAL_TRACE=true;package.path='src/lua/?.lua;build/lua/?.lua;'..package.path;package.loaded.abyss_combat=dofile(${luaString(module.replaceAll('\\','/'))});dofile(${luaString(resolve('tests/lua/combat_previews_responsibility.lua').replaceAll('\\','/'))})`);
   return runLua(driver,{maxBuffer:64*1024*1024});
  }finally{rmSync(dir,{recursive:true,force:true});}
 }
 test('complete frozen Combat/new preview independent VM differential and input graph',t=>{
  const before=execute(baseline),after=execute(readFileSync(file,'utf8'));
- for(const r of [before,after]){assert.equal(r.status,0,r.stdout+r.stderr);assert.match(r.stdout,/COMBAT_PREVIEWS_PASS /);}
+ for(const r of [before,after]){
+  assert.equal(r.status,0,r.stdout+r.stderr);assert.match(r.stdout,/COMBAT_PREVIEWS_PASS 164\r?\n$/);
+  assert.equal([...r.stdout.matchAll(/^COMBAT_PREVIEWS_TRACE /gm)].length,164,'complete differential trace must be enabled');
+ }
  assert.equal(after.stdout,before.stdout,'full results, errors/return counts, input graph/aliases and all RNG');
  t.diagnostic(`complete old source ${sha256}; output ${hash(after.stdout)} (${Buffer.byteLength(after.stdout)} bytes)`);
 });
