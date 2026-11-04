@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 02:34'
-updated_date: '2026-11-04 04:05'
+updated_date: '2026-11-04 05:32'
 labels: []
 milestone: m-7
 dependencies: []
@@ -37,6 +37,8 @@ Owner确认保留并启用PR496的自动合并目标，修复当前冲突、完�
 1. 接续PR496并补Full放行与严格基线、暂停合同。2. 定向负例和独立深审。3. 正常CI合入启用规则。4. 用PR498设计稿实测自动合并并核对合后Full与清理清单。
 
 启用前先将独立审查门禁置pending并核对状态ID，显式原生排队后复核最新CI与基线再success放行；取消全部同步合并回退。首个接续PR502也可在Full进行中实测。
+
+仓库转移后以固定ID1429751262解析当前canonical，修复coordinator owner硬编码；历史授权保持原文，以独立迁移见证及原文SHA256衔接合后验收。新提交触发迁移后的完整CI，不借取消的旧event重跑。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -51,4 +53,8 @@ PR502首轮Windows第6片：Sapphire冻结21组中15-21片在原30秒总预算�
 Sapphire全部21组本轮7+4项合同回放通过；分片3/5原始入口8596/6105ms。卡牌全部11组分为1-3/4/5-8/9-11，原body hash与30秒不变；原始入口6909/7565/14159/9583ms通过。路由/源合同93项通过。所有auto请求显式enable；CLEAN兜底须fresh Full、原生六项、inventory Actions最新run/attempt/HEAD再验证，71项相关合同通过。
 
 独立深审指出同步兜底无法抵御Owner PR豁免下的基线竞态，已完全删除。改为pending审查门禁握手后原生队列放行；Full发布同时下载校验不可变checkout收据，避免绿灯元数据与实际attempt不一致。73项授权/交付/Full定向合同通过，等待最终SHA复审与真实演练。
+
+PR502已原生自动合入67493f1a，PR Full41771126698及push Full41775894289均27项通过。随后仓库归属转FurinyaWorks，ID1429751262不变；PR504原1667轮取消（head/base未变），已显式暂停并保留原证据。CLI canonical变化导致旧授权repo字符串不能验收，继续修复身份衔接而不重写旧收据。
+
+固定ID/登记别名/原文hash迁移适配74项合同通过，guidance/backlog通过；候选验证器用502原授权与真实两轮Full、不可变收据验证merged_passed（76224ac7），旧preflight repo仍CHNISam，原文件SHA256一致。尚待本次新HEAD独立复审与Full，未宣称迁移修复已合入。
 <!-- SECTION:NOTES:END -->

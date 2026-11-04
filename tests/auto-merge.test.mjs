@@ -2,17 +2,18 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {parseDependencies,autoMergeErrors,collectEligibility,armAutoMerge as activate,pauseAutoMerge,reviewContext,requiredContexts} from '../scripts/arm-auto-merge.mjs';
 import {verifyAutoMergeArm,verifyDelivery,verifyHistoricalAutoFull,verifyMergedDelivery,collectMergedDelivery,currentFullQualityJobs,qualityWorkflowPath} from '../scripts/verify-delivery.mjs';
+import {projectRepositoryId,currentProjectRepository,collectIdentityWitness} from '../scripts/repository-identity.mjs';
 
 const sha=c=>c.repeat(40);
 const armAutoMerge=(repo,number,review,query,options={})=>activate(repo,number,review,query,{loadCheckout:query.loadCheckout,...options});
 const repo='CHNISam/Slay-the-Abyss';
 function fixture() {
   const pr={number:510,node_id:'PR_reviewed_510',state:'open',merged:false,draft:false,mergeable:true,changed_files:1,
-    head:{sha:sha('a'),ref:'feat/reviewed',repo:{full_name:repo}},base:{ref:'develop',sha:sha('b')},merge_commit_sha:sha('d'),body:'Summary\n\nDepends-on: none',
+    head:{sha:sha('a'),ref:'feat/reviewed',repo:{id:projectRepositoryId,full_name:repo}},base:{ref:'develop',sha:sha('b'),repo:{id:projectRepositoryId,full_name:repo}},merge_commit_sha:sha('d'),body:'Summary\n\nDepends-on: none',
     labels:[]};
   const review={reviewId:'independent-agent-evidence-100',reviewedHeadSha:sha('a'),
     reviewedBaseSha:sha('b'),conclusion:'pass',unresolved:[],repo,prNumber:510};
-  const settings={allow_auto_merge:true,allow_squash_merge:true};
+  const settings={id:projectRepositoryId,full_name:repo,allow_auto_merge:true,allow_squash_merge:true};
   const ruleset={target:'branch',enforcement:'active',conditions:{ref_name:{include:['refs/heads/develop'],exclude:[]}},
     rules:[
       {type:'pull_request',parameters:{allowed_merge_methods:['squash'],required_review_thread_resolution:true}},
@@ -22,6 +23,21 @@ function fixture() {
     ]};
   return {pr,review,settings,ruleset,repo,baseSha:sha('b'),dependencies:[]};
 }
+test('repository transfer resolves the pinned project and rejects namespace reuse and forks',()=>{
+ const canonical='FurinyaWorks/Slay-the-Abyss';
+ const resource={id:projectRepositoryId,full_name:canonical};
+ assert.equal(currentProjectRepository((...args)=>{assert.equal(args.at(-1),'repositories/'+projectRepositoryId);return JSON.stringify(resource);}).full_name,canonical);
+ assert.throws(()=>currentProjectRepository(()=>JSON.stringify({...resource,id:1})),/identity/);
+ assert.throws(()=>currentProjectRepository(()=>JSON.stringify({...resource,full_name:'someone/unknown'})),/identity/);
+ const f=fixture();assert.deepEqual(autoMergeErrors(f),[]);
+ const moved=structuredClone(f);moved.repo=canonical;moved.settings.full_name=canonical;
+ moved.pr.head.repo.full_name=canonical;moved.pr.base.repo.full_name=canonical;moved.review.repo=canonical;
+ assert.deepEqual(autoMergeErrors(moved),[]);
+ for(const mutate of [f=>f.settings.id=1,f=>f.pr.head.repo.id=1,f=>f.pr.base.repo.id=1,
+  f=>f.settings.full_name=canonical,f=>f.pr.head.repo.full_name=canonical]){
+  const bad=structuredClone(f);mutate(bad);assert(autoMergeErrors(bad).length,String(mutate));
+ }
+});
 function mock(opts={}) {
   const f=fixture(),calls=[];let pulls=0,armed=false,statusId=10;
   let reviewStatus={id:statusId,context:reviewContext,state:'success'};
@@ -61,6 +77,7 @@ function mock(opts={}) {
       if(opts.missingAutoField)delete pr.auto_merge;
       if(opts.nextHead&&pulls>=2)pr.head.sha=opts.nextHead;
       if(opts.nextBase&&pulls>=2)pr.base.sha=opts.nextBase;
+      if(opts.foreignRepository&&armed)pr.head.repo.id=1;
       if(armed&&(opts.mergeBeforeRelease||opts.mergeImmediately&&reviewStatus.state==='success')){pr.merged=true;pr.state='closed';pr.merge_commit_sha=sha('e');}
       if(armed&&!opts.missingAutoMerge)pr.auto_merge={merge_method:opts.mergeMethod??'squash'};
       if(pulls===7&&opts.finalTarget)pr.base.ref=opts.finalTarget;
@@ -351,7 +368,7 @@ test('completed Full uses the same native handshake and never a bypass-capable s
 });
 test('overwritten review gate, replaced CI attempt and a merge before release are handshake failures',()=>{
  for(const options of [{overwrittenGate:true},{pending:true,afterQueueRerun:true},{mergeBeforeRelease:true},
-  {activationFails:true},{missingAutoField:true,missingAutoMerge:true}]){
+  {activationFails:true},{missingAutoField:true,missingAutoMerge:true},{foreignRepository:true}]){
   const m=mock(options);assert.throws(()=>armAutoMerge(repo,510,m.f.review,m.query));
   assert(!m.calls.some(c=>c.includes('state=success')),'never release review success after a handshake failure');
   assert(m.calls.some(c=>c.includes('--disable-auto')));
@@ -390,6 +407,24 @@ test('early authorization requires separate exact historical PR Full and actual 
   checkout:{...p.checkout,event:'push',runId:9,head:sha('e'),tested:sha('e'),parents:[arm.base]},
   checkoutArtifact:{id:250,name:'quality-9-1-check',expired:false,workflow_run:{id:9,head_sha:sha('e')}}};delete e.checkout.prNumber;
  assert.equal(verifyMergedDelivery(e).state,'merged_passed');
+ const canonical='FurinyaWorks/Slay-the-Abyss',resource={id:projectRepositoryId,full_name:canonical};
+ const transferred=structuredClone(e);transferred.repo=canonical;
+ for(const pr of [transferred.pr,transferred.current]){pr.head.repo={...resource};pr.base.repo={...resource};}
+ for(const run of [transferred.run,transferred.currentRun,transferred.prFull.run,transferred.prFull.currentRun])run.repository={...resource};
+ assert.equal(verifyMergedDelivery(transferred).state,'merged_pending','fullname changes require an explicit witness');
+ const originalText=JSON.stringify(arm,null,2)+'\n';
+ transferred.identityWitness=collectIdentityWitness(originalText,canonical,(...args)=>{
+  assert(['repositories/'+projectRepositoryId,'repos/'+repo].includes(args.at(-1)));return JSON.stringify(resource);
+ });
+ assert.equal(JSON.stringify(transferred.preflight),JSON.stringify(arm),'never rewrite the original authorization');
+ assert.equal(verifyMergedDelivery(transferred).state,'merged_passed');
+ for(const mutate of [e=>delete e.identityWitness,e=>e.identityWitness.preflightSha256=sha('f'),
+  e=>e.identityWitness.preflightText+=' ',e=>e.identityWitness.originalFullName='someone/unknown',
+  e=>e.identityWitness.aliasRepository.id=1,e=>e.identityWitness.canonicalRepository.id=1,
+  e=>e.pr.head.repo.id=1,e=>e.current.base.repo.id=1,e=>e.run.repository.id=1,e=>e.prFull.currentRun.repository.id=1,
+  e=>e.prFull.checkout.base=sha('c'),e=>e.commit.commit.tree.sha=sha('c'),e=>e.run.run_attempt=2]){
+  const bad=structuredClone(transferred);mutate(bad);assert.equal(verifyMergedDelivery(bad).state,'merged_pending',String(mutate));
+ }
  for(const mutate of [e=>delete e.prFull,e=>e.prFull.jobs.pop(),e=>e.jobs.pop(),
   e=>e.prFull.checkout.base=sha('c'),e=>e.commit.parents=[{sha:sha('c')}],
   e=>e.prFull.currentRun.run_attempt=2,e=>e.prFull.checkoutArtifact.id=0]){
