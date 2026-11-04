@@ -1,0 +1,1867 @@
+{
+  "schemaVersion": 1,
+  "baseSha": "b4ac63145689b9dd632db100eee49087f6182b39",
+  "tools": {
+    "node": "v24.18.0",
+    "luacheck": "1.2.0",
+    "parser": "luaparse@0.3.1"
+  },
+  "identities": [
+    {
+      "file": "src/lua/abyss_combat.lua",
+      "beforeSha256": "2e6a406674d95f0037892120301b684857414dc75b9b225fec2052ff8ed6b55a",
+      "afterSha256": "541d1eb9613bcf6cad8b8c5a67bd9beb60444ee6de0514f42bca84506fad6b14"
+    },
+    {
+      "file": "src/lua/abyss_colorless_cards.lua",
+      "beforeSha256": "0e27a235638b74f9390fb9ef3f51e8e4b50df4234c55a892fa99dc41ae980806",
+      "afterSha256": "9b7e39e717c939963523fec507ce32b468874a3eaef5b98d73aa5b57eac8683e"
+    },
+    {
+      "file": "src/lua/abyss_snapshot.lua",
+      "beforeSha256": "ad6ad705a56c0ebaa5ef8c3ad7966cebf9473280f302c0d659f3ecde0f86b3d2",
+      "afterSha256": "8952ff07bea54c924d9a04200acce11be26cbb4bc66096de72a1b6a39e079b63"
+    }
+  ],
+  "summary": {
+    "before": {
+      "modules": 323,
+      "functions": 4779,
+      "measurements": 5102,
+      "complexitySum": 29376,
+      "maxComplexity": 82,
+      "above15": 282,
+      "above30": 78,
+      "longestFunction": 1004,
+      "filesAbove1000": 2
+    },
+    "after": {
+      "modules": 323,
+      "functions": 4817,
+      "measurements": 5140,
+      "complexitySum": 29395,
+      "maxComplexity": 75,
+      "above15": 279,
+      "above30": 76,
+      "longestFunction": 1004,
+      "filesAbove1000": 2
+    }
+  },
+  "dependencies": {
+    "before": {
+      "callSites": 1876,
+      "uniquePairs": 1507,
+      "cycles": [
+        {
+          "members": 104,
+          "internalCallSites": 805
+        }
+      ]
+    },
+    "after": {
+      "callSites": 1876,
+      "uniquePairs": 1507,
+      "cycles": [
+        {
+          "members": 104,
+          "internalCallSites": 805
+        }
+      ]
+    }
+  },
+  "targeted": {
+    "before": [
+      {
+        "file": "src/lua/abyss_colorless_cards.lua",
+        "lines": 446,
+        "functions": [
+          {
+            "name": "e",
+            "complexity": 4,
+            "lines": 5
+          },
+          {
+            "name": "fx",
+            "complexity": 1,
+            "lines": 1
+          },
+          {
+            "name": "card",
+            "complexity": 4,
+            "lines": 6
+          },
+          {
+            "name": "words",
+            "complexity": 2,
+            "lines": 1
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 1,
+            "lines": 1
+          },
+          {
+            "name": "M.powerIcon",
+            "complexity": 4,
+            "lines": 3
+          },
+          {
+            "name": "M.powerDescription",
+            "complexity": 14,
+            "lines": 15
+          },
+          {
+            "name": "M.withCards",
+            "complexity": 23,
+            "lines": 29
+          },
+          {
+            "name": "actions",
+            "complexity": 1,
+            "lines": 1
+          },
+          {
+            "name": "M.adapt",
+            "complexity": 9,
+            "lines": 9
+          },
+          {
+            "name": "M.canUse",
+            "complexity": 18,
+            "lines": 17
+          },
+          {
+            "name": "M.describe",
+            "complexity": 56,
+            "lines": 43
+          },
+          {
+            "name": "M.onUse",
+            "complexity": 5,
+            "lines": 11
+          },
+          {
+            "name": "M.startTurn",
+            "complexity": 6,
+            "lines": 8
+          },
+          {
+            "name": "M.endOwnerTurn",
+            "complexity": 10,
+            "lines": 14
+          },
+          {
+            "name": "M.debuffApplied",
+            "complexity": 10,
+            "lines": 6
+          },
+          {
+            "name": "remove",
+            "complexity": 3,
+            "lines": 3
+          },
+          {
+            "name": "pool",
+            "complexity": 8,
+            "lines": 14
+          },
+          {
+            "name": "generate",
+            "complexity": 11,
+            "lines": 18
+          },
+          {
+            "name": "eligible",
+            "complexity": 6,
+            "lines": 5
+          },
+          {
+            "name": "secretOrder",
+            "complexity": 3,
+            "lines": 8
+          },
+          {
+            "name": "applySelected",
+            "complexity": 5,
+            "lines": 11
+          },
+          {
+            "name": "select",
+            "complexity": 10,
+            "lines": 12
+          },
+          {
+            "name": "M.choose",
+            "complexity": 16,
+            "lines": 20
+          },
+          {
+            "name": "growBattleInstances",
+            "complexity": 8,
+            "lines": 13
+          },
+          {
+            "name": "grow",
+            "complexity": 6,
+            "lines": 5
+          },
+          {
+            "name": "M.apply",
+            "complexity": 82,
+            "lines": 106
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 1,
+            "lines": 3
+          }
+        ]
+      },
+      {
+        "file": "src/lua/abyss_combat.lua",
+        "lines": 2031,
+        "functions": [
+          {
+            "name": "afterUsePowers",
+            "complexity": 5,
+            "lines": 11
+          },
+          {
+            "name": "actionOwned",
+            "complexity": 10,
+            "lines": 5
+          },
+          {
+            "name": "standaloneBoundary",
+            "complexity": 4,
+            "lines": 3
+          },
+          {
+            "name": "settleStandalone",
+            "complexity": 5,
+            "lines": 4
+          },
+          {
+            "name": "enemyEffectsPending",
+            "complexity": 7,
+            "lines": 10
+          },
+          {
+            "name": "M.damage",
+            "complexity": 34,
+            "lines": 28
+          },
+          {
+            "name": "M.retaliate",
+            "complexity": 4,
+            "lines": 8
+          },
+          {
+            "name": "M.suicideExploder",
+            "complexity": 5,
+            "lines": 7
+          },
+          {
+            "name": "M.suicideTransient",
+            "complexity": 2,
+            "lines": 5
+          },
+          {
+            "name": "resolveEffects",
+            "complexity": 10,
+            "lines": 18
+          },
+          {
+            "name": "M.applyEffects",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "index",
+            "complexity": 2,
+            "lines": 5
+          },
+          {
+            "name": "M.random",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "M.cardRandom",
+            "complexity": 2,
+            "lines": 4
+          },
+          {
+            "name": "M.onHpLost",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "drainNative",
+            "complexity": 13,
+            "lines": 8
+          },
+          {
+            "name": "nativeDefinition",
+            "complexity": 9,
+            "lines": 3
+          },
+          {
+            "name": "aiRandom",
+            "complexity": 1,
+            "lines": 1
+          },
+          {
+            "name": "hpRandom",
+            "complexity": 2,
+            "lines": 4
+          },
+          {
+            "name": "makeEnemy",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "M.prepareEncounter",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "M.summonEnemies",
+            "complexity": 6,
+            "lines": 26
+          },
+          {
+            "name": "splitEnemy",
+            "complexity": 14,
+            "lines": 21
+          },
+          {
+            "name": "shuffle",
+            "complexity": 3,
+            "lines": 12
+          },
+          {
+            "name": "event",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "M.allEnemiesEscaped",
+            "complexity": 4,
+            "lines": 5
+          },
+          {
+            "name": "goldInteger",
+            "complexity": 5,
+            "lines": 3
+          },
+          {
+            "name": "M.stealGold",
+            "complexity": 7,
+            "lines": 10
+          },
+          {
+            "name": "M.escapeEnemy",
+            "complexity": 5,
+            "lines": 7
+          },
+          {
+            "name": "aliveEnemies",
+            "complexity": 3,
+            "lines": 4
+          },
+          {
+            "name": "M.outcome",
+            "complexity": 3,
+            "lines": 5
+          },
+          {
+            "name": "finish",
+            "complexity": 6,
+            "lines": 13
+          },
+          {
+            "name": "draw",
+            "complexity": 33,
+            "lines": 64
+          },
+          {
+            "name": "M.draw",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "M.shuffleDiscardIntoDraw",
+            "complexity": 2,
+            "lines": 8
+          },
+          {
+            "name": "M.combatBaseCost",
+            "complexity": 13,
+            "lines": 9
+          },
+          {
+            "name": "M.validSearingBlowCopy",
+            "complexity": 12,
+            "lines": 8
+          },
+          {
+            "name": "M.cardDefinition",
+            "complexity": 61,
+            "lines": 73
+          },
+          {
+            "name": "M.canUpgrade",
+            "complexity": 7,
+            "lines": 4
+          },
+          {
+            "name": "M.upgrade",
+            "complexity": 16,
+            "lines": 20
+          },
+          {
+            "name": "M.cardPreview",
+            "complexity": 2,
+            "lines": 64
+          },
+          {
+            "name": "previewDamage",
+            "complexity": 8,
+            "lines": 15
+          },
+          {
+            "name": "previews",
+            "complexity": 48,
+            "lines": 43
+          },
+          {
+            "name": "findInstance",
+            "complexity": 3,
+            "lines": 3
+          },
+          {
+            "name": "paidCost",
+            "complexity": 5,
+            "lines": 4
+          },
+          {
+            "name": "playWindow",
+            "complexity": 11,
+            "lines": 9
+          },
+          {
+            "name": "playEligibility",
+            "complexity": 6,
+            "lines": 6
+          },
+          {
+            "name": "playSupportedEffects",
+            "complexity": 15,
+            "lines": 17
+          },
+          {
+            "name": "playCardContent",
+            "complexity": 7,
+            "lines": 7
+          },
+          {
+            "name": "playAdvancedMode",
+            "complexity": 12,
+            "lines": 9
+          },
+          {
+            "name": "playEnergy",
+            "complexity": 8,
+            "lines": 6
+          },
+          {
+            "name": "playEffectTarget",
+            "complexity": 4,
+            "lines": 9
+          },
+          {
+            "name": "playCardRequirements",
+            "complexity": 4,
+            "lines": 9
+          },
+          {
+            "name": "playHandRequirements",
+            "complexity": 6,
+            "lines": 9
+          },
+          {
+            "name": "M.canPlay",
+            "complexity": 14,
+            "lines": 28
+          },
+          {
+            "name": "savePlayState",
+            "complexity": 11,
+            "lines": 61
+          },
+          {
+            "name": "save",
+            "complexity": 3,
+            "lines": 6
+          },
+          {
+            "name": "actor",
+            "complexity": 1,
+            "lines": 1
+          },
+          {
+            "name": "nested",
+            "complexity": 4,
+            "lines": 5
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 4,
+            "lines": 6
+          },
+          {
+            "name": "resolvePlay",
+            "complexity": 16,
+            "lines": 43
+          },
+          {
+            "name": "queuedHandlers.allow",
+            "complexity": 11,
+            "lines": 9
+          },
+          {
+            "name": "queueCurlUp",
+            "complexity": 3,
+            "lines": 7
+          },
+          {
+            "name": "queueStanceGains",
+            "complexity": 7,
+            "lines": 12
+          },
+          {
+            "name": "normalMatrix",
+            "complexity": 3,
+            "lines": 20
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 8,
+            "lines": 12
+          },
+          {
+            "name": "queuedHandlers.effect",
+            "complexity": 3,
+            "lines": 7
+          },
+          {
+            "name": "M.resolvePotionActions",
+            "complexity": 9,
+            "lines": 13
+          },
+          {
+            "name": "M.choosePotionStance",
+            "complexity": 2,
+            "lines": 8
+          },
+          {
+            "name": "queuedHandlers.useCard",
+            "complexity": 16,
+            "lines": 35
+          },
+          {
+            "name": "M.finishEarlyTurn",
+            "complexity": 8,
+            "lines": 6
+          },
+          {
+            "name": "finishQueuedPlay",
+            "complexity": 7,
+            "lines": 20
+          },
+          {
+            "name": "M.chooseDiscard",
+            "complexity": 16,
+            "lines": 35
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 4,
+            "lines": 9
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 2,
+            "lines": 1
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 4,
+            "lines": 9
+          },
+          {
+            "name": "M.choosePile",
+            "complexity": 7,
+            "lines": 14
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 3,
+            "lines": 7
+          },
+          {
+            "name": "queueUseCopies",
+            "complexity": 9,
+            "lines": 20
+          },
+          {
+            "name": "beginQueuedPlay",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "queueNativePlay",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "M.capturedSharpHide",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "M.staticRetaliation",
+            "complexity": 3,
+            "lines": 6
+          },
+          {
+            "name": "M.heartBeat",
+            "complexity": 5,
+            "lines": 11
+          },
+          {
+            "name": "M.disposeCard",
+            "complexity": 14,
+            "lines": 25
+          },
+          {
+            "name": "resolveNativePlay",
+            "complexity": 4,
+            "lines": 9
+          },
+          {
+            "name": "preCardActionHandlers",
+            "complexity": 1,
+            "lines": 9
+          },
+          {
+            "name": "handlers.effect",
+            "complexity": 1,
+            "lines": 5
+          },
+          {
+            "name": "M.chooseCard",
+            "complexity": 4,
+            "lines": 39
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 20,
+            "lines": 33
+          },
+          {
+            "name": "M.resolveQueuedCard",
+            "complexity": 23,
+            "lines": 36
+          },
+          {
+            "name": "rejected",
+            "complexity": 8,
+            "lines": 6
+          },
+          {
+            "name": "M.queueCard",
+            "complexity": 5,
+            "lines": 9
+          },
+          {
+            "name": "M.autoplayTop",
+            "complexity": 6,
+            "lines": 14
+          },
+          {
+            "name": "commandReplay",
+            "complexity": 5,
+            "lines": 5
+          },
+          {
+            "name": "M.play",
+            "complexity": 15,
+            "lines": 29
+          },
+          {
+            "name": "M.chooseScry",
+            "complexity": 6,
+            "lines": 15
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 3,
+            "lines": 7
+          },
+          {
+            "name": "M.chooseHand",
+            "complexity": 5,
+            "lines": 13
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 3,
+            "lines": 7
+          },
+          {
+            "name": "M.intent",
+            "complexity": 2,
+            "lines": 5
+          },
+          {
+            "name": "startNativePlayerTurn",
+            "complexity": 22,
+            "lines": 57
+          },
+          {
+            "name": "appendRelicActions",
+            "complexity": 6,
+            "lines": 7
+          },
+          {
+            "name": "M.startPlayerTurn",
+            "complexity": 19,
+            "lines": 40
+          },
+          {
+            "name": "M.changeMonsterState",
+            "complexity": 6,
+            "lines": 6
+          },
+          {
+            "name": "M.enemyActionRetained",
+            "complexity": 3,
+            "lines": 4
+          },
+          {
+            "name": "M.resolveEnemyAction",
+            "complexity": 30,
+            "lines": 53
+          },
+          {
+            "name": "queueEnemyTurn",
+            "complexity": 23,
+            "lines": 38
+          },
+          {
+            "name": "append",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "platedGroupEnd",
+            "complexity": 9,
+            "lines": 20
+          },
+          {
+            "name": "advancedTurnCleanup",
+            "complexity": 25,
+            "lines": 14
+          },
+          {
+            "name": "ordinaryOwnerEnd",
+            "complexity": 3,
+            "lines": 8
+          },
+          {
+            "name": "preCardPowers",
+            "complexity": 3,
+            "lines": 8
+          },
+          {
+            "name": "discardOwnerEnd",
+            "complexity": 9,
+            "lines": 21
+          },
+          {
+            "name": "endExperimentalTurn",
+            "complexity": 55,
+            "lines": 115
+          },
+          {
+            "name": "nativeEthereal",
+            "complexity": 4,
+            "lines": 8
+          },
+          {
+            "name": "endNativeTurn",
+            "complexity": 38,
+            "lines": 137
+          },
+          {
+            "name": "cleanupPlayerEnd",
+            "complexity": 37,
+            "lines": 66
+          },
+          {
+            "name": "beginRelicEndTurn",
+            "complexity": 12,
+            "lines": 23
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 7,
+            "lines": 12
+          },
+          {
+            "name": "M.endTurn",
+            "complexity": 34,
+            "lines": 30
+          },
+          {
+            "name": "M.new",
+            "complexity": 82,
+            "lines": 139
+          },
+          {
+            "name": "applyPower",
+            "complexity": 1,
+            "lines": 1
+          },
+          {
+            "name": "increaseMaxHp",
+            "complexity": 2,
+            "lines": 6
+          }
+        ]
+      },
+      {
+        "file": "src/lua/abyss_snapshot.lua",
+        "lines": 48,
+        "functions": [
+          {
+            "name": "M.capture",
+            "complexity": 9,
+            "lines": 30
+          },
+          {
+            "name": "restore",
+            "complexity": 4,
+            "lines": 6
+          },
+          {
+            "name": "M.ownedRestore",
+            "complexity": 4,
+            "lines": 7
+          },
+          {
+            "name": "M.release",
+            "complexity": 3,
+            "lines": 4
+          }
+        ]
+      }
+    ],
+    "after": [
+      {
+        "file": "src/lua/abyss_colorless_cards.lua",
+        "lines": 480,
+        "functions": [
+          {
+            "name": "e",
+            "complexity": 4,
+            "lines": 5
+          },
+          {
+            "name": "fx",
+            "complexity": 1,
+            "lines": 1
+          },
+          {
+            "name": "card",
+            "complexity": 4,
+            "lines": 6
+          },
+          {
+            "name": "words",
+            "complexity": 2,
+            "lines": 1
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 1,
+            "lines": 1
+          },
+          {
+            "name": "M.powerIcon",
+            "complexity": 4,
+            "lines": 3
+          },
+          {
+            "name": "M.powerDescription",
+            "complexity": 14,
+            "lines": 15
+          },
+          {
+            "name": "M.withCards",
+            "complexity": 23,
+            "lines": 29
+          },
+          {
+            "name": "actions",
+            "complexity": 1,
+            "lines": 1
+          },
+          {
+            "name": "M.adapt",
+            "complexity": 9,
+            "lines": 9
+          },
+          {
+            "name": "M.canUse",
+            "complexity": 18,
+            "lines": 17
+          },
+          {
+            "name": "M.describe",
+            "complexity": 56,
+            "lines": 43
+          },
+          {
+            "name": "M.onUse",
+            "complexity": 5,
+            "lines": 11
+          },
+          {
+            "name": "M.startTurn",
+            "complexity": 6,
+            "lines": 8
+          },
+          {
+            "name": "M.endOwnerTurn",
+            "complexity": 10,
+            "lines": 14
+          },
+          {
+            "name": "M.debuffApplied",
+            "complexity": 10,
+            "lines": 6
+          },
+          {
+            "name": "remove",
+            "complexity": 3,
+            "lines": 3
+          },
+          {
+            "name": "pool",
+            "complexity": 8,
+            "lines": 14
+          },
+          {
+            "name": "generate",
+            "complexity": 11,
+            "lines": 18
+          },
+          {
+            "name": "eligible",
+            "complexity": 6,
+            "lines": 5
+          },
+          {
+            "name": "secretOrder",
+            "complexity": 3,
+            "lines": 8
+          },
+          {
+            "name": "applySelected",
+            "complexity": 5,
+            "lines": 11
+          },
+          {
+            "name": "select",
+            "complexity": 10,
+            "lines": 12
+          },
+          {
+            "name": "M.choose",
+            "complexity": 16,
+            "lines": 20
+          },
+          {
+            "name": "growBattleInstances",
+            "complexity": 8,
+            "lines": 13
+          },
+          {
+            "name": "grow",
+            "complexity": 6,
+            "lines": 5
+          },
+          {
+            "name": "actionHandlers.apotheosis",
+            "complexity": 3,
+            "lines": 3
+          },
+          {
+            "name": "actionHandlers.shackles",
+            "complexity": 3,
+            "lines": 5
+          },
+          {
+            "name": "actionHandlers.impatience",
+            "complexity": 3,
+            "lines": 4
+          },
+          {
+            "name": "actionHandlers.enlightenment",
+            "complexity": 5,
+            "lines": 6
+          },
+          {
+            "name": "actionHandlers.discovery",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "actionHandlers.madness",
+            "complexity": 9,
+            "lines": 12
+          },
+          {
+            "name": "actionHandlers.generateColorless",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "actionHandlers.generateDraw",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "actionHandlers.transmutation",
+            "complexity": 6,
+            "lines": 5
+          },
+          {
+            "name": "actionHandlers.deepBreath",
+            "complexity": 8,
+            "lines": 14
+          },
+          {
+            "name": "actionHandlers.deepBreathShuffle",
+            "complexity": 2,
+            "lines": 7
+          },
+          {
+            "name": "actionHandlers.violence",
+            "complexity": 6,
+            "lines": 10
+          },
+          {
+            "name": "actionHandlers.panache",
+            "complexity": 3,
+            "lines": 5
+          },
+          {
+            "name": "actionHandlers.bomb",
+            "complexity": 2,
+            "lines": 8
+          },
+          {
+            "name": "actionHandlers.mayhem",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "actionHandlers.mayhemPlay",
+            "complexity": 6,
+            "lines": 7
+          },
+          {
+            "name": "actionHandlers.sadisticDamage",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "eligibleKill",
+            "complexity": 7,
+            "lines": 3
+          },
+          {
+            "name": "rewardGreed",
+            "complexity": 3,
+            "lines": 10
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "growRitual",
+            "complexity": 4,
+            "lines": 6
+          },
+          {
+            "name": "resolveKill",
+            "complexity": 5,
+            "lines": 8
+          },
+          {
+            "name": "M.apply",
+            "complexity": 2,
+            "lines": 6
+          }
+        ]
+      },
+      {
+        "file": "src/lua/abyss_combat.lua",
+        "lines": 2104,
+        "functions": [
+          {
+            "name": "afterUsePowers",
+            "complexity": 5,
+            "lines": 11
+          },
+          {
+            "name": "actionOwned",
+            "complexity": 10,
+            "lines": 5
+          },
+          {
+            "name": "standaloneBoundary",
+            "complexity": 4,
+            "lines": 3
+          },
+          {
+            "name": "settleStandalone",
+            "complexity": 5,
+            "lines": 4
+          },
+          {
+            "name": "enemyEffectsPending",
+            "complexity": 7,
+            "lines": 10
+          },
+          {
+            "name": "M.damage",
+            "complexity": 34,
+            "lines": 28
+          },
+          {
+            "name": "M.retaliate",
+            "complexity": 4,
+            "lines": 8
+          },
+          {
+            "name": "M.suicideExploder",
+            "complexity": 5,
+            "lines": 7
+          },
+          {
+            "name": "M.suicideTransient",
+            "complexity": 2,
+            "lines": 5
+          },
+          {
+            "name": "resolveEffects",
+            "complexity": 10,
+            "lines": 18
+          },
+          {
+            "name": "M.applyEffects",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "index",
+            "complexity": 2,
+            "lines": 5
+          },
+          {
+            "name": "M.random",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "M.cardRandom",
+            "complexity": 2,
+            "lines": 4
+          },
+          {
+            "name": "M.onHpLost",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "drainNative",
+            "complexity": 13,
+            "lines": 8
+          },
+          {
+            "name": "nativeDefinition",
+            "complexity": 9,
+            "lines": 3
+          },
+          {
+            "name": "aiRandom",
+            "complexity": 1,
+            "lines": 1
+          },
+          {
+            "name": "hpRandom",
+            "complexity": 2,
+            "lines": 4
+          },
+          {
+            "name": "makeEnemy",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "M.prepareEncounter",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "M.summonEnemies",
+            "complexity": 6,
+            "lines": 26
+          },
+          {
+            "name": "splitEnemy",
+            "complexity": 14,
+            "lines": 21
+          },
+          {
+            "name": "shuffle",
+            "complexity": 3,
+            "lines": 12
+          },
+          {
+            "name": "event",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "M.allEnemiesEscaped",
+            "complexity": 4,
+            "lines": 5
+          },
+          {
+            "name": "goldInteger",
+            "complexity": 5,
+            "lines": 3
+          },
+          {
+            "name": "M.stealGold",
+            "complexity": 7,
+            "lines": 10
+          },
+          {
+            "name": "M.escapeEnemy",
+            "complexity": 5,
+            "lines": 7
+          },
+          {
+            "name": "aliveEnemies",
+            "complexity": 3,
+            "lines": 4
+          },
+          {
+            "name": "M.outcome",
+            "complexity": 3,
+            "lines": 5
+          },
+          {
+            "name": "finish",
+            "complexity": 6,
+            "lines": 13
+          },
+          {
+            "name": "draw",
+            "complexity": 33,
+            "lines": 64
+          },
+          {
+            "name": "M.draw",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "M.shuffleDiscardIntoDraw",
+            "complexity": 2,
+            "lines": 8
+          },
+          {
+            "name": "M.combatBaseCost",
+            "complexity": 13,
+            "lines": 9
+          },
+          {
+            "name": "M.validSearingBlowCopy",
+            "complexity": 12,
+            "lines": 8
+          },
+          {
+            "name": "M.cardDefinition",
+            "complexity": 61,
+            "lines": 73
+          },
+          {
+            "name": "M.canUpgrade",
+            "complexity": 7,
+            "lines": 4
+          },
+          {
+            "name": "M.upgrade",
+            "complexity": 16,
+            "lines": 20
+          },
+          {
+            "name": "M.cardPreview",
+            "complexity": 2,
+            "lines": 64
+          },
+          {
+            "name": "previewDamage",
+            "complexity": 8,
+            "lines": 15
+          },
+          {
+            "name": "previews",
+            "complexity": 48,
+            "lines": 43
+          },
+          {
+            "name": "findInstance",
+            "complexity": 3,
+            "lines": 3
+          },
+          {
+            "name": "paidCost",
+            "complexity": 5,
+            "lines": 4
+          },
+          {
+            "name": "playWindow",
+            "complexity": 11,
+            "lines": 9
+          },
+          {
+            "name": "playEligibility",
+            "complexity": 6,
+            "lines": 6
+          },
+          {
+            "name": "playSupportedEffects",
+            "complexity": 15,
+            "lines": 17
+          },
+          {
+            "name": "playCardContent",
+            "complexity": 7,
+            "lines": 7
+          },
+          {
+            "name": "playAdvancedMode",
+            "complexity": 12,
+            "lines": 9
+          },
+          {
+            "name": "playEnergy",
+            "complexity": 8,
+            "lines": 6
+          },
+          {
+            "name": "playEffectTarget",
+            "complexity": 4,
+            "lines": 9
+          },
+          {
+            "name": "playCardRequirements",
+            "complexity": 4,
+            "lines": 9
+          },
+          {
+            "name": "playHandRequirements",
+            "complexity": 6,
+            "lines": 9
+          },
+          {
+            "name": "M.canPlay",
+            "complexity": 14,
+            "lines": 28
+          },
+          {
+            "name": "savePlayState",
+            "complexity": 11,
+            "lines": 61
+          },
+          {
+            "name": "save",
+            "complexity": 3,
+            "lines": 6
+          },
+          {
+            "name": "actor",
+            "complexity": 1,
+            "lines": 1
+          },
+          {
+            "name": "nested",
+            "complexity": 4,
+            "lines": 5
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 4,
+            "lines": 6
+          },
+          {
+            "name": "resolvePlay",
+            "complexity": 16,
+            "lines": 43
+          },
+          {
+            "name": "queuedHandlers.allow",
+            "complexity": 11,
+            "lines": 9
+          },
+          {
+            "name": "queueCurlUp",
+            "complexity": 3,
+            "lines": 7
+          },
+          {
+            "name": "queueStanceGains",
+            "complexity": 7,
+            "lines": 12
+          },
+          {
+            "name": "normalMatrix",
+            "complexity": 3,
+            "lines": 20
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 8,
+            "lines": 12
+          },
+          {
+            "name": "queuedHandlers.effect",
+            "complexity": 3,
+            "lines": 7
+          },
+          {
+            "name": "M.resolvePotionActions",
+            "complexity": 9,
+            "lines": 13
+          },
+          {
+            "name": "M.choosePotionStance",
+            "complexity": 2,
+            "lines": 8
+          },
+          {
+            "name": "queuedHandlers.useCard",
+            "complexity": 16,
+            "lines": 35
+          },
+          {
+            "name": "M.finishEarlyTurn",
+            "complexity": 8,
+            "lines": 6
+          },
+          {
+            "name": "finishQueuedPlay",
+            "complexity": 7,
+            "lines": 20
+          },
+          {
+            "name": "M.chooseDiscard",
+            "complexity": 16,
+            "lines": 35
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 4,
+            "lines": 9
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 2,
+            "lines": 1
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 4,
+            "lines": 9
+          },
+          {
+            "name": "M.choosePile",
+            "complexity": 7,
+            "lines": 14
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 3,
+            "lines": 7
+          },
+          {
+            "name": "queueUseCopies",
+            "complexity": 9,
+            "lines": 20
+          },
+          {
+            "name": "beginQueuedPlay",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "queueNativePlay",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "M.capturedSharpHide",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "M.staticRetaliation",
+            "complexity": 3,
+            "lines": 6
+          },
+          {
+            "name": "M.heartBeat",
+            "complexity": 5,
+            "lines": 11
+          },
+          {
+            "name": "M.disposeCard",
+            "complexity": 14,
+            "lines": 25
+          },
+          {
+            "name": "resolveNativePlay",
+            "complexity": 4,
+            "lines": 9
+          },
+          {
+            "name": "preCardActionHandlers",
+            "complexity": 1,
+            "lines": 9
+          },
+          {
+            "name": "handlers.effect",
+            "complexity": 1,
+            "lines": 5
+          },
+          {
+            "name": "M.chooseCard",
+            "complexity": 4,
+            "lines": 39
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 20,
+            "lines": 33
+          },
+          {
+            "name": "M.resolveQueuedCard",
+            "complexity": 23,
+            "lines": 36
+          },
+          {
+            "name": "rejected",
+            "complexity": 8,
+            "lines": 6
+          },
+          {
+            "name": "M.queueCard",
+            "complexity": 5,
+            "lines": 9
+          },
+          {
+            "name": "M.autoplayTop",
+            "complexity": 6,
+            "lines": 14
+          },
+          {
+            "name": "commandReplay",
+            "complexity": 5,
+            "lines": 5
+          },
+          {
+            "name": "M.play",
+            "complexity": 15,
+            "lines": 29
+          },
+          {
+            "name": "M.chooseScry",
+            "complexity": 6,
+            "lines": 15
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 3,
+            "lines": 7
+          },
+          {
+            "name": "M.chooseHand",
+            "complexity": 5,
+            "lines": 13
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 3,
+            "lines": 7
+          },
+          {
+            "name": "M.intent",
+            "complexity": 2,
+            "lines": 5
+          },
+          {
+            "name": "clearNativeTurnPowers",
+            "complexity": 2,
+            "lines": 7
+          },
+          {
+            "name": "enqueueNativeTurnPowers",
+            "complexity": 4,
+            "lines": 8
+          },
+          {
+            "name": "enqueueNativeOpeningDraw",
+            "complexity": 5,
+            "lines": 9
+          },
+          {
+            "name": "enqueueNativePostDraw",
+            "complexity": 3,
+            "lines": 8
+          },
+          {
+            "name": "startNativePlayerTurn",
+            "complexity": 12,
+            "lines": 37
+          },
+          {
+            "name": "appendRelicActions",
+            "complexity": 6,
+            "lines": 7
+          },
+          {
+            "name": "M.startPlayerTurn",
+            "complexity": 19,
+            "lines": 40
+          },
+          {
+            "name": "M.changeMonsterState",
+            "complexity": 6,
+            "lines": 6
+          },
+          {
+            "name": "M.enemyActionRetained",
+            "complexity": 3,
+            "lines": 4
+          },
+          {
+            "name": "M.resolveEnemyAction",
+            "complexity": 30,
+            "lines": 53
+          },
+          {
+            "name": "queueEnemyTurn",
+            "complexity": 23,
+            "lines": 38
+          },
+          {
+            "name": "append",
+            "complexity": 1,
+            "lines": 3
+          },
+          {
+            "name": "platedGroupEnd",
+            "complexity": 9,
+            "lines": 20
+          },
+          {
+            "name": "advancedTurnCleanup",
+            "complexity": 25,
+            "lines": 14
+          },
+          {
+            "name": "ordinaryOwnerEnd",
+            "complexity": 3,
+            "lines": 8
+          },
+          {
+            "name": "preCardPowers",
+            "complexity": 3,
+            "lines": 8
+          },
+          {
+            "name": "discardOwnerEnd",
+            "complexity": 9,
+            "lines": 21
+          },
+          {
+            "name": "endExperimentalTurn",
+            "complexity": 55,
+            "lines": 115
+          },
+          {
+            "name": "nativeEthereal",
+            "complexity": 4,
+            "lines": 8
+          },
+          {
+            "name": "endNativeTurn",
+            "complexity": 38,
+            "lines": 137
+          },
+          {
+            "name": "cleanupPlayerEnd",
+            "complexity": 37,
+            "lines": 66
+          },
+          {
+            "name": "beginRelicEndTurn",
+            "complexity": 12,
+            "lines": 23
+          },
+          {
+            "name": "<anonymous>",
+            "complexity": 7,
+            "lines": 12
+          },
+          {
+            "name": "M.endTurn",
+            "complexity": 34,
+            "lines": 30
+          },
+          {
+            "name": "constructorOptions",
+            "complexity": 8,
+            "lines": 13
+          },
+          {
+            "name": "validateConstructorOptions",
+            "complexity": 5,
+            "lines": 8
+          },
+          {
+            "name": "constructorState",
+            "complexity": 10,
+            "lines": 14
+          },
+          {
+            "name": "detectConstructorMechanics",
+            "complexity": 10,
+            "lines": 12
+          },
+          {
+            "name": "constructorRandomStreams",
+            "complexity": 8,
+            "lines": 18
+          },
+          {
+            "name": "constructorDevelopmentResources",
+            "complexity": 5,
+            "lines": 16
+          },
+          {
+            "name": "constructorCardUid",
+            "complexity": 8,
+            "lines": 9
+          },
+          {
+            "name": "appendConstructorCard",
+            "complexity": 12,
+            "lines": 15
+          },
+          {
+            "name": "constructorDeck",
+            "complexity": 5,
+            "lines": 13
+          },
+          {
+            "name": "constructorEnemies",
+            "complexity": 4,
+            "lines": 12
+          },
+          {
+            "name": "constructorCardStreams",
+            "complexity": 8,
+            "lines": 6
+          },
+          {
+            "name": "constructorEmeraldBoost",
+            "complexity": 3,
+            "lines": 14
+          },
+          {
+            "name": "applyPower",
+            "complexity": 1,
+            "lines": 1
+          },
+          {
+            "name": "increaseMaxHp",
+            "complexity": 2,
+            "lines": 6
+          },
+          {
+            "name": "constructorOpening",
+            "complexity": 6,
+            "lines": 12
+          },
+          {
+            "name": "M.new",
+            "complexity": 4,
+            "lines": 21
+          }
+        ]
+      },
+      {
+        "file": "src/lua/abyss_snapshot.lua",
+        "lines": 51,
+        "functions": [
+          {
+            "name": "M.capture",
+            "complexity": 10,
+            "lines": 33
+          },
+          {
+            "name": "restore",
+            "complexity": 4,
+            "lines": 6
+          },
+          {
+            "name": "M.ownedRestore",
+            "complexity": 4,
+            "lines": 7
+          },
+          {
+            "name": "M.release",
+            "complexity": 3,
+            "lines": 4
+          }
+        ]
+      }
+    ]
+  },
+  "officialImport": "UNVERIFIED",
+  "ready": "UNVERIFIED",
+  "devices": "UNVERIFIED"
+}

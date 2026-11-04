@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "baselineRevision": "b4ac63145689b9dd632db100eee49087f6182b39",
+  "runtime": "v24.18.0",
+  "source": "src/lua/abyss_colorless_cards.lua",
+  "beforeSha256": "0e27a235638b74f9390fb9ef3f51e8e4b50df4234c55a892fa99dc41ae980806",
+  "afterSha256": "9b7e39e717c939963523fec507ce32b468874a3eaef5b98d73aa5b57eac8683e",
+  "before": {
+    "modules": 323,
+    "functions": 4779,
+    "measurements": 5102,
+    "above15": 282,
+    "above30": 78,
+    "maxComplexity": 82,
+    "dependencyPairs": 1507,
+    "dependencyCallSites": 1876,
+    "largestSccMembers": 104,
+    "largestSccInternalCalls": 805,
+    "diagnostics": 15,
+    "module": {
+      "lines": 446,
+      "functions": 28,
+      "apply": {
+        "id": "$/M.apply#1",
+        "name": "M.apply",
+        "kind": "function",
+        "constructorName": false,
+        "line": 340,
+        "column": 1,
+        "endLine": 445,
+        "lines": 106,
+        "complexity": 82
+      },
+      "actions": []
+    }
+  },
+  "after": {
+    "modules": 323,
+    "functions": 4800,
+    "measurements": 5123,
+    "above15": 281,
+    "above30": 77,
+    "maxComplexity": 82,
+    "dependencyPairs": 1507,
+    "dependencyCallSites": 1876,
+    "largestSccMembers": 104,
+    "largestSccInternalCalls": 805,
+    "diagnostics": 15,
+    "module": {
+      "lines": 480,
+      "functions": 49,
+      "apply": {
+        "id": "$/M.apply#1",
+        "name": "M.apply",
+        "kind": "function",
+        "constructorName": false,
+        "line": 474,
+        "column": 1,
+        "endLine": 479,
+        "lines": 6,
+        "complexity": 2
+      },
+      "actions": [
+        {
+          "name": "actionHandlers.apotheosis",
+          "cc": 3,
+          "lines": 3
+        },
+        {
+          "name": "actionHandlers.shackles",
+          "cc": 3,
+          "lines": 5
+        },
+        {
+          "name": "actionHandlers.impatience",
+          "cc": 3,
+          "lines": 4
+        },
+        {
+          "name": "actionHandlers.enlightenment",
+          "cc": 5,
+          "lines": 6
+        },
+        {
+          "name": "actionHandlers.discovery",
+          "cc": 1,
+          "lines": 3
+        },
+        {
+          "name": "actionHandlers.madness",
+          "cc": 9,
+          "lines": 12
+        },
+        {
+          "name": "actionHandlers.generateColorless",
+          "cc": 1,
+          "lines": 3
+        },
+        {
+          "name": "actionHandlers.generateDraw",
+          "cc": 1,
+          "lines": 3
+        },
+        {
+          "name": "actionHandlers.transmutation",
+          "cc": 6,
+          "lines": 5
+        },
+        {
+          "name": "actionHandlers.deepBreath",
+          "cc": 8,
+          "lines": 14
+        },
+        {
+          "name": "actionHandlers.deepBreathShuffle",
+          "cc": 2,
+          "lines": 7
+        },
+        {
+          "name": "actionHandlers.violence",
+          "cc": 6,
+          "lines": 10
+        },
+        {
+          "name": "actionHandlers.panache",
+          "cc": 3,
+          "lines": 5
+        },
+        {
+          "name": "actionHandlers.bomb",
+          "cc": 2,
+          "lines": 8
+        },
+        {
+          "name": "actionHandlers.mayhem",
+          "cc": 1,
+          "lines": 3
+        },
+        {
+          "name": "actionHandlers.mayhemPlay",
+          "cc": 6,
+          "lines": 7
+        },
+        {
+          "name": "actionHandlers.sadisticDamage",
+          "cc": 1,
+          "lines": 3
+        },
+        {
+          "name": "eligibleKill",
+          "cc": 7,
+          "lines": 3
+        },
+        {
+          "name": "rewardGreed",
+          "cc": 3,
+          "lines": 10
+        },
+        {
+          "name": "growRitual",
+          "cc": 4,
+          "lines": 6
+        },
+        {
+          "name": "resolveKill",
+          "cc": 5,
+          "lines": 8
+        }
+      ]
+    }
+  },
+  "parity": [
+    {
+      "group": "random",
+      "cases": 7,
+      "boundaries": 11,
+      "bytes": 273183,
+      "sha256": "e35b6366e165cc75b95ea9d9ce9cb12fe0b1c6ec2882880ac88ebeed56028592",
+      "identical": true
+    },
+    {
+      "group": "rewards",
+      "cases": 7,
+      "boundaries": 18,
+      "bytes": 449951,
+      "sha256": "636580bb4c8b01913cb57aa0c7f62c884b878b9b50f0e9fe1a2ee88192c48132",
+      "identical": true
+    },
+    {
+      "group": "dispatch",
+      "cases": 9,
+      "boundaries": 17,
+      "bytes": 450962,
+      "sha256": "f47ee7d2f567dba4468078b10cd63b6428596e0c271a41c271e1ddc0ec6027a3",
+      "identical": true
+    }
+  ],
+  "limits": [
+    "Complete mutable state/event/queue/RNG/return/alias and dynamic status-definition graph; catalog/rules/sourcePools omitted from trace.",
+    "No gameplay/candidate/import/ready/device or performance claim. Exact HEAD independent review, Full and merged push verification pending."
+  ]
+}

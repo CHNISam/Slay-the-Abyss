@@ -110,12 +110,16 @@ test('every extracted card action helper is required and bounded with its nested
       .some(e=>e.file===path&&e.message.includes('entry missing')));
   }
 });
-test('canPlay and all preflight stages are required, bounded and fully measured',()=>{
+test('combat play, turn and constructor stages are required, bounded and fully measured',()=>{
   const path='src/lua/abyss_combat.lua';
   const names=['queuedHandlers.effect','M.canPlay','playWindow','playEligibility','playSupportedEffects',
     'playCardContent','playAdvancedMode','playEnergy','playEffectTarget','playCardRequirements','playHandRequirements',
     'beginQueuedPlay','queueNativePlay','M.play', 'clearNativeTurnPowers','enqueueNativeTurnPowers',
-    'enqueueNativeOpeningDraw','enqueueNativePostDraw','startNativePlayerTurn'];
+    'enqueueNativeOpeningDraw','enqueueNativePostDraw','startNativePlayerTurn',
+    'constructorOptions','validateConstructorOptions','constructorState',
+    'detectConstructorMechanics','constructorRandomStreams','constructorDevelopmentResources',
+    'constructorCardUid','appendConstructorCard','constructorDeck','constructorEnemies',
+    'constructorCardStreams','constructorEmeraldBoost','constructorOpening','M.new'];
   const source=names.map(name=>`function ${name}() return function() end end`).join('\n');
   const diagnostics=[row(path,1,1,'main chunk',1)];
   for(const [i,name] of names.entries()){

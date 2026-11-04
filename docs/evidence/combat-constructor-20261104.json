@@ -1,0 +1,301 @@
+{
+  "schemaVersion": 1,
+  "baselineRevision": "2107aeda9a8fca4b219b9281f2ddecd22f1b05b6",
+  "runtime": "v24.18.0",
+  "file": "src/lua/abyss_combat.lua",
+  "beforeSourceSha256": "2d9dfa94c855e07dc112ca09e6d94db7332ec77acd7971f69400bc417e7add7c",
+  "afterSourceSha256": "541d1eb9613bcf6cad8b8c5a67bd9beb60444ee6de0514f42bca84506fad6b14",
+  "scope": "constructor-only slice; complete final multi-module report owned by coordinator",
+  "beforeFunctions": [
+    {
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 1907,
+      "column": 1,
+      "endLine": 2045,
+      "lines": 139,
+      "complexity": 82
+    },
+    {
+      "id": "$/M.new#1/applyPower#1",
+      "name": "applyPower",
+      "kind": "function",
+      "constructorName": false,
+      "line": 2028,
+      "column": 24,
+      "endLine": 2028,
+      "lines": 1,
+      "complexity": 1
+    },
+    {
+      "id": "$/M.new#1/increaseMaxHp#1",
+      "name": "increaseMaxHp",
+      "kind": "function",
+      "constructorName": false,
+      "line": 2029,
+      "column": 27,
+      "endLine": 2034,
+      "lines": 6,
+      "complexity": 2
+    }
+  ],
+  "afterFunctions": [
+    {
+      "id": "$/constructorOptions#1",
+      "name": "constructorOptions",
+      "kind": "function",
+      "constructorName": false,
+      "line": 1907,
+      "column": 7,
+      "endLine": 1919,
+      "lines": 13,
+      "complexity": 8
+    },
+    {
+      "id": "$/validateConstructorOptions#1",
+      "name": "validateConstructorOptions",
+      "kind": "function",
+      "constructorName": false,
+      "line": 1921,
+      "column": 7,
+      "endLine": 1928,
+      "lines": 8,
+      "complexity": 5
+    },
+    {
+      "id": "$/constructorState#1",
+      "name": "constructorState",
+      "kind": "function",
+      "constructorName": false,
+      "line": 1930,
+      "column": 7,
+      "endLine": 1943,
+      "lines": 14,
+      "complexity": 10
+    },
+    {
+      "id": "$/detectConstructorMechanics#1",
+      "name": "detectConstructorMechanics",
+      "kind": "function",
+      "constructorName": false,
+      "line": 1945,
+      "column": 7,
+      "endLine": 1956,
+      "lines": 12,
+      "complexity": 10
+    },
+    {
+      "id": "$/constructorRandomStreams#1",
+      "name": "constructorRandomStreams",
+      "kind": "function",
+      "constructorName": false,
+      "line": 1958,
+      "column": 7,
+      "endLine": 1975,
+      "lines": 18,
+      "complexity": 8
+    },
+    {
+      "id": "$/constructorDevelopmentResources#1",
+      "name": "constructorDevelopmentResources",
+      "kind": "function",
+      "constructorName": false,
+      "line": 1977,
+      "column": 7,
+      "endLine": 1992,
+      "lines": 16,
+      "complexity": 5
+    },
+    {
+      "id": "$/constructorCardUid#1",
+      "name": "constructorCardUid",
+      "kind": "function",
+      "constructorName": false,
+      "line": 1994,
+      "column": 7,
+      "endLine": 2002,
+      "lines": 9,
+      "complexity": 8
+    },
+    {
+      "id": "$/appendConstructorCard#1",
+      "name": "appendConstructorCard",
+      "kind": "function",
+      "constructorName": false,
+      "line": 2004,
+      "column": 7,
+      "endLine": 2018,
+      "lines": 15,
+      "complexity": 12
+    },
+    {
+      "id": "$/constructorDeck#1",
+      "name": "constructorDeck",
+      "kind": "function",
+      "constructorName": false,
+      "line": 2020,
+      "column": 7,
+      "endLine": 2032,
+      "lines": 13,
+      "complexity": 5
+    },
+    {
+      "id": "$/constructorEnemies#1",
+      "name": "constructorEnemies",
+      "kind": "function",
+      "constructorName": false,
+      "line": 2034,
+      "column": 7,
+      "endLine": 2045,
+      "lines": 12,
+      "complexity": 4
+    },
+    {
+      "id": "$/constructorCardStreams#1",
+      "name": "constructorCardStreams",
+      "kind": "function",
+      "constructorName": false,
+      "line": 2047,
+      "column": 7,
+      "endLine": 2052,
+      "lines": 6,
+      "complexity": 8
+    },
+    {
+      "id": "$/constructorEmeraldBoost#1",
+      "name": "constructorEmeraldBoost",
+      "kind": "function",
+      "constructorName": false,
+      "line": 2054,
+      "column": 7,
+      "endLine": 2067,
+      "lines": 14,
+      "complexity": 3
+    },
+    {
+      "id": "$/constructorEmeraldBoost#1/applyPower#1",
+      "name": "applyPower",
+      "kind": "function",
+      "constructorName": false,
+      "line": 2057,
+      "column": 24,
+      "endLine": 2057,
+      "lines": 1,
+      "complexity": 1
+    },
+    {
+      "id": "$/constructorEmeraldBoost#1/increaseMaxHp#1",
+      "name": "increaseMaxHp",
+      "kind": "function",
+      "constructorName": false,
+      "line": 2058,
+      "column": 27,
+      "endLine": 2063,
+      "lines": 6,
+      "complexity": 2
+    },
+    {
+      "id": "$/constructorOpening#1",
+      "name": "constructorOpening",
+      "kind": "function",
+      "constructorName": false,
+      "line": 2069,
+      "column": 7,
+      "endLine": 2080,
+      "lines": 12,
+      "complexity": 6
+    },
+    {
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 2082,
+      "column": 1,
+      "endLine": 2102,
+      "lines": 21,
+      "complexity": 4
+    }
+  ],
+  "oldComplexitySum": 85,
+  "newComplexitySum": 99,
+  "oldModuleLines": 2047,
+  "newModuleLines": 2104,
+  "parity": {
+    "fixture": "tests/lua/combat_constructor.lua",
+    "scenarios": 11,
+    "fullGraphBytes": 5602387,
+    "fullGraphSha256": "b0e353467782c0692c81a1688029ab5c72235b7d41408a6ec4203235e8acb88e",
+    "includes": [
+      "caller data",
+      "caller options",
+      "catalog",
+      "rules",
+      "sourcePools",
+      "prepared input",
+      "RNG streams",
+      "events",
+      "callback state",
+      "error kind/message",
+      "aliases"
+    ],
+    "timeoutMilliseconds": 30000,
+    "assertionLocationsNormalized": true,
+    "normalization": "Only Lua assertion diagnostic file:line prefix removed; error identity and messages preserved. Functions represented by type marker; callback placement and absence from saved state separately asserted."
+  },
+  "mutations": [
+    "explicit false options",
+    "caller stream isolation",
+    "permanent UID allocation",
+    "bottled metadata",
+    "beforeFirstTurn refusal",
+    "prepared identity validation",
+    "beforeOpeningDraw preservation",
+    "registered sourcePools ownership"
+  ],
+  "regressions": [
+    {
+      "fixture": "room_shuffle.lua",
+      "groups": 6,
+      "milliseconds": 2421
+    },
+    {
+      "fixture": "opening_hand.lua",
+      "groups": 10,
+      "milliseconds": 739
+    },
+    {
+      "fixture": "opening_relic_order.lua",
+      "groups": 20,
+      "milliseconds": 10793
+    },
+    {
+      "fixture": "emerald_combat_hooks.lua",
+      "groups": 5,
+      "milliseconds": 882
+    },
+    {
+      "fixture": "run_prepared_v4_compatibility.lua",
+      "roles": [
+        "HT",
+        "AR",
+        "FR",
+        "RD"
+      ],
+      "milliseconds": 1744
+    },
+    {
+      "fixture": "class_common_relic_constructor.lua",
+      "groups": 4,
+      "milliseconds": 2704
+    }
+  ],
+  "limitations": [
+    "Source responsibility extraction, not an FPS/runtime/CI performance claim.",
+    "Total CC includes one base path for each new helper and an explicit Emerald-return guard; no total branch reduction claimed.",
+    "Final global metrics, independent exact-head review, Full and post-merge checks owned by coordinator.",
+    "No candidate write, official import, ready or device evidence."
+  ]
+}

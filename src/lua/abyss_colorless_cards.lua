@@ -337,110 +337,144 @@ local function growBattleInstances(state,original,amount)
     for _,queued in ipairs(state.queuedCards or {})do grow(queued.card)end
     for _,queued in ipairs(state.cardActions or {})do grow(queued.instance)end
 end
+local actionHandlers={}
+function actionHandlers.apotheosis(combat,state)
+    for _,pile in ipairs({state.hand,state.draw,state.discard,state.exhaust})do for _,c in ipairs(pile)do combat.upgrade(state,c)end end
+end
+function actionHandlers.shackles(_,state,item,a)
+    local target=item.target;local artifact=(target.statuses.artifact or 0)>0
+    Actors.applyPower(state,target,'strength',-a.value,state.player)
+    if not artifact then Actors.applyPower(state,target,'shackled',a.value,state.player)end
+end
+function actionHandlers.impatience(combat,state,_,a)
+    for _,c in ipairs(state.hand)do if state.catalog.cards[c.cardId].type=='attack'then return end end
+    combat.draw(state,a.value)
+end
+function actionHandlers.enlightenment(combat,state,_,a)
+    for _,c in ipairs(state.hand)do
+        if combat.cardDefinition(state,c).cost>1 then c.costForTurn=1 end
+        if a.value==1 and combat.combatBaseCost(state,c)>1 then c.costOverride=1 end
+    end
+end
+function actionHandlers.discovery(_,state)
+    require('abyss_card_actions').enqueueReaction(state,{op='discover',value=1,exclude='discovery'},true)
+end
+actionHandlers.purity=select
+actionHandlers.secret=select
+actionHandlers.forethought=select
+function actionHandlers.madness(combat,state)
+    local better,possible=false,false
+    for _,c in ipairs(state.hand)do
+        if combat.cardDefinition(state,c).cost>0 then better=true end
+        if combat.combatBaseCost(state,c)>0 then possible=true end
+    end
+    if better or possible then
+        local c
+        repeat c=state.hand[combat.cardRandom(state,#state.hand)]until (better and combat.cardDefinition(state,c).cost or combat.combatBaseCost(state,c))>0
+        c.costOverride,c.costForTurn=0,0
+    end
+end
+function actionHandlers.generateColorless(combat,state,_,a)
+    generate(combat,state,'colorless',a.value,'hand')
+end
+function actionHandlers.generateDraw(combat,state,_,a)
+    generate(combat,state,a.cardType,a.value,'draw',false,true)
+end
+function actionHandlers.transmutation(combat,state,_,a)
+    local n=a.energyOnUse or 0
+    for _,id in ipairs(state.relics or {})do if id=='chemical_x'or id=='Chemical X'then n=n+2 end end
+    generate(combat,state,'colorless',n,'hand',a.value==1,false,true)
+end
+function actionHandlers.deepBreath(_,state)
+    if #state.discard>0 then
+        -- Constructor callbacks queue their effects before EmptyDeck/Shuffle/
+        -- Draw. Collect in held order; reverse TOP insertion preserves it.
+        local effects={};local uncommon,shop=require('abyss_uncommon_relics'),require('abyss_shop_relics')
+        for _,id in ipairs(state.relics or {})do
+            if uncommon.localId(id)=='sundial'then
+                for _,effect in ipairs(uncommon.onShuffle(state))do effects[#effects+1]=effect end
+            elseif shop.localId(id)=='the_abacus'then effects[#effects+1]=shop.onShuffle(state,true)end
+        end
+        actions().enqueueReaction(state,e('deepBreathShuffle'),true)
+        for i=#effects,1,-1 do actions().enqueueReaction(state,effects[i],true)end
+    end
+end
+function actionHandlers.deepBreathShuffle(_,state)
+    Random.shuffle(assert(state.shuffleRng,'Deep Breath needs shuffle stream'),state.discard)
+    -- Soul.shuffle immediately appends iterator-order cards to old draw.
+    for _,c in ipairs(state.discard)do state.draw[#state.draw+1]=c end;state.discard={}
+    -- ShuffleAction(draw,false) spends a second long, without callbacks.
+    Random.shuffle(assert(state.shuffleRng,'Deep Breath needs shuffle stream'),state.draw)
+end
+function actionHandlers.violence(combat,state,_,a)
+    local tmp={}
+    for _,c in ipairs(state.draw)do if state.catalog.cards[c.cardId].type=='attack'then
+        if #tmp==0 then tmp[1]=c else table.insert(tmp,combat.cardRandom(state,#tmp),c)end
+    end end
+    for _=1,a.value do if #tmp>0 then
+        Random.shuffle(assert(state.shuffleRng,'Violence needs shuffle stream'),tmp)
+        local c=table.remove(tmp,1);remove(state.draw,c.uid);actions().toHand(state,c)
+    end end
+end
+function actionHandlers.panache(_,state,_,a)
+    if not state.player.statuses.panache then Actors.applyPower(state,state.player,'panache',5,state.player)end
+    state.colorlessPanacheDamage=(state.colorlessPanacheDamage or 0)+a.value
+    state.player.panacheDamage=state.colorlessPanacheDamage
+end
+function actionHandlers.bomb(_,state,_,a)
+    state.colorlessBombs=state.colorlessBombs or {}
+    local id='colorless_bomb_'..(#state.colorlessBombs+1)
+    state.player.statusDefinitions[id]={id=id,name='延时爆破',kind='buff',stack='duration',decay='none',description='到期造成'..a.value..'点伤害。'}
+    Actors.applyPower(state,state.player,id,3,state.player)
+    state.colorlessBombs[#state.colorlessBombs+1]={id=id,turns=3,damage=a.value}
+    state.player.colorlessBombs=state.colorlessBombs
+end
+function actionHandlers.mayhem(_,state,_,a)
+    actions().enqueue(state,e('mayhemPlay',a.value))
+end
+function actionHandlers.mayhemPlay(combat,state,_,a)
+    for _=1,a.value do
+        local live={};for i,enemy in ipairs(state.enemies)do if Actors.isActive(enemy)then live[#live+1]=i end end
+        if #live>0 then combat.autoplayTop(state,live[combat.cardRandom(state,#live)],false,true)
+        elseif not combat.outcome(state)then combat.autoplayTop(state,nil,false,true)end
+    end
+end
+function actionHandlers.sadisticDamage(combat,state,item,a)
+    combat.damage(state,state.player,item.target,a.value,true)
+end
+local function eligibleKill(target,before)
+    return before>0 and target.hp<=0 and not target.escaped and not target.halfDead and not target.minion and (target.statuses.minion or 0)<=0
+end
+local function rewardGreed(combat,state,a)
+    if not require('abyss_relic_hooks').owns(state,'ectoplasm')then
+        state.player.gold=state.player.gold+a.value
+        if state.scoreStats then state.scoreStats.goldGained=state.scoreStats.goldGained+a.value end
+        require('abyss_act2_event_relics').gainGold(state,a.value,function(n)
+            return actions().apply(combat,state,{effect={op='heal',value=n},source=state.player})
+        end)
+        require('abyss_events').emit(state,'gold',{amount=a.value,source='hand_of_greed'})
+    end
+end
+local function growRitual(state,item,a)
+    local c=item.instance;growBattleInstances(state,c,a.value)
+    state.ritualDaggerGrowth=state.ritualDaggerGrowth or {}
+    local key=c.deckUid
+    if key then state.ritualDaggerGrowth[key]=(state.ritualDaggerGrowth[key]or 0)+a.value end
+end
+local function resolveKill(combat,state,item,a,kind)
+    local target=item.target;local before=target.hp
+    combat.damage(state,state.player,target,a.damage or a.value,nil,nil,a.resolved and a.resolved[target.id])
+    if eligibleKill(target,before) then
+        if kind=='greed'then rewardGreed(combat,state,a)
+        else growRitual(state,item,a)end
+    end
+end
+actionHandlers.greed=resolveKill
+actionHandlers.ritual=resolveKill
 function M.apply(combat,state,item)
     local a=item.effect;local kind=a.kind
-    if kind=='apotheosis'then
-        for _,pile in ipairs({state.hand,state.draw,state.discard,state.exhaust})do for _,c in ipairs(pile)do combat.upgrade(state,c)end end
-    elseif kind=='shackles'then
-        local target=item.target;local artifact=(target.statuses.artifact or 0)>0
-        Actors.applyPower(state,target,'strength',-a.value,state.player)
-        if not artifact then Actors.applyPower(state,target,'shackled',a.value,state.player)end
-    elseif kind=='impatience'then
-        for _,c in ipairs(state.hand)do if state.catalog.cards[c.cardId].type=='attack'then return end end
-        combat.draw(state,a.value)
-    elseif kind=='enlightenment'then
-        for _,c in ipairs(state.hand)do
-            if combat.cardDefinition(state,c).cost>1 then c.costForTurn=1 end
-            if a.value==1 and combat.combatBaseCost(state,c)>1 then c.costOverride=1 end
-        end
-    elseif kind=='discovery'then
-        require('abyss_card_actions').enqueueReaction(state,{op='discover',value=1,exclude='discovery'},true)
-    elseif kind=='purity'or kind=='secret'or kind=='forethought'then return select(combat,state,item)
-    elseif kind=='madness'then
-        local better,possible=false,false
-        for _,c in ipairs(state.hand)do
-            if combat.cardDefinition(state,c).cost>0 then better=true end
-            if combat.combatBaseCost(state,c)>0 then possible=true end
-        end
-        if better or possible then
-            local c
-            repeat c=state.hand[combat.cardRandom(state,#state.hand)]until (better and combat.cardDefinition(state,c).cost or combat.combatBaseCost(state,c))>0
-            c.costOverride,c.costForTurn=0,0
-        end
-    elseif kind=='generateColorless'then generate(combat,state,'colorless',a.value,'hand')
-    elseif kind=='generateDraw'then generate(combat,state,a.cardType,a.value,'draw',false,true)
-    elseif kind=='transmutation'then
-        local n=a.energyOnUse or 0
-        for _,id in ipairs(state.relics or {})do if id=='chemical_x'or id=='Chemical X'then n=n+2 end end
-        generate(combat,state,'colorless',n,'hand',a.value==1,false,true)
-    elseif kind=='deepBreath'then
-        if #state.discard>0 then
-            -- Constructor callbacks queue their effects before EmptyDeck/Shuffle/
-            -- Draw. Collect in held order; reverse TOP insertion preserves it.
-            local effects={};local uncommon,shop=require('abyss_uncommon_relics'),require('abyss_shop_relics')
-            for _,id in ipairs(state.relics or {})do
-                if uncommon.localId(id)=='sundial'then
-                    for _,effect in ipairs(uncommon.onShuffle(state))do effects[#effects+1]=effect end
-                elseif shop.localId(id)=='the_abacus'then effects[#effects+1]=shop.onShuffle(state,true)end
-            end
-            actions().enqueueReaction(state,e('deepBreathShuffle'),true)
-            for i=#effects,1,-1 do actions().enqueueReaction(state,effects[i],true)end
-        end
-    elseif kind=='deepBreathShuffle'then
-        Random.shuffle(assert(state.shuffleRng,'Deep Breath needs shuffle stream'),state.discard)
-        -- Soul.shuffle immediately appends iterator-order cards to old draw.
-        for _,c in ipairs(state.discard)do state.draw[#state.draw+1]=c end;state.discard={}
-        -- ShuffleAction(draw,false) spends a second long, without callbacks.
-        Random.shuffle(assert(state.shuffleRng,'Deep Breath needs shuffle stream'),state.draw)
-    elseif kind=='violence'then
-        local tmp={}
-        for _,c in ipairs(state.draw)do if state.catalog.cards[c.cardId].type=='attack'then
-            if #tmp==0 then tmp[1]=c else table.insert(tmp,combat.cardRandom(state,#tmp),c)end
-        end end
-        for _=1,a.value do if #tmp>0 then
-            Random.shuffle(assert(state.shuffleRng,'Violence needs shuffle stream'),tmp)
-            local c=table.remove(tmp,1);remove(state.draw,c.uid);actions().toHand(state,c)
-        end end
-    elseif kind=='panache'then
-        if not state.player.statuses.panache then Actors.applyPower(state,state.player,'panache',5,state.player)end
-        state.colorlessPanacheDamage=(state.colorlessPanacheDamage or 0)+a.value
-        state.player.panacheDamage=state.colorlessPanacheDamage
-    elseif kind=='bomb'then
-        state.colorlessBombs=state.colorlessBombs or {}
-        local id='colorless_bomb_'..(#state.colorlessBombs+1)
-        state.player.statusDefinitions[id]={id=id,name='延时爆破',kind='buff',stack='duration',decay='none',description='到期造成'..a.value..'点伤害。'}
-        Actors.applyPower(state,state.player,id,3,state.player)
-        state.colorlessBombs[#state.colorlessBombs+1]={id=id,turns=3,damage=a.value}
-        state.player.colorlessBombs=state.colorlessBombs
-    elseif kind=='mayhem'then
-        actions().enqueue(state,e('mayhemPlay',a.value))
-    elseif kind=='mayhemPlay'then
-        for _=1,a.value do
-            local live={};for i,enemy in ipairs(state.enemies)do if Actors.isActive(enemy)then live[#live+1]=i end end
-            if #live>0 then combat.autoplayTop(state,live[combat.cardRandom(state,#live)],false,true)
-            elseif not combat.outcome(state)then combat.autoplayTop(state,nil,false,true)end
-        end
-    elseif kind=='sadisticDamage'then combat.damage(state,state.player,item.target,a.value,true)
-    elseif kind=='greed'or kind=='ritual'then
-        local target=item.target;local before=target.hp
-        combat.damage(state,state.player,target,a.damage or a.value,nil,nil,a.resolved and a.resolved[target.id])
-        if before>0 and target.hp<=0 and not target.escaped and not target.halfDead and not target.minion and (target.statuses.minion or 0)<=0 then
-            if kind=='greed'then
-                if not require('abyss_relic_hooks').owns(state,'ectoplasm')then
-                    state.player.gold=state.player.gold+a.value
-                    if state.scoreStats then state.scoreStats.goldGained=state.scoreStats.goldGained+a.value end
-                    require('abyss_act2_event_relics').gainGold(state,a.value,function(n)
-                        return actions().apply(combat,state,{effect={op='heal',value=n},source=state.player})
-                    end)
-                    require('abyss_events').emit(state,'gold',{amount=a.value,source='hand_of_greed'})
-                end
-            else
-                local c=item.instance;growBattleInstances(state,c,a.value)
-                state.ritualDaggerGrowth=state.ritualDaggerGrowth or {}
-                local key=c.deckUid
-                if key then state.ritualDaggerGrowth[key]=(state.ritualDaggerGrowth[key]or 0)+a.value end
-            end
-        end
-    else error('unimplemented colorless action: '..tostring(kind))end
+    local handler=actionHandlers[kind]
+    if not handler then error('unimplemented colorless action: '..tostring(kind))end
+    return handler(combat,state,item,a,kind)
 end
 return M

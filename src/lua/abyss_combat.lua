@@ -1904,13 +1904,7 @@ function M.endTurn(state,rollbackOwner)
     return ok,reason
 end
 
-function M.new(data, options)
-    local originalData=data
-    local catalog
-    data,catalog=require('abyss_combat_catalog').prepare(data)
-    -- Registration owns fresh, detached pools when it returns a new bundle.
-    -- Reuse that private copy; registered caller bundles still need a copy.
-    local sourcePools=data~=originalData and data.cards.sourcePools or copy(data.cards.sourcePools)
+local function constructorOptions(data,options)
     options = options or {}
     if data.runCardCatalog then
         -- Only default scalar options. Formation callbacks and roomStreams
@@ -1921,12 +1915,19 @@ function M.new(data, options)
         if options.enableStances==nil then options.enableStances=true end
         if options.orbSlots==nil then options.orbSlots=data.runCardCharacter=='defect'and 3 or 0 end
     end
+    return options
+end
+
+local function validateConstructorOptions(options)
     if options.sourceEncounter ~= nil then
         assert(Formation.supports(options.sourceEncounter), "unknown source formation")
         assert(options.enemies == nil, "source formation cannot mix with explicit enemies")
         assert(type(options.encounterBoundary) == "table", "source formation needs explicit boundaries")
     end
     assert(type(options.seed or 1) == "number" and (options.seed or 1) % 1 == 0, "seed must be an integer")
+end
+
+local function constructorState(data,catalog,sourcePools,options)
     local rules = copy(data.rules)
     rules.player.maxHp=options.maxHp or rules.player.maxHp
     local hp = options.hp or rules.player.maxHp
@@ -1935,12 +1936,13 @@ function M.new(data, options)
     assert(goldInteger(gold), "invalid starting gold")
     catalog.enemies=require('abyss_combat_catalog').enemies(data)
     catalog.potions=index(data.potions and data.potions.potions or {})
-    local state = { scoreStats = require("abyss_run_score").newBattleStats(), stolenGoldReward = 0, mugged = false, rules = rules,sourcePools=sourcePools,experimentalCharacter=data.experimentalCharacter, catalog = catalog,
+    return { scoreStats = require("abyss_run_score").newBattleStats(), stolenGoldReward = 0, mugged = false, rules = rules,sourcePools=sourcePools,experimentalCharacter=data.experimentalCharacter, catalog = catalog,
         seed = (options.seed or 1) % 65536, turn = 0, energy = 0, phase = "setup", nextUid = 1, nextEnemyId = 1,
         player = { id = "player", gold = gold, hp = hp, maxHp = rules.player.maxHp, block = 0, statuses = {} },
-        enemies = {}, draw = {}, hand = {}, discard = {}, exhaust = {}, events = {} }
-    if data.originalV4Role then require('abyss_original_v4').init(state,data.originalV4Role,copy(data.originalV4Rules)) end
-    EnemySetup.register(state.catalog)
+        enemies = {}, draw = {}, hand = {}, discard = {}, exhaust = {}, events = {} },rules
+end
+
+local function detectConstructorMechanics(state,data)
     -- Helper opt-in is independent of character selection: mixed native cards
     -- must still run the experimental on-use/draw hooks they were prepared with.
     for key,value in pairs(data) do
@@ -1951,6 +1953,9 @@ function M.new(data, options)
             state.experimentalMechanics=true
         end
     end
+end
+
+local function constructorRandomStreams(state,data,options)
     if data.cards.sourcePools then state.cardRandomRng=SourceRandom.fromSeed(options.cardRandomSeed or string.format('%.0f',options.seed or 1)) end
     if options.shuffleSeed then state.shuffleRng=SourceRandom.fromSeed(options.shuffleSeed) end
     if options.roomStreams then
@@ -1967,6 +1972,9 @@ function M.new(data, options)
         assert(type(options.cardRandomSeed)=="string","card random seed must be a raw source string")
         state.cardRandomRng=SourceRandom.fromSeed(options.cardRandomSeed)
     end
+end
+
+local function constructorDevelopmentResources(state,options)
     -- Opt-in development mechanics; ordinary Ironclad construction is unchanged.
     assert(options.enableStances == nil or type(options.enableStances) == "boolean", "invalid stance option")
     if options.enableStances then
@@ -1981,35 +1989,49 @@ function M.new(data, options)
         end
         require("abyss_orbs").init(state, options.orbSlots)
     end
-    Actors.bindStatuses(state.player, state.catalog.statuses)
+end
+
+local function constructorCardUid(state,value)
+    local uid=state.nextUid
+    if state.originalV4 and type(value)=='table' and value.uid~=nil then
+        assert(type(value.uid)=='number' and value.uid>0 and value.uid%1==0 and value.uid<9007199254740991,'invalid permanent card UID')
+        uid=value.uid
+        for _,existing in ipairs(state.draw)do assert(existing.uid~=uid,'duplicate permanent card UID')end
+    end
+    return uid
+end
+
+local function appendConstructorCard(state,value,id,uid)
+    local copyBase
+    if type(value)=='table'then
+        assert(M.validSearingBlowCopy(value),'invalid Searing Blow constructor copy')
+        copyBase=value.searingBlowCopyUpgrades
+    end
+    state.draw[#state.draw + 1] = { uid = uid, uuid=uid, cardId = id, upgraded = type(value) == "table" and value.upgraded == true,
+            upgrades=type(value)=='table' and value.upgrades or nil,deckUid=type(value)=='table' and value.uid or nil,
+            misc=type(value)=='table' and value.misc or nil,costOverride=type(value)=='table' and value.costOverride or nil,
+            searingBlowCopyUpgrades=copyBase }
+    if type(value)=='table'then
+        local instance=state.draw[#state.draw]
+        instance.inBottleFlame=value.inBottleFlame;instance.inBottleLightning=value.inBottleLightning;instance.inBottleTornado=value.inBottleTornado
+    end
+end
+
+local function constructorDeck(state,data,options)
     local deck = options.deck or data.cards.starter_deck.cards
     -- Removing the final permanent card is legal; draw already handles empty piles.
     assert(type(deck) == "table", "invalid deck")
     for _, value in ipairs(deck) do
         local id = type(value) == "table" and value.cardId or value
         assert(state.catalog.cards[id], "unknown deck card: " .. tostring(id))
-        local uid=state.nextUid
-        if state.originalV4 and type(value)=='table' and value.uid~=nil then
-            assert(type(value.uid)=='number' and value.uid>0 and value.uid%1==0 and value.uid<9007199254740991,'invalid permanent card UID')
-            uid=value.uid
-            for _,existing in ipairs(state.draw)do assert(existing.uid~=uid,'duplicate permanent card UID')end
-        end
-        local copyBase
-        if type(value)=='table'then
-            assert(M.validSearingBlowCopy(value),'invalid Searing Blow constructor copy')
-            copyBase=value.searingBlowCopyUpgrades
-        end
-        state.draw[#state.draw + 1] = { uid = uid, uuid=uid, cardId = id, upgraded = type(value) == "table" and value.upgraded == true,
-            upgrades=type(value)=='table' and value.upgrades or nil,deckUid=type(value)=='table' and value.uid or nil,
-            misc=type(value)=='table' and value.misc or nil,costOverride=type(value)=='table' and value.costOverride or nil,
-            searingBlowCopyUpgrades=copyBase }
-        if type(value)=='table'then
-            local instance=state.draw[#state.draw]
-            instance.inBottleFlame=value.inBottleFlame;instance.inBottleLightning=value.inBottleLightning;instance.inBottleTornado=value.inBottleTornado
-        end
+        local uid=constructorCardUid(state,value)
+        appendConstructorCard(state,value,id,uid)
         assert(M.validSearingBlowCopy(state.draw[#state.draw]),'invalid Searing Blow constructor copy')
         state.nextUid = math.max(state.nextUid,uid)+1
     end
+end
+
+local function constructorEnemies(state,options,rules)
     if options.preparedEncounter then EnemySetup.adopt(state,options)
     else EnemySetup.group(state,options,makeEnemy)end
     for _, enemy in ipairs(state.enemies) do EnemyAI.initialize(state, enemy, aiRandom) end
@@ -2019,10 +2041,17 @@ function M.new(data, options)
     -- MonsterRoom initializes all actors first; preBattlePrep shuffles the
     -- deck before calling the group's pre-battle powers in encounter order.
     for _, enemy in ipairs(state.enemies) do EnemyAI.preBattle(state, enemy, hpRandom) end
+    return openingDraw
+end
+
+local function constructorCardStreams(state,options)
     state.cardRng=options.cardRng and SourceRandom.cloneState(options.cardRng) or SourceRandom.fromSeed(options.cardSeed or string.format('%.0f',options.seed or 1))
     require('abyss_writhing_mass').bindMaster(state,options.masterDeck,options.nextMasterDeckUid)
     local misc=options.roomStreams and options.roomStreams.miscRng or options.miscRng
     if misc then state.miscRng=SourceRandom.cloneState(misc)end
+end
+
+local function constructorEmeraldBoost(state,options)
     if options.emeraldBoost then
         local ok,reason=require('abyss_emerald_elite').apply(state.enemies,options.emeraldBoost,{
             applyPower=function(actor,id,amount)return Actors.applyPower(state,actor,id,amount,actor)end,
@@ -2034,6 +2063,12 @@ function M.new(data, options)
             end})
         if not ok then return nil,reason end
     end
+    return true
+end
+
+local function constructorOpening(state,options,openingDraw)
+    local boosted,boostReason=constructorEmeraldBoost(state,options)
+    if not boosted then return nil,boostReason end
     if options.beforeFirstTurn then
         local ok, reason = options.beforeFirstTurn(state)
         if not ok then return nil, reason end
@@ -2042,6 +2077,28 @@ function M.new(data, options)
     local ok, reason = M.startPlayerTurn(state, options.beforeOpeningDraw)
     if ok == false then return nil, reason end
     return state
+end
+
+function M.new(data, options)
+    local originalData=data
+    local catalog
+    data,catalog=require('abyss_combat_catalog').prepare(data)
+    -- Registration owns fresh, detached pools when it returns a new bundle.
+    -- Reuse that private copy; registered caller bundles still need a copy.
+    local sourcePools=data~=originalData and data.cards.sourcePools or copy(data.cards.sourcePools)
+    options=constructorOptions(data,options)
+    validateConstructorOptions(options)
+    local state,rules=constructorState(data,catalog,sourcePools,options)
+    if data.originalV4Role then require('abyss_original_v4').init(state,data.originalV4Role,copy(data.originalV4Rules)) end
+    EnemySetup.register(state.catalog)
+    detectConstructorMechanics(state,data)
+    constructorRandomStreams(state,data,options)
+    constructorDevelopmentResources(state,options)
+    Actors.bindStatuses(state.player, state.catalog.statuses)
+    constructorDeck(state,data,options)
+    local openingDraw=constructorEnemies(state,options,rules)
+    constructorCardStreams(state,options)
+    return constructorOpening(state,options,openingDraw)
 end
 
 return M

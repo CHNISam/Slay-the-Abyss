@@ -114,12 +114,24 @@ const responsibilityRoots = {
       'relicUpgradeRandomHand','playTop','darklingAction','heartBeat','spireDeathRemove',
       'awakenedAction','capturedSharpHide','dispose','effectBatch'].map(name=>`function 'actionHandlers.${name}'`),
   ],
+  'src/lua/abyss_colorless_cards.lua': [
+    ...['eligibleKill','rewardGreed','growRitual','resolveKill','M.apply',
+      ...['apotheosis','shackles','impatience','enlightenment','discovery','madness',
+        'generateColorless','generateDraw','transmutation','deepBreath','deepBreathShuffle',
+        'violence','panache','bomb','mayhem','mayhemPlay','sadisticDamage']
+        .map(name=>`actionHandlers.${name}`)].map(name=>`function '${name}'`),
+  ],
   'src/lua/abyss_nodes.lua': [],
   'src/lua/abyss_run.lua': [],
   'src/lua/abyss_run_potions.lua': ["function 'potionCandidate'"],
   'src/lua/abyss_run_potion_candidate.lua': [],
   'src/lua/abyss_effects.lua': ["function 'M.apply'", "function 'continueEffects'", "function 'applyOne'"],
   'src/lua/abyss_combat.lua': [
+    ...['constructorOptions','validateConstructorOptions','constructorState',
+      'detectConstructorMechanics','constructorRandomStreams','constructorDevelopmentResources',
+      'constructorCardUid','appendConstructorCard','constructorDeck','constructorEnemies',
+      'constructorCardStreams','constructorEmeraldBoost','constructorOpening','M.new']
+      .map(name=>`function '${name}'`),
     ...['clearNativeTurnPowers','enqueueNativeTurnPowers','enqueueNativeOpeningDraw',
       'enqueueNativePostDraw','startNativePlayerTurn'].map(name=>`function '${name}'`),
     "function 'queuedHandlers.effect'", "function 'M.canPlay'", "function 'playWindow'", "function 'playEligibility'", "function 'playSupportedEffects'", "function 'playCardContent'", "function 'playAdvancedMode'", "function 'playEnergy'", "function 'playEffectTarget'", "function 'playCardRequirements'", "function 'playHandRequirements'", "function 'beginQueuedPlay'", "function 'queueNativePlay'", "function 'M.play'"],
