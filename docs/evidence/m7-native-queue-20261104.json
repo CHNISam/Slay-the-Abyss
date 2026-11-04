@@ -211,7 +211,7 @@
   ],
   "liveQueueValidation": {
     "capturedAt": "2026-11-04T13:07:23.084Z",
-    "state": "publisher-ruleset-field-visibility-failure",
+    "state": "rules-visibility-fix-new-head-full-running",
     "pr": 511,
     "head": "3598949d8e71fedba59af88cf7a443554e77f910",
     "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
@@ -276,9 +276,25 @@
       "logSha256": "47421a33bf76a501565a6281020cef9c7bf7a6ce3bd8e22f2d8740dfeeb740af",
       "snapshotSha256": "e3ad8c7bb831b4a78401909efd3e9f0a68ccbe845606c35506a7cc1f718aeeb2"
     },
-    "successfulNativeQueueMerge": false
+    "successfulNativeQueueMerge": false,
+    "currentAttempt": {
+      "head": "944575c8ad67e88bd4b0831e1a25d8893ef3f0b1",
+      "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+      "runId": 41836216986,
+      "authorizationSha256": "686e80da9def325c651f88b3aa17e462d187b6e820374928f57974ab48e8a9da",
+      "rulesFingerprint": "9a80615fd7882c0c631885fc2a7ea110f1ac2ef335b2dcf73bb333344d48b5d1",
+      "reviewId": "independent-agent:/root/review_rules_visibility:944575c8",
+      "reviewConclusion": "pass",
+      "independentTests": 113,
+      "independentNegativeCases": 19,
+      "implementationTests": 118,
+      "newPermissions": false,
+      "newJobs": false,
+      "nativeState": "waiting-for-source-full",
+      "successfulNativeQueueMerge": false
+    }
   },
-  "boundary": "Queue enabled; real failed-check automatic removal and explicit dequeue proven. PR511 source Full passed, but native success is incomplete because the group publisher rejects the read-only API redaction. No protection or CI permission was relaxed. Runtime/device evidence is not covered.",
+  "boundary": "Queue enabled and real rejection/dequeue proven. Ruleset read-visibility repair has exact-SHA independent pass and renewed native authorization, but the new source Full, successful native group merge and post-push delivery remain incomplete. Runtime/device evidence is not covered.",
   "failedCiTimings": [
     {
       "id": 41828843134,
