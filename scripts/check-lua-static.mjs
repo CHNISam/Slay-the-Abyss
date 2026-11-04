@@ -127,6 +127,8 @@ const responsibilityRoots = {
   'src/lua/abyss_run_potion_candidate.lua': [],
   'src/lua/abyss_effects.lua': ["function 'M.apply'", "function 'continueEffects'", "function 'applyOne'"],
   'src/lua/abyss_combat.lua': [
+    ...['baseCardDefinition','nativeStrikeDefinition','classCardDefinition','damageCardDefinition',
+      'costCardDefinition','finishCardDefinition','M.cardDefinition'].map(name=>`function '${name}'`),
     ...['nativeEthereal','resetNativeTurnCosts','prepareNativePlayerEnd','autoUseNativeEndCards',
       'endNativePlayerPowers','resolveNativeRetainPowers','discardNativeRetainedHand',
       'cleanupNativePlayerEnd','startNativeEnemyGroup','runNativeEnemyGroup',

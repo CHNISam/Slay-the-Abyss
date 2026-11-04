@@ -126,7 +126,9 @@ test('combat play, turn and constructor stages are required, bounded and fully m
     'resetExperimentalTurnCosts','autoUseExperimentalEndCards','prepareExperimentalPlayerEnd',
     'startExperimentalEnemyGroup','runExperimentalEnemyGroup','finishExperimentalRound','endExperimentalTurn',
     'catalogNeedsTurnCleanup','powersNeedTurnCleanup','cardNeedsTurnCleanup','advancedTurnCleanup',
-    'resumeRetainedEndTurn','endTurnNeedsTransaction','endTurnRestore','invokeEndTurnResolver','M.endTurn'];
+    'resumeRetainedEndTurn','endTurnNeedsTransaction','endTurnRestore','invokeEndTurnResolver','M.endTurn',
+    'baseCardDefinition','nativeStrikeDefinition','classCardDefinition','damageCardDefinition',
+    'costCardDefinition','finishCardDefinition','M.cardDefinition'];
   const source=names.map(name=>`function ${name}() return function() end end`).join('\n');
   const diagnostics=[row(path,1,1,'main chunk',1)];
   for(const [i,name] of names.entries()){

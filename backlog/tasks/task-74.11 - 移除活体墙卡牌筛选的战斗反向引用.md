@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 16:22'
-updated_date: '2026-11-04 16:31'
+updated_date: '2026-11-04 17:47'
 labels: []
 milestone: m-7
 dependencies: []
@@ -40,4 +40,6 @@ LivingWall仅为复制待选卡牌导入完整Combat，冷加载带入75个模�
 
 <!-- SECTION:NOTES:BEGIN -->
 仅一行复用abyss_copy并新增真实结构边界；冷VM75→35且不加载Combat，复制图一致。专项4项、原事件/72来源槽位及UI模拟通过；SCC成员104保留、内部805→804。合法Run提交未改，不能宣称所有事件操作不加载Combat。独立复核、最终组合Full及合后继续取证。
+
+D1 Full发现新增边界未承接reaction/compendium/Runtime历史架构证明；现补严格完整LivingWall增量，旧golden和原断言保留，缺失/重复/字段/层/次序/linked漂移拒绝。修复者扩展24项通过，主控16项含实际边界通过。生产与禁止边界未改；新精确提交仍需独审和Full。
 <!-- SECTION:NOTES:END -->

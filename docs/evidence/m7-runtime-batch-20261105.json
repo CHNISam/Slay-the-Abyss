@@ -10,7 +10,7 @@
     {
       "file": "src/lua/abyss_combat.lua",
       "beforeSha256": "2e6a406674d95f0037892120301b684857414dc75b9b225fec2052ff8ed6b55a",
-      "afterSha256": "a6c1098d0f4517ef8eb2e0ecebec8daa50dcdbee6fcf8e3dd75f2708ea1e3d50"
+      "afterSha256": "03f028b6dfd90d867beca29a820bd5221377bf688c4ec5dfe0b00a3e69f55a1a"
     },
     {
       "file": "src/lua/abyss_colorless_cards.lua",
@@ -42,12 +42,12 @@
     },
     "after": {
       "modules": 323,
-      "functions": 4839,
-      "measurements": 5162,
-      "complexitySum": 29427,
+      "functions": 4845,
+      "measurements": 5168,
+      "complexitySum": 29433,
       "maxComplexity": 75,
-      "above15": 274,
-      "above30": 72,
+      "above15": 273,
+      "above30": 71,
       "longestFunction": 1004,
       "filesAbove1000": 2
     }
@@ -1167,7 +1167,7 @@
       },
       {
         "file": "src/lua/abyss_combat.lua",
-        "lines": 2187,
+        "lines": 2216,
         "functions": [
           {
             "name": "afterUsePowers",
@@ -1355,9 +1355,39 @@
             "lines": 8
           },
           {
+            "name": "baseCardDefinition",
+            "complexity": 14,
+            "lines": 18
+          },
+          {
+            "name": "nativeStrikeDefinition",
+            "complexity": 9,
+            "lines": 10
+          },
+          {
+            "name": "classCardDefinition",
+            "complexity": 5,
+            "lines": 13
+          },
+          {
+            "name": "damageCardDefinition",
+            "complexity": 13,
+            "lines": 22
+          },
+          {
+            "name": "costCardDefinition",
+            "complexity": 14,
+            "lines": 13
+          },
+          {
+            "name": "finishCardDefinition",
+            "complexity": 11,
+            "lines": 11
+          },
+          {
             "name": "M.cardDefinition",
-            "complexity": 61,
-            "lines": 73
+            "complexity": 1,
+            "lines": 9
           },
           {
             "name": "M.canUpgrade",

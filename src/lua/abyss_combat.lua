@@ -400,7 +400,7 @@ function M.validSearingBlowCopy(instance)
         and type(instance.upgraded)=='boolean' and instance.upgraded==(n>base)
 end
 
-function M.cardDefinition(state, instance)
+local function baseCardDefinition(state,instance)
     assert(M.validSearingBlowCopy(instance),"invalid Searing Blow constructor copy")
     local card = copy(assert(state.catalog.cards[instance.cardId], "unknown card"))
     if instance.upgraded then for k, v in pairs(card.upgrade or {}) do card[k] = copy(v) end end
@@ -416,7 +416,10 @@ function M.cardDefinition(state, instance)
         card.dontTriggerOnUseCard=instance.dontTriggerOnUseCard
     end
     if card.burnDamage==nil and card.endTurnDamage~=nil then card.burnDamage=card.endTurnDamage end
-    local native=nativeDefinition(state,card)
+    return card
+end
+
+local function nativeStrikeDefinition(state,card,native)
     if native and card.id=='perfected_strike' then
         local count=0
         for _,pile in ipairs({state.hand or {},state.draw or {},state.discard or {}}) do
@@ -424,6 +427,10 @@ function M.cardDefinition(state, instance)
         end
         card.effects[1].value=6+count*card.strikeBonus
     end
+    return card
+end
+
+local function classCardDefinition(state,instance,card,native)
     card=require("abyss_silent_discard_cards").costAdapter(state,instance,card)
     if state.player then card=require("abyss_retained_cards").adaptDefinition(state,instance,card) end
     if state.player then
@@ -434,6 +441,10 @@ function M.cardDefinition(state, instance)
         card=require('abyss_defect_final_cards').adaptDefinition(state,instance,card)
         card=require('abyss_silent_tactics_cards').adaptDefinition(state,instance,card)
     end
+    return card
+end
+
+local function damageCardDefinition(state,instance,card)
     local strikeBonus=Uncommon.strikeBonus(state,card)
     if strikeBonus>0 then
         for _,effect in ipairs(card.effects)do
@@ -453,6 +464,10 @@ function M.cardDefinition(state, instance)
             end
         end
     end
+    return card
+end
+
+local function costCardDefinition(state,instance,card,native)
     if instance.combatCost~=nil or instance.turnCost~=nil then
         card=require("abyss_corruption").adaptDefinition(state,instance,card)
     end
@@ -463,6 +478,10 @@ function M.cardDefinition(state, instance)
     end
     if instance.costForTurn~=nil then card.cost=instance.costForTurn end
     if native and state.player and not state.experimentalMechanics and card.type=='skill' and (state.player.statuses.corruption or 0)>0 then card.cost=0 end
+    return card
+end
+
+local function finishCardDefinition(state,instance,card)
     if card.originalV4 then card.target=require('abyss_original_v4').needsTarget(state,card) and 'ENEMY' or 'SELF' end
     card=require('abyss_colorless_cards').adapt(state,instance,card)
     card=require('abyss_silent_final_cards').adapt(state,instance,card)
@@ -472,6 +491,16 @@ function M.cardDefinition(state, instance)
     card=ShopRelics.medicalCard(state,card)
     if Uncommon.canPlayCurse(state,card)then card.exhaust=true;card.cost=math.max(0,card.cost)end
     return card
+end
+
+function M.cardDefinition(state, instance)
+    local card=baseCardDefinition(state,instance)
+    local native=nativeDefinition(state,card)
+    card=nativeStrikeDefinition(state,card,native)
+    card=classCardDefinition(state,instance,card,native)
+    card=damageCardDefinition(state,instance,card)
+    card=costCardDefinition(state,instance,card,native)
+    return finishCardDefinition(state,instance,card)
 end
 function M.canUpgrade(state,instance)
     local d=state.catalog.cards[instance.cardId]
