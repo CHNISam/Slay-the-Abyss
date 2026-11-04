@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-11-04 09:56'
+updated_date: '2026-11-04 11:39'
 labels: []
 milestone: m-7
 dependencies: []
@@ -151,4 +151,6 @@ PR511@8bb93734官方Full41800684802真实失败：POSIX9 architecture-compositio
 从实际508已合入基线a73e6a8f新建干净工作树feat/combat-reactions-integrated-20261104，线性重放c1..1d6完整组合，无merge提交；原完整历史已读回archive/pr511-before-integration-20261104@1d6b38b7。Git核对原c1与a73基线src/lua tree=94dcb51f、architecture blob=f21566d6相同；重放后源码tree=2c26863b/架构blob=e358230b与1d6已审源码相同，轻量重算图仍SCC104/内部位置805/内部唯一539。证据仅追加integrationBase与等价身份，旧测量基线不重写。定向源码/反应验证在新树执行，最终fresh-context独审/Full及队列与合后验收待取；原PR远端8bb未变，推送由主控协调。
 
 a73新基线重放后49/49定向测试通过（42源码/架构消费者+7反应/边界，0skip），含LF/CRLF、完整旧hash、注册/边界/重复键/顺序/escape和fresh linked-owner负例；guidance/backlog通过。未重复长UI/游戏整套；新精确HEAD Full与fresh-context最终组合独审、队列真实合并及合后验证待取。
+
+最终组合1a24acf1干净Context独审49领域/107工具及真实Run回滚、固定hash Luacheck通过后，Full41818991963的Windows5历史battle_ui_card_play_slice_2.lua触及原30秒（ETIMEDOUT），原生Queue等待已暂停，PR未入队。该夹具本已独占，5–8四组断言全过但总快照/构建/清理超过预算；现按既有11组合同拆5–6/7–8，原body/current hash、archive/oracle、每片30秒、调度与生产源码不变。141项定向和五片11组本地通过；托管精确新HEAD Full与实际Queue演练仍未完成，主任务不提前Done。
 <!-- SECTION:NOTES:END -->
