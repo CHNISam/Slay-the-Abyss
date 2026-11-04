@@ -200,12 +200,59 @@
     }
   ],
   "liveQueueValidation": {
-    "state": "waiting-for-real-entry",
+    "capturedAt": "2026-11-04T12:46:42.268Z",
+    "state": "final-group-full-running",
     "pr": 511,
-    "head": "1a24acf18326df41cb5ac562c44c04ff0323fcdb",
+    "head": "3598949d8e71fedba59af88cf7a443554e77f910",
     "base": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
-    "headFull": 41818991963,
+    "headFull": 41823316178,
+    "failureRemoval": {
+      "group": "20d6fafd5c2aad200881d4f88d8d4a068f8f4d87",
+      "runId": 41827310450,
+      "controlledStatus": 58039190364,
+      "operatorManualDequeueBeforeRemoval": false,
+      "event": {
+        "__typename": "RemovedFromMergeQueueEvent",
+        "id": "RFMQE_lADOVThF3s8AAAABcX1xnM8AAAAILadDeQ",
+        "createdAt": "2026-11-04T12:15:26Z",
+        "reason": "failed_checks",
+        "actor": {
+          "login": "github-merge-queue"
+        },
+        "beforeCommit": {
+          "oid": "20d6fafd5c2aad200881d4f88d8d4a068f8f4d87"
+        }
+      },
+      "prUnmerged": true,
+      "proofSha256": "68c33f2874e047f1c44692f2eba1713c2c1979b4da975e8595c7d079a562e1e3"
+    },
+    "explicitPause": {
+      "group": "7f5ebeb126f13b682a37eeec6e4d579012ba2c21",
+      "runId": 41828183215,
+      "confirmedPaused": true,
+      "event": {
+        "__typename": "RemovedFromMergeQueueEvent",
+        "id": "RFMQE_lADOVThF3s8AAAABcX1xnM8AAAAILa1yvQ",
+        "createdAt": "2026-11-04T12:20:00Z",
+        "reason": "manual",
+        "actor": {
+          "login": "CHNISam"
+        },
+        "beforeCommit": {
+          "oid": "7f5ebeb126f13b682a37eeec6e4d579012ba2c21"
+        }
+      },
+      "emptyEntry": true,
+      "emptyAutoMerge": true,
+      "proofSha256": "8403110382a82e5ce9bed3091e30773344b4773c3b64a5a1a715d0043caaf510"
+    },
+    "finalGroup": {
+      "head": "05ccff3f51c1a9f4dbd4fe0b37085c6b224a2981",
+      "runId": 41828843134,
+      "entryId": "MQE_lQDOVThF3s8AAAABMwfM_M4ABTCPzgO3UnQ",
+      "admissionPassed": true
+    },
     "successfulNativeQueueMerge": false
   },
-  "boundary": "Deployment and PR508 merged delivery are proven. Native Queue failure-removal/automatic merge and PR511 delivery remain incomplete at this snapshot. Runtime/device evidence is not covered."
+  "boundary": "Deployment, PR508 merged delivery, real native entry/failure-removal and explicit dequeue are proven. Final native automatic merge/Group Full and PR511 merged delivery remain incomplete at this snapshot. Runtime/device evidence is not covered."
 }
