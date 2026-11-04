@@ -3,7 +3,7 @@ import {tmpdir} from 'node:os';
 import {spawnSync} from 'node:child_process';
 import {resolve,join,sep} from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {currentFullQualityJobs,qualityWorkflowPath,checkoutReceipt} from './verify-delivery.mjs';
+import {currentFullQualityJobs,qualityWorkflowPath,checkoutReceipt,receiptErrors} from './verify-delivery.mjs';
 
 export const fullQualityContext='full-quality';
 const currentRun=e=>e.run?.id===e.runId&&e.run.run_attempt===e.attempt&&
@@ -42,11 +42,8 @@ export function fullGateErrors(e,{metadataOnly=false}={}){
   }else if(job?.status!=='completed'||job.conclusion!==(name==='fast'?'skipped':'success'))errors.push('Incomplete or failed Full job: '+name);
  }
  if(!metadataOnly){
-  const first=(e.jobs??[]).filter(j=>/^rules \(1\/\d+\)$/.test(j.name)).sort((a,b)=>b.run_attempt-a.run_attempt)[0];
-  const c=e.checkout??{},a=e.checkoutArtifact??{};
-  if(c.schemaVersion!==1||c.attempt!==first?.run_attempt||a.id<1||!Number.isSafeInteger(a.id)||a.expired!==false||
-   a.name!==`quality-${e.runId}-${first?.run_attempt}-check`||a.workflow_run?.id!==e.runId||a.workflow_run?.head_sha!==e.head)
-   errors.push('Missing, stale or mismatched immutable checkout artifact');
+  const c=e.checkout??{};
+  errors.push(...receiptErrors(c,e.checkoutArtifact,e.jobs,e.run,3));
   for(const [key,value]of Object.entries({runId:e.runId,head:e.head,base:e.base,tested:e.tested,prNumber:e.number,event:'pull_request'}))
    if(c[key]!==value)errors.push('Actual checkout receipt differs from Full source: '+key);
   if(JSON.stringify(c.parents)!==JSON.stringify([e.base,e.head]))errors.push('Actual checkout parent order differs from Full source');

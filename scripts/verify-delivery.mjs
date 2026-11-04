@@ -60,11 +60,55 @@ function latestJob(jobs,name) {
   return Array.isArray(jobs)?jobs.filter(job=>job?.name===name).sort((a,b)=>b.run_attempt-a.run_attempt)[0]:undefined;
 }
 const firstRulesJob=schemaVersion=>schemaVersion===2?'rules (1/8)':qualityShardJobs[0];
-function receiptErrors(checkout,artifact,jobs,run,schemaVersion) {
+function executionTime(value) {
+  if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(value))return NaN;
+  const time=Date.parse(value);
+  return Number.isFinite(time)&&new Date(time).toISOString()===value.replace('Z','.000Z')?time:NaN;
+}
+function executionFingerprint(job) {
+  const start=executionTime(job?.started_at),end=executionTime(job?.completed_at);
+  if(job?.status!=='completed'||job.conclusion!=='success'||!Number.isFinite(start)||!Number.isFinite(end)||start>end||
+    !positiveId(job.runner_id)||typeof job.runner_name!=='string'||!job.runner_name.trim()||
+    !Array.isArray(job.labels)||!job.labels.length||job.labels.some(label=>typeof label!=='string'||!label)||
+    !Array.isArray(job.steps)||!job.steps.length)return undefined;
+  let previous=0;const steps=[];
+  for(const step of job.steps) {
+    const a=executionTime(step?.started_at),b=executionTime(step?.completed_at);
+    if(!positiveId(step?.number)||step.number<=previous||typeof step.name!=='string'||!step.name.trim()||
+      step.status!=='completed'||!['success','skipped'].includes(step.conclusion)||
+      !Number.isFinite(a)||!Number.isFinite(b)||a<start||a>b||b>end)return undefined;
+    previous=step.number;
+    steps.push([step.number,step.name,step.status,step.conclusion,step.started_at,step.completed_at]);
+  }
+  return JSON.stringify([job.started_at,job.completed_at,job.runner_id,job.runner_name,job.labels,steps]);
+}
+function receiptExecutionAttempt(jobs,schemaVersion) {
+  let job=latestJob(jobs,firstRulesJob(schemaVersion));
+  if(!positiveId(job?.run_attempt))return undefined;
+  // Ordinary and historical sparse evidence keeps its declared attempt. Only
+  // a record created after execution finished can justify inherited evidence.
+  if(!(executionTime(job.created_at)>executionTime(job.completed_at)))return job.run_attempt;
+  while(job) {
+    const fingerprint=executionFingerprint(job),created=executionTime(job.created_at);
+    if(!fingerprint||!Number.isFinite(created)||!positiveId(job.id)||!positiveId(job.run_id)||!validSha(job.head_sha))return undefined;
+    if(created<=executionTime(job.started_at))return job.run_attempt;
+    if(created<=executionTime(job.completed_at))return undefined;
+    // Do not search past a different/failed execution or missing attempt. New
+    // record IDs and runner_group_id may differ, but execution must not.
+    const prior=jobs.filter(candidate=>candidate?.name===job.name&&candidate.run_attempt===job.run_attempt-1);
+    if(prior.length!==1||prior[0].id===job.id||prior[0].run_id!==job.run_id||prior[0].head_sha!==job.head_sha||
+      !(executionTime(prior[0].created_at)<created)||executionFingerprint(prior[0])!==fingerprint)return undefined;
+    job=prior[0];
+  }
+  return undefined;
+}
+// Shared artifact/attempt association only. Callers separately validate all
+// jobs, run identity and the checkout's exact SHA/parent identity.
+export function receiptErrors(checkout,artifact,jobs,run,schemaVersion) {
   // Only the shape's first rules shard writes this artifact. Its execution may
   // predate the run's latest attempt; the receipt still binds the exact base,
   // head, tested commit and parents, checked separately below.
-  const jobName=firstRulesJob(schemaVersion),attempt=latestJob(jobs,jobName)?.run_attempt;
+  const jobName=firstRulesJob(schemaVersion),attempt=receiptExecutionAttempt(jobs,schemaVersion);
   if(checkout?.schemaVersion!==1||!positiveId(attempt)||checkout?.attempt!==attempt||
     !positiveId(artifact?.id)||artifact.name!==`quality-${run?.id}-${attempt}-check`||artifact.expired!==false||
     artifact.workflow_run?.id!==run?.id||artifact.workflow_run?.head_sha!==run?.head_sha)
@@ -211,7 +255,9 @@ function lowRiskFiles(query,repo,number,expectedCount) {
 export function checkoutReceipt(repo,run,jobs,dir,query=gh,schemaVersion=deliverySchemaVersion,{allowRunningAggregate=false}={}) {
   const errors=qualityErrors(jobs,{attempt:run.run_attempt,runId:run.id,head:run.head_sha,schemaVersion,allowRunningAggregate});
   if(errors.length)throw new Error(errors.join('\n'));
-  const attempt=latestJob(jobs,firstRulesJob(schemaVersion)).run_attempt,name=`quality-${run.id}-${attempt}-check`;
+  const attempt=receiptExecutionAttempt(jobs,schemaVersion);
+  if(!positiveId(attempt))throw new Error('Cannot prove first rules shard execution attempt');
+  const name=`quality-${run.id}-${attempt}-check`;
   const artifacts=pages(query,`repos/${repo}/actions/runs/${run.id}/artifacts?per_page=100`,'artifacts').filter(a=>a?.name===name);
   const artifact=artifacts[0];
   if(artifacts.length!==1||receiptErrors({schemaVersion:1,attempt},artifact,jobs,run,schemaVersion).length)throw new Error('Missing, duplicate, expired or mismatched checkout artifact');
