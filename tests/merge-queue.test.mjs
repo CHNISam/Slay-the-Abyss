@@ -6,6 +6,7 @@ import {join} from 'node:path';
 import {queueEventErrors,queueFullErrors,main} from '../scripts/publish-merge-group.mjs';
 import {currentFullQualityJobs,qualityWorkflowPath} from '../scripts/verify-delivery.mjs';
 import {impact} from '../scripts/ci-impact.mjs';
+import {beforeNativeMergeQueueWorkflow} from './helpers/merge-queue-workflow.mjs';
 
 const sha=c=>c.repeat(40),repo='FurinyaWorks/Slay-the-Abyss';
 function fixture(){
@@ -107,4 +108,20 @@ test('queue reuses existing Full matrix, never selects Fast, and preserves PR/pu
  assert.equal(impact([],{}, {eventName:'merge_group',base:'develop',forceFull:false},{}).mode,'full');
  assert.equal(impact([],{}, {eventName:'push',base:'develop',forceFull:false},{}).mode,'full');
  assert.equal(impact(['docs/CI.md'],{}, {eventName:'pull_request',base:'develop',forceFull:false},{}).mode,'fast');
+});
+
+test('historical Quality projections remove only the exact reviewed queue additions',()=>{
+ const live=readFileSync('.github/workflows/quality.yml','utf8');
+ const old=beforeNativeMergeQueueWorkflow(live);
+ assert.equal(typeof old,'string');
+ assert(!old.includes('  merge_group:'));
+ assert(!old.includes('publish-merge-group.mjs'));
+ assert(!old.includes('github.event.merge_group.base_sha'));
+ for(const drift of [
+  live.replace('run: node scripts/publish-merge-group.mjs --pending','run: echo skip'),
+  live.replace('run: node scripts/publish-merge-group.mjs','run: echo skip'),
+  live.replace('branches: [develop]\n  push:', 'branches: [master]\n  push:')
+ ]){
+  assert.equal(beforeNativeMergeQueueWorkflow(drift),null,'partial or changed queue wiring must stay visible');
+ }
 });
