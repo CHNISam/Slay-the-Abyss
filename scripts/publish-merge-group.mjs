@@ -4,7 +4,8 @@ import {join} from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {checkoutReceipt,currentFullQualityJobs,qualityWorkflowPath} from './verify-delivery.mjs';
+import {checkoutReceipt,receiptErrors,currentFullQualityJobs,qualityWorkflowPath} from './verify-delivery.mjs';
+import {collectQueueAdmission} from './merge-queue-admission.mjs';
 
 const expectedRepo='FurinyaWorks/Slay-the-Abyss';
 const contexts=['check','presentation','engineering-posix','inventory','full-quality','independent-review'];
@@ -27,14 +28,21 @@ export function queueEventErrors(event,env) {
  return errors;
 }
 
-export function queueFullErrors({event,env,needs,ruleset,run,latest,jobs,checkout}) {
+export function queueFullErrors({event,env,needs,ruleset,run,latest,jobs,checkout},{metadataOnly=false}={}) {
  const errors=queueEventErrors(event,env);
- const checks=ruleset?.rules?.find(rule=>rule.type==='required_status_checks')?.parameters?.required_status_checks;
+ const statusPolicy=ruleset?.rules?.find(rule=>rule.type==='required_status_checks')?.parameters;
+ const checks=statusPolicy?.required_status_checks;
+ const pull=ruleset?.rules?.find(rule=>rule.type==='pull_request')?.parameters;
  if(ruleset?.target!=='branch'||ruleset?.enforcement!=='active'||
   JSON.stringify(ruleset?.conditions?.ref_name?.include)!==JSON.stringify(['refs/heads/develop'])||
   JSON.stringify(ruleset?.conditions?.ref_name?.exclude)!=='[]'||
-  ruleset?.bypass_actors?.length!==0||!ruleset.rules?.some(rule=>rule.type==='merge_queue'))
+  ruleset?.bypass_actors?.length!==0||!ruleset.rules?.some(rule=>rule.type==='merge_queue'&&
+   rule.parameters?.merge_method==='SQUASH'&&rule.parameters?.grouping_strategy==='ALLGREEN'))
   errors.push('Native develop Merge Queue protection is not active or has bypass actors');
+ if(statusPolicy?.strict_required_status_checks_policy!==true||
+  JSON.stringify(pull?.allowed_merge_methods)!==JSON.stringify(['squash'])||
+  pull?.required_review_thread_resolution!==true||!ruleset?.rules?.some(rule=>rule.type==='required_linear_history'))
+  errors.push('Native queue must preserve Strict, squash-only PRs, resolved threads and linear history');
  for(const context of contexts) {
   const check=checks?.find(c=>c.context===context);
   if(!check||(context==='independent-review'?check.integration_id!=null:check.integration_id!==15368))
@@ -75,7 +83,7 @@ export function queueFullErrors({event,env,needs,ruleset,run,latest,jobs,checkou
   receipt.base!==event?.merge_group?.base_sha||receipt.prNumber!=null||
   !Array.isArray(receipt.parents)||!receipt.parents.every(sha))
   errors.push('Immutable queue checkout receipt does not match tested group');
- if(!checkout?.checkoutArtifact?.id)errors.push('Missing immutable queue checkout artifact');
+ if(!metadataOnly)errors.push(...receiptErrors(receipt,checkout?.checkoutArtifact,jobs,run,3));
  return errors;
 }
 
@@ -109,15 +117,22 @@ export function main(env=process.env,query=gh,{pending=false,loadCheckout}={}) {
  const needs=JSON.parse(env.FULL_NEEDS);
  const context={event,env,needs,ruleset,run,latest,jobs};
  // Do not download or publish on an already-invalid run.
+ // Validate all metadata first; actual receipt contents are checked below.
  const pre=queueFullErrors({...context,checkout:{checkout:{schemaVersion:1,event:'merge_group',runId,
-  tested:head,head,base:event.merge_group.base_sha,parents:[]},checkoutArtifact:{id:1}}});
+  tested:head,head,base:event.merge_group.base_sha,parents:[]}}},{metadataOnly:true});
  if(pre.length)throw Error(pre.join('\n'));
+ const admission=collectQueueAdmission(event,env,query);
  const dir=mkdtempSync(join(tmpdir(),'abyss-queue-'));
  let receipt;
  try{receipt=(loadCheckout??((r,j)=>checkoutReceipt(expectedRepo,r,j,dir,query,3,{allowRunningAggregate:true})))(run,jobs);}
  finally{rmSync(dir,{recursive:true,force:true});}
  const errors=queueFullErrors({...context,checkout:receipt});
  if(errors.length)throw Error(errors.join('\n'));
+ const commit=get('commits/'+head);
+ if(commit?.sha!==head||!Array.isArray(commit.parents)||!commit.parents.length||
+  !commit.parents.every(parent=>sha(parent?.sha))||
+  JSON.stringify(receipt.checkout.parents)!==JSON.stringify(commit.parents.map(parent=>parent.sha)))
+  throw Error('Actual queue commit parent vector differs from checkout receipt');
  // A rerun could begin during artifact download. Never let an old attempt
  // overwrite the new group's pending/failure status.
  const current=get('actions/runs/'+runId);
@@ -126,6 +141,10 @@ export function main(env=process.env,query=gh,{pending=false,loadCheckout}={}) {
  if(current.run_attempt!==run.run_attempt||current.status!=='in_progress'||
   again?.id!==run.id||again.run_attempt!==run.run_attempt)
   throw Error('Queue Full run changed during artifact verification');
+ const finalErrors=queueFullErrors({...context,ruleset:get('rulesets/25870651'),checkout:receipt});
+ if(finalErrors.length)throw Error(finalErrors.join('\n'));
+ if(collectQueueAdmission(event,env,query)!==admission)
+  throw Error('Native group PR authorization changed during artifact verification');
  for(const name of ['full-quality','independent-review'])post(query,head,'success',name,runId);
  return {state:'success',runId,head};
 }

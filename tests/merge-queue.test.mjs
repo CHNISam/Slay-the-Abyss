@@ -7,6 +7,7 @@ import {queueEventErrors,queueFullErrors,main} from '../scripts/publish-merge-gr
 import {currentFullQualityJobs,qualityWorkflowPath} from '../scripts/verify-delivery.mjs';
 import {impact} from '../scripts/ci-impact.mjs';
 import {beforeNativeMergeQueueWorkflow} from './helpers/merge-queue-workflow.mjs';
+import {admissionFixture,admissionQuery} from './helpers/merge-queue-admission.mjs';
 
 const sha=c=>c.repeat(40),repo='FurinyaWorks/Slay-the-Abyss';
 function fixture(){
@@ -19,15 +20,17 @@ function fixture(){
   presentation:{result:'success'},'engineering-posix':{result:'success'}};
  const ruleset={target:'branch',enforcement:'active',bypass_actors:[],
   conditions:{ref_name:{include:['refs/heads/develop'],exclude:[]}},
-  rules:[{type:'merge_queue'},{type:'required_status_checks',parameters:{required_status_checks:
+  rules:[{type:'merge_queue',parameters:{merge_method:'SQUASH',grouping_strategy:'ALLGREEN'}},{type:'required_status_checks',parameters:{strict_required_status_checks_policy:true,required_status_checks:
    ['check','presentation','engineering-posix','inventory','full-quality','independent-review']
-    .map(context=>({context,integration_id:context==='independent-review'?null:15368}))}}]};
+    .map(context=>({context,integration_id:context==='independent-review'?null:15368}))}},
+   {type:'pull_request',parameters:{allowed_merge_methods:['squash'],required_review_thread_resolution:true}},
+   {type:'required_linear_history'}]};
  const run={id:7,run_attempt:1,event:'merge_group',head_sha:head,status:'in_progress',path:qualityWorkflowPath,repository:{full_name:repo}};
  const jobs=currentFullQualityJobs.map((name,i)=>({name,id:100+i,run_id:7,run_attempt:1,head_sha:head,
   status:name==='check'?'in_progress':'completed',
   conclusion:name==='check'?null:name==='fast'?'skipped':'success'}));
  const checkout={checkout:{schemaVersion:1,event:'merge_group',runId:7,attempt:1,tested:head,head,base,parents:[base]},
-  checkoutArtifact:{id:42}};
+  checkoutArtifact:{id:42,name:'quality-7-1-check',expired:false,workflow_run:{id:7,head_sha:head}}};
  return {event,env,needs,ruleset,run,latest:run,jobs,checkout};
 }
 test('merge group is a genuine develop queue event, not a PR, push or forged ref',()=>{
@@ -67,38 +70,27 @@ test('queue full requires every shard, immutable receipt and actual native admis
  }
 });
 test('publisher writes pending first and only releases both contexts after exact Full evidence',()=>{
- const f=fixture(),dir=mkdtempSync(join(tmpdir(),'merge-group-test-'));
+ const f=admissionFixture(),dir=mkdtempSync(join(tmpdir(),'merge-group-test-'));
  const path=join(dir,'event.json');writeFileSync(path,JSON.stringify(f.event));
  f.env.GITHUB_EVENT_PATH=path;f.env.FULL_NEEDS=JSON.stringify(f.needs);
  const writes=[];
- const query=(...args)=>{
-  const url=args.find(a=>typeof a==='string'&&a.startsWith('repos/'))??'';
-  if(args.includes('POST')){
-   const state=args.find(a=>a.startsWith('state=')).slice(6);
-   const context=args.find(a=>a.startsWith('context=')).slice(8);
-   writes.push({state,context,url});return JSON.stringify({state,context});
-  }
-  if(url.endsWith('/rulesets/25870651'))return JSON.stringify(f.ruleset);
-  if(url.endsWith('/actions/runs/7'))return JSON.stringify(f.run);
-  if(url.includes('/actions/workflows/'))return JSON.stringify([{workflow_runs:[f.latest]}]);
-  if(url.includes('/actions/runs/7/jobs?'))return JSON.stringify([{jobs:f.jobs}]);
-  throw Error('Unexpected query: '+args.join(' '));
- };
+ const query=admissionQuery(f,writes);
+ const loadCheckout=()=>({checkout:f.checkout,checkoutArtifact:f.artifact});
  try {
   assert.equal(main(f.env,query,{pending:true}).state,'pending');
   assert.deepEqual(writes.map(w=>w.state),['pending','pending']);
-  const result=main(f.env,query,{loadCheckout:()=>f.checkout});
+  const result=main(f.env,query,{loadCheckout});
   assert.equal(result.state,'success');
   assert.deepEqual(writes.map(w=>w.context),['full-quality','independent-review','full-quality','independent-review']);
   const g=fixture();g.needs.rules.result='failure';
   f.env.FULL_NEEDS=JSON.stringify(g.needs);
-  assert.throws(()=>main(f.env,query,{loadCheckout:()=>f.checkout}),/Full/);
+  assert.throws(()=>main(f.env,query,{loadCheckout}),/Full/);
   assert.equal(writes.length,4,'failure cannot release any further status');
  }finally{rmSync(dir,{recursive:true,force:true});}
 });
 test('queue reuses existing Full matrix, never selects Fast, and preserves PR/push paths',()=>{
- const workflow=readFileSync('.github/workflows/quality.yml','utf8');
- const licenses=readFileSync('.github/workflows/licenses.yml','utf8');
+ const workflow=readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n');
+ const licenses=readFileSync('.github/workflows/licenses.yml','utf8').replaceAll('\r\n','\n');
  for(const s of [workflow,licenses])assert.match(s,/  merge_group:\n    types: \[checks_requested\]\n    branches: \[develop\]/);
  assert.match(workflow,/run: node scripts\/publish-merge-group\.mjs --pending/);
  assert.match(workflow,/run: node scripts\/publish-merge-group\.mjs\n/);
@@ -110,18 +102,32 @@ test('queue reuses existing Full matrix, never selects Fast, and preserves PR/pu
  assert.equal(impact(['docs/CI.md'],{}, {eventName:'pull_request',base:'develop',forceFull:false},{}).mode,'fast');
 });
 
-test('historical Quality projections remove only the exact reviewed queue additions',()=>{
- const live=readFileSync('.github/workflows/quality.yml','utf8');
+test('historical Quality projection preserves exact LF and CRLF sources',()=>{
+ const live=readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n');
  const old=beforeNativeMergeQueueWorkflow(live);
  assert.equal(typeof old,'string');
  assert(!old.includes('  merge_group:'));
  assert(!old.includes('publish-merge-group.mjs'));
  assert(!old.includes('github.event.merge_group.base_sha'));
- for(const drift of [
+ for(const eol of ['\n','\r\n']) {
+  const source=live.replaceAll('\n',eol),expected=old.replaceAll('\n',eol);
+  assert.equal(beforeNativeMergeQueueWorkflow(source),expected,'only the reviewed additions may be removed');
+  assert.equal(beforeNativeMergeQueueWorkflow(expected),expected,'frozen source bytes remain unchanged');
+  const drift=source.replace('timeout-minutes: 3','timeout-minutes: 99');
+  assert.equal(beforeNativeMergeQueueWorkflow(drift),expected.replace('timeout-minutes: 3','timeout-minutes: 99'),
+   'unrelated changes stay visible to the frozen hash guards');
+ }
+});
+test('historical Quality projection rejects partial or changed queue wiring in LF and CRLF',()=>{
+ const live=readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n');
+ for(const eol of ['\n','\r\n'])for(const drift of [
   live.replace('run: node scripts/publish-merge-group.mjs --pending','run: echo skip'),
-  live.replace('run: node scripts/publish-merge-group.mjs','run: echo skip'),
-  live.replace('branches: [develop]\n  push:', 'branches: [master]\n  push:')
+  live.replace('run: node scripts/publish-merge-group.mjs\n','run: echo skip\n'),
+  live.replace('branches: [develop]\n  push:', 'branches: [master]\n  push:'),
+  live.replace('  merge_group:\n','  merge_group:\n  merge_group:\n'),
+  live.replace('github.event.merge_group.base_sha || ','')
  ]){
-  assert.equal(beforeNativeMergeQueueWorkflow(drift),null,'partial or changed queue wiring must stay visible');
+  assert.equal(beforeNativeMergeQueueWorkflow(drift.replaceAll('\n',eol)),null,
+   'partial, duplicated or changed queue wiring must stay visible');
  }
 });

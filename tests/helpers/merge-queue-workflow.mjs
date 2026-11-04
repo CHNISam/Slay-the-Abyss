@@ -23,8 +23,14 @@ const additions=[
   ]
 ];
 export function beforeNativeMergeQueueWorkflow(text) {
- if(!text.includes('  merge_group:\n'))return text; // old frozen sources
- for(const [after,before] of additions) {
+ const eol=text.includes('\r\n')?'\r\n':'\n';
+ const trigger='  merge_group:'+eol;
+ if(!text.includes(trigger))return text; // old frozen sources
+ if(text.split(trigger).length!==2)return null;
+ for(const [added,removed] of additions) {
+  // Match complete reviewed blocks using the checkout's line endings, leaving
+  // all other source bytes intact for the existing immutable hash guards.
+  const after=added.replaceAll('\n',eol),before=removed.replaceAll('\n',eol);
   const expected=after.includes("if: always() && (github.event_name")?2:1;
   if(text.split(after).length-1!==expected)return null;
   text=text.replaceAll(after,before);

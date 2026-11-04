@@ -217,7 +217,7 @@ function requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persi
   const status=state=>{
     const created=json(query,'api','--method','POST','repos/'+repo+'/statuses/'+current.headSha,
       '-f','state='+state,'-f','context='+reviewContext,'-f','description='+
-      (state==='pending'?'Review accepted; arming native auto-merge':desc));
+      (state==='pending'?'Review accepted; arming native auto-merge':desc+(state==='success'?` [base:${current.baseSha}]`:'')));
     if(!prId(created.id)||created.state!==state||created.context!==reviewContext)throw Error('Review status write was not confirmed');
     return created;
   };
@@ -276,14 +276,36 @@ function requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persi
 
 export function pauseAutoMerge(repo,number,query=gh){
   const endpoint=`repos/${repo}/pulls/${number}`,before=json(query,'api',endpoint);
-  if(before.number!==number||before.state!=='open'||before.merged||before.base?.ref!=='develop'||!validSha(before.head?.sha)||
+  if(before.number!==number||typeof before.node_id!=='string'||!before.node_id.trim()||before.state!=='open'||before.merged||before.base?.ref!=='develop'||!validSha(before.head?.sha)||
     !projectRepositoryMatches(before.head?.repo,repo)||!projectRepositoryMatches(before.base?.repo,repo))
     throw Error('Pause requires the open develop PR');
+  // gh --disable-auto exits successfully without dequeuing an already queued PR.
+  // Query the native entry explicitly; unsupported/partial GraphQL cannot prove pause.
+  const queueState=pr=>{
+    const result=json(query,'api','graphql','-f','query=query($id:ID!){node(id:$id){... on PullRequest{id number state baseRefName headRefOid repository{databaseId nameWithOwner} isInMergeQueue mergeQueueEntry{id}}}}',
+      '-f','id='+before.node_id),node=result?.data?.node;
+    if(result?.errors?.length||!node||node.id!==before.node_id||node.number!==number||node.state!=='OPEN'||
+      node.baseRefName!=='develop'||node.headRefOid!==pr.head.sha||
+      node.repository?.databaseId!==projectRepositoryId||node.repository?.nameWithOwner!==repo||
+      typeof node.isInMergeQueue!=='boolean'||
+      (node.isInMergeQueue?typeof node.mergeQueueEntry?.id!=='string'||!node.mergeQueueEntry.id:
+        node.mergeQueueEntry!==null))
+      throw Error('Native queue identity/capability could not be confirmed');
+    return node;
+  };
+  if(queueState(before).isInMergeQueue){
+    const removed=json(query,'api','graphql','-f','query=mutation($id:ID!){dequeuePullRequest(input:{id:$id}){mergeQueueEntry{id}}}',
+      '-f','id='+before.node_id);
+    if(removed?.errors?.length||!removed?.data?.dequeuePullRequest)
+      throw Error('Native queue dequeue failed or was not confirmed');
+    if(queueState(before).isInMergeQueue)throw Error('Native queue removal was not confirmed');
+  }
   query('pr','merge',String(number),'--repo',repo,'--disable-auto');
   const after=json(query,'api',endpoint);
   if(after.number!==number||after.state!=='open'||after.merged||after.auto_merge!==null||after.base?.ref!=='develop'||!validSha(after.head?.sha)||
     !projectRepositoryMatches(after.head?.repo,repo)||!projectRepositoryMatches(after.base?.repo,repo))
     throw Error('Native auto-merge cancellation was not confirmed; PR may already be merged');
+  if(after.node_id!==before.node_id||queueState(after).isInMergeQueue)throw Error('Native queue removal was not confirmed');
   for(const head of new Set([before.head.sha,after.head.sha])){
     const status=json(query,'api','--method','POST',`repos/${repo}/statuses/${head}`,
       '-f','state=failure','-f','context='+reviewContext,'-f','description=Auto-merge explicitly paused; new authorization required');

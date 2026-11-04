@@ -58,6 +58,9 @@ function mock(opts={}) {
   const query=(...args)=>{
     calls.push(args);
     if(args[0]==='api'&&args[1]==='graphql'){
+      if(args.some(arg=>arg.includes('... on PullRequest')))
+        return JSON.stringify({data:{node:{id:f.pr.node_id,number:510,state:'OPEN',baseRefName:'develop',headRefOid:f.pr.head.sha,
+          repository:{databaseId:projectRepositoryId,nameWithOwner:repo},isInMergeQueue:false,mergeQueueEntry:null}}});
       assert(args.some(arg=>arg.includes('enablePullRequestAutoMerge')));
       assert(!args.some(arg=>arg.includes('mergePullRequest(input')));
       assert.equal(reviewStatus.state,'pending','native enable must be held behind the review gate');
@@ -234,6 +237,19 @@ test('dry run makes no writes; activation confirms pending review before enable 
   assert(b.calls.findIndex(call=>call.includes('state=success'))>merge);
   assert(!b.calls.some(c=>c[0]==='pr'&&c[1]==='merge'&&!c.includes('--disable-auto')),'no synchronous merge fallback');
 });
+test('successful review authorization binds the exact BASE in the published status',()=>{
+ for(const waiver of [false,true]){
+  const m=mock({pending:true});
+  const review=waiver?{...m.f.review,disposition:'low-risk-docs'}:m.f.review;
+  assert.equal(armAutoMerge(repo,510,review,m.query).state,'auto-merge-requested');
+  const posts=m.calls.filter(args=>args.includes('POST'));
+  const description=args=>args.find(arg=>arg.startsWith('description=')).slice('description='.length);
+  const success=posts.find(args=>args.includes('state=success'));
+  assert(description(success).endsWith(' [base:'+sha('b')+']'));
+  assert(description(success).length<=140);
+  assert(!description(posts.find(args=>args.includes('state=pending'))).includes('[base:'));
+ }
+});
 test('a new HEAD or develop tip blocks status writes and merge even after an earlier pass',()=>{
   for(const [options,pattern] of [[{nextHead:sha('e')},/changed|stale/i],
     [{nextTarget:sha('e')},/changed|differs|stale/i],
@@ -409,14 +425,46 @@ test('overwritten review gate, replaced CI attempt and a merge before release ar
   assert(m.calls.some(c=>c.includes('state=failure')));
  }
 });
+function pauseFixture({queued=true,stuck=false,unavailable=false,foreign=false,missing=false,mutationError=false,autoStuck=false,requeue=false}={}) {
+ const f=fixture(),calls=[];let disabled=false,inQueue=queued;
+ const query=(...args)=>{
+  calls.push(args);
+  if(args[0]==='api'&&args[1]==='graphql'){
+   if(unavailable)throw Error('queue capability unavailable');
+   if(args.some(arg=>arg.includes('dequeuePullRequest('))){
+    assert(args.includes('id='+f.pr.node_id));
+    if(mutationError)return JSON.stringify({errors:[{message:'denied'}],data:{dequeuePullRequest:null}});
+    if(!stuck)inQueue=false;
+    return JSON.stringify({data:{dequeuePullRequest:{mergeQueueEntry:{id:'MQE_510'}}}});
+   }
+   const node={id:f.pr.node_id,number:510,state:'OPEN',baseRefName:'develop',headRefOid:f.pr.head.sha,
+    repository:{databaseId:foreign?1:projectRepositoryId,nameWithOwner:repo},
+    isInMergeQueue:inQueue,mergeQueueEntry:inQueue?{id:'MQE_510'}:null};
+   if(missing)delete node.isInMergeQueue;
+   return JSON.stringify({data:{node}});
+  }
+  if(args[0]==='pr'){assert(args.includes('--disable-auto'));disabled=true;if(requeue)inQueue=true;return '';}
+  if(args.includes('POST'))return JSON.stringify({state:'failure',context:reviewContext});
+  return JSON.stringify({...f.pr,auto_merge:disabled&&!autoStuck?null:{merge_method:'squash'}});
+ };
+ return {query,calls,queued:()=>inQueue};
+}
+test('pause dequeues a native queue entry and confirms absence before reporting paused',()=>{
+ const m=pauseFixture();
+ assert.equal(pauseAutoMerge(repo,510,m.query).state,'paused');
+ assert.equal(m.queued(),false,'a successful disable-auto must not substitute for native dequeue');
+ assert(m.calls.some(args=>args.some(arg=>arg.includes('dequeuePullRequest('))));
+});
+test('pause cannot report success when dequeue is ineffective or queue capability is unknown',()=>{
+ for(const options of [{stuck:true},{unavailable:true},{foreign:true},{missing:true},{mutationError:true},{requeue:true}]){
+  const m=pauseFixture(options);
+  assert.throws(()=>pauseAutoMerge(repo,510,m.query),/queue|identity|capability|denied/i,JSON.stringify(options));
+  assert(!m.calls.some(args=>args.includes('POST')),'uncertain queue removal must not claim review revocation');
+ }
+});
 test('pause cancels native auto-merge before revoking review and refuses uncertain cancellation',()=>{
  for(const blocked of [false,true]){
-  const f=fixture(),calls=[];let disabled=false;
-  const query=(...args)=>{
-   calls.push(args);if(args[0]==='pr'){assert(args.includes('--disable-auto'));disabled=true;return '';}
-   if(args.includes('POST'))return JSON.stringify({state:'failure',context:reviewContext});
-   return JSON.stringify({...f.pr,auto_merge:disabled&&!blocked?null:{merge_method:'squash'}});
-  };
+  const {query,calls}=pauseFixture({queued:false,autoStuck:blocked});
   if(blocked){assert.throws(()=>pauseAutoMerge(repo,510,query),/not confirmed/);assert(!calls.some(c=>c.includes('POST')));}
   else{assert.equal(pauseAutoMerge(repo,510,query).state,'paused');assert(calls.findIndex(c=>c[0]==='pr')<calls.findIndex(c=>c.includes('POST')));}
  }
