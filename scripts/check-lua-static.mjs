@@ -119,7 +119,10 @@ const responsibilityRoots = {
   'src/lua/abyss_run_potions.lua': ["function 'potionCandidate'"],
   'src/lua/abyss_run_potion_candidate.lua': [],
   'src/lua/abyss_effects.lua': ["function 'M.apply'", "function 'continueEffects'", "function 'applyOne'"],
-  'src/lua/abyss_combat.lua': ["function 'queuedHandlers.effect'", "function 'M.canPlay'", "function 'playWindow'", "function 'playEligibility'", "function 'playSupportedEffects'", "function 'playCardContent'", "function 'playAdvancedMode'", "function 'playEnergy'", "function 'playEffectTarget'", "function 'playCardRequirements'", "function 'playHandRequirements'", "function 'beginQueuedPlay'", "function 'queueNativePlay'", "function 'M.play'"],
+  'src/lua/abyss_combat.lua': [
+    ...['clearNativeTurnPowers','enqueueNativeTurnPowers','enqueueNativeOpeningDraw',
+      'enqueueNativePostDraw','startNativePlayerTurn'].map(name=>`function '${name}'`),
+    "function 'queuedHandlers.effect'", "function 'M.canPlay'", "function 'playWindow'", "function 'playEligibility'", "function 'playSupportedEffects'", "function 'playCardContent'", "function 'playAdvancedMode'", "function 'playEnergy'", "function 'playEffectTarget'", "function 'playCardRequirements'", "function 'playHandRequirements'", "function 'beginQueuedPlay'", "function 'queueNativePlay'", "function 'M.play'"],
   'src/lua/abyss_combat_native_play.lua': [],
   'src/lua/abyss_combat_queued_play.lua': [],
   'src/lua/abyss_act2_ai.lua': ["function 'choose'"],

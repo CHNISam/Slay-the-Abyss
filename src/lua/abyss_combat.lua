@@ -1286,6 +1286,42 @@ function M.intent(state, enemyIndex)
     return copy(enemy.intents[enemy.intentIndex]) -- UI cannot mutate the queued intent
 end
 
+local function clearNativeTurnPowers(state)
+    for _,id in ipairs({"rage","flame_barrier"}) do
+        require('abyss_power_schedule').remove(state,state.player,id)
+        state.player.statuses[id]=nil
+    end
+    state.player.statuses.double_tap=nil -- Double Tap has no scheduled Power membership.
+end
+
+local function enqueueNativeTurnPowers(state,p)
+    require('abyss_colorless_cards').startTurn(state)
+    require('abyss_silent_final_cards').startTurn(state,false)
+    for _,id in ipairs(Actors.powerSequence(p,{'demon_form','berserk'})) do
+        CardActions.enqueue(state,id=='demon_form' and {op="gainStatus",status="strength",value=p.statuses[id]}
+            or {op="energy",value=p.statuses[id]})
+    end
+end
+
+local function enqueueNativeOpeningDraw(state,originalExtra)
+    -- The source queues ordinary draw and post-draw Powers before executing
+    -- DrawCardAction. Draw hooks append behind those already queued actions.
+    if state.turn==1 and ShopRelics.owns(state,'toolbox')then CardActions.enqueue(state,{op='shopRelic',kind='toolbox'})end
+    CardActions.enqueue(state,{op='draw',value=TimeEater.drawCount(state,state.rules.player.drawPerTurn+originalExtra)})
+    if state.turn==1 and state.openingInnateExtra then
+        CardActions.enqueue(state,{op='draw',value=state.openingInnateExtra});state.openingInnateExtra=nil
+    end
+end
+
+local function enqueueNativePostDraw(state,p)
+    RelicHooks.enqueuePostDraw(state)
+    require('abyss_silent_final_cards').startTurn(state,true)
+    if (p.statuses.brutality or 0)>0 then
+        CardActions.enqueue(state,{op="draw",value=p.statuses.brutality})
+        CardActions.enqueue(state,{op="loseHp",value=p.statuses.brutality})
+    end
+end
+
 local function startNativePlayerTurn(state, beforeOpeningDraw)
     if finish(state) then return end
     state.turn = state.turn + 1
@@ -1313,31 +1349,11 @@ local function startNativePlayerTurn(state, beforeOpeningDraw)
     for _,action in ipairs(RelicHooks.prepareTurnStart(state))do CardActions.enqueue(state,action.effect)end
     if state.energy+0.0+state.rules.player.energyPerTurn>2147483647 then return false,'effect_overflow' end
     state.energy = state.energy + state.rules.player.energyPerTurn
-    for _,id in ipairs({"rage","flame_barrier"}) do
-        require('abyss_power_schedule').remove(state,state.player,id)
-        state.player.statuses[id]=nil
-    end
-    state.player.statuses.double_tap=nil -- Double Tap has no scheduled Power membership.
+    clearNativeTurnPowers(state)
     local p=state.player
-    require('abyss_colorless_cards').startTurn(state)
-    require('abyss_silent_final_cards').startTurn(state,false)
-    for _,id in ipairs(Actors.powerSequence(p,{'demon_form','berserk'})) do
-        CardActions.enqueue(state,id=='demon_form' and {op="gainStatus",status="strength",value=p.statuses[id]}
-            or {op="energy",value=p.statuses[id]})
-    end
-    -- The source queues ordinary draw and post-draw Powers before executing
-    -- DrawCardAction. Draw hooks append behind those already queued actions.
-    if state.turn==1 and ShopRelics.owns(state,'toolbox')then CardActions.enqueue(state,{op='shopRelic',kind='toolbox'})end
-    CardActions.enqueue(state,{op='draw',value=TimeEater.drawCount(state,state.rules.player.drawPerTurn+originalExtra)})
-    if state.turn==1 and state.openingInnateExtra then
-        CardActions.enqueue(state,{op='draw',value=state.openingInnateExtra});state.openingInnateExtra=nil
-    end
-    RelicHooks.enqueuePostDraw(state)
-    require('abyss_silent_final_cards').startTurn(state,true)
-    if (p.statuses.brutality or 0)>0 then
-        CardActions.enqueue(state,{op="draw",value=p.statuses.brutality})
-        CardActions.enqueue(state,{op="loseHp",value=p.statuses.brutality})
-    end
+    enqueueNativeTurnPowers(state,p)
+    enqueueNativeOpeningDraw(state,originalExtra)
+    enqueueNativePostDraw(state,p)
     CardActions.drain(M,state)
     if finish(state) then return end
     event(state, "player_turn", state.turn)
