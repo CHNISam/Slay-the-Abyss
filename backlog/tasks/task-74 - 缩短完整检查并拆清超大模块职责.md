@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-11-04 09:16'
+updated_date: '2026-11-04 09:56'
 labels: []
 milestone: m-7
 dependencies: []
@@ -147,4 +147,8 @@ PR511整合既有远端feat/combat-reactions@1bd99a（无既有PR），复用其
 PR511同切片补齐Nob窄能力接线：只用Reactions.enqueue，不误用enqueueReaction，保留enemy source、TOP、typed存在时的legacy路由及CardActions动态观察。新增生产职责规则先红/恢复旧依赖负例；7项入队架构通过，既有Nob12组（全roll/history/HPseed/RNG/失败出牌回滚）及Pain19组（先于Enrage及致死取消）通过。实测SCC105→104成员，内部位置809→805/唯一边542→539，SCC数量仍1；Nob复杂度16不变。更新原始测量证据，最终新SHA独审/Full/合后另验。
 
 PR511@8bb93734官方Full41800684802真实失败：POSIX9 architecture-composition-format、POSIX1 card-origin-source-inverse、POSIX5 compendium-source-inverse。根因是本轮架构注册/职责边界/删除旧deferred尚未接入历史精确逆投影，提前return也使旧linked-owner错误负例未执行。本地复现首两文件3/4失败；仅测试helper补精确外层逆转，完整lexical token+fresh配置hash锁后恢复原c1完整字节，旧oracle/hash/断言保持；LF/CRLF与布局、注册/边界漂移/重复/顺序/warm磁盘变化删除负例和15项共享链已通过。其他快速同源消费者及独审继续；生产源码和架构指标不变。按主控要求补丁先本地，待508实际新基线再推同一PR及完整CI；未合并、不勾AC。
+
+从实际508已合入基线a73e6a8f新建干净工作树feat/combat-reactions-integrated-20261104，线性重放c1..1d6完整组合，无merge提交；原完整历史已读回archive/pr511-before-integration-20261104@1d6b38b7。Git核对原c1与a73基线src/lua tree=94dcb51f、architecture blob=f21566d6相同；重放后源码tree=2c26863b/架构blob=e358230b与1d6已审源码相同，轻量重算图仍SCC104/内部位置805/内部唯一539。证据仅追加integrationBase与等价身份，旧测量基线不重写。定向源码/反应验证在新树执行，最终fresh-context独审/Full及队列与合后验收待取；原PR远端8bb未变，推送由主控协调。
+
+a73新基线重放后49/49定向测试通过（42源码/架构消费者+7反应/边界，0skip），含LF/CRLF、完整旧hash、注册/边界/重复键/顺序/escape和fresh linked-owner负例；guidance/backlog通过。未重复长UI/游戏整套；新精确HEAD Full与fresh-context最终组合独审、队列真实合并及合后验证待取。
 <!-- SECTION:NOTES:END -->

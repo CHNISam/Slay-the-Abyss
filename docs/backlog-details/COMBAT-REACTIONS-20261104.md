@@ -38,3 +38,9 @@ Actor→CardActions 两处直接引用消失；Nob 接入窄入队入口后退�
 本切片不修改工作流、Required Checks、Ruleset、超时、原阈值或历史黄金。全分支独立审查、精确 HEAD 托管 Full、合后 squash/push 验证另验；官方导入、ready 与设备未测，父任务最终 AC 不勾，正常门禁合并由主控协调，不自动发布。
 
 Nob 接线后本轮实际验证：独立入队/架构 7 项通过；既有 `gremlin_nob_ai.lua` 12 组通过（含全部 100 roll × 9 histories、128 HP seeds、32局12回合历史、失败出牌事务回滚），`basic_curses.lua` 19 组通过（含 Pain 先于 Enrage、致死 Pain 取消 Enrage）。这些是离线真实生产调用，不冒充设备或合后验证。
+
+## 原生队列基线整合
+
+#508 正常合入后的实际 `develop@a73e6a8ffa9d3299f09e88e90f031738d83549b4` 为本次新集成基线。原测量基线 c1cf79df 保留；Git 逐项核对两基线的 `src/lua` tree 及 `config/architecture.json` blob 完全相同。领域切片以四个线性提交重放，源码 tree 与架构 blob 与原已审 1d6b38b7 相同；重算完整图匹配上述指标。完整原历史在 `archive/pr511-before-integration-20261104@1d6b38b7907d622330d795d4499d794abb46b734` 可恢复。
+
+旧 8bb93734 的 Full 失败来自三份历史逆投影测试的架构身份未适配；本轮精确逆转本切片的注册/边界/旧 deferred 变化，保留所有原 hash、断言与 linked-owner 检查。新基线上的最终组合独审、托管 Full、真实队列合并与合后验证仍须分别取证；旧 CI 不冒充新组合通过。

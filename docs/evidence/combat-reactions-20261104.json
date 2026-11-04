@@ -167,5 +167,33 @@
     },
     "structuralRegression": "Production rule nob-reaction-admission is mandatory; restoring actual old import fails analyzer; rule absence failed before implementation.",
     "tests": "New source/legacy/typed/monkeypatch fixture plus existing gremlin_nob_ai and basic_curses (Pain/Nob order, lethal cancellation, RNG/history and failed card rollback)."
+  },
+  "integrationBase": "a73e6a8ffa9d3299f09e88e90f031738d83549b4",
+  "integration": {
+    "replayOf": "1d6b38b7907d622330d795d4499d794abb46b734",
+    "replayedSourceHead": "ac4018403974aecbdf502ff9cc4c43a58a9a91cc",
+    "originalBaselinePreserved": "c1cf79dfa8e81189546d95277d3bb891d831ba6e",
+    "priorBaselineSourceTree": "94dcb51f21573fbc37d1e44d901a092354988d76",
+    "integrationBaseSourceTree": "94dcb51f21573fbc37d1e44d901a092354988d76",
+    "priorBaselineArchitectureBlob": "f21566d6bda2c753b61d92c9b863bab1c634316e",
+    "integrationBaseArchitectureBlob": "f21566d6bda2c753b61d92c9b863bab1c634316e",
+    "replayedSourceTree": "2c26863bd78aa900187e1ef8e31351bd01afb835",
+    "priorReviewedSourceTree": "2c26863bd78aa900187e1ef8e31351bd01afb835",
+    "replayedArchitectureBlob": "e358230bf43abefad01494365e3f69901d139de6",
+    "priorReviewedArchitectureBlob": "e358230bf43abefad01494365e3f69901d139de6",
+    "allEqual": true,
+    "remeasuredGraphMatchesPriorEvidence": true,
+    "archive": "archive/pr511-before-integration-20261104",
+    "validation": {
+      "focusedTests": 49,
+      "passed": 49,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "42 quick source-inverse/architecture consumer checks plus 7 reaction and boundary checks on the actual a73 integration; original long gameplay/UI suite not repeated locally",
+      "guidance": "pass",
+      "backlog": "pass",
+      "hostedFull": "pending exact final HEAD",
+      "freshContextReview": "pending final combination"
+    }
   }
 }
