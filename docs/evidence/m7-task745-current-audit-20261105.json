@@ -56,7 +56,7 @@
     },
     "supplement": {
       "passing": 1,
-      "command": "node --test --test-name-pattern=\"CardActions includes every helper\" tests/card-selection-protocol.test.mjs"
+      "reproduceCommand": "node --test --test-name-pattern=\"CardActions includes every helper\" tests/card-selection-protocol.test.mjs"
     },
     "originalBudgetsUnchanged": true
   },
@@ -152,6 +152,8 @@
     "squash": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
     "pushFull": 41900003124,
     "pushAttempt": 1,
-    "evidence": "m7-runtime-delivery-20261105.json"
-  }
+    "evidence": "m7-runtime-delivery-20261105.json",
+    "verifiedAt": "2026-11-04T20:36:18.473Z"
+  },
+  "updatedAt": "2026-11-04T20:36:18.473Z"
 }

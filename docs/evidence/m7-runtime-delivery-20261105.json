@@ -102,7 +102,7 @@
         "createdAt": "2026-11-04T18:39:47Z"
       }
     ],
-    "recovery": "Unified merge:auto --pause returned paused; same reviewed HEAD/BASE re-authorized with fresh readback and new native group; no manual success status or CI source changes"
+    "recovery": "Unified merge:auto --pause returned paused; same reviewed HEAD/BASE re-authorized with fresh readback and a new native group; no direct alteration of failed-group statuses or CI source changes"
   },
   "queueFull": {
     "id": 41895552479,
