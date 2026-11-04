@@ -19,15 +19,23 @@ test('only the lightweight impact planner and two required summaries use slim', 
   assert.match(impact, /npm ci --ignore-scripts/);
   assert.match(impact, /run: npm run check:guidance/);
   assert.match(impact, /run: node scripts\/ci-impact\.mjs/);
-  assert.doesNotMatch(impact, /^    needs:|^    if:|continue-on-error:|permissions:/m);
+  assert.doesNotMatch(impact, /^    needs:|^    if:|continue-on-error:/m);
+  assert.match(impact,/^    permissions:\n      contents: read\n      statuses: write$/m);
   for (const name of ['check', 'engineering-posix']) {
     const body = job(name);
     assert.match(body, /^    runs-on: ubuntu-slim$/m);
     assert.match(body, /^    timeout-minutes: 2$/m);
     assert.match(body, /^    if: always\(\)$/m);
-    assert.doesNotMatch(body, /uses:|continue-on-error:|permissions:|^    name:/m);
+    assert.doesNotMatch(body, /continue-on-error:|^    name:/m);
+    if(name==='engineering-posix')assert.doesNotMatch(body,/uses:|permissions:/m);
+    else{
+      assert.match(body,/^    permissions:\n      contents: read\n      statuses: write$/m);
+      assert.match(body,/persist-credentials: false/);
+      assert.match(body,/node-version: '24\.18\.0'/);
+      assert.match(body,/run: node scripts\/publish-full-quality\.mjs/);
+    }
   }
-  assert.match(job('check'), /^    needs: \[impact, rules, fast\]$/m);
+  assert.match(job('check'), /^    needs: \[impact, rules, fast, presentation, engineering-posix\]$/m);
   assert.match(job('engineering-posix'), /^    needs: \[impact, engineering-posix-shards, fast\]$/m);
   assert.match(job('presentation'), /^    runs-on: ubuntu-24\.04$/m);
   assert.match(job('engineering-posix-shards'), /^    runs-on: ubuntu-24\.04$/m);

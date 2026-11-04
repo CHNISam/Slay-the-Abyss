@@ -2,6 +2,7 @@ name: Quality
 on:
   pull_request:
     branches: [develop, master]
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
   push:
     branches: [develop, master]
   workflow_dispatch:
@@ -19,12 +20,22 @@ concurrency:
 jobs:
   impact:
     runs-on: ubuntu-slim
+    permissions:
+      contents: read
+      statuses: write
     timeout-minutes: 3
     outputs:
       mode: ${{ steps.plan.outputs.mode }}
       windows_shards: ${{ steps.plan.outputs.windows_shards }}
       posix_shards: ${{ steps.plan.outputs.posix_shards }}
     steps:
+      - name: Invalidate previous Full status for this attempt
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: gh api --method POST "repos/$GH_REPO/statuses/$HEAD_SHA" -f state=pending -f context=full-quality -f description='Waiting for the current Full regression attempt'
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 2
@@ -332,10 +343,13 @@ jobs:
   check:
     # Preserve the required check name. A skipped/cancelled/missing shard must
     # never turn the aggregate green; fail-fast=false collects all shard results.
-    needs: [impact, rules, fast]
+    needs: [impact, rules, fast, presentation, engineering-posix]
     if: always()
     runs-on: ubuntu-slim
     timeout-minutes: 2
+    permissions:
+      contents: read
+      statuses: write
     steps:
       - name: Require every regression shard
         env:
@@ -348,6 +362,21 @@ jobs:
             test "${{ needs.impact.outputs.mode }}" = fast
             test "${{ needs.fast.result }}" = success
           fi
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        if: always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        if: always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        with:
+          node-version: '24.18.0'
+      - name: Publish exact Full regression status
+        if: always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FULL_MODE: ${{ needs.impact.outputs.mode }}
+          FULL_NEEDS: ${{ toJSON(needs) }}
+        run: node scripts/publish-full-quality.mjs
   presentation:
     # These filesystem tests include symlinks; keep the local service unprivileged.
     runs-on: ubuntu-24.04
