@@ -4,6 +4,7 @@ local normalizeError=dofile('tests/lua/support/game_ui_host_errors.lua')
 if ABYSS_HOST_FULL_TRACE then assert(type(ABYSS_HOST_GRAPH)=='function','full trace requires native graph observer')end
 ABYSS_HOST_FIELDS={}
 local nativeControls={}
+local hosts={}
 local function graph(value,stable)
  return assert(ABYSS_HOST_GRAPH,'full trace requires native graph observer')(value,{},stable)
 end
@@ -67,7 +68,7 @@ local function checkpoint(label,host,fn)
  ABYSS_HOST_EXECUTED=count
  if count<(ABYSS_HOST_FROM or 1) or count>(ABYSS_HOST_TO or 35) then events={};return table.unpack(result,1,result.n)end
  if ABYSS_HOST_FULL_TRACE then
-  local line=graph({label=label,result=result,state={host=host,data=F.Data,presentation=F.Presentation,native=nativeControls}},true)
+  local line=graph({label=label,result=result,state={host=host,hosts=hosts,data=F.Data,presentation=F.Presentation,native=nativeControls}},true)
   print('HOST_EVENTS ['..table.concat(events,',')..']');print('HOST_TRACE '..line)
  end
  events={}
@@ -100,7 +101,9 @@ if variant=='short-egg' then
 end
 local function setup()
  local canvas=F.control({children=F.Layout});local root=F.Viewport.apply(canvas,1280,720)
- return F.GameUI.new(root,F.Data,F.Presentation,'click',platform),root
+ local made=F.GameUI.new(root,F.Data,F.Presentation,'click',platform)
+ hosts[#hosts+1]=made
+ return made,root
 end
 if variant~='' and variant:sub(1,6)~='short-' then
  local kind=ABYSS_HOST_CONSTRUCTOR
