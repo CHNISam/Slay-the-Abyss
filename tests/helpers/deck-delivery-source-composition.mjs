@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {cachePureSourceProjection,deepFreezeSourceProof} from './pure-source-projection-cache.mjs';
+import {preGameUiExtractionSource,gameUiExtractionReader} from './game-ui-extraction-source-inverse.mjs';
 const normalize=s=>s.replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const blob=s=>createHash('sha1').update(`blob ${Buffer.byteLength(s)}\0`).update(s).digest('hex');
@@ -35,6 +36,8 @@ function projectSource(path,source,target){
 const projectedSource=cachePureSourceProjection(proof.targets,projectSource);
 export function preDeckDeliverySource(path,source,target='delivery',{readSource=p=>readFileSync(p,'utf8')}={}){
  assert.ok(proof.targets[target],'registered deck delivery target');
+ source=preGameUiExtractionSource(path,source,{readSource});
+ readSource=gameUiExtractionReader(readSource);
  const b=proof.targets[target].files[path];if(!b||typeof source!=='string')return source;
  if(sourceDigest(path,source,target)!==b.afterSha256)return source;
  // Even warm projections reread every linked owner; only string work is reused.

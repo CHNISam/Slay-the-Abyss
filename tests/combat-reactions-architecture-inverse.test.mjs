@@ -8,8 +8,9 @@ import {createHash} from 'node:crypto';
 import {preCombatReactionArchitecture} from './helpers/architecture-source-format.mjs';
 import {preCardOriginSource} from './helpers/card-origin-source-inverse.mjs';
 import {preCompendiumSource} from './helpers/compendium-source-inverse.mjs';
+import {preGameUiExtractionSource} from './helpers/game-ui-extraction-source-inverse.mjs';
 const path='config/architecture.json';
-const source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+const source=preGameUiExtractionSource(path,readFileSync(path,'utf8').replaceAll('\r\n','\n'));
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const prior='3cc15d6f573fa5a5c637c2d2a4ef9086f444bb761a64ee1e6aef80dad40d0cc5';
 test('reaction architecture inverse restores complete prior bytes through LF, CRLF and layout variants',()=>{
@@ -48,6 +49,7 @@ test('warm reaction projection freshly binds linked config and exposes disk muta
  t.after(()=>rmSync(root,{recursive:true,force:true}));
  mkdirSync(join(root,'tests/helpers'),{recursive:true});mkdirSync(join(root,'config'));
  copyFileSync('tests/helpers/architecture-source-format.mjs',join(root,'tests/helpers/architecture-source-format.mjs'));
+ for(const name of ['game-ui-extraction-source-inverse.mjs','game-ui-extraction-source-layer.json'])copyFileSync('tests/helpers/'+name,join(root,'tests/helpers',name));
  const file=join(root,path);writeFileSync(file,source);
  const {preCombatReactionArchitecture:project}=await import(pathToFileURL(join(root,'tests/helpers/architecture-source-format.mjs')));
  assert.equal(hash(project(path,source)),prior);

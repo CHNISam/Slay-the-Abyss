@@ -4,9 +4,11 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {architectureSourceFormat,preCombatReactionArchitecture} from './architecture-source-format.mjs';
+import {preGameUiExtractionSource} from './game-ui-extraction-source-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const normalize=s=>s.replaceAll('\r\n','\n');
-const read=p=>preCombatReactionArchitecture(p,normalize(readFileSync(new URL('../../'+p,import.meta.url),'utf8')));
+const rawRead=p=>normalize(readFileSync(new URL('../../'+p,import.meta.url),'utf8'));
+const read=p=>preCombatReactionArchitecture(p,preGameUiExtractionSource(p,rawRead(p)));
 const owners={
  'src/lua/abyss_game_ui.lua':'165e2ad1180cab9daf5321b46d1f87fe9c34ed6ebbcd3c3a8b495d23974e0933',
  'src/lua/abyss_compendium_catalog.lua':'d6594b4d276ab2f02983429227102282e51565acceca266c8971adfa9e32706a',
@@ -41,7 +43,7 @@ function preRuntimeGameUi(path,source){
 }
 export function preCompendiumSource(path,source,overrides={}){
  if(typeof source!=='string')return source;
- const current=preRuntimeGameUi(path,preCombatReactionArchitecture(path,normalize(source)));let previous;
+ const current=preRuntimeGameUi(path,preCombatReactionArchitecture(path,preGameUiExtractionSource(path,normalize(source))));let previous;
  if(path==='config/architecture.json'){
   try{
    const {formatted,tokensEqual}=architectureSourceFormat(path,preM9ProtocolRegistrations(current));
@@ -63,6 +65,6 @@ export function preCompendiumSource(path,source,overrides={}){
   assert.equal(hash(previous),'285281e48bcd5dfeb20bc03c8c2be526eda57e169689ba2e09b10d5babd3986a','complete pre-compendium relic descriptions');
  }else return source;
  for(const [owner,expected]of Object.entries(owners))
-  assert.equal(hash(preRuntimeGameUi(owner,Object.hasOwn(overrides,owner)?normalize(overrides[owner]):read(owner))),expected,'reviewed compendium owner: '+owner);
+  assert.equal(hash(preRuntimeGameUi(owner,preGameUiExtractionSource(owner,Object.hasOwn(overrides,owner)?normalize(overrides[owner]):read(owner)))),expected,'reviewed compendium owner: '+owner);
  return previous;
 }

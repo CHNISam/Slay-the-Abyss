@@ -3,6 +3,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {preGameUiExtractionSource} from './game-ui-extraction-source-inverse.mjs';
 const cache=new Map();
 const tokens=text=>text.replace(/"(?:\\.|[^"\\])*"|[ \t\r\n]+/g,token=>token.startsWith('"')?token:'');
 const hash=text=>createHash('sha256').update(text).digest('hex');
@@ -36,10 +37,11 @@ function livingWallCopyInverse(source,live){
  return previous;
 }
 export function preLivingWallCopyArchitecture(path,source){
+ source=preGameUiExtractionSource(path,source);
  if(path!=='config/architecture.json'||typeof source!=='string')return source;
  try{
   if(!isLivingWallArchitectureSource(source))return source;
-  const live=readFileSync(new URL('../../config/architecture.json',import.meta.url),'utf8').replaceAll('\r\n','\n');
+  const live=preGameUiExtractionSource(path,readFileSync(new URL('../../config/architecture.json',import.meta.url),'utf8').replaceAll('\r\n','\n'));
   return livingWallCopyInverse(source,live);
  }catch{return source;}
 }
@@ -48,10 +50,11 @@ export function preLivingWallCopyArchitecture(path,source){
 // complete-byte witnesses untouched. Layout-only inputs still require the
 // current full token identity and a fresh, complete linked production file.
 export function preCombatReactionArchitecture(path,source){
+ source=preGameUiExtractionSource(path,source);
  if(path!=='config/architecture.json'||typeof source!=='string')return source;
  try{
   if(!isLivingWallArchitectureSource(source))return source;
-  const linked=readFileSync(new URL('../../config/architecture.json',import.meta.url),'utf8').replaceAll('\r\n','\n');
+  const linked=preGameUiExtractionSource(path,readFileSync(new URL('../../config/architecture.json',import.meta.url),'utf8').replaceAll('\r\n','\n'));
   const current=livingWallCopyInverse(source,linked);
   // A missing outer guard is not permission to enter an older proof epoch.
   if(current===source)return source;

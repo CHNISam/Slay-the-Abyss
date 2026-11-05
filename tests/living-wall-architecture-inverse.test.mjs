@@ -9,9 +9,10 @@ import {spawnSync} from 'node:child_process';
 import {preLivingWallCopyArchitecture,preCombatReactionArchitecture} from './helpers/architecture-source-format.mjs';
 import {preCardOriginSource} from './helpers/card-origin-source-inverse.mjs';
 import {preCompendiumSource} from './helpers/compendium-source-inverse.mjs';
+import {preGameUiExtractionSource} from './helpers/game-ui-extraction-source-inverse.mjs';
 
 const path='config/architecture.json';
-const source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+const source=preGameUiExtractionSource(path,readFileSync(path,'utf8').replaceAll('\r\n','\n'));
 const proofBytes=readFileSync('tests/fixtures/living-wall-architecture-20261105.json','utf8').replaceAll('\r\n','\n');
 const proof=JSON.parse(proofBytes);
 const hash=s=>createHash('sha256').update(s).digest('hex');
@@ -66,6 +67,7 @@ test('warm LivingWall projections freshly bind linked policy bytes, including gu
  t.after(()=>rmSync(root,{recursive:true,force:true}));
  mkdirSync(join(root,'tests/helpers'),{recursive:true});mkdirSync(join(root,'config'));
  copyFileSync('tests/helpers/architecture-source-format.mjs',join(root,'tests/helpers/architecture-source-format.mjs'));
+ for(const name of ['game-ui-extraction-source-inverse.mjs','game-ui-extraction-source-layer.json'])copyFileSync('tests/helpers/'+name,join(root,'tests/helpers',name));
  const file=join(root,path);writeFileSync(file,source);
  const {preLivingWallCopyArchitecture:outer,preCombatReactionArchitecture:reaction}=await import(pathToFileURL(join(root,'tests/helpers/architecture-source-format.mjs')));
  const prior=outer(path,source);

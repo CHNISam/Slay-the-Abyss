@@ -1,4 +1,5 @@
 import {prepareBetaRetirement} from './beta-integration-source.mjs';
+import {prepareGameUiExtractionModuleRetirement} from './game-ui-extraction-source-inverse.mjs';
 import {preIntegrationSource,prepareIntegrationRetirement} from './pr372-integration-source.mjs';
 import {preCombatRelicsHudSource} from './combat-relics-hud-inverse.mjs';
 import {preCombatVfxUpgradeSource} from './combat-vfx-upgrade-inverse.mjs';
@@ -79,6 +80,7 @@ export const battleLifeAddedPaths = Object.freeze(Object.entries(battleLifeSourc
 // own full source/destination validation and exact historical ownership.
 export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = process.cwd()} = {}) {
   assert.notEqual(resolve(directory), resolve(sourceRoot), 'battle-life retirement requires a separate historical destination');
+  const retireGameUi=prepareGameUiExtractionModuleRetirement(directory,{sourceRoot});
   const retireIntegration=prepareIntegrationRetirement(directory,{sourceRoot});
   const retireBackground=prepareBackgroundRetirement(directory,{sourceRoot});
   const retireRound2=prepareRound2UiModuleRetirement(directory,{sourceRoot});
@@ -98,6 +100,7 @@ export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = proce
     // Revalidate both newest owners before any composed historical deletion.
     prepareArtFeatureRetirement(directory,{sourceRoot});
     prepareBetaRetirement(directory,{sourceRoot});
+    retireGameUi();
     retireRound3(); retireNativeMonster(); retireHandGesture(); retireIntegration();
     for (const target of targets) rmSync(target); retireRound2(); retireBackground();retireRelics();
   };
