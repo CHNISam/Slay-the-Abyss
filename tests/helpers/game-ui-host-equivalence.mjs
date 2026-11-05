@@ -38,7 +38,10 @@ export function execute(dir,seed,constructor='',from=1,to=35){
  const receipt={seed,scenario:constructor,from,to,elapsedMs:Date.now()-started,status:r.status,signal:r.signal,
   error:r.error?{code:r.error.code,message:r.error.message}:null,encodedBytes:r.stdout?.length||0,stderr:r.stderr};
  fs.writeFileSync(path.join('build/ui-host-impl',`vm-${path.basename(dir)}-${seed}-${from}-${to}-${crypto.randomUUID()}.json`),JSON.stringify(receipt,null,2)+'\n');
- if(r.error)fs.writeFileSync('build/ui-host-impl/failed.log',r.stdout||'');
+ if(r.error){
+  fs.writeFileSync('build/ui-host-impl/failed.log',r.stdout||'');
+  console.error('HOST_VM_FAILURE '+JSON.stringify(receipt));
+ }
  assert.ifError(r.error);assert.equal(r.status,0,r.stderr+'\n'+r.stdout.slice(-2000));
  const total=constructor.startsWith('short-')?scenarios[constructor.slice(6)]:constructor?1:35;
  const encoded=r.stdout.match(/^HOST_TRACE_GZIP ([A-Za-z0-9+/=]+)\n$/);assert.ok(encoded,'complete lossless trace transport');
