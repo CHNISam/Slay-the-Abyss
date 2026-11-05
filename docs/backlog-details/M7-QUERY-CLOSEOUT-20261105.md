@@ -11,3 +11,5 @@
 同环境完整Silent原夹具按严格BAAB四次补测，before均值20.3061522秒，after19.5719249秒，减少3.6158%。三模块完整旧新源身份已核验，全部stdout及8份完整canonical逐字一致，四次均在原30秒内。仅为本机Fengari小样本，含未校准观察器开销；不作单helper归因，不与前批百分比相乘，也不作原生Lua、设备或托管流水线提速结论。原记录为 `build/query-runtime-perf/REPORT.md`。
 
 自然Fast审计未获得20个正式成功样本：最近100条Quality中98份jobs可读、2份未知，实际Fast成功0。Quick的47个独立最终头PR中46成功、1取消，成功wall描述P50为4:27、P90为14:16；Quick不能替代正式Fast验收。原记录为 `build/fast-natural-audit-78e4/REPORT.md`。父TASK-74、75及M7继续开放。
+
+本批工作树清理前，全部非生成/工具build证据已归档到仓库本地 `.artifacts/m7-query-20261105/source-build/`，以上build相对路径在该目录下保持。独审逐一核验2107份文件、144090941字节及清单SHA b75a55c66b56ce39326587f984ce8af061a0912903ad168f37b694c915789104；完整Git bundle另保存四个来源分支和全部历史，SHA256为e18f85367da53532bdd97f58884f75a7cc22ef0b7d07d5d2236df7907605e0c5，`git bundle verify`通过。再次确认旧头未移动、树与实际合入一致且无新工作后，仅清理m7-closeout工作树和feat/query-hotspots分支；共享依赖及其他工作树保留。
