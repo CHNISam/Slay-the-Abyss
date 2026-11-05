@@ -51,7 +51,16 @@ local drag=a:capture(slot,false);bindings.beginCardDrag(drag,instance,a.run.comb
 assert(drag.origin==origin and drag.grabDx==origin[1] and drag.grabDy==origin[2]+290)
 owner.gesture=nil;owner:render()
 owner:playSlot(2);local commands=a.commandCount;owner:playSelected(nil);assert(a.commandCount==commands+1)
+-- A stalled native frame must not abort feedback or execute the command again.
+for _,dt in ipairs({.101,.25,1})do
+ local beforeClock=clock;OnUpdate(dt)
+ assert(math.abs(clock-beforeClock-.1)<1e-9,'long presentation frame must be bounded')
+ assert(a.commandCount==commands+1,'long frame repeated a command')
+end
+local beforeClock=clock;OnUpdate(0);OnUpdate(-.1)
+assert(clock==beforeClock,'nonpositive frame must not rewind presentation')
 for i=1,180 do OnUpdate(1/60)end
 assert(not a.busy)
+print('PASS bounded long frames resume feedback without repeated commands')
 print('PASS semantic selection/cancel; stale ownership; live geometry; steady idle zero setters; carry capture visibility; failed setter retry; explicit Run.play')
 print('NO native callbacks, pointer events, mouse/key/focus/click/runCase dispatched')

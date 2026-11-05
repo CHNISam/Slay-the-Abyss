@@ -214,6 +214,9 @@ function OnStart()
  print('INTERACTIVE_READY real_Run=true real_Combat=true mature_gestures_bound=true approved_dashed_arrow=true pointer_events=0 official_game_verified=false partial_feedback=true')
 end
 function OnUpdate(dt)
+ -- Presentation-only time: a stalled frame must not violate the adapter bound.
+ -- Run/Combat commands have already committed; never replay them to catch up.
+ dt=math.min(.1,math.max(0,dt))
  clock=clock+dt
  if owner.gesture then owner.gesture.elapsed=(owner.gesture.elapsed or 0)+dt end
  gestures.updateCarry()
