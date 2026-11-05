@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-05 07:58'
-updated_date: '2026-11-05 08:40'
+updated_date: '2026-11-05 15:42'
 labels: []
 milestone: m-7
 dependencies: []
@@ -34,6 +34,8 @@ PR516来源Full通过，但同树原生队列Windows1的JS和Lua均成功后，�
 
 <!-- SECTION:PLAN:BEGIN -->
 1.保全同树来源41与原生队列完整作业、日志和整体30分钟取消证据，来源66秒门禁与47秒setup分开，截断40秒工程步骤不作完整测量。2.锁定2900成功JS及2712外层raw步骤成功认证的记录，按实际步骤排除两轮各7共14条JS内嵌Lua；全部成本ceil/max且旧显式值及fallback不降，raw只改luaShard，原timings.lua安全资格不动。3.最终选择Windows16/POSIX12 cap6/Full33，保留原30/20分钟、75/44秒门禁、60秒敏感度；当前726库存重算，POSIX9至11的真实RED保留，12最小可行两波，13的第三波模型壁钟更差不采用。12额外5%工作量即超2.061秒仅作风险诊断，不新增或放宽门槛，不承诺托管稳定30分钟。4.单一shape同步严格33项来源、队列、推送及交付集合，整源精确inverse回14/9再13/9，完整成本回旧d580再旧8e；不更新历史golden，所有错误漂移保持拒绝。5.独立深审与必要专项，精确新HEAD来源Full、原生组、实际push Full及原merged_passed，分别报告真实wall、排队、runner成本和未达稳定目标，设备证据保持未完成。
+
+6. 集成既有UI测试时，分开固定725份历史实测清单与新增未测文件；按当前完整库存保留原预算、余量和唯一覆盖验证，不改历史测量或成本。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -48,4 +50,8 @@ PR516来源Full通过，但同树原生队列Windows1的JS和Lua均成功后，�
 最终容量决定已独立复算：最终726JS，POSIX12 max+60=1147677ms余52323ms；13余135986ms但cap6模型由两波2295353ms变三波3192024ms。保持cap6选择最小可行12片，完整33项。初始16/9/30计划被完整Linux成本RED取代，不曾作为已通过候选交付。
 
 本地工程AC1/2已验：5612条原日志行及SHA/实际步骤逐项认证、旧有效成本不降；新严格multi-run来源缺口修复，旧single-run断言完整保留。独立32项最终全通过，原31/32 RED保留；Full33公共4positive/68negative，另一独审84模板回放加36新delta及38整源inverse全通过，范围重叠不相加。最终726JS/1356raw完整覆盖，Win16含60秒1659439ms、POSIX12为1147677ms，原预算与安全不变。AC3待新精确候选来源、原生队列、实际push Full及merged_passed，不提前勾选。
+
+本轮清理集成PR520复现ci-complete-calibration两处固定库存失败：727与725、728与726。来源是新增native-ui-preview和reference-ui-lab两个测试，不是历史实测记录变化；先暂停原生合并，修复合同的历史/当前清单边界。
+
+修复后固定725份历史JS、2900条成功JS观测和2712条raw记录仍逐项认证；当前728份JS含3个明确未测文件，逐平台验证unknown成本，16/12分片完整唯一覆盖及原预算/60秒余量断言全部保留。10项校准/历史来源/容量合同通过，原2处RED保留；新HEAD独审与Full/队列/push/merged验收待执行，AC3保持未完成。
 <!-- SECTION:NOTES:END -->

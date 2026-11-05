@@ -8,10 +8,13 @@ import {ciWindowsShapeProof,preCiWindowsShapeSource} from './helpers/ci-windows-
 import {preIntegrationSource} from './helpers/pr372-integration-source.mjs';
 import {qualityShardMatrices,qualityShardJobs} from '../scripts/ci-quality-shape.mjs';
 import {currentFullQualityJobs} from '../scripts/verify-delivery.mjs';
-import {discoverJs,jsShard,timings} from '../scripts/ci-shards.mjs';
+import {discoverJs,jsShard,jsPlanningWeights,timings} from '../scripts/ci-shards.mjs';
 import {shardLuaScripts} from '../scripts/test-lua.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex'),read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
 const path='scripts/ci-test-timings.json',binding=proof.files[path],before=JSON.parse(binding.beforeSource),after=JSON.parse(binding.afterSource),e=proof.evidence;
+// These files were added after the frozen 725-file observations. They still
+// belong to the current Full inventory and retain the unknown-file cost.
+const postCalibrationJs=['tests/ci-complete-calibration.test.mjs','tests/native-ui-preview.test.mjs','tests/reference-ui-lab.test.mjs'];
 
 test('complete native successful rows authenticate every observed file and only raise effective placement costs',()=>{
  assert.equal(e.lockedObservationsSha256,'a80b5fe95fcfb0b4d5fedf839045100466423f3129c000ce2eef642cc31c421d');
@@ -38,7 +41,12 @@ test('complete native successful rows authenticate every observed file and only 
  for(const row of e.observations.lua){authenticate(row,'lua');const key=[row.runId,row.file].join(':');assert.ok(!raw.has(key));raw.add(key);
   expected.luaShard[row.file]=Math.max(expected.luaShard[row.file]??before.lua[row.file]??before.unknownLuaMs,Math.ceil(row.durationMs));}
  assert.equal(observedJs.size,2900);assert.equal(raw.size,2712);assert.equal(e.excludedEmbeddedLua,14);
- const inventory=discoverJs(),originalJs=inventory.filter(p=>p!=='tests/ci-complete-calibration.test.mjs').sort();assert.equal(originalJs.length,725);
+ const inventory=discoverJs(),originalJs=inventory.filter(p=>!postCalibrationJs.includes(p)).sort();assert.equal(originalJs.length,725);
+ assert.deepEqual(inventory.filter(p=>postCalibrationJs.includes(p)).sort(),postCalibrationJs);
+ for(const platform of ['win32','linux'])for(const file of postCalibrationJs){
+  assert.equal(after.js[platform][file],undefined,'new tests must not acquire fabricated historical measurements');
+  assert.equal(jsPlanningWeights(postCalibrationJs,platform)[file],after.unknownJsMs);
+ }
  const lua=readdirSync('tests/lua').filter(n=>n.endsWith('.lua')).map(n=>'tests/lua/'+n).sort();assert.equal(lua.length,1356);
  for(const runId of [e.sourceRun,e.groupRun]){
   for(const platform of ['win32','linux'])assert.deepEqual(e.observations.js.filter(r=>r.runId===runId&&r.platform===platform).map(r=>r.file).sort(),originalJs);
@@ -85,7 +93,7 @@ test('physical Windows16 POSIX12 Full33 covers final inventory under original bu
  assert.deepEqual(currentFullQualityJobs,['check','presentation','engineering-posix',...Array.from({length:16},(_,i)=>`rules (${i+1}/16)`),...Array.from({length:12},(_,i)=>`engineering-posix (${i+1}/12)`),'impact','fast']);
  assert.equal(currentFullQualityJobs.length,33);assert.equal(new Set(currentFullQualityJobs).size,33);
  const js=discoverJs(),lua=readdirSync('tests/lua').filter(n=>n.endsWith('.lua')).map(n=>'tests/lua/'+n);
- assert.equal(js.length,726,'725 observed files plus this one new unmeasured regression');
+ assert.equal(js.length,725+postCalibrationJs.length,'725 observed files plus every explicitly unmeasured new test');
  for(const [platform,count,budget]of [['win32',16,1800000],['linux',12,1200000]]){
   const loads=jsShard(js,`1/${count}`,platform).loads;
   const jsBins=Array.from({length:count},(_,i)=>jsShard(js,`${i+1}/${count}`,platform).files);
