@@ -23,8 +23,11 @@ instances. It records typed fields/keys, metatables, cycles, aliases and stable
 table/function identities. It emits complete replacement definitions for nodes
 whose contents changed. Earlier definitions remain part of the trace. There is
 no immutable-data exemption: a child mutation and restoration under an unchanged
-parent produce separate definitions. Functions are observed by identity and
-actual calls, not by bytecode or closure upvalues. Native engine internals beyond
+parent produce separate definitions.
+Reference-push closures are reused only for the same typed pointer during one
+observation. This map is discarded afterward; fields, metatables, source data and
+encoded definitions are not cached by this optimization. Functions are observed
+by identity and actual calls, not by bytecode or closure upvalues. Native engine internals beyond
 the fixture's backing fields, alive and hierarchy state are outside this model.
 
 The native adapter moves own properties into backing storage so *every* repeated
@@ -38,7 +41,12 @@ invalid-object behavior remains enforced by the original fixture. Public Host
 results preserve packed return arity, nil holes and table error identity. Only
 leading Lua source coordinates are removed from string errors.
 
-Full trace output is explicit opt-in. The Node bridge losslessly gzips the stream
+Full trace output is explicit opt-in. Large checkpoint/source JSON uses the same fresh serializer's
+native write entry to the bridge's bounded stdout sink, avoiding conversion of
+the complete string to Lua bytes and back. The returned-string API and event
+graphs remain available and use the identical serializer. Tests compare native
+write and returned-string bytes, including ordered updates and identity changes.
+The Node bridge losslessly gzips the stream
 for transport under the unchanged 32 MiB stdout cap. Decoding has a fixed 128 MiB
 limit. The parent compares every decoded byte and checks exact state/event/end
 counts; it does not compare digests or summaries. Uncompressed old/new logs are

@@ -54,7 +54,11 @@ do
  box:SetVisible(false)
  assert(calls==1 and box.visible==false,'replacement must invoke saved setter exactly once')
 end
-if ABYSS_HOST_FULL_TRACE then print('HOST_SOURCES '..graph({data=F.Data,presentation=F.Presentation}))end
+if ABYSS_HOST_FULL_TRACE then
+ local sources={data=F.Data,presentation=F.Presentation}
+ if ABYSS_HOST_GRAPH_WRITE then ABYSS_HOST_GRAPH_WRITE(sources,'HOST_SOURCES')
+ else print('HOST_SOURCES '..graph(sources))end
+end
 local function checkpoint(label,host,fn)
  if ABYSS_HOST_TO and count>=ABYSS_HOST_TO then
   print('GAME_UI_HOST_TRACE_PASS checkpoints='..ABYSS_HOST_TOTAL)
@@ -70,8 +74,13 @@ local function checkpoint(label,host,fn)
  if ABYSS_HOST_FULL_TRACE then io.stderr:write('HOST_PROGRESS done '..count..' '..label..'\n')end
  if count<(ABYSS_HOST_FROM or 1) or count>(ABYSS_HOST_TO or 35) then events={};return table.unpack(result,1,result.n)end
  if ABYSS_HOST_FULL_TRACE then
-  local line=graph({label=label,result=result,state={host=host,hosts=hosts,data=F.Data,presentation=F.Presentation,native=nativeControls}},true)
-  print('HOST_EVENTS ['..table.concat(events,',')..']');print('HOST_TRACE '..line)
+  local frame={label=label,result=result,state={host=host,hosts=hosts,data=F.Data,presentation=F.Presentation,native=nativeControls}}
+  if ABYSS_HOST_GRAPH_WRITE then
+   print('HOST_EVENTS ['..table.concat(events,',')..']');ABYSS_HOST_GRAPH_WRITE(frame,'HOST_TRACE',true)
+  else
+   local line=graph(frame,true)
+   print('HOST_EVENTS ['..table.concat(events,',')..']');print('HOST_TRACE '..line)
+  end
  end
  events={}
  return table.unpack(result,1,result.n)

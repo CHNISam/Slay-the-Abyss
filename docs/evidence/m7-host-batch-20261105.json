@@ -5,7 +5,7 @@
   "base": "87c944f3d1ae89b01470cf89d6f7cc96cc4017ab",
   "claimBase": "78e4e746a7f05754f0d838999c466cd88630368c",
   "observationHead": "281c0d87d7bab5cf0e8d557e8d53e03455bac74b",
-  "status": "corrections_locally_verified_independent_scoped_reviews_passed_new_hosted_delivery_pending",
+  "status": "lossless_observer_budget_correction_locally_verified_new_exact_head_and_hosted_delivery_pending",
   "firstHostedFull": {
     "runId": 41958033163,
     "headSha": "8eae1c2e674cf01b85420d253cde67d9ef78fa2d",
@@ -2009,7 +2009,7 @@
     "scopesOverlapNotAdditive": true,
     "failed": 0,
     "skipped": 0,
-    "exactHeadBinding": "Pending commit, then authenticated final review files",
+    "exactHeadBinding": "Pending new commit and final independent delta binding; earlier97 reviews retained.",
     "queueDistinctNamesDuplicateId": "Actual RED reproduced before guard; current guard rejects, real parsed removal mutant again accepts; no budget or status-source relaxation.",
     "sourceOwnerTests": 7,
     "identityAndDestinationTests": 13,
@@ -2021,5 +2021,182 @@
     "scripts/ci-test-timings.json": "d5804ac4b7a936f54f3dc479e2b4efa1d79b8b8bdf582748997a31dacc98723c",
     "scripts/publish-merge-group.mjs": "e59953e412e38a37b649a71cb89bd18c16c327ba2a366524d4514217986f153c",
     "tests/helpers/game-ui-extraction-source-inverse.mjs": "f59475c217786c9ad6260168f4d6511236135f14c5648f333bdd9c3480a2bedf"
+  },
+  "secondHostedFull": {
+    "runId": 41965082090,
+    "headSha": "97bb49030366f79adfbf96f9b1fb04a70d2b3e66",
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "failure",
+    "createdAt": "2026-11-05T04:00:34Z",
+    "updatedAt": "2026-11-05T04:32:00Z",
+    "jobConclusions": {
+      "success": 25,
+      "failure": 2,
+      "skipped": 1,
+      "cancelled": 0
+    },
+    "testFailureJob": 127041092812,
+    "aggregateFailureJob": 127050298240,
+    "reason": "Original 30-second old-Host result seed6 window25-27 timeout after done27, before a complete trace. No completed seed6 payload from that CI VM; neither last-frame nor gzip phase can be established from progress alone.",
+    "autoMerge": "Paused through original merge:auto entry and read back paused",
+    "scope": "Failed run; raw Lua after the failed Windows JS step was not executed. Other passing jobs do not certify candidate Full."
+  },
+  "hostRecordedEvidenceScope": "Embedded author record describes the earlier57-case/112-VM source proof before this lossless trace correction, not a claim all61 current cases were rerun.",
+  "traceCorrection": {
+    "observationParent": "97bb49030366f79adfbf96f9b1fb04a70d2b3e66",
+    "registeredHostNodeCases": 61,
+    "registeredHostVmPlan": 112,
+    "newTestFiles": 0,
+    "all328ProductionLuaSourcesUnchanged": true,
+    "originalResultWindows": [
+      [
+        25,
+        27
+      ],
+      [
+        28,
+        30
+      ]
+    ],
+    "limits": {
+      "vmMs": 30000,
+      "encodedStdoutBytes": 33554432,
+      "decodedBytes": 134217728
+    },
+    "freshFieldTraversalPreserved": true,
+    "referencePushProxyReuse": "Typed pointer Map scoped to a single observe call; no field, graph, definition or source-validation caching, no early ID assignment.",
+    "nativeWrite": "Same serializer and bounded sink; returned-string/event APIs retained. Standalone native-write max27.659s was not accepted as performance proof.",
+    "rejectedSplit": "Two-frame overlaps can miss a visible25/hidden26/reappearing27 owner replacement. Original3-checkpoint windows retained, actual collector regression added.",
+    "resultVmCount": 8,
+    "resultVmMaxElapsedMs": 17227,
+    "resultDecodedBytes": 353333166,
+    "allEightFullStreamsByteEqualToSavedBefore": true,
+    "resultStreams": [
+      {
+        "side": "old",
+        "seed": 1,
+        "from": 25,
+        "to": 27,
+        "decodedBytes": 43803236,
+        "sha256": "e02f4380f84084ae8f3878bffe88917299bc7f9e286ed61f3c78d64e60c490d2",
+        "byteIdentical": true,
+        "elapsedMs": 16504,
+        "encodedBytes": 3183541,
+        "receipt": "vm-abyss-host-old-DwNn6W-1-25-27-8ef9663c-b2f6-436f-b438-4cb72d01aa78.json"
+      },
+      {
+        "side": "new",
+        "seed": 1,
+        "from": 25,
+        "to": 27,
+        "decodedBytes": 43803236,
+        "sha256": "e02f4380f84084ae8f3878bffe88917299bc7f9e286ed61f3c78d64e60c490d2",
+        "byteIdentical": true,
+        "elapsedMs": 16092,
+        "encodedBytes": 3183541,
+        "receipt": "vm-abyss-host-new-3MVQjE-1-25-27-d74195eb-c737-40d9-a711-e696fb378e77.json"
+      },
+      {
+        "side": "old",
+        "seed": 6,
+        "from": 25,
+        "to": 27,
+        "decodedBytes": 43822855,
+        "sha256": "7db9ad0b8c0a25843958753cc76566a2f5241cd67a54adfad97086fdc3d9eb77",
+        "byteIdentical": true,
+        "elapsedMs": 16431,
+        "encodedBytes": 3186269,
+        "receipt": "vm-abyss-host-old-lQgXoS-6-25-27-f2e37d05-2765-4486-8650-cdb43a83629c.json"
+      },
+      {
+        "side": "new",
+        "seed": 6,
+        "from": 25,
+        "to": 27,
+        "decodedBytes": 43822855,
+        "sha256": "7db9ad0b8c0a25843958753cc76566a2f5241cd67a54adfad97086fdc3d9eb77",
+        "byteIdentical": true,
+        "elapsedMs": 16201,
+        "encodedBytes": 3186269,
+        "receipt": "vm-abyss-host-new-5DVMPG-6-25-27-cda25bff-ba47-4090-9170-26df468e4d7a.json"
+      },
+      {
+        "side": "old",
+        "seed": 1,
+        "from": 28,
+        "to": 30,
+        "decodedBytes": 44510507,
+        "sha256": "05f32182064fda64958ec08b838a50df94915befdf752b8bbc56a1f7bb6d31eb",
+        "byteIdentical": true,
+        "elapsedMs": 17200,
+        "encodedBytes": 3224381,
+        "receipt": "vm-abyss-host-old-YwswRw-1-28-30-85733339-d3f2-4046-be4f-7450aa91b64f.json"
+      },
+      {
+        "side": "new",
+        "seed": 1,
+        "from": 28,
+        "to": 30,
+        "decodedBytes": 44510507,
+        "sha256": "05f32182064fda64958ec08b838a50df94915befdf752b8bbc56a1f7bb6d31eb",
+        "byteIdentical": true,
+        "elapsedMs": 16682,
+        "encodedBytes": 3224381,
+        "receipt": "vm-abyss-host-new-6WCDqw-1-28-30-dfa992af-18f2-4193-bb91-e17437f2ce79.json"
+      },
+      {
+        "side": "old",
+        "seed": 6,
+        "from": 28,
+        "to": 30,
+        "decodedBytes": 44529985,
+        "sha256": "07bd0eaa83ee9bc5ea6facca489b5c89d2ab8c24b9603cf4d860ce0dd72c668e",
+        "byteIdentical": true,
+        "elapsedMs": 17227,
+        "encodedBytes": 3228249,
+        "receipt": "vm-abyss-host-old-4DP4lO-6-28-30-beaffc37-202f-4b8b-9071-5d2137e1b4d2.json"
+      },
+      {
+        "side": "new",
+        "seed": 6,
+        "from": 28,
+        "to": 30,
+        "decodedBytes": 44529985,
+        "sha256": "07bd0eaa83ee9bc5ea6facca489b5c89d2ab8c24b9603cf4d860ce0dd72c668e",
+        "byteIdentical": true,
+        "elapsedMs": 16289,
+        "encodedBytes": 3228249,
+        "receipt": "vm-abyss-host-new-koVmOS-6-28-30-7a5a438a-dbaf-4f66-b28c-b55ec1441964.json"
+      }
+    ],
+    "parsedSemanticMutantsKilled": 4,
+    "mutantAssociatedVmCount": 12,
+    "strengthTestsPassed": 7,
+    "finalMicroAndDeltaRoundtripPassed": 5,
+    "prototypeProfile": {
+      "samples": 1,
+      "beforeVmMs": 18166,
+      "afterVmMs": 16101,
+      "beforeReadMs": 8932,
+      "afterReadMs": 7089,
+      "firstFrameNodes": 187507,
+      "firstFrameEntries": 822386,
+      "pushProxyCreatesApprox": 159238,
+      "pushProxyReusesApprox": 314054,
+      "scope": "One instrumented same-window experiment; unchanged complete decoded bytes and node/entry counts, not a stable speedup or hosted guarantee."
+    },
+    "sourceHashes": {
+      "tests/fixtures/game-ui-host/README.md": "32a3d2d201dc560eae81362dcca10541b9bc5e0ecabb1dff2bbb96f73a70b1e9",
+      "tests/game-ui-host-result.test.mjs": "3dad52f9ee06ef2d098c34c21d2fae72649d2cfc3fbd97b952896d1d284cafe0",
+      "tests/helpers/game-ui-host-equivalence.mjs": "6fff7b77067761a6f3f4c5784e3251228452332c5b36eabe30cbfad0687964d3",
+      "tests/helpers/game-ui-host-vm.mjs": "db77708e6b3f3b0f8378631d541454c2f2b9d88e98e967748b5150fac72ffcc3",
+      "tests/helpers/lua-graph-observer.mjs": "ddef991a2c414dcf6838cc9d343fa99269ae9d9c297368b3ac8df46cd785fa15",
+      "tests/lua/support/game_ui_host_trace.lua": "25ced3b07399fe3fc860ac214e97d302c1e24750d506b0465478b7dd33d7b2f7"
+    },
+    "evidence": "build/host-result-resplit/REPORT.md",
+    "equivalence": "build/host-result-resplit/proxy-final-full-equivalence.json",
+    "independentReview": "build/ui-host-review/native-write-proxy-final-draft.json",
+    "scope": "Named result/mutant/micro reruns plus lossless serializer equivalence; not all61 current cases freshly rerun and not hosted budget or device certification."
   }
 }

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 22:58'
-updated_date: '2026-11-05 03:31'
+updated_date: '2026-11-05 06:35'
 labels: []
 milestone: m-7
 dependencies: []
@@ -50,4 +50,8 @@ GameUI完整构造器跨度1004行，11处私有UI职责复杂度超过15；构�
 PR516首轮Full41958033163暴露旧入口源码断言与仓库内历史副本路径拒绝；原入口自动合并已暂停并读回。保留三份job日志，原数量断言迁到真实view并加安装调用链，全部GameUI模块保留禁止自动电影检查，两份测试7/7通过。路径修复与新候选Full待，不勾AC3。
 
 原历史副本guard修复13专项与独审79输入/28次成功后暖漂移及缺reader反例通过；原event2入口和79543/79757两strict回放通过。profile确认同原event入口20057次旧配置重复解析，原8.221秒identity经保守缺key早拒绝降至0.101秒；每call7源重读及14/7/6读取trace不变，不缓存验证。原strict两回放本机254.180→122.167秒；托管Full与实际合后仍待。
+
+来源97bb的Full41965082090为25成功/2失败/1预期skip，唯一测试失败Win1/14 job127041092812：旧Host seed6结果窗25至27执行done27后触及原30秒，另一失败为汇总；原入口已暂停并读回。原trace43822855bytes保留，单纯细分/直接写出均不作为fix。profile确认每帧187507节点822386字段，重复push proxy分配为热点；单call typed reference proxy复用prototype16.101秒且完整bytes/节点/字段同原，不缓存状态或跨call验证。新8VM及语义变异/独审进行中，预算与所有原窗口保持，AC3仍不勾。
+
+最终保留原四result pairs与全部三checkpoint窗口，拒绝会漏暂不可达对象重现身份的split，真实反例加在原文件防回退。单observe引用代理复用不缓存字段/图/验证；原4pairs8VM全部通过、max17.227秒，353333166解码字节逐侧等原before；4parsed mutants真实kill/12VM成功，strength7及微测试/delta5通过。注册61case/112VM计划不变，只重跑具名切片，不称全61重跑；独立对照旧/新返回与WRITE实际6581bytes一致。原30s/32MiB/128MiB与full图保持，下一精确Full待，AC3不勾。
 <!-- SECTION:NOTES:END -->

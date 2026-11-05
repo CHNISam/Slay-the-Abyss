@@ -35,7 +35,7 @@ export function execute(dir,seed,constructor='',from=1,to=35){
   cwd:dir,encoding:'utf8',timeout:30000,maxBuffer:32*1024*1024,
   env:{...process.env,LUA_PATH:'./build/lua/?.lua;./src/lua/?.lua;;',LUA_PATH_5_3:'./build/lua/?.lua;./src/lua/?.lua;;',LUA_INIT:'',LUA_INIT_5_3:''}});
  fs.mkdirSync('build/ui-host-impl',{recursive:true});
- const receipt={seed,scenario:constructor,from,to,elapsedMs:Date.now()-started,status:r.status,signal:r.signal,
+ const receipt={side:path.basename(dir).replace(/^abyss-host-(old|new)-.*$/,'$1'),seed,scenario:constructor,from,to,elapsedMs:Date.now()-started,status:r.status,signal:r.signal,
   error:r.error?{code:r.error.code,message:r.error.message}:null,encodedBytes:r.stdout?.length||0,stderr:r.stderr};
  fs.writeFileSync(path.join('build/ui-host-impl',`vm-${path.basename(dir)}-${seed}-${from}-${to}-${crypto.randomUUID()}.json`),JSON.stringify(receipt,null,2)+'\n');
  if(r.error){

@@ -3,10 +3,10 @@ const require=createRequire(import.meta.url);
 const {lua,lauxlib,to_luastring,to_jsstring}=require('fengari');
 // Visit every reachable field each call. Stable mode emits changed definitions;
 // preceding definitions remain part of the reconstructable graph stream.
-export function installLuaGraphObserver(L,name='ABYSS_HOST_GRAPH'){
+export function installLuaGraphObserver(L,name='ABYSS_HOST_GRAPH',writeGraph){
  const allocations=new Map(),previous=new Map(),backings=new Map();let serial=0;
  const observe=(L,eventArgs=false)=>{
-  const stable=eventArgs||lua.lua_toboolean(L,3),localIds=new Map(),visited=new Set(),definitions=[];let localSerial=0;
+  const stable=eventArgs||lua.lua_toboolean(L,3),localIds=new Map(),visited=new Set(),definitions=[],proxies=new Map();let localSerial=0;
   const event=eventArgs||lua.lua_toboolean(L,4);
   function identity(index){const pointer=lua.lua_topointer(L,index),ids=stable?allocations:localIds;
    if(!ids.has(pointer))ids.set(pointer,stable?++serial:++localSerial);return ids.get(pointer);}
@@ -15,7 +15,12 @@ export function installLuaGraphObserver(L,name='ABYSS_HOST_GRAPH'){
    if(type===lua.LUA_TBOOLEAN)return {value:['boolean',lua.lua_toboolean(L,index)]};
    if(type===lua.LUA_TNUMBER)return {value:['number',String(lua.lua_tonumber(L,index))]};
    if(type===lua.LUA_TSTRING)return {value:['string',to_jsstring(lua.lua_tolstring(L,index))]};
-   return {push:lua.lua_toproxy(L,index)};
+   // Reuse only a typed reference-push closure within this call. Every field,
+   // metatable and definition is still freshly visited; IDs are assigned by read.
+   let typed=proxies.get(type);if(!typed){typed=new Map();proxies.set(type,typed);}
+   const pointer=lua.lua_topointer(L,index);let push=typed.get(pointer);
+   if(!push){push=lua.lua_toproxy(L,index);typed.set(pointer,push);}
+   return {push};
   }
   function captured(value){if(value.value)return value.value;value.push(L);const result=read(-1);lua.lua_pop(L,1);return result;}
   function read(index){
@@ -60,10 +65,17 @@ export function installLuaGraphObserver(L,name='ABYSS_HOST_GRAPH'){
    for(let i=1;i<=n;i++){lua.lua_rawgeti(L,1,i);root.push(read(-1));lua.lua_pop(L,1);}
   }else root=read(1);
   definitions.sort((a,b)=>a[1]-b[1]);
-  lua.lua_pushstring(L,to_luastring(JSON.stringify({root,definitions})));return 1;
+  return JSON.stringify({root,definitions});
  };
- lua.lua_pushcfunction(L,L=>observe(L));lua.lua_setglobal(L,to_luastring(name));
- lua.lua_pushcfunction(L,L=>observe(L,true));lua.lua_setglobal(L,to_luastring(name+'_EVENT'));
+ const returned=(L,eventArgs=false)=>{lua.lua_pushstring(L,to_luastring(observe(L,eventArgs)));return 1;};
+ lua.lua_pushcfunction(L,L=>returned(L));lua.lua_setglobal(L,to_luastring(name));
+ lua.lua_pushcfunction(L,L=>returned(L,true));lua.lua_setglobal(L,to_luastring(name+'_EVENT'));
+ // The same fresh serializer can emit a large checkpoint without converting its
+ // complete JSON string to Lua bytes and back. The caller owns the bounded sink.
+ if(writeGraph){
+  lua.lua_pushcfunction(L,L=>{const label=to_jsstring(lauxlib.luaL_checkstring(L,2));writeGraph(label,observe(L));return 0;});
+  lua.lua_setglobal(L,to_luastring(name+'_WRITE'));
+ }
  lua.lua_pushcfunction(L,L=>{backings.set(lua.lua_topointer(L,1),lua.lua_toproxy(L,2));return 0;});
  lua.lua_setglobal(L,to_luastring(name+'_CONTROL'));
 }
