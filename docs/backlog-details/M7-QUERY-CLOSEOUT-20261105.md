@@ -2,7 +2,7 @@
 
 最终来源头 `a2457383a7813b29fca49509f7b6626419f2da79`，基线 `a308edbfde7792485cbe79b5650c17e1c7de98cc`。实际squash `78e4e746a7f05754f0d838999c466cd88630368c` 的唯一父为该基线、源码树为 `1e7781287c628ae94b5ad8c5be809941de4be3ba`，与已审候选一致。
 
-来源Full [41914042810](https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/41914042810) 29:06、原生队列Full [41918738466](https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/41918738466) 33:05、实际develop推送Full [41923895912](https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/41923895912) 30:03，均成功。每次27作业、26成功及按Full合同跳过的Fast；每平台710 JS文件、1355份raw Lua完整且无文件重漏。既有条件用例skip保留，不声称所有用例零skip。作业时长之和分别374.900、387.967、361.500分钟，不是CPU或计费读数。
+来源Full [41914042810](https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/41914042810) 29:06、原生队列Full [41918738466](https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/41918738466) 33:05、实际develop推送Full [41923895912](https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/41923895912) 30:03，均成功。每次27作业、26成功及按Full合同跳过的Fast；每平台710 JS文件、1355份raw Lua完整且无文件重漏。既有条件用例skip保留，不声称所有用例零skip。API原始时间戳时长之和分别374.900、387.967、361.500分钟；push的跳过Fast结束时间早于开始1秒，逐作业取非负时长之和为361.517分钟。两种口径均不是CPU或计费读数。
 
 原验证器最终证据 `build/delivery/f818a966-1e43-467c-b371-2cc6acc621eb/evidence.json` 为 `merged_passed`、errors为空，来源预审为 `1e1dff4b-31d1-4b96-a824-627222a4bb64`。两组真实独审最终记录分别位于 `build/query-output-review/final-review-a2457383.json` 和 `build/status-runner-review/final-review-a2457383.json`，绑定同一head/base/tree。完整原始产物归档位置见文末，不能用附件文字替代验证器。
 
