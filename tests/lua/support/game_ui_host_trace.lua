@@ -61,11 +61,13 @@ local function checkpoint(label,host,fn)
   print('HOST_WINDOW_DONE executed='..count)
   coroutine.yield('HOST_WINDOW_DONE')
  end
+ if ABYSS_HOST_FULL_TRACE then io.stderr:write('HOST_PROGRESS start '..(count+1)..' '..label..'\n')end
  local result=table.pack(pcall(fn or function()end))
  -- Normalize only source coordinates, retaining the error text and return arity.
  if not result[1] then result[2]=normalizeError(result[2])end
  count=count+1
  ABYSS_HOST_EXECUTED=count
+ if ABYSS_HOST_FULL_TRACE then io.stderr:write('HOST_PROGRESS done '..count..' '..label..'\n')end
  if count<(ABYSS_HOST_FROM or 1) or count>(ABYSS_HOST_TO or 35) then events={};return table.unpack(result,1,result.n)end
  if ABYSS_HOST_FULL_TRACE then
   local line=graph({label=label,result=result,state={host=host,hosts=hosts,data=F.Data,presentation=F.Presentation,native=nativeControls}},true)

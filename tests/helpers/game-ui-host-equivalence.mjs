@@ -34,7 +34,11 @@ export function execute(dir,seed,constructor='',from=1,to=35){
  const r=spawnSync(process.execPath,[path.join(root,'tests/helpers/game-ui-host-vm.mjs'),String(seed),constructor,String(from),String(to)],{
   cwd:dir,encoding:'utf8',timeout:30000,maxBuffer:32*1024*1024,
   env:{...process.env,LUA_PATH:'./build/lua/?.lua;./src/lua/?.lua;;',LUA_PATH_5_3:'./build/lua/?.lua;./src/lua/?.lua;;',LUA_INIT:'',LUA_INIT_5_3:''}});
- if(r.error){fs.mkdirSync('build/ui-host-impl',{recursive:true});fs.writeFileSync('build/ui-host-impl/failed.log',r.stdout||'');}
+ fs.mkdirSync('build/ui-host-impl',{recursive:true});
+ const receipt={seed,scenario:constructor,from,to,elapsedMs:Date.now()-started,status:r.status,signal:r.signal,
+  error:r.error?{code:r.error.code,message:r.error.message}:null,encodedBytes:r.stdout?.length||0,stderr:r.stderr};
+ fs.writeFileSync(path.join('build/ui-host-impl',`vm-${path.basename(dir)}-${seed}-${from}-${to}.json`),JSON.stringify(receipt,null,2)+'\n');
+ if(r.error)fs.writeFileSync('build/ui-host-impl/failed.log',r.stdout||'');
  assert.ifError(r.error);assert.equal(r.status,0,r.stderr+'\n'+r.stdout.slice(-2000));
  const total=constructor.startsWith('short-')?scenarios[constructor.slice(6)]:constructor?1:35;
  const encoded=r.stdout.match(/^HOST_TRACE_GZIP ([A-Za-z0-9+/=]+)\n$/);assert.ok(encoded,'complete lossless trace transport');
