@@ -1,0 +1,16 @@
+.sts-menus.menu-reference{background:#202b37;color:#f1e6cc;font-family:'Noto Serif CJK SC','Source Han Serif SC','Songti SC',Georgia,serif}
+.menu-reference .mr-background{position:absolute;inset:0;z-index:-1;background:#202b37 url('menu-reference-background.png') center/cover no-repeat;pointer-events:none}
+.menu-reference .mr-logo{position:absolute;left:350px;top:78px;width:760px;height:353px;object-fit:contain;pointer-events:none;user-select:none}
+.menu-reference .mr-mainlinks{position:absolute;left:64px;top:409px;width:292px;display:flex;flex-direction:column;gap:4px}
+.menu-reference .mr-option{position:relative;display:block;width:100%;height:44px;flex:none;padding:0;border:0;background:none;color:#f1e6cc;font:700 25px/44px 'Noto Serif CJK SC','Source Han Serif SC','Songti SC',Georgia,serif;letter-spacing:1px;text-align:left;text-shadow:1px 2px 3px #151a22;isolation:isolate;touch-action:manipulation;transition:none;cursor:pointer;opacity:1}
+.menu-reference .mr-option-face{position:absolute;inset:0;display:block;transform:translateX(var(--menu-shift,0px));pointer-events:none;transition:none}
+.menu-reference .mr-option-highlight{position:absolute;left:-2px;top:1px;width:266px;height:42px;z-index:-1;opacity:var(--menu-glow,0);background:linear-gradient(90deg,#f8dc83 0%,#f0c36a 51%,#d4aa4fbb 82%,#a5843b00 100%);border-radius:13px 3px 3px 13px;box-shadow:inset 1px 2px 2px #f8e9b277,0 0 5px #e8d58355;clip-path:polygon(3% 0,97% 0,100% 22%,99% 85%,96% 100%,4% 100%,0 73%,1% 32%);pointer-events:none}
+.menu-reference .mr-option-label{display:block;padding-left:59px;white-space:nowrap;pointer-events:none}
+.menu-reference .mr-option-diamond{position:absolute;left:25px;top:17px;width:11px;height:11px;border:2px solid #e6d5ad;transform:rotate(45deg);box-shadow:1px 1px 2px #151a22;pointer-events:none}
+.menu-reference .mr-option-status{position:absolute;left:195px;top:0;font:500 10px/44px 'Noto Sans CJK SC',Arial,sans-serif;letter-spacing:0;color:#bdc3c6;text-shadow:0 1px 2px #111923;pointer-events:none}
+.menu-reference .mr-option:disabled{cursor:not-allowed;opacity:1;color:#c5beb0}
+.menu-reference .mr-option:disabled .mr-option-face{opacity:.5;transform:none}
+.menu-reference .mr-option:disabled .mr-option-diamond{border-color:#b0ada3}
+.menu-reference .mr-option:focus-visible{outline:1px solid #f0dda688;outline-offset:3px;border-radius:3px}
+.menu-reference .mr-option:hover{background:none}
+@media(prefers-reduced-motion:reduce){.menu-reference .mr-option-face{transition:none}}

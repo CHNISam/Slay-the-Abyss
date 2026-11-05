@@ -1,0 +1,43 @@
+/* Reference-led layout, rebuilt from editable HTML/CSS. No screenshot components. */
+.sts-menus.settings-reference{background:#252b40;color:#eee7d7;font-family:Georgia,'Noto Serif CJK SC','Songti SC',serif;font-weight:600;isolation:isolate}
+.settings-reference .sr-background,.settings-reference .sr-veil{position:absolute;inset:0;pointer-events:none}
+.settings-reference .sr-background{z-index:-3;background:#292c43 url('./settings-reference-background.png') center center / cover no-repeat}
+.settings-reference .sr-veil{z-index:-2;background:linear-gradient(180deg,#25304866 0%,#29344b52 48%,#28304933),linear-gradient(90deg,#20293c6b 0%,#2a344640 24%,#29314519 65%)}
+.settings-reference .sr-header{height:66px;display:flex;align-items:center;padding:0 42px;gap:26px;background:linear-gradient(180deg,#20283c2e,#2931460a);border-bottom:1px solid #d1d5dd21}
+.settings-reference .sr-gear{display:block;width:43px;height:43px;flex:none;color:#dccdb2;filter:drop-shadow(0 2px 1px #15203255)}
+.settings-reference .sr-gear svg{width:100%;height:100%}
+.settings-reference .sr-header h1{display:flex;gap:10px;align-items:center;font-size:22px;letter-spacing:.2px;font-weight:600;color:#ded0b3;margin:0;text-shadow:0 1px 1px #2a3042}
+.settings-reference .sr-header h1>span:first-child{margin:0 1px}
+.settings-reference .sr-close{position:absolute;right:36px;top:12px;width:42px;height:42px;border:2px solid #8c8b8e;border-radius:50%;background:#e4ddcc;box-shadow:inset 0 0 0 2px #c8c4b8,0 0 0 1px #ede8d166;color:#41485b;display:grid;place-items:center;padding:6px;transition:filter .15s,box-shadow .15s}
+.settings-reference .sr-close svg{width:100%;height:100%}
+.settings-reference .sr-close:hover{filter:brightness(1.13);box-shadow:0 0 12px #e7dbb477,inset 0 0 0 2px #c8c4b8}
+.settings-reference .sr-categories{position:absolute;left:0;top:111px;width:269px;display:flex;flex-direction:column;gap:8px;padding:0}
+.settings-reference .sr-categories:after{content:'';position:absolute;top:-45px;bottom:-400px;right:0;width:1px;background:linear-gradient(#c6cbd522,#ccd3dd11)}
+.settings-reference .sr-category{position:relative;display:flex;align-items:center;gap:22px;padding:10px 30px 10px 71px;height:53px;width:100%;border:0;background:none;color:#c2c3ca;font-size:25px;line-height:1.2;text-align:left;text-shadow:0 1px 2px #27304766;transition:color .15s}
+.settings-reference .sr-category:before{content:'';position:absolute;pointer-events:none;left:44px;right:-18px;top:50%;height:32px;transform:translateY(-50%);opacity:0;background:radial-gradient(ellipse at 35% 50%,#f1dc9a3b,transparent 67%)}
+.settings-reference .sr-category:after{content:'';position:absolute;pointer-events:none;left:49px;right:0;top:51%;height:1px;opacity:0;background:linear-gradient(90deg,transparent,#f5e4a36b 30%,#ddcf9255 60%,transparent)}
+.settings-reference .sr-category[aria-pressed=true]{color:#fff8e8;font-size:28px;text-shadow:0 0 15px #fff6c763}
+.settings-reference .sr-category[aria-pressed=true]:before,.settings-reference .sr-category[aria-pressed=true]:after{opacity:1}
+.settings-reference .sr-category:hover{color:#fff9ed}
+.settings-reference .sr-category>span{position:relative;z-index:1}
+.settings-reference .sr-diamond{width:9px;height:9px;border:1px solid #c9cbd2;background:#a6acb341;transform:rotate(45deg);flex:none}
+.settings-reference .sr-category[aria-pressed=true] .sr-diamond{width:12px;height:12px;margin-left:-2px;margin-right:-1px;background:#fff2c6;border:2px solid #fffbea;box-shadow:0 0 0 3px #f3df9b59,0 0 15px 3px #f6dfa691}
+.settings-reference .sr-content{position:absolute;left:313px;right:88px;top:111px;bottom:82px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#c5c5ba8c #aebbb51c;padding:0 0 20px}
+.settings-reference .sr-content h2{font-size:25px;color:#faf4e6;font-weight:600;line-height:1.2;margin:0 0 25px;text-shadow:0 1px 2px #29304344}
+.settings-reference .sr-setting-list{display:flex;flex-direction:column;gap:9px}
+.settings-reference .sr-setting-row{position:relative;min-height:46px;border-radius:26px;border:1px solid #f7f2e9ad;display:flex;align-items:center;gap:14px;background:linear-gradient(100deg,#dedbd0f0,#d6d2c7f0);color:#3e485f;padding:5px 26px;isolation:isolate;overflow:hidden;box-shadow:0 2px 2px #202b4220;font-size:22px}
+.settings-reference .sr-setting-row:before{content:'';position:absolute;inset:0;z-index:-1;opacity:.38;background:linear-gradient(135deg,transparent 10px,#efead92e 10px 25px,transparent 25px) 0 0/46px 46px no-repeat}
+.settings-reference .sr-setting-row:after{content:'✦ ✧';position:absolute;right:205px;top:-17px;color:#c3b8953b;letter-spacing:-14px;font-size:65px;line-height:1;z-index:-1;pointer-events:none}
+.settings-reference .sr-setting-label{flex:1;min-width:0;line-height:1.4}
+.settings-reference .sr-setting-value{display:flex;align-items:center;justify-content:flex-end;gap:15px;flex:none;min-width:190px;text-align:right}
+.settings-reference .sr-setting-row select{appearance:none;cursor:pointer;background:transparent;border:0;color:inherit;font:inherit;padding:2px 31px 2px 12px;min-width:153px;max-width:350px;text-align:right;border-radius:4px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='10'%3E%3Cpath d='M0 0h15L7.5 10z' fill='%233e485f'/%3E%3C/svg%3E");background-position:right 2px center;background-repeat:no-repeat}
+.settings-reference .sr-setting-row select option{background:#e4dfd1;color:#3e485f}
+.settings-reference .sr-setting-row select:focus-visible{outline:2px solid #63708a;outline-offset:2px}
+.settings-reference .sr-setting-row.is-readonly{background:linear-gradient(100deg,#dedbd0d9,#d6d2c7d9)}
+.settings-reference .sr-setting-hint{font:13px/1.8 Arial,'Noto Sans CJK SC',sans-serif;color:#d0d0d8;margin:9px 26px 4px;font-weight:400;max-width:680px}
+.settings-reference .sr-section-note{font:16px/1.9 Arial,'Noto Sans CJK SC',sans-serif;color:#d0d0d9;letter-spacing:.2px;max-width:740px;margin:18px 0;font-weight:400}
+.settings-reference .sr-saved{display:block;min-height:24px;margin:14px 26px 0;color:#eee2bb;font:14px/1.7 Arial,'Noto Sans CJK SC',sans-serif;font-weight:400}
+.settings-reference .sr-key{font:18px Georgia,serif}
+.settings-reference .sr-empty{color:#dbd8cd}
+@media(prefers-reduced-motion:reduce){.settings-reference *{transition:none!important;animation:none!important}}
+.settings-reference .sr-setting-row.is-locked select{background-image:none;cursor:not-allowed;opacity:.78;padding-right:0}
