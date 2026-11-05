@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 22:58'
-updated_date: '2026-11-05 01:25'
+updated_date: '2026-11-05 03:54'
 labels: []
 milestone: m-7
 dependencies: []
@@ -27,7 +27,7 @@ ordinal: 157000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [x] #1 保留13Windows与9POSIX的全部27作业、文件覆盖、原预算权重安全边界权限及交付协议，仅限制POSIX矩阵最多同时6项
+- [x] #1 保留全部当前Full作业和文件、原预算权重安全边界权限及交付协议；此并发切片仅限制POSIX最多同时6项，原13Windows与9POSIX基线及75.5后继扩容分别取证
 - [x] #2 历史工作流仅逆投影精确批准的并发设置，原完整SHA与合同不刷新；错误值、位置、重复与其他门禁漂移仍拒绝
 - [ ] #3 独立复审、精确候选来源和原生队列及实际推送Full通过，记录真实总时长排队与runner成本及目标差距，原交付验证器合后通过
 <!-- AC:END -->
@@ -42,4 +42,6 @@ ordinal: 157000
 
 <!-- SECTION:NOTES:BEGIN -->
 仅POSIX max-parallel6已实现，原13/9矩阵和27作业及原预算/权重/权限/协议保持；15专项、40交付合同及独审14探针通过，旧完整SHA不变。模型仍非托管收益，新来源/原生队列/实际推送Full待，AC3不勾。
+
+首轮真实Full与16条完整Host成本校准后，13槽即使理想均分也超过原30分钟含启动预算，不能靠cap6或重排解决。保留本任务cap6独立切片与全部原门槛；75.5按14槽单独实施和验收，不能把组合候选描述为仅有并发变化，AC3仍待。
 <!-- SECTION:NOTES:END -->

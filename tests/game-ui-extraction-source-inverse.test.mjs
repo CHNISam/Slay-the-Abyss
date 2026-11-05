@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync,copyFileSync,mkdirSync,mkdtempSync,rmSync,symlinkSync} from 'node:fs';
-import {join,dirname} from 'node:path';
+import {join,dirname,resolve,relative,isAbsolute} from 'node:path';
 import {tmpdir} from 'node:os';
 import {pathToFileURL} from 'node:url';
 import {spawnSync} from 'node:child_process';
@@ -41,6 +41,25 @@ test('foreign and old epochs perform zero linked reads, including duplicate keys
  for(const [path,input]of [[host,source+source],[host,source.slice(1)],[host,source+'\n'],[host,proof.files[host].beforeSource],[architecture,proof.files[architecture].beforeSource],['foreign/'+host,source],[host,null],[host,{}],...configVariants.map(s=>[architecture,s])])
   assert.equal(project(path,input,{readSource}),input);
  assert.equal(reads,0);
+});
+
+test('configuration owner names never waive complete tokens or fresh linked validation',()=>{
+ const config=read(architecture),names=added.map(path=>path.split('/').at(-1).slice(0,-4));
+ const oldWithNames=JSON.parse(proof.files[architecture].beforeSource);oldWithNames.note=names;
+ const escapedWithNames=config.replace('"abyss_game_ui_input"','"abyss_game_ui_inp\\u0075t"').replace(/\n}\s*$/,
+  ',\n  "note": '+JSON.stringify(names)+'\n}\n');
+ let reads=0;const forbid=()=>{reads++;throw Error('foreign config must not read owners');};
+ for(const source of [proof.files[architecture].beforeSource,JSON.stringify(oldWithNames),escapedWithNames])
+  assert.equal(project(architecture,source,{readSource:forbid}),source);
+ assert.equal(reads,0);
+ for(const source of [config,JSON.stringify(JSON.parse(config)),JSON.stringify(JSON.parse(config),null,'\t')]){
+  let current=read;
+  const readSource=path=>{reads++;return current(path);};
+  assert.equal(project(architecture,source,{readSource}),proof.files[architecture].beforeSource);
+  current=path=>read(path)+(path===added.at(-1)?'\n-- fresh owner drift\n':'');
+  assert.throws(()=>project(architecture,source,{readSource}),/linked owner/);
+ }
+ assert.equal(reads,paths.length*6,'exact and layout-equivalent config admission rereads all owners each time');
 });
 
 test('nested linked readers keep fresh raw identities across composed historical boundaries',()=>{
@@ -137,6 +156,48 @@ test('retirement rejects a destination or nested owner junction aliasing the liv
  const destination=join(root,'destination');mkdirSync(join(destination,'src'),{recursive:true});
  symlinkSync(join(process.cwd(),'src/lua'),join(destination,'src/lua'),'junction');
  assert.throws(()=>prepare(destination,{sourceRoot:process.cwd()}),/aliases source/);
+});
+
+test('retirement accepts real repository-local historical copies and preserves every live owner',t=>{
+ const build=resolve('build');mkdirSync(build,{recursive:true});
+ const root=mkdtempSync(join(build,'history-destination-test-'));
+ t.after(()=>{const rel=relative(build,root);assert(rel&&!isAbsolute(rel)&&!rel.startsWith('..'));rmSync(root,{recursive:true,force:true});});
+ const before=new Map(added.map(path=>[path,readFileSync(path)]));
+ for(const path of added)copy(root,path);
+ writeFileSync(join(root,'keep.txt'),'unrelated historical owner');
+ const retire=prepare(root);
+ assert(added.every(path=>readFileSync(join(root,path)).equals(before.get(path))),'preparation is read-only');
+ retire();for(const path of added)assert.throws(()=>readFileSync(join(root,path)),/ENOENT/);
+ assert.equal(readFileSync(join(root,'keep.txt'),'utf8'),'unrelated historical owner');
+ for(const path of added)assert(readFileSync(path).equals(before.get(path)),`live owner unchanged: ${path}`);
+});
+
+test('retirement rejects live Lua directories and source ancestors before any deletion',()=>{
+ const sourceRoot=process.cwd(),before=new Map(added.map(path=>[path,readFileSync(path)]));
+ for(const directory of [sourceRoot,dirname(sourceRoot),join(sourceRoot,'src'),join(sourceRoot,'src/lua')])
+  assert.throws(()=>prepare(directory,{sourceRoot}),/isolated historical/);
+ for(const path of added)assert(readFileSync(path).equals(before.get(path)),`protected live owner unchanged: ${path}`);
+});
+
+test('repository-local cleanup rejects nested symlink escapes and revalidates all targets before deletion',t=>{
+ const build=resolve('build');mkdirSync(build,{recursive:true});
+ const root=mkdtempSync(join(build,'history-destination-test-'));
+ t.after(()=>{const rel=relative(build,root);assert(rel&&!isAbsolute(rel)&&!rel.startsWith('..'));rmSync(root,{recursive:true,force:true});});
+ const live=new Map(added.map(path=>[path,readFileSync(path)]));
+ const escaped=join(root,'escaped');mkdirSync(join(escaped,'src'),{recursive:true});
+ symlinkSync(resolve('src/lua'),join(escaped,'src/lua'),'junction');
+ assert.throws(()=>prepare(escaped),/aliases source/);
+ const destination=join(root,'copy');for(const path of added)copy(destination,path);
+ const retire=prepare(destination),last=added.at(-1),file=join(destination,last);
+ writeFileSync(file,read(last)+'\n-- late destination drift\n');assert.throws(retire,/retirement module/);
+ for(const path of added.slice(0,-1))assert(readFileSync(join(destination,path)).equals(live.get(path)),'no earlier deletion before the last owner is validated');
+ // Directory junctions exercise the same escape on Windows without requiring
+ // developer-mode privileges to create individual file symbolic links.
+ rmSync(join(destination,'src/lua'),{recursive:true});symlinkSync(resolve('src/lua'),join(destination,'src/lua'),'junction');
+ assert.throws(retire,/aliases source/);
+ rmSync(destination,{recursive:true});symlinkSync(process.cwd(),destination,'junction');
+ assert.throws(retire,/destination changed after preparation/);
+ for(const path of added)assert(readFileSync(path).equals(live.get(path)),`symlink escape preserved live owner: ${path}`);
 });
 
 test('real filesystem traces distinguish foreign/old inputs from fresh equivalent and warm owner reads',t=>{

@@ -70,6 +70,21 @@ test('queue full requires every shard, immutable receipt and actual native admis
   const f=fixture();mutate(f);assert(queueFullErrors(f).length,String(mutate));
  }
 });
+
+test('native queue rejects old 13/9 green jobs, missing rules14, duplicates and forged totals or source receipts',()=>{
+ for(const mutate of [
+  e=>e.jobs=e.jobs.filter(job=>job.name!=='rules (14/14)'),
+  e=>e.jobs.push({...e.jobs.find(job=>job.name==='rules (14/14)'),id:900}),
+  e=>e.jobs.find(job=>job.name==='rules (14/14)').id=e.jobs.find(job=>job.name==='rules (13/14)').id,
+  e=>e.jobs.find(job=>job.name==='rules (14/14)').name='rules (14/13)',
+  e=>{const sample=e.jobs.find(job=>job.name==='rules (1/14)');e.jobs=e.jobs.filter(job=>!job.name.startsWith('rules ('));e.jobs.push(...Array.from({length:13},(_,i)=>({...sample,id:700+i,name:`rules (${i+1}/13)`})));},
+  e=>{e.jobs=e.jobs.filter(job=>job.name!=='rules (14/14)');e.jobTotal=28;e.event.merge_group.matrix={windows:14,posix:9};},
+  e=>e.checkout.checkout.head=sha('f'),
+ ]){
+  const e=fixture();assert.equal(e.jobs.length,28);mutate(e);
+  assert(queueFullErrors(e).length,String(mutate));
+ }
+});
 test('publisher writes pending first and only releases both contexts after exact Full evidence',()=>{
  const f=admissionFixture(),dir=mkdtempSync(join(tmpdir(),'merge-group-test-'));
  const path=join(dir,'event.json');writeFileSync(path,JSON.stringify(f.event));

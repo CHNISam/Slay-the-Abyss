@@ -471,7 +471,15 @@
       "tests/art-feature-source-inverse.test.mjs": 28573,
       "tests/beta-integration-source.test.mjs": 11350,
       "tests/official-portraits-lifecycle.test.mjs": 10201,
-      "tests/special-event-relics.test.mjs": 11872
+      "tests/special-event-relics.test.mjs": 11872,
+      "tests/game-ui-host-input.test.mjs": 224165,
+      "tests/game-ui-host-lifecycle.test.mjs": 260608,
+      "tests/game-ui-host-map.test.mjs": 107782,
+      "tests/game-ui-host-modal.test.mjs": 114340,
+      "tests/game-ui-host-overlays.test.mjs": 102326,
+      "tests/game-ui-host-route.test.mjs": 163510,
+      "tests/game-ui-host-seed-failures.test.mjs": 315298,
+      "tests/game-ui-host-strength.test.mjs": 132541
     },
     "linux": {
       "tests/acid-slime-l-data.test.mjs": 165,
@@ -907,7 +915,15 @@
       "tests/uncommon-relics.test.mjs": 24232,
       "tests/official-background-flow.test.mjs": 14461,
       "tests/phase-four-current-bell-matrix.test.mjs": 43602,
-      "tests/special-event-relics.test.mjs": 11201
+      "tests/special-event-relics.test.mjs": 11201,
+      "tests/game-ui-host-input.test.mjs": 206361,
+      "tests/game-ui-host-lifecycle.test.mjs": 165223,
+      "tests/game-ui-host-map.test.mjs": 94218,
+      "tests/game-ui-host-overlays.test.mjs": 151302,
+      "tests/game-ui-host-result.test.mjs": 191509,
+      "tests/game-ui-host-route.test.mjs": 171782,
+      "tests/game-ui-host-seed-failures.test.mjs": 205934,
+      "tests/game-ui-host-strength.test.mjs": 160729
     }
   },
   "lua": {
@@ -4616,6 +4632,157 @@
         "linux": 87
       },
       "detailedReceipt": "build/pr391-f7-successful-calibration-receipt.json"
+    },
+    {
+      "runId": 41958033163,
+      "runAttempt": 1,
+      "headSha": "8eae1c2e674cf01b85420d253cde67d9ef78fa2d",
+      "policy": "Raise only same-platform complete success:true CI_FILE_TIMING records for the nine new Host families. A failed/cancelled containing job is not a passing suite; unobserved families retain fallback. No old cost decreases, local/censored estimates, execution cache, safety classification, matrix or timeout changes. Placement calibration alone does not establish that the unchanged job budgets now pass.",
+      "previousMapSha256": "fb0ce063212c0cbafdf2cbff997f6023f7d2ac64f4033e6392c9e1d717e486df",
+      "resultingMapSha256": "7e1563ef315ecb8b65428b504fdaa044871ff36541b99c1e233941be982415c7",
+      "sourceRecords": [
+        {
+          "jobId": 127017703111,
+          "jobName": "engineering-posix (3/9)",
+          "platform": "linux",
+          "path": "build/ci-timeout-audit/job-127017703111.log",
+          "sha256": "85cbcb823a26ee4d5a3f50458f32f6d5f653d9f5a7e120d13d041d63a3829891",
+          "conclusion": "failure"
+        },
+        {
+          "jobId": 127017703151,
+          "jobName": "engineering-posix (1/9)",
+          "platform": "linux",
+          "path": "build/ci-timeout-audit/job-127017703151.log",
+          "sha256": "d9b4079c28a267f5c6eb91dd9ef3e7dc868c01ee692d3b53cb22e01802f0b261",
+          "conclusion": "success"
+        },
+        {
+          "jobId": 127017703158,
+          "jobName": "engineering-posix (9/9)",
+          "platform": "linux",
+          "path": "build/ci-timeout-audit/job-127017703158.log",
+          "sha256": "8cd0fec3902db412d171eea32c656700c8d6e6fd8597aeff02c86682c1349f33",
+          "conclusion": "cancelled"
+        },
+        {
+          "jobId": 127017703164,
+          "jobName": "engineering-posix (5/9)",
+          "platform": "linux",
+          "path": "build/ci-timeout-audit/job-127017703164.log",
+          "sha256": "cd5a77abf3815027bc05da511210a51bcbf34f6d377127421744ec841fabc22d",
+          "conclusion": "cancelled"
+        },
+        {
+          "jobId": 127017703175,
+          "jobName": "engineering-posix (7/9)",
+          "platform": "linux",
+          "path": "build/ci-timeout-audit/job-127017703175.log",
+          "sha256": "553581c4c9913d746fca4813aedb8172cc4b0b558f6e3ff4401056b4b8f808e5",
+          "conclusion": "failure"
+        },
+        {
+          "jobId": 127017703190,
+          "jobName": "engineering-posix (6/9)",
+          "platform": "linux",
+          "path": "build/ci-timeout-audit/job-127017703190.log",
+          "sha256": "ef8ba133d1e17fffae4f34b28f7db2fc9778455b8c43bacb5fd03400fe5b0569",
+          "conclusion": "cancelled"
+        },
+        {
+          "jobId": 127017703210,
+          "jobName": "engineering-posix (4/9)",
+          "platform": "linux",
+          "path": "build/ci-timeout-audit/job-127017703210.log",
+          "sha256": "f562745759f9393bf38a6b9343e1a4b1041b0723f95b2ede41f618166826be0d",
+          "conclusion": "cancelled"
+        },
+        {
+          "jobId": 127017703257,
+          "jobName": "rules (4/13)",
+          "platform": "win32",
+          "path": "build/ci-timeout-audit/job-127017703257.log",
+          "sha256": "016c8939f719005be70423857af0809a74ea6a40383790484b769bb3aed020ac",
+          "conclusion": "success"
+        },
+        {
+          "jobId": 127017703290,
+          "jobName": "engineering-posix (2/9)",
+          "platform": "linux",
+          "path": "build/ci-timeout-audit/job-127017703290.log",
+          "sha256": "d238ac93237d66e5363985103a1c45292a84e44e4aacae67f4ce9a87a8c4e19f",
+          "conclusion": "success"
+        },
+        {
+          "jobId": 127017703296,
+          "jobName": "rules (3/13)",
+          "platform": "win32",
+          "path": "build/ci-timeout-audit/job-127017703296.log",
+          "sha256": "706b44f60ac33e2f6abd8b641b7f77de6af1cf6c9b776ee54a114daea0f8562c",
+          "conclusion": "failure"
+        },
+        {
+          "jobId": 127017703331,
+          "jobName": "rules (2/13)",
+          "platform": "win32",
+          "path": "build/ci-timeout-audit/job-127017703331.log",
+          "sha256": "cbdfad9cbeadfb08328552ef088430709027d2ec6d4b39ed0e73a0adffec09aa",
+          "conclusion": "failure"
+        },
+        {
+          "jobId": 127017703336,
+          "jobName": "rules (6/13)",
+          "platform": "win32",
+          "path": "build/ci-timeout-audit/job-127017703336.log",
+          "sha256": "d1f99a46466d1003c07227ced99b753cdafbc308bcf9d04effabe434423c2688",
+          "conclusion": "success"
+        },
+        {
+          "jobId": 127017703374,
+          "jobName": "rules (10/13)",
+          "platform": "win32",
+          "path": "build/ci-timeout-audit/job-127017703374.log",
+          "sha256": "1dea86d80dde7ce8bf933bf3b0dc0f0603f206436142360aa71ac1ea8c88cabb",
+          "conclusion": "success"
+        },
+        {
+          "jobId": 127017703446,
+          "jobName": "rules (5/13)",
+          "platform": "win32",
+          "path": "build/ci-timeout-audit/job-127017703446.log",
+          "sha256": "766482204715a45888a9d5fda893588a105379f8d84ab197b4e3a805b151082d",
+          "conclusion": "cancelled"
+        },
+        {
+          "jobId": 127017703499,
+          "jobName": "rules (11/13)",
+          "platform": "win32",
+          "path": "build/ci-timeout-audit/job-127017703499.log",
+          "sha256": "1d5a08329473095212dec4a7d593d6165e6cb92a6cb75fa63dc2d23f48bc7d5f",
+          "conclusion": "success"
+        },
+        {
+          "jobId": 127017703616,
+          "jobName": "rules (9/13)",
+          "platform": "win32",
+          "path": "build/ci-timeout-audit/job-127017703616.log",
+          "sha256": "67e6d1b6164bb8ad453b1bba741834a367a26baec52e02468523905ea8e894d3",
+          "conclusion": "success"
+        }
+      ],
+      "observedFileCounts": {
+        "win32": 8,
+        "linux": 8
+      },
+      "excludedFailedCounts": {
+        "win32": 0,
+        "linux": 0
+      },
+      "raisedCounts": {
+        "win32": 8,
+        "linux": 8
+      },
+      "detailedReceipt": "tests/fixtures/ci-host-timing-calibration.json.gz"
     }
   ],
   "luaShardCalibrationUpdates": [

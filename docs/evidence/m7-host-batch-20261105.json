@@ -5,7 +5,94 @@
   "base": "87c944f3d1ae89b01470cf89d6f7cc96cc4017ab",
   "claimBase": "78e4e746a7f05754f0d838999c466cd88630368c",
   "observationHead": "281c0d87d7bab5cf0e8d557e8d53e03455bac74b",
-  "status": "local_and_independent_review_passed_hosted_delivery_pending",
+  "status": "corrections_locally_verified_independent_scoped_reviews_passed_new_hosted_delivery_pending",
+  "firstHostedFull": {
+    "runId": 41958033163,
+    "headSha": "8eae1c2e674cf01b85420d253cde67d9ef78fa2d",
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "failure",
+    "createdAt": "2026-11-05T02:52:53Z",
+    "updatedAt": "2026-11-05T03:30:27Z",
+    "jobConclusions": {
+      "success": 11,
+      "failure": 7,
+      "cancelled": 8,
+      "skipped": 1
+    },
+    "knownAssertionFailureJobs": [
+      127017703111,
+      127017703175,
+      127017703296,
+      127017703331,
+      127017703462
+    ],
+    "timeoutJobs": [
+      127017703146,
+      127017703158,
+      127017703164,
+      127017703190,
+      127017703210,
+      127017703446,
+      127017703472,
+      127017703543
+    ],
+    "observations": "Source-location assertion and repository-local historical-copy guard failures retained. Five POSIX jobs reached the original 20-minute maximum and three Windows jobs reached 30 minutes; two aggregate failures are consequences. Replacement candidate remains pending.",
+    "autoMerge": "Paused through the original merge:auto entry and read back paused; old head will not be rearmed.",
+    "sourceOwnerRegression": {
+      "beforeFailed": 1,
+      "afterPassed": 7,
+      "independentMutationProbesRejected": 5
+    },
+    "historicalCopyRegression": {
+      "guardPassedBeforeIdentityOptimization": 12,
+      "finalGuardAndIdentityPassed": 13,
+      "originalEventPassed": 2,
+      "originalStrictPresentationPassed": 2,
+      "beforeIdentityStrictPresentationDurationMs": 254180.0652,
+      "hashFirstIdentityStrictPresentationDurationMs": 122167
+    },
+    "identityProfile": {
+      "entry": "unknown destination content is never overwritten or deleted by the event materializer",
+      "configCallsPerRun": 20057,
+      "allOutcomesFalse": true,
+      "beforeIdentityMs": 8221.052599999945,
+      "hashFirstIdentityMs": 384.3404000000287,
+      "finalKeysFirstIdentityMs": 101.18870000001152,
+      "sameCallsLengthsAndOutcomes": true,
+      "freshOwnerReadsUnchanged": true,
+      "finalCompleteRosterAndNodesTestsPassed": 10,
+      "finalCompleteRosterAndNodesDurationMs": 81323.0001,
+      "finalCompleteConfigCalls": 5358308,
+      "scope": "Isolated local entry comparisons and a final complete two-file regression; not a hosted or device speedup claim."
+    }
+  },
+  "rawEvidenceArchives": [
+    {
+      "path": ".artifacts/m7-host-20261105/ui-host-impl-20261105T031551Z.zip",
+      "sha256": "82f0b38057f18189e1ef572e29a984b69b3d0afd8cb71f59375cd83e3e2578b0",
+      "files": 262,
+      "sourceBytes": 3771285074,
+      "archiveBytes": 272785826,
+      "verification": "Every member decompressed and compared by size/SHA256; manifest/member inventory and original source directory rechecked. Originals retained."
+    },
+    {
+      "path": ".artifacts/m7-host-20261105/card-drain-impl-20261105T032339Z.zip",
+      "sha256": "de41b1c73bc3abcb09958b24aae4479bf0868a030c5617ef3bfdf8f30bddb672",
+      "files": 78,
+      "sourceBytes": 106298331,
+      "archiveBytes": 20239351,
+      "verification": "Every member decompressed and compared by size/SHA256; manifest/member inventory checked. Originals retained."
+    },
+    {
+      "path": ".artifacts/m7-host-20261105/ci-timeout-audit-20261105T034531Z.zip",
+      "sha256": "1cfbbb62a1d33dea83cb395ad1630fca268821dc708cd63bb43a4ec0cc77db4c",
+      "files": 67,
+      "sourceBytes": 5514124,
+      "archiveBytes": 1112209,
+      "verification": "All 22 shard logs, annotations and locked samples preserved; every member decompressed and compared by size/SHA256. Originals retained."
+    }
+  ],
   "quality": {
     "report": "build/engineering-quality.json",
     "sha256": "342364fdf26257ff08c05774ab06b71643b956217c2da197dc1bb4d8907ad45e",
@@ -1786,12 +1873,50 @@
   },
   "ci": {
     "workflowChange": "engineering-posix-shards.strategy.max-parallel=6 only",
-    "windowsShards": 13,
+    "firstCandidateWindowsShards": 13,
+    "windowsShards": 14,
     "posixShards": 9,
-    "fullJobs": 27,
-    "currentJsFilesPerPlatform": 723,
+    "firstCandidateFullJobs": 27,
+    "fullJobs": 28,
+    "firstCandidateJsFilesPerPlatform": 723,
+    "currentJsFilesPerPlatform": 725,
     "currentRawLuaFiles": 1356,
-    "weightsAndBudgets": "unchanged",
+    "budgetsAndWorkerSafety": "unchanged",
+    "shardExpansion": {
+      "task": "TASK-75.5",
+      "windowsBefore": 13,
+      "windowsAfter": 14,
+      "sourcePlanningQueueAndDelivery": "One shared shape; exact complete 28-job evidence required. Old 13/9 success cannot certify this candidate.",
+      "retainedThirteenSlotBudgetFailure": "build/ci-calibration-review/required-22.log",
+      "thirteenSlotIdealWithSetupMs": 1894690.2307692308,
+      "fourteenSlotMaxWithSetupMs": 1764761,
+      "fourteenSlotMarginMs": 35239,
+      "modelInventoryJs": 725,
+      "modelInventoryLua": 1356,
+      "modelRunnerElapsedIncreaseMs": 840,
+      "withSixtySecondSetupSensitivityIncreaseMs": 60840,
+      "scope": "Deterministic cost-model proof with unchanged weights/worker safety/budgets, not hosted time, billing or account concurrency. Recheck if inventory changes.",
+      "finalModel": "build/ci-calibration-review/fourteen-slot-final-inventory.json"
+    },
+    "hostTimingCalibration": {
+      "task": "TASK-75.4",
+      "sourceRunId": 41958033163,
+      "sourceHead": "8eae1c2e674cf01b85420d253cde67d9ef78fa2d",
+      "completeSuccessfulObservations": 16,
+      "platformCounts": {
+        "win32": 8,
+        "linux": 8
+      },
+      "unmeasuredRetainFallback": [
+        "linux:tests/game-ui-host-modal.test.mjs",
+        "win32:tests/game-ui-host-result.test.mjs"
+      ],
+      "beforeSha256": "1c1cecdc42cad10fc342e4051f88e911722a512712fc111e892691482b019bb1",
+      "afterSha256": "d5804ac4b7a936f54f3dc479e2b4efa1d79b8b8bdf582748997a31dacc98723c",
+      "proofSha256": "70cf6cbf502ed85cf7884095cb603a92f910e9b6cb5b311cee2b4b0f1118659f",
+      "identity": "Exact same-platform complete success:true raw reporter observations, ceil/max monotonic additions; all prior map entries and non-calibration settings preserved. Complete approved source alone reverses to the original whole-source identity.",
+      "scope": "Placement correction only, not sufficient evidence of passing the hosted budget."
+    },
     "hostedCandidateResults": "pending"
   },
   "priorOverlapFailures": {
@@ -1874,5 +1999,25 @@
     "phone device results",
     "stable Full performance goal",
     "20 natural Quality Fast samples"
-  ]
+  ],
+  "correctionObservationParent": "8eae1c2e674cf01b85420d253cde67d9ef78fa2d",
+  "localCorrectionVerification": {
+    "independentCiContractCases": 100,
+    "independentProtocolCases": 82,
+    "scopesOverlapNotAdditive": true,
+    "failed": 0,
+    "skipped": 0,
+    "exactHeadBinding": "Pending commit, then authenticated final review files",
+    "queueDistinctNamesDuplicateId": "Actual RED reproduced before guard; current guard rejects, real parsed removal mutant again accepts; no budget or status-source relaxation.",
+    "sourceOwnerTests": 7,
+    "identityAndDestinationTests": 13,
+    "finalCompleteRosterAndNodesTests": 10,
+    "all328LuaSourceHashesFreshlyVerified": true
+  },
+  "ciSourceHashes": {
+    "scripts/ci-quality-shape.mjs": "b847eec27387bda8087e57c0cdf98fe3cb9c7b262d6fb4fc76f482e2059306e1",
+    "scripts/ci-test-timings.json": "d5804ac4b7a936f54f3dc479e2b4efa1d79b8b8bdf582748997a31dacc98723c",
+    "scripts/publish-merge-group.mjs": "e59953e412e38a37b649a71cb89bd18c16c327ba2a366524d4514217986f153c",
+    "tests/helpers/game-ui-extraction-source-inverse.mjs": "f59475c217786c9ad6260168f4d6511236135f14c5648f333bdd9c3480a2bedf"
+  }
 }

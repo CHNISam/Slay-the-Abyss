@@ -5,6 +5,7 @@ import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {fullGateErrors,publishFullQuality,beginFullQuality,main} from '../scripts/publish-full-quality.mjs';
 import {currentFullQualityJobs,qualityWorkflowPath} from '../scripts/verify-delivery.mjs';
+import {qualityShardJobs} from '../scripts/ci-quality-shape.mjs';
 import {beforeAutoMergeWorkflow} from './helpers/auto-merge-workflow.mjs';
 const sha=c=>c.repeat(40),repo='CHNISam/Slay-the-Abyss';
 function fixture(){return {repo,runId:7,attempt:1,number:510,head:sha('a'),base:sha('b'),tested:sha('d'),mode:'full',
@@ -16,6 +17,22 @@ function fixture(){return {repo,runId:7,attempt:1,number:510,head:sha('a'),base:
  checkout:{schemaVersion:1,attempt:1,runId:7,head:sha('a'),base:sha('b'),tested:sha('d'),event:'pull_request',prNumber:510,parents:[sha('b'),sha('a')]},
  checkoutArtifact:{id:200,name:'quality-7-1-check',expired:false,workflow_run:{id:7,head_sha:sha('a')}}};}
 test('Full gate accepts the exact running aggregate only after every actual shard succeeds',()=>assert.deepEqual(fullGateErrors(fixture()),[]));
+
+test('Full publisher cannot certify an old 27-job shape or a forged/missing fourteenth actual shard',()=>{
+ for(const mutate of [
+  e=>e.jobs=e.jobs.filter(job=>job.name!=='rules (14/14)'),
+  e=>e.jobs.push({...e.jobs.find(job=>job.name==='rules (14/14)'),id:900}),
+  e=>e.jobs.find(job=>job.name==='rules (14/14)').name='rules (14/13)',
+  e=>{const sample=e.jobs.find(job=>job.name==='rules (1/14)');e.jobs=e.jobs.filter(job=>!job.name.startsWith('rules ('));e.jobs.push(...Array.from({length:13},(_,i)=>({...sample,id:700+i,name:`rules (${i+1}/13)`})));},
+  e=>{e.jobs=e.jobs.filter(job=>job.name!=='rules (14/14)');e.jobTotal=28;e.matrix={windows:14,posix:9};},
+  e=>e.checkout.tested=sha('f'),
+ ]){
+  const e=fixture();assert.equal(e.jobs.length,28);mutate(e);
+  assert(fullGateErrors(e).length,String(mutate));let posted;
+  const result=publishFullQuality(e,(...args)=>{posted=args.find(arg=>arg.startsWith('state=')).slice(6);return JSON.stringify({state:posted,context:'full-quality'});});
+  assert.equal(result.state,'failure');assert.equal(posted,'failure');
+ }
+});
 function inheritedFullReceipt(depth=1){
  const e=fixture();e.attempt=e.run.run_attempt=e.latestRun.run_attempt=depth+1;
  e.jobs.forEach(j=>j.run_attempt=depth+1);
@@ -69,7 +86,7 @@ test('Full publisher never borrows an ambiguous, failed, different or stale exec
 test('real Full entrypoint collects and publishes inherited receipt with only the current aggregate running',()=>{
  for(const missingPrior of [false,true]){
   const e=inheritedFullReceipt(),dir=mkdtempSync(join(tmpdir(),'inherited-full-event-')),eventPath=join(dir,'event.json'),writes=[],downloads=[];
-  if(missingPrior)e.jobs=e.jobs.filter(j=>j.name!=='rules (1/13)'||j.run_attempt!==1);
+  if(missingPrior)e.jobs=e.jobs.filter(j=>j.name!==qualityShardJobs[0]||j.run_attempt!==1);
   writeFileSync(eventPath,JSON.stringify({pull_request:e.pr}));
   const env={GITHUB_EVENT_PATH:eventPath,GITHUB_EVENT_NAME:'pull_request',GITHUB_REPOSITORY:repo,
    GITHUB_SHA:e.tested,GITHUB_RUN_ID:'7',GITHUB_RUN_ATTEMPT:'2',FULL_MODE:e.mode,FULL_NEEDS:JSON.stringify(e.needs)};

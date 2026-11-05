@@ -1,6 +1,6 @@
 # 交接说明
 
-**2026-11-05 当前工程接续：** 本批已移到PR515实际合入基线87c944f3，原收口记录保留。TASK-74因新增74.17/74.18重开In Progress，当前HEAD及实际合后Full未验；GameUI、drain和POSIX并发进度见[本批证据](backlog-details/M7-HOST-BATCH-20261105.md)。此前四项查询/加载任务保持Done，找回的原schema3回执及归档见[补充证据](backlog-details/M7-QUERY-CLOSEOUT-20261105.md)。
+**2026-11-05 当前工程接续：** 本批已移到PR515实际合入基线87c944f3，原收口记录保留。TASK-74因新增74.17/74.18重开In Progress；PR516首轮Full暴露源码断言、历史副本路径与新增回归成本偏差，原自动合并已暂停，75.4/75.5经准入分别承接校准及14Windows扩容，原预算与完整覆盖保持。当前HEAD及实际合后Full未验；GameUI、drain和CI修复进度见[本批证据](backlog-details/M7-HOST-BATCH-20261105.md)。此前四项查询/加载任务保持Done，找回的原schema3回执及归档见[补充证据](backlog-details/M7-QUERY-CLOSEOUT-20261105.md)。
 
 **PR515历史收尾复核：** 已合PR514的精确源码树、PR/队列/push完整CI及当轮独审均通过，TASK-74及74.14/15/16、75.2当时通过CLI收口。TASK-75/81继续In Progress：该轮Required-wall 30分02秒、前次33分04秒，100次Quality为0个实际Fast，稳定30分钟与20样本未达；当轮无新设备证据。详见[原交付复核](backlog-details/M7-CLOSEOUT-20261105.md)。
 

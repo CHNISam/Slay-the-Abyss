@@ -62,15 +62,15 @@ export function queueFullErrors({event,env,needs,ruleset,run,latest,jobs,checkou
   run?.repository?.full_name!==expectedRepo||
   latest?.id!==run?.id||latest?.run_attempt!==run?.run_attempt)
   errors.push('Superseded or mismatched merge group Quality run');
- const seen=new Set();
+ const seen=new Set(),ids=new Set();
  if(!Array.isArray(jobs))errors.push('Missing Full job inventory');
  for(const job of jobs??[]) {
   const key=job.name+':'+job.run_attempt;
-  if(!currentFullQualityJobs.includes(job.name)||seen.has(key)||!id(job.id)||
+  if(!currentFullQualityJobs.includes(job.name)||seen.has(key)||!id(job.id)||ids.has(job.id)||
    !id(job.run_attempt)||job.run_attempt>run?.run_attempt||
    job.run_id!==run?.id||job.head_sha!==env.GITHUB_SHA)
    errors.push('Unknown, duplicate, stale or mismatched Full job: '+job.name);
-  seen.add(key);
+  seen.add(key);ids.add(job.id);
  }
  for(const name of currentFullQualityJobs) {
   const job=(jobs??[]).filter(j=>j.name===name).sort((a,b)=>b.run_attempt-a.run_attempt)[0];
