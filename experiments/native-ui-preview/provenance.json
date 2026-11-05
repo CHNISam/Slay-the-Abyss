@@ -36,5 +36,21 @@
   ],
   "nativeInputVerified": false,
   "officialImportVerified": false,
-  "completeGame": false
+  "completeGame": false,
+  "sourceAdapterFixes": [
+    {
+      "files": [
+        "battle/scene.lua",
+        "battle/test-suffix.lua"
+      ],
+      "change": "Bound incoming presentation dt to [0,0.1] and cover long-frame command/feedback recovery."
+    },
+    {
+      "files": [
+        "build.mjs",
+        "../../tests/native-ui-preview.test.mjs"
+      ],
+      "change": "Reject generated/source module name conflicts and restrict generated inputs to the two declared data modules; regenerate theme."
+    }
+  ]
 }
