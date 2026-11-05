@@ -1,0 +1,19 @@
+{
+  "constructor": "NewShopController(root, options)",
+  "rootControls": ["shop", "hud"],
+  "optionalInputState": {"gold":150,"hp":42,"maxHp":80,"sold":[]},
+  "inputStateOwnership": "Input is copied; sold may be a sorted ID array or ID=>true map. No production state is mutated.",
+  "tick": "controller:tick(dtSeconds), normally called from OnUpdate(dt); source duration .13 seconds, CSS ease cubic-bezier(.25,.1,.25,1).",
+  "reducedMotion": "options.reducedMotion=true disables transitions, matching the approved prefers-reduced-motion rule.",
+  "semanticInput": "controller:signal(controller.generation, productId or 'leave', 'enter'/'leave'/'activate'/'cancel')",
+  "nativeBindings": "handlers[id].enter/leave/activate are exactly the functions bound to native cursor callbacks. Direct Lua calls are not genuine input-hit tests.",
+  "navigationCallback": "options.onNavigate('map', snapshot)",
+  "navigationSnapshot": {"gold":150,"hp":42,"maxHp":80,"sold":[],"sourcePage":"shop","generation":2,"fixtureOnly":true},
+  "navigationOrder": "Deactivate shop, increment generation, clear all motion/hover/brightness, hide shop, rebind stale-safe callbacks, create detached snapshot, invoke onNavigate once.",
+  "navigationOwner": "Parent must display its intended map slice. This adapter never displays a substitute end page and does not prove connection to a production Run map.",
+  "externalDismissal": "Call controller:destroy() before another owner replaces or leaves this room; late callbacks are invalidated.",
+  "reentry": "controller:enter() retains this fixture's balance/sold state and creates a fresh generation. For a new approved room sample create a new controller instead.",
+  "additionalLocalTextureAlias":103146,
+  "productionRules":false,
+  "pointerKeyboardFocusVerified":false
+}
