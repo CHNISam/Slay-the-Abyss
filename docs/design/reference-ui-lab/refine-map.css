@@ -1,0 +1,115 @@
+/* B: engraved expedition chart. Existing route interactions remain unchanged. */
+.B .map-screen{background:radial-gradient(ellipse at 51% 25%,#41505b 0%,#202d38 42%,#10161e 100%)}
+.B .map-screen:before{inset:44px 0 0;background:linear-gradient(90deg,#111923 0 16%,transparent 25% 75%,#111923 84%),repeating-linear-gradient(90deg,transparent 0 138px,#d7c7a008 139px 140px,transparent 141px 278px)}
+.B .mapscroll{left:222px;right:220px}.B .atlas{width:850px;background:linear-gradient(90deg,#736d61 0%,#b2a992 4%,#c8c0a9 13%,#d1c9b3 50%,#c1b9a3 87%,#928a78 97%,#635f56 100%);clip-path:polygon(2% 0,98% 0,97.5% 16%,98.5% 34%,97.5% 51%,98.5% 69%,97.5% 85%,98% 100%,2% 100%,1.4% 82%,2.4% 64%,1.4% 46%,2.3% 28%,1.5% 12%);box-shadow:inset 0 0 70px #4a423b55}
+.B .paper-grain{opacity:.16;mix-blend-mode:multiply}.B .map-lines path{stroke:#726c5e;opacity:.7;stroke-width:2;stroke-dasharray:3 9}.B .map-lines path.traveled{stroke:#394854;opacity:.9;stroke-width:2.8;stroke-dasharray:none}.B .map-lines path.preview{stroke:#aa6a2b;opacity:1;stroke-width:3.2}
+.B .map-node{color:#4c5960}.B .map-node.future{opacity:.68}.B .map-node.visited{color:#324a53}.B .map-node.current{color:#9a642a}.B .map-node.available{color:#9d6224;filter:drop-shadow(0 1px 0 #ffebc8)}.B .map-node.current:after{border-color:#9a642a;box-shadow:0 0 0 3px #d5c59a88}.B .map-node:hover{color:#ba7121;filter:drop-shadow(0 0 4px #fff3ce)}
+.B .tower-axis{opacity:.1;filter:sepia(.7)}.B .seal{opacity:.24;border-color:#846d49}.B .map-legend{left:1014px;top:171px;width:232px;padding:22px 18px;background:linear-gradient(140deg,#d4dfd9,#a6bbb7 55%,#8fa4a1);color:#263d41;box-shadow:0 10px 24px #02090c88;clip-path:polygon(3% 0,97% 1%,100% 5%,99% 97%,3% 100%,0 96%,1% 4%);border:0;font:17px Georgia,'Noto Serif CJK SC',serif}.B .map-legend .legend-item{gap:15px;margin-bottom:13px}.B .map-legend svg{color:#4c6865;width:25px;height:25px}
+.B .map-info{left:32px;top:104px;width:170px}.B .map-info h2{color:#e9d4a0;font-size:27px;letter-spacing:4px;line-height:1.5}.B .map-info p{color:#c0c7c1;font-size:14px;line-height:1.8}.B .map-status{color:#46544b;text-shadow:0 1px #e9e0c4}.B .map-tools button{background:#283b41;border-color:#a9b9a7;color:#e6e2d4}
+/* Existing project artwork replaces the placeholder on the character screen. */
+.menus.b.character .project-portrait{position:absolute;left:145px;top:102px;width:490px;height:490px;background-image:linear-gradient(90deg,#111923b8 0%,transparent 20% 75%,#111923b8 100%),linear-gradient(0deg,#111923 0%,transparent 25%),url('./traveler-reference.png');background-size:cover;background-position:center 20%;border:1px solid #b6a16c66;box-shadow:0 12px 35px #0008;mask-image:linear-gradient(180deg,#000 75%,transparent 100%)}
+/* Visual hierarchy pass: preserve route graph and existing icon shapes. */
+.B .map-node.available svg{scale:1.16}
+.B .map-node.current:after{border-width:5px;box-shadow:0 0 0 3px #d5c59a88,0 0 0 5px #74563155}
+.B .map-legend:before{height:11px;top:1px;border:1px solid #667d7c;background:linear-gradient(#c6d5d0,#819895 48%,#b6cac4);box-shadow:0 2px 3px #354b4b66}
+.B .map-legend:after{content:'';position:absolute;left:1%;right:1%;bottom:0;height:8px;border:1px solid #6c8280;background:linear-gradient(#a0b5af,#718783 55%,#c2d1cb);box-shadow:0 -2px 3px #354b4b55}
+/* Reference study: ordinary map marks stay small; chosen rooms remain legible. */
+.A .map-node.future svg,.A .map-node.visited svg{scale:.58}
+.A .map-node.visited:after{inset:8px;border-width:3px}
+.A .map-node.current svg{scale:.72}
+.A .map-node.current:after{inset:4px;border-width:3px}
+.A .map-node.available svg{scale:1.06}
+/* Battle reference pass: create more battlefield breathing room and stronger controls. */
+.stage .battle-screen .hand{transform:scale(.90);transform-origin:center bottom;bottom:0}
+.stage .battle-screen.a .energy{background:radial-gradient(circle at 38% 28%,#ffe1a1 0%,#d58436 35%,#713319 70%,#281911 100%);border-color:#a59075;box-shadow:0 0 0 5px #392c27,0 0 15px #bb6b3244,inset 0 0 13px #ffcc83;text-shadow:1px 2px #4a2112}
+.stage .battle-screen.a .end-turn{border-radius:2px;clip-path:polygon(7% 0,93% 0,100% 15%,100% 85%,93% 100%,7% 100%,0 85%,0 15%);border-color:#b29b73;box-shadow:inset 0 0 0 3px #1c2930,0 4px 0 #15202b}
+.stage .battle-screen.b .scene-vignette{background:radial-gradient(ellipse at 51% 43%,#664e301c 0%,transparent 33%,#050a11c2 100%)}
+.stage .battle-screen.b .hero .traveler-battle-art{position:absolute;left:-24px;top:-15px;width:225px;height:250px;object-fit:contain;pointer-events:none}
+.stage .battle-screen.b .hero .traveler-battle-art{position:static;display:block;width:180px;height:230px;object-fit:contain}
+/* Independent review: restore card and health-label readability after scaling. */
+.stage .battle-screen .hand{transform:scale(.95)}
+.stage .battle-screen.b .card-desc{font-size:16px;line-height:1.35;color:#e4ded0}
+.stage .battle-screen.b .card-kind{font-size:12px;color:#cfc3a8}
+.stage .battle-screen.b .health{height:16px;font-size:13px;line-height:14px}
+/* Reference menu: mixed-case title and compact lower-left menu. */
+.stage .menus.a .titleblock{top:132px;left:412px;width:590px}
+.stage .menus.a .titleblock h1{font-family:Georgia,serif;font-size:104px;line-height:.84;letter-spacing:-3px;text-shadow:2px 3px 0 #3a2a17,0 5px 10px #080808}
+.stage .menus.a .logo-the{display:inline-block;font-size:.36em;letter-spacing:0;margin-left:15px;vertical-align:baseline}
+.stage .menus.a .logo-spire{display:inline-block;margin-left:58px}
+.stage .menus.a .mainlinks{top:408px;left:82px;gap:2px}
+.stage .menus.a .text-link{font-size:22px;line-height:1.28;font-weight:bold;letter-spacing:0}
+.stage .battle-screen.b .card-art .game-card-art{display:block;width:100%;height:100%;object-fit:cover}
+/* Six original platform catalog silhouettes, reused as state-colored masks. */
+.B .native-icon{display:block;width:100%;height:100%;background-color:currentColor;mask-size:contain;mask-position:center;mask-repeat:no-repeat;-webkit-mask-size:contain;-webkit-mask-position:center;-webkit-mask-repeat:no-repeat}
+.B .map-legend .native-icon{width:25px;height:25px;flex:none;color:#4c6865}
+.B .map-node.available .native-icon{scale:1.16}
+/* Keep only playable UI copy; experiment labels remain outside the game canvas. */
+.stage .variant-label,.stage .menus .world-caption,.stage .menus .version,.stage .menus [data-action="credits"],.stage .battle-screen .combat-guide,.stage .battle-screen .demo-mark,.stage .map-info,.stage .map-tools,.stage .map-status{display:none}
+/* Near-parallel edges: paper no longer alternates between broad and narrow as it scrolls. */
+.B .atlas{clip-path:polygon(1.5% 0,98.5% 0,98.55% 20%,98.5% 40%,98.55% 60%,98.5% 80%,98.55% 100%,1.45% 100%,1.5% 80%,1.45% 60%,1.5% 40%,1.45% 20%)}
+.stage.B .gamehud [data-hud="deck"]{display:inline-flex;align-items:center;gap:3px}
+.stage.B .gamehud .deck-icon{width:30px;height:30px;object-fit:contain}
+/* Shared back-button tokens across map, character, menu, and deck. */
+.stage{--back-bg:#793d40;--back-text:#ead3a1;--back-border:#b5955d;--back-shadow:#44292c}
+.stage.B{--back-bg:#292b2d;--back-text:#e3b866;--back-border:#9a7e4f;--back-shadow:#151b20}
+:is(.stage.A,.stage.B) :is(.menus,.map-screen,.battle-screen) :is(.ribbon,.deck-back){position:absolute;left:0;bottom:34px;width:175px;height:48px;min-width:175px;padding:0 35px 0 24px;border:0;border-top:1px solid var(--back-border);border-bottom:1px solid var(--back-border);border-radius:0;background:var(--back-bg);color:var(--back-text);clip-path:polygon(0 0,100% 0,90% 50%,100% 100%,0 100%);font:20px Georgia,'Noto Serif CJK SC',serif;letter-spacing:2px;text-shadow:1px 2px var(--back-shadow);box-shadow:0 3px var(--back-shadow)}
+:is(.stage.A,.stage.B) :is(.menus,.map-screen,.battle-screen) :is(.ribbon,.deck-back):hover{filter:brightness(1.18)}
+.stage .map-screen .atlas,.stage .map-screen .map-lines{height:1510px}
+/* Card states based on observed reference: hover lifts and grows; aiming returns nearer hand size. */
+.stage .battle-screen .hand .playing-card:hover,.stage .battle-screen .hand .playing-card:focus-visible{transform:translateY(-112px) rotate(0) scale(1.30);z-index:30}
+.stage .battle-screen .hand .playing-card.selected,.stage .battle-screen .hand .playing-card.selected:hover{transform:translateY(-38px) rotate(0) scale(1.02);z-index:31}
+.stage .battle-screen .deck-grid .playing-card:hover,.stage .battle-screen .deck-grid .playing-card:focus-visible{transform:scale(1.30);z-index:30}
+.stage .bless-screen{position:absolute;inset:44px 0 0;background:radial-gradient(ellipse at 72% 45%,#3f4544 0%,#1a242b 42%,#0c121a 100%);overflow:hidden;color:#ece6d5}
+.stage .bless-haze{position:absolute;inset:0;background:linear-gradient(155deg,transparent 48%,#080f17aa 80%),repeating-linear-gradient(95deg,transparent 0 150px,#b6c2b307 151px 153px,transparent 154px 270px)}
+.stage .bless-traveler{position:absolute;left:110px;bottom:52px;width:190px;height:300px;object-fit:contain}
+.stage .bless-npc{position:absolute;right:132px;top:115px;width:270px;height:270px;display:grid;place-items:center;border:1px solid #a9976d55;transform:rotate(45deg);background:radial-gradient(#76684a55,transparent 70%)}
+.stage .bless-npc img{width:155px;height:155px;object-fit:contain;transform:rotate(-45deg)}
+.stage .bless-speech{position:absolute;left:365px;top:116px;width:380px;min-height:112px;padding:27px 31px;border-radius:14px;background:#e5ddc7;color:#34312d;font:22px/1.6 Georgia,'Noto Serif CJK SC',serif;box-shadow:0 5px 16px #0008}
+.stage .bless-speech:after{content:'';position:absolute;right:-14px;bottom:20px;border-width:13px 0 13px 16px;border-style:solid;border-color:transparent transparent transparent #e5ddc7}
+.stage .bless-options{position:absolute;left:110px;bottom:58px;display:flex;flex-direction:column;gap:12px;width:520px}
+.stage .bless-options button{min-height:56px;padding:12px 22px;text-align:left;color:#f0dfbb;background:linear-gradient(90deg,#3c3332,#252a30);border:1px solid #a88d5c;font:20px Georgia,'Noto Serif CJK SC',serif;box-shadow:0 3px 7px #0008;cursor:pointer}
+.stage .bless-options button:hover,.stage .bless-options button:focus-visible{background:#574b3d;outline:2px solid #ead396;outline-offset:2px}
+.stage .battle-screen:has(.aim-line) .notice{visibility:hidden}
+.stage .menus.b.menu [data-action="settings"]{display:none}
+.stage .pause-panel{position:absolute;left:440px;top:190px;width:400px;padding:32px 42px;background:#1c2430f2;border:1px solid #a18d65;box-shadow:0 15px 45px #000a;text-align:center}
+.stage .pause-panel h1{font:27px Georgia,'Noto Serif CJK SC',serif;color:#e5d2a3;margin:0 0 26px}
+.stage .pause-panel button{display:block;width:100%;padding:13px;margin:12px 0;color:#eadab8;background:#303640;border:1px solid #8d7b59}
+.stage .pause-panel button:hover,.stage .pause-panel button:focus-visible{background:#4a463a;outline:2px solid #e1c98e}
+.stage .menus.b.settings{background:transparent}
+.stage .menus.b.settings .landscape,.stage .menus.b.settings .menu-vignette{display:none}
+.stage .menus.b.settings .settings-veil{z-index:0}
+.stage .menus.b.settings .pause-panel,.stage .menus.b.settings .confirm{z-index:1}
+.stage .menus.b.character .char-description,.stage .menus.b.character .eyebrow,.stage .menus.b.menu .subtitle{display:none}
+.A .atlas{clip-path:polygon(1.5% 0,98.5% 0,98.55% 20%,98.5% 40%,98.55% 60%,98.5% 80%,98.55% 100%,1.45% 100%,1.5% 80%,1.45% 60%,1.5% 40%,1.45% 20%)}
+.stage .paused-under{z-index:0;isolation:isolate}
+.stage:has(.paused-under)>.page:not(.paused-under){z-index:50}
+/* Material and hierarchy for playable cards: preserve project art and type data. */
+.stage .battle-screen.b .playing-card{border:4px solid #706659;border-radius:10px 10px 8px 8px;background:linear-gradient(115deg,#665548,#2b2c32 25%,#181d27 70%,#5a4c3c);box-shadow:0 7px 13px #000a,inset 0 0 0 2px #c4ad7966,inset 0 0 12px #05080cc9}
+.stage .battle-screen.b .card-name{top:7px;left:3px;right:3px;line-height:24px;letter-spacing:1px;color:#f5e8cc;background:linear-gradient(90deg,#504739,#736248,#504739);border:1px solid #a9936d;border-radius:3px;text-shadow:0 1px 2px #18110c}
+.stage .battle-screen.b .card-cost{top:-11px;left:-12px;width:33px;height:33px;line-height:29px;border:2px solid #bda477;border-radius:50%;background:radial-gradient(circle at 35% 28%,#f6d480,#bf8031 55%,#604028);color:#fff6dd;font-weight:bold;box-shadow:0 2px 4px #000b;text-shadow:0 1px 2px #5c351c}
+.stage .battle-screen.b .card-art{top:36px;left:5px;right:5px;height:78px;border:2px solid #594839;box-shadow:inset 0 0 0 1px #d9c29a66}
+.stage .battle-screen.b .card-kind{top:108px;left:16px;right:16px;line-height:16px;color:#f0e3c8;background:linear-gradient(90deg,#5f503d,#8a7856,#5f503d);border:1px solid #b49a6c;font-size:11px;letter-spacing:2px}
+.stage .battle-screen.b .card-desc{top:127px;bottom:5px;left:5px;right:5px;padding:9px 5px;background:linear-gradient(#e1d5b8,#c8b994);border:1px solid #796b50;border-radius:3px;color:#2d2924;font:16px/1.35 Georgia,'Noto Serif CJK SC',serif}
+.stage .battle-screen.b .card-desc b{color:#38291e}
+.stage.A .battle-screen .notice{display:none}
+.stage .battle-screen .detail-shade{gap:0}
+.stage .battle-screen .detail-shade>.playing-card{transform:scale(2.45);margin:0;pointer-events:none}
+.stage .battle-screen .detail-nav{position:absolute;top:46%;width:62px;height:72px;border:0;background:none;color:#cfaa70;font:64px Georgia,serif;text-shadow:0 2px #27130d;cursor:pointer}
+.stage .battle-screen .detail-nav.prev{left:210px}.stage .battle-screen .detail-nav.next{right:210px}
+.stage .battle-screen .detail-close{position:absolute;bottom:20px;right:32px;padding:8px 20px;border:1px solid #a89168;background:#252c35;color:#e6d9bd}
+.stage .battle-screen .detail-shade>.playing-card{transform-origin:center center}
+.stage .battle-screen.b .card-desc{font-size:15px;letter-spacing:-.3px}
+/* Empty illustration wells: original type silhouettes, no artwork. */
+.stage .battle-screen.b .playing-card .card-art{background:radial-gradient(ellipse at 50% 25%,#504a41,#292a2c 78%);border:2px solid #75644c;box-shadow:inset 0 2px 8px #080a0c99}
+.stage .battle-screen.b .playing-card.attack .card-art{clip-path:polygon(0 0,100% 0,100% 76%,50% 100%,0 76%)}
+.stage .battle-screen.b .playing-card.skill .card-art{border-radius:9px}
+.stage .battle-screen.b .playing-card.power .card-art{border-radius:50%}
+.stage .battle-screen.b .playing-card .card-name{clip-path:polygon(0 10%,8% 0,92% 0,100% 10%,96% 100%,83% 90%,17% 90%,4% 100%)}
+.stage .battle-screen.b .hand .playing-card:not(.spent){box-shadow:0 0 0 2px #67b9b1,0 0 12px #57c0b588,0 7px 13px #000a,inset 0 0 0 2px #c4ad7966}
+/* Existing platform type icons, not newly illustrated card art. */
+.stage .battle-screen .card-art .native-card-icon{display:block;position:absolute;width:40px;height:40px;object-fit:contain;left:50%;top:50%;transform:translate(-50%,-50%)}
+/* Reference refinement: quiet playable glow, stronger hover, compact type banner. */
+.stage .battle-screen.b .card-kind{left:23px;right:23px;top:111px;letter-spacing:1px;font-weight:600}
+.stage .battle-screen.b .card-name{font-weight:600;text-shadow:0 1px 2px #18110c}
+.stage .battle-screen.b .hand .playing-card:not(.spent){box-shadow:0 0 0 1.5px #65a9a2,0 0 7px #52aaa45c,0 7px 13px #000a,inset 0 0 0 2px #c4ad7966}
+.stage .battle-screen.b .hand .playing-card:not(.spent):hover,.stage .battle-screen.b .hand .playing-card:not(.spent):focus-visible{box-shadow:0 0 0 2px #a5e4d8,0 0 15px #66d6c5a0,0 7px 13px #000a,inset 0 0 0 2px #c4ad7966}

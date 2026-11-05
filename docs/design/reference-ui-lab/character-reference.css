@@ -1,0 +1,80 @@
+/* Isolated 1280 × 720 browser study. No native performance claim. */
+.character-reference {
+  position:absolute; inset:0; overflow:hidden; isolation:isolate;
+  color:#f3dec0; background:#252735;
+  font-family:Georgia,"Noto Serif CJK SC","Songti SC",serif;
+  user-select:none;
+}
+.character-reference * {box-sizing:border-box}
+.character-reference .cr-landscape {
+  position:absolute; inset:0; z-index:-4;
+  background:url('./menu-reference-background.png') 26% center / cover no-repeat;
+}
+.character-reference .cr-landscape-shade {
+  position:absolute; inset:0; z-index:-3;
+  background:linear-gradient(90deg,#242532a6 0%,#2927356b 43%,#282b3352 100%),linear-gradient(0deg,#252735 0%,transparent 44%,#25273533 100%);
+}
+.character-reference .cr-art {
+  position:absolute; z-index:-2; top:-91px; left:453px;
+  width:920px; height:1380px; object-fit:contain; pointer-events:none;
+}
+.character-reference .cr-foreground-shade {
+  position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:linear-gradient(0deg,#242532 0%,#242532e6 7%,#24253252 24%,transparent 42%),linear-gradient(90deg,#25263470 0%,#25263422 32%,transparent 51%);
+}
+.character-reference .cr-header {position:absolute;left:43px;right:50px;top:19px;height:43px;display:flex;align-items:center;gap:19px}
+.character-reference .cr-heading-emblem {font-size:51px;line-height:1;color:#ecd6b6;text-shadow:0 1px 0 #fef0d5}
+.character-reference .cr-heading-divider {height:34px;width:1px;background:#e8d1b48c}
+.character-reference .cr-header h1 {margin:0;font:700 27px/1.1 Georgia,"Noto Serif CJK SC",serif;letter-spacing:3px;color:#f3dec0;text-shadow:0 2px 3px #1516227d}
+.character-reference .cr-heading-rule {width:146px;height:2px;margin-left:-3px;background:linear-gradient(90deg,#ccaa7a,transparent)}
+.character-reference .cr-copy {position:absolute;left:75px;top:126px;width:503px;text-shadow:0 2px 4px #12121d7d}
+.character-reference .cr-copy h2 {margin:0;font:700 53px/1.25 Georgia,"Noto Serif CJK SC",serif;letter-spacing:1px;color:#f7e4c7;white-space:nowrap}
+.character-reference .cr-stats {display:flex;align-items:center;gap:25px;height:34px;margin-top:26px;font-size:19px;line-height:1;font-weight:700;letter-spacing:0;white-space:nowrap;text-shadow:-1px -1px 0 #332b27,1px 1px 0 #332b27,2px 2px 1px #15151b}
+.character-reference .cr-health,.character-reference .cr-gold {display:flex;align-items:center;gap:9px}
+.character-reference .cr-health {color:#ed6460}
+.character-reference .cr-gold {color:#e4c65c}
+.character-reference .cr-heart {display:flex;width:24px;height:23px;color:#e94e45}
+.character-reference .cr-coin {display:flex;width:25px;height:28px;color:#d1d0bd}
+.character-reference .cr-description {font-size:23px;line-height:1.55;letter-spacing:.7px;margin:35px 0 23px;font-weight:600;color:#eedbbf}
+.character-reference .cr-relic {display:flex;gap:23px;align-items:center;border-top:1px solid #dec29a70;padding-top:23px;max-width:430px}
+.character-reference .cr-relic-icon {width:67px;height:76px;object-fit:contain;flex:none}
+.character-reference .cr-relic-caption {display:block;font-size:18px;letter-spacing:1px;margin-bottom:3px;color:#e6cdb0}
+.character-reference .cr-relic h3 {margin:0 0 3px;font-size:29px;line-height:1.35;font-weight:700;letter-spacing:2px;color:#f4d9a7}
+.character-reference .cr-relic p {margin:0;font-size:17px;line-height:1.6;letter-spacing:.4px;white-space:nowrap;color:#e8d1b2}
+.character-reference .cr-characters {position:absolute;left:399px;bottom:81px;display:flex;align-items:center;gap:20px}
+.character-reference .cr-character {
+  position:relative;display:grid;place-items:center;flex:none;
+  width:101px;height:101px;border:0;padding:10px;
+  background:linear-gradient(135deg,#64616e,#41434e 60%,#72707b);
+  border-radius:10px;color:#bdb1a0;box-shadow:inset 0 0 0 2px #bcb4ae80;
+}
+.character-reference .cr-character-frame {position:absolute;inset:5px;border:1px solid #a99f9680;clip-path:polygon(9px 0,calc(100% - 9px) 0,100% 9px,100% calc(100% - 9px),calc(100% - 9px) 100%,9px 100%,0 calc(100% - 9px),0 9px);pointer-events:none}
+.character-reference .cr-character-frame:before {content:"";position:absolute;inset:3px;border:1px solid #cfc4b524;clip-path:inherit}
+.character-reference .cr-character.is-selected {width:124px;height:124px;padding:0;border:3px solid #ffe0a2;border-radius:9px;background:linear-gradient(135deg,#45434e,#303341 72%,#494655);box-shadow:inset 0 0 0 3px #b68b4d,0 0 0 2px #9d7a4e,0 0 11px 4px #dba44b80}
+.character-reference .cr-character.is-selected .cr-character-frame {inset:6px;border-color:#957749;box-shadow:none}
+/* Preserve the supplied icon's exact alpha and full bounds. Match the
+   warm-gold linework in the user's selection-screen reference, not the
+   gray source RGB. The original PNG remains byte-for-byte unchanged. */
+.character-reference .cr-constellation {display:block;width:100%;height:100%;background-color:#ffe0a2;-webkit-mask:url('./constellation-exact.png') center / contain no-repeat;mask:url('./constellation-exact.png') center / contain no-repeat;opacity:1;mix-blend-mode:normal;clip-path:none;transform:none;pointer-events:none}
+.character-reference .cr-selection-spark {position:absolute;right:0;top:43px;transform:translateX(57%);font-size:21px;color:#fff2ce;text-shadow:0 0 7px #ffc879}
+.character-reference .cr-lock {width:30px;height:35px;display:flex;color:#c7baa8}
+.character-reference .cr-character.is-locked:disabled {opacity:.72;cursor:default}
+.character-reference .cr-character.is-selected:disabled {opacity:1;cursor:default}
+.character-reference .cr-character.is-selected:hover {box-shadow:inset 0 0 0 3px #b68b4d,0 0 0 2px #dbb576,0 0 15px 5px #eebd6d9c}
+.character-reference .cr-action {
+  position:absolute;bottom:99px;height:60px;display:flex;align-items:center;justify-content:center;
+  border:0;border-radius:0;background:none;color:#fff0b1;
+  font:700 26px/1 Georgia,"Noto Serif CJK SC",serif;letter-spacing:1px;
+  text-shadow:-1px -1px 0 #3c3026,1px -1px 0 #3c3026,-1px 1px 0 #3c3026,2px 2px 0 #3c3026,3px 3px 1px #15151b80;
+  box-shadow:none;cursor:pointer;isolation:isolate;
+}
+.character-reference .cr-action-banner {position:absolute;inset:0;z-index:-1;pointer-events:none;filter:drop-shadow(2px 5px 1px #10101555)}
+.character-reference .cr-action-banner svg {display:block;width:100%;height:100%;overflow:visible}
+.character-reference .cr-action-label {position:relative;top:6px;pointer-events:none}
+.character-reference .cr-action:hover:not(:disabled) .cr-action-banner,.character-reference .cr-action:focus-visible .cr-action-banner {filter:brightness(1.18) drop-shadow(2px 5px 1px #10101555)}
+.character-reference .cr-action:active:not(:disabled) .cr-action-banner {filter:brightness(.92)}
+.character-reference .cr-action:disabled {opacity:1;cursor:default}
+.character-reference .cr-back {left:0;width:180px;padding:0 20px 0 0}
+.character-reference .cr-start {right:0;width:180px;padding:0 0 0 20px}
+.character-reference button:focus-visible {outline:2px solid #fff6d9;outline-offset:5px}
+@media(prefers-reduced-motion:reduce){.character-reference *{animation:none!important;transition:none!important}}

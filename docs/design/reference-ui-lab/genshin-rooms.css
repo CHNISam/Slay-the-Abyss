@@ -1,0 +1,111 @@
+/* Original STS composition, sampled palette; no embedded screenshots.
+   Art, texture and small item icons remain explicitly documented placeholders. */
+.gr-room{position:absolute;inset:0;overflow:hidden;isolation:isolate;background:#101515;color:#f1ecda;font-family:Georgia,'Noto Serif CJK SC',serif;text-shadow:1px 2px 2px #000}
+.gr-room *{box-sizing:border-box}
+.gr-room h1,.gr-room h2,.gr-room p{margin:0}
+.gr-room main{display:block;min-height:0;gap:0;align-items:normal;justify-content:normal}
+.gr-room button{font:inherit;cursor:pointer;color:inherit;transition:transform .13s,filter .13s;text-shadow:inherit}
+.gr-room button:disabled{cursor:default}
+.gr-room button:focus-visible{outline:3px solid #f0d75e;outline-offset:5px}
+.gr-body{position:absolute;inset:48px 0 0}
+.gr-sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.gr-leave{position:absolute;left:-8px;bottom:95px;min-width:187px;padding:12px 34px 12px 27px;background:#813633;border:3px solid #b59c52;border-left:0;border-radius:0 7px 28px 0;color:#f4de8e!important;font-size:25px!important;z-index:6;box-shadow:inset 0 3px #a25c4c}
+.gr-leave:hover{filter:brightness(1.2)}
+.gr-card{position:relative;width:100%;aspect-ratio:600/838;isolation:isolate;color:#efe8d6;font-family:Georgia,'Noto Serif CJK SC',serif;text-shadow:1px 1px 2px #28201e}
+.gr-card-base,.gr-card-frame{position:absolute;width:100%;height:100%;inset:0;object-fit:fill;pointer-events:none}
+.gr-card-base{z-index:-2}.gr-card-frame{z-index:0}
+.gr-card-banner{position:absolute;left:1%;top:1%;width:98%;height:17%;object-fit:fill;z-index:2;pointer-events:none}
+.gr-card strong{position:absolute;top:5%;left:16%;width:70%;text-align:center;font-size:18px;z-index:3;font-weight:normal;white-space:nowrap}
+.gr-card-icon{position:absolute;width:34%;height:26%;object-fit:contain;top:21%;left:33%;z-index:1;opacity:.85}
+.gr-card-kind{position:absolute;left:20%;top:52%;width:60%;text-align:center;font-size:10px;z-index:3}
+.gr-card p{position:absolute;left:11%;right:11%;top:64%;text-align:center;font-size:13px;line-height:1.45;z-index:3}
+.gr-cost{position:absolute;left:-5%;top:-3%;width:24%;height:18%;display:grid;place-items:center;font-size:27px;color:#fff;font-weight:bold;text-shadow:2px 2px #272320;z-index:4;background:url('sts-mana-colorless.svg') center/contain no-repeat}
+.gr-upgraded strong{color:#a7e238}
+.gr-price{display:block;color:#f2eee2;font-size:19px;line-height:1.3;margin-top:8px;text-align:center;text-shadow:1px 2px #242827}
+.gr-price::before{content:'●';display:inline-block;transform:scaleX(1.4);font-size:15px;color:#d6ad36;margin-right:13px;text-shadow:1px 2px #6a542a}
+/* Store: five colored cards above two colorless cards; relics, potions and
+   card removal occupy the lower half. There is no catalog or detail panel. */
+.gr-shop{background:#080c0c}
+.gr-shop-sheet{position:absolute;inset:0 76px 12px;background:#52644a;border:6px solid #8d9d7d;border-top:0;border-radius:0 0 13px 11px;box-shadow:0 7px #2e392f}
+.gr-products-top{position:absolute;left:110px;right:80px;top:86px;display:flex;justify-content:space-between;gap:32px}
+.gr-products-bottom{position:absolute;left:110px;top:365px;display:flex;gap:38px}
+.gr-product-slot{width:150px;height:244px;flex:0 0 150px}
+.gr-product{width:150px;padding:0;background:none;border:0;position:relative}
+.gr-product .gr-card strong{font-size:15px}
+.gr-product .gr-card p{font-size:11px}
+.gr-product .gr-cost{font-size:23px}
+.gr-product:hover:not(:disabled),.gr-product:focus-visible:not(:disabled){z-index:5;transform:scale(1.14);transform-origin:center center}
+.gr-room .gr-product:disabled{opacity:1;filter:none}
+.gr-product:disabled .gr-price{color:#dd7e71}
+.gr-shop-small-stock{position:absolute;left:520px;top:385px;width:275px}
+.gr-relic-stock,.gr-potion-stock{display:flex;justify-content:space-between;gap:25px}
+.gr-potion-stock{margin-top:77px}
+.gr-stock-placeholder{width:70px;text-align:center}
+.gr-stock-placeholder img{display:block;width:42px;height:48px;object-fit:contain;margin:auto;opacity:.8}
+.gr-stock-placeholder .gr-price{font-size:17px;white-space:nowrap}
+.gr-stock-placeholder .gr-price::before{margin-right:8px;font-size:12px}
+.gr-removal-stock{position:absolute;right:77px;top:381px;width:147px;text-align:center}
+.gr-removal-card{height:208px;background:#68656c;border:7px solid #7d7c81;box-shadow:4px 5px #46464b;border-radius:6px;padding:10px 5px}
+.gr-removal-card strong{color:#eed689;font-size:19px;font-weight:normal;line-height:1.25}
+.gr-removal-card img{display:block;width:76px;height:92px;object-fit:contain;margin:23px auto 0;opacity:.8}
+/* Rest site: upper-middle two choices, open lower scene, fire at lower right. */
+.gr-camp{background:linear-gradient(0deg,#39352a 0%,#231e19 28%,#181413 29%,#211816 100%)}
+.gr-camp-scene{position:absolute;inset:0}
+.gr-campfire-placeholder{position:absolute;right:35px;bottom:-30px;width:525px;height:490px;filter:drop-shadow(0 -10px 50px #da9b3044)}
+.gr-camp-traveler{position:absolute;left:-40px;bottom:-200px;width:500px;height:650px;object-fit:contain;object-position:top;filter:brightness(.65)}
+.gr-campfire-placeholder img{width:230px;height:270px;object-fit:contain;opacity:.26;filter:sepia(1)}
+.gr-camp-dialog{position:absolute;left:344px;top:72px;width:600px;min-height:310px;text-align:center;isolation:isolate}
+.gr-camp-dialog::before{content:'';position:absolute;inset:-38px -30px -12px;z-index:-1;background:radial-gradient(ellipse,#d1cabe 15%,#c5beb3b8 42%,#c5beb300 71%);filter:blur(15px)}
+.gr-camp-dialog h2{font-size:31px;font-weight:bold;color:#eeeadd;text-shadow:-2px -2px #323a3e,2px -2px #323a3e,-2px 2px #323a3e,2px 2px #323a3e}
+.gr-camp-choices{display:flex;justify-content:center;gap:66px;margin-top:31px;position:relative;padding-bottom:65px}
+.gr-camp-choices>button{width:150px;padding:0;border:0;background:none}
+.gr-camp-option-art{display:grid;place-items:center;width:150px;height:105px;border:6px solid;border-radius:4px;font-size:44px;font-style:italic;box-shadow:4px 5px #39332a55}
+.gr-rest-art{background:#4f8c4c;border-color:#85aa68;color:#ede779;transform:rotate(-2deg)}
+.gr-smith-art{background:#9a6268;border-color:#96646a;transform:rotate(1deg)}
+.gr-smith-art img{width:76px;height:76px;object-fit:contain;opacity:.85}
+.gr-camp-choices>button:hover .gr-camp-option-art,.gr-camp-choices>button:focus-visible .gr-camp-option-art{outline:5px solid #f5db52;filter:brightness(1.1)}
+.gr-camp-choices strong{display:block;color:#efd377;font-size:24px;font-weight:normal;margin-top:13px}
+.gr-camp-description{position:absolute;left:0;right:0;bottom:2px;font-size:19px;color:#f0ecdb;visibility:hidden;text-shadow:-1px -1px #292b28,1px 2px #292b28}
+.gr-camp-choices>button:first-child .gr-camp-description{visibility:visible}
+.gr-camp-choices:has(button:nth-child(2):hover)>button:first-child .gr-camp-description,.gr-camp-choices:has(button:nth-child(2):focus-visible)>button:first-child .gr-camp-description{visibility:hidden}
+.gr-camp-choices>button:hover .gr-camp-description,.gr-camp-choices>button:focus-visible .gr-camp-description{visibility:visible}
+.gr-camp-result{margin-top:95px!important;font-size:26px;color:#f0ecdb}
+.gr-camp-dialog.gr-forging{left:190px;top:54px;width:900px}
+.gr-forging::before{display:none}
+.gr-upgrade-grid{display:flex;justify-content:center;gap:75px;margin-top:45px}
+.gr-upgrade-card{width:175px;padding:0;border:0;background:none}
+.gr-upgrade-card.gr-selected{transform:scale(1.06)}
+.gr-upgrade-card:hover{transform:translateY(-5px)}
+.gr-upgrade-preview{margin:25px 0 0!important;min-height:24px;color:#a7d86b;font-size:17px}
+.gr-upgrade-actions{display:flex;justify-content:center;align-items:center;gap:45px;margin-top:27px}
+.gr-text-button{background:none;border:0;padding:9px 20px;font-size:21px!important;color:#e9dcaa!important}
+.gr-confirm,.gr-skip{background:#37777a;border:3px solid #c8b35e;border-radius:42%;min-width:180px;padding:7px 27px;color:#f3ecda!important;font-size:24px!important;box-shadow:inset 0 3px #7ba8a277}
+.gr-confirm:disabled{opacity:.4}
+.gr-confirm:hover:not(:disabled),.gr-skip:hover:not(:disabled){filter:brightness(1.2)}
+/* Event: parchment title, black story field, left art and right choices. */
+.gr-event{background:#2e3b38}
+.gr-event-panel{position:absolute;left:25px;right:25px;top:125px;bottom:60px;background:#020504;box-shadow:0 0 10px 7px #020504;border-radius:6px}
+.gr-event-title{position:absolute;left:-11px;top:-46px;width:690px;padding:13px 35px 15px;background:#a3967e;color:#f0cf60;font-size:27px;font-weight:normal;text-align:center;clip-path:polygon(0 30%,5% 9%,40% 3%,80% 8%,96% 20%,100% 43%,96% 61%,99% 75%,88% 83%,18% 82%,4% 100%)}
+.gr-event-art{position:absolute;left:38px;top:32px;width:410px;height:410px;display:grid;place-items:center;background:#121b18}
+.gr-event-art img{width:155px;height:155px;object-fit:contain;opacity:.25;filter:sepia(.6)}
+.gr-event-copy{position:absolute;left:490px;right:40px;top:44px;bottom:25px}
+.gr-story{font-size:21px;line-height:1.55;color:#edeedf}
+.gr-event-options{position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;gap:11px}
+.gr-event-options>button{width:100%;min-height:44px;border:3px solid #406166;background:#25484c;box-shadow:inset 0 2px #7b939155;text-align:left;padding:6px 20px;font-size:18px;clip-path:polygon(3% 0,97% 0,100% 50%,97% 100%,3% 100%,0 50%)}
+.gr-event-options>button:hover:not(:disabled){background:#427d81;border-color:#8eb6b5}
+.gr-event-options>button:disabled{opacity:.46}
+.gr-cost-text{color:#d77c7e}.gr-benefit-text{color:#9dd740}
+/* Card reward: a dark field, three native card silhouettes and one Skip. */
+.gr-rewards{background:#070b0b}
+.gr-rewards-main{position:absolute;inset:0;text-align:center}
+.gr-reward-title{position:absolute;left:365px;top:99px;width:550px;height:70px;padding:15px 40px;background:#a79e80;clip-path:polygon(0 32%,8% 25%,11% 9%,47% 3%,90% 9%,93% 25%,100% 34%,96% 82%,89% 79%,88% 91%,12% 91%,10% 79%,4% 83%);color:#efe8d4;font-size:29px;font-weight:bold;text-shadow:-2px -2px #354047,2px 2px #354047}
+.gr-reward-grid{position:absolute;left:285px;right:285px;top:244px;display:flex;justify-content:space-between;align-items:center;gap:60px}
+.gr-reward-frame{width:170px;padding:0;background:none;border:0;position:relative}
+.gr-reward-frame:hover:not(:disabled),.gr-reward-frame:focus-visible:not(:disabled){transform:scale(1.18);z-index:3}
+.gr-reward-frame .gr-card strong{font-size:18px}
+.gr-reward-frame .gr-card p{font-size:13px}
+.gr-skip{position:absolute;left:calc(50% - 93px);top:522px;width:186px;min-width:0}
+@media(prefers-reduced-motion:reduce){.gr-room button{transition:none}}
+
+/* Keep the established battle-card cost treatment, no new character palette. */
+.gr-card:not(.gr-colorless) .gr-cost{width:20%;height:14%;left:-5%;top:-3%;border:2px solid #4e352e;border-radius:50%;background:radial-gradient(ellipse at 48% 50%,#fff7b4 25%,#f4ad2d 42%,#d96c21 52%,#9a2023 59%,#cf7770 68%,#6e3038 74%,#482e2b 79%);box-shadow:0 0 0 1px #bbaa85;color:#fff8d8;-webkit-text-stroke:.7px #4a2b27;text-shadow:1px 2px #382628}
