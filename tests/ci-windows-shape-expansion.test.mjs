@@ -4,21 +4,24 @@ import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {ciWindowsShapeProof as proof,preCiWindowsShapeSource} from './helpers/ci-windows-shape-source-inverse.mjs';
 import {preIntegrationSource} from './helpers/pr372-integration-source.mjs';
-import {qualityShardMatrices,qualityShardJobs} from '../scripts/ci-quality-shape.mjs';
-import {currentFullQualityJobs} from '../scripts/verify-delivery.mjs';
-import {discoverJs,jsShard,timings} from '../scripts/ci-shards.mjs';
+import {preCiCompleteCalibrationSource} from './helpers/ci-complete-calibration-source-inverse.mjs';
+import {discoverJs,partition} from '../scripts/ci-shards.mjs';
 import {shardLuaScripts} from '../scripts/test-lua.mjs';
 const hash=source=>createHash('sha256').update(source).digest('hex');
+const {qualityShardMatrices,qualityShardJobs}=await import('data:text/javascript,'+encodeURIComponent(proof.afterSource));
+const historicalFullQualityJobs=['check','presentation','engineering-posix',...qualityShardJobs,'impact','fast'];
+const timings=JSON.parse(preCiCompleteCalibrationSource('scripts/ci-test-timings.json',readFileSync('scripts/ci-test-timings.json','utf8')));
+const jsShard=(files,value,platform)=>partition(files,value,Object.fromEntries(files.map(file=>[file,Math.max(timings.js[platform][file]??timings.unknownJsMs,timings.jsPlanning?.localLowerBounds?.[file]?.durationMs??0)])),timings.unknownJsMs,Array.from({length:Number(value.split('/')[1])},(_,i)=>i===0?timings.initialMs[platform][0]:0));
 
-test('TASK-75.5 changes only the shared Windows shape from thirteen to fourteen and current Full has exactly 28 jobs',()=>{
- const actual=readFileSync(proof.path,'utf8').replaceAll('\r\n','\n');
- assert.equal(actual,proof.afterSource,'physical current source must be the approved fourteen-shard epoch');
+test('TASK-75.5 historical thirteen-to-fourteen source and exact 28-job shape remain intact behind the approved outer epoch',()=>{
+ const actual=preCiCompleteCalibrationSource(proof.path,readFileSync(proof.path,'utf8').replaceAll('\r\n','\n'));
+ assert.equal(actual,proof.afterSource,'projected complete source must retain the approved historical fourteen-shard epoch');
  assert.equal(actual,proof.beforeSource.replace('length:13','length:14'),'one exact production edit');
  assert.deepEqual(qualityShardMatrices.windows,[1,2,3,4,5,6,7,8,9,10,11,12,13,14]);
  assert.deepEqual(qualityShardMatrices.posix,[1,2,3,4,5,6,7,8,9]);
- assert.deepEqual(currentFullQualityJobs,['check','presentation','engineering-posix',
+ assert.deepEqual(historicalFullQualityJobs,['check','presentation','engineering-posix',
   ...Array.from({length:14},(_,i)=>`rules (${i+1}/14)`),...Array.from({length:9},(_,i)=>`engineering-posix (${i+1}/9)`),'impact','fast']);
- assert.equal(currentFullQualityJobs.length,28);assert.equal(new Set(currentFullQualityJobs).size,28);
+ assert.equal(historicalFullQualityJobs.length,28);assert.equal(new Set(historicalFullQualityJobs).size,28);
  assert.equal(qualityShardJobs.length,23);
  const workflow=readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n');
  assert.match(workflow,/max-parallel: 6/,'the approved POSIX concurrency cap remains');
@@ -51,7 +54,7 @@ test('fourteen Windows and nine POSIX partitions cover every JS and raw Lua file
  const short=file=>(timings.lua[file]??timings.unknownLuaMs)<10000;
  function combined(count){
   const jsLoads=jsShard(js,`1/${count}`,'win32').loads;
-  const bins=Array.from({length:count},(_,i)=>shardLuaScripts(lua,`${i+1}/${count}`,timings,2));
+  const bins=Array.from({length:count},(_,i)=>shardLuaScripts(lua,`${i+1}/${count}`,{...timings,windowsJsShardMs:jsLoads},2));
   assert.equal(new Set(bins.flat()).size,lua.length);assert.deepEqual(bins.flat().sort(),[...lua].sort());
   const observed=file=>timings.luaShard[file]??timings.lua[file]??timings.unknownLuaMs;
   return bins.map((bin,i)=>{

@@ -5,7 +5,7 @@
   "base": "87c944f3d1ae89b01470cf89d6f7cc96cc4017ab",
   "claimBase": "78e4e746a7f05754f0d838999c466cd88630368c",
   "observationHead": "281c0d87d7bab5cf0e8d557e8d53e03455bac74b",
-  "status": "lossless_observer_budget_correction_locally_verified_new_exact_head_and_hosted_delivery_pending",
+  "status": "full_cost_repair_local_independent_pass_new_exact_head_and_hosted_delivery_pending",
   "firstHostedFull": {
     "runId": 41958033163,
     "headSha": "8eae1c2e674cf01b85420d253cde67d9ef78fa2d",
@@ -91,6 +91,15 @@
       "sourceBytes": 5514124,
       "archiveBytes": 1112209,
       "verification": "All 22 shard logs, annotations and locked samples preserved; every member decompressed and compared by size/SHA256. Originals retained."
+    },
+    {
+      "path": ".artifacts/m7-host-20261105/source41-group-budget-20261105T081243Z.zip",
+      "sha256": "3e5297ad73dd4c5e62a604b7285602aecf4d71ab0bffcef138194b19e43d0bae",
+      "files": 76,
+      "sourceBytes": 14030276,
+      "archiveBytes": 2318764,
+      "manifestSha256": "5b14bd4aa6baa14d302ec1cbd6860328070fde44f05245e43130fb5749f21daf",
+      "verification": "All source41/native-group logs, metadata, locked rows and diagnostic models retained; every member decompressed and compared by size/SHA256, source files rechecked; originals retained."
     }
   ],
   "quality": {
@@ -1874,12 +1883,12 @@
   "ci": {
     "workflowChange": "engineering-posix-shards.strategy.max-parallel=6 only",
     "firstCandidateWindowsShards": 13,
-    "windowsShards": 14,
-    "posixShards": 9,
+    "windowsShards": 16,
+    "posixShards": 12,
     "firstCandidateFullJobs": 27,
-    "fullJobs": 28,
+    "fullJobs": 33,
     "firstCandidateJsFilesPerPlatform": 723,
-    "currentJsFilesPerPlatform": 725,
+    "currentJsFilesPerPlatform": 726,
     "currentRawLuaFiles": 1356,
     "budgetsAndWorkerSafety": "unchanged",
     "shardExpansion": {
@@ -1919,7 +1928,8 @@
       "identity": "Exact same-platform complete success:true raw reporter observations, ceil/max monotonic additions; all prior map entries and non-calibration settings preserved. Complete approved source alone reverses to the original whole-source identity.",
       "scope": "Placement correction only, not sufficient evidence of passing the hosted budget."
     },
-    "hostedCandidateResults": "pending"
+    "hostedCandidateResults": "Historical exact41 source passed; same-tree merge_group failed original overall30m Windows budget. New full-cost16/9/30 candidate, independent review, source/group/push Full and merged_passed remain pending.",
+    "activeFullCostRepair": "TASK-75.6; current working candidate, independent review/source/group/push Full and merged_passed still pending"
   },
   "priorOverlapFailures": {
     "log": "build/host-gate/host-existing-regressions.log",
@@ -2017,8 +2027,8 @@
     "all328LuaSourceHashesFreshlyVerified": true
   },
   "ciSourceHashes": {
-    "scripts/ci-quality-shape.mjs": "b847eec27387bda8087e57c0cdf98fe3cb9c7b262d6fb4fc76f482e2059306e1",
-    "scripts/ci-test-timings.json": "d5804ac4b7a936f54f3dc479e2b4efa1d79b8b8bdf582748997a31dacc98723c",
+    "scripts/ci-quality-shape.mjs": "1bc06483031c68b1d0ea28ff2c4b918007c7378792a8b09df6d9ddbde46a3b88",
+    "scripts/ci-test-timings.json": "82e8812fd31a40ca6eb9ee89548fe293f833a8e650237218a99afb214357a604",
     "scripts/publish-merge-group.mjs": "e59953e412e38a37b649a71cb89bd18c16c327ba2a366524d4514217986f153c",
     "tests/helpers/game-ui-extraction-source-inverse.mjs": "f59475c217786c9ad6260168f4d6511236135f14c5648f333bdd9c3480a2bedf"
   },
@@ -2198,5 +2208,258 @@
     "equivalence": "build/host-result-resplit/proxy-final-full-equivalence.json",
     "independentReview": "build/ui-host-review/native-write-proxy-final-draft.json",
     "scope": "Named result/mutant/micro reruns plus lossless serializer equivalence; not all61 current cases freshly rerun and not hosted budget or device certification."
-  }
+  },
+  "thirdHostedFull": {
+    "head": "41a99579e41ea685a1d71d9ce6e6e603839968db",
+    "tree": "65f5bb53e19fd6055488b928865804e132285fc2",
+    "runId": 41982032518,
+    "event": "pull_request",
+    "conclusion": "success",
+    "jobs": {
+      "success": 27,
+      "expectedFastSkipped": 1,
+      "total": 28
+    },
+    "createdToRequiredCompleteSeconds": 2066,
+    "firstJobWaitSeconds": 4,
+    "runnerMinutesNonnegative": 445.01666666666665,
+    "prDeliveryStatus": "pr_passed",
+    "prDeliveryEvidence": "build/delivery/38e467bc-75d3-4ea1-a614-108f8d6fcc23/evidence.json",
+    "analysis": {
+      "path": "build/source-41-evidence/analysis.json",
+      "bytes": 176481,
+      "sha256": "4eb587c80e2f59587fbcbfd73daeb80f8507ded5d9c5d9fcc226e9e091eab63b"
+    },
+    "manifest": {
+      "path": "build/source-41-evidence/log-manifest.json",
+      "bytes": 5254,
+      "sha256": "5802f6c33d7f2563a54e4d3b3c9ffbef2d907f835a49231d19600f25113f62ed"
+    },
+    "scope": "Historical exact41 source Full only; not a changed candidate, merge_group or actual squash push."
+  },
+  "nativeGroupBudgetFailure": {
+    "runId": 41986009617,
+    "event": "merge_group",
+    "groupHead": "8ba123b90ef176ad240c25154059597ec2c34b9b",
+    "tree": "65f5bb53e19fd6055488b928865804e132285fc2",
+    "uniqueParent": "87c944f3d1ae89b01470cf89d6f7cc96cc4017ab",
+    "jobs": {
+      "success": 25,
+      "cancelled": 1,
+      "failedAggregate": 1,
+      "expectedFastSkipped": 1,
+      "total": 28
+    },
+    "windowsOne": {
+      "jobId": 127107101697,
+      "jsStep": "success",
+      "jsSeconds": 1099,
+      "rawLuaStep": "success",
+      "rawLuaSeconds": 575,
+      "themeStep": "success",
+      "engineeringStep": "cancelled",
+      "engineeringCensoredSeconds": 40,
+      "annotation": "The job has exceeded the maximum execution time of 30m0s"
+    },
+    "sourceWindowsOne": {
+      "successfulGateSeconds": 66,
+      "existingGateReserveMs": 75000,
+      "setupCleanupGapsSeconds": 47,
+      "originalSetupSensitivityMs": 60000
+    },
+    "pause": {
+      "status": "paused",
+      "entry": "npm run merge:auto -- 516 --pause",
+      "readback": "PR516 OPEN, autoMergeRequest null, head41a99579",
+      "log": "build/host-gate/pause-516-group-budget.log"
+    },
+    "report": {
+      "path": "build/group-516-failure/REPORT.md",
+      "bytes": 7814,
+      "sha256": "f3abe893198eafadf1325fe2ec47e59f74d7f9b6d8cae373bf3b537a5f3e0c35"
+    },
+    "manifest": {
+      "path": "build/group-516-failure/log-manifest.json",
+      "bytes": 5232,
+      "sha256": "c0082bcb4659c0fa2d8b2de6a03d32b5751c24edd9eeb4b475478658a99919be"
+    },
+    "correction": "Initial aggregate-only raw Lua diagnosis corrected explicitly in retained report; per-fixture finally lines require successful outer raw Lua steps."
+  },
+  "fullCostRepairPlan": {
+    "task": "TASK-75.6",
+    "status": "local_independent_pass_new_exact_head_source_group_push_and_merged_pending",
+    "lockedObservations": {
+      "path": "build/group-516-failure/locked-observations.json",
+      "bytes": 1486372,
+      "sha256": "a80b5fe95fcfb0b4d5fedf839045100466423f3129c000ce2eef642cc31c421d"
+    },
+    "successfulJsRows": 2900,
+    "measuredJsFilesPerPlatformPerRun": 725,
+    "successfulRawRows": 2712,
+    "rawFilesPerRun": 1356,
+    "excludedJsEmbeddedLuaRows": 14,
+    "update": "ceil/max all complete successful same-source observations with previous explicit/effective unknown fallback; luaShard placement only, timings.lua safety unchanged",
+    "chosenWindowsShards": 16,
+    "posixShards": 12,
+    "posixMaxParallel": 6,
+    "fullJobs": 33,
+    "locked725Model": {
+      "fourteenMaxPlusSetupMs": 1886942,
+      "fifteenMaxPlusSetupMs": 1765170,
+      "sixteenMaxPlusSetupMs": 1658829,
+      "sixteenMarginMs": 141171
+    },
+    "unchanged": [
+      "job budgets",
+      "child budgets",
+      "Lua safety and eligibility",
+      "failure propagation",
+      "75s gate reserve",
+      "60s setup sensitivity",
+      "complete coverage and assertions"
+    ],
+    "sensitivity": {
+      "path": "build/group-516-failure/sensitivity.json",
+      "bytes": 761,
+      "sha256": "ec830367d3064d5f3da4c498e7642edf892296dcf9e6d3d40b0f398d001bfaea"
+    },
+    "scope": "Final chosen16/12/cap6/33 with actual726 inventory; new independent reviews, exact source/group/push Full and merged_passed pending. Sensitivity is diagnostic, stable30 and device proof incomplete.",
+    "exclusionCountCorrection": {
+      "priorClaim": 11,
+      "correctTotal": 14,
+      "perRun": 7,
+      "lockedRowsUnchanged": true,
+      "receipt": {
+        "path": "build/group-516-failure/excluded-lua-correction.json",
+        "sha256": "db1de438131c02119c15eaba7166c75dfcba925921a3163cde20a5b85eda794f",
+        "bytes": 7017
+      },
+      "priorClaimReason": "Source unanchored substring excess11 =7 canonical JS-step timings +4 Node diagnostic summaries; two-run canonical exclusions14=7+7"
+    },
+    "posixNineBudgetFailure": {
+      "actualJsInventory": 726,
+      "actualTopology": "POSIX JS only; raw Lua is Windows only",
+      "maxPlusOriginalSetupMs": 1510240,
+      "originalBudgetMs": 1200000,
+      "excessMs": 310240,
+      "status": "retained_red_capacity_recalculation_pending",
+      "initialGateMs": 44000
+    },
+    "supersededPlan": {
+      "windows": 16,
+      "posix": 9,
+      "fullJobs": 30,
+      "reason": "Complete Linux model violates original20m+60 budget"
+    },
+    "finalActualJsInventory": 726,
+    "finalPosixCapacity": {
+      "receipt": {
+        "path": "build/group-516-failure/posix-count-model.json",
+        "sha256": "d54ab3979808676a3fd4066c2e49d62e3164b26265390af3accf78e02c0e9708",
+        "bytes": 32728
+      },
+      "count": 12,
+      "maxPlusSetupMs": 1147677,
+      "marginMs": 52323,
+      "fivePercentWorkExcessMs": 2060.85,
+      "cap6TwelveTwoWavesMs": 2295353,
+      "cap6ThirteenThreeWavesMs": 3192024,
+      "reason": "Minimum feasible original20m budget;13 introduces third cap6 wave and worse model wall",
+      "status": "chosen_unverified_hosted"
+    },
+    "finalModel": {
+      "jsFiles": 726,
+      "rawLua": 1356,
+      "windows": {
+        "count": 16,
+        "maxPlusSetupMs": 1659439,
+        "marginMs": 140561,
+        "runnerSumMs": 25585250,
+        "runnerSumPlusSetupEachMs": 26545250
+      },
+      "posix": {
+        "count": 12,
+        "maxPlusSetupMs": 1147677,
+        "marginMs": 52323,
+        "runnerSumMs": 13052101,
+        "runnerSumPlusSetupEachMs": 13772101
+      },
+      "receipt": {
+        "path": "build/complete-calibration-review/current-model.json",
+        "bytes": 151695,
+        "sha256": "d5a367d6e6f6b101dd4a82e243b92216a200a02b06d218d570ea58cb679fc8e8"
+      },
+      "scope": "Deterministic complete current planner; model runner units and setup sensitivity are not billed minutes or hosted promise"
+    },
+    "provenanceSchemaRepair": {
+      "finding": "CI75.6-001 old single-run provenance assertion rejects new two-run source",
+      "originalRed": "build/complete-calibration-review/independent-contracts.log",
+      "fix": "Keep all old single-run assertions; only exact frozen TASK75.6 epoch uses strict two-run/28job/log/success-step authentication and sorted newlyMeasuredPaths; map hashchain retained",
+      "targetedRetest": "build/complete-calibration-75-6/multi-run-fix.log",
+      "passed": 4,
+      "proofSha256": "c0b66bf5ffd13baaea0f9a035dd43636f7419a0b607cc4eab3f0c1f73155d5ab",
+      "afterTimingsSha256": "82e8812fd31a40ca6eb9ee89548fe293f833a8e650237218a99afb214357a604"
+    },
+    "finalLocalIndependentValidation": {
+      "status": "pass_pending_new_exact_head_and_hosted_delivery",
+      "dataRowsAuthenticated": 5612,
+      "ciContractsPassed": 32,
+      "originalCiContractsRedPreserved": true,
+      "publicProtocolPositives": 4,
+      "publicProtocolNegatives": 68,
+      "priorProtocolTemplateReplay": 84,
+      "additionalProtocolDeltaCases": 36,
+      "wholeSourceInverseCases": 38,
+      "scopesOverlapNotAdditive": true,
+      "receipts": [
+        {
+          "path": "build/complete-calibration-review/data-audit-final.json",
+          "bytes": 892,
+          "sha256": "10dfd5c0ad73623a0a7dfb02b8c8302534351efb29b3ed9057eebaf5768ca5fb"
+        },
+        {
+          "path": "build/complete-calibration-review/independent-contracts-final.log",
+          "bytes": 4000,
+          "sha256": "98c8b2729c8801e849dae450f2320f670d72f92b4e9e74aac5864e8413c28615"
+        },
+        {
+          "path": "build/complete-calibration-review/current-33-protocol-results.json",
+          "bytes": 3115,
+          "sha256": "78b35233e7bf53b6e364dd7c95a9bb1b54ec61dbbf5b4340cd0cf646ef8c9cea"
+        },
+        {
+          "path": "build/complete-calibration-review/inverse-probe.json",
+          "bytes": 270,
+          "sha256": "0a9f5cf6a666431b2aa2f413a904966169da4fc249cd197b438b5b4c9d583cd7"
+        },
+        {
+          "path": "build/shape-protocol-review/full33-protocol-cases.json",
+          "bytes": 83100,
+          "sha256": "2707625e32cab6e7196a1868bd57b2f502eeaf4d175795933a1b4f04501c2b1f"
+        },
+        {
+          "path": "build/shape-protocol-review/full33-inverse-cases.json",
+          "bytes": 5690,
+          "sha256": "5a1c86d98b26075a2e681f403a564385ff0662fbcf1273c46d2525ad3a416db8"
+        },
+        {
+          "path": "build/shape-protocol-review/full33-stable-source-identities.json",
+          "bytes": 1559,
+          "sha256": "ad0dbb5e978f2049a0b0cea6ee0f6c929486b245acdf5377e9191d7318ef4c36"
+        },
+        {
+          "path": "build/ui-host-review/ui-scope-carry-forward-from41.json",
+          "bytes": 121431,
+          "sha256": "82f2c3affc124a6fa8e3e2ded75ce761a558323fc7268a2a9719400a3105b8e6"
+        }
+      ]
+    }
+  },
+  "priorCiSourceHashes": {
+    "scripts/ci-quality-shape.mjs": "b847eec27387bda8087e57c0cdf98fe3cb9c7b262d6fb4fc76f482e2059306e1",
+    "scripts/ci-test-timings.json": "d5804ac4b7a936f54f3dc479e2b4efa1d79b8b8bdf582748997a31dacc98723c",
+    "scripts/publish-merge-group.mjs": "e59953e412e38a37b649a71cb89bd18c16c327ba2a366524d4514217986f153c",
+    "tests/helpers/game-ui-extraction-source-inverse.mjs": "f59475c217786c9ad6260168f4d6511236135f14c5648f333bdd9c3480a2bedf"
+  },
+  "scopeLimit": "User explicitly requested finishing only current in-hand PR516 and already claimed batch tasks; no new MapUI/Feedback or other claims."
 }

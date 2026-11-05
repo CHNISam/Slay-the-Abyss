@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {ciHostTimingProof as proof,preCiHostTimingSource} from './helpers/ci-host-timing-source-inverse.mjs';
 import {preIntegrationSource} from './helpers/pr372-integration-source.mjs';
+import {preCiCompleteCalibrationSource} from './helpers/ci-complete-calibration-source-inverse.mjs';
 import {jsPlanningWeights,timings} from '../scripts/ci-shards.mjs';
 const hash=source=>createHash('sha256').update(source).digest('hex');
 const before=JSON.parse(proof.beforeSource),after=JSON.parse(proof.afterSource);
@@ -31,7 +32,7 @@ test('Host placement calibration contains only complete successful same-platform
  assert.equal(proof.update.resultingMapSha256,hash(JSON.stringify(expected.js)));
  expected.jsCalibrationUpdates.push(proof.update);
  assert.equal(JSON.stringify(expected,null,2)+'\n',proof.afterSource,'no unrelated value, metadata, ordering or spelling change');
- assert.equal(readFileSync(proof.path,'utf8').replaceAll('\r\n','\n'),proof.afterSource,'actual complete approved source');
+ assert.equal(preCiCompleteCalibrationSource(proof.path,readFileSync(proof.path,'utf8').replaceAll('\r\n','\n')),proof.afterSource,'actual source projects to this complete approved historical epoch');
  for(const platform of ['win32','linux'])for(const [file,value]of Object.entries(before.js[platform]))assert.ok(after.js[platform][file]>=value);
  assert.equal(after.js.linux['tests/game-ui-host-modal.test.mjs'],undefined,'unfinished Linux family is not fabricated');
  assert.equal(after.js.win32['tests/game-ui-host-result.test.mjs'],undefined,'unfinished Windows family is not fabricated');
@@ -65,7 +66,7 @@ test('wrong measured values, duplicate positions, spelling changes, partial inpu
 });
 
 test('TASK-75.4 calibration preserves unknown fallback, worker safety and execution data independently of Full shape',()=>{
- assert.deepEqual(timings,after);
+ assert.deepEqual(JSON.parse(preCiCompleteCalibrationSource(proof.path,readFileSync(proof.path,'utf8'))),after);
  for(const platform of ['win32','linux']){
   assert.equal(jsPlanningWeights(['tests/unmeasured-host-family.test.mjs'],platform)['tests/unmeasured-host-family.test.mjs'],before.unknownJsMs);
  }

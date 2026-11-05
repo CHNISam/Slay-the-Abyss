@@ -10,6 +10,7 @@ import { join, resolve, sep } from 'node:path';
 import { shardLuaScripts } from '../scripts/test-lua.mjs';
 import {historicalTest,readHistoricalBaselineSource} from './helpers/historical-baseline-inputs.mjs';
 import {qualityShardMatrices} from '../scripts/ci-quality-shape.mjs';
+import {ciCompleteCalibrationProof} from './helpers/ci-complete-calibration-source-inverse.mjs';
 
 test('sorted shards partition every fixture without omission or duplication and reject invalid bounds', () => {
   const scripts = ['d.lua', 'b.lua', 'a.lua', 'e.lua', 'c.lua'];
@@ -121,14 +122,35 @@ test('current placement retains the original inventory, safety classification an
   for(const update of timings.luaShardCalibrationUpdates){
     assert.equal(update.previousMapSha256,previous,'each calibration starts at the preceding complete map');
     assert.match(update.resultingMapSha256,/^[a-f0-9]{64}$/);
-    assert.ok(Number.isSafeInteger(update.runId)&&update.runId>0);
-    assert.ok(Number.isSafeInteger(update.runAttempt)&&update.runAttempt>0);
-    assert.match(update.headSha,/^[a-f0-9]{40}$/);
     assert.ok(Array.isArray(update.sourceRecords)&&update.sourceRecords.length>0);
-    for(const record of update.sourceRecords){
-      assert.ok(Number.isSafeInteger(record.jobId)&&record.jobId>0);
-      assert.match(record.path,/^build\/[a-zA-Z0-9-]+\.log$/);
-      assert.match(record.sha256,/^[a-f0-9]{64}$/);
+    if(update.task==='TASK-75.6'){
+      const proof=ciCompleteCalibrationProof,e=proof.evidence;
+      const approved=JSON.parse(proof.files['scripts/ci-test-timings.json'].afterSource).luaShardCalibrationUpdates.at(-1);
+      assert.deepEqual(update,approved,'only this complete approved multi-run epoch uses the new provenance branch');
+      assert.equal(update.kind,'complete-multi-run');
+      for(const key of ['runId','runAttempt','headSha'])assert.equal(Object.hasOwn(update,key),false,'two runs never masquerade as one');
+      assert.deepEqual(update.sourceRuns,[{runId:e.sourceRun,runAttempt:1,headSha:e.sourceHead,treeSha:e.sharedTree},{runId:e.groupRun,runAttempt:1,headSha:e.groupHead,treeSha:e.sharedTree}]);
+      assert.equal(update.sourceRecords.length,28);const seen=new Set();
+      for(const record of update.sourceRecords){
+        const run=update.sourceRuns.find(r=>r.runId===record.runId);assert.ok(run);
+        assert.equal(record.runAttempt,run.runAttempt);assert.equal(record.headSha,run.headSha);
+        assert.ok(Number.isSafeInteger(record.jobId)&&record.jobId>0);assert.ok(!seen.has(record.jobId));seen.add(record.jobId);
+        assert.match(record.path,/^build\/(source-41-evidence|group-516-failure)\/job-\d+\.log$/);assert.match(record.sha256,/^[a-f0-9]{64}$/);
+        const source=e.sourceRecords.find(r=>r.runId===record.runId&&r.id===record.jobId);assert.ok(source);assert.equal(source.platform,'win32');
+        assert.equal(source.path,record.path);assert.equal(source.sha256,record.sha256);assert.equal(source.head,record.headSha);
+        assert.deepEqual(record.step,source.rawStep);assert.equal(record.step.status,'completed');assert.equal(record.step.conclusion,'success');
+        assert.ok(Date.parse(record.step.started_at)<Date.parse(record.step.completed_at));
+      }
+      for(const run of update.sourceRuns)assert.equal(update.sourceRecords.filter(r=>r.runId===run.runId).length,14);
+    }else{
+      assert.ok(Number.isSafeInteger(update.runId)&&update.runId>0);
+      assert.ok(Number.isSafeInteger(update.runAttempt)&&update.runAttempt>0);
+      assert.match(update.headSha,/^[a-f0-9]{40}$/);
+      for(const record of update.sourceRecords){
+        assert.ok(Number.isSafeInteger(record.jobId)&&record.jobId>0);
+        assert.match(record.path,/^build\/[a-zA-Z0-9-]+\.log$/);
+        assert.match(record.sha256,/^[a-f0-9]{64}$/);
+      }
     }
     assert.ok(Array.isArray(update.newlyMeasuredPaths));
     assert.deepEqual(update.newlyMeasuredPaths,[...new Set(update.newlyMeasuredPaths)].sort(),'new measurements have one explicit sorted inventory');

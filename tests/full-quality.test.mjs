@@ -18,16 +18,26 @@ function fixture(){return {repo,runId:7,attempt:1,number:510,head:sha('a'),base:
  checkoutArtifact:{id:200,name:'quality-7-1-check',expired:false,workflow_run:{id:7,head_sha:sha('a')}}};}
 test('Full gate accepts the exact running aggregate only after every actual shard succeeds',()=>assert.deepEqual(fullGateErrors(fixture()),[]));
 
-test('Full publisher cannot certify an old 27-job shape or a forged/missing fourteenth actual shard',()=>{
+test('Full publisher cannot certify an old 27/28/30-job shapes or a forged/missing current actual shard',()=>{
  for(const mutate of [
-  e=>e.jobs=e.jobs.filter(job=>job.name!=='rules (14/14)'),
-  e=>e.jobs.push({...e.jobs.find(job=>job.name==='rules (14/14)'),id:900}),
-  e=>e.jobs.find(job=>job.name==='rules (14/14)').name='rules (14/13)',
-  e=>{const sample=e.jobs.find(job=>job.name==='rules (1/14)');e.jobs=e.jobs.filter(job=>!job.name.startsWith('rules ('));e.jobs.push(...Array.from({length:13},(_,i)=>({...sample,id:700+i,name:`rules (${i+1}/13)`})));},
-  e=>{e.jobs=e.jobs.filter(job=>job.name!=='rules (14/14)');e.jobTotal=28;e.matrix={windows:14,posix:9};},
+  ...[[13,9],[14,9],[16,9]].map(([windows,posix])=>e=>{
+   const win=e.jobs.find(j=>j.name.startsWith('rules (')),linux=e.jobs.find(j=>j.name.startsWith('engineering-posix ('));
+   e.jobs=e.jobs.filter(j=>!j.name.startsWith('rules (')&&!j.name.startsWith('engineering-posix ('));
+   e.jobs.push(...Array.from({length:windows},(_,i)=>({...win,id:1000+i,name:`rules (${i+1}/${windows})`})),...Array.from({length:posix},(_,i)=>({...linux,id:2000+i,name:`engineering-posix (${i+1}/${posix})`})));
+  }),
+  e=>e.jobs=e.jobs.filter(j=>j.name!=='engineering-posix (12/12)'),
+  e=>e.jobs.push({...e.jobs.find(j=>j.name==='engineering-posix (12/12)'),id:3000}),
+  e=>e.jobs.find(j=>j.name==='engineering-posix (12/12)').name='engineering-posix (12/11)',
+  e=>e.jobs=e.jobs.filter(job=>job.name!=='rules (16/16)'),
+  e=>e.jobs.push({...e.jobs.find(job=>job.name==='rules (16/16)'),id:900}),
+  e=>e.jobs.find(job=>job.name==='rules (16/16)').id=e.jobs.find(job=>job.name==='rules (15/16)').id,
+  e=>e.jobs.push({...e.jobs.find(job=>job.name==='rules (16/16)'),id:3001,name:'rules (17/16)'}),
+  e=>e.jobs.find(job=>job.name==='rules (16/16)').name='rules (16/15)',
+  e=>{const sample=e.jobs.find(job=>job.name==='rules (1/16)');e.jobs=e.jobs.filter(job=>!job.name.startsWith('rules ('));e.jobs.push(...Array.from({length:13},(_,i)=>({...sample,id:700+i,name:`rules (${i+1}/13)`})));},
+  e=>{e.jobs=e.jobs.filter(job=>job.name!=='rules (16/16)');e.jobTotal=33;e.matrix={windows:16,posix:12};},
   e=>e.checkout.tested=sha('f'),
  ]){
-  const e=fixture();assert.equal(e.jobs.length,28);mutate(e);
+  const e=fixture();assert.equal(e.jobs.length,33);mutate(e);
   assert(fullGateErrors(e).length,String(mutate));let posted;
   const result=publishFullQuality(e,(...args)=>{posted=args.find(arg=>arg.startsWith('state=')).slice(6);return JSON.stringify({state:posted,context:'full-quality'});});
   assert.equal(result.state,'failure');assert.equal(posted,'failure');
