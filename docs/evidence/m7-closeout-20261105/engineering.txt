@@ -1,0 +1,34 @@
+
+> slay-the-abyss@1.0.0 check:engineering
+> node scripts/check-engineering.mjs && npm run check:test-strength && npm run check:native-ui-contract
+
+Quality reported: 323 modules; 5189/5189 measurements; new thresholds report-only. See build/engineering-quality.{json,md}
+Architecture passed: 323 modules, 1874 edges; build/architecture.json
+Luacheck 1.2.0: no new diagnostics; 15 explicit historical warnings. Battle render <=10; every scoped function <=15; 1319 governed responsibility measurements.
+
+> slay-the-abyss@1.0.0 check:test-strength
+> node scripts/check-test-strength.mjs
+
+M1: killed_by_assertion (5326ms)
+M2: killed_by_assertion (3587ms)
+M3: killed_by_assertion (3734ms)
+M4: killed_by_assertion (5618ms)
+Mutation evidence: build/test-strength/ac8f9301-85a0-4876-b194-5ad89bf83c54/report.json
+
+> slay-the-abyss@1.0.0 check:native-ui-contract
+> node --test --test-concurrency=1 tests/native-startup-contract.test.mjs tests/ui-mock-contract.test.mjs
+
+✔ generated host starts under native capability guards and rejects the escaped startup write (3249.534915ms)
+✔ real UI mock factories share public argument contracts and preserve scene isolation (957.738018ms)
+✔ native grid destruction invalidates handles and deck consumers survive refresh and viewport churn (4461.062541ms)
+✔ native lifecycle gate detects removal of the production dead-item guard (3124.410525ms)
+✔ deck lifecycle releases Controller records while retaining live reused bindings (10926.20517ms)
+✔ native lifecycle gate detects missing Controller retirement (1985.555259ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 24918.826982

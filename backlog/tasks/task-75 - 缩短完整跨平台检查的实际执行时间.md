@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 03:47'
-updated_date: '2026-11-03 15:29'
+updated_date: '2026-11-05 00:48'
 labels: []
 milestone: m-7
 dependencies: []
@@ -23,9 +23,9 @@ ordinal: 120000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Windows和POSIX完整文件精确覆盖且断言超时保持
-- [ ] #2 合入提交全部Required Checks通过
-- [ ] #3 记录优化前后官方执行耗时
+- [x] #1 Windows和POSIX完整文件精确覆盖且断言超时保持
+- [x] #2 合入提交全部Required Checks通过
+- [x] #3 记录优化前后官方执行耗时
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -48,6 +48,8 @@ ordinal: 120000
 真实入口排队736秒、执行17秒，进一步将同样轻量的impact元数据规划作业迁至slim；保留checkout/setup-node/npm/guidance/API/上传、原权限和3分钟预算。一次更新原PR，原生concurrency取消被替代运行，避免新增实验PR。
 
 2026-11-03 M9持续收口：从当前hosted原始runs/jobs采集wall、queue、runner-minutes和取消执行，先定位无损去重/权重偏差，保留全部文件覆盖与原deadline；实现、独审、精确HEAD Full和实际合入后CI及真实前后耗时均完成才收口。
+
+2026-11-05复采同SHA队列/push原始run/jobs与最新100个Quality样本，区分已证明的工程AC与稳定Full30分钟/自然Fast20样本剩余出口；保持In Progress。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -86,4 +88,6 @@ PR370首头5d66abfc的run41009713098 impact 05:40:13创建、05:52:29开始、05
 资源收敛：CI已审两提交线性整合进PR371，实验PR370关闭保留；只验一个最终完整组合再核验develop，不复用取消/旧SHA的绿灯。slim impact已真实成功：job123920658929 runner排队346秒、执行28秒；另419秒旧run级concurrency阻塞单列，不能据runner队列单项宣称端到端提速。
 
 第二批精确纯投影去重与真实成本采集见docs/backlog-details/TASK-75-81-M9-CI-20261103.md；原Task77本机66.238→11.695秒但不外推托管Full。保留完整矩阵、断言、原预算和关联源每次重读；当前组合及合后官方CI继续核对。
+
+2026-11-05已复核PR514最终a245、base a308、实际squash78e4e746及相同tree；PR Full41914042810、merge_group41918738466及push41923895912和对应Licenses成功。本轮独立复审40项/35语义变异及新增scry负例PASS；主控原工程门禁和119项CI合同通过。证据见docs/backlog-details/M7-CLOSEOUT-20261105.md及docs/evidence/m7-closeout-20261105/。本轮新独审不补造合前reviewId或schema5历史收据；M7稳定耗时/Fast样本与设备仍未完成。 原三个AC证据齐全；章程稳定Full≤30min仍未达（1802s/1984s），保持In Progress，不冒称M7性能达标。
 <!-- SECTION:NOTES:END -->
