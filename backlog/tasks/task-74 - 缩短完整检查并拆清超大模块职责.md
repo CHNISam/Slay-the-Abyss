@@ -1,11 +1,11 @@
 ---
 id: TASK-74
 title: 缩短完整检查并拆清超大模块职责
-status: Done
+status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-11-05 00:48'
+updated_date: '2026-11-05 02:27'
 labels: []
 milestone: m-7
 dependencies: []
@@ -34,7 +34,7 @@ ordinal: 118000
 - [x] #8 UI测试公共接口以原生API证据校验，独立状态和故意缺方法负例保留
 - [x] #9 指定核心与表现职责拆清且提取helper受检，数值随机顺序回滚及输入显示所有权保持
 - [x] #10 合并证据绑定实际合入提交和源码树，区分PR通过与合入提交验证状态
-- [x] #11 本轮当前HEAD完整Quality通过，正常门禁合并后复核实际合入提交CI
+- [ ] #11 本轮当前HEAD完整Quality通过，正常门禁合并后复核实际合入提交CI
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -157,6 +157,8 @@ a73新基线重放后49/49定向测试通过（42源码/架构消费者+7反应/
 最终组合1a24acf1干净Context独审49领域/107工具及真实Run回滚、固定hash Luacheck通过后，Full41818991963的Windows5历史battle_ui_card_play_slice_2.lua触及原30秒（ETIMEDOUT），原生Queue等待已暂停，PR未入队。该夹具本已独占，5–8四组断言全过但总快照/构建/清理超过预算；现按既有11组合同拆5–6/7–8，原body/current hash、archive/oracle、每片30秒、调度与生产源码不变。141项定向和五片11组本地通过；托管精确新HEAD Full与实际Queue演练仍未完成，主任务不提前Done。
 
 2026-11-05已复核PR514最终a245、base a308、实际squash78e4e746及相同tree；PR Full41914042810、merge_group41918738466及push41923895912和对应Licenses成功。本轮独立复审40项/35语义变异及新增scry负例PASS；主控原工程门禁和119项CI合同通过。证据见docs/backlog-details/M7-CLOSEOUT-20261105.md及docs/evidence/m7-closeout-20261105/。本轮新独审不补造合前reviewId或schema5历史收据；M7稳定耗时/Fast样本与设备仍未完成。
+
+保留PR515已交付收口与全部原证据；本轮已新增74.17/74.18运行时切片，父任务据新工作重开。当前基线87c944f3，GameUI/队列本地及独审推进，当前精确HEAD与实际合后Full尚待，AC11按本批保持未完成；既有已Done子任务不重开。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

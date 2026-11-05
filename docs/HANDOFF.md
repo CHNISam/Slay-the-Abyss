@@ -1,12 +1,12 @@
 # 交接说明
 
-**2026-11-05 M7收尾复核：** 已合PR514的精确源码树、PR/队列/push完整CI及本轮独审均通过，TASK-74及74.14/15/16、75.2通过CLI收口。M7剩TASK-75/81继续In Progress：最新Full 30分02秒、前次33分04秒，100次Quality为0个实际Fast，稳定30分钟与20样本未达；本轮无新设备证据。详见[当前交付复核](backlog-details/M7-CLOSEOUT-20261105.md)。不因已合切片验收自动放开M8。
+**2026-11-05 当前工程接续：** 本批已移到PR515实际合入基线87c944f3，原收口记录保留。TASK-74因新增74.17/74.18重开In Progress，当前HEAD及实际合后Full未验；GameUI、drain和POSIX并发进度见[本批证据](backlog-details/M7-HOST-BATCH-20261105.md)。此前四项查询/加载任务保持Done，找回的原schema3回执及归档见[补充证据](backlog-details/M7-QUERY-CLOSEOUT-20261105.md)。
+
+**PR515历史收尾复核：** 已合PR514的精确源码树、PR/队列/push完整CI及当轮独审均通过，TASK-74及74.14/15/16、75.2当时通过CLI收口。TASK-75/81继续In Progress：该轮Required-wall 30分02秒、前次33分04秒，100次Quality为0个实际Fast，稳定30分钟与20样本未达；当轮无新设备证据。详见[原交付复核](backlog-details/M7-CLOSEOUT-20261105.md)。
 
 **2026-11-03 当前唯一编号：** M7 工程架构/性能（m-7，原 M9）→ M8 体验与自研职业（m-8，原 M7）→ M9 内容扩充（m-9，原 M8）。工程任务 TASK-74/74.3/74.4/74.5/75/81 不重建；M8 增补14项旧 M4 体验待验任务。原 AC、owner、状态及 Git 历史不因迁移自动完成，既有 PR #490/#491 须按新编号 rebase/验收，禁止重复领取。
 
 **本周 11/3–11/9 先做 M7。** M8 仅已批准明确修复可低风险并行，TASK-85/96 除已认领 PR #491 的离线切片外禁止自行续领；M9 暂缓。Agent 必须先看 [Sprint 准入](SPRINT_EXECUTION.md) 并运行 `npm run task:pick -- TASK-编号`，再查在途 PR 和工作树；不能仅凭无依赖或旧 Medium 优先级抢任务。
-
-**11/5工程接续：** PR514已在实际78e4e746通过合后Full，四项查询/测试加载切片已Done，见[收口证据](backlog-details/M7-QUERY-CLOSEOUT-20261105.md)。当前GameUI、队列drain和POSIX并发切片见[本批证据与未完成项](backlog-details/M7-HOST-BATCH-20261105.md)；Host对照和最终完整流水线仍待，父任务及M7未关闭。
 
 ## 2026-11-02 当前排期：先做 M4 非设计工程
 

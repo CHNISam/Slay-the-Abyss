@@ -4,9 +4,9 @@
 
 来源Full [41914042810](https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/41914042810) 29:06、原生队列Full [41918738466](https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/41918738466) 33:05、实际develop推送Full [41923895912](https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/41923895912) 30:03，均成功。每次27作业、26成功及按Full合同跳过的Fast；每平台710 JS文件、1355份raw Lua完整且无文件重漏。既有条件用例skip保留，不声称所有用例零skip。作业时长之和分别374.900、387.967、361.500分钟，不是CPU或计费读数。
 
-原验证器最终证据 `build/delivery/f818a966-1e43-467c-b371-2cc6acc621eb/evidence.json` 为 `merged_passed`、errors为空，来源预审为 `1e1dff4b-31d1-4b96-a824-627222a4bb64`。两组真实独审最终记录分别位于 `build/query-output-review/final-review-a2457383.json` 和 `build/status-runner-review/final-review-a2457383.json`，绑定同一head/base/tree。完整原始产物保留在该批工作树，不能用附件文字替代验证器。
+原验证器最终证据 `build/delivery/f818a966-1e43-467c-b371-2cc6acc621eb/evidence.json` 为 `merged_passed`、errors为空，来源预审为 `1e1dff4b-31d1-4b96-a824-627222a4bb64`。两组真实独审最终记录分别位于 `build/query-output-review/final-review-a2457383.json` 和 `build/status-runner-review/final-review-a2457383.json`，绑定同一head/base/tree。完整原始产物归档位置见文末，不能用附件文字替代验证器。
 
-因此TASK-74.14、74.15、74.16及75.2的AC3现已完成并通过CLI标为Done；[原候选附件](M7-QUERY-BATCH-20261105.md)中的待交付表述是此前状态，本页作后续记录，不改写原失败或原证据。
+PR515已通过CLI收口TASK-74.14、74.15、74.16及75.2。本页补充找回的原schema3合后回执及本机补验；PR515当轮“未取回”的历史陈述、原失败与原证据均保留，不伪造schema5。后续74.17/74.18使父74重新进入工作中，不重开这四个已交付子任务。
 
 同环境完整Silent原夹具按严格BAAB四次补测，before均值20.3061522秒，after19.5719249秒，减少3.6158%。三模块完整旧新源身份已核验，全部stdout及8份完整canonical逐字一致，四次均在原30秒内。仅为本机Fengari小样本，含未校准观察器开销；不作单helper归因，不与前批百分比相乘，也不作原生Lua、设备或托管流水线提速结论。原记录为 `build/query-runtime-perf/REPORT.md`。
 
