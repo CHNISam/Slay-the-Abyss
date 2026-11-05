@@ -35,8 +35,11 @@ test('full graph observer rejects alias split/merge, RNG limb and return arity c
  assert.match(nativeValues[2],/"x".*"2"/);
 });
 
-for(const [name,module,before,after,from,to]of [
+for(const [name,module,before,after,from,to,secondBefore,secondAfter]of [
  ['nil settlement acceptance','run','accepted == false','not accepted',28,30],
  ['cleanup pending retry','lifecycle','self.monsterCleanupPending=not released or nil','self.monsterCleanupPending=nil',31,35],
  ['pointer ownership','input','observed or cursor.CursorDown and cursor.CursorUp and touch(event) ~= nil','false',1,6],
-])test(`whole Host parsed semantic negative control: ${name}`,()=>runPair({seed:1,from,to},dir=>mutateSource(dir,module,before,after)));
+ ['cancel before inert','lifecycle','self.battleUI.active=false','do end',31,35,'self.battleUI.feedback:cancel()','self.battleUI.feedback:cancel();self.battleUI.active=false'],
+])test(`whole Host parsed semantic negative control: ${name}`,()=>runPair({seed:1,from,to},dir=>{
+ mutateSource(dir,module,before,after);if(secondBefore)mutateSource(dir,module,secondBefore,secondAfter);
+}));

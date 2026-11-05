@@ -66,7 +66,7 @@ export function mutateSource(dir,module,before,after){
  const file=path.join(dir,`src/lua/abyss_game_ui_${module}.lua`);let source=fs.readFileSync(file,'utf8');
  const ast=lua.parse(source,{ranges:true});let range;
  function visit(n){if(!n||typeof n!=='object')return;
-  if(n.range&&source.slice(...n.range)===before){assert.ok(!range,'mutation must be unique');range=n.range;}
+  if(n.range&&source.slice(...n.range)===before){if(range)assert.deepEqual(range,n.range,'mutation must have one source range');range=n.range;}
   for(const v of Object.values(n))if(Array.isArray(v))v.forEach(visit);else if(v&&typeof v==='object')visit(v);
  }visit(ast);assert.ok(range,'mutation must match complete parsed semantic node');
  source=source.slice(0,range[0])+after+source.slice(range[1]);lua.parse(source);fs.writeFileSync(file,source);
