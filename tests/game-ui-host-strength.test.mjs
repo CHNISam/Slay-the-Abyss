@@ -1,9 +1,34 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
+import {mkdtempSync,mkdirSync,writeFileSync,realpathSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join,resolve,dirname,basename} from 'node:path';
+import {spawnSync} from 'node:child_process';
 import {installLuaGraphObserver} from './helpers/lua-graph-observer.mjs';
 import {runPair,mutateSource} from './helpers/game-ui-host-equivalence.mjs';
 const require=createRequire(import.meta.url);
+
+test('the final Host window cannot silently omit extra commands',()=>{
+ const directory=mkdtempSync(join(tmpdir(),'abyss-host-driver-')),expected=realpathSync(directory),parent=realpathSync(tmpdir());
+ try{
+  mkdirSync(join(directory,'tests/lua/support'),{recursive:true});
+  const driver=resolve('tests/helpers/game-ui-host-vm.mjs');
+  for(const [scenario,body,status]of [
+   ['contract','ABYSS_HOST_EXECUTED=1',0],
+   ['','ABYSS_HOST_EXECUTED=1;coroutine.yield("HOST_WINDOW_DONE");ABYSS_HOST_EXECUTED=2',0],
+   ['contract','ABYSS_HOST_EXECUTED=1;coroutine.yield("HOST_WINDOW_DONE");ABYSS_HOST_EXECUTED=2',1],
+  ]){
+   writeFileSync(join(directory,'tests/lua/support/game_ui_host_trace.lua'),body);
+   const result=spawnSync(process.execPath,[driver,'1',scenario,'1','1'],{cwd:directory,encoding:'utf8',timeout:30000,maxBuffer:1024*1024});
+   assert.ifError(result.error);assert.equal(result.status,status,result.stderr);
+   if(status)assert.match(result.stderr,/declared total leaves unexecuted commands/);
+  }
+ }finally{
+  const target=realpathSync(directory);assert.equal(target,expected);assert.equal(dirname(target),parent);assert.ok(basename(target).startsWith('abyss-host-driver-'));
+  rmSync(target,{recursive:true,force:true});
+ }
+});
 test('Host error observer removes only known source-root coordinates',()=>{
  const {lua,lauxlib,lualib,to_luastring,to_jsstring}=require('fengari');
  const L=lauxlib.luaL_newstate();lualib.luaL_openlibs(L);
