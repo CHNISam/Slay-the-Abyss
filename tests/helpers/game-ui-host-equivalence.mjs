@@ -67,7 +67,14 @@ export function runPair({seed=1,from=1,to=6,scenario=''},mutate){
   fs.writeFileSync(`build/ui-host-impl/new-${tag}.log`,actual);
   assert.ok(actual===expected,'complete ordered trace mismatch: '+tag);
   if(mutate){mutate(b);const mutant=execute(b,seed,scenario,from,to);fs.writeFileSync(`build/ui-host-impl/mutant-${tag}.log`,mutant);assert.ok(mutant!==expected,'assertion must kill semantic mutant');}
- }finally{fs.rmSync(a,{recursive:true,force:true});fs.rmSync(b,{recursive:true,force:true});}
+ }finally{removeTemporaryHost(a);removeTemporaryHost(b);}
+}
+function removeTemporaryHost(dir){
+ const absolute=path.resolve(dir);
+ assert.equal(path.dirname(absolute),path.resolve(os.tmpdir()),'cleanup must stay directly inside the test temporary root');
+ assert.match(path.basename(absolute),/^abyss-host-(?:old|new)-/,'cleanup must target a created Host test root');
+ assert.ok(!fs.lstatSync(absolute).isSymbolicLink(),'cleanup target must not be an alias');
+ fs.rmSync(absolute,{recursive:true,force:true});
 }
 export function mutateSource(dir,module,before,after){
  const file=path.join(dir,`src/lua/abyss_game_ui_${module}.lua`);let source=fs.readFileSync(file,'utf8');
