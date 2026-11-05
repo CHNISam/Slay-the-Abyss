@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-04 22:58'
-updated_date: '2026-11-04 22:59'
+updated_date: '2026-11-05 01:25'
 labels: []
 milestone: m-7
 dependencies: []
@@ -27,8 +27,8 @@ ordinal: 157000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 保留13Windows与9POSIX的全部27作业、文件覆盖、原预算权重安全边界权限及交付协议，仅限制POSIX矩阵最多同时6项
-- [ ] #2 历史工作流仅逆投影精确批准的并发设置，原完整SHA与合同不刷新；错误值、位置、重复与其他门禁漂移仍拒绝
+- [x] #1 保留13Windows与9POSIX的全部27作业、文件覆盖、原预算权重安全边界权限及交付协议，仅限制POSIX矩阵最多同时6项
+- [x] #2 历史工作流仅逆投影精确批准的并发设置，原完整SHA与合同不刷新；错误值、位置、重复与其他门禁漂移仍拒绝
 - [ ] #3 独立复审、精确候选来源和原生队列及实际推送Full通过，记录真实总时长排队与runner成本及目标差距，原交付验证器合后通过
 <!-- AC:END -->
 
@@ -37,3 +37,9 @@ ordinal: 157000
 <!-- SECTION:PLAN:BEGIN -->
 1.固定六组真实Full向量、cap6探索与Fast自然样本未知边界。2.只增加POSIX strategy max-parallel=6，保留13/9矩阵及全部原门禁。3.在原历史投影公共入口增加精确唯一批准逆投影，错误值位置重复与无关漂移负例。4.独立复审、真实新候选来源/原生队列/实际推送Full，原交付验证器及真实时长对比。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+仅POSIX max-parallel6已实现，原13/9矩阵和27作业及原预算/权重/权限/协议保持；15专项、40交付合同及独审14探针通过，旧完整SHA不变。模型仍非托管收益，新来源/原生队列/实际推送Full待，AC3不勾。
+<!-- SECTION:NOTES:END -->
