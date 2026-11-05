@@ -1,9 +1,10 @@
 import { spawnSync } from 'node:child_process';
-import { readFileSync, readdirSync, mkdirSync, writeFileSync } from 'node:fs';
+import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import luaparse from 'luaparse';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { requireLuaTool } from './setup-lua-static.mjs';
+import { discoverSources, measureSources, reviewGameUiMeasurements } from './lua-quality-metrics.mjs';
 
 export function parseDiagnostics(output) {
   return output.split(/\r?\n/).filter(line=>line.trim()).map(line=>{
@@ -111,7 +112,8 @@ const responsibilityRoots = {
       'returnDualWieldHand','choiceActions.exhaustChoose','choiceActions.recoverExhaust',
       'choiceActions.discardToHand','moveChoiceToDraw','choiceActions.upgradeHand',
       'choiceActions.dualWield','M.applyChoice','commitMultipleChoice','toggleChoice',
-      'chooseMultiple','containsUid','chooseSingle','M.choose'].map(name=>`function '${name}'`),
+      'chooseMultiple','containsUid','chooseSingle','M.choose',
+      'applyDrainedAction','refreshDrainedHand','M.drain'].map(name=>`function '${name}'`),
     ...['writhingRoll','writhingParasite','giantHeadSlow','timeEater','reptomancerSuicide',
       'enemyAction','staticRetaliation','classPotion','silentFinal','discover','colorless','originalV4',
       'relicUpgradeRandomHand','playTop','darklingAction','heartBeat','spireDeathRemove',
@@ -186,19 +188,13 @@ const responsibilityRoots = {
   'src/lua/abyss_node_ui_rewards.lua': [],
   'src/lua/abyss_node_ui_shop.lua': [],
   'src/lua/abyss_node_ui_treasure.lua': [],
-  'src/lua/abyss_game_ui.lua': [
-    "function 'self.refresh'", "function 'finishRunFlow'", "function 'selectMode'",
-    "function 'syncMenuContext'", "function 'syncCardChoice'",
-    "function 'closeStaleDeck'", "function 'openCardChoice'", "function 'syncRewardReturn'",
-    "function 'refreshPotionEntry'", "function 'refreshDeckEntry'", "function 'refreshUtilities'",
-    "function 'refreshMapResources'", "function 'refreshPageVisibility'", "function 'renderBattlePage'",
-    "function 'renderMapPage'", "function 'renderCurrentPage'", "function 'refreshExitDialog'",
-    "function 'refreshForeground'", "function 'overlaysBlocked'",
-  ],
+  'src/lua/abyss_game_ui.lua': ["function 'M.new'"],
 };
 // Existing catalog/seed/red-card contracts are separate, unchanged responsibilities.
 // All Run orchestration and newly extracted Run helpers receive the full budget.
 const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|combat_catalog|combat_reactions|combat_native_play|combat_queued_play|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui(?:_.+)?|game_ui_.+|run(?:_(?!(?:card_catalog|red_card_contract|seed)\.lua$).+)?|nodes(?:_.+)?)\.lua$/.test(file);
+const completeResponsibility = file => responsibilityHelper(file)
+  || file==='src/lua/abyss_card_actions.lua' || file==='src/lua/abyss_game_ui.lua';
 export function reviewModuleSize(sources, budgets = {'src/lua/abyss_run.lua': 1000, 'src/lua/abyss_nodes.lua': 1000}) {
   const modules = [], errors = [];
   for (const [file, limit] of Object.entries(budgets)) {
@@ -276,7 +272,7 @@ export function reviewResponsibilityComplexity(diagnostics, sources, roots = res
       if (seen.has(key)) errors.push({...row,message:'Duplicate responsibility complexity measurement'});
       seen.add(key);
       if (key === 'main' ? row.line !== 1 || row.column !== 1 : !functionAt.has(at)) errors.push({...row,message:'Complexity measurement has no corresponding AST function/chunk'});
-      if (!responsibilityHelper(file) && (key === 'main' || !rootRanges.some(([start,end]) => start <= at && at < end))) continue;
+      if (!completeResponsibility(file) && (key === 'main' || !rootRanges.some(([start,end]) => start <= at && at < end))) continue;
       const value = Number(match[2]), limit = 15;
       functions.push({file,line:row.line,subject:match[1],complexity:value,limit});
       if (value > limit) errors.push({...row,message:`Responsibility complexity ${value} exceeds ${limit}: ${match[1]}`});
@@ -316,8 +312,11 @@ export function main(inputs) {
     mkdirSync('build',{recursive:true});writeFileSync('build/lua-static.json',JSON.stringify({...report,unexpected,hard},null,2)+'\n');
     const complexity=inputs?.complexity??runStatic(['--max-cyclomatic-complexity','0','--only','561']);
     writeFileSync('build/lua-complexity.json',JSON.stringify(complexity,null,2)+'\n');
-    const sources=inputs?.sources??Object.fromEntries(readdirSync('src/lua').filter(file=>file.endsWith('.lua'))
-      .map(file=>[`src/lua/${file}`,readFileSync(`src/lua/${file}`,'utf8')]));
+    const sources=inputs?.sources??discoverSources();
+    const measurements=inputs?.measurements??measureSources(sources,complexity.diagnostics);
+    const gameUi=reviewGameUiMeasurements(measurements,sources);
+    writeFileSync('build/game-ui-size.json',JSON.stringify(gameUi,null,2)+'\n');
+    if(gameUi.errors.length)throw new Error(`Game UI scope check failed: ${JSON.stringify(gameUi.errors)}`);
     const size=reviewNodeUiSize(sources);
     writeFileSync('build/node-ui-size.json',JSON.stringify(size,null,2)+'\n');
     if(size.errors.length)throw new Error(JSON.stringify(size.errors));

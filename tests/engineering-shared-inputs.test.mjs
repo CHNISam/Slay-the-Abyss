@@ -3,22 +3,27 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { collectEngineeringInputs } from '../scripts/check-engineering-quality.mjs';
+import { collectEngineeringInputs, collectQuality } from '../scripts/check-engineering-quality.mjs';
 import { runEngineering } from '../scripts/check-engineering.mjs';
+import { measureSources } from '../scripts/lua-quality-metrics.mjs';
 
 test('each invocation collects fresh sources, architecture and both Luacheck passes exactly once',()=>{
   let revision=0;const calls=[];
   const dependencies={
     discover:()=>({'src/lua/a.lua':`return ${++revision}`}),
     policy:()=>({layers:{a:'core'}}),
-    analyze:(sources,policy)=>{calls.push(['architecture',sources.a,policy.layers.a]);return {errors:[]};},
-    lint:args=>{calls.push(['lint',args]);return {diagnostics:[],tool:{version:'1.2.0'}};},
+    analyze:(sources,policy)=>{calls.push(['architecture',sources.a,policy.layers.a]);return {errors:[],edges:[],nodes:['a']};},
+    lint:args=>{calls.push(['lint',args]);return {diagnostics:args.length?[{file:'src/lua/a.lua',line:1,column:1,code:'W561',message:'cyclomatic complexity of main chunk is too high (1 > 0)'}]:[],tool:{version:'1.2.0'}};},
+    measure:(sources,diagnostics)=>{calls.push(['measure',sources['src/lua/a.lua'],diagnostics.length]);return measureSources(sources,diagnostics);},
   };
   const first=collectEngineeringInputs(dependencies),second=collectEngineeringInputs(dependencies);
   assert.equal(first.sources['src/lua/a.lua'],'return 1');
   assert.equal(second.sources['src/lua/a.lua'],'return 2');
-  assert.deepEqual(calls,[['architecture','return 1','core'],['lint',[]],['lint',['--max-cyclomatic-complexity','0','--only','561']],
-    ['architecture','return 2','core'],['lint',[]],['lint',['--max-cyclomatic-complexity','0','--only','561']]]);
+  assert.deepEqual(first.measurements.errors,[]);assert.deepEqual(second.measurements.errors,[]);
+  assert.notEqual(first.measurements,second.measurements);
+  assert.equal(collectQuality(first).snapshot.modules,first.measurements.modules,'quality consumes the same measured AST/W561 collection');
+  assert.deepEqual(calls,[['architecture','return 1','core'],['lint',[]],['lint',['--max-cyclomatic-complexity','0','--only','561']],['measure','return 1',1],
+    ['architecture','return 2','core'],['lint',[]],['lint',['--max-cyclomatic-complexity','0','--only','561']],['measure','return 2',1]]);
 });
 
 test('combined entry shares the same in-memory inputs across all three existing gates',()=>{

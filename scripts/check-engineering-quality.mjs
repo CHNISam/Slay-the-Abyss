@@ -106,7 +106,7 @@ export function policyErrors(inputs,policy) {
 }
 // Fresh per invocation; shared only by the combined engineering process.
 export function collectEngineeringInputs({discover=discoverSources,
-  policy=()=>readJson('config/architecture.json'),analyze=analyzeSources,lint=runStatic}={}) {
+  policy=()=>readJson('config/architecture.json'),analyze=analyzeSources,lint=runStatic,measure=measureSources}={}) {
   const sources=discover(),byModule={};
   for(const [file,source] of Object.entries(sources)) {
     const name=file.slice('src/lua/'.length,-4).replaceAll('/','.');
@@ -115,12 +115,13 @@ export function collectEngineeringInputs({discover=discoverSources,
   }
   const architecture=analyze(byModule,policy());
   const warnings=lint([]),complexity=lint(['--max-cyclomatic-complexity','0','--only','561']);
-  return {sources,byModule,architecture,warnings,complexity};
+  const measurements=measure(sources,complexity.diagnostics);
+  return {sources,byModule,architecture,warnings,complexity,measurements};
 }
 export function collectQuality(collected=collectEngineeringInputs()) {
   const {sources,byModule,architecture,warnings,complexity}=collected;
   if(warnings.tool.version!==qualityContract.luacheck||complexity.tool.version!==qualityContract.luacheck)throw new Error('Quality Luacheck contract mismatch');
-  const measurements=measureSources(sources,complexity.diagnostics);
+  const measurements=collected.measurements??measureSources(sources,complexity.diagnostics);
   const errors=[...architecture.errors,...measurements.errors];
   for(const name of qualityContract.watchedModules)if(!(name in byModule))errors.push({message:`Required watched module missing: ${name}`});
   const lintBaseline=readJson('config/luacheck-baseline.json');
