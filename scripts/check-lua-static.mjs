@@ -316,16 +316,17 @@ export function main(inputs) {
     const measurements=inputs?.measurements??measureSources(sources,complexity.diagnostics);
     const gameUi=reviewGameUiMeasurements(measurements,sources);
     writeFileSync('build/game-ui-size.json',JSON.stringify(gameUi,null,2)+'\n');
-    if(gameUi.errors.length)throw new Error(`Game UI scope check failed: ${JSON.stringify(gameUi.errors)}`);
     const size=reviewNodeUiSize(sources);
     writeFileSync('build/node-ui-size.json',JSON.stringify(size,null,2)+'\n');
     if(size.errors.length)throw new Error(JSON.stringify(size.errors));
     const render=reviewRenderComplexity(complexity.diagnostics,sources);
-    writeFileSync('build/ui-complexity.json',JSON.stringify({...render,tool:complexity.tool},null,2)+'\n');
+    // Keep the scoped result in the existing uploaded UI artifact as well.
+    writeFileSync('build/ui-complexity.json',JSON.stringify({...render,tool:complexity.tool,gameUi},null,2)+'\n');
     const responsibilities=reviewResponsibilityComplexity(complexity.diagnostics,sources);
     writeFileSync('build/responsibility-complexity.json',JSON.stringify({...responsibilities,tool:complexity.tool},null,2)+'\n');
     const sizes=reviewModuleSize(sources);
     writeFileSync('build/module-size.json',JSON.stringify(sizes,null,2)+'\n');
+    if(gameUi.errors.length)throw new Error(`Game UI scope check failed: ${JSON.stringify(gameUi.errors)}`);
     if(unexpected.length||hard.length)throw new Error(`Lua static check failed: ${JSON.stringify([...unexpected,...hard])}`);
     if(render.errors.length)throw new Error(`UI complexity check failed: ${JSON.stringify(render.errors)}`);
     if(responsibilities.errors.length)throw new Error(`Responsibility complexity check failed: ${JSON.stringify(responsibilities.errors)}`);
