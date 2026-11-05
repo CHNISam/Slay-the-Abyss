@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "kind": "post-merge-independent-code-review",
+  "reviewId": "/root/m7_independent_closeout",
+  "reviewerTask": "/root/m7_independent_closeout",
+  "reviewerRole": "Independent child agent dispatched by /root; did not author the reviewed production change",
+  "recordedAt": "2026-11-05T00:50:33.333531+00:00",
+  "repo": "FurinyaWorks/Slay-the-Abyss",
+  "prNumber": 514,
+  "reviewedBaseSha": "a308edbfde7792485cbe79b5650c17e1c7de98cc",
+  "reviewedHeadSha": "a2457383a7813b29fca49509f7b6626419f2da79",
+  "reviewedMergedSha": "78e4e746a7f05754f0d838999c466cd88630368c",
+  "reviewedSourceTree": "1e7781287c628ae94b5ad8c5be809941de4be3ba",
+  "identityVerification": "Personally queried GitHub PR and git commit APIs: merged commit has exactly one parent, the reviewed base; final PR HEAD and merged commit have identical trees. Local HEAD was the merged SHA.",
+  "scope": "PASS only for the existing PR514 code tree, query responsibilities, historical proof loading, and the stated per-AC delivery facts. This is a new post-merge review; it does not certify historical pre-merge authorization or all M7 requirements.",
+  "conclusion": "pass",
+  "unresolved": [],
+  "personallyExecutedTests": [
+    {
+      "command": "node --test --test-concurrency=1 tests/effects-supported-responsibility.test.mjs tests/historical-card-loading.test.mjs",
+      "tests": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 8087.088764,
+      "coverage": "Complete frozen/live Effects independent VM differential, 13 real semantic mutants, cold/warm helper and full runner imports, real selected entries and fresh missing/corrupt archive rejection"
+    },
+    {
+      "command": "node --test --test-concurrency=1 tests/combat-previews-responsibility.test.mjs tests/actor-status-view-responsibility.test.mjs tests/query-raw-output.test.mjs tests/lua-shards.test.mjs tests/lua-workers.test.mjs",
+      "tests": 25,
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 117719.753946,
+      "coverage": "Actor 252 boundaries and 14 semantic mutants with complete CC15 measurements; Combat 164 traces and 8 semantic mutants; all three original-budget raw entries; shard union/inverse and actual worker overlap, exclusivity, overflow, errors and continuation"
+    },
+    {
+      "command": "node --test --test-concurrency=1 tests/ci-runtime.test.mjs",
+      "tests": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1640.447547,
+      "coverage": "Original runner inverse and original deadline rejection, all current files and unmeasured additions exactly once, native platform placement and real failure continuation"
+    },
+    {
+      "command": "node --test --test-concurrency=1 tests/card-input-slices.test.mjs",
+      "tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 24276.441051,
+      "coverage": "All three actual historical Lua entries retain all 12 original groups and original 30-second budget; exact original bodies, injected/fresh linked readers, CRLF, drift, missing dependency and foreign cwd"
+    }
+  ],
+  "testTotals": {
+    "tests": 40,
+    "passed": 40,
+    "failed": 0,
+    "skipped": 0,
+    "existingSemanticMutantsDetected": 35,
+    "mutantsByArea": {
+      "combat": 8,
+      "effects": 13,
+      "actor": 14
+    },
+    "note": "Actor mutants are detected by full frozen/current output mismatch; Combat/Effects mutants fail real behavioral assertions. The independent new mutant below is additional to these 35."
+  },
+  "independentNegative": {
+    "command": "node --input-type=module (temporary driver and module variants under os.tmpdir; runLua executes each in a fresh process; temporary directory removed)",
+    "inputLua": "{{op='damage',value=1},{op='scry',value=0},{op='energy',value=1}}",
+    "expectedLua": "local result=table.pack(E.supported(input)); assert(result.n==2 and result[1]==false and result[2]=='unsupported_scry_sequence','[INDEPENDENT_SCRY_SCAN] late scry must reject incompatible later energy before interpretation')",
+    "mutationFrom": "for _,effect in ipairs(effects) do if type(effect)==\"table\" and effect.op==\"scry\" then hasScry=true end end",
+    "mutationTo": "hasScry=type(effects[1])==\"table\" and effects[1].op==\"scry\"",
+    "results": [
+      {
+        "variant": "complete frozen old Effects",
+        "exitStatus": 0
+      },
+      {
+        "variant": "current Effects",
+        "exitStatus": 0
+      },
+      {
+        "variant": "first-entry-only scry scan mutant",
+        "exitStatus": 1,
+        "failure": "[INDEPENDENT_SCRY_SCAN] behavioral assertion"
+      }
+    ],
+    "productionFilesModified": false
+  },
+  "sourceAndCoverage": {
+    "personalVerification": "Read the source contracts and tests; recomputed all report sourceIdentity SHA256 values after CRLF normalization, compared current changed-module and historical helper hashes; independently enumerated all current shard unions.",
+    "sourceModules": 323,
+    "sourceHashesMatched": 323,
+    "hashMismatches": [],
+    "windowsJsFiles": 710,
+    "windowsJsShards": 13,
+    "posixJsFiles": 710,
+    "posixJsShards": 9,
+    "windowsRawLuaFiles": 1355,
+    "windowsRawLuaShards": 13,
+    "omissions": 0,
+    "duplicates": 0,
+    "combatFullTrace": {
+      "records": 164,
+      "bytes": 1140260,
+      "sha256": "36b7e2879ba071acee9e602da47516b06c715efe782cc7bd3867c892fa5a1978"
+    },
+    "effectsFullTraceSha256": "ec42ef1b871f45edd0a41f877db7fab027d9d4289a906bd09624a9f5b5bb229a",
+    "actorBoundaries": 252,
+    "historicalLoadingReport": "../historical-card-loading-20261105/report.json",
+    "historicalLoadingCurrentSourceHashMatched": true,
+    "historicalLoadingBAAB": {
+      "samplesPerVersion": 2,
+      "beforeMeanMs": 59.73295,
+      "afterMeanMs": 3.43435,
+      "scope": "Existing same-machine small-sample observation; independently checked report arithmetic and current helper hash, did not rerun the before/after benchmark"
+    }
+  },
+  "hostedEvidence": {
+    "personalQueries": [
+      "gh api repos/FurinyaWorks/Slay-the-Abyss/pulls/514",
+      "gh api repos/FurinyaWorks/Slay-the-Abyss/git/commits/<exact-head-or-merged-sha>",
+      "gh api repos/FurinyaWorks/Slay-the-Abyss/actions/runs?head_sha=<merged-sha>&per_page=100",
+      "gh api repos/FurinyaWorks/Slay-the-Abyss/actions/runs/41914042810/jobs?per_page=100",
+      "gh api repos/FurinyaWorks/Slay-the-Abyss/commits/<exact-head-or-merged-sha>/status",
+      "gh api repos/FurinyaWorks/Slay-the-Abyss/rulesets/25870651"
+    ],
+    "prFull": {
+      "runId": 41914042810,
+      "attempt": 1,
+      "event": "pull_request",
+      "headSha": "a2457383a7813b29fca49509f7b6626419f2da79",
+      "jobs": 27,
+      "successful": 26,
+      "unexpandedFastSkipped": 1
+    },
+    "mergeGroup": {
+      "qualityRunId": 41918738466,
+      "licensesRunId": 41918738070,
+      "attempt": 1,
+      "event": "merge_group",
+      "sha": "78e4e746a7f05754f0d838999c466cd88630368c",
+      "jobs": 27,
+      "successful": 26,
+      "unexpandedFastSkipped": 1,
+      "requiredWallSeconds": 1984,
+      "qualityRunnerMinutes": 387.96666666666664,
+      "overlappingJobQueueSecondsSum": 1174
+    },
+    "developPush": {
+      "qualityRunId": 41923895912,
+      "licensesRunId": 41923895999,
+      "attempt": 1,
+      "event": "push",
+      "sha": "78e4e746a7f05754f0d838999c466cd88630368c",
+      "jobs": 27,
+      "successful": 26,
+      "unexpandedFastSkipped": 1,
+      "requiredWallSeconds": 1802,
+      "qualityRunnerMinutes": 361.51666666666665,
+      "overlappingJobQueueSecondsSum": 1124
+    },
+    "runArithmetic": "Recomputed job elapsed-time sums and Required wall from the captured raw API jobs/run responses; both inventory runs succeeded. Queue sums overlap and are not added to wall."
+  },
+  "additionalEvidenceInspected": {
+    "engineeringLog": "/tmp/m7-closeout-20261105/engineering-prepared.log",
+    "engineeringResult": "Coordinator-run full check:engineering PASS, 5189/5189 measurements, 4 original mutations and 6 native UI contracts. Inspected log; not an additional personally executed full engineering run.",
+    "ciContractsLog": "/tmp/m7-closeout-20261105/ci-contracts.log",
+    "ciContractsResult": "Coordinator-run 119/119, 0skip; inspected log, separate from the 40 personally executed tests above."
+  },
+  "acAssessment": {
+    "TASK-74.14/15/16-and-75.2-AC3": "Satisfied by this new independent review, exact final HEAD Full, actual merged tree and independent push Full, with historical delivery provenance gap explicitly retained.",
+    "TASK-74-AC11": "Current HEAD complete Quality and actual merged commit CI facts satisfied; other hotspots remain documented.",
+    "TASK-75-AC1/2/3": "Their explicit coverage, Required checks and official timing-record requirements are supported. Keep parent task In Progress per instructed scope; stable Full target is separate and unmet.",
+    "TASK-81-AC1/2": "Routing, conservative fallback and rejection contracts supported by tests and real Full.",
+    "TASK-81-AC3": "Unfinished: no natural two-platform Fast samples and Full not stably <=1800 seconds."
+  },
+  "historicalProvenanceGap": {
+    "originalPreMergeReviewJsonRetrieved": false,
+    "originalCompleteReviewIdRetrieved": false,
+    "originalCheckoutReceiptRetrieved": false,
+    "originalSchema5DeliveryEvidenceRetrieved": false,
+    "observedHeadIndependentReviewStatus": "GitHub reports success, but its truncated description does not recover the complete original review provenance.",
+    "downloadFailureSource": "Coordinator reported artifact/log download Forbidden; this reviewer did not independently perform that download.",
+    "restriction": "This new task identity must not be backdated as the missing pre-merge review. Do not claim verify:delivery merged_passed or reconstructed original authorization."
+  },
+  "unfinishedBoundaries": [
+    "M7 remains unfinished; 1802 seconds exceeds 1800 seconds and the queue sample was 1984 seconds.",
+    "Natural Quality Fast runs are zero in the current captured 100-run window; 20-sample target is unmet and P50/P90 remain unknown.",
+    "Current source/fixture population differs from the historical 456.05 runner-minute baseline; do not attribute the entire difference to PR514 or one optimization.",
+    "270 functions CC>15, 68 CC>30, max CC75, one SCC with 104 members and GameUI 1004-line constructor remain public.",
+    "No new official capacity, import, ready, PC or physical-phone evidence; no M8/device acceptance is implied."
+  ],
+  "reportReadOnlyReview": {
+    "files": [
+      "docs/backlog-details/M7-CLOSEOUT-20261105.md",
+      "docs/evidence/m7-closeout-20261105/report.json"
+    ],
+    "conclusion": "pass",
+    "findings": [],
+    "checked": "Exact identities, event distinction, 1984/1802-second walls, 387.97/361.52 runner-minutes, 1174/1124 overlapping queue sums, latest Windows 1570-second job and 803/614-second JS/Lua steps, source/engineering counts, historical baseline attribution, Fast/sample and device boundaries. Verified raw-api.json.gz SHA256 and all 109 embedded response payload digests."
+  },
+  "writeBoundary": "Only this review.json was written by this reviewer in the formal worktree; all test mutations were temporary and removed."
+}

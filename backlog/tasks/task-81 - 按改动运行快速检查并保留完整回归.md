@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 15:30'
-updated_date: '2026-11-03 15:29'
+updated_date: '2026-11-05 00:48'
 labels: []
 milestone: m-7
 dependencies: []
@@ -23,8 +23,8 @@ ordinal: 125000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 普通PR按影响选测；高风险及develop和发版完整回归
-- [ ] #2 保留断言与Required Checks；失败取消缺失均拒绝
+- [x] #1 普通PR按影响选测；高风险及develop和发版完整回归
+- [x] #2 保留断言与Required Checks；失败取消缺失均拒绝
 - [ ] #3 真实Runner Fast P50≤5分钟、P90≤10分钟；Full≤30分钟
 <!-- AC:END -->
 
@@ -56,6 +56,8 @@ PR332已复现Silent自然构筑夹具在Windows原30000ms超时；仅诊断并�
 2026-11-02：基于develop 6aa3cf90只修Run公开API治理测试的相关选测漏边。把测试现有Run主模块及五职责模块输入改为完整显式路径，复用选择器字面量依赖分析，不引入通用动态JS求值；保留全部原断言、integration分类、核心Full回退和预算。先证参数漂移负控，再验六输入命中、无关输入不扩大及未知输入Full；独立审查后等在途PR释放，不先推送。
 
 2026-11-03 M9持续收口：独立核对至少20个自然Quality Fast PR样本，不将advisory或Full混入；保留高风险/develop Full及所有Required/身份合同，针对真实漏边/重复工作实施，分别报告性能目标达成与不足，不提前Done。
+
+2026-11-05复采同SHA队列/push原始run/jobs与最新100个Quality样本，区分已证明的工程AC与稳定Full30分钟/自然Fast20样本剩余出口；保持In Progress。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -102,4 +104,6 @@ e22本地重放验证：相对basename参考与短模式原生CLI对当前360个
 本切片补验：Backlog doctor、verify:backlog、check:syntax和diff检查通过。独立review_governance_selection两项定向及六组真实选集/未知与删除/数据及共享基础设施Full核验PASS、无阻断；仅修related，integration543→544且fast9/Lua1277不变。源码测试切片就绪，待根按在途PR节奏集成与精确HEAD完整CI；父任务状态和AC全部保持。
 
 本轮实际自然Quality Fast样本0/20，advisory与取消占位不混入；P50/P90未知，性能AC3未达。完整原始采集371文件与成本工具见docs/backlog-details/TASK-75-81-M9-CI-20261103.md，第二批纯计算去重不更改选择器或门禁。
+
+2026-11-05已复核PR514最终a245、base a308、实际squash78e4e746及相同tree；PR Full41914042810、merge_group41918738466及push41923895912和对应Licenses成功。本轮独立复审40项/35语义变异及新增scry负例PASS；主控原工程门禁和119项CI合同通过。证据见docs/backlog-details/M7-CLOSEOUT-20261105.md及docs/evidence/m7-closeout-20261105/。本轮新独审不补造合前reviewId或schema5历史收据；M7稳定耗时/Fast样本与设备仍未完成。 最新100次Quality完整采集为0个实际Fast，20样本不足，P50/P90未知；AC3保持未勾与In Progress。
 <!-- SECTION:NOTES:END -->

@@ -1,11 +1,11 @@
 ---
 id: TASK-74
 title: 缩短完整检查并拆清超大模块职责
-status: In Progress
+status: Done
 assignee:
   - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-11-04 11:39'
+updated_date: '2026-11-05 00:48'
 labels: []
 milestone: m-7
 dependencies: []
@@ -34,7 +34,7 @@ ordinal: 118000
 - [x] #8 UI测试公共接口以原生API证据校验，独立状态和故意缺方法负例保留
 - [x] #9 指定核心与表现职责拆清且提取helper受检，数值随机顺序回滚及输入显示所有权保持
 - [x] #10 合并证据绑定实际合入提交和源码树，区分PR通过与合入提交验证状态
-- [ ] #11 本轮当前HEAD完整Quality通过，正常门禁合并后复核实际合入提交CI
+- [x] #11 本轮当前HEAD完整Quality通过，正常门禁合并后复核实际合入提交CI
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -71,6 +71,8 @@ ordinal: 118000
 本轮PR487/488以14223f4b为基线串接完整身份测试侧inverse，保留#493缓存与每次关联新鲜读取；两源码组合漂移、一次准备及写前物化校验后独审，提交现有PR观察精确head完整CI。
 
 2026-11-04 领域切片：按已合设计先固定入队与公开替换合同，提取Combat Reactions；复用AST边检查职责边界，记录同基线SCC/边/复杂度，独立复审及完整CI后再收口。
+
+2026-11-05接续已合PR514：核对最终head/base/squash tree、PR/队列/push完整检查与Licenses，本轮独立重验旧新差分、变异和完整分片，按证据关闭最终交付AC；历史schema5产物未取得单独记录，不重做实现、不代验设备。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -153,4 +155,12 @@ PR511@8bb93734官方Full41800684802真实失败：POSIX9 architecture-compositio
 a73新基线重放后49/49定向测试通过（42源码/架构消费者+7反应/边界，0skip），含LF/CRLF、完整旧hash、注册/边界/重复键/顺序/escape和fresh linked-owner负例；guidance/backlog通过。未重复长UI/游戏整套；新精确HEAD Full与fresh-context最终组合独审、队列真实合并及合后验证待取。
 
 最终组合1a24acf1干净Context独审49领域/107工具及真实Run回滚、固定hash Luacheck通过后，Full41818991963的Windows5历史battle_ui_card_play_slice_2.lua触及原30秒（ETIMEDOUT），原生Queue等待已暂停，PR未入队。该夹具本已独占，5–8四组断言全过但总快照/构建/清理超过预算；现按既有11组合同拆5–6/7–8，原body/current hash、archive/oracle、每片30秒、调度与生产源码不变。141项定向和五片11组本地通过；托管精确新HEAD Full与实际Queue演练仍未完成，主任务不提前Done。
+
+2026-11-05已复核PR514最终a245、base a308、实际squash78e4e746及相同tree；PR Full41914042810、merge_group41918738466及push41923895912和对应Licenses成功。本轮独立复审40项/35语义变异及新增scry负例PASS；主控原工程门禁和119项CI合同通过。证据见docs/backlog-details/M7-CLOSEOUT-20261105.md及docs/evidence/m7-closeout-20261105/。本轮新独审不补造合前reviewId或schema5历史收据；M7稳定耗时/Fast样本与设备仍未完成。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+已合PR514交付余项完成：精确源码树/完整PR与合后CI及本轮独审通过，保留性能与设备边界；详见M7-CLOSEOUT-20261105。
+<!-- SECTION:FINAL_SUMMARY:END -->
