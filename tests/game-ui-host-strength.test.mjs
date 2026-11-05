@@ -4,6 +4,19 @@ import {createRequire} from 'node:module';
 import {installLuaGraphObserver} from './helpers/lua-graph-observer.mjs';
 import {runPair,mutateSource} from './helpers/game-ui-host-equivalence.mjs';
 const require=createRequire(import.meta.url);
+test('Host error observer removes only known source-root coordinates',()=>{
+ const {lua,lauxlib,lualib,to_luastring,to_jsstring}=require('fengari');
+ const L=lauxlib.luaL_newstate();lualib.luaL_openlibs(L);
+ const status=lauxlib.luaL_dostring(L,to_luastring(`local normalize=dofile('tests/lua/support/game_ui_host_errors.lua')
+  local message='business reason foo.lua:12: final'
+  local ok,why=pcall(function()error(message,0)end)
+  assert(not ok and normalize(why)==message)
+  assert(normalize('./src/lua/abyss_game_ui.lua:31: ./src/lua/abyss_game_ui_run.lua:22: '..message)==message)
+  assert(normalize('unexpected.lua:12: final')=='unexpected.lua:12: final')
+  assert(normalize('./other/semantic.lua:12: final')=='./other/semantic.lua:12: final')
+  local identity={};assert(normalize(identity)==identity)`));
+ assert.equal(status,lua.LUA_OK,status===lua.LUA_OK?'':to_jsstring(lua.lua_tostring(L,-1)));
+});
 test('full graph observer rejects alias split/merge, RNG limb and return arity changes',()=>{
  const {lua,lauxlib,lualib,to_luastring,to_jsstring}=require('fengari');
  function observe(body){const L=lauxlib.luaL_newstate();lualib.luaL_openlibs(L);installLuaGraphObserver(L);

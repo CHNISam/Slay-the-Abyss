@@ -1,5 +1,6 @@
 -- A complete production Host runs in each independent VM. No historical projection.
 local events, count={},0
+local normalizeError=dofile('tests/lua/support/game_ui_host_errors.lua')
 if ABYSS_HOST_FULL_TRACE then assert(type(ABYSS_HOST_GRAPH)=='function','full trace requires native graph observer')end
 ABYSS_HOST_FIELDS={}
 local nativeControls={}
@@ -61,9 +62,7 @@ local function checkpoint(label,host,fn)
  end
  local result=table.pack(pcall(fn or function()end))
  -- Normalize only source coordinates, retaining the error text and return arity.
- if not result[1] and type(result[2])=='string' then
-  while result[2]:match('^.-%.lua:%d+: ')do result[2]=result[2]:gsub('^.-%.lua:%d+: ','',1)end
- end
+ if not result[1] then result[2]=normalizeError(result[2])end
  count=count+1
  ABYSS_HOST_EXECUTED=count
  if count<(ABYSS_HOST_FROM or 1) or count>(ABYSS_HOST_TO or 35) then events={};return table.unpack(result,1,result.n)end
