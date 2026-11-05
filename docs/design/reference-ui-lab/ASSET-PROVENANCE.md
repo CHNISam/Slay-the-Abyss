@@ -42,3 +42,10 @@ All four power portraits use the same dark blue-purple #252536, sampled from pix
 The 2026-11-05 adoption update incorporates the result screen and current-page-only run state from private source `7e40d2d361fff6b9c89d9f409db29a9d8ac44352`. The prior public source `84da1d3b2ac889fe9a9fa9cb48779ba255be99ea` and its safe geometric substitutes remain the public visual base. No new third-party raster is added.
 
 `victory-easter-egg.png` is excluded: it derives from the existing HoYoverse / ufotable concept-trailer frame and public redistribution rights have not been established. Its SHA-256 is added to `excluded-private-assets.json`. The public interaction opens a source/boundary notice instead of the picture; it does not hotlink the image. The approved private artwork and design are not modified by this publication substitute.
+
+
+### Repository inventory identity
+
+`docs/legal/assets.json` records all 47 retained media files: 37 geometric SVGs, two OFL font subsets, seven PNGs and one JPEG. The Traveler avatar/battle copies match the existing `portrait-ai-derivative` source hashes; `traveler-reference.png` matches `art/source/lumine_geo_portrait.png` under the existing `game-ip-ai` source category.
+
+The constellation, cover and three menu-reference images retain **unresolved upstream ownership/redistribution evidence**. Their documented origin is user-provided or generated from user references, not a grant of third-party rights. Inventory registration preserves identity and this uncertainty; it is not legal clearance. The two fonts retain their separate OFL terms. No old inventory entry or license-checking rule is relaxed.

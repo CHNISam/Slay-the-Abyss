@@ -114,6 +114,18 @@
     "merchant-action-browser-evidence": {
       "status": "Project UI diagnostic screenshots rendered from real GameUI resolved controls by Chromium with system fonts and existing stand-in glyphs. No official textures or font binaries redistributed; referenced game identities retain their owners rights. Offline layout evidence only, not official device, animation, import or performance acceptance.",
       "evidence": "docs/evidence/merchant-action-group-20261101/README.md; capture.lua; baseline b0f64d49."
+    },
+    "reference-ui-geometric-substitute": {
+      "status": "Project-authored simple SVG geometry and text replacing private reference rasters; no encoded or traced raster copies. Game names, layouts and identities retain third-party rights. No game-IP sublicense, commercial clearance or native/device acceptance.",
+      "evidence": "docs/design/reference-ui-lab/ASSET-PROVENANCE.md; public source 84da1d3b2ac889fe9a9fa9cb48779ba255be99ea; LICENSE-SCOPE.md"
+    },
+    "reference-ui-user-source-unresolved": {
+      "status": "User-supplied prototype references or images recorded as generated from user references. Complete upstream ownership and redistribution evidence remain unknown; user direction to preserve the design is not third-party rights clearance. No asset/IP sublicense, commercial clearance or native/device acceptance.",
+      "evidence": "docs/design/reference-ui-lab/ASSET-PROVENANCE.md; public source 84da1d3b2ac889fe9a9fa9cb48779ba255be99ea; LICENSE-SCOPE.md; unresolved files and origin claims are listed individually in the provenance document"
+    },
+    "reference-ui-ofl-font-subset": {
+      "status": "Noto CJK font subsets under SIL Open Font License 1.1, retaining embedded notices and renamed Prototype Card Sans / Prototype Card Type family names. Font license applies separately; not relicensed under the project noncommercial code license.",
+      "evidence": "docs/design/reference-ui-lab/ASSET-PROVENANCE.md; public source 84da1d3b2ac889fe9a9fa9cb48779ba255be99ea; LICENSE-SCOPE.md; docs/design/reference-ui-lab/FONT-LICENSES.txt; https://github.com/notofonts/noto-cjk"
     }
   },
   "files": {
@@ -5757,6 +5769,194 @@
     "experiments/art-tech-lab/baseline-audit/results/strike-compact.png": {
       "sha256": "74dec0a2d1fee69453f8262ca6f0783fe6f00cf461e983db96d897ac107907a8",
       "category": "performance-art-derivative"
+    },
+    "docs/design/reference-ui-lab/card-native-attack.svg": {
+      "sha256": "9a9a1979445996edc19923da84e8a85dafbfb6b917fcdd496528592f2b624006",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/card-native-power.svg": {
+      "sha256": "92c467af00b22577158a3c62fede77081043c09b94dd86a107930252a55b031f",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/card-native-skill.svg": {
+      "sha256": "edfc59856ccd89b3353dccc7de33ff4c493f6ac5cf6257b2dfc51d0667d32f75",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/card-zh-sans.woff": {
+      "sha256": "c9f3d9ed9fdbc3c417c8037e79458680e6f978237d2e53954aae702ebaee7dc2",
+      "category": "reference-ui-ofl-font-subset"
+    },
+    "docs/design/reference-ui-lab/card-zh-type.woff": {
+      "sha256": "6be2f48c1bbab5d823fb263ff7277bccf2cbe2168768c0170632ee4a23c0995d",
+      "category": "reference-ui-ofl-font-subset"
+    },
+    "docs/design/reference-ui-lab/constellation-exact.png": {
+      "sha256": "5780bc541d322b369b61f656908da59bdeee7f3ad83988edca8be23776720ecd",
+      "category": "reference-ui-user-source-unresolved"
+    },
+    "docs/design/reference-ui-lab/geo-card-zhongli-attack.svg": {
+      "sha256": "f31c85c3079c5d0f6a300c869fb00c10ff55b5d038e6296118db6c045a5fa695",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/geo-card-zhongli-power.svg": {
+      "sha256": "f31c85c3079c5d0f6a300c869fb00c10ff55b5d038e6296118db6c045a5fa695",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/geo-card-zhongli-skill.svg": {
+      "sha256": "f31c85c3079c5d0f6a300c869fb00c10ff55b5d038e6296118db6c045a5fa695",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/geo-cost-icon-priority.svg": {
+      "sha256": "54fa832e0fa9734782ba64e67607904f2b850b82eeaadfdebaeaaae9f2f703c3",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/icon-100114.svg": {
+      "sha256": "15db1db2adb7789ccb549e6192057d29c027b579737c30adbedab3c5a3fd097e",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/icon-102002.svg": {
+      "sha256": "9f7c3df4abe76f386a333c2d3e5acc9b10503767d6e7fde395a3a94ba03bdc32",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/icon-102025.svg": {
+      "sha256": "bcc092e8b8817553115facfd32847d1afb72f0ddb9e566b4dbe3988d0d51f5fe",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/icon-102028.svg": {
+      "sha256": "3e50336e5de91e40c24a2b3a74215a536496a7e6c30d61b095aa06f84c303dc1",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/icon-102033.svg": {
+      "sha256": "2e31d9b183675bcfdeb277cd4cf45b09a3e5b8209064c22032d4d6227fb6bb9a",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/icon-102034.svg": {
+      "sha256": "2e31d9b183675bcfdeb277cd4cf45b09a3e5b8209064c22032d4d6227fb6bb9a",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/icon-102044.svg": {
+      "sha256": "9a9a1979445996edc19923da84e8a85dafbfb6b917fcdd496528592f2b624006",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/icon-deck.svg": {
+      "sha256": "f08660d2e947533cbe1a0ce26adbdb6735a577329d09b491fcd2e06cf6d56bde",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/icon-geo.svg": {
+      "sha256": "92c467af00b22577158a3c62fede77081043c09b94dd86a107930252a55b031f",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/menu-reference-background.png": {
+      "sha256": "fdc94718cbc2ab52a8107bc8bd35971cec51ba18c5271e9e927c822d9a7dca39",
+      "category": "reference-ui-user-source-unresolved"
+    },
+    "docs/design/reference-ui-lab/menu-reference-logo.png": {
+      "sha256": "8963605b24721469f2a9bc6086c3004b5f993f39ca7d774e34ba31bc3fed85d0",
+      "category": "reference-ui-user-source-unresolved"
+    },
+    "docs/design/reference-ui-lab/settings-reference-background.png": {
+      "sha256": "d24dc34be6e5c71a2297fb008aa2fa14623d77faa2f4537ac8550c4f5ff30f3f",
+      "category": "reference-ui-user-source-unresolved"
+    },
+    "docs/design/reference-ui-lab/sta-cover.jpeg": {
+      "sha256": "3b45d1e3899db6739eb3594e69b03776ff4e7e40a3a99365c5ccef2a8438421c",
+      "category": "reference-ui-user-source-unresolved"
+    },
+    "docs/design/reference-ui-lab/sts-base-colorless_attack.svg": {
+      "sha256": "9d9db654d8da985b9390a386a44a127df302ef2a69057c42304621030c977743",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-base-colorless_power.svg": {
+      "sha256": "c0410089cdc5648f43c3594fa51403765b900b554b9175c75e91803a499f4dfa",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-base-colorless_skill.svg": {
+      "sha256": "12e5380408dec17c39a6ace8bd64b135c2c20f3c61014c4a5762bbcce9541b7e",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-base-ironclad_attack.svg": {
+      "sha256": "9d9db654d8da985b9390a386a44a127df302ef2a69057c42304621030c977743",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-base-ironclad_power.svg": {
+      "sha256": "c0410089cdc5648f43c3594fa51403765b900b554b9175c75e91803a499f4dfa",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-base-ironclad_skill.svg": {
+      "sha256": "12e5380408dec17c39a6ace8bd64b135c2c20f3c61014c4a5762bbcce9541b7e",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-card-red-orb.svg": {
+      "sha256": "54fa832e0fa9734782ba64e67607904f2b850b82eeaadfdebaeaaae9f2f703c3",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-logo-gog.svg": {
+      "sha256": "cb2148207f2530c6e5014ef6a8141143d3fadca404d79a6cc064b4d3812f901a",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-mana-colorless.svg": {
+      "sha256": "2fbe13edff87de494da67bc37b48ed81b3cb9f72843a5d9ca4c0f049d5e95c17",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-rarity-banner_common.svg": {
+      "sha256": "c11b21dc6f7c3ea37c6821426a7e2004c2d871772a8201bc4b021302c95ef162",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-rarity-banner_rare.svg": {
+      "sha256": "8cd5bf09dc2fdc445116cf537c724de0aa9cd9398539645fed8a1ec89eeb0282",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-rarity-banner_uncommon.svg": {
+      "sha256": "22bf308471c330e5fad8049a202c121240cbf5680fddc44e99c611deb760b6a9",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-rarity-frame_common_attack.svg": {
+      "sha256": "199b5eb7faa23f134e7f51132d6d2fab2a10b0b9a6f49085743d7150abb0324b",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-rarity-frame_common_power.svg": {
+      "sha256": "199b5eb7faa23f134e7f51132d6d2fab2a10b0b9a6f49085743d7150abb0324b",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-rarity-frame_common_skill.svg": {
+      "sha256": "199b5eb7faa23f134e7f51132d6d2fab2a10b0b9a6f49085743d7150abb0324b",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-rarity-frame_rare_attack.svg": {
+      "sha256": "199b5eb7faa23f134e7f51132d6d2fab2a10b0b9a6f49085743d7150abb0324b",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-rarity-frame_rare_power.svg": {
+      "sha256": "199b5eb7faa23f134e7f51132d6d2fab2a10b0b9a6f49085743d7150abb0324b",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-rarity-frame_rare_skill.svg": {
+      "sha256": "199b5eb7faa23f134e7f51132d6d2fab2a10b0b9a6f49085743d7150abb0324b",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-rarity-frame_uncommon_attack.svg": {
+      "sha256": "199b5eb7faa23f134e7f51132d6d2fab2a10b0b9a6f49085743d7150abb0324b",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-rarity-frame_uncommon_power.svg": {
+      "sha256": "199b5eb7faa23f134e7f51132d6d2fab2a10b0b9a6f49085743d7150abb0324b",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/sts-rarity-frame_uncommon_skill.svg": {
+      "sha256": "199b5eb7faa23f134e7f51132d6d2fab2a10b0b9a6f49085743d7150abb0324b",
+      "category": "reference-ui-geometric-substitute"
+    },
+    "docs/design/reference-ui-lab/traveler-avatar.png": {
+      "sha256": "6b32c5e192d699c20808c3c697640275ac4b42953d6904eb51b005d8ce66a788",
+      "category": "portrait-ai-derivative"
+    },
+    "docs/design/reference-ui-lab/traveler-battle.png": {
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+      "category": "portrait-ai-derivative"
+    },
+    "docs/design/reference-ui-lab/traveler-reference.png": {
+      "sha256": "5a8287ed5c1d1825b9068534df985cf14067596e37eef530f5d2a6ab1ba26854",
+      "category": "game-ip-ai"
     }
   }
 }
