@@ -10,7 +10,7 @@ const root=process.cwd();
 const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
 const old=fs.readFileSync('tests/fixtures/game-ui-host/old-host.lua','utf8');
 assert.equal(hash(old.replaceAll('\r\n','\n')),'165e2ad1180cab9daf5321b46d1f87fe9c34ed6ebbcd3c3a8b495d23974e0933');
-export const mainWindows=[[1,6],[7,12],[13,15],[16,18],[19,21],[22,24],[25,27],[28,30],[31,35]];
+export const mainWindows=[[1,6],[7,12],[13,15],[16,18],[19,21],[22,24],[25,27],[28,30],[31,32],[33,34],[35,35]];
 export const scenarios={clock:7,wide:7,'full-source':7,'map-failure':7,'refresh-reentry':7,'disable-live':7,overlays:13,egg:11,route:18,chapters:11};
 export function windows(total){const out=[];for(let n=1;n<=total;n+=6)out.push([n,Math.min(total,n+5)]);return out;}
 function coverage(ranges,total){assert.deepEqual(ranges.flatMap(([a,b])=>Array.from({length:b-a+1},(_,i)=>a+i)),Array.from({length:total},(_,i)=>i+1));}
