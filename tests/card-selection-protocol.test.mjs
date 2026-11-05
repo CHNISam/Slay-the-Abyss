@@ -14,17 +14,15 @@ test('real selection protocol preserves candidates, tokens, source identities an
   assert.match(result.stdout,/CARD_SELECTION_PROTOCOL_PASS 6/);
 });
 
-test('CardActions includes every helper within CC15 except the documented unchanged drain',()=>{
+test('CardActions includes every function and chunk within CC15',()=>{
   const sources=discoverSources();
   const measured=measureSources(sources,runStatic(['--max-cyclomatic-complexity','0','--only','561']).diagnostics);
   assert.deepEqual(measured.errors,[]);
   const module=measured.modules.find(m=>m.file==='src/lua/abyss_card_actions.lua');
   // Bound the entire module so relocating a new helper cannot evade coverage.
-  // The unchanged CC25 queue owner is an explicit remaining M9 hotspot.
   const drains=module.functions.filter(f=>f.name==='M.drain');
   assert.equal(drains.length,1);
-  assert.equal(drains[0].complexity,25);
-  const responsibilities=module.functions.filter(f=>f.name!=='M.drain');
+  const responsibilities=module.functions;
   assert(responsibilities.some(f=>f.name==='M.choose'));
   assert(responsibilities.some(f=>f.name==='M.applyChoice'));
   for(const f of responsibilities)assert(f.complexity<=15,`${f.name}: ${f.complexity} exceeds 15`);

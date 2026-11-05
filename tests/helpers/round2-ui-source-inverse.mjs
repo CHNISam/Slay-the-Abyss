@@ -2,6 +2,7 @@ import {preIntegrationSource,prepareIntegrationRetirement} from './pr372-integra
 import {preCombatVfxUpgradeSource} from './combat-vfx-upgrade-inverse.mjs';
 import {projectArtPerfSource} from './art-perf-source-composition.mjs';
 import {preNativeMonsterArtSource} from './native-monster-art-source-inverse.mjs';
+import {preGameUiExtractionSource} from './game-ui-extraction-source-inverse.mjs';
 // Test-only exact outer layer for the reviewed round-two presentation extraction.
 // Old witnesses keep their full bytes; unknown edits remain visible to their guards.
 import assert from 'node:assert/strict';
@@ -29,7 +30,9 @@ for(const [path,binding]of Object.entries(round2UiSourceLayer.files)){
   assert.ok(Array.isArray(binding.hunks));
   if(binding.beforeSha256===null)assert.deepEqual(binding.hunks,[]);
 }
-export function preRound2UiSource(path,source,{readSource=path=>projectArtPerfSource(path,preCombatVfxUpgradeSource(path,readFileSync(path,'utf8')),'perf')}={}){
+export function preRound2UiSource(path,source,options={}){
+ source=preGameUiExtractionSource(path,source,{readSource:Object.hasOwn(options,'readSource')?options.readSource:(path=>readFileSync(path,'utf8'))});
+ const {readSource=path=>projectArtPerfSource(path,preCombatVfxUpgradeSource(path,readFileSync(path,'utf8')),'perf')}=options;
  source=preIntegrationSource(path,source);
   source=projectArtPerfSource(path,preNativeMonsterArtSource(path,source),'perf');
   const binding=round2UiSourceLayer.files[path];

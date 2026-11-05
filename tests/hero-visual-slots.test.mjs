@@ -2,7 +2,7 @@ import {projectOpenPrSource} from './helpers/open-pr-source-composition.mjs';
 import test from 'node:test';
 import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { gameLayout } from '../scripts/game-ui-layout.mjs';
 import { nodeLayout } from '../scripts/node-ui-layout.mjs';
 import { battleLayout } from '../scripts/ui-layout.mjs';
@@ -88,5 +88,7 @@ test('menu hero, select busts and Neow figure are wired without sharing one trav
     .find(control => control.name === 'hero');
   assert.equal(heroUnit.children.find(control => control.name === 'portrait').image, theme.icon.player.id);
   assert.notEqual(theme.icon.player.id, 102005);
-  assert.equal(readFileSync('src/lua/abyss_game_ui.lua', 'utf8').includes('self.prologue:play()'), false);
+  for(const file of readdirSync('src/lua').filter(name=>/^abyss_game_ui(?:_.+)?\.lua$/.test(name))){
+    assert.equal(readFileSync(`src/lua/${file}`, 'utf8').includes('self.prologue:play()'), false,file);
+  }
 });

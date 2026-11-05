@@ -1,0 +1,56 @@
+{
+  "sourceCommit": "da6ec5602b16706464d262b5a2b343ee36d5a633",
+  "approvedVisualReferenceCommit": "7e40d2d361fff6b9c89d9f409db29a9d8ac44352",
+  "scenes": [
+    {
+      "scene": "menu",
+      "frozenSaveSha256": "89b5a3b8018cdd7f8fbd45cab8a32720630ba1063874f9f4d838f0e5bb536d5e",
+      "expandedLayoutSha256": "911a387906ac369cb01f465751cea24a5cb6bd2af4365ddb15daf1cdc32aa5bb"
+    },
+    {
+      "scene": "shop",
+      "frozenSaveSha256": "311dac601c5856b212cfec88ae20e211b7f3be9e04ed9a85080b5033924c455f",
+      "expandedLayoutSha256": "1fe9cf319025927b14a21f9e8bbd036dbab16589c5565b3c212d61c48a7a07bf"
+    },
+    {
+      "scene": "battle",
+      "frozenSaveSha256": "ae8b868d616ed3281de7e4105632e86c03b6f2708ac3ad7de2bdb36d9ad79146",
+      "expandedLayoutSha256": "38f46640b1c90b16361a1104d5909d1a18757a690c95c6ba19ca572bc39ca828",
+      "patches": [
+        {
+          "source": "sts-battle-restore.css:103 at approvedVisualReferenceCommit",
+          "change": "Enable native continuous energy-number outline in approved #4c2425. Native outline width is not configurable; CSS 1.2px is approximated.",
+          "fields": [
+            "battle/energy.enableOutline",
+            "battle/energy.outlineColor"
+          ],
+          "rulesAndScriptsUnchanged": true
+        }
+      ]
+    },
+    {
+      "scene": "map",
+      "frozenSaveSha256": "0f356a3b1692a1d46f05bd2643d1b33f1ab7a78acbf8225cbf6c11705c1ce431",
+      "expandedLayoutSha256": "3ba3dd42aa06d69ff53fbcd00e209bfad172d7ead86533fe9f40a359cfd2a9bd"
+    }
+  ],
+  "nativeInputVerified": false,
+  "officialImportVerified": false,
+  "completeGame": false,
+  "sourceAdapterFixes": [
+    {
+      "files": [
+        "battle/scene.lua",
+        "battle/test-suffix.lua"
+      ],
+      "change": "Bound incoming presentation dt to [0,0.1] and cover long-frame command/feedback recovery."
+    },
+    {
+      "files": [
+        "build.mjs",
+        "../../tests/native-ui-preview.test.mjs"
+      ],
+      "change": "Reject generated/source module name conflicts and restrict generated inputs to the two declared data modules; regenerate theme."
+    }
+  ]
+}

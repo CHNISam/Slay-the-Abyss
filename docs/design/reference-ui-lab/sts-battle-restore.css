@@ -1,0 +1,117 @@
+/* Private reference restoration: STS red character bases, COMMON grey rarity
+   layers, and the project's existing native card type icons. No new card art.
+   Base textures are embedded below. Public asset rights are not confirmed. */
+.battle-screen.sts-restored.a{font-family:Georgia,'Noto Serif CJK SC','Times New Roman',serif;background:#131d23}
+.battle-screen.sts-restored.a .battle-location,.battle-screen.sts-restored.a .turn-label,.battle-screen.sts-restored.a .small-top-button{display:none}
+.battle-screen.sts-restored.a .scene-art{filter:brightness(.9) saturate(.65)}
+.battle-screen.sts-restored.a .scene-vignette{background:radial-gradient(ellipse at 50% 48%,transparent 35%,#02070991 100%)}
+.battle-screen.sts-restored.a .hero{left:226px;top:292px;width:180px;height:238px}
+.battle-screen.sts-restored.a .hero>svg{width:180px;height:210px}
+.battle-screen.sts-restored.a .enemy{top:336px;width:175px;height:194px}
+.battle-screen.sts-restored.a .enemy.e0{left:798px}
+.battle-screen.sts-restored.a .enemy.e1{left:1018px;top:336px}
+.battle-screen.sts-restored.a .enemy>svg{width:175px;height:155px}
+.battle-screen.sts-restored.a .unit-name{position:absolute;top:100%;left:0;width:100%;margin:5px 0 0;color:#eee9cf;font-size:14px;font-weight:bold;letter-spacing:0;opacity:0;pointer-events:none;text-shadow:1px 2px 2px #000}
+.battle-screen.sts-restored.a .combatant:hover .unit-name,.battle-screen.sts-restored.a .combatant:focus-visible .unit-name{opacity:1}
+.battle-screen.sts-restored.a .hero .unit-name{top:233px}
+.battle-screen.sts-restored.a .health{width:154px;height:11px;border:1px solid #551d1b;border-radius:3px;margin:5px auto 0;background:#271a1b;font:700 14px/10px Georgia,serif;color:#fff5df;box-shadow:0 2px 3px #0005;text-align:center;text-shadow:-1px -1px #2d1714,1px 1px #2d1714}
+.battle-screen.sts-restored.a .health i{border-radius:2px;background:linear-gradient(#fc3327,#b61616)}
+.battle-screen.sts-restored.a .health .block{left:-18px;top:-10px;width:27px;height:29px;font:700 16px/20px Georgia,serif;background:linear-gradient(#8de3ef,#417b96);clip-path:polygon(50% 0,100% 20%,92% 73%,50% 100%,8% 73%,0 20%);text-shadow:1px 1px #243a4d}
+.battle-screen.sts-restored.a .health:has(.block){border-color:#d5d3bc;background:#1d465c}
+.battle-screen.sts-restored.a .health:has(.block) i{background:linear-gradient(#81d2df,#4d8aa5)}
+.battle-screen.sts-restored.a .intent{left:60px;top:-53px;font-size:21px;color:#fff5df;gap:1px;text-shadow:1px 2px 1px #212026}
+.battle-screen.sts-restored.a .intent svg{width:28px;height:34px}
+.battle-screen.sts-restored.a .intent small{display:none}
+.battle-screen.sts-restored.a .enemy.targetable:hover:after,.battle-screen.sts-restored.a .enemy.targetable:focus-visible:after{content:'';position:absolute;inset:18px 3px 12px;border:3px solid #eac541;border-radius:15%;pointer-events:none;clip-path:polygon(0 0,18% 0,18% 5%,5% 5%,5% 18%,0 18%,0 82%,5% 82%,5% 95%,18% 95%,18% 100%,82% 100%,82% 95%,95% 95%,95% 82%,100% 82%,100% 18%,95% 18%,95% 5%,82% 5%,82% 0,100% 0,100% 100%,0 100%)}
+.battle-screen.sts-restored.a .energy{left:86px;bottom:84px;width:86px;height:86px;transform:none;border:5px solid #514247;border-radius:50%;background:radial-gradient(circle at 45% 42%,#fffad5 0%,#fff7a6 28%,#ffe35d 41%,#ffad20 56%,#e84d12 63%,#852024 70%,#c8baa2 74%,#393238 77%);box-shadow:0 0 0 2px #24262a,0 0 13px #f1701b88,inset 0 0 0 3px #c3b4a1;color:#fff9e4;font:bold 29px Georgia,serif;text-shadow:-2px -2px #4c2425,2px 2px #4c2425,2px -2px #4c2425,-2px 2px #4c2425;z-index:6}
+.battle-screen.sts-restored.a .energy:before{content:'';position:absolute;inset:-8px;border:2px solid #eb8f30;border-radius:45% 55% 45% 55%;transform:rotate(25deg);opacity:.65;pointer-events:none}
+.battle-screen.sts-restored.a .energy span{transform:none}
+.battle-screen.sts-restored.a .energy small{display:none}
+.battle-screen.sts-restored.a .end-turn{right:114px;bottom:112px;width:143px;min-width:0;height:56px;padding:0;border:0;border-radius:0;clip-path:polygon(12% 0,87% 0,100% 50%,87% 100%,12% 100%,0 50%);background:linear-gradient(#8f918b,#41484a);box-shadow:none;color:#e2dfd0;font:bold 18px Georgia,'Noto Serif CJK SC',serif;letter-spacing:1px;text-shadow:0 2px 2px #10202a;isolation:isolate}
+.battle-screen.sts-restored.a .end-turn:before{content:'';position:absolute;inset:3px;clip-path:inherit;background:#1a2c35;z-index:-2}
+.battle-screen.sts-restored.a .end-turn:after{content:'';position:absolute;inset:7px;clip-path:inherit;border:0;background:linear-gradient(#38505c,#243942);z-index:-1}
+.battle-screen.sts-restored.a .end-turn:hover{filter:brightness(1.25)}
+.battle-screen.sts-restored.a .pile{bottom:15px;width:65px;height:67px;font-size:0;color:transparent}
+.battle-screen.sts-restored.a .pile.draw{left:22px}
+.battle-screen.sts-restored.a .pile.discard{right:22px}
+.battle-screen.sts-restored.a .pile-icon{width:39px;height:49px;margin:0 auto;border:2px solid #a79c7e;border-radius:4px;background:#f2ead0;transform:rotate(-16deg);box-shadow:3px 1px 0 #a9a088,6px 4px 0 #6f6d60}
+.battle-screen.sts-restored.a .pile-icon:before{content:'';inset:3px;border:1px solid #b65036;border-radius:3px}
+.battle-screen.sts-restored.a .pile-icon i{position:absolute;inset:0;font:bold 36px/43px Georgia,serif;font-style:normal;color:#b74028;transform:none}
+.battle-screen.sts-restored.a .discard .pile-icon{transform:rotate(13deg);background:#79b7d0;border-color:#3b6a82;box-shadow:3px 1px 0 #b3c6c8,6px 4px 0 #455c6a}
+.battle-screen.sts-restored.a .discard .pile-icon:before{border-color:#c4e2eb}
+.battle-screen.sts-restored.a .discard .pile-icon i{color:#25536d}
+.battle-screen.sts-restored.a .pile-icon b{right:-17px;bottom:-12px;width:28px;height:28px;border:0;background:#b13927;font:bold 19px/28px Georgia,serif;color:#fff0d6;text-shadow:0 1px #53261f;transform:rotate(16deg)}
+.battle-screen.sts-restored.a .discard .pile-icon b{left:-17px;right:auto;transform:rotate(-13deg)}
+.battle-screen.sts-restored.a .hand{left:255px;right:255px;bottom:-35px;height:245px;align-items:flex-end;z-index:10}
+.battle-screen.sts-restored.a .hand>div{flex:0 0 150px;width:150px;margin:0 -13px;position:relative;z-index:1}
+.battle-screen.sts-restored.a .hand>div:has(.playing-card:hover),.battle-screen.sts-restored.a .hand>div:has(.playing-card:focus-visible),.battle-screen.sts-restored.a .hand>div:has(.playing-card.selected){z-index:30}
+.battle-screen.sts-restored.a .playing-card{width:150px;height:210px;border:0;border-radius:0;background:transparent var(--sts-attack-base) center/100% 100% no-repeat;box-shadow:none;color:#f5f0df;overflow:visible;isolation:isolate;filter:drop-shadow(0 4px 3px #000a);padding:0}
+.battle-screen.sts-restored.a .playing-card.skill{background-image:var(--sts-skill-base)}
+.battle-screen.sts-restored.a .playing-card.power{background-image:var(--sts-power-base)}
+.battle-screen.sts-restored.a .playing-card:after{content:'';position:absolute;left:5%;top:1%;width:90%;height:58%;inset:auto;left:5%;top:1%;border:0;border-radius:0;clip-path:none;background:url('sts-rarity-frame_common_attack.svg') center/100% 100% no-repeat;box-shadow:none;pointer-events:none;z-index:3}
+.battle-screen.sts-restored.a .playing-card.skill:after{background-image:url('sts-rarity-frame_common_skill.svg')}
+.battle-screen.sts-restored.a .playing-card.power:after{background-image:url('sts-rarity-frame_common_power.svg')}
+.battle-screen.sts-restored.a .playing-card .card-name{left:-3%;right:-3%;top:3%;height:18%;border:0;border-radius:0;background:url('sts-rarity-banner_common.svg') center/100% 100% no-repeat;clip-path:none;color:#f2eadb;font:bold 16px/29px Georgia,'Noto Serif CJK SC',serif;letter-spacing:0;text-shadow:1px 2px 1px #373737;z-index:5}
+.battle-screen.sts-restored.a .playing-card .card-art{left:10%;right:10%;top:18%;height:37%;border:0;border-radius:0;background:radial-gradient(ellipse at 50% 35%,#a53630,#752327);clip-path:polygon(0 0,100% 0,100% 80%,50% 100%,0 80%);z-index:2}
+.battle-screen.sts-restored.a .playing-card.skill .card-art{clip-path:inset(0 round 5px);background:radial-gradient(ellipse at 50% 30%,#45636a,#1b343e)}
+.battle-screen.sts-restored.a .playing-card.power .card-art{clip-path:ellipse(50% 48% at 50% 50%)}
+.battle-screen.sts-restored.a .playing-card .card-art .native-card-icon{position:absolute;width:44px;height:44px;object-fit:contain;left:50%;top:45%;transform:translate(-50%,-50%);filter:drop-shadow(0 2px 2px #0008)}
+.battle-screen.sts-restored.a .playing-card .card-kind{top:53%;left:36%;right:36%;height:8%;border:0;background:none;color:#393b3b;font:10px/15px Georgia,'Noto Serif CJK SC',serif;letter-spacing:0;z-index:5}
+.battle-screen.sts-restored.a .playing-card .card-desc{top:64%;left:12%;right:12%;bottom:7%;padding:6px 0 0;border:0;border-radius:0;background:none;color:#f2eee0;font:14px/1.35 Georgia,'Noto Serif CJK SC',serif;text-shadow:0 1px 1px #201a1a;z-index:4}
+.battle-screen.sts-restored.a .playing-card .card-desc b{color:inherit;font-weight:normal}
+.battle-screen.sts-restored.a .playing-card .card-cost{left:-10px;top:-8px;width:32px;height:33px;border:2px solid #4e352e;border-radius:50%;clip-path:none;background:radial-gradient(ellipse at 48% 50%,#fff7b4 25%,#f4ad2d 42%,#d96c21 52%,#9a2023 59%,#cf7770 68%,#6e3038 74%,#482e2b 79%);box-shadow:0 0 0 1px #bbaa85;color:#fff8d8;font:bold 25px/29px Georgia,serif;-webkit-text-stroke:.7px #4a2b27;text-shadow:1px 2px #382628;filter:none;z-index:6}
+.battle-screen.sts-restored.a .hand .playing-card:not(.spent){box-shadow:none;filter:drop-shadow(0 0 2px #73e5d7) drop-shadow(0 0 3px #43c6bd) drop-shadow(0 4px 4px #0009)}
+.battle-screen.sts-restored.a .hand .playing-card:hover,.battle-screen.sts-restored.a .hand .playing-card:focus-visible{transform:translateY(-80px) rotate(0) scale(1.22);z-index:30}
+.battle-screen.sts-restored.a .hand .playing-card.selected{transform:translateY(-90px) rotate(0) scale(1.22);box-shadow:none;filter:drop-shadow(0 0 3px #88f7e7) drop-shadow(0 0 5px #3ce2d0) drop-shadow(0 5px 5px #0009);z-index:31}
+.battle-screen.sts-restored.a .hand .playing-card.spent{filter:brightness(.48) saturate(.6)}
+.battle-screen.sts-restored.a .notice{top:174px;left:350px;right:350px;font-size:22px;color:#e5d694;letter-spacing:0}
+/* Keep the existing skill confirmation hit area, without a non-STS panel or hint. */
+.battle-screen.sts-restored.a .play-zone{left:440px;top:300px;width:260px;height:120px;background:none;border:0;border-radius:0;color:transparent;font-size:0;z-index:8}
+.battle-screen.sts-restored.a .aim-line{z-index:20;filter:drop-shadow(0 1px 1px #1f111d)}
+.battle-screen.sts-restored.a .aim-line path[data-aim-path]{stroke:#bc2c52;stroke-width:13px;stroke-dasharray:15 9;stroke-linecap:round}
+.battle-screen.sts-restored.a .turn-announcement{top:310px;height:100px;gap:0;background:linear-gradient(90deg,#020b0edb,#060b0ac4,#02090bdb);font-size:44px;font-weight:normal;letter-spacing:0;color:#f7dc63;text-shadow:1px 3px 2px #000;animation:stsTurnReveal 1.8s both;z-index:25}
+.battle-screen.sts-restored.a .turn-announcement div{position:relative;z-index:2;gap:0}
+.battle-screen.sts-restored.a .turn-announcement small{font:20px Georgia,'Noto Serif CJK SC',serif;color:#e1ddcb;letter-spacing:0}
+.battle-screen.sts-restored.a .turn-announcement svg{position:absolute;width:160px;height:160px;left:calc(50% - 80px);top:-29px;opacity:.8;z-index:1}
+@keyframes stsTurnReveal{0%{opacity:0;transform:translateX(-20px)}18%,65%{opacity:1;transform:translateX(0)}100%{opacity:0;transform:translateX(20px)}}
+.battle-screen.sts-restored.a .floor-shadow{height:140px;background:linear-gradient(transparent,#0207098a)}
+.battle-screen.sts-restored.a .deck-shell{inset:44px 0 0;padding:0;background:radial-gradient(ellipse at 50% 65%,#101614e8,#000 78%);z-index:20}
+.battle-screen.sts-restored.a .deck-heading{display:none}
+.battle-screen.sts-restored.a .deck-sub{position:absolute;bottom:48px;left:280px;right:280px;text-align:center;font:16px Georgia,'Noto Serif CJK SC',serif;letter-spacing:0;color:#e7e4d6;z-index:6;pointer-events:none;text-shadow:1px 2px #000}
+.battle-screen.sts-restored.a .deck-tools{top:58px;left:212px;right:212px;height:33px;border:1px solid #481819;border-radius:3px;background:linear-gradient(#7f191a,#66191b);box-shadow:inset 0 1px 2px #b54a3b44,0 2px 5px #0007;justify-content:center}
+.battle-screen.sts-restored.a .deck-tools button{min-width:150px;padding:0 20px;border:0;border-radius:0;background:none;color:#e9e6dc;font:bold 18px Georgia,'Noto Serif CJK SC',serif;letter-spacing:0;text-shadow:1px 2px #301b1b}
+.battle-screen.sts-restored.a .deck-tools button.active{background:none;color:#e4d35e}
+.battle-screen.sts-restored.a .deck-tools button:hover{color:#ffe99d}
+.battle-screen.sts-restored.a .deck-grid{position:absolute;left:180px;right:180px;top:113px;margin:0;height:557px;padding:18px 30px 45px;grid-template-columns:repeat(5,150px);grid-auto-rows:210px;justify-content:center;align-items:start;gap:27px 27px;overflow-x:visible;overflow-y:auto;scrollbar-width:none}
+.battle-screen.sts-restored.a .deck-grid .playing-card{width:150px;height:210px;transform:none;margin:0}
+.battle-screen.sts-restored.a .deck-grid .playing-card:hover,.battle-screen.sts-restored.a .deck-grid .playing-card:focus-visible{transform:scale(1.32);z-index:30}
+.battle-screen.sts-restored.a .deck-back{left:0;bottom:96px;width:180px;height:54px;padding:0 24px 0 0;border:2px solid #af8d45;border-left:0;border-radius:0 0 40% 0;background:linear-gradient(#973e37,#762c2c);clip-path:polygon(0 7%,93% 7%,100% 0,99% 20%,92% 43%,98% 40%,98% 62%,88% 92%,0 92%);color:#e9d893;font:bold 23px Georgia,'Noto Serif CJK SC',serif;text-shadow:1px 2px 2px #3b1c21}
+.battle-screen.sts-restored.a .detail-shade{inset:44px 0 0;background:#000c;z-index:40;gap:0}
+.battle-screen.sts-restored.a .detail-shade .playing-card{width:150px;height:210px;transform:scale(2.05);margin:0 100px;filter:drop-shadow(0 9px 8px #0009)}
+.battle-screen.sts-restored.a .detail-nav{position:absolute;top:44%;width:65px;height:70px;background:none;border:0;color:#dbc990;font:bold 68px Georgia,serif;text-shadow:2px 3px #291d19;z-index:42}
+.battle-screen.sts-restored.a .detail-nav.prev{left:330px}
+.battle-screen.sts-restored.a .detail-nav.next{right:330px}
+.battle-screen.sts-restored.a .detail-close{position:absolute;bottom:28px;left:calc(50% - 75px);width:150px;height:45px;background:linear-gradient(#6c3533,#422827);border:2px solid #927448;color:#ead8aa;font:bold 19px Georgia,'Noto Serif CJK SC',serif;box-shadow:0 3px 5px #0008}
+.battle-screen.sts-restored.a .win-overlay{background:#050909bd}
+.battle-screen.sts-restored.a .win-overlay h2{font-size:49px;color:#f6db76}
+.battle-screen.sts-restored.a .win-overlay button{background:linear-gradient(#3a5460,#23353d);border:2px solid #8b907e;color:#e9e3cd}
+@media(prefers-reduced-motion:reduce){.battle-screen.sts-restored.a .turn-announcement{display:none}.battle-screen.sts-restored.a *{animation:none!important;transition:none!important}}
+html[data-reduced-motion="true"] .battle-screen.sts-restored.a .turn-announcement{display:none}
+
+.battle-screen.sts-restored.a{--sts-attack-base:url("sts-base-ironclad_attack.svg");--sts-skill-base:url("sts-base-ironclad_skill.svg");--sts-power-base:url("sts-base-ironclad_power.svg")}
+/* A single continuous outline avoids duplicate-looking energy numerals at scale. */
+.battle-screen.sts-restored.a .energy span{-webkit-text-stroke:1.2px #4c2425;text-shadow:0 1px 1px #3c1b1b;paint-order:stroke fill}
+
+/* Local pile browsers reuse the deck's card/detail layout without changing route. */
+.battle-screen.sts-restored.a .pile-browser .deck-heading{display:block;position:absolute;left:212px;top:13px;margin:0;font-size:26px;letter-spacing:1px;color:#e9ddb6}
+.battle-screen.sts-restored.a .pile-empty{grid-column:1/-1;margin-top:140px;text-align:center;color:#b4afa2;font-size:21px}
+.battle-screen.sts-restored.a .pile-recovery-note{position:absolute;top:102px;left:330px;right:330px;padding:11px 18px;background:#111918e8;border:1px solid #8d794b;color:#e8d9b2;text-align:center;font-size:15px;line-height:1.5;z-index:60;pointer-events:none}
+/* Browser prototype: Fast Mode shortens the actual turn announcement. */
+html[data-fast-mode="true"] .battle-screen.sts-restored.a .turn-announcement{animation-duration:.35s}
+
+.battle-screen .traveler-battle-art{display:block;width:180px;height:230px;object-fit:contain;object-position:center bottom}
+.battle-screen.sts-restored.a .hero>.traveler-battle-art{height:210px}
+
+/* Real starter-card effects remain readable within the existing card silhouette. */
+.battle-screen.sts-restored.a .playing-card.long-desc .card-desc{font-size:12px;line-height:1.35;padding-top:2px}
+.battle-screen.sts-restored.a .enemy-status{position:absolute;top:176px;left:22px;right:22px;text-align:center;color:#e6b4d5;font:13px/18px Georgia,'Noto Serif CJK SC',serif;text-shadow:0 1px 2px #000;pointer-events:none}

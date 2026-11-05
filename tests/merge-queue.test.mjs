@@ -70,6 +70,30 @@ test('queue full requires every shard, immutable receipt and actual native admis
   const f=fixture();mutate(f);assert(queueFullErrors(f).length,String(mutate));
  }
 });
+
+test('native queue rejects old 13/9, 14/9 or 16/9 green jobs, missing rules16 or POSIX12, duplicates and forged totals or source receipts',()=>{
+ for(const mutate of [
+  ...[[13,9],[14,9],[16,9]].map(([windows,posix])=>e=>{
+   const win=e.jobs.find(j=>j.name.startsWith('rules (')),linux=e.jobs.find(j=>j.name.startsWith('engineering-posix ('));
+   e.jobs=e.jobs.filter(j=>!j.name.startsWith('rules (')&&!j.name.startsWith('engineering-posix ('));
+   e.jobs.push(...Array.from({length:windows},(_,i)=>({...win,id:1000+i,name:`rules (${i+1}/${windows})`})),...Array.from({length:posix},(_,i)=>({...linux,id:2000+i,name:`engineering-posix (${i+1}/${posix})`})));
+  }),
+  e=>e.jobs=e.jobs.filter(j=>j.name!=='engineering-posix (12/12)'),
+  e=>e.jobs.push({...e.jobs.find(j=>j.name==='engineering-posix (12/12)'),id:3000}),
+  e=>e.jobs.find(j=>j.name==='engineering-posix (12/12)').name='engineering-posix (12/11)',
+  e=>e.jobs=e.jobs.filter(job=>job.name!=='rules (16/16)'),
+  e=>e.jobs.push({...e.jobs.find(job=>job.name==='rules (16/16)'),id:900}),
+  e=>e.jobs.push({...e.jobs.find(job=>job.name==='rules (16/16)'),id:3001,name:'rules (17/16)'}),
+  e=>e.jobs.find(job=>job.name==='rules (16/16)').id=e.jobs.find(job=>job.name==='rules (15/16)').id,
+  e=>e.jobs.find(job=>job.name==='rules (16/16)').name='rules (16/15)',
+  e=>{const sample=e.jobs.find(job=>job.name==='rules (1/16)');e.jobs=e.jobs.filter(job=>!job.name.startsWith('rules ('));e.jobs.push(...Array.from({length:13},(_,i)=>({...sample,id:700+i,name:`rules (${i+1}/13)`})));},
+  e=>{e.jobs=e.jobs.filter(job=>job.name!=='rules (16/16)');e.jobTotal=33;e.event.merge_group.matrix={windows:16,posix:12};},
+  e=>e.checkout.checkout.head=sha('f'),
+ ]){
+  const e=fixture();assert.equal(e.jobs.length,33);mutate(e);
+  assert(queueFullErrors(e).length,String(mutate));
+ }
+});
 test('publisher writes pending first and only releases both contexts after exact Full evidence',()=>{
  const f=admissionFixture(),dir=mkdtempSync(join(tmpdir(),'merge-group-test-'));
  const path=join(dir,'event.json');writeFileSync(path,JSON.stringify(f.event));

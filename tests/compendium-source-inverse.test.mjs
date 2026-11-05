@@ -6,6 +6,7 @@ import {join,dirname} from 'node:path';
 import {tmpdir} from 'node:os';
 import {pathToFileURL} from 'node:url';
 import {preCompendiumSource} from './helpers/compendium-source-inverse.mjs';
+import {gameUiExtractionProof,gameUiExtractionAddedPaths} from './helpers/game-ui-extraction-source-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 // Normalize checkout endings before constructing the explicit CRLF variant.
 const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
@@ -64,7 +65,7 @@ test('M9 projection accepts only the exact two core registrations and preserves 
 test('Runtime host projection recognizes complete before/after bytes but rejects partial, duplicate and foreign edits',()=>{
  const path='src/lua/abyss_game_ui.lua';
  // Reconstruct the archived deferred variant from the restored eager host.
- const source=read(path).replace('suspendBattle(run,deckOpen,potionOpen))','suspendBattle(run,deckOpen,potionOpen),self.mode == \"battle\")')
+ const source=gameUiExtractionProof.files[path].beforeSource.replace('suspendBattle(run,deckOpen,potionOpen))','suspendBattle(run,deckOpen,potionOpen),self.mode == \"battle\")')
   .replace('    local function renderBattlePage(run)\n','    local function renderBattlePage(run)\n        -- Paint after every page visibility setter, which may re-enter state.\n');
  assert.equal(hash(source),'4ab3ec613f79b1507c7c529c57547d42f93fa7eafc89aeb9afb1b8c64ab34c25');
  const call='            suspendBattle(run,deckOpen,potionOpen),self.mode == "battle")';
@@ -87,7 +88,7 @@ test('warm Runtime projections still reread actual linked host files and reject 
  const root=mkdtempSync(join(tmpdir(),'compendium-runtime-'));
  t.after(()=>rmSync(root,{recursive:true,force:true}));
  const owners=['src/lua/abyss_game_ui.lua','src/lua/abyss_compendium_catalog.lua','src/lua/abyss_relic_text.lua','src/lua/abyss_node_ui_faces.lua'];
- for(const path of [...owners,'config/architecture.json','tests/helpers/compendium-source-inverse.mjs','tests/helpers/architecture-source-format.mjs']){
+ for(const path of [...owners,...gameUiExtractionAddedPaths,'config/architecture.json','tests/helpers/compendium-source-inverse.mjs','tests/helpers/architecture-source-format.mjs','tests/helpers/game-ui-extraction-source-inverse.mjs','tests/helpers/game-ui-extraction-source-layer.json']){
   const target=join(root,path);mkdirSync(dirname(target),{recursive:true});copyFileSync(path,target);
  }
  const {preCompendiumSource:project}=await import(pathToFileURL(join(root,'tests/helpers/compendium-source-inverse.mjs')).href);
@@ -95,7 +96,7 @@ test('warm Runtime projections still reread actual linked host files and reject 
  for(const path of ['config/architecture.json','src/lua/abyss_node_ui_faces.lua',host]){
   const input=read(path),expected=project(path,input);
   writeFileSync(file,source+'\n-- actual linked drift\n');
-  assert.throws(()=>project(path,input),/reviewed compendium owner/);
+  assert.throws(()=>project(path,input),/reviewed compendium owner|reviewed GameUI extraction linked owner/);
   writeFileSync(file,source);assert.equal(project(path,input),expected);
   rmSync(file);assert.throws(()=>project(path,input),/ENOENT/);
   writeFileSync(file,source);assert.equal(project(path,input),expected);

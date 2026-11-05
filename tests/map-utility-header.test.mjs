@@ -35,7 +35,12 @@ test('deck entry is an STS-style fanned card stack with a same-ink count pip ins
     assert.equal(child(state,'label').visible,false,'retain only a hidden compatibility caption');
     assert.equal(child(state,'count').kind,'text');
   }
-  assert.match(readFileSync('src/lua/abyss_game_ui.lua','utf8'),/GetChild\('count'\)\.text=run and number\(#run\.deck\)/);
+  const host=readFileSync('src/lua/abyss_game_ui.lua','utf8');
+  const view=readFileSync('src/lua/abyss_game_ui_view.lua','utf8');
+  assert.match(view,/GetChild\('count'\)\.text=run and number\(#run\.deck\)/);
+  assert.match(host,/local refreshDeckEntry = View\.refreshDeckEntry\(child,self\)/);
+  assert.match(host,/View\.refreshUtilities\(child,self,inCombat,refreshPotionEntry,refreshDeckEntry\)/);
+  assert.match(view,/refreshDeckEntry\(run\)/);
 });
 
 test('nonbattle potion entry shows readable count and retains passive compatibility silhouettes without new actions',()=>{

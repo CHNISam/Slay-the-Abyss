@@ -58,7 +58,7 @@ test('fixed 9293405d action oracle, supports admission and victory policy remain
 test('policy projection rejects missing, additional, duplicate and condition-drift changes',()=>{
   const source=read(live);
   const admission="for _,op in ipairs({'rareGamblingChip','rareRelicGenerate','rareRelicDamageAll','rareRelicWeak','shopRelic'})do operations[op]=true end\n";
-  const refresh="            local rare=require('abyss_rare_relics')\n";
+  const refresh="    local rare=require('abyss_rare_relics')\n";
   for(const [before,after] of [
     [admission,''],[admission,admission.replace("'shopRelic'","'shopRelic','unexpected'")],
     [admission,admission+admission],['return operations[op] == true','return operations[op] ~= false'],

@@ -12,6 +12,7 @@ Lua手写源保存在平铺的 [src/lua](../src/lua/)；模块名用于 `require
 |---|---|---|
 | 平台生命周期 | [abyss_ui.lua](../src/lua/abyss_ui.lua) | 连接平台全局、控件、输入与启动诊断，注入界面需要的API |
 | 游戏界面编排 | [abyss_game_ui.lua](../src/lua/abyss_game_ui.lua) | 串联菜单、地图、节点和战斗界面；将用户动作交给核心命令 |
+| 游戏界面职责 | `abyss_game_ui_overlays/view/run/lifecycle/input` | 按原构造位置安装覆盖层、显示、开局流程、生命周期和输入；共享显式引用，保留每Host私有代次与回调顺序 |
 | 输入与表现 | [abyss_controller.lua](../src/lua/abyss_controller.lua)、[abyss_battle_ui.lua](../src/lua/abyss_battle_ui.lua)、[abyss_node_ui.lua](../src/lua/abyss_node_ui.lua) | 焦点、回调和视图状态归界面；战斗子视图、节点子页及表现helper按职责拆分 |
 | 一局状态与节点事务 | [abyss_run.lua](../src/lua/abyss_run.lua)、[abyss_map.lua](../src/lua/abyss_map.lua)、[abyss_nodes.lua](../src/lua/abyss_nodes.lua) | 持有局内状态、路线与合法操作；奖励、商店、事件等规则在核心提交 |
 | 药水候选事务 | [abyss_run_potion_candidate.lua](../src/lua/abyss_run_potion_candidate.lua) | 分别准备资格、效果、局外及战斗候选；最终状态仍由Run提交，全部提取函数受复杂度上限约束 |

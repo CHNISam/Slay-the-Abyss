@@ -1,0 +1,20 @@
+{
+  "task": "TASK-75.5",
+  "path": "scripts/ci-quality-shape.mjs",
+  "sourceHead": "8eae1c2e674cf01b85420d253cde67d9ef78fa2d",
+  "beforeGitBlob": "a9bf7b25667bdf06c0dfb28e3992a379f12f2576",
+  "beforeSha256": "7c36fe94241ad5002860f7b09592979db5af45f6632732890c7b773ceeaea2a6",
+  "afterSha256": "b847eec27387bda8087e57c0cdf98fe3cb9c7b262d6fb4fc76f482e2059306e1",
+  "beforeSource": "// One hosted Full shape for matrix expansion and current delivery evidence.\nexport const qualityShardMatrices=Object.freeze({\n  windows:Object.freeze(Array.from({length:13},(_,i)=>i+1)),\n  posix:Object.freeze(Array.from({length:9},(_,i)=>i+1)),\n});\nexport const qualityShardJobs=Object.freeze([\n  ...qualityShardMatrices.windows.map(i=>`rules (${i}/${qualityShardMatrices.windows.length})`),\n  ...qualityShardMatrices.posix.map(i=>`engineering-posix (${i}/${qualityShardMatrices.posix.length})`),\n]);\n",
+  "afterSource": "// One hosted Full shape for matrix expansion and current delivery evidence.\nexport const qualityShardMatrices=Object.freeze({\n  windows:Object.freeze(Array.from({length:14},(_,i)=>i+1)),\n  posix:Object.freeze(Array.from({length:9},(_,i)=>i+1)),\n});\nexport const qualityShardJobs=Object.freeze([\n  ...qualityShardMatrices.windows.map(i=>`rules (${i}/${qualityShardMatrices.windows.length})`),\n  ...qualityShardMatrices.posix.map(i=>`engineering-posix (${i}/${qualityShardMatrices.posix.length})`),\n]);\n",
+  "before": {
+    "windows": 13,
+    "posix": 9,
+    "jobs": 27
+  },
+  "after": {
+    "windows": 14,
+    "posix": 9,
+    "jobs": 28
+  }
+}

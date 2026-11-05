@@ -1,9 +1,12 @@
 import {readFileSync} from 'node:fs';
 import {beforeNativeMergeQueueWorkflow} from './merge-queue-workflow.mjs';
+import {beforePosixConcurrencyWorkflow} from './posix-concurrency-workflow.mjs';
 // Invert only complete reviewed bootstrap additions. Unknown/partial blocks are
 // retained for the original immutable workflow and package guards to reject.
 const {edits}=JSON.parse(readFileSync(new URL('./auto-merge-workflow.json',import.meta.url),'utf8'));
 export function beforeAutoMergeWorkflow(text){
+ text=beforePosixConcurrencyWorkflow(text);
+ if(text===null)return null;
  text=beforeNativeMergeQueueWorkflow(text);
  if(text===null)return null;
  for(const runner of ['ubuntu-slim','ubuntu-24.04']){

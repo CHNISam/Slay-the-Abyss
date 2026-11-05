@@ -91,6 +91,56 @@ export function measureSources(sources,diagnostics) {
   return {modules,errors};
 }
 
+// The caller supplies this invocation's complete AST/W561 collection. This is
+// deliberately a validator, not another parser or a persisted-report reader.
+export function reviewGameUiMeasurements(measurements,sources) {
+  const entry='src/lua/abyss_game_ui.lua';
+  const scoped=file=>/^src\/lua\/abyss_game_ui(?:_.+)?\.lua$/.test(file);
+  const required=[entry,...['overlays','view','run','lifecycle','input','menu_view']
+    .map(name=>`src/lua/abyss_game_ui_${name}.lua`)];
+  const errors=[...(measurements.errors??[])],modules=[];
+  const rows=measurements.modules??[],seen=new Set();
+  for(const file of required)if(!(file in sources))errors.push({file,message:'Required Game UI module missing'});
+  for(const row of rows.filter(row=>scoped(row.file))) {
+    const {file}=row;
+    if(seen.has(file))errors.push({file,message:'Duplicate Game UI module measurement'});
+    seen.add(file);
+    const source=sources[file]?.replaceAll('\r\n','\n');
+    const lines=source===undefined?null:source.length?source.split('\n').length-Number(source.endsWith('\n')):0;
+    if(source===undefined||row.sha256!==sha256(source)||row.lines!==lines)
+      errors.push({file,message:'Game UI measurement does not match current source'});
+    const limit=file===entry?250:1000;
+    if(!Number.isSafeInteger(row.lines)||row.lines<0||row.lines>limit)
+      errors.push({file,message:`Game UI module length ${row.lines} exceeds or invalid for ${limit}`});
+    const functions=row.functions??[],ids=new Set(),positions=new Set();
+    const chunks=functions.filter(fn=>fn.kind==='chunk');
+    if(chunks.length!==1||chunks[0].id!=='$'||chunks[0].line!==1||chunks[0].column!==1
+      ||chunks[0].endLine!==Math.max(1,row.lines)||chunks[0].lines!==row.lines)
+      errors.push({file,message:'Invalid or missing Game UI chunk measurement'});
+    for(const fn of functions) {
+      const position=`${fn.kind}:${fn.line}:${fn.column}`;
+      if(typeof fn.id!=='string'||ids.has(fn.id)||positions.has(position))
+        errors.push({file,line:fn.line,message:'Duplicate or invalid Game UI function identity'});
+      ids.add(fn.id);positions.add(position);
+      if(!['chunk','function'].includes(fn.kind)||!Number.isSafeInteger(fn.line)||fn.line<1
+        ||!Number.isSafeInteger(fn.column)||fn.column<1||!Number.isSafeInteger(fn.endLine)
+        ||fn.endLine<fn.line||fn.endLine>Math.max(1,row.lines)||!Number.isSafeInteger(fn.lines)
+        ||fn.lines!==(fn.kind==='chunk'?row.lines:fn.endLine-fn.line+1))
+        errors.push({file,line:fn.line,message:'Invalid Game UI function span'});
+      if(!Number.isSafeInteger(fn.complexity)||fn.complexity<1||fn.complexity>15)
+        errors.push({file,line:fn.line,message:`Game UI complexity ${fn.complexity} exceeds or invalid for 15`});
+      const spanLimit=file===entry&&fn.id==='$/M.new#1'&&fn.name==='M.new'?200:150;
+      if(fn.kind==='function'&&fn.lines>spanLimit)
+        errors.push({file,line:fn.line,message:`Game UI function span ${fn.lines} exceeds ${spanLimit}: ${fn.id}`});
+    }
+    if(file===entry&&functions.filter(fn=>fn.id==='$/M.new#1'&&fn.name==='M.new'&&fn.kind==='function').length!==1)
+      errors.push({file,message:'Required Game UI M.new constructor missing or duplicated'});
+    modules.push({...row,limit});
+  }
+  for(const file of Object.keys(sources).filter(scoped))if(!seen.has(file))errors.push({file,message:'Missing Game UI module measurements'});
+  return {schemaVersion:1,modules,errors};
+}
+
 // Strongly connected components keep the full edge set, including reviewed
 // deferred imports. They describe structural cycles, not a runtime-load verdict.
 export function dependencyCycles(nodes,edges) {

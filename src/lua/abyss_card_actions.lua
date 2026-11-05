@@ -518,6 +518,17 @@ end
 -- Only source-supported retained actions may survive victory. Selection and
 -- draws are cleared, but disposal, damage, ordinary block and healing survive.
 local retained={originalV4=true,dispose=true,capturedSharpHide=true,damage=true,damageAll=true,damageRandom=true,loseHp=true,block=true,heal=true,feed=true,reaper=true,effectBatch=true}
+local function applyDrainedAction(combat,state,item,outcome)
+    local keep=retained[item.effect.op] or (M.reactionRetained(item.effect) or item.effect.op=='silentFinal' and require('abyss_silent_final_cards').allowedAfterVictory(item.effect))
+    if item.effect.op=='enemyAction'then keep=combat.enemyActionRetained(item.effect)end
+    if not outcome or outcome=="victory" and keep then M.apply(combat,state,item) end
+end
+local function refreshDrainedHand(state,outcome)
+    -- Refresh observes the empty manager, then its draw joins this owner.
+    local rare=require('abyss_rare_relics')
+    return not outcome and not state.endTurnAfterCard and rare.owns(state,'unceasing_top')
+        and rare.onRefreshHand(state,true)
+end
 function M.drain(combat,state)
     if state.drainingCardActions then return end
     state.drainingCardActions=true
@@ -525,16 +536,11 @@ function M.drain(combat,state)
         local outcome=combat.outcome(state)
         if state.cardActions and #state.cardActions>0 then
             local item=table.remove(state.cardActions,1)
-            local keep=retained[item.effect.op] or (M.reactionRetained(item.effect) or item.effect.op=='silentFinal' and require('abyss_silent_final_cards').allowedAfterVictory(item.effect))
-            if item.effect.op=='enemyAction'then keep=combat.enemyActionRetained(item.effect)end
-            if not outcome or outcome=="victory" and keep then M.apply(combat,state,item) end
+            applyDrainedAction(combat,state,item,outcome)
         elseif not outcome and state.queuedCards and #state.queuedCards>0 then
             combat.resolveQueuedCard(state,table.remove(state.queuedCards,1))
         else
-            -- Refresh observes the empty manager, then its draw joins this owner.
-            local rare=require('abyss_rare_relics')
-            local drew=not outcome and not state.endTurnAfterCard and rare.owns(state,'unceasing_top')
-                and rare.onRefreshHand(state,true)
+            local drew=refreshDrainedHand(state,outcome)
             if not drew then break end
         end
     end

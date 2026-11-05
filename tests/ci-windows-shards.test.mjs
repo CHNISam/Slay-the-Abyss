@@ -88,9 +88,9 @@ historicalTest('original required check aggregate rejects every non-success shar
   }
 });
 
-test('current Windows matrix consumes the shared thirteen-shard shape without changing protection or execution gates',()=>{
+test('current Windows matrix consumes the shared sixteen-shard shape without changing protection or execution gates',()=>{
   const rules=job('rules');
-  assert.deepEqual(qualityShardMatrices.windows,[1,2,3,4,5,6,7,8,9,10,11,12,13]);
+  assert.deepEqual(qualityShardMatrices.windows,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]);
   assert.ok(rules.includes("shard: ${{ fromJSON(inputs.runner_pool == 'local-special' && '[1]' || needs.impact.outputs.windows_shards) }}"));
   assert.ok(rules.includes("if: ${{ needs.impact.outputs.mode == 'full' && !cancelled() && (inputs.runner_pool != 'local-special' || github.event_name == 'workflow_dispatch' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master')) }}"));
   assert.ok(rules.includes("runs-on: ${{ github.event_name == 'workflow_dispatch' && inputs.runner_pool == 'local-special' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master') && fromJSON('[\"self-hosted\", \"Windows\", \"X64\", \"slay-the-abyss\"]') || 'windows-2025' }}"));
@@ -99,6 +99,7 @@ test('current Windows matrix consumes the shared thirteen-shard shape without ch
   assert.ok(rules.includes('Pillow==12.3.0'));
   assert.ok(rules.includes('npm run setup:lua-static'));
   assert.match(rules,/^      fail-fast: false$/m);
+  assert.doesNotMatch(rules,/max-parallel:/);
   assert.ok(rules.includes("timeout-minutes: ${{ inputs.runner_pool == 'local-special' && 75 || 30 }}"));
   for(const gate of ['check:network','verify:backlog','check:syntax','validate:data','build:theme','check:engineering'])
     assert.ok(rules.includes(`      - run: npm run ${gate}\n        if: matrix.shard == 1\n`),gate);

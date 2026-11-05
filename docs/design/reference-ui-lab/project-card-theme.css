@@ -1,0 +1,85 @@
+/* Character identity is confined to the existing card body.
+   Rarity uses the existing banner and illustration-frame contour only.
+   Uncommon/rare use original independent frame and banner textures. */
+.project-card-theme{--project-body-filter:none;--project-rarity-filter:none}
+.gr-card.project-card-theme .gr-card-base{filter:var(--project-body-filter)}
+.gr-card.project-card-theme .gr-card-frame,.gr-card.project-card-theme .gr-card-banner{filter:var(--project-rarity-filter)}
+.battle-screen.sts-restored.a .playing-card.project-card-theme{background:none}
+.battle-screen.sts-restored.a .playing-card.project-card-theme .card-base-layer{position:absolute;inset:0;z-index:0;background:url('geo-card-zhongli-attack.svg') center/100% 100% no-repeat;filter:var(--project-body-filter);pointer-events:none}
+.battle-screen.sts-restored.a .playing-card.project-card-theme.skill .card-base-layer{background-image:url('geo-card-zhongli-skill.svg')}
+.battle-screen.sts-restored.a .playing-card.project-card-theme.power .card-base-layer{background-image:url('geo-card-zhongli-power.svg')}
+.battle-screen.sts-restored.a .playing-card.project-card-theme:after{filter:var(--project-rarity-filter)}
+.battle-screen.sts-restored.a .playing-card.project-card-theme .card-name{background:none}
+.battle-screen.sts-restored.a .playing-card.project-card-theme .card-name:before{content:'';position:absolute;inset:0;background:url('sts-rarity-banner_common.svg') center/100% 100% no-repeat;z-index:-1;filter:var(--project-rarity-filter)}
+.battle-screen.sts-restored.a .playing-card.project-card-theme .card-art{background:none;clip-path:none}
+/* Frame PNG is 540×484 against a 600×840 card: keep it around the illustration,
+   never stretch rarity framing around the description or the entire card. */
+.gr-card.project-card-theme .gr-card-frame{inset:auto;left:5%;top:1%;width:90%;height:58%}
+/* Original cost-orb texture, not a CSS coin. No character-color filter here. */
+.battle-screen.sts-restored.a .playing-card.project-card-theme .card-cost,.gr-card.project-card-theme:not(.gr-colorless) .gr-cost{border:0;border-radius:0;box-shadow:none;clip-path:none;background:transparent url('geo-cost-icon-priority.svg') center/contain no-repeat;filter:none;color:#fff8e7;-webkit-text-stroke:.7px #462b25;text-shadow:1px 2px #39231e;display:grid;place-items:center}
+.battle-screen.sts-restored.a .playing-card.project-card-theme .card-cost{left:-8%;top:-5%;width:27.333%;height:19.524%;font-size:25px;line-height:1}
+.gr-card.project-card-theme:not(.gr-colorless) .gr-cost{left:-8%;top:-5%;width:27.333%;height:19.524%}
+.battle-screen.sts-restored.a .playing-card.project-card-theme[data-rarity="uncommon"] .card-name:before{background-image:url("sts-rarity-banner_uncommon.svg")}
+.gr-card.project-card-theme.gr-card-attack[data-rarity="uncommon"] .gr-card-frame{left:7%;top:14.57%;width:87.17%;height:43.93%}
+.battle-screen.sts-restored.a .playing-card.project-card-theme.attack[data-rarity="uncommon"]:after{left:7%;top:14.57%;width:87.17%;height:43.93%;background-image:url("sts-rarity-frame_uncommon_attack.svg")}
+.gr-card.project-card-theme.gr-card-skill[data-rarity="uncommon"] .gr-card-frame{left:6.67%;top:14.45%;width:87.5%;height:43.22%}
+.battle-screen.sts-restored.a .playing-card.project-card-theme.skill[data-rarity="uncommon"]:after{left:6.67%;top:14.45%;width:87.5%;height:43.22%;background-image:url("sts-rarity-frame_uncommon_skill.svg")}
+.gr-card.project-card-theme.gr-card-power[data-rarity="uncommon"] .gr-card-frame{left:5.83%;top:1.24%;width:89.33%;height:56.55%}
+.battle-screen.sts-restored.a .playing-card.project-card-theme.power[data-rarity="uncommon"]:after{left:5.83%;top:1.24%;width:89.33%;height:56.55%;background-image:url("sts-rarity-frame_uncommon_power.svg")}
+
+.battle-screen.sts-restored.a .playing-card.project-card-theme[data-rarity="rare"] .card-name:before{background-image:url("sts-rarity-banner_rare.svg")}
+.gr-card.project-card-theme.gr-card-attack[data-rarity="rare"] .gr-card-frame{left:7%;top:14.57%;width:87.17%;height:43.93%}
+.battle-screen.sts-restored.a .playing-card.project-card-theme.attack[data-rarity="rare"]:after{left:7%;top:14.57%;width:87.17%;height:43.93%;background-image:url("sts-rarity-frame_rare_attack.svg")}
+.gr-card.project-card-theme.gr-card-skill[data-rarity="rare"] .gr-card-frame{left:6.67%;top:14.45%;width:87.5%;height:43.22%}
+.battle-screen.sts-restored.a .playing-card.project-card-theme.skill[data-rarity="rare"]:after{left:6.67%;top:14.45%;width:87.5%;height:43.22%;background-image:url("sts-rarity-frame_rare_skill.svg")}
+.gr-card.project-card-theme.gr-card-power[data-rarity="rare"] .gr-card-frame{left:5.83%;top:1.24%;width:89.33%;height:56.55%}
+.battle-screen.sts-restored.a .playing-card.project-card-theme.power[data-rarity="rare"]:after{left:5.83%;top:1.24%;width:89.33%;height:56.55%;background-image:url("sts-rarity-frame_rare_power.svg")}
+/* Exact STS font roles: white title/cost, Settings.CREAM_COLOR body,
+   CardHelper.getColor(89.25,89.25,89.25) type, Settings.GREEN_TEXT_COLOR upgrade. */
+.battle-screen.sts-restored.a .playing-card.project-card-theme .card-name,.gr-card.project-card-theme strong{color:#fff}
+.battle-screen.sts-restored.a .playing-card.project-card-theme .card-desc,.gr-card.project-card-theme p{color:#fff6e2}
+.battle-screen.sts-restored.a .playing-card.project-card-theme .card-kind,.gr-card.project-card-theme .gr-card-kind{color:rgb(35% 35% 35%);text-shadow:none}
+.gr-card.project-card-theme.gr-upgraded strong{color:#7fff00}
+/* Recolor only the original orb pixels using observed Geo icon / Traveler
+   Starfell Sword / Zhongli Dominus Lapidis reference colors. Its transparent shape, swirl and texture remain original.
+   Separate layer keeps the cost numeral out of the color filter. */
+.battle-screen.sts-restored.a .playing-card.project-card-theme .card-cost,.gr-card.project-card-theme:not(.gr-colorless) .gr-cost{background:none;color:#fff;isolation:isolate;-webkit-text-stroke:.7px #000;text-shadow:1px 2px #000}
+.battle-screen.sts-restored.a .playing-card.project-card-theme .card-cost:before,.gr-card.project-card-theme .gr-cost:before{content:'';position:absolute;inset:0;z-index:-1;background:url('geo-cost-icon-priority.svg') center/contain no-repeat;filter:none;pointer-events:none}
+.battle-screen.sts-restored.a .playing-card.project-card-theme.spent .card-cost{color:rgb(100% 30% 30%)}
+.battle-screen.sts-restored.a .playing-card.project-card-theme .card-cost,.gr-card.project-card-theme:not(.gr-colorless) .gr-cost{-webkit-text-stroke:1px rgb(30% 30% 30%);text-shadow:none;paint-order:stroke fill}
+
+/* Temporary portrait fields sampled from Strike_R / Defend_R art, NOT a
+   universal STS type-color rule. Keep the original type contours and frames. */
+.gr-card.project-card-theme .gr-card-portrait-placeholder{position:absolute;left:10%;top:18%;width:80%;height:35%;z-index:-1;pointer-events:none}
+.gr-card.project-card-theme.gr-card-attack .gr-card-portrait-placeholder{background:#551c24;clip-path:polygon(0 0,100% 0,100% 82%,50% 100%,0 82%)}
+.gr-card.project-card-theme.gr-card-skill .gr-card-portrait-placeholder{background:#1a3042;clip-path:inset(0 round 4%)}
+.battle-screen.sts-restored.a .playing-card.project-card-theme.attack .card-art{background:#551c24;clip-path:polygon(0 0,100% 0,100% 82%,50% 100%,0 82%)}
+.battle-screen.sts-restored.a .playing-card.project-card-theme.skill .card-art{background:#1a3042;clip-path:inset(0 round 4%)}
+
+/* Portrait field reaches beneath the existing frame's inner edge. The frame,
+   title and type plate remain above it; placeholder icons retain aspect ratio. */
+.gr-card.project-card-theme .gr-card-portrait-placeholder,
+.battle-screen.sts-restored.a .playing-card.project-card-theme .card-art{left:8%;right:auto;top:14%;width:84%;height:41%}
+.gr-card.project-card-theme.gr-card-attack .gr-card-portrait-placeholder,
+.battle-screen.sts-restored.a .playing-card.project-card-theme.attack .card-art{clip-path:polygon(0 0,100% 0,100% 78%,50% 100%,0 78%)}
+.gr-card.project-card-theme.gr-card-skill .gr-card-portrait-placeholder,
+.battle-screen.sts-restored.a .playing-card.project-card-theme.skill .card-art{clip-path:inset(0 round 6%)}
+/* Power already uses the full original oval from its unchanged body asset. */
+.gr-card.project-card-theme.gr-card-power .gr-card-portrait-placeholder{display:none}
+.battle-screen.sts-restored.a .playing-card.project-card-theme.power .card-art{background:none;clip-path:none}
+/* Chinese card typography: FontHelper ZHS uses Noto Sans Mono CJK Regular
+   for names/descriptions, and a bold serif only for the type plate.
+   Embedded OFL subsets remove device-dependent fallback. */
+@font-face{font-family:PrototypeCardSans;src:url('card-zh-sans.woff') format('woff');font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:PrototypeCardType;src:url('card-zh-type.woff') format('woff');font-style:normal;font-weight:700;font-display:swap}
+.gr-card.project-card-theme,.battle-screen.sts-restored.a .playing-card.project-card-theme{container-type:inline-size}
+.gr-card.project-card-theme strong,.battle-screen.sts-restored.a .playing-card.project-card-theme .card-name{font-family:PrototypeCardSans,'Noto Sans Mono CJK SC',sans-serif;font-size:9cqw;font-weight:400;line-height:1.25;-webkit-text-stroke:.65px #333;paint-order:stroke fill;text-shadow:1px 1px #333;letter-spacing:0}
+.gr-card.project-card-theme p,.battle-screen.sts-restored.a .playing-card.project-card-theme .card-desc{font-family:PrototypeCardSans,'Noto Sans Mono CJK SC',sans-serif;font-size:8cqw;font-weight:400;line-height:1.2;text-shadow:.4px .4px #333;margin:0;padding:0}
+.gr-card.project-card-theme .gr-card-kind,.battle-screen.sts-restored.a .playing-card.project-card-theme .card-kind{font-family:PrototypeCardType,'Noto Serif CJK SC',serif;font-weight:700;font-size:5.667cqw;line-height:1.2;text-shadow:none}
+
+/* Unified power placeholder background sampled only from Inflame (70,140),
+   #252536. This is a user-directed consistency choice, not a universal STS rule. */
+.project-card-theme{--power-portrait:#252536}
+.gr-card.project-card-theme.gr-card-power .gr-card-portrait-placeholder,
+.battle-screen.sts-restored.a .playing-card.project-card-theme.power .card-art{display:block;left:7%;top:2.5%;width:86%;height:53.5%;background:var(--power-portrait);clip-path:ellipse(50% 50% at 50% 50%)}
+.battle-screen.sts-restored.a .playing-card.project-card-theme.power .card-art .native-card-icon{top:56%}

@@ -1,6 +1,10 @@
 import {preBetaSource,prepareBetaRetirement} from './beta-integration-source.mjs';
 import {preDeckBrowseSource} from './deck-browse-source-inverse.mjs';
 import {preAcceptedDevelopSource} from './delivery-source-composition.mjs';
+import {preGameUiExtractionSource,gameUiExtractionReader} from './game-ui-extraction-source-inverse.mjs';
+import {preCiHostTimingSource} from './ci-host-timing-source-inverse.mjs';
+import {preCiWindowsShapeSource} from './ci-windows-shape-source-inverse.mjs';
+import {preCiCompleteCalibrationSource} from './ci-complete-calibration-source-inverse.mjs';
 // Exact test-only projection of the reviewed combined slice. Runtime never imports this.
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync,rmSync} from 'node:fs';
@@ -11,6 +15,11 @@ const bytes=readFileSync(new URL('../fixtures/pr372-integration-sources.json',im
 assert.equal(hash(bytes),'ea2f161779f99bc4f81c25c9087eeeb911951d52b5ff85bafec112b4c9e00995','complete combined source identity');
 export const integrationSources=JSON.parse(bytes).sources;
 export function preIntegrationSource(path,source,target='base',{readSource=path=>readFileSync(path,'utf8')}={}){
+ source=preCiCompleteCalibrationSource(path,source);
+ source=preCiHostTimingSource(path,source);
+ source=preCiWindowsShapeSource(path,source);
+ source=preGameUiExtractionSource(path,source,{readSource});
+ readSource=gameUiExtractionReader(readSource);
  if(target==='feature379')return preBetaSource(path,source,target,{readSource});
  source=preBetaSource(path,source,'history',{readSource});
  source=preAcceptedDevelopSource(path,source,{readSource});
