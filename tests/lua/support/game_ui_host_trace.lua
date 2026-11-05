@@ -145,7 +145,30 @@ if variant:sub(1,6)=='short-' then
  end
  step('confirm',function()return host:confirmCharacter()end)
  Map.generate=generate
- if variant=='short-route' then
+ if variant=='short-disable-live' then
+  step('real active combat with pending playback',function()
+   assert(require('abyss_run').startCombat(host.run,'cultist_solo'));host:refresh()
+   local result=button('battlePanel','endTurn').click()
+   assert(host.battleUI.active and host.battleUI.busy,'requires real active pending playback')
+   return result
+  end)
+  assert(host.battleUI.active and host.battleUI.busy,'disable fixture must still be active')
+  local cancel,called=host.battleUI.feedback.cancel,false
+  host.battleUI.feedback.cancel=function(...)
+   called=true
+   local inert=host.disabled and host.battleUI.active==false
+    and root:GetChild('mapPanel').visible==false and root:GetChild('nodePanel').visible==false
+   record('live cancel inert',inert,host.disabled,host.battleUI.active)
+   assert(inert,'HOST_CANCEL_MUST_BE_INERT')
+   record('live cancel synchronous refresh',host:refresh())
+   return cancel(...)
+  end
+  local ok,accepted=step('disable live playback',function()return host:disable()end)
+  assert(called,'live cancellation hook must execute')
+  if ok then assert(accepted==true);print('HOST_DISABLE_LIVE_INERT_PASS')
+  else assert(type(accepted)=='string' and accepted:find('HOST_CANCEL_MUST_BE_INERT',1,true),'unexpected disable failure')end
+  print('GAME_UI_HOST_TRACE_PASS checkpoints='..count);return
+ elseif variant=='short-route' then
   local Run=require('abyss_run')
   step('real map entry',function()return host.mapUI:choose(F.Nodes.available(host.run,host.map)[1].id)end)
   assert(host.run.phase=='combat' and host.mode=='battle')

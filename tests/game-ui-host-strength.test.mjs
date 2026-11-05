@@ -77,7 +77,8 @@ for(const [name,module,before,after,from,to,secondBefore,secondAfter]of [
  ['nil settlement acceptance','run','accepted == false','not accepted',30,30],
  ['cleanup pending retry','lifecycle','self.monsterCleanupPending=not released or nil','self.monsterCleanupPending=nil',33,33],
  ['pointer ownership','input','observed or cursor.CursorDown and cursor.CursorUp and touch(event) ~= nil','false',5,5],
- ['cancel before inert','lifecycle','self.battleUI.active=false','do end',32,32,'self.battleUI.feedback:cancel()','self.battleUI.feedback:cancel();self.battleUI.active=false'],
-])test(`whole Host parsed semantic negative control: ${name}`,()=>runPair({seed:1,from,to},dir=>{
+ ['cancel before inert','lifecycle','self.battleUI.active=false','do end',7,7,'self.battleUI.feedback:cancel()','self.battleUI.feedback:cancel();self.battleUI.active=false'],
+])test(`whole Host parsed semantic negative control: ${name}`,()=>runPair({seed:1,from,to,...(name==='cancel before inert'?{
+ scenario:'short-disable-live',requiredBaselineMarker:'HOST_DISABLE_LIVE_INERT_PASS',expectedMutantMarker:'HOST_CANCEL_MUST_BE_INERT'}:{})},dir=>{
  mutateSource(dir,module,before,after);if(secondBefore)mutateSource(dir,module,secondBefore,secondAfter);
 }));

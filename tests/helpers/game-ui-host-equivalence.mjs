@@ -11,7 +11,7 @@ const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
 const old=fs.readFileSync('tests/fixtures/game-ui-host/old-host.lua','utf8');
 assert.equal(hash(old.replaceAll('\r\n','\n')),'165e2ad1180cab9daf5321b46d1f87fe9c34ed6ebbcd3c3a8b495d23974e0933');
 export const mainWindows=[[1,6],[7,12],[13,15],[16,18],[19,21],[22,24],[25,27],[28,30],[31,35]];
-export const scenarios={clock:7,wide:7,'full-source':7,'map-failure':7,'refresh-reentry':7,overlays:13,egg:11,route:18,chapters:11};
+export const scenarios={clock:7,wide:7,'full-source':7,'map-failure':7,'refresh-reentry':7,'disable-live':7,overlays:13,egg:11,route:18,chapters:11};
 export function windows(total){const out=[];for(let n=1;n<=total;n+=6)out.push([n,Math.min(total,n+5)]);return out;}
 function coverage(ranges,total){assert.deepEqual(ranges.flatMap(([a,b])=>Array.from({length:b-a+1},(_,i)=>a+i)),Array.from({length:total},(_,i)=>i+1));}
 coverage(mainWindows,35);for(const total of Object.values(scenarios))coverage(windows(total),total);
@@ -53,7 +53,7 @@ export function execute(dir,seed,constructor='',from=1,to=35){
  return stdout;
 }
 
-export function runPair({seed=1,from=1,to=6,scenario=''},mutate){
+export function runPair({seed=1,from=1,to=6,scenario='',requiredBaselineMarker,expectedMutantMarker},mutate){
  const a=materialize('old'),b=materialize('new');
  try{
   for(const base of ['src/lua','build/lua'])for(const name of fs.readdirSync(path.join(a,base))){
@@ -66,7 +66,11 @@ export function runPair({seed=1,from=1,to=6,scenario=''},mutate){
   fs.writeFileSync(`build/ui-host-impl/old-${tag}.log`,expected);
   fs.writeFileSync(`build/ui-host-impl/new-${tag}.log`,actual);
   assert.ok(actual===expected,'complete ordered trace mismatch: '+tag);
-  if(mutate){mutate(b);const mutant=execute(b,seed,scenario,from,to);fs.writeFileSync(`build/ui-host-impl/mutant-${tag}.log`,mutant);assert.ok(mutant!==expected,'assertion must kill semantic mutant');}
+  if(requiredBaselineMarker)assert.ok(expected.includes(requiredBaselineMarker),'required successful baseline boundary');
+  if(expectedMutantMarker)assert.ok(!expected.includes(expectedMutantMarker),'original baseline must not fail the contract assertion');
+  if(mutate){mutate(b);const mutant=execute(b,seed,scenario,from,to);fs.writeFileSync(`build/ui-host-impl/mutant-${tag}.log`,mutant);
+   if(expectedMutantMarker)assert.ok(mutant.includes(expectedMutantMarker),'mutant must reach the named contract assertion');
+   assert.ok(mutant!==expected,'assertion must kill semantic mutant');}
  }finally{removeTemporaryHost(a);removeTemporaryHost(b);}
 }
 function removeTemporaryHost(dir){
