@@ -5,12 +5,13 @@ status: In Progress
 assignee:
   - Furinya
 created_date: 2026-11-06 01:46
-updated_date: '2026-11-06T02:15:00Z'
+updated_date: '2026-11-06T02:28:00Z'
 labels: []
 milestone: m-7
 dependencies: []
 documentation:
   - docs/backlog-details/M7-SCOPE-GAP-20261105.md
+  - docs/backlog-details/TASK-101.md
 priority: medium
 type: task
 ordinal: 164000
@@ -37,3 +38,9 @@ ordinal: 164000
 3. 仅修复有实测且不与其他任务重叠的成本问题，先负例后实现；否则保留资源并明确原因。
 4. 独立复审和相关回归后提交 Draft PR，保持原 Full/合后验收与跨平台未验证边界，不提前勾选AC。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+本轮新增只读Git/LFS成本采集器及隔离冷暖构建测量，15项定向回归与3组默认构建通过；21产物逐项相同，未发现可据以删冻结资源或宣称提速的证据。精确字节、版本与边界见TASK-101附件；独立复审及PR/合后Full待，所有AC保持未勾。
+<!-- SECTION:NOTES:END -->
