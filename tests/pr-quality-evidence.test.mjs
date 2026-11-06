@@ -10,6 +10,12 @@ import {collectPrDelivery,collectMergedDelivery,verifyDelivery,verifyAutoMergeAr
 import {projectRepositoryId} from '../scripts/repository-identity.mjs';
 
 const sha=c=>c.repeat(40),repo='FurinyaWorks/Slay-the-Abyss';
+// Actual skipped matrix names from GitHub run42243274600 attempt1,
+// jobs127979611794/127979612744; these expressions are not expanded on skips.
+const actualSkippedNames=[
+ "needs.impact.outputs.mode == 'fast' && 'rules' || format('rules ({0}/{1})', matrix.shard, strategy.job-total)",
+ "needs.impact.outputs.mode == 'fast' && 'engineering-posix-shards' || format('engineering-posix ({0}/{1})', matrix.shard, strategy.job-total)",
+];
 function fixture() {
  const e={repo,number:531,runId:7,attempt:1,head:sha('a'),base:sha('b'),tested:sha('c'),
   run:{id:7,run_attempt:1,head_sha:sha('a'),event:'pull_request',path:'.github/workflows/quality.yml',
@@ -18,7 +24,7 @@ function fixture() {
    head:{sha:sha('a'),repo:{full_name:repo}},base:{ref:'develop',sha:sha('b')},merge_commit_sha:sha('c')},
   target:sha('b'),commit:{sha:sha('c'),parents:[{sha:sha('b')},{sha:sha('a')}]},
   jobs:currentFastQualityJobs.map((name,i)=>({id:100+i,name,run_id:7,run_attempt:1,head_sha:sha('a'),
-   status:'completed',conclusion:['rules','engineering-posix-shards'].includes(name)?'skipped':'success'})),
+   status:'completed',conclusion:actualSkippedNames.includes(name)?'skipped':'success'})),
   checkout:{schemaVersion:1,event:'pull_request',runId:7,attempt:1,head:sha('a'),base:sha('b'),tested:sha('c'),prNumber:531,parents:[sha('b'),sha('a')]},
   checkoutArtifact:{id:300,name:'quality-7-1-fast',expired:false,workflow_run:{id:7,head_sha:sha('a')}},
   plan:{mode:'fast',sha:sha('c'),head:sha('a'),base:sha('b'),runId:7,attempt:1,changed:['scripts/value.mjs'],
@@ -29,6 +35,16 @@ function fixture() {
 test('Fast proof accepts two actual platform executions and exact immutable source/plan identities',()=>{
  assert.deepEqual(prFastErrors(fixture()),[]);
  const e=fixture();e.jobs.reverse();assert.deepEqual(prFastErrors(e),[]);
+});
+
+test('Fast matches actual GitHub skipped matrix names and refuses short aliases',()=>{
+ assert.deepEqual(actualSkippedNames.filter(name=>currentFastQualityJobs.includes(name)),actualSkippedNames);
+ const e=fixture();
+ assert.deepEqual(prFastErrors(e),[]);
+ for(const [i,alias] of ['rules','engineering-posix-shards'].entries()) {
+  const changed=fixture();changed.jobs.find(j=>j.name===actualSkippedNames[i]).name=alias;
+  assert(prFastErrors(changed).length,'Unobserved short alias must not substitute for the actual skipped job');
+ }
 });
 
 test('Fast checkout retains the real merge parents needed by its immutable receipt',()=>{
@@ -52,8 +68,8 @@ test('Fast refuses missing, duplicate, unknown, Full, single-platform, failed an
   e=>e.jobs[0].id=e.jobs[1].id,e=>e.jobs[0].run_id++,e=>e.jobs[0].head_sha=sha('d'),
   e=>e.jobs[0].run_attempt=2,e=>e.jobs[0].run_attempt=0,
   ...['failure','cancelled','timed_out','skipped',null].map(conclusion=>e=>e.jobs.find(j=>j.name==='fast (ubuntu-24.04)').conclusion=conclusion),
-  e=>e.jobs.find(j=>j.name==='rules').conclusion='success',
-  e=>e.jobs.find(j=>j.name==='engineering-posix-shards').status='queued',
+  e=>e.jobs.find(j=>j.name===actualSkippedNames[0]).conclusion='success',
+  e=>e.jobs.find(j=>j.name===actualSkippedNames[1]).status='queued',
  ]) {const e=fixture();mutate(e);assert(prFastErrors(e).length,String(mutate));}
 });
 test('latest failed execution wins over an older successful execution',()=>{
