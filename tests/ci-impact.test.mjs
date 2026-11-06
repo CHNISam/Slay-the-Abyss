@@ -22,6 +22,17 @@ test('prose allowlist cannot hide additional unmodelled changes', () => {
   assert.equal(impact(['docs/CI.md', 'unknown'], sources, event, timing).mode, 'full');
 });
 
+test('admission control changes require Full even with proven tiny affected tests',()=>{
+ for(const name of ['arm-auto-merge','verify-delivery','pr-quality-evidence','publish-pr-quality',
+  'publish-full-quality','publish-merge-group','merge-queue-admission','merge-queue-policy',
+  'ci-impact','ci-fast','write-ci-receipt','repository-identity']){
+  const path=`scripts/${name}.mjs`,input={[path]:'export const value=1;',
+   'tests/value.test.mjs':`import {value} from "../${path}";`};
+  const selected=impact([path],input,event,timing);
+  assert.equal(selected.mode,'full',path);assert.equal(selected.reason,'High risk or shared infrastructure');
+ }
+});
+
 test('registered UI responsibilities share eligibility with their parent; unknown modules stay full', () => {
   const module = 'src/lua/abyss_battle_render_actors.lua';
   const input = { [module]: 'return {}', 'tests/lua/view.lua': 'require("abyss_battle_render_actors")' };
