@@ -24,7 +24,7 @@ test('TASK-75.5 historical thirteen-to-fourteen source and exact 28-job shape re
  assert.equal(historicalFullQualityJobs.length,28);assert.equal(new Set(historicalFullQualityJobs).size,28);
  assert.equal(qualityShardJobs.length,23);
  const workflow=readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n');
- assert.match(workflow,/max-parallel: 6/,'the approved POSIX concurrency cap remains');
+ assert.match(workflow,/^      max-parallel: 12$/m,'the approved current POSIX concurrency cap remains outside the historical shape projection');
  assert.match(workflow,/timeout-minutes: 20/);assert.match(workflow,/local-special' && 75 \|\| 30/);
  for(const source of ['scripts/ci-impact.mjs','scripts/verify-delivery.mjs'])assert.ok(readFileSync(source,'utf8').includes("from './ci-quality-shape.mjs'"));
 });

@@ -15,6 +15,7 @@ const path='scripts/ci-test-timings.json',binding=proof.files[path],before=JSON.
 // These files were added after the frozen 725-file observations. They still
 // belong to the current Full inventory and retain the unknown-file cost.
 const postCalibrationJs=['tests/ci-complete-calibration.test.mjs','tests/native-ui-preview.test.mjs','tests/reference-ui-lab.test.mjs'];
+const postCalibrationLua=['tests/lua/joust_event_slice_2.lua'];
 
 test('complete native successful rows authenticate every observed file and only raise effective placement costs',()=>{
  assert.equal(e.lockedObservationsSha256,'a80b5fe95fcfb0b4d5fedf839045100466423f3129c000ce2eef642cc31c421d');
@@ -47,10 +48,13 @@ test('complete native successful rows authenticate every observed file and only 
   assert.equal(after.js[platform][file],undefined,'new tests must not acquire fabricated historical measurements');
   assert.equal(jsPlanningWeights(postCalibrationJs,platform)[file],after.unknownJsMs);
  }
- const lua=readdirSync('tests/lua').filter(n=>n.endsWith('.lua')).map(n=>'tests/lua/'+n).sort();assert.equal(lua.length,1356);
+  const lua=readdirSync('tests/lua').filter(n=>n.endsWith('.lua')).map(n=>'tests/lua/'+n).sort();
+  const originalLua=lua.filter(file=>!postCalibrationLua.includes(file));assert.equal(originalLua.length,1356);
+  assert.deepEqual(lua.filter(file=>postCalibrationLua.includes(file)),postCalibrationLua);
+  for(const file of postCalibrationLua){assert.equal(after.lua[file],undefined);assert.equal(after.luaShard[file],undefined,'new raw entries must not acquire fabricated historical measurements');}
  for(const runId of [e.sourceRun,e.groupRun]){
   for(const platform of ['win32','linux'])assert.deepEqual(e.observations.js.filter(r=>r.runId===runId&&r.platform===platform).map(r=>r.file).sort(),originalJs);
-  assert.deepEqual(e.observations.lua.filter(r=>r.runId===runId).map(r=>r.file).sort(),lua);
+   assert.deepEqual(e.observations.lua.filter(r=>r.runId===runId).map(r=>r.file).sort(),originalLua);
  }
  for(const key of ['jsCalibrationUpdates','luaShardCalibrationUpdates']){
   assert.deepEqual(after[key].slice(0,-1),before[key]);expected[key].push(after[key].at(-1));
@@ -110,5 +114,5 @@ test('physical Windows16 POSIX12 Full33 covers final inventory under original bu
    return loads[i]+bin.filter(f=>safety(f)>=10000).reduce((s,f)=>s+cost(f),0)+Math.max(...pool);});
   assert.ok(Math.max(...combined)+60000<budget,`${platform} exact inventory max+60s=${Math.max(...combined)+60000} must retain original budget ${budget}`);
  }
- const workflow=read('.github/workflows/quality.yml');assert.match(workflow,/max-parallel: 6/);assert.match(workflow,/timeout-minutes: 20/);assert.match(workflow,/local-special' && 75 \|\| 30/);
+ const workflow=read('.github/workflows/quality.yml');assert.match(workflow,/max-parallel: 12/);assert.match(workflow,/timeout-minutes: 20/);assert.match(workflow,/local-special' && 75 \|\| 30/);
 });

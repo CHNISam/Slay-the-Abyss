@@ -7,13 +7,19 @@ export function beforePosixConcurrencyWorkflow(text) {
   if (jobs.length !== 1 || (text.match(/^[ \t]*max-parallel:/gm) ?? []).length !== 1) return null;
   const job = jobs[0][0];
   if ((job.match(/^    strategy:\r?$/gm) ?? []).length !== 1) return null;
-  const approved = [
+  const block = value => [
     '    strategy:',
     '      fail-fast: false',
-    '      max-parallel: 6',
+    '      max-parallel: ' + value,
     '      matrix:',
     ''
   ].join(eol);
-  if (job.split(approved).length !== 2) return null;
-  return text.replace(job, job.replace(approved, approved.replace('      max-parallel: 6' + eol, '')));
+  // Invert current 12-way scheduling to the reviewed six-way epoch first;
+  // then restore its original no-cap source. Other changes remain visible
+  // to the frozen whole-source guard. Unreviewed values fail closed.
+  const current = block(12), legacy = block(6);
+  const normalized = job.split(current).length === 2
+    ? job.replace(current, legacy) : job;
+  if (normalized.split(legacy).length !== 2) return null;
+  return text.replace(job, normalized.replace(legacy, legacy.replace('      max-parallel: 6' + eol, '')));
 }

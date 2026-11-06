@@ -9,16 +9,26 @@ import {originalWorkflow} from './helpers/ci-runtime-workflow.mjs';
 import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 
 const current = readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n');
-const cap = '      max-parallel: 6\n';
+const cap = '      max-parallel: 12\n';
 const job = source => source.match(/^  engineering-posix-shards:\n[\s\S]*?(?=^  [\w-]+:|(?![\s\S]))/m)[0];
 const addCap = source => source.replace(job(source),job(source).replace('      fail-fast: false\n','      fail-fast: false\n'+cap));
 const digest = source => createHash('sha256').update(source).digest('hex');
 
-test('physical Quality workflow caps only the nine POSIX shards at six concurrent jobs',()=>{
+test('physical Quality workflow runs twelve POSIX shards in one concurrent wave',()=>{
   assert.equal((current.match(/^\s*max-parallel:/gm)??[]).length,1);
   assert.ok(job(current).includes('    strategy:\n      fail-fast: false\n'+cap+'      matrix:\n        shard: ${{ fromJSON(needs.impact.outputs.posix_shards) }}\n'));
   assert.ok(job(current).includes('    runs-on: ubuntu-24.04\n    timeout-minutes: 20\n'));
   assert.equal(beforePosixConcurrencyWorkflow(current),current.replace(cap,''));
+});
+
+test('current twelve and historical six both restore the exact original source',()=>{
+  const noCap=current.replace(cap,''),oldCap=current.replace(cap,'      max-parallel: 6\n');
+  assert.equal(beforePosixConcurrencyWorkflow(current),noCap);
+  assert.equal(beforePosixConcurrencyWorkflow(oldCap),noCap);
+  for(const drift of [
+    current.replace(cap,'      max-parallel: 8\n'),
+    current.replace(cap,cap+cap)
+  ])assert.equal(beforePosixConcurrencyWorkflow(drift),null);
 });
 
 test('exact concurrency inverse preserves old bytes and LF or CRLF endings',()=>{
