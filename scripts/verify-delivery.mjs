@@ -227,7 +227,7 @@ export function verifyMergedDelivery(e) {
     if(repositories.some(repository=>!projectRepositoryMatches(repository,e.repo)))errors.push('Transferred PR/run repository identity differs from the fixed project');
   }
   if(early)errors.push(...verifyHistoricalAutoFull(e.prFull,preflight,e.identityWitness));
-  if(preflight.schemaVersion===6)errors.push(...verifyFastQueueFull(e.queueFull,preflight,e.pr?.merge_commit_sha));
+  if([6,7].includes(preflight.schemaVersion))errors.push(...verifyFastQueueFull(e.queueFull,preflight,e.pr?.merge_commit_sha));
   if(![2,3].includes(e.schemaVersion))errors.push('Missing versioned merged evidence');
   if(e.repo!==preflight.repo&&!transferred)errors.push('Merged evidence repository differs from preflight');
   if(preflight.review?.disposition==='low-risk-docs'&&
@@ -422,7 +422,7 @@ export function collectMergedDelivery(repo,number,preflight,query=gh,loadCheckou
   const current=JSON.parse(query('api',`repos/${repo}/pulls/${number}`));
   const currentRun=latestQualityRun(query,repo,identity);
   let queueFull;
-  if(preflight.schemaVersion===6){
+  if([6,7].includes(preflight.schemaVersion)){
     const groupIdentity={event:'merge_group',head:pr.merge_commit_sha,
       branch:`gh-readonly-queue/develop/pr-${number}-${preflight.base}`};
     const groupRun=latestQualityRun(query,repo,groupIdentity);

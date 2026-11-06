@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtempSync,writeFileSync,rmSync} from 'node:fs';
+import {mkdtempSync,writeFileSync,rmSync,readFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {currentFastQualityJobs,fastQualityJobErrors,prFastErrors,collectFastCheckout} from '../scripts/pr-quality-evidence.mjs';
@@ -29,6 +29,12 @@ function fixture() {
 test('Fast proof accepts two actual platform executions and exact immutable source/plan identities',()=>{
  assert.deepEqual(prFastErrors(fixture()),[]);
  const e=fixture();e.jobs.reverse();assert.deepEqual(prFastErrors(e),[]);
+});
+
+test('Fast checkout retains the real merge parents needed by its immutable receipt',()=>{
+ const workflow=readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n');
+ const fast=workflow.match(/^  fast:\n([\s\S]*?)(?=^  rules:)/m)?.[1];
+ assert.match(fast,/uses: actions\/checkout@[^\n]+\n        with:\n          fetch-depth: 2\n          persist-credentials: false/);
 });
 test('only the current aggregate may still be running while publishing its status',()=>{
  const e=fixture();e.run.status='in_progress';e.run.conclusion=null;
@@ -265,6 +271,19 @@ test('actual Fast publisher, immutable collector, native handshake and queue/pus
   m.merged=true;assert.deepEqual(mergedResult(m,proof),{state:'merged_passed',errors:[]});
   const evidence=collectMergedDelivery(repo,m.e.number,proof,m.query,m.load);
   delete evidence.queueFull;assert.equal(verifyMergedDelivery(evidence).state,'merged_pending');
+ }finally{m.cleanup();}
+});
+
+test('direct schema7 Fast delivery also requires the actual queue Full before merged_passed',()=>{
+ const m=lifecycle();
+ try{
+  m.complete();const {evidence}=collectPrDelivery(repo,m.e.number,m.review,m.query,m.load);
+  assert.equal(evidence.schemaVersion,7);m.merged=true;
+  const collected=collectMergedDelivery(repo,m.e.number,evidence,m.query,m.load);
+  assert.equal(collected.queueFull.schemaVersion,8);
+  assert.equal(verifyMergedDelivery(collected).state,'merged_passed');
+  delete collected.queueFull;
+  assert.equal(verifyMergedDelivery(collected).state,'merged_pending');
  }finally{m.cleanup();}
 });
 test('download-time cancellation, rerun, HEAD/BASE, Full request and draft changes never publish Fast success',()=>{
