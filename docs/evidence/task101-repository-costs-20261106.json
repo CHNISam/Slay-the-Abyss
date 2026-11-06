@@ -1,0 +1,572 @@
+{
+  "schemaVersion": 1,
+  "scope": "TASK-101 first offline baseline; not task completion, network measurement, art-enabled build or official candidate evidence",
+  "baseline": {
+    "commit": "7f11f4bfa994c4d3fa8ad7b677bf7aba4359bbf2",
+    "tree": "94616d2d4bfafffaadea8b8cd6edc13cac710fa9",
+    "trackedChanges": false
+  },
+  "toolSha256": "54a9fdebd2c56055368af44875fce48bed6130334d1ab4213234acc2a8b3f5dc",
+  "testsSha256": "36ed434dcac3d79162648d47c0ee8a7555b138ff48a4f004dc6169d02b2383ce",
+  "rawReportSha256": "131f11dbaa1524d889f1ab99cc4a9718a4626e316595bdd1d5e3ee7547b15ea7",
+  "git": {
+    "blobPaths": 7138,
+    "uniqueBlobs": 7038,
+    "checkoutBlobBytes": 236778859,
+    "uniqueBlobBytes": 226921854,
+    "submodules": [],
+    "localObjectStore": {
+      "count": 28,
+      "size": 216,
+      "in-pack": 7517,
+      "packs": 1,
+      "size-pack": 117764,
+      "prune-packable": 0,
+      "garbage": 0,
+      "size-garbage": 0,
+      "sizeUnit": "KiB for size, size-pack and size-garbage; local history, not network transfer"
+    }
+  },
+  "largestBlobs": [
+    {
+      "oid": "9d7825f779f47c337633a43b12e26e1db61db9ac",
+      "bytes": 7566742,
+      "paths": [
+        "art/characters/key-visual/traveler-geo/official-landscape-v1/native-art.lua"
+      ]
+    },
+    {
+      "oid": "16ce40fae511b39072f695159a60f8bc6a818bb7",
+      "bytes": 5112323,
+      "paths": [
+        "tests/fixtures/pr323-historical-fixtures.json.gz"
+      ]
+    },
+    {
+      "oid": "1eebf5f90f065e6db0ea9a3b0c1821386e111d3a",
+      "bytes": 4632366,
+      "paths": [
+        "art/characters/key-visual/traveler-geo/official-landscape-v1/native-art.json"
+      ]
+    },
+    {
+      "oid": "2b5516ac7bf9d110a8369f84921c7fa86c7f90dc",
+      "bytes": 3255110,
+      "paths": [
+        "tests/fixtures/pr323-accepted-source-inverse.json"
+      ]
+    },
+    {
+      "oid": "0291280fa29f97299c548d593d1487c8a195bca4",
+      "bytes": 3094685,
+      "paths": [
+        "data/presentation/native-monster-art.json"
+      ]
+    },
+    {
+      "oid": "08477c4df2bdd964880bfc99047bdf722db10ab7",
+      "bytes": 2794055,
+      "paths": [
+        "art/characters/traveler-geo/portraits/avatar96/native-art.lua"
+      ]
+    },
+    {
+      "oid": "83cc75403b830c4a08cb71b23c617002867bf291",
+      "bytes": 2658277,
+      "paths": [
+        "art/characters/traveler-geo/portraits/avatar96/native-art.json"
+      ]
+    },
+    {
+      "oid": "e802c6af6f14a4f36d525e12026dd90d5e63e2c6",
+      "bytes": 2551861,
+      "paths": [
+        "art/cards/traveler-geo/runtime-candidate/rectangles.json"
+      ]
+    },
+    {
+      "oid": "954ab227caf1f7413a9d9af9e25fb07e9efcc3e0",
+      "bytes": 2501280,
+      "paths": [
+        "art/characters/traveler-geo/portraits/battle133/native-art.lua"
+      ]
+    },
+    {
+      "oid": "bbc82b67acd01cee163697714ec47ff7337c6a63",
+      "bytes": 2377377,
+      "paths": [
+        "art/characters/traveler-geo/portraits/battle133/native-art.json"
+      ]
+    }
+  ],
+  "lfs": {
+    "pointerPaths": 140,
+    "uniqueObjects": 140,
+    "pointerBytes": 18453,
+    "uniquePayloadBytes": 216647536,
+    "logicalCheckoutPayloadBytes": 216647536,
+    "verifiedWorktreeBytes": 0,
+    "readableUniqueBytes": 0
+  },
+  "checkout": {
+    "logicalBytesWithAllLfs": 453407942,
+    "measuredNetworkTransferBytes": null,
+    "note": "Logical file bytes only. No network transfer was performed or inferred."
+  },
+  "officialCandidateBytes": null,
+  "builds": {
+    "status": "passed",
+    "source": {
+      "commit": "7f11f4bfa994c4d3fa8ad7b677bf7aba4359bbf2",
+      "tree": "94616d2d4bfafffaadea8b8cd6edc13cac710fa9",
+      "trackedChanges": false,
+      "inputDigest": "8c1f3634faff35e8437a85d50733d9d0dcabde9c7e7faae63e743fd6626ba160"
+    },
+    "finalInputDigest": "8c1f3634faff35e8437a85d50733d9d0dcabde9c7e7faae63e743fd6626ba160",
+    "inputDigestScope": "Tracked and nonignored untracked paths and bytes, without following symlinks. Ignored dependencies and external link targets are not authenticated.",
+    "environment": {
+      "node": "v24.22.1",
+      "platform": "linux",
+      "osRelease": "6.18.57",
+      "python": "Python 3.12.14"
+    },
+    "coldDefinition": "Fresh generated output directory and fresh child processes; OS page cache and dependency cache are not cleared.",
+    "warmDefinition": "Same output directory, same commands, fresh child processes; no claimed application cache hit.",
+    "scope": "Default offline data/UI/theme build only; art-enabled production candidate, network transfer and official import are not measured.",
+    "summary": {
+      "cold": {
+        "count": 3,
+        "p50Ms": 729.1002819999999,
+        "p95Ms": 768.521352,
+        "method": "nearest rank; descriptive small sample, not a service-level guarantee"
+      },
+      "warm": {
+        "count": 3,
+        "p50Ms": 765.0749159999996,
+        "p95Ms": 797.821453,
+        "method": "nearest rank; descriptive small sample, not a service-level guarantee"
+      }
+    }
+  },
+  "canonicalBuildOutputs": [
+    {
+      "path": "abyss_art_features.lua",
+      "bytes": 202,
+      "sha256": "1323fbeb388563db4ae50198d4d231edeec8d337ce95ea7288bde014a6bce91e"
+    },
+    {
+      "path": "abyss_data.lua",
+      "bytes": 212620,
+      "sha256": "c8dd7a050839a50b2e895787f6a72824187f9c6eaaea4002261f82f4ad0de9a4"
+    },
+    {
+      "path": "abyss_map_controls.lua",
+      "bytes": 102846,
+      "sha256": "f2f2e6618c8105f07da45a6d3ed7fe5a63df5f3e498e2af155b7103d81778507"
+    },
+    {
+      "path": "abyss_map_layout.lua",
+      "bytes": 612,
+      "sha256": "e08ebb48860ffee29db3313b56e1cb68ed6b649070148ddb3b6d16c95af4bff3"
+    },
+    {
+      "path": "abyss_menu_background_asset.lua",
+      "bytes": 69,
+      "sha256": "3c27739f7bf21453d31f57d21469bc2579a63dd7ad0d071f9667d440c5db4b03"
+    },
+    {
+      "path": "abyss_monster_actor_binding.lua",
+      "bytes": 176,
+      "sha256": "e93f6e4790e6d9f3f0c472e7b60e6efb4062d8c14d39a84ba0a67565c01767de"
+    },
+    {
+      "path": "abyss_monster_art_data.lua",
+      "bytes": 65,
+      "sha256": "dd3c9956c7cc8c66d0e96f12e6c142b29923a0d3af4f679183519aed3333cbbb"
+    },
+    {
+      "path": "abyss_narrative.lua",
+      "bytes": 7703,
+      "sha256": "c8b5924faea790e9bb0b81f9d22961b61b8920fe2acf04d0a54f431b1a29f573"
+    },
+    {
+      "path": "abyss_original_v4_data.lua",
+      "bytes": 577904,
+      "sha256": "63e4983d6d80241f287e153087efd81e7ab287efbb15e195ef80ad90230fb2cb"
+    },
+    {
+      "path": "abyss_presentation.lua",
+      "bytes": 74514,
+      "sha256": "d787983564fc6d1e3435fd55d0b97fe593d12b7b53b393ce4fbf298318449e0c"
+    },
+    {
+      "path": "abyss_ready_card_assets.lua",
+      "bytes": 81,
+      "sha256": "c9270928bf5a43b58a811e80e7d85458861031fc6ae661d3a6af8ed3e2a69db9"
+    },
+    {
+      "path": "abyss_ready_card_binding.lua",
+      "bytes": 149,
+      "sha256": "42db192efcc7b7777a74410ba309f9184b76a6bcd8317aeeee0c3370ee340086"
+    },
+    {
+      "path": "abyss_theme.lua",
+      "bytes": 105698,
+      "sha256": "27fa2aa74525b6bf7f2735a15fcd9c087b0e043f627a95324a4d7c4f1604f1f3"
+    },
+    {
+      "path": "abyss_traveler_portrait_assets.lua",
+      "bytes": 76,
+      "sha256": "2144d12bad1d4f9beb77182afae00549e2f2696ba8b870469df9e4f12033904c"
+    },
+    {
+      "path": "abyss_ui_layout.lua",
+      "bytes": 1844135,
+      "sha256": "9924848fa0ee45147412e57e5cb1f36e092deaa03b220715f1825601ba5bc875"
+    },
+    {
+      "path": "abyss_ui_templates.lua",
+      "bytes": 25060,
+      "sha256": "4b35600d348dfff390b3b77d01f6fb960adf29d537e63212e6de9efbf335e6c0"
+    },
+    {
+      "path": "art-render-v2.json",
+      "bytes": 80,
+      "sha256": "b6d991b0e9d37abfdfde58d6c7beacd035d70eca1881fdc3f47c6f77fbcd77ec"
+    },
+    {
+      "path": "battle-ui.json",
+      "bytes": 1347621,
+      "sha256": "c586ac4b69826db5bc85e0d0d3aa7ffeea236b33c4ac4bb4216399487e141c5c"
+    },
+    {
+      "path": "game-ui-templates.json",
+      "bytes": 67596,
+      "sha256": "db3dcebf591705ef452b61c7463610f1bdb6ef860c2753a31cd915af338e2f0c"
+    },
+    {
+      "path": "game-ui.json",
+      "bytes": 7508224,
+      "sha256": "297c7f1e38f9d5d2860293cd808f7c0fddf5dfec5e8251e1c95d84bc2e2022ae"
+    },
+    {
+      "path": "map-ui.json",
+      "bytes": 334229,
+      "sha256": "9819abe824097acf9e339ec84f81981e73a34bacccef29f234488b7147d9b7a2"
+    }
+  ],
+  "pairs": [
+    {
+      "round": 1,
+      "identicalOutputs": true,
+      "cold": {
+        "status": "passed",
+        "wallMs": 768.521352,
+        "outputsEqualCanonical": true,
+        "outputsDigest": "3494ef91e4f37cfff43143f2f9560d2bacd6f2dee2bcabf6e18f58e794832a66",
+        "steps": [
+          {
+            "command": [
+              "node",
+              "scripts/build-lua-data.mjs",
+              "data",
+              "<output>/abyss_data.lua"
+            ],
+            "wallMs": 146.30108999999993,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "Validated Lua data module built.\n",
+            "stderr": ""
+          },
+          {
+            "command": [
+              "node",
+              "scripts/build-ui.mjs",
+              "<output>"
+            ],
+            "wallMs": 508.90956800000004,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "Native battle UI and Traveler display module built.\n",
+            "stderr": ""
+          },
+          {
+            "command": [
+              "node",
+              "scripts/build-ui-theme.mjs",
+              "data/presentation/ui_theme.json",
+              "data",
+              "<output>/abyss_theme.lua"
+            ],
+            "wallMs": 89.00394900000015,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "UI theme Lua module built.\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "warm": {
+        "status": "passed",
+        "wallMs": 729.1554269999999,
+        "outputsEqualCanonical": true,
+        "outputsDigest": "3494ef91e4f37cfff43143f2f9560d2bacd6f2dee2bcabf6e18f58e794832a66",
+        "steps": [
+          {
+            "command": [
+              "node",
+              "scripts/build-lua-data.mjs",
+              "data",
+              "<output>/abyss_data.lua"
+            ],
+            "wallMs": 140.2275900000002,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "Validated Lua data module built.\n",
+            "stderr": ""
+          },
+          {
+            "command": [
+              "node",
+              "scripts/build-ui.mjs",
+              "<output>"
+            ],
+            "wallMs": 474.6971560000002,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "Native battle UI and Traveler display module built.\n",
+            "stderr": ""
+          },
+          {
+            "command": [
+              "node",
+              "scripts/build-ui-theme.mjs",
+              "data/presentation/ui_theme.json",
+              "data",
+              "<output>/abyss_theme.lua"
+            ],
+            "wallMs": 102.04210000000012,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "UI theme Lua module built.\n",
+            "stderr": ""
+          }
+        ]
+      }
+    },
+    {
+      "round": 2,
+      "identicalOutputs": true,
+      "cold": {
+        "status": "passed",
+        "wallMs": 729.1002819999999,
+        "outputsEqualCanonical": true,
+        "outputsDigest": "3494ef91e4f37cfff43143f2f9560d2bacd6f2dee2bcabf6e18f58e794832a66",
+        "steps": [
+          {
+            "command": [
+              "node",
+              "scripts/build-lua-data.mjs",
+              "data",
+              "<output>/abyss_data.lua"
+            ],
+            "wallMs": 149.4098140000001,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "Validated Lua data module built.\n",
+            "stderr": ""
+          },
+          {
+            "command": [
+              "node",
+              "scripts/build-ui.mjs",
+              "<output>"
+            ],
+            "wallMs": 470.6739239999997,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "Native battle UI and Traveler display module built.\n",
+            "stderr": ""
+          },
+          {
+            "command": [
+              "node",
+              "scripts/build-ui-theme.mjs",
+              "data/presentation/ui_theme.json",
+              "data",
+              "<output>/abyss_theme.lua"
+            ],
+            "wallMs": 97.71759500000007,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "UI theme Lua module built.\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "warm": {
+        "status": "passed",
+        "wallMs": 797.821453,
+        "outputsEqualCanonical": true,
+        "outputsDigest": "3494ef91e4f37cfff43143f2f9560d2bacd6f2dee2bcabf6e18f58e794832a66",
+        "steps": [
+          {
+            "command": [
+              "node",
+              "scripts/build-lua-data.mjs",
+              "data",
+              "<output>/abyss_data.lua"
+            ],
+            "wallMs": 157.72962400000006,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "Validated Lua data module built.\n",
+            "stderr": ""
+          },
+          {
+            "command": [
+              "node",
+              "scripts/build-ui.mjs",
+              "<output>"
+            ],
+            "wallMs": 515.7095049999998,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "Native battle UI and Traveler display module built.\n",
+            "stderr": ""
+          },
+          {
+            "command": [
+              "node",
+              "scripts/build-ui-theme.mjs",
+              "data/presentation/ui_theme.json",
+              "data",
+              "<output>/abyss_theme.lua"
+            ],
+            "wallMs": 111.30247199999985,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "UI theme Lua module built.\n",
+            "stderr": ""
+          }
+        ]
+      }
+    },
+    {
+      "round": 3,
+      "identicalOutputs": true,
+      "cold": {
+        "status": "passed",
+        "wallMs": 714.5831830000002,
+        "outputsEqualCanonical": true,
+        "outputsDigest": "3494ef91e4f37cfff43143f2f9560d2bacd6f2dee2bcabf6e18f58e794832a66",
+        "steps": [
+          {
+            "command": [
+              "node",
+              "scripts/build-lua-data.mjs",
+              "data",
+              "<output>/abyss_data.lua"
+            ],
+            "wallMs": 141.81395500000008,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "Validated Lua data module built.\n",
+            "stderr": ""
+          },
+          {
+            "command": [
+              "node",
+              "scripts/build-ui.mjs",
+              "<output>"
+            ],
+            "wallMs": 474.07822199999964,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "Native battle UI and Traveler display module built.\n",
+            "stderr": ""
+          },
+          {
+            "command": [
+              "node",
+              "scripts/build-ui-theme.mjs",
+              "data/presentation/ui_theme.json",
+              "data",
+              "<output>/abyss_theme.lua"
+            ],
+            "wallMs": 87.88750299999992,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "UI theme Lua module built.\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "warm": {
+        "status": "passed",
+        "wallMs": 765.0749159999996,
+        "outputsEqualCanonical": true,
+        "outputsDigest": "3494ef91e4f37cfff43143f2f9560d2bacd6f2dee2bcabf6e18f58e794832a66",
+        "steps": [
+          {
+            "command": [
+              "node",
+              "scripts/build-lua-data.mjs",
+              "data",
+              "<output>/abyss_data.lua"
+            ],
+            "wallMs": 168.06162200000017,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "Validated Lua data module built.\n",
+            "stderr": ""
+          },
+          {
+            "command": [
+              "node",
+              "scripts/build-ui.mjs",
+              "<output>"
+            ],
+            "wallMs": 489.43368999999984,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "Native battle UI and Traveler display module built.\n",
+            "stderr": ""
+          },
+          {
+            "command": [
+              "node",
+              "scripts/build-ui-theme.mjs",
+              "data/presentation/ui_theme.json",
+              "data",
+              "<output>/abyss_theme.lua"
+            ],
+            "wallMs": 94.39114900000004,
+            "exitCode": 0,
+            "signal": null,
+            "error": null,
+            "stdout": "UI theme Lua module built.\n",
+            "stderr": ""
+          }
+        ]
+      }
+    }
+  ]
+}
