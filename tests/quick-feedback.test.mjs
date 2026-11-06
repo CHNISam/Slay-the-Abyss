@@ -1,15 +1,56 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
+import { pathToFileURL } from 'node:url';
 import { selectTests, selectQuickFeedback, selectQuickPlan, executeQuickFeedback } from '../scripts/test-affected.mjs';
 import { historicalMonsterUiFixtures } from './helpers/historical-monster-ui-runner.mjs';
 import { historicalCardInputFixtures } from './helpers/historical-card-input.mjs';
 import { historicalPresentationFixtures } from './helpers/historical-presentation-runner.mjs';
+import { eventCombatRouteFixtures, eventCombatRouteInput } from './helpers/event-combat-route-input.mjs';
 
 const plan = { full: false, fast: ['tests/pure.test.mjs'], integration: ['tests/heavy.test.mjs'],
   lua: ['tests/lua/slow.lua', 'tests/lua/direct.lua', 'tests/lua/small.lua', 'tests/lua/new.lua'] };
 const timings = { lua: { 'tests/lua/slow.lua': 120000, 'tests/lua/direct.lua': 60000, 'tests/lua/small.lua': 10000 } };
+
+// Exercise the real CLI with normal dependency resolution, observing only graph
+// root enumeration. Rejection makes unnecessary corpus IO a deterministic failure.
+function probeGraphReads(context, args, { reject = false } = {}) {
+  const root = mkdtempSync(join(tmpdir(), 'abyss-quick-io-'));
+  context.after(() => rmSync(root, { recursive: true, force: true }));
+  const bootstrap = join(root, 'graph-io.mjs');
+  writeFileSync(bootstrap, `
+    import fs from 'node:fs';
+    import { resolve } from 'node:path';
+    import { syncBuiltinESMExports } from 'node:module';
+    const roots = new Map(['src/lua', 'scripts', 'tests'].map(path => [resolve(path), path]));
+    const reads = [], original = fs.readdirSync;
+    fs.readdirSync = function(path, ...args) {
+      const root = roots.get(resolve(path));
+      if (root) {
+        reads.push(root);
+        if (${reject}) throw new Error('Unneeded graph enumeration: ' + root);
+      }
+      return original.call(this, path, ...args);
+    };
+    syncBuiltinESMExports();
+    process.once('exit', () => console.error('Graph root reads: ' + JSON.stringify(reads)));
+  `);
+  const env = { ...process.env }; delete env.NODE_TEST_CONTEXT; delete env.GITHUB_STEP_SUMMARY;
+  const result = spawnSync(process.execPath,
+    ['--import', pathToFileURL(bootstrap).href, 'scripts/test-affected.mjs', ...args],
+    { encoding: 'utf8', env, windowsHide: true, timeout: 30000 });
+  assert.ifError(result.error);
+  const observed = result.stderr.match(/^Graph root reads: (.*)$/m);
+  assert.ok(observed, result.stderr);
+  return { ...result, reads: JSON.parse(observed[1]) };
+}
+
+const graphRoots = ['src/lua', 'scripts', 'tests'];
+const noInputsReason = 'No explicit change set; run the complete check';
+const unmodelledReason = path => `Unmodelled or deleted input: ${path}`;
 
 test('direct changed Lua runs before JS and remaining Lua without duplicate execution', () => {
   const calls = [];
@@ -124,17 +165,63 @@ for (const [helper, fixtures] of [
   }
 });
 
-for (const flag of ['--fast', '--ci-fast']) test(`${flag} unmapped fallback reports the full gate without launching a duplicate suite`, () => {
-  const env = { ...process.env }; delete env.NODE_TEST_CONTEXT; delete env.GITHUB_STEP_SUMMARY;
-  const result = spawnSync(process.execPath, ['scripts/test-affected.mjs', flag, '--files', 'docs/HANDOFF.md'],
-    { encoding: 'utf8', env, windowsHide: true, timeout: 30000 });
-  assert.ifError(result.error);
+for (const flag of ['--fast', '--ci-fast']) for (const changed of [[], ['docs/HANDOFF.md']]) {
+test(`${flag} ${changed.length ? 'unmapped' : 'empty'} fallback reports the full gate without graph IO or a duplicate suite`, context => {
+  const result = probeGraphReads(context, [flag, '--files', ...changed], { reject: true });
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /Complete Quality required: Unmodelled or deleted input: docs\/HANDOFF.md/);
+  assert.deepEqual(result.reads, []);
+  assert.ok(result.stdout.includes(`Complete Quality required: ${changed.length ? unmodelledReason(changed[0]) : noInputsReason}.`));
+  const plan = JSON.parse(result.stdout.slice(0, result.stdout.indexOf('\nFeedback timing:')));
+  assert.equal(plan.full, true);
+  assert.deepEqual(plan.changed, changed);
+  assert.deepEqual([plan.fast, plan.integration, plan.lua], [[], [], []]);
+  assert.deepEqual(plan.feedback, { fast: [], lua: [], estimatedLuaMs: 0 });
   assert.match(result.stdout, /Quick feedback unavailable. No tests run here; parallel complete Quality is required/);
   assert.match(result.stdout, /not a regression pass/);
   assert.match(result.stdout, /Feedback timing: plan \d+ ms\./);
   assert.doesNotMatch(result.stdout, /Completed|> slay-the-abyss/);
+});
+}
+
+for (const changed of [[], ['docs/HANDOFF.md'], ['docs\\HANDOFF.md', 'data/cards.json', 'tests/fixtures/unknown.json']]) {
+test(`related plan avoids graph IO for wholly unmodelled inputs: ${JSON.stringify(changed)}`, context => {
+  const result = probeGraphReads(context, ['--plan', '--files', ...changed], { reject: true });
+  assert.equal(result.status, 0, result.stderr);
+  assert.deepEqual(result.reads, []);
+  const normalized = changed.map(path => path.replaceAll('\\', '/'));
+  assert.deepEqual(JSON.parse(result.stdout), { tier: 'related', changed: normalized, full: true,
+    reason: changed.length ? unmodelledReason(normalized[0]) : noInputsReason, fast: [], integration: [], lua: [] });
+});
+}
+
+test('mixed inputs retain mapped feedback and complete-gate fallback with real graph IO', context => {
+  const input = 'tests/lua/combat.lua', args = ['--ci-fast', '--plan', '--files'];
+  const alone = probeGraphReads(context, [...args, input]);
+  const mixed = probeGraphReads(context, [...args, 'docs/HANDOFF.md', input, 'src/lua/deleted-preflight.lua']);
+  for (const result of [alone, mixed]) {
+    assert.equal(result.status, 0, result.stderr);
+    assert.deepEqual(result.reads, graphRoots);
+  }
+  const direct = JSON.parse(alone.stdout), plan = JSON.parse(mixed.stdout);
+  assert.equal(direct.full, false);
+  assert.ok(direct.lua.includes(input));
+  assert.equal(plan.full, true);
+  assert.equal(plan.reason, unmodelledReason('docs/HANDOFF.md'));
+  assert.deepEqual([plan.fast, plan.integration, plan.lua], [[], [], []]);
+  assert.ok(direct.feedback.lua.includes(input));
+  assert.deepEqual(plan.feedback, direct.feedback);
+});
+
+test('special event route JSON still loads its graph and retains feedback beside unknown input', context => {
+  const unknown = 'tests/fixtures/unknown.json';
+  const result = probeGraphReads(context, ['--ci-fast', '--plan', '--files', eventCombatRouteInput, unknown]);
+  assert.equal(result.status, 0, result.stderr);
+  assert.deepEqual(result.reads, graphRoots);
+  const plan = JSON.parse(result.stdout);
+  assert.equal(plan.full, true);
+  assert.equal(plan.reason, unmodelledReason(unknown));
+  assert.deepEqual([plan.fast, plan.integration, plan.lua], [[], [], []]);
+  for (const fixture of eventCombatRouteFixtures) assert.ok(plan.feedback.lua.includes(fixture), fixture);
 });
 
 test('local and CI advisory plans select the same real Lua feedback', () => {

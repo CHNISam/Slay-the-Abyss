@@ -12,6 +12,7 @@ import {prepareRuntimePreviews, needsRuntimePreviews} from './ci-reviewed-lfs.mj
 
 // Local and PR advisory feedback share one selector. Full Quality owns coverage.
 const slash = value => value.replaceAll('\\', '/');
+const isGraphInput = path => /^(src\/lua\/.*\.lua|scripts\/.*\.mjs|tests\/.*\.(mjs|lua))$/.test(path) || path === eventCombatRouteInput;
 // Importing runLua does not execute its conditional fixture setup. Keep these
 // helper edges on their real Lua entries, as with the historical replay port.
 const conditionalRunnerFixtures = new Map([
@@ -190,7 +191,7 @@ export function selectTests(changed, sources, {advisory = false} = {}) {
   const eligible=[];
   for (const path of changed) {
     let reason;
-    if (!(path in sources) || !/^(src\/lua\/.*\.lua|scripts\/.*\.mjs|tests\/.*\.(mjs|lua))$/.test(path) && path !== eventCombatRouteInput)
+    if (!(path in sources) || !isGraphInput(path))
       reason=`Unmodelled or deleted input: ${path}`;
     else if (/scripts\/(test-affected|test-lua|build-.*)\.mjs$/.test(path))
       reason=`Shared build/test infrastructure: ${path}`;
@@ -371,8 +372,10 @@ export function main(args) {
     if (untracked.status !== 0) throw new Error('Cannot inspect untracked inputs');
     changed.push(...untracked.stdout.split('\0').filter(Boolean));
   }
-  const sources = Object.fromEntries(['src/lua', 'scripts', 'tests'].flatMap(files)
-    .filter(p => /\.(lua|mjs)$/.test(p) || p === eventCombatRouteInput).map(p => [p, readFileSync(p, 'utf8')]));
+  // Only wholly out-of-scope (or empty) inputs need no corpus. In-scope paths,
+  // including unknown/deleted ones, retain graph discovery for mixed feedback.
+  const sources = changed.some(isGraphInput) ? Object.fromEntries(['src/lua', 'scripts', 'tests'].flatMap(files)
+    .filter(p => /\.(lua|mjs)$/.test(p) || p === eventCombatRouteInput).map(p => [p, readFileSync(p, 'utf8')])) : {};
   const plan = selectTests([...new Set(changed)], sources);
   const quickPlan = advisory ? selectQuickPlan(changed, sources, plan) : null;
   const quick = advisory ? selectQuickFeedback(quickPlan, changed,
