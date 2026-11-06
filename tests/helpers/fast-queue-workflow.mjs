@@ -35,5 +35,12 @@ export function beforeFastQueueWorkflow(text){
   if(text.split(source).length!==2)return null;
   text=text.replace(source,'');
  }
+ const checkout=`        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+`.replaceAll('\n',eol);
+ if(text.split(checkout).length!==2)return null;
+ text=text.replace(checkout,checkout.replace('          fetch-depth: 2'+eol,''));
  return text;
 }
