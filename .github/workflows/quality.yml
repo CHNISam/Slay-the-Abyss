@@ -152,7 +152,7 @@ jobs:
           if-no-files-found: warn
   rules:
     needs: impact
-    name: rules (${{ matrix.shard }}/${{ strategy.job-total }})
+    name: ${{ needs.impact.outputs.mode == 'fast' && 'rules' || format('rules ({0}/{1})', matrix.shard, strategy.job-total) }}
     if: ${{ needs.impact.outputs.mode == 'full' && !cancelled() && (inputs.runner_pool != 'local-special' || github.event_name == 'workflow_dispatch' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master')) }}
     # Only an explicit dispatch of a trusted integration branch may use the laptop.
     # All ordinary pushes and PRs, including forks, use a disposable hosted VM.
@@ -442,7 +442,7 @@ jobs:
   engineering-posix-shards:
     needs: impact
     if: needs.impact.outputs.mode == 'full'
-    name: engineering-posix (${{ matrix.shard }}/${{ strategy.job-total }})
+    name: ${{ needs.impact.outputs.mode == 'fast' && 'engineering-posix-shards' || format('engineering-posix ({0}/{1})', matrix.shard, strategy.job-total) }}
     # Separate hosted VMs keep generated files isolated and retain the original
     # 20-minute budget. Weighted files execute once, serially per VM.
     strategy:

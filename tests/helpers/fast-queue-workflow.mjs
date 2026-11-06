@@ -35,6 +35,12 @@ export function beforeFastQueueWorkflow(text){
   if(text.split(source).length!==2)return null;
   text=text.replace(source,'');
  }
+ for(const [id,name]of [['rules','rules'],['engineering-posix-shards','engineering-posix']]){
+  const current=`    name: \${{ needs.impact.outputs.mode == 'fast' && '${id}' || format('${name} ({0}/{1})', matrix.shard, strategy.job-total) }}`;
+  const previous=`    name: ${name} (\${{ matrix.shard }}/\${{ strategy.job-total }})`;
+  if(text.split(current).length!==2)return null;
+  text=text.replace(current,previous);
+ }
  const checkout=`        with:
           fetch-depth: 2
           persist-credentials: false

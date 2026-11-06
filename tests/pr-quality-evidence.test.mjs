@@ -35,6 +35,8 @@ test('Fast checkout retains the real merge parents needed by its immutable recei
  const workflow=readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n');
  const fast=workflow.match(/^  fast:\n([\s\S]*?)(?=^  rules:)/m)?.[1];
  assert.match(fast,/uses: actions\/checkout@[^\n]+\n        with:\n          fetch-depth: 2\n          persist-credentials: false/);
+ for(const name of ['rules','engineering-posix-shards'])
+  assert(workflow.includes("needs.impact.outputs.mode == 'fast' && '"+name+"' || format("),'Fast skipped matrix name is explicit: '+name);
 });
 test('only the current aggregate may still be running while publishing its status',()=>{
  const e=fixture();e.run.status='in_progress';e.run.conclusion=null;
