@@ -423,7 +423,7 @@ jobs:
     # 20-minute budget. Weighted files execute once, serially per VM.
     strategy:
       fail-fast: false
-      max-parallel: 6
+      max-parallel: 12
       matrix:
         shard: ${{ fromJSON(needs.impact.outputs.posix_shards) }}
     runs-on: ubuntu-24.04
