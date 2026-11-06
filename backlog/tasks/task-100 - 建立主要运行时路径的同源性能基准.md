@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-06 01:46'
-updated_date: '2026-11-06 02:23'
+updated_date: '2026-11-06 02:29'
 labels: []
 milestone: m-7
 dependencies: []
@@ -34,3 +34,9 @@ ordinal: 163000
 <!-- SECTION:PLAN:BEGIN -->
 1.复用现有Host与运行时夹具，固定当前源码摘要与确定输入。2.实现有界的代表路径离线测量入口，区分真实调用计数与VM时间，不改生产架构。3.定向合同测试及独立审查，记录未覆盖设备与完整前后比较；本切片不宣称任务完成。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+PR #523 首份离线Host全路径基线已实现：固定实际seed、源摘要、三次独立VM、冷暖构造/回合/300帧/卡组/奖励，调用计数一致；4项定向合同测试通过。证据与边界见docs/backlog-details/TASK-100.md。尚非优化前后对照，无官方设备及合后Full，全部AC保持未勾。
+<!-- SECTION:NOTES:END -->
