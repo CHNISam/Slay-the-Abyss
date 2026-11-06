@@ -18,11 +18,17 @@ const postCalibrationJs=['tests/ci-complete-calibration.test.mjs','tests/native-
  'tests/actor-lifecycle.test.mjs','tests/actor-power-rules-boundary.test.mjs','tests/combat-lifecycle.test.mjs',
  'tests/core-lifecycle-complexity.test.mjs','tests/core-lifecycle-source-inverse.test.mjs',
  'tests/relic-query.test.mjs','tests/relic-query-architecture.test.mjs','tests/relic-query-source-inverse.test.mjs',
- 'tests/purge-query.test.mjs','tests/purge-query-architecture.test.mjs'].sort();
+ 'tests/purge-query.test.mjs','tests/purge-query-architecture.test.mjs',
+ 'tests/relic-lifecycle.test.mjs','tests/relic-lifecycle-boundary.test.mjs','tests/relic-lifecycle-mutations.test.mjs'].sort();
 const postCalibrationLua=['tests/lua/actor_lifecycle.lua','tests/lua/actor_lifecycle_rules.lua','tests/lua/combat-lifecycle.lua',
  'tests/lua/relic_query_contract.lua','tests/lua/relic_query_rewards.lua','tests/lua/relic_query_cold_load.lua',
  'tests/lua/purge_query_contract.lua','tests/lua/purge_query_dynamic.lua','tests/lua/purge_query_cold_load.lua',
- 'tests/lua/joust_event_slice_2.lua'].sort();
+ 'tests/lua/joust_event_slice_2.lua',
+ ...['contracts','dynamic','fatal_guardian','fatal_native','fatal_orb','fatal_shared',
+  'hooks_attacks','hooks_opening','hooks_turns','hp','rare','session','shop_early','shop_late','special',
+  ...Array.from({length:9},(_,i)=>'parasite_'+String(i+1).padStart(2,'0')),
+  ...Array.from({length:11},(_,i)=>'uncommon_'+String(i+1).padStart(2,'0'))]
+  .map(group=>'tests/lua/relic_lifecycle_'+group+'.lua')].sort();
 
 test('complete native successful rows authenticate every observed file and only raise effective placement costs',()=>{
  assert.equal(e.lockedObservationsSha256,'a80b5fe95fcfb0b4d5fedf839045100466423f3129c000ce2eef642cc31c421d');

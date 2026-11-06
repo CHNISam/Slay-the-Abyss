@@ -1,0 +1,5233 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/lifecycle_review",
+  "status": "finite module responsibility/commit-owner grouping, not every branch accepted",
+  "metrics": "build/relic-lifecycle-plan/final-metrics.json",
+  "completeUniqueCoverage": {
+    "combat": 82,
+    "session": 15,
+    "total": 97
+  },
+  "combat": [
+    {
+      "role": "command, queue/effect and choice execution",
+      "modules": [
+        "abyss_combat",
+        "abyss_card_actions",
+        "abyss_combat_catalog",
+        "abyss_combat_effect_cards",
+        "abyss_combat_effect_choice",
+        "abyss_combat_effect_damage",
+        "abyss_combat_effect_dispatch",
+        "abyss_combat_effect_powers",
+        "abyss_combat_enemy_setup",
+        "abyss_combat_native_play",
+        "abyss_combat_queued_play",
+        "abyss_effects",
+        "abyss_effects_cards",
+        "abyss_effects_damage",
+        "abyss_effects_enemy",
+        "abyss_effects_powers",
+        "abyss_flow_actions",
+        "abyss_ending_actions",
+        "abyss_build_actions",
+        "abyss_hand_choice",
+        "abyss_pile_choice",
+        "abyss_discard",
+        "abyss_exhaust",
+        "abyss_scry",
+        "abyss_card_capability",
+        "abyss_card_triggers"
+      ],
+      "owner": "Combat public command/savepoint owns mutable battle graph. Runtime handlers and choice executors use supplied state/host; CardCapability is a read-only implementation query, CombatCatalog builds private lookup outputs, neither is another committer.",
+      "sources": [
+        {
+          "module": "abyss_combat",
+          "path": "src/lua/abyss_combat.lua",
+          "sha256LF": "74ef6eb1b4c7b18f2d71479af212b23c22758e34c0c8d9eb8e24999ddf825a80",
+          "sourceOpening": "-- Pure Lua 5.3 battle state. No game/script/io globals; the UI issues commands.\nlocal Actors = require(\"abyss_actor\")\nlocal Effects = require(\"abyss_effects\")",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "afterUsePowers",
+              "line": 32
+            },
+            {
+              "name": "actionOwned",
+              "line": 44
+            },
+            {
+              "name": "standaloneBoundary",
+              "line": 49
+            },
+            {
+              "name": "settleStandalone",
+              "line": 52
+            },
+            {
+              "name": "enemyEffectsPending",
+              "line": 56
+            },
+            {
+              "name": "damagePoison",
+              "line": 69
+            },
+            {
+              "name": "damageThornsCallback",
+              "line": 76
+            },
+            {
+              "name": "damagePreview",
+              "line": 80
+            },
+            {
+              "name": "recordDamagePreview",
+              "line": 85
+            },
+            {
+              "name": "completeDamage",
+              "line": 89
+            },
+            {
+              "name": "M.damage",
+              "line": 98
+            },
+            {
+              "name": "M.retaliate",
+              "line": 112
+            },
+            {
+              "name": "M.suicideExploder",
+              "line": 123
+            },
+            {
+              "name": "M.suicideTransient",
+              "line": 131
+            },
+            {
+              "name": "resolveEffects",
+              "line": 137
+            },
+            {
+              "name": "M.applyEffects",
+              "line": 156
+            }
+          ]
+        },
+        {
+          "module": "abyss_card_actions",
+          "path": "src/lua/abyss_card_actions.lua",
+          "sha256LF": "a89ef438e2f28f366fda05676b0724f5eac59c3447621d1253050b3105424578",
+          "sourceOpening": "-- Shared combat card actions. Data only continuations can pause for a real UID\n-- choice; no UI callbacks, platform objects, or permanent deck writes live here.\nlocal Actors = require(\"abyss_actor\")",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "admissionIndex",
+              "line": 11
+            },
+            {
+              "name": "admissionNewIndex",
+              "line": 14
+            },
+            {
+              "name": "M.supports",
+              "line": 29
+            },
+            {
+              "name": "M.reactionRetained",
+              "line": 31
+            },
+            {
+              "name": "remove",
+              "line": 40
+            },
+            {
+              "name": "M.exhaust",
+              "line": 44
+            },
+            {
+              "name": "M.fresh",
+              "line": 66
+            },
+            {
+              "name": "M.created",
+              "line": 90
+            },
+            {
+              "name": "M.sameInstance",
+              "line": 97
+            },
+            {
+              "name": "M.toHand",
+              "line": 105
+            },
+            {
+              "name": "choiceEligible",
+              "line": 111
+            },
+            {
+              "name": "candidates",
+              "line": 117
+            },
+            {
+              "name": "openChoice",
+              "line": 127
+            },
+            {
+              "name": "multipleSelection",
+              "line": 132
+            },
+            {
+              "name": "selection",
+              "line": 135
+            },
+            {
+              "name": "handChoice",
+              "line": 157
+            }
+          ]
+        },
+        {
+          "module": "abyss_combat_catalog",
+          "path": "src/lua/abyss_combat_catalog.lua",
+          "sha256LF": "3a82ccf1d73efc1274826b4093fcead3a62a663dc2968bed953059ec1c22b72d",
+          "sourceOpening": "-- Definition ownership shared by real battles and preconstructed encounters.\n-- No actors, RNG, room callbacks or enemy registration run in this boundary.\nlocal Copy=require('abyss_copy').copy",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "index",
+              "line": 6
+            },
+            {
+              "name": "definitions",
+              "line": 11
+            },
+            {
+              "name": "M.prepare",
+              "line": 21
+            },
+            {
+              "name": "M.enemies",
+              "line": 29
+            }
+          ]
+        },
+        {
+          "module": "abyss_combat_effect_cards",
+          "path": "src/lua/abyss_combat_effect_cards.lua",
+          "sha256LF": "ad516e63bfa3528104d42a49bb7e8b5c446c2d0d6e4c855b984bcc524f2733e5",
+          "sourceOpening": "-- Continuation-owned cards operations. Return values preserve pause and early exits.\nlocal Handlers={}\nfunction Handlers.discardTacticianEnergy(c)",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "Handlers.discardTacticianEnergy",
+              "line": 3
+            },
+            {
+              "name": "Handlers.randomManualDiscard",
+              "line": 11
+            },
+            {
+              "name": "Handlers.drawWithFollowup",
+              "line": 25
+            },
+            {
+              "name": "Handlers.reduceGlassKnife",
+              "line": 37
+            },
+            {
+              "name": "Handlers.exhaustRandomAny",
+              "line": 43
+            },
+            {
+              "name": "Handlers.makeTempCardInHand",
+              "line": 49
+            },
+            {
+              "name": "Handlers.previousCardType",
+              "line": 57
+            },
+            {
+              "name": "Handlers.calculatedGamble",
+              "line": 68
+            },
+            {
+              "name": "Handlers.discardReflexDraw",
+              "line": 76
+            },
+            {
+              "name": "Handlers.exhaustHand",
+              "line": 86
+            },
+            {
+              "name": "Handlers.restoreRetained",
+              "line": 96
+            },
+            {
+              "name": "Handlers.discardEndHand",
+              "line": 113
+            },
+            {
+              "name": "Handlers.reduceRetainedCost",
+              "line": 128
+            }
+          ]
+        },
+        {
+          "module": "abyss_combat_effect_choice",
+          "path": "src/lua/abyss_combat_effect_choice.lua",
+          "sha256LF": "28f6dc9c18cb44b172858bc5be388ace2aa727609402d2478529b5536d9c086f",
+          "sourceOpening": "-- Continuation-owned choice operations. Return values preserve pause and early exits.\nlocal Handlers={}\nfunction Handlers.pileChoice(c)",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "Handlers.pileChoice",
+              "line": 3
+            },
+            {
+              "name": "Handlers.requestDiscard",
+              "line": 10
+            },
+            {
+              "name": "Handlers.scry",
+              "line": 18
+            },
+            {
+              "name": "Handlers.handChoice",
+              "line": 25
+            },
+            {
+              "name": "Handlers.effectBatch",
+              "line": 34
+            }
+          ]
+        },
+        {
+          "module": "abyss_combat_effect_damage",
+          "path": "src/lua/abyss_combat_effect_damage.lua",
+          "sha256LF": "b8ff07660d5d8e4b2348082678a3e83dd17d70994ef78652435c19dcbb5ff044",
+          "sourceOpening": "-- Continuation-owned damage operations. Return values preserve pause and early exits.\nlocal Actors=require('abyss_actor')\nlocal EnemyAI=require('abyss_enemy_ai')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "Handlers.wallop",
+              "line": 6
+            },
+            {
+              "name": "Handlers.markLoseHp",
+              "line": 24
+            },
+            {
+              "name": "Handlers.skewerHits",
+              "line": 35
+            },
+            {
+              "name": "Handlers.applyLockOn",
+              "line": 47
+            },
+            {
+              "name": "Handlers.heelHook",
+              "line": 61
+            },
+            {
+              "name": "Handlers.xBlockRounds",
+              "line": 76
+            },
+            {
+              "name": "Handlers.combustDamage",
+              "line": 88
+            },
+            {
+              "name": "Handlers.resolveCurlUp",
+              "line": 100
+            },
+            {
+              "name": "Handlers.heal",
+              "line": 109
+            }
+          ]
+        },
+        {
+          "module": "abyss_combat_effect_dispatch",
+          "path": "src/lua/abyss_combat_effect_dispatch.lua",
+          "sha256LF": "02fdbcf79108fb702d6e9508a989e12f2eb296e59d8a181ebe3ed80435aa269d",
+          "sourceOpening": "-- Dispatch only; synchronization and queue ownership remain in Combat.\nlocal Actors=require('abyss_actor')\nlocal PlatedArmor=require('abyss_plated_armor')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "endingReactions",
+              "line": 13
+            },
+            {
+              "name": "relicActions",
+              "line": 18
+            },
+            {
+              "name": "reactions",
+              "line": 33
+            },
+            {
+              "name": "classEffects",
+              "line": 62
+            },
+            {
+              "name": "selectedTarget",
+              "line": 84
+            },
+            {
+              "name": "plannedEffects",
+              "line": 92
+            },
+            {
+              "name": "executeRounds",
+              "line": 112
+            },
+            {
+              "name": "fallback",
+              "line": 140
+            },
+            {
+              "name": "Handlers.apply",
+              "line": 146
+            }
+          ]
+        },
+        {
+          "module": "abyss_combat_effect_powers",
+          "path": "src/lua/abyss_combat_effect_powers.lua",
+          "sha256LF": "abff029055d1ec47be657fb5a938c928309a925043796eb860e492df93b47afa",
+          "sourceOpening": "-- Continuation-owned powers operations. Return values preserve pause and early exits.\nlocal Actors=require('abyss_actor')\nlocal Events=require('abyss_events')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "Handlers.darklingAction",
+              "line": 6
+            },
+            {
+              "name": "Handlers.reptomancerSuicide",
+              "line": 9
+            },
+            {
+              "name": "Handlers.timeEater",
+              "line": 12
+            },
+            {
+              "name": "Handlers.orbStart",
+              "line": 15
+            },
+            {
+              "name": "Handlers.turnPoison",
+              "line": 28
+            },
+            {
+              "name": "Handlers.removeStatus",
+              "line": 38
+            },
+            {
+              "name": "Handlers.loseEnergy",
+              "line": 69
+            },
+            {
+              "name": "Handlers.gainWatcherFlowPower",
+              "line": 75
+            },
+            {
+              "name": "Handlers.gainCardTriggerPower",
+              "line": 100
+            },
+            {
+              "name": "Handlers.cardTriggerStorm",
+              "line": 106
+            },
+            {
+              "name": "Handlers.cardTriggerPoison",
+              "line": 114
+            },
+            {
+              "name": "Handlers.cardTriggerDamageAll",
+              "line": 120
+            },
+            {
+              "name": "Handlers.removeCardTriggerPower",
+              "line": 127
+            },
+            {
+              "name": "Handlers.onUseReactions",
+              "line": 133
+            },
+            {
+              "name": "Handlers.capturedSharpHide",
+              "line": 138
+            },
+            {
+              "name": "Handlers.gainStrengthPower",
+              "line": 145
+            }
+          ]
+        },
+        {
+          "module": "abyss_combat_enemy_setup",
+          "path": "src/lua/abyss_combat_enemy_setup.lua",
+          "sha256LF": "76c8aa93a85a272b80ff4ae74645bc26fe33b7f6d18eb733d8c54d904b9331da",
+          "sourceOpening": "-- Constructor-only enemy ownership. No player, opening AI, deck or relic work.\nlocal Copy=require('abyss_copy').copy\nlocal Actors=require('abyss_actor')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "index",
+              "line": 10
+            },
+            {
+              "name": "registerList",
+              "line": 13
+            },
+            {
+              "name": "M.register",
+              "line": 19
+            },
+            {
+              "name": "policy",
+              "line": 31
+            },
+            {
+              "name": "splitPolicy",
+              "line": 34
+            },
+            {
+              "name": "specialMove",
+              "line": 37
+            },
+            {
+              "name": "unknownInactive",
+              "line": 46
+            },
+            {
+              "name": "inactiveMove",
+              "line": 52
+            },
+            {
+              "name": "validateIntent",
+              "line": 57
+            },
+            {
+              "name": "sampleHp",
+              "line": 64
+            },
+            {
+              "name": "M.make",
+              "line": 70
+            },
+            {
+              "name": "sourceSpec",
+              "line": 86
+            },
+            {
+              "name": "M.group",
+              "line": 93
+            },
+            {
+              "name": "construct",
+              "line": 98
+            },
+            {
+              "name": "constructorCatalog",
+              "line": 116
+            },
+            {
+              "name": "keys",
+              "line": 122
+            }
+          ]
+        },
+        {
+          "module": "abyss_combat_native_play",
+          "path": "src/lua/abyss_combat_native_play.lua",
+          "sha256LF": "539c3a339016f9497b77f11daed7e0db0378f3e2fcb0923a2ebd39547881c6ec",
+          "sourceOpening": "-- CardActions protocol: capture values at use time, retain disposal and TOP order.\n-- Combat owns the transaction and drain; this owner never calls back into play.\nlocal Actors=require('abyss_actor')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.nativeOnly",
+              "line": 16
+            },
+            {
+              "name": "M.preferred",
+              "line": 25
+            },
+            {
+              "name": "recordPlay",
+              "line": 29
+            },
+            {
+              "name": "randomTarget",
+              "line": 37
+            },
+            {
+              "name": "captureDamage",
+              "line": 45
+            },
+            {
+              "name": "prepareEffect",
+              "line": 54
+            },
+            {
+              "name": "effectItems",
+              "line": 66
+            },
+            {
+              "name": "batchCore",
+              "line": 79
+            },
+            {
+              "name": "appendTriggers",
+              "line": 91
+            },
+            {
+              "name": "appendEnemyUse",
+              "line": 95
+            },
+            {
+              "name": "appendDisposal",
+              "line": 108
+            },
+            {
+              "name": "enqueue",
+              "line": 116
+            },
+            {
+              "name": "handCallbacks",
+              "line": 122
+            },
+            {
+              "name": "useHooks",
+              "line": 130
+            },
+            {
+              "name": "M.queue",
+              "line": 145
+            }
+          ]
+        },
+        {
+          "module": "abyss_combat_queued_play",
+          "path": "src/lua/abyss_combat_queued_play.lua",
+          "sha256LF": "ee51b70a7afbb8584b86dfd32477a9a9a29338128393f68a03065dcbd1b62ad7",
+          "sourceOpening": "-- ActionQueue protocol: capture use-time values and keep useCard as the boundary.\n-- Combat retains snapshots, pause/resume handlers and completion ownership.\nlocal Actors=require('abyss_actor')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "hasPlayerTrigger",
+              "line": 16
+            },
+            {
+              "name": "drawCallbacks",
+              "line": 25
+            },
+            {
+              "name": "exhaustHooks",
+              "line": 35
+            },
+            {
+              "name": "immediateQueue",
+              "line": 41
+            },
+            {
+              "name": "M.required",
+              "line": 47
+            },
+            {
+              "name": "enemyUse",
+              "line": 56
+            },
+            {
+              "name": "recordPlay",
+              "line": 75
+            },
+            {
+              "name": "consume",
+              "line": 83
+            },
+            {
+              "name": "pending",
+              "line": 96
+            },
+            {
+              "name": "randomTarget",
+              "line": 105
+            },
+            {
+              "name": "prepareEffects",
+              "line": 111
+            },
+            {
+              "name": "captureAmounts",
+              "line": 122
+            },
+            {
+              "name": "prepareQueued",
+              "line": 137
+            },
+            {
+              "name": "appendEffect",
+              "line": 152
+            },
+            {
+              "name": "effectActions",
+              "line": 159
+            },
+            {
+              "name": "appendActions",
+              "line": 170
+            }
+          ]
+        },
+        {
+          "module": "abyss_effects",
+          "path": "src/lua/abyss_effects.lua",
+          "sha256LF": "aa1c507c56ee8b1794641f710c4e2e2b603f52f3c29b51096f8860df58c74a71",
+          "sourceOpening": "-- Effect interpreter for the core-supported operations.\nlocal M = {}\nlocal Actors = require(\"abyss_actor\")",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "targetGroup",
+              "line": 46
+            },
+            {
+              "name": "M.requiresQueue",
+              "line": 100
+            },
+            {
+              "name": "M.allowedAfterVictory",
+              "line": 113
+            },
+            {
+              "name": "denseEffectCount",
+              "line": 125
+            },
+            {
+              "name": "scrySequenceSupported",
+              "line": 139
+            },
+            {
+              "name": "supportedEffectOp",
+              "line": 151
+            },
+            {
+              "name": "conditionalAllowed",
+              "line": 159
+            },
+            {
+              "name": "nonConditionalOpSupported",
+              "line": 166
+            },
+            {
+              "name": "selectionAmountsSupported",
+              "line": 171
+            },
+            {
+              "name": "mantraAmountSupported",
+              "line": 181
+            },
+            {
+              "name": "effectMetadataSupported",
+              "line": 187
+            },
+            {
+              "name": "supported",
+              "line": 198
+            },
+            {
+              "name": "M.supported",
+              "line": 224
+            },
+            {
+              "name": "targets",
+              "line": 230
+            },
+            {
+              "name": "continueEffects",
+              "line": 241
+            },
+            {
+              "name": "applyOne",
+              "line": 248
+            }
+          ]
+        },
+        {
+          "module": "abyss_effects_cards",
+          "path": "src/lua/abyss_effects_cards.lua",
+          "sha256LF": "28bb3255c8d038d905bcdbe1b8e5164b787223747ec20d0c15fb33a5ab989bc1",
+          "sourceOpening": "-- Synchronous cards operations. No continuation-queue ownership is transferred here.\nlocal Events=require('abyss_events')\nlocal M={}",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.gainEnergyIfDiscard",
+              "line": 4
+            },
+            {
+              "name": "M.calculatedGamble",
+              "line": 12
+            },
+            {
+              "name": "M.handChoice",
+              "line": 16
+            },
+            {
+              "name": "M.scry",
+              "line": 22
+            },
+            {
+              "name": "M.requestDiscard",
+              "line": 26
+            },
+            {
+              "name": "M.generateShivs",
+              "line": 39
+            },
+            {
+              "name": "M.increaseDamageThisCombat",
+              "line": 53
+            },
+            {
+              "name": "grow",
+              "line": 63
+            },
+            {
+              "name": "M.makeTempCardInDiscard",
+              "line": 76
+            },
+            {
+              "name": "M.addCardToDiscard",
+              "line": 106
+            },
+            {
+              "name": "M.draw",
+              "line": 129
+            },
+            {
+              "name": "M.energy",
+              "line": 136
+            }
+          ]
+        },
+        {
+          "module": "abyss_effects_damage",
+          "path": "src/lua/abyss_effects_damage.lua",
+          "sha256LF": "ae24c9ddd57d7ac2bac8c65d8f1f1768fad750ada74262501b9bad074d03ca41",
+          "sourceOpening": "-- Synchronous damage operations. No continuation-queue ownership is transferred here.\nlocal Actors=require('abyss_actor')\nlocal Events=require('abyss_events')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.damage",
+              "line": 5
+            },
+            {
+              "name": "M.damageEqualToBlock",
+              "line": 37
+            },
+            {
+              "name": "M.conditional",
+              "line": 49
+            },
+            {
+              "name": "M.loseHp",
+              "line": 67
+            }
+          ]
+        },
+        {
+          "module": "abyss_effects_enemy",
+          "path": "src/lua/abyss_effects_enemy.lua",
+          "sha256LF": "afa4d9172f210a5b459bbd38df18718babc3993477ffbc12ddd2615eb4f2f12a",
+          "sourceOpening": "-- Synchronous enemy operations. No continuation-queue ownership is transferred here.\nlocal Actors=require('abyss_actor')\nlocal Events=require('abyss_events')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.reptomancerSummon",
+              "line": 5
+            },
+            {
+              "name": "M.daggerSacrifice",
+              "line": 8
+            },
+            {
+              "name": "M.timeEater",
+              "line": 11
+            },
+            {
+              "name": "M.awakenedVoid",
+              "line": 14
+            },
+            {
+              "name": "M.enemyBurnBoth",
+              "line": 17
+            },
+            {
+              "name": "M.enemyDazedDraw",
+              "line": 23
+            },
+            {
+              "name": "M.enemyStasis",
+              "line": 29
+            },
+            {
+              "name": "M.enemyBronzeSpawn",
+              "line": 36
+            },
+            {
+              "name": "M.enemyTorchSpawn",
+              "line": 44
+            },
+            {
+              "name": "M.enemyRally",
+              "line": 54
+            },
+            {
+              "name": "M.enemyEncourage",
+              "line": 62
+            },
+            {
+              "name": "M.enemyVampireDamage",
+              "line": 73
+            },
+            {
+              "name": "M.enemyCleanse",
+              "line": 97
+            },
+            {
+              "name": "M.enemyHealAll",
+              "line": 116
+            }
+          ]
+        },
+        {
+          "module": "abyss_effects_powers",
+          "path": "src/lua/abyss_effects_powers.lua",
+          "sha256LF": "323319953426476692bd7388526a249537651c46beb6b01c6e1877ceb4e70e36",
+          "sourceOpening": "-- Synchronous powers operations. No continuation-queue ownership is transferred here.\nlocal Actors=require('abyss_actor')\nlocal EnemyRandom=require('abyss_enemy_random')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.gainExhaustPower",
+              "line": 5
+            },
+            {
+              "name": "M.gainDevotion",
+              "line": 24
+            },
+            {
+              "name": "M.gainMantra",
+              "line": 32
+            },
+            {
+              "name": "M.multiplyPoison",
+              "line": 38
+            },
+            {
+              "name": "M.gainOrbSlots",
+              "line": 54
+            },
+            {
+              "name": "M.applyBias",
+              "line": 68
+            },
+            {
+              "name": "M.gainOrbPower",
+              "line": 81
+            },
+            {
+              "name": "M.gainFocus",
+              "line": 90
+            },
+            {
+              "name": "M.gainStancePower",
+              "line": 101
+            },
+            {
+              "name": "M.innerPeace",
+              "line": 119
+            },
+            {
+              "name": "M.changeStance",
+              "line": 132
+            },
+            {
+              "name": "M.channelOrb",
+              "line": 143
+            },
+            {
+              "name": "blockAllAllies",
+              "line": 162
+            },
+            {
+              "name": "blockAutomaton",
+              "line": 167
+            },
+            {
+              "name": "blockRandomAlly",
+              "line": 174
+            },
+            {
+              "name": "M.block",
+              "line": 190
+            }
+          ]
+        },
+        {
+          "module": "abyss_flow_actions",
+          "path": "src/lua/abyss_flow_actions.lua",
+          "sha256LF": "d1ce62d0481da5fef3c25fa835d4dd4c3a4d16d2ee4aefc6402bd01b4d7b3759",
+          "sourceOpening": "-- Opt-in class plans share a data continuation ABI. Combat owns transactions.\nlocal M={}\nlocal modules={require('abyss_warrior_status_cards'),require('abyss_defect_engine_cards'),",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "copyInto",
+              "line": 11
+            },
+            {
+              "name": "M.commitRng",
+              "line": 20
+            },
+            {
+              "name": "M.prepare",
+              "line": 26
+            },
+            {
+              "name": "M.plan",
+              "line": 33
+            },
+            {
+              "name": "M.instance",
+              "line": 38
+            },
+            {
+              "name": "action",
+              "line": 47
+            },
+            {
+              "name": "M.enqueue",
+              "line": 51
+            }
+          ]
+        },
+        {
+          "module": "abyss_ending_actions",
+          "path": "src/lua/abyss_ending_actions.lua",
+          "sha256LF": "2a2ada3efd984aec9b4a28cd5e60f5f18bb22f16ba44cec95afc1538ade5dd4a",
+          "sourceOpening": "-- Private source takeTurn plans, executed by Combat's existing enemy queue.\n-- These are not general effects and are deliberately absent from its whitelist.\nlocal Actors=require('abyss_actor')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "append",
+              "line": 10
+            },
+            {
+              "name": "M.plan",
+              "line": 15
+            },
+            {
+              "name": "<anonymous>",
+              "line": 17
+            },
+            {
+              "name": "target",
+              "line": 41
+            },
+            {
+              "name": "insertDraw",
+              "line": 46
+            },
+            {
+              "name": "M.resolve",
+              "line": 55
+            },
+            {
+              "name": "M.retained",
+              "line": 74
+            }
+          ]
+        },
+        {
+          "module": "abyss_build_actions",
+          "path": "src/lua/abyss_build_actions.lua",
+          "sha256LF": "77a03a52e8f07324605cb97017111023593e6497fe0cf66158807d73290f0ea7",
+          "sourceOpening": "-- Source-specific card actions. Plans contain data; Combat owns execution.\nlocal Actors=require('abyss_actor')\nlocal Events=require('abyss_events')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 11
+            },
+            {
+              "name": "M.isAttacking",
+              "line": 15
+            },
+            {
+              "name": "M.makeCard",
+              "line": 25
+            },
+            {
+              "name": "M.applyNextEnergy",
+              "line": 58
+            }
+          ]
+        },
+        {
+          "module": "abyss_hand_choice",
+          "path": "src/lua/abyss_hand_choice.lua",
+          "sha256LF": "4779464a8dbdb4e8531071e3c61b2217a8ed99aec3788275aba10e054a0e2d76",
+          "sourceOpening": "-- Source-defined True Grit / Warcry selection. Caller owns choose+resume rollback.\nlocal Random=require('abyss_sts_random')\nlocal Events=require('abyss_events');local Actors=require('abyss_actor')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 7
+            },
+            {
+              "name": "dense",
+              "line": 10
+            },
+            {
+              "name": "live",
+              "line": 17
+            },
+            {
+              "name": "index",
+              "line": 23
+            },
+            {
+              "name": "exhaustSupported",
+              "line": 44
+            },
+            {
+              "name": "move",
+              "line": 53
+            },
+            {
+              "name": "M.active",
+              "line": 70
+            },
+            {
+              "name": "M.begin",
+              "line": 71
+            },
+            {
+              "name": "M.choose",
+              "line": 99
+            }
+          ]
+        },
+        {
+          "module": "abyss_pile_choice",
+          "path": "src/lua/abyss_pile_choice.lua",
+          "sha256LF": "a0d0e6cec6cc92b3e1d59425e712cdf1c0fb183fb2cc88653daf8931ba39edb5",
+          "sourceOpening": "-- Retrieval moves original instances; all persisted choice state is plain data.\n-- Combat/Run owns queue resume and the surrounding whole-card transaction.\nlocal Events=require(\"abyss_events\");local Actors=require('abyss_actor')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 12
+            },
+            {
+              "name": "dense",
+              "line": 13
+            },
+            {
+              "name": "copy",
+              "line": 20
+            },
+            {
+              "name": "live",
+              "line": 24
+            },
+            {
+              "name": "fact",
+              "line": 30
+            },
+            {
+              "name": "validCard",
+              "line": 31
+            },
+            {
+              "name": "graph",
+              "line": 36
+            },
+            {
+              "name": "isExhume",
+              "line": 54
+            },
+            {
+              "name": "candidates",
+              "line": 57
+            },
+            {
+              "name": "<anonymous>",
+              "line": 75
+            },
+            {
+              "name": "sameFact",
+              "line": 86
+            },
+            {
+              "name": "sameList",
+              "line": 90
+            },
+            {
+              "name": "fresh",
+              "line": 98
+            },
+            {
+              "name": "transaction",
+              "line": 112
+            },
+            {
+              "name": "remove",
+              "line": 119
+            },
+            {
+              "name": "discardHook",
+              "line": 123
+            }
+          ]
+        },
+        {
+          "module": "abyss_discard",
+          "path": "src/lua/abyss_discard.lua",
+          "sha256LF": "5742fbad7b6daf65b324ff9c0143d458f1fb864c006237ef5b150f4e34524265",
+          "sourceOpening": "-- Final-action discard selection for the Silent foundation. Combat owns turns.\nlocal Events = require(\"abyss_events\");local Actors=require('abyss_actor')\nlocal M = {}",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 5
+            },
+            {
+              "name": "dense",
+              "line": 8
+            },
+            {
+              "name": "live",
+              "line": 18
+            },
+            {
+              "name": "transaction",
+              "line": 28
+            },
+            {
+              "name": "M.active",
+              "line": 53
+            },
+            {
+              "name": "handIndex",
+              "line": 55
+            },
+            {
+              "name": "validDrawQueue",
+              "line": 68
+            },
+            {
+              "name": "resolve",
+              "line": 79
+            },
+            {
+              "name": "<anonymous>",
+              "line": 100
+            },
+            {
+              "name": "trigger",
+              "line": 103
+            },
+            {
+              "name": "M.flushDraws",
+              "line": 156
+            },
+            {
+              "name": "<anonymous>",
+              "line": 162
+            },
+            {
+              "name": "M.choose",
+              "line": 174
+            },
+            {
+              "name": "M.begin",
+              "line": 200
+            },
+            {
+              "name": "<anonymous>",
+              "line": 207
+            },
+            {
+              "name": "M.manualDiscard",
+              "line": 227
+            }
+          ]
+        },
+        {
+          "module": "abyss_exhaust",
+          "path": "src/lua/abyss_exhaust.lua",
+          "sha256LF": "a896da79d8206d763a28622ba5544920d14ee9e9b33d6fef9b11d72d8491de48",
+          "sourceOpening": "-- Source-ordered exhaust hooks. Combat owns transactions, relics and disposal.\n-- All persisted plans contain action data only; callbacks stay on the call stack.\nlocal Events=require('abyss_events');local Actors=require('abyss_actor')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 7
+            },
+            {
+              "name": "dense",
+              "line": 10
+            },
+            {
+              "name": "statuses",
+              "line": 17
+            },
+            {
+              "name": "amount",
+              "line": 21
+            },
+            {
+              "name": "alive",
+              "line": 25
+            },
+            {
+              "name": "effect",
+              "line": 33
+            },
+            {
+              "name": "M.rememberPower",
+              "line": 38
+            },
+            {
+              "name": "M.shouldExhaust",
+              "line": 50
+            },
+            {
+              "name": "M.plan",
+              "line": 57
+            },
+            {
+              "name": "<anonymous>",
+              "line": 83
+            },
+            {
+              "name": "M.move",
+              "line": 102
+            }
+          ]
+        },
+        {
+          "module": "abyss_scry",
+          "path": "src/lua/abyss_scry.lua",
+          "sha256LF": "786a5b20a63abaf08f1251402238e410fedf4aefab47abd75a38ab9fc3f1d4a5",
+          "sourceOpening": "-- Fixed ScryAction semantics, without GUI/Golden Eye/Weave. No manual discard.\nlocal Events=require(\"abyss_events\");local Actors=require('abyss_actor')\nlocal M={}",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 5
+            },
+            {
+              "name": "dense",
+              "line": 8
+            },
+            {
+              "name": "live",
+              "line": 15
+            },
+            {
+              "name": "piles",
+              "line": 20
+            },
+            {
+              "name": "M.begin",
+              "line": 41
+            },
+            {
+              "name": "M.choose",
+              "line": 74
+            }
+          ]
+        },
+        {
+          "module": "abyss_card_capability",
+          "path": "src/lua/abyss_card_capability.lua",
+          "sha256LF": "b9eca8f9caf716ac5264b80ee4dd8142ae74b41f83f8fe6aa847b7247c2de1f9",
+          "sourceOpening": "-- Acquisition/upgrade capability, independent of energy, hand, phase or target.\n-- A definition's presence alone does not mean the combat engine implements it.\nlocal Effects=require('abyss_effects')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "empty",
+              "line": 6
+            },
+            {
+              "name": "M.isImplemented",
+              "line": 7
+            }
+          ]
+        },
+        {
+          "module": "abyss_card_triggers",
+          "path": "src/lua/abyss_card_triggers.lua",
+          "sha256LF": "0fa45d814d1d1773e46358c2a7ea81b4ae2c8a823f330189609624485e2050bd",
+          "sourceOpening": "-- Fixed319009 card/power hooks. Plans are data; Combat owns phase/transactions.\nlocal Actors=require(\"abyss_actor\")\nlocal Events=require(\"abyss_events\")",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 16
+            },
+            {
+              "name": "plain",
+              "line": 17
+            },
+            {
+              "name": "dense",
+              "line": 18
+            },
+            {
+              "name": "powers",
+              "line": 26
+            },
+            {
+              "name": "amount",
+              "line": 31
+            },
+            {
+              "name": "live",
+              "line": 35
+            },
+            {
+              "name": "order",
+              "line": 41
+            },
+            {
+              "name": "M.definition",
+              "line": 57
+            },
+            {
+              "name": "gain",
+              "line": 61
+            },
+            {
+              "name": "M.withCards",
+              "line": 82
+            },
+            {
+              "name": "M.recordApplied",
+              "line": 114
+            },
+            {
+              "name": "M.apply",
+              "line": 124
+            },
+            {
+              "name": "action",
+              "line": 138
+            },
+            {
+              "name": "M.prepareUse",
+              "line": 143
+            },
+            {
+              "name": "M.expandStorm",
+              "line": 176
+            },
+            {
+              "name": "M.onAttack",
+              "line": 189
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "role": "actor, health, resources, Power/turn protocols",
+      "modules": [
+        "abyss_actor",
+        "abyss_focus",
+        "abyss_orbs",
+        "abyss_orb_powers",
+        "abyss_hp_loss",
+        "abyss_mantra",
+        "abyss_original_v4_health",
+        "abyss_plated_armor",
+        "abyss_player_revive",
+        "abyss_poison",
+        "abyss_potion_fairy",
+        "abyss_power_order",
+        "abyss_power_schedule",
+        "abyss_shivs",
+        "abyss_stances",
+        "abyss_time_eater",
+        "abyss_turn_powers",
+        "abyss_end_turn_powers"
+      ],
+      "owner": "Supplied Combat state/actor is mutation owner; Actor arithmetic, Power ordering, turn plans and health/revive notifications execute within original command/queue protocol. No Session commit or replacement snapshot owner.",
+      "sources": [
+        {
+          "module": "abyss_actor",
+          "path": "src/lua/abyss_actor.lua",
+          "sha256LF": "8c65e3f385b412eac28c1ec7d56cac1495e4f91608320af46c2a6c11394be43a",
+          "sourceOpening": "-- Actor arithmetic and turn status rules; no UI or platform globals.\nlocal M = {}\nlocal PowerRules = require('abyss_actor_power_rules')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "intangible",
+              "line": 11
+            },
+            {
+              "name": "enqueue",
+              "line": 19
+            },
+            {
+              "name": "reaction",
+              "line": 23
+            },
+            {
+              "name": "M.powerSequence",
+              "line": 26
+            },
+            {
+              "name": "removeSpirePower",
+              "line": 37
+            },
+            {
+              "name": "M.faceTarget",
+              "line": 44
+            },
+            {
+              "name": "M.removeSpireDeathPower",
+              "line": 48
+            },
+            {
+              "name": "notifyHpLost",
+              "line": 56
+            },
+            {
+              "name": "M.hpLostFromCard",
+              "line": 69
+            },
+            {
+              "name": "M.hpLostFromDamage",
+              "line": 70
+            },
+            {
+              "name": "M.isActive",
+              "line": 72
+            },
+            {
+              "name": "M.isPresent",
+              "line": 75
+            },
+            {
+              "name": "updatePlayerStatusOrder",
+              "line": 79
+            },
+            {
+              "name": "updateMonsterStatusOrder",
+              "line": 90
+            },
+            {
+              "name": "markRoundDebuffApplication",
+              "line": 100
+            },
+            {
+              "name": "M.status",
+              "line": 109
+            }
+          ]
+        },
+        {
+          "module": "abyss_focus",
+          "path": "src/lua/abyss_focus.lua",
+          "sha256LF": "a4cead026d11ade7e97e68190a77d4d12661a8119daaf6ecac14a31eca3c94ad",
+          "sourceOpening": "-- Fixed 319009 Focus/Bias rules. Player statuses are the only numeric truth.\nlocal Events=require('abyss_events')\nlocal M={}",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 4
+            },
+            {
+              "name": "definition",
+              "line": 9
+            },
+            {
+              "name": "complete",
+              "line": 14
+            },
+            {
+              "name": "M.ensureDefinitions",
+              "line": 17
+            },
+            {
+              "name": "M.value",
+              "line": 32
+            },
+            {
+              "name": "M.sync",
+              "line": 37
+            },
+            {
+              "name": "M.remove",
+              "line": 42
+            },
+            {
+              "name": "M.apply",
+              "line": 54
+            },
+            {
+              "name": "M.startTurn",
+              "line": 87
+            }
+          ]
+        },
+        {
+          "module": "abyss_orbs",
+          "path": "src/lua/abyss_orbs.lua",
+          "sha256LF": "8db88dc31db3e60e779e737cbb49b776f817ba3fdc945b8f7779fbb35b3442bf",
+          "sourceOpening": "-- Source-derived rules, independently implemented. Explicit opt-in combat subset.\nlocal Actors = require('abyss_actor')\nlocal Random = require('abyss_sts_random')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 8
+            },
+            {
+              "name": "living",
+              "line": 9
+            },
+            {
+              "name": "candidates",
+              "line": 12
+            },
+            {
+              "name": "apiReady",
+              "line": 17
+            },
+            {
+              "name": "running",
+              "line": 21
+            },
+            {
+              "name": "container",
+              "line": 26
+            },
+            {
+              "name": "M.init",
+              "line": 32
+            },
+            {
+              "name": "M.snapshot",
+              "line": 41
+            },
+            {
+              "name": "emit",
+              "line": 47
+            },
+            {
+              "name": "M.setFocus",
+              "line": 51
+            },
+            {
+              "name": "amount",
+              "line": 58
+            },
+            {
+              "name": "M.view",
+              "line": 65
+            },
+            {
+              "name": "action",
+              "line": 76
+            },
+            {
+              "name": "M.prepareEvoke",
+              "line": 88
+            },
+            {
+              "name": "M.resolve",
+              "line": 96
+            },
+            {
+              "name": "M.evoke",
+              "line": 126
+            }
+          ]
+        },
+        {
+          "module": "abyss_orb_powers",
+          "path": "src/lua/abyss_orb_powers.lua",
+          "sha256LF": "7fd3fe6cad6a519c352403f65276caaae6eccc49c2a59bae64fd58de3a3ab811",
+          "sourceOpening": "-- Source-derived subset: stable same-priority Loop/Bias hooks and Electro.\nlocal Actors=require('abyss_actor')\nlocal Orbs=require('abyss_orbs')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 8
+            },
+            {
+              "name": "live",
+              "line": 9
+            },
+            {
+              "name": "copy",
+              "line": 14
+            },
+            {
+              "name": "M.withCards",
+              "line": 18
+            },
+            {
+              "name": "electro",
+              "line": 24
+            },
+            {
+              "name": "M.recordApplied",
+              "line": 39
+            },
+            {
+              "name": "M.apply",
+              "line": 47
+            },
+            {
+              "name": "orderOf",
+              "line": 57
+            },
+            {
+              "name": "M.prepareStart",
+              "line": 75
+            },
+            {
+              "name": "passive",
+              "line": 81
+            },
+            {
+              "name": "M.startTurnPower",
+              "line": 110
+            }
+          ]
+        },
+        {
+          "module": "abyss_hp_loss",
+          "path": "src/lua/abyss_hp_loss.lua",
+          "sha256LF": "c850a947b868859d6fc522ccf547e76253473f29d4ebe762da0507ec9d9331ed",
+          "sourceOpening": "-- Notify actual player HP loss once, irrespective of attack/payment/status.\n-- Damage provenance stays explicit: unknown/null owners cannot trigger Rupture.\nlocal M={}",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.requiresQueue",
+              "line": 7
+            },
+            {
+              "name": "M.notify",
+              "line": 12
+            }
+          ]
+        },
+        {
+          "module": "abyss_mantra",
+          "path": "src/lua/abyss_mantra.lua",
+          "sha256LF": "767b0c41782ce159b549fbbe163c1d3022bc416d0f06fa8de8d555910dc0c375",
+          "sourceOpening": "-- Source-verified Mantra/Devotion subset. The host owns queued card execution.\nlocal Actors=require(\"abyss_actor\")\nlocal Events=require(\"abyss_events\")",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 6
+            },
+            {
+              "name": "stateOf",
+              "line": 7
+            },
+            {
+              "name": "live",
+              "line": 11
+            },
+            {
+              "name": "queueApi",
+              "line": 16
+            },
+            {
+              "name": "copy",
+              "line": 20
+            },
+            {
+              "name": "M.prepareGain",
+              "line": 28
+            },
+            {
+              "name": "M.apply",
+              "line": 39
+            },
+            {
+              "name": "M.remove",
+              "line": 66
+            },
+            {
+              "name": "M.applyDevotion",
+              "line": 74
+            },
+            {
+              "name": "M.postDraw",
+              "line": 87
+            },
+            {
+              "name": "M.withCards",
+              "line": 105
+            }
+          ]
+        },
+        {
+          "module": "abyss_original_v4_health",
+          "path": "src/lua/abyss_original_v4_health.lua",
+          "sha256LF": "ed0efdbcf41527cf87b5e9b53d6afb08d73e3462e7a1528a4f1f4a33008849bd",
+          "sourceOpening": "-- Original heroes share one actual-HP ledger per combat. Traveler paths stay native.\nlocal Events=require('abyss_events')\nlocal M={}",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.hpEvent",
+              "line": 4
+            },
+            {
+              "name": "M.heal",
+              "line": 14
+            }
+          ]
+        },
+        {
+          "module": "abyss_plated_armor",
+          "path": "src/lua/abyss_plated_armor.lua",
+          "sha256LF": "dd80bf7c574748759fea2eb4dfc168b05f312f8d81b630cbb8e3b4fa18125813",
+          "sourceOpening": "-- PlatedArmorPower and its three source actions. The host owns both queues.\nlocal Events=require('abyss_events')\nlocal Schedule=require('abyss_power_schedule')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.supports",
+              "line": 6
+            },
+            {
+              "name": "M.retained",
+              "line": 7
+            },
+            {
+              "name": "active",
+              "line": 8
+            },
+            {
+              "name": "owner",
+              "line": 9
+            },
+            {
+              "name": "M.hpLost",
+              "line": 13
+            },
+            {
+              "name": "M.preEndCards",
+              "line": 18
+            },
+            {
+              "name": "M.apply",
+              "line": 24
+            }
+          ]
+        },
+        {
+          "module": "abyss_player_revive",
+          "path": "src/lua/abyss_player_revive.lua",
+          "sha256LF": "735fe7d5b055c5ddd66335b45273e920282cd891c4814e1c13afb9ab0a3b0d92",
+          "sourceOpening": "-- AbstractPlayer.damage fatal reserves: Fairy first, then one persistent Tail.\n-- Call only for an actual positive player HP-loss action, after bloodied hooks.\nlocal Tail=require('abyss_lizard_tail')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.battle",
+              "line": 7
+            },
+            {
+              "name": "<anonymous>",
+              "line": 10
+            },
+            {
+              "name": "M.outside",
+              "line": 17
+            }
+          ]
+        },
+        {
+          "module": "abyss_poison",
+          "path": "src/lua/abyss_poison.lua",
+          "sha256LF": "c739ba6e3958531a0148752b46566963b69a315cf38dfd8fa27eecb701ac8e78",
+          "sourceOpening": "-- Source-derived poison actions; shared Actor remains the only status owner.\nlocal Actors = require(\"abyss_actor\")\nlocal Random = require(\"abyss_sts_random\")",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 6
+            },
+            {
+              "name": "living",
+              "line": 9
+            },
+            {
+              "name": "running",
+              "line": 12
+            },
+            {
+              "name": "member",
+              "line": 17
+            },
+            {
+              "name": "apply",
+              "line": 21
+            },
+            {
+              "name": "M.multiply",
+              "line": 36
+            },
+            {
+              "name": "selectTarget",
+              "line": 48
+            },
+            {
+              "name": "M.flask",
+              "line": 58
+            },
+            {
+              "name": "M.postDraw",
+              "line": 76
+            }
+          ]
+        },
+        {
+          "module": "abyss_potion_fairy",
+          "path": "src/lua/abyss_potion_fairy.lua",
+          "sha256LF": "fe6a3d984f7387ef1f5a52a65e3874634022d9cab86f6b17576a89720607194e",
+          "sourceOpening": "-- Fixed 319009d5 AbstractPlayer.damage / FairyPotion.use fatal interception.\n-- Battle owns a private physical inventory; Run publishes only successful commands.\nlocal R=require('abyss_sts_random')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "revive",
+              "line": 5
+            },
+            {
+              "name": "M.fatal",
+              "line": 24
+            },
+            {
+              "name": "M.outside",
+              "line": 33
+            }
+          ]
+        },
+        {
+          "module": "abyss_power_order",
+          "path": "src/lua/abyss_power_order.lua",
+          "sha256LF": "5e36ae81090d59148ba821b54661413eace65e6127bf5e93c9ab6f3e24ea47ef",
+          "sourceOpening": "-- Track successful applications for the hooks this engine dispatches.\nlocal Schedule=require('abyss_power_schedule')\nlocal M={ids={beat_of_death=true,time_warp=true,nemesis_intangible=true,curiosity=true,slow=true,thorns=true,flame_barrier=true,block_return=true,sharp_hide=true,choked=true,",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "absentGuardianHide",
+              "line": 7
+            },
+            {
+              "name": "M.before",
+              "line": 10
+            },
+            {
+              "name": "M.applied",
+              "line": 20
+            },
+            {
+              "name": "copyOrder",
+              "line": 91
+            },
+            {
+              "name": "M.remove",
+              "line": 96
+            },
+            {
+              "name": "M.contains",
+              "line": 99
+            },
+            {
+              "name": "M.directAdd",
+              "line": 103
+            },
+            {
+              "name": "priority",
+              "line": 108
+            },
+            {
+              "name": "M.applyNew",
+              "line": 118
+            }
+          ]
+        },
+        {
+          "module": "abyss_power_schedule",
+          "path": "src/lua/abyss_power_schedule.lua",
+          "sha256LF": "eb8fe768a1f161b8dc5ecbdff9e5e12fc38730048cefe2afc67aa125c4e275cf",
+          "sourceOpening": "-- Source-ordered Power membership only. Hosts own effects, hooks and removal.\nlocal M={}\nlocal MAX=2147483647",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "plain",
+              "line": 4
+            },
+            {
+              "name": "integer",
+              "line": 7
+            },
+            {
+              "name": "owner",
+              "line": 10
+            },
+            {
+              "name": "priority",
+              "line": 17
+            },
+            {
+              "name": "membership",
+              "line": 28
+            },
+            {
+              "name": "read",
+              "line": 38
+            },
+            {
+              "name": "complete",
+              "line": 63
+            },
+            {
+              "name": "M.recordApplied",
+              "line": 76
+            },
+            {
+              "name": "M.remove",
+              "line": 103
+            },
+            {
+              "name": "M.list",
+              "line": 121
+            },
+            {
+              "name": "<anonymous>",
+              "line": 146
+            },
+            {
+              "name": "M.ownerEnd",
+              "line": 157
+            },
+            {
+              "name": "<anonymous>",
+              "line": 189
+            }
+          ]
+        },
+        {
+          "module": "abyss_shivs",
+          "path": "src/lua/abyss_shivs.lua",
+          "sha256LF": "f96896a0280691c2ed5cb04f516d1bf9a92854be817dea922b9858d52a91a57e",
+          "sourceOpening": "local Copy = require(\"abyss_copy\")\n-- Accuracy changes a Shiv instance's base, not the later attack modifiers.\nlocal Actors = require(\"abyss_actor\")",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 7
+            },
+            {
+              "name": "layerInteger",
+              "line": 10
+            },
+            {
+              "name": "amount",
+              "line": 13
+            },
+            {
+              "name": "instances",
+              "line": 18
+            },
+            {
+              "name": "M.withCardDefinitions",
+              "line": 33
+            },
+            {
+              "name": "M.withInfiniteBladesDefinition",
+              "line": 47
+            },
+            {
+              "name": "M.created",
+              "line": 61
+            },
+            {
+              "name": "M.onApplied",
+              "line": 70
+            },
+            {
+              "name": "M.applyAccuracy",
+              "line": 74
+            },
+            {
+              "name": "M.onDrawOrDiscard",
+              "line": 95
+            },
+            {
+              "name": "M.removeAccuracy",
+              "line": 104
+            },
+            {
+              "name": "M.applyInfiniteBlades",
+              "line": 112
+            },
+            {
+              "name": "M.startTurn",
+              "line": 122
+            },
+            {
+              "name": "M.adaptDefinition",
+              "line": 171
+            }
+          ]
+        },
+        {
+          "module": "abyss_stances",
+          "path": "src/lua/abyss_stances.lua",
+          "sha256LF": "c88a7c42694836b921b10bc791161ef0e0deca62f8545974f57b0aeb11ca6610",
+          "sourceOpening": "-- Source-derived stance semantics; shared combat owns damage and turn ordering.\nlocal Events = require(\"abyss_events\")\nlocal M = {}",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 7
+            },
+            {
+              "name": "player",
+              "line": 10
+            },
+            {
+              "name": "queueTotal",
+              "line": 15
+            },
+            {
+              "name": "orderedPowers",
+              "line": 33
+            },
+            {
+              "name": "active",
+              "line": 49
+            },
+            {
+              "name": "optionsOf",
+              "line": 52
+            },
+            {
+              "name": "M.change",
+              "line": 63
+            },
+            {
+              "name": "M.flush",
+              "line": 108
+            },
+            {
+              "name": "M.startTurn",
+              "line": 138
+            },
+            {
+              "name": "M.damageMultiplier",
+              "line": 146
+            },
+            {
+              "name": "M.reset",
+              "line": 159
+            }
+          ]
+        },
+        {
+          "module": "abyss_time_eater",
+          "path": "src/lua/abyss_time_eater.lua",
+          "sha256LF": "678c77192bce317778f4ef9447b29632446babb69a5d0b86645182ed25f3f0f7",
+          "sourceOpening": "-- A0 Time Eater; independent adaptation of sts@319009d5's bounded methods.\n-- Combat and the existing two queue hosts retain transactions/turn ownership.\nlocal A=require('abyss_actor')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "select",
+              "line": 22
+            },
+            {
+              "name": "M.register",
+              "line": 28
+            },
+            {
+              "name": "choose",
+              "line": 38
+            },
+            {
+              "name": "M.advance",
+              "line": 52
+            },
+            {
+              "name": "M.initialize",
+              "line": 53
+            },
+            {
+              "name": "M.active",
+              "line": 57
+            },
+            {
+              "name": "M.preBattle",
+              "line": 61
+            },
+            {
+              "name": "M.beforeAction",
+              "line": 62
+            },
+            {
+              "name": "M.drawCount",
+              "line": 66
+            },
+            {
+              "name": "remove",
+              "line": 69
+            },
+            {
+              "name": "M.retained",
+              "line": 76
+            },
+            {
+              "name": "M.afterUse",
+              "line": 81
+            },
+            {
+              "name": "M.execute",
+              "line": 103
+            },
+            {
+              "name": "<anonymous>",
+              "line": 137
+            }
+          ]
+        },
+        {
+          "module": "abyss_turn_powers",
+          "path": "src/lua/abyss_turn_powers.lua",
+          "sha256LF": "e93e1cf190e0be800705c10fec054dd114701d68d7f7d313d56662240509f7da",
+          "sourceOpening": "-- Source hook construction only. Combat owns the single queue and transaction.\nlocal Actors=require('abyss_actor')\nlocal Schedule=require('abyss_power_schedule')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 22
+            },
+            {
+              "name": "live",
+              "line": 25
+            },
+            {
+              "name": "action",
+              "line": 31
+            },
+            {
+              "name": "add",
+              "line": 34
+            },
+            {
+              "name": "append",
+              "line": 39
+            },
+            {
+              "name": "bottom",
+              "line": 42
+            },
+            {
+              "name": "ordered",
+              "line": 46
+            },
+            {
+              "name": "amount",
+              "line": 82
+            },
+            {
+              "name": "M.prepareStart",
+              "line": 87
+            },
+            {
+              "name": "M.onEnergyRecharge",
+              "line": 128
+            },
+            {
+              "name": "M.preparePostDraw",
+              "line": 156
+            }
+          ]
+        },
+        {
+          "module": "abyss_end_turn_powers",
+          "path": "src/lua/abyss_end_turn_powers.lua",
+          "sha256LF": "0f8881d917f93efb26c7b53f67545c05e6c4f39b43b1694bc3d3d6080173ebda",
+          "sourceOpening": "-- One ordinary player atEndOfTurn hook-construction pass. Combat owns the\n-- existing queue, continuation and whole-command rollback.\nlocal Schedule=require('abyss_power_schedule')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "add",
+              "line": 13
+            },
+            {
+              "name": "M.needed",
+              "line": 16
+            },
+            {
+              "name": "M.preparePreCards",
+              "line": 24
+            },
+            {
+              "name": "nativeDamage",
+              "line": 36
+            },
+            {
+              "name": "M.transferNative",
+              "line": 43
+            },
+            {
+              "name": "M.prepareExhaust",
+              "line": 50
+            },
+            {
+              "name": "M.prepare",
+              "line": 66
+            },
+            {
+              "name": "M.retained",
+              "line": 113
+            },
+            {
+              "name": "M.apply",
+              "line": 117
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "role": "enemy AI, monster action and lifecycle rules",
+      "modules": [
+        "abyss_act2_ai",
+        "abyss_act2_ai_moves",
+        "abyss_act2_powers",
+        "abyss_act2_stasis",
+        "abyss_act2_summons",
+        "abyss_act3_ai",
+        "abyss_act3_bosses",
+        "abyss_act3_enemies",
+        "abyss_act3_powers",
+        "abyss_act4_enemies",
+        "abyss_awakened_one",
+        "abyss_darklings",
+        "abyss_enemy_ai",
+        "abyss_guardian_ai",
+        "abyss_nemesis"
+      ],
+      "owner": "Combat controls action progression; AI/rules mutate supplied monster and battle context. Summons/escape/half-death follow existing queue/entity protocol, not a second combat manager.",
+      "sources": [
+        {
+          "module": "abyss_act2_ai",
+          "path": "src/lua/abyss_act2_ai.lua",
+          "sha256LF": "aba682db573572693cf60f613bcd5ce3f1f0b11f2116610f23cacf285f89bad3",
+          "sourceOpening": "-- Source-compatible decision history: getMove sees all previously selected moves.\nlocal A=require('abyss_actor')\nlocal Moves=require('abyss_act2_ai_moves')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "select",
+              "line": 5
+            },
+            {
+              "name": "choose",
+              "line": 9
+            },
+            {
+              "name": "setMove",
+              "line": 15
+            },
+            {
+              "name": "M.initialize",
+              "line": 22
+            },
+            {
+              "name": "M.advance",
+              "line": 31
+            },
+            {
+              "name": "M.preBattle",
+              "line": 35
+            },
+            {
+              "name": "M.beforeAction",
+              "line": 51
+            },
+            {
+              "name": "M.afterAction",
+              "line": 55
+            }
+          ]
+        },
+        {
+          "module": "abyss_act2_ai_moves",
+          "path": "src/lua/abyss_act2_ai_moves.lua",
+          "sha256LF": "b41dea36e6b664e76f4ce551027aa7372e21888efd7119f1f330c51da9b055af",
+          "sourceOpening": "-- Decision policies only. The caller owns the one mandatory roll and move history.\nlocal A=require('abyss_actor')\nlocal ER=require('abyss_enemy_random')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "twice",
+              "line": 5
+            },
+            {
+              "name": "alive",
+              "line": 6
+            },
+            {
+              "name": "M.automaton",
+              "line": 10
+            },
+            {
+              "name": "M.orb",
+              "line": 18
+            },
+            {
+              "name": "torchDead",
+              "line": 25
+            },
+            {
+              "name": "M.collector",
+              "line": 32
+            },
+            {
+              "name": "leaderPair",
+              "line": 43
+            },
+            {
+              "name": "M.leader",
+              "line": 53
+            },
+            {
+              "name": "M.snecko",
+              "line": 64
+            },
+            {
+              "name": "airborneMove",
+              "line": 71
+            },
+            {
+              "name": "M.byrd",
+              "line": 81
+            },
+            {
+              "name": "M.parasite",
+              "line": 90
+            },
+            {
+              "name": "M.chosen",
+              "line": 103
+            },
+            {
+              "name": "M.snake",
+              "line": 111
+            },
+            {
+              "name": "championPhase",
+              "line": 117
+            },
+            {
+              "name": "M.champ",
+              "line": 123
+            }
+          ]
+        },
+        {
+          "module": "abyss_act2_powers",
+          "path": "src/lua/abyss_act2_powers.lua",
+          "sha256LF": "966f9906c9fd03d306424c9ea430e3aa8840fdf6e852d13cecd274c0a3aa3629",
+          "sourceOpening": "-- Source damage/death reactions. Actor supplies the current queue insertion.\nlocal Events=require('abyss_events')\nlocal R=require('abyss_sts_random')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.supports",
+              "line": 8
+            },
+            {
+              "name": "M.retained",
+              "line": 9
+            },
+            {
+              "name": "M.damaged",
+              "line": 10
+            },
+            {
+              "name": "M.inflicted",
+              "line": 17
+            },
+            {
+              "name": "M.apply",
+              "line": 22
+            },
+            {
+              "name": "M.afterCard",
+              "line": 51
+            },
+            {
+              "name": "M.onDraw",
+              "line": 64
+            },
+            {
+              "name": "M.stasisDied",
+              "line": 75
+            },
+            {
+              "name": "M.died",
+              "line": 78
+            }
+          ]
+        },
+        {
+          "module": "abyss_act2_stasis",
+          "path": "src/lua/abyss_act2_stasis.lua",
+          "sha256LF": "0a1b6da54329fe7c00cfb45bb57dfc1ff53663cd7437e1bb17b35f702181466a",
+          "sourceOpening": "-- ApplyStasisAction / StasisPower: identity-preserving custody, not card generation.\nlocal Events=require('abyss_events')\nlocal R=require('abyss_sts_random')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.apply",
+              "line": 6
+            },
+            {
+              "name": "<anonymous>",
+              "line": 20
+            },
+            {
+              "name": "M.death",
+              "line": 32
+            },
+            {
+              "name": "M.release",
+              "line": 43
+            }
+          ]
+        },
+        {
+          "module": "abyss_act2_summons",
+          "path": "src/lua/abyss_act2_summons.lua",
+          "sha256LF": "ad88bd02442af998322d69dade30fbd9cdddb14983043003c75797c12b1d9dca",
+          "sourceOpening": "-- Source summon constructors precede every spawned opening roll and leader roll.\nlocal A=require('abyss_actor')\nlocal ER=require('abyss_enemy_random')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.rally",
+              "line": 7
+            },
+            {
+              "name": "M.torches",
+              "line": 19
+            },
+            {
+              "name": "M.bronze",
+              "line": 30
+            }
+          ]
+        },
+        {
+          "module": "abyss_act3_ai",
+          "path": "src/lua/abyss_act3_ai.lua",
+          "sha256LF": "34511b1e1bfa55fccaa6f77cb8d549f60722a95fecaf324613abe427731a5b19",
+          "sourceOpening": "-- OrbWalker.getMove: one primary roll even when history forces the other move.\nlocal A=require('abyss_actor')\nlocal Copy=require('abyss_copy').copy",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "select",
+              "line": 5
+            },
+            {
+              "name": "M.advance",
+              "line": 9
+            },
+            {
+              "name": "M.initialize",
+              "line": 55
+            },
+            {
+              "name": "M.preBattle",
+              "line": 64
+            },
+            {
+              "name": "M.beforeAction",
+              "line": 74
+            },
+            {
+              "name": "M.afterAction",
+              "line": 86
+            }
+          ]
+        },
+        {
+          "module": "abyss_act3_bosses",
+          "path": "src/lua/abyss_act3_bosses.lua",
+          "sha256LF": "e99bde5cc595bf0a3dac968a7ea61ee96faf7c8afd313464b52b653daba0d404",
+          "sourceOpening": "-- A0 Donu/Deca rules, independently implemented from sts@319009d5.\n-- MonsterHelper constructs Deca first; Combat owns the shared group outcome.\nlocal Actors=require('abyss_actor')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "move",
+              "line": 6
+            },
+            {
+              "name": "select",
+              "line": 17
+            },
+            {
+              "name": "M.register",
+              "line": 21
+            },
+            {
+              "name": "M.initialize",
+              "line": 29
+            },
+            {
+              "name": "M.preBattle",
+              "line": 34
+            },
+            {
+              "name": "M.afterAction",
+              "line": 38
+            },
+            {
+              "name": "M.beforeAction",
+              "line": 44
+            },
+            {
+              "name": "M.resolve",
+              "line": 47
+            }
+          ]
+        },
+        {
+          "module": "abyss_act3_enemies",
+          "path": "src/lua/abyss_act3_enemies.lua",
+          "sha256LF": "c810114c966767fcdc9c04a37fb835577337a18799288c7f4b57c2214b7fdd74",
+          "sourceOpening": "-- Audited A0 slice only. Keep every other source encounter explicitly unavailable.\nlocal M={}\nlocal GiantHead=require('abyss_giant_head')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.resolve",
+              "line": 62
+            },
+            {
+              "name": "M.bindSharedStatuses",
+              "line": 81
+            }
+          ]
+        },
+        {
+          "module": "abyss_act3_powers",
+          "path": "src/lua/abyss_act3_powers.lua",
+          "sha256LF": "07064486b2bb60c770c748e503b5209ede5559619be946ccb00c192fe9c88365",
+          "sourceOpening": "-- Narrow source action/power boundary. Actor and Combat own arithmetic/rollback.\nlocal Events=require('abyss_events')\nlocal R=require('abyss_sts_random')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "transient",
+              "line": 5
+            },
+            {
+              "name": "M.attacked",
+              "line": 10
+            },
+            {
+              "name": "M.resolveShift",
+              "line": 15
+            },
+            {
+              "name": "M.ownerEnd",
+              "line": 28
+            },
+            {
+              "name": "M.duringTurn",
+              "line": 39
+            },
+            {
+              "name": "M.active",
+              "line": 46
+            },
+            {
+              "name": "M.ownerEndPlan",
+              "line": 50
+            },
+            {
+              "name": "M.endRound",
+              "line": 65
+            },
+            {
+              "name": "M.burnBoth",
+              "line": 71
+            },
+            {
+              "name": "M.dazedDraw",
+              "line": 89
+            },
+            {
+              "name": "M.afterTurn",
+              "line": 105
+            }
+          ]
+        },
+        {
+          "module": "abyss_act4_enemies",
+          "path": "src/lua/abyss_act4_enemies.lua",
+          "sha256LF": "6c18570819c4f0a918bf51e04644f2f998fad696614a8f86cdd54493fb49f710",
+          "sourceOpening": "-- Final-act catalog and enemy lifecycle only. Combat retains queue ownership.\nlocal Heart=require('abyss_corrupt_heart')\nlocal Pair=require('abyss_spire_pair')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.owns",
+              "line": 7
+            },
+            {
+              "name": "M.register",
+              "line": 8
+            },
+            {
+              "name": "M.resolve",
+              "line": 11
+            },
+            {
+              "name": "same",
+              "line": 18
+            },
+            {
+              "name": "M.validateIntent",
+              "line": 25
+            },
+            {
+              "name": "api.removePower",
+              "line": 38
+            },
+            {
+              "name": "M.preBattle",
+              "line": 46
+            },
+            {
+              "name": "M.initialize",
+              "line": 52
+            },
+            {
+              "name": "M.advance",
+              "line": 56
+            },
+            {
+              "name": "M.afterAction",
+              "line": 60
+            }
+          ]
+        },
+        {
+          "module": "abyss_awakened_one",
+          "path": "src/lua/abyss_awakened_one.lua",
+          "sha256LF": "0d8fbb76c5db90539e995aabd2f02660184481463b842045b5687b38ab42de36",
+          "sourceOpening": "-- A0 encounter/phase rules independently implemented from sts@319009d5.\n-- Actor owns damage and death callbacks; Combat owns its existing queues.\nlocal Events=require('abyss_events')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "action",
+              "line": 5
+            },
+            {
+              "name": "M.owns",
+              "line": 8
+            },
+            {
+              "name": "M.active",
+              "line": 9
+            },
+            {
+              "name": "select",
+              "line": 13
+            },
+            {
+              "name": "M.register",
+              "line": 40
+            },
+            {
+              "name": "M.prepare",
+              "line": 48
+            },
+            {
+              "name": "M.initialize",
+              "line": 56
+            },
+            {
+              "name": "M.preBattle",
+              "line": 61
+            },
+            {
+              "name": "M.beforeAction",
+              "line": 67
+            },
+            {
+              "name": "M.afterAction",
+              "line": 70
+            },
+            {
+              "name": "M.deathStart",
+              "line": 83
+            },
+            {
+              "name": "M.finalEscapes",
+              "line": 89
+            },
+            {
+              "name": "M.deathFinish",
+              "line": 98
+            },
+            {
+              "name": "M.rebirth",
+              "line": 117
+            },
+            {
+              "name": "M.ownerEnd",
+              "line": 123
+            },
+            {
+              "name": "M.useEffect",
+              "line": 131
+            }
+          ]
+        },
+        {
+          "module": "abyss_darklings",
+          "path": "src/lua/abyss_darklings.lua",
+          "sha256LF": "4cf5255fd3ba000fb5e9d94468a74685a2ca37fbb15d0c3f5d2efd9c90fec22e",
+          "sourceOpening": "-- A0 Darkling/Regrow rules, independently implemented from sts@319009d5.\n-- Actor owns death callbacks. Combat keeps the sole existing action queues.\nlocal Events=require('abyss_events')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.owns",
+              "line": 5
+            },
+            {
+              "name": "M.active",
+              "line": 6
+            },
+            {
+              "name": "M.register",
+              "line": 20
+            },
+            {
+              "name": "select",
+              "line": 24
+            },
+            {
+              "name": "M.prepare",
+              "line": 33
+            },
+            {
+              "name": "M.preBattle",
+              "line": 39
+            },
+            {
+              "name": "choose",
+              "line": 43
+            },
+            {
+              "name": "M.initialize",
+              "line": 61
+            },
+            {
+              "name": "M.afterAction",
+              "line": 65
+            },
+            {
+              "name": "M.deathStart",
+              "line": 68
+            },
+            {
+              "name": "M.deathFinish",
+              "line": 76
+            },
+            {
+              "name": "M.resolve",
+              "line": 99
+            },
+            {
+              "name": "M.reincarnate",
+              "line": 105
+            }
+          ]
+        },
+        {
+          "module": "abyss_enemy_ai",
+          "path": "src/lua/abyss_enemy_ai.lua",
+          "sha256LF": "3bfec14ef91be048c5fce7d807955c0c24beda4b98da27b91b1aff12a1ff5bf2",
+          "sourceOpening": "-- Enemy-specific decision state; all values and intent references come from data.\nlocal M = {}\nlocal Awakened=require('abyss_awakened_one')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "select",
+              "line": 30
+            },
+            {
+              "name": "rollAttack",
+              "line": 39
+            },
+            {
+              "name": "M.prepare",
+              "line": 45
+            },
+            {
+              "name": "M.preBattle",
+              "line": 51
+            },
+            {
+              "name": "M.initialize",
+              "line": 65
+            },
+            {
+              "name": "slimeDamaged",
+              "line": 130
+            },
+            {
+              "name": "M.hpLost",
+              "line": 137
+            },
+            {
+              "name": "M.advance",
+              "line": 152
+            },
+            {
+              "name": "M.afterAction",
+              "line": 219
+            },
+            {
+              "name": "M.endRound",
+              "line": 242
+            },
+            {
+              "name": "M.cardReactions",
+              "line": 254
+            },
+            {
+              "name": "M.afterCard",
+              "line": 261
+            },
+            {
+              "name": "M.flush",
+              "line": 266
+            },
+            {
+              "name": "M.beforeAction",
+              "line": 272
+            },
+            {
+              "name": "M.afterEffects",
+              "line": 287
+            }
+          ]
+        },
+        {
+          "module": "abyss_guardian_ai",
+          "path": "src/lua/abyss_guardian_ai.lua",
+          "sha256LF": "f75fb008b6ddfffec6adaa49890c192d89b459f3119e3e8baf4d9b03a7c92eb3",
+          "sourceOpening": "-- Guardian's damage budget, two modes, and queued per-card Sharp Hide.\nlocal Actors = require(\"abyss_actor\")\nlocal Events = require(\"abyss_events\")",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "select",
+              "line": 6
+            },
+            {
+              "name": "status",
+              "line": 13
+            },
+            {
+              "name": "M.initialize",
+              "line": 28
+            },
+            {
+              "name": "M.hpLost",
+              "line": 34
+            },
+            {
+              "name": "M.flush",
+              "line": 52
+            },
+            {
+              "name": "M.beforeAction",
+              "line": 66
+            },
+            {
+              "name": "M.afterEffects",
+              "line": 77
+            },
+            {
+              "name": "M.advance",
+              "line": 92
+            },
+            {
+              "name": "M.cardReactions",
+              "line": 106
+            },
+            {
+              "name": "M.afterCard",
+              "line": 116
+            }
+          ]
+        },
+        {
+          "module": "abyss_nemesis",
+          "path": "src/lua/abyss_nemesis.lua",
+          "sha256LF": "0aee581d8fef52d08d4318ca4ff3f8656970936d0690d5705c7036405e8fbe6b",
+          "sourceOpening": "-- Fixed319009 Nemesis A0. Existing Actor/Combat own damage and transactions.\nlocal Random=require('abyss_enemy_random')\nlocal Events=require('abyss_events')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "select",
+              "line": 14
+            },
+            {
+              "name": "M.advance",
+              "line": 18
+            },
+            {
+              "name": "M.initialize",
+              "line": 39
+            },
+            {
+              "name": "M.beforeAction",
+              "line": 44
+            },
+            {
+              "name": "M.afterEffects",
+              "line": 48
+            },
+            {
+              "name": "M.applied",
+              "line": 54
+            },
+            {
+              "name": "M.ownerEnd",
+              "line": 59
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "role": "card/class/relic runtime rules and definition builders",
+      "modules": [
+        "abyss_class_potions",
+        "abyss_codex_relic",
+        "abyss_colorless_cards",
+        "abyss_defect_engine_cards",
+        "abyss_defect_final_cards",
+        "abyss_defect_utility_cards",
+        "abyss_original_v4",
+        "abyss_silent",
+        "abyss_silent_attack_cards",
+        "abyss_silent_discard_cards",
+        "abyss_silent_final_cards",
+        "abyss_silent_potions",
+        "abyss_silent_tactics_cards",
+        "abyss_warrior_status_cards",
+        "abyss_warrior_strength_cards",
+        "abyss_watcher_attack_cards",
+        "abyss_watcher_final_cards",
+        "abyss_watcher_flow_cards"
+      ],
+      "owner": "Runtime calls receive existing Combat state and host; definition/profile builders return private data. OriginalV4 resources and command ledger live on the same battle, with outer Run command publication retained.",
+      "sources": [
+        {
+          "module": "abyss_class_potions",
+          "path": "src/lua/abyss_class_potions.lua",
+          "sha256LF": "ae68080730c0286280b04fdebb95e95e2415021873264e6628eb9bc2bddfb3b9",
+          "sourceOpening": "-- Fixed 319009 class-exclusive potion definitions and queued use effects.\n-- Register only implemented bottles; source sampling pools remain independent.\nlocal M={}",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "copy",
+              "line": 15
+            },
+            {
+              "name": "M.register",
+              "line": 19
+            },
+            {
+              "name": "add",
+              "line": 21
+            },
+            {
+              "name": "M.validate",
+              "line": 30
+            },
+            {
+              "name": "M.apply",
+              "line": 35
+            },
+            {
+              "name": "M.darkness",
+              "line": 57
+            },
+            {
+              "name": "request",
+              "line": 59
+            }
+          ]
+        },
+        {
+          "module": "abyss_codex_relic",
+          "path": "src/lua/abyss_codex_relic.lua",
+          "sha256LF": "84b81de8a7213ce4f6abbbd51c76d7cdf87b0907febf06e6f3ff32d5b9975547",
+          "sourceOpening": "-- Nilry's Codex/CodexAction at fixed319009d5. An optional three-card combat\n-- reward, NOT Discovery: no zero-cost hand card and no retrieval RNG redraw.\nlocal Events=require('abyss_events')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "owns",
+              "line": 5
+            },
+            {
+              "name": "pool",
+              "line": 9
+            },
+            {
+              "name": "M.begin",
+              "line": 22
+            },
+            {
+              "name": "M.choose",
+              "line": 38
+            }
+          ]
+        },
+        {
+          "module": "abyss_colorless_cards",
+          "path": "src/lua/abyss_colorless_cards.lua",
+          "sha256LF": "16dc66720b2eb4007e61c13f085335bf75ecec6d90728d6b77b3e8a64d3d3a5a",
+          "sourceOpening": "-- PC 2.3.4 factual card rules, fixed319009. No source bodies or assets copied.\n-- Shared cards are registered after character preparation; class pools stay intact.\nlocal Actors=require('abyss_actor')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "e",
+              "line": 7
+            },
+            {
+              "name": "fx",
+              "line": 12
+            },
+            {
+              "name": "card",
+              "line": 14
+            },
+            {
+              "name": "words",
+              "line": 63
+            },
+            {
+              "name": "<anonymous>",
+              "line": 75
+            },
+            {
+              "name": "M.powerIcon",
+              "line": 80
+            },
+            {
+              "name": "M.powerDescription",
+              "line": 83
+            },
+            {
+              "name": "M.withCards",
+              "line": 98
+            },
+            {
+              "name": "actions",
+              "line": 127
+            },
+            {
+              "name": "M.adapt",
+              "line": 128
+            },
+            {
+              "name": "M.canUse",
+              "line": 137
+            },
+            {
+              "name": "M.describe",
+              "line": 154
+            },
+            {
+              "name": "M.onUse",
+              "line": 197
+            },
+            {
+              "name": "M.startTurn",
+              "line": 208
+            },
+            {
+              "name": "M.endOwnerTurn",
+              "line": 216
+            },
+            {
+              "name": "M.debuffApplied",
+              "line": 230
+            }
+          ]
+        },
+        {
+          "module": "abyss_defect_engine_cards",
+          "path": "src/lua/abyss_defect_engine_cards.lua",
+          "sha256LF": "ecfccd24cac9aa6010555d4ac4d2502a75837e2ccfee4dc291aa511b494f76c0",
+          "sourceOpening": "-- Independently written data/plans for fixed319009 Defect engine cards.\n-- Pure plans never commit RNG, instance changes, energy or queue mutations.\nlocal Actors=require('abyss_actor')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "copy",
+              "line": 13
+            },
+            {
+              "name": "integer",
+              "line": 17
+            },
+            {
+              "name": "add",
+              "line": 21
+            },
+            {
+              "name": "e",
+              "line": 22
+            },
+            {
+              "name": "channel",
+              "line": 23
+            },
+            {
+              "name": "M.withCards",
+              "line": 84
+            },
+            {
+              "name": "M.initHistory",
+              "line": 94
+            },
+            {
+              "name": "M.channelCount",
+              "line": 98
+            },
+            {
+              "name": "M.onChannel",
+              "line": 102
+            },
+            {
+              "name": "active",
+              "line": 106
+            },
+            {
+              "name": "targets",
+              "line": 107
+            },
+            {
+              "name": "M.adaptDefinition",
+              "line": 110
+            },
+            {
+              "name": "M.prepareEffect",
+              "line": 121
+            },
+            {
+              "name": "instanceByUid",
+              "line": 143
+            },
+            {
+              "name": "nextRound",
+              "line": 150
+            },
+            {
+              "name": "M.planEffect",
+              "line": 153
+            }
+          ]
+        },
+        {
+          "module": "abyss_defect_final_cards",
+          "path": "src/lua/abyss_defect_final_cards.lua",
+          "sha256LF": "df100051b93665ecc88dea658f9c3bfdf24148907fd740c50ca0166852f9be71",
+          "sourceOpening": "-- Fixed319009 remaining Defect cards. Combat owns actions and transactions.\nlocal Copy=require('abyss_copy')\nlocal Events=require('abyss_events')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "e",
+              "line": 8
+            },
+            {
+              "name": "power",
+              "line": 9
+            },
+            {
+              "name": "M.supports",
+              "line": 44
+            },
+            {
+              "name": "M.withCards",
+              "line": 48
+            },
+            {
+              "name": "M.adaptDefinition",
+              "line": 61
+            },
+            {
+              "name": "M.describe",
+              "line": 65
+            },
+            {
+              "name": "M.pool",
+              "line": 75
+            },
+            {
+              "name": "add",
+              "line": 77
+            },
+            {
+              "name": "select",
+              "line": 97
+            },
+            {
+              "name": "M.prepareEffects",
+              "line": 100
+            },
+            {
+              "name": "M.turnStartActions",
+              "line": 104
+            },
+            {
+              "name": "M.created",
+              "line": 109
+            },
+            {
+              "name": "M.needsQueue",
+              "line": 115
+            },
+            {
+              "name": "M.removePower",
+              "line": 120
+            },
+            {
+              "name": "M.reducePower",
+              "line": 124
+            },
+            {
+              "name": "M.incoming",
+              "line": 128
+            }
+          ]
+        },
+        {
+          "module": "abyss_defect_utility_cards",
+          "path": "src/lua/abyss_defect_utility_cards.lua",
+          "sha256LF": "e9372f029db58b62e4fff8f4889826607e8d114dcab2cfa00ca4f124fe29f670",
+          "sourceOpening": "-- Independent card data, verified against the pinned 319009 community source.\n-- Action-time values (orb count, turn history, X energy) belong to Combat's queue.\nlocal M={}",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 6
+            },
+            {
+              "name": "copy",
+              "line": 9
+            },
+            {
+              "name": "e",
+              "line": 13
+            },
+            {
+              "name": "channel",
+              "line": 16
+            },
+            {
+              "name": "generated",
+              "line": 17
+            },
+            {
+              "name": "M.withCards",
+              "line": 68
+            },
+            {
+              "name": "M.prepareEffect",
+              "line": 97
+            },
+            {
+              "name": "M.planEffect",
+              "line": 115
+            }
+          ]
+        },
+        {
+          "module": "abyss_original_v4",
+          "path": "src/lua/abyss_original_v4.lua",
+          "sha256LF": "dbcbe657ea83b62494c987c5558af8d78f5162577aa2b3f29014266f7b8681e2",
+          "sourceOpening": "-- Frozen V4 orchestration on the existing actors, native queue and pile ownership.\nlocal Actors=require('abyss_actor')\nlocal Events=require('abyss_events')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "live",
+              "line": 14
+            },
+            {
+              "name": "active",
+              "line": 15
+            },
+            {
+              "name": "integer",
+              "line": 16
+            },
+            {
+              "name": "validateEffects",
+              "line": 17
+            },
+            {
+              "name": "M.supported",
+              "line": 34
+            },
+            {
+              "name": "M.init",
+              "line": 44
+            },
+            {
+              "name": "selected",
+              "line": 53
+            },
+            {
+              "name": "M.snapshot",
+              "line": 59
+            },
+            {
+              "name": "direct",
+              "line": 76
+            },
+            {
+              "name": "needsTarget",
+              "line": 80
+            },
+            {
+              "name": "M.needsTarget",
+              "line": 88
+            },
+            {
+              "name": "M.preflight",
+              "line": 94
+            },
+            {
+              "name": "M.block",
+              "line": 110
+            },
+            {
+              "name": "pay",
+              "line": 115
+            },
+            {
+              "name": "bond",
+              "line": 122
+            },
+            {
+              "name": "M.enemyDied",
+              "line": 126
+            }
+          ]
+        },
+        {
+          "module": "abyss_silent",
+          "path": "src/lua/abyss_silent.lua",
+          "sha256LF": "32705c37dbe7dd4123663d9eb985f11c6fcc700fc92e07f1726903fcacccccd5",
+          "sourceOpening": "-- Opt-in Silent foundation. Shared Combat remains the sole play/turn engine.\nlocal Events = require(\"abyss_events\")\nlocal M = {}",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 5
+            },
+            {
+              "name": "M.withFoundationCards",
+              "line": 12
+            },
+            {
+              "name": "M.generateShivs",
+              "line": 90
+            }
+          ]
+        },
+        {
+          "module": "abyss_silent_attack_cards",
+          "path": "src/lua/abyss_silent_attack_cards.lua",
+          "sha256LF": "4b2efb9f0724c958d4a22aae8fef1e5bd0b3ae74f4af34e375c79640fe740efa",
+          "sourceOpening": "local Copy = require(\"abyss_copy\")\n-- Fixed-source Silent attack/defence subset. Shared Combat owns action order.\nlocal Actors, Events = require(\"abyss_actor\"), require(\"abyss_events\")",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 10
+            },
+            {
+              "name": "conditional",
+              "line": 13
+            },
+            {
+              "name": "M.withCardDefinitions",
+              "line": 16
+            },
+            {
+              "name": "M.applyNextEnergy",
+              "line": 74
+            },
+            {
+              "name": "M.applyNextBlock",
+              "line": 83
+            },
+            {
+              "name": "M.onEnergyRecharge",
+              "line": 91
+            },
+            {
+              "name": "M.removeNextEnergy",
+              "line": 102
+            },
+            {
+              "name": "M.preDrawBlock",
+              "line": 111
+            }
+          ]
+        },
+        {
+          "module": "abyss_silent_discard_cards",
+          "path": "src/lua/abyss_silent_discard_cards.lua",
+          "sha256LF": "b64414afecc1ba0026c649fa794f7923656ba737e282c3933f3d2c8e87973159",
+          "sourceOpening": "local Copy = require(\"abyss_copy\")\n-- Source-derived discard-card state; the shared action queue owns execution.\nlocal Actors = require(\"abyss_actor\")",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 7
+            },
+            {
+              "name": "counter",
+              "line": 10
+            },
+            {
+              "name": "cost",
+              "line": 15
+            },
+            {
+              "name": "affected",
+              "line": 21
+            },
+            {
+              "name": "M.withCardDefinitions",
+              "line": 36
+            },
+            {
+              "name": "M.created",
+              "line": 55
+            },
+            {
+              "name": "M.costAdapter",
+              "line": 59
+            },
+            {
+              "name": "M.onDraw",
+              "line": 63
+            },
+            {
+              "name": "M.rememberDiscard",
+              "line": 67
+            },
+            {
+              "name": "M.beginTurn",
+              "line": 78
+            },
+            {
+              "name": "M.gainEnergyIfDiscard",
+              "line": 86
+            },
+            {
+              "name": "M.gambleActions",
+              "line": 101
+            }
+          ]
+        },
+        {
+          "module": "abyss_silent_final_cards",
+          "path": "src/lua/abyss_silent_final_cards.lua",
+          "sha256LF": "a8648acd0e294f142be20bc4e1561ceded10c1455ec8b493cc96c7e1f6d36fef",
+          "sourceOpening": "-- Final Silent definitions and source action contracts, pinned STS1 319009.\n-- Plans are pure data; shared Combat owns identity, selections and auto play.\nlocal M={}",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "copy",
+              "line": 5
+            },
+            {
+              "name": "effect",
+              "line": 6
+            },
+            {
+              "name": "power",
+              "line": 11
+            },
+            {
+              "name": "M.withCardDefinitions",
+              "line": 41
+            },
+            {
+              "name": "A",
+              "line": 60
+            },
+            {
+              "name": "actions",
+              "line": 61
+            },
+            {
+              "name": "remove",
+              "line": 62
+            },
+            {
+              "name": "M.describe",
+              "line": 65
+            },
+            {
+              "name": "M.allowedAfterVictory",
+              "line": 73
+            },
+            {
+              "name": "M.powerDescription",
+              "line": 76
+            },
+            {
+              "name": "M.adapt",
+              "line": 82
+            },
+            {
+              "name": "M.onHpLost",
+              "line": 90
+            },
+            {
+              "name": "M.onDraw",
+              "line": 99
+            },
+            {
+              "name": "find",
+              "line": 106
+            },
+            {
+              "name": "chooseOne",
+              "line": 107
+            },
+            {
+              "name": "selection",
+              "line": 119
+            }
+          ]
+        },
+        {
+          "module": "abyss_silent_potions",
+          "path": "src/lua/abyss_silent_potions.lua",
+          "sha256LF": "ec5a9c8cdc398211d0e4e25f9ac737e012d2103315350daa534bac770b44d292",
+          "sourceOpening": "-- Silent source-exclusive bottles, registered with the Silent runtime catalog.\nlocal M={}\nfunction M.register(data)",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.register",
+              "line": 3
+            },
+            {
+              "name": "M.shivs",
+              "line": 11
+            }
+          ]
+        },
+        {
+          "module": "abyss_silent_tactics_cards",
+          "path": "src/lua/abyss_silent_tactics_cards.lua",
+          "sha256LF": "8ea7cc9fcd64559b999431997613ae02f394de2eaa6cd04947e2695ff3d48d76",
+          "sourceOpening": "-- Independent facts from aeubanks/sts 319009; host Combat owns every queue.\nlocal Actors=require('abyss_actor')\nlocal Random=require('abyss_sts_random')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 9
+            },
+            {
+              "name": "check",
+              "line": 10
+            },
+            {
+              "name": "uid",
+              "line": 11
+            },
+            {
+              "name": "copy",
+              "line": 12
+            },
+            {
+              "name": "e",
+              "line": 16
+            },
+            {
+              "name": "status",
+              "line": 17
+            },
+            {
+              "name": "M.withCardDefinitions",
+              "line": 88
+            },
+            {
+              "name": "M.adaptDefinition",
+              "line": 103
+            },
+            {
+              "name": "M.prepareEffect",
+              "line": 112
+            },
+            {
+              "name": "definition",
+              "line": 129
+            },
+            {
+              "name": "xAmount",
+              "line": 133
+            },
+            {
+              "name": "M.planEffect",
+              "line": 143
+            },
+            {
+              "name": "M.randomDiscardUid",
+              "line": 219
+            },
+            {
+              "name": "M.reduceGlassKnife",
+              "line": 227
+            },
+            {
+              "name": "add",
+              "line": 230
+            },
+            {
+              "name": "M.planHook",
+              "line": 244
+            }
+          ]
+        },
+        {
+          "module": "abyss_warrior_status_cards",
+          "path": "src/lua/abyss_warrior_status_cards.lua",
+          "sha256LF": "554181c678d5387ca7de54095db78a37225c04acc23878bce0392d21acc33a63",
+          "sourceOpening": "-- Phase-four opt-in definitions/plans; Core owns execution and transactions.\n-- Rule facts: aeubanks/sts@319009d5df0a82d9fb0f23cc22322286c6a87ec0.\nlocal Actors=require('abyss_actor')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 9
+            },
+            {
+              "name": "make",
+              "line": 10
+            },
+            {
+              "name": "action",
+              "line": 11
+            },
+            {
+              "name": "plan",
+              "line": 12
+            },
+            {
+              "name": "power",
+              "line": 13
+            },
+            {
+              "name": "generate",
+              "line": 14
+            },
+            {
+              "name": "M.withCards",
+              "line": 67
+            },
+            {
+              "name": "amount",
+              "line": 108
+            },
+            {
+              "name": "resolved",
+              "line": 109
+            },
+            {
+              "name": "M.adaptDefinition",
+              "line": 113
+            },
+            {
+              "name": "M.prepareEffect",
+              "line": 121
+            },
+            {
+              "name": "M.planEffect",
+              "line": 131
+            },
+            {
+              "name": "M.exhaustRandomAny",
+              "line": 153
+            },
+            {
+              "name": "M.applyPower",
+              "line": 161
+            },
+            {
+              "name": "M.onDraw",
+              "line": 171
+            },
+            {
+              "name": "M.onAttacked",
+              "line": 186
+            }
+          ]
+        },
+        {
+          "module": "abyss_warrior_strength_cards",
+          "path": "src/lua/abyss_warrior_strength_cards.lua",
+          "sha256LF": "222eca8efdd2568cd81dd21c1cb3b2f738e7326ac5d37ae33f66cca3be6176da",
+          "sourceOpening": "-- Independent definitions and pure-data hooks, pinned to aeubanks/sts@319009d.\n-- Combat owns phase order, NORMAL snapshots, transactions and hook dispatch.\nlocal Actors=require('abyss_actor')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "integer",
+              "line": 8
+            },
+            {
+              "name": "gain",
+              "line": 9
+            },
+            {
+              "name": "M.withCards",
+              "line": 52
+            },
+            {
+              "name": "strike",
+              "line": 91
+            },
+            {
+              "name": "M.adaptDefinition",
+              "line": 95
+            },
+            {
+              "name": "amount",
+              "line": 116
+            },
+            {
+              "name": "M.applyPower",
+              "line": 119
+            },
+            {
+              "name": "action",
+              "line": 134
+            },
+            {
+              "name": "M.planHpLost",
+              "line": 138
+            },
+            {
+              "name": "M.planHook",
+              "line": 146
+            }
+          ]
+        },
+        {
+          "module": "abyss_watcher_attack_cards",
+          "path": "src/lua/abyss_watcher_attack_cards.lua",
+          "sha256LF": "c6adcaf2a4c88988e7e957104a4812c9cefcd67a9740a2290cd73b9e3aa2d38e",
+          "sourceOpening": "-- Source-verified Watcher card data and pure action plans. Combat owns execution.\nlocal M={}\nlocal MAX=2147483647",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "copy",
+              "line": 4
+            },
+            {
+              "name": "integer",
+              "line": 8
+            },
+            {
+              "name": "checked",
+              "line": 9
+            },
+            {
+              "name": "damage",
+              "line": 10
+            },
+            {
+              "name": "block",
+              "line": 11
+            },
+            {
+              "name": "previous",
+              "line": 12
+            },
+            {
+              "name": "generated",
+              "line": 13
+            },
+            {
+              "name": "M.withCards",
+              "line": 56
+            },
+            {
+              "name": "M.adaptDefinition",
+              "line": 76
+            },
+            {
+              "name": "M.prepareEffect",
+              "line": 86
+            },
+            {
+              "name": "M.planEffect",
+              "line": 106
+            },
+            {
+              "name": "M.canUse",
+              "line": 129
+            }
+          ]
+        },
+        {
+          "module": "abyss_watcher_final_cards",
+          "path": "src/lua/abyss_watcher_final_cards.lua",
+          "sha256LF": "343888e746943d3c97608033ac65f52fe02a390c0dba8283b23f18c4a2118018",
+          "sourceOpening": "-- Pinned319009 facts and pure-data plans. The core owns all effects/choices.\nlocal M={}\nlocal function copy(v,path)",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "copy",
+              "line": 3
+            },
+            {
+              "name": "e",
+              "line": 9
+            },
+            {
+              "name": "power",
+              "line": 10
+            },
+            {
+              "name": "make",
+              "line": 11
+            },
+            {
+              "name": "derivative",
+              "line": 70
+            },
+            {
+              "name": "M.withCards",
+              "line": 73
+            },
+            {
+              "name": "add",
+              "line": 78
+            },
+            {
+              "name": "M.describe",
+              "line": 105
+            },
+            {
+              "name": "M.supported",
+              "line": 120
+            },
+            {
+              "name": "M.created",
+              "line": 127
+            },
+            {
+              "name": "M.drawn",
+              "line": 130
+            },
+            {
+              "name": "M.freeAttack",
+              "line": 136
+            },
+            {
+              "name": "M.used",
+              "line": 139
+            },
+            {
+              "name": "M.cancelAutomatic",
+              "line": 148
+            },
+            {
+              "name": "M.gainedBlock",
+              "line": 168
+            },
+            {
+              "name": "M.endRound",
+              "line": 175
+            }
+          ]
+        },
+        {
+          "module": "abyss_watcher_flow_cards",
+          "path": "src/lua/abyss_watcher_flow_cards.lua",
+          "sha256LF": "08c363feb2269edbe1058457f5d7de39c1b1bf7e0b69b5ce05ad834641a961b9",
+          "sourceOpening": "-- Independently written data/plans from pinned319009 Watcher sources.\n-- The host owns the real queue, normal damage, power application and movements.\nlocal M={}",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "copy",
+              "line": 8
+            },
+            {
+              "name": "int",
+              "line": 13
+            },
+            {
+              "name": "e",
+              "line": 16
+            },
+            {
+              "name": "gain",
+              "line": 17
+            },
+            {
+              "name": "make",
+              "line": 18
+            },
+            {
+              "name": "M.withCards",
+              "line": 79
+            },
+            {
+              "name": "plan",
+              "line": 125
+            },
+            {
+              "name": "amount",
+              "line": 126
+            },
+            {
+              "name": "M.adaptDefinition",
+              "line": 130
+            },
+            {
+              "name": "M.damageBonus",
+              "line": 135
+            },
+            {
+              "name": "M.prepareEffect",
+              "line": 139
+            },
+            {
+              "name": "M.planEffect",
+              "line": 149
+            },
+            {
+              "name": "M.planWallop",
+              "line": 197
+            },
+            {
+              "name": "M.planHook",
+              "line": 203
+            },
+            {
+              "name": "M.planUseCard",
+              "line": 219
+            },
+            {
+              "name": "M.planAttacked",
+              "line": 224
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "role": "explicit caller-owned bridges and fixed relic capabilities",
+      "modules": [
+        "abyss_act2_event_relics",
+        "abyss_inventory",
+        "abyss_writhing_mass",
+        "abyss_relic_combat_hooks",
+        "abyss_relic_family_combat"
+      ],
+      "owner": "Hooks/family use existing battle or supplied common rule owner. Inventory uses existing candidate and explicit matched health context; Writhing writes its Combat masterDeck candidate and later Run sync publishes. Act2EventRelics gainGold receives caller Run/projection; no module-held commit authority.",
+      "sources": [
+        {
+          "module": "abyss_act2_event_relics",
+          "path": "src/lua/abyss_act2_event_relics.lua",
+          "sha256LF": "fbad6fda867e0dbc2b9347e9698bba6b66d1acdc208a3c966f222ec286f3af92",
+          "sourceOpening": "-- Direct Act2 event relics, fixed STS319009d5. Hosts own permanent/combat\n-- transactions; this leaf never imports Run/Combat or invents another queue.\nlocal Actors=require('abyss_actor')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.is",
+              "line": 9
+            },
+            {
+              "name": "M.owns",
+              "line": 10
+            },
+            {
+              "name": "M.onEquip",
+              "line": 14
+            },
+            {
+              "name": "M.onUnequip",
+              "line": 21
+            },
+            {
+              "name": "M.gainGold",
+              "line": 30
+            },
+            {
+              "name": "lossPower",
+              "line": 35
+            },
+            {
+              "name": "M.battleStart",
+              "line": 51
+            },
+            {
+              "name": "M.turnStart",
+              "line": 58
+            },
+            {
+              "name": "M.copyAttack",
+              "line": 61
+            },
+            {
+              "name": "M.preBattle",
+              "line": 74
+            }
+          ]
+        },
+        {
+          "module": "abyss_inventory",
+          "path": "src/lua/abyss_inventory.lua",
+          "sha256LF": "8fb3dddab386d221c76de49a1ca4b9937a2edbde93511c06ef3810cd71a7557c",
+          "sourceOpening": "-- Inventory effects use combat actors and data, with fixed potion/relic damage and block.\n-- Callers execute on an uncommitted battle: a refusal may discard this candidate safely.\nlocal Combat = require(\"abyss_combat\")",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.potionValue",
+              "line": 20
+            },
+            {
+              "name": "M.bossEligible",
+              "line": 26
+            },
+            {
+              "name": "M.energyBonus",
+              "line": 38
+            },
+            {
+              "name": "M.opening",
+              "line": 69
+            },
+            {
+              "name": "M.applyOpening",
+              "line": 105
+            },
+            {
+              "name": "integer",
+              "line": 123
+            },
+            {
+              "name": "M.needTarget",
+              "line": 128
+            },
+            {
+              "name": "validate",
+              "line": 135
+            },
+            {
+              "name": "M.apply",
+              "line": 167
+            }
+          ]
+        },
+        {
+          "module": "abyss_writhing_mass",
+          "path": "src/lua/abyss_writhing_mass.lua",
+          "sha256LF": "fc362d8be41e3744169067903fc979ad8bc671eda47c754e4c67f8fe6a7d2d4f",
+          "sourceOpening": "-- A0 WrithingMass: source decisions and queued Reactive/master-deck boundary.\n-- Actor owns Malleable arithmetic; the existing command owns all rollback.\nlocal R=require('abyss_sts_random')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "isMass",
+              "line": 18
+            },
+            {
+              "name": "select",
+              "line": 19
+            },
+            {
+              "name": "integer",
+              "line": 25
+            },
+            {
+              "name": "chance",
+              "line": 26
+            },
+            {
+              "name": "M.advance",
+              "line": 27
+            },
+            {
+              "name": "M.initialize",
+              "line": 53
+            },
+            {
+              "name": "M.preBattle",
+              "line": 57
+            },
+            {
+              "name": "M.beforeAction",
+              "line": 60
+            },
+            {
+              "name": "M.attacked",
+              "line": 65
+            },
+            {
+              "name": "M.roll",
+              "line": 69
+            },
+            {
+              "name": "M.bindMaster",
+              "line": 79
+            },
+            {
+              "name": "M.obtainParasite",
+              "line": 87
+            },
+            {
+              "name": "increaseMaxHp",
+              "line": 100
+            },
+            {
+              "name": "M.externalObtain",
+              "line": 111
+            },
+            {
+              "name": "M.syncMaster",
+              "line": 122
+            }
+          ]
+        },
+        {
+          "module": "abyss_relic_combat_hooks",
+          "path": "src/lua/abyss_relic_combat_hooks.lua",
+          "sha256LF": "fda7e14cf4b4704ba30ca79f3fa8b3ed3c933f9d391887227ed463350f8755a9",
+          "sourceOpening": "-- Combat relic callbacks. The caller owns state, queue execution and commit.\nlocal A=require('abyss_actor')\nlocal E=require('abyss_events')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "queryIndex",
+              "line": 6
+            },
+            {
+              "name": "queryNewIndex",
+              "line": 9
+            },
+            {
+              "name": "integer",
+              "line": 14
+            },
+            {
+              "name": "energy",
+              "line": 16
+            },
+            {
+              "name": "M.enqueuePostDraw",
+              "line": 22
+            },
+            {
+              "name": "M.upgradeRandomHand",
+              "line": 31
+            },
+            {
+              "name": "M.onVictory",
+              "line": 47
+            },
+            {
+              "name": "M.bindBattle",
+              "line": 52
+            },
+            {
+              "name": "neowOpening",
+              "line": 60
+            },
+            {
+              "name": "insectOpening",
+              "line": 75
+            },
+            {
+              "name": "M.preBattle",
+              "line": 86
+            },
+            {
+              "name": "redSkullHealth",
+              "line": 93
+            },
+            {
+              "name": "M.hpChanged",
+              "line": 109
+            },
+            {
+              "name": "M.wasHpLost",
+              "line": 119
+            },
+            {
+              "name": "teaSetTurnStart",
+              "line": 138
+            },
+            {
+              "name": "flowerAndWarTurnStart",
+              "line": 146
+            }
+          ]
+        },
+        {
+          "module": "abyss_relic_family_combat",
+          "path": "src/lua/abyss_relic_family_combat.lua",
+          "sha256LF": "2e001da46754b81afda1dc592beaf8519a0f308fef65ca47c5779b2ae3607e4c",
+          "sourceOpening": "-- Combat relic rules on existing action/candidate owners; no Session commands.\nlocal A=require('abyss_actor')\nlocal E=require('abyss_events')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "queryIndex",
+              "line": 11
+            },
+            {
+              "name": "queryNewIndex",
+              "line": 14
+            },
+            {
+              "name": "M.atTurnStart",
+              "line": 21
+            },
+            {
+              "name": "M.onPlayCard",
+              "line": 26
+            },
+            {
+              "name": "M.wasHpLost",
+              "line": 31
+            },
+            {
+              "name": "M.preBattle",
+              "line": 37
+            },
+            {
+              "name": "M.onSpawnMonster",
+              "line": 40
+            },
+            {
+              "name": "M.battleStart",
+              "line": 46
+            },
+            {
+              "name": "queryIndex",
+              "line": 61
+            },
+            {
+              "name": "queryNewIndex",
+              "line": 64
+            },
+            {
+              "name": "counters",
+              "line": 70
+            },
+            {
+              "name": "effect",
+              "line": 71
+            },
+            {
+              "name": "M.onVictory",
+              "line": 74
+            },
+            {
+              "name": "M.atTurnStart",
+              "line": 79
+            },
+            {
+              "name": "advance",
+              "line": 89
+            },
+            {
+              "name": "M.onShuffle",
+              "line": 94
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "session": [
+    {
+      "role": "public permanent command/transaction owner",
+      "modules": [
+        "abyss_run"
+      ],
+      "owner": "Run owns permanent state commit, transaction poison, outer battle+reward rollback and publication.",
+      "sources": [
+        {
+          "module": "abyss_run",
+          "path": "src/lua/abyss_run.lua",
+          "sha256LF": "189e4a36804ec74f9dcc8c54a07ea5401fb07d81a44ef08d44153b15bac89030",
+          "sourceOpening": "-- Same-run deck and reward ownership. Platform/UI adapters issue these commands.\nlocal Combat = require(\"abyss_combat\")\nlocal EventRandom = require(\"abyss_sts_random\")",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "find",
+              "line": 12
+            },
+            {
+              "name": "nestedTransaction",
+              "line": 21
+            },
+            {
+              "name": "M.transaction",
+              "line": 32
+            },
+            {
+              "name": "M.freezeMapContext",
+              "line": 57
+            },
+            {
+              "name": "M.mapContext",
+              "line": 58
+            },
+            {
+              "name": "relicDefinition",
+              "line": 64
+            },
+            {
+              "name": "cardDefinition",
+              "line": 69
+            },
+            {
+              "name": "amount",
+              "line": 72
+            },
+            {
+              "name": "M.gainGold",
+              "line": 73
+            },
+            {
+              "name": "M.eventDamage",
+              "line": 74
+            },
+            {
+              "name": "<anonymous>",
+              "line": 77
+            },
+            {
+              "name": "<anonymous>",
+              "line": 82
+            },
+            {
+              "name": "M.eventNormalDamage",
+              "line": 89
+            },
+            {
+              "name": "M.heal",
+              "line": 94
+            },
+            {
+              "name": "M.increaseMaxHp",
+              "line": 99
+            },
+            {
+              "name": "M.decreaseMaxHp",
+              "line": 105
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "role": "installed Session lifecycle and potion candidate orchestration",
+      "modules": [
+        "abyss_run_potion_candidate",
+        "abyss_run_potions",
+        "abyss_run_rooms",
+        "abyss_run_settlement"
+      ],
+      "owner": "Installed methods belong to the same Run API; candidate preparation/start/settlement do not create an independently successful commit. Preserve generations, outer savepoint and reward failure behavior.",
+      "sources": [
+        {
+          "module": "abyss_run_potion_candidate",
+          "path": "src/lua/abyss_run_potion_candidate.lua",
+          "sha256LF": "a81fe8ddc9542f28b219ab68510ef80641bff75d0fa3c703f53eb7c20284488e",
+          "sourceOpening": "-- Staged potion eligibility and effects. Run alone commits the resulting state.\nlocal Combat=require('abyss_combat')\nlocal Inventory=require('abyss_inventory')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.eventRestricted",
+              "line": 8
+            },
+            {
+              "name": "combatEligibility",
+              "line": 15
+            },
+            {
+              "name": "eligibility",
+              "line": 23
+            },
+            {
+              "name": "definition",
+              "line": 29
+            },
+            {
+              "name": "potionEffects",
+              "line": 39
+            },
+            {
+              "name": "smokeRestriction",
+              "line": 45
+            },
+            {
+              "name": "outsideGeneration",
+              "line": 53
+            },
+            {
+              "name": "outsideHealth",
+              "line": 68
+            },
+            {
+              "name": "outsideCandidate",
+              "line": 76
+            },
+            {
+              "name": "combatCandidate",
+              "line": 88
+            },
+            {
+              "name": "<anonymous>",
+              "line": 92
+            },
+            {
+              "name": "M.prepare",
+              "line": 108
+            }
+          ]
+        },
+        {
+          "module": "abyss_run_potions",
+          "path": "src/lua/abyss_run_potions.lua",
+          "sha256LF": "59434df0d36cecd33dbe58fc9c3be19aa42700011e0440c3e568390a68ba5be1",
+          "sourceOpening": "-- Potions responsibility for the same-run API.\nlocal Combat = require(\"abyss_combat\")\nlocal EventRandom = require(\"abyss_sts_random\")",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.install",
+              "line": 9
+            },
+            {
+              "name": "Run.potionCapacity",
+              "line": 12
+            },
+            {
+              "name": "Run.potionCount",
+              "line": 15
+            },
+            {
+              "name": "Run.obtainPotion",
+              "line": 23
+            },
+            {
+              "name": "Run.discardPotion",
+              "line": 41
+            },
+            {
+              "name": "potionCandidate",
+              "line": 58
+            },
+            {
+              "name": "commitOutsidePotion",
+              "line": 62
+            },
+            {
+              "name": "stagePotionBattle",
+              "line": 77
+            },
+            {
+              "name": "escapePotionBattle",
+              "line": 98
+            },
+            {
+              "name": "<anonymous>",
+              "line": 115
+            },
+            {
+              "name": "Run.usePotion",
+              "line": 128
+            },
+            {
+              "name": "potionAvailability",
+              "line": 165
+            },
+            {
+              "name": "potionRow",
+              "line": 179
+            },
+            {
+              "name": "Run.potionSlotView",
+              "line": 192
+            },
+            {
+              "name": "Run.potionView",
+              "line": 197
+            }
+          ]
+        },
+        {
+          "module": "abyss_run_rooms",
+          "path": "src/lua/abyss_run_rooms.lua",
+          "sha256LF": "0c8a3ff96133c6217abcfcb4b7287052b3929eb2e890d8aa2b7354b5f6de86d1",
+          "sourceOpening": "-- Rooms responsibility for the same-run API.\nlocal Combat = require(\"abyss_combat\")\nlocal Inventory = require(\"abyss_inventory\")",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.install",
+              "line": 13
+            },
+            {
+              "name": "encounterEnemies",
+              "line": 15
+            },
+            {
+              "name": "configureSourceRoom",
+              "line": 44
+            },
+            {
+              "name": "options.encounterVisualFloat",
+              "line": 47
+            },
+            {
+              "name": "boolean",
+              "line": 55
+            },
+            {
+              "name": "integer",
+              "line": 56
+            },
+            {
+              "name": "visualFloat",
+              "line": 59
+            },
+            {
+              "name": "configureEncounterOptions",
+              "line": 64
+            },
+            {
+              "name": "validateEncounter",
+              "line": 76
+            },
+            {
+              "name": "startEncounter",
+              "line": 87
+            },
+            {
+              "name": "beforeOpeningDraw",
+              "line": 106
+            },
+            {
+              "name": "options.beforeFirstTurn",
+              "line": 113
+            },
+            {
+              "name": "Run.startCombat",
+              "line": 149
+            },
+            {
+              "name": "Run.roomStreams",
+              "line": 153
+            },
+            {
+              "name": "Run.prepareEventEncounter",
+              "line": 160
+            },
+            {
+              "name": "Run.startEventCombat",
+              "line": 164
+            }
+          ]
+        },
+        {
+          "module": "abyss_run_settlement",
+          "path": "src/lua/abyss_run_settlement.lua",
+          "sha256LF": "65c4ebaea52e996ef6dc129baa145a24b11ff4a728ffa4eab04f8eab38ce4ec1",
+          "sourceOpening": "-- Settlement responsibility for the same-run API.\nlocal Combat = require(\"abyss_combat\")\nlocal EventRandom = require(\"abyss_sts_random\")",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.install",
+              "line": 15
+            },
+            {
+              "name": "Run.resultScore",
+              "line": 16
+            },
+            {
+              "name": "combatEndHealing",
+              "line": 21
+            },
+            {
+              "name": "heartBattle",
+              "line": 33
+            },
+            {
+              "name": "heartFlow",
+              "line": 42
+            },
+            {
+              "name": "heartEnemyList",
+              "line": 50
+            },
+            {
+              "name": "heartEnemy",
+              "line": 57
+            },
+            {
+              "name": "heartOwner",
+              "line": 67
+            },
+            {
+              "name": "finishHeart",
+              "line": 79
+            },
+            {
+              "name": "prepareGold",
+              "line": 92
+            },
+            {
+              "name": "offerCombatRewards",
+              "line": 107
+            },
+            {
+              "name": "publishBattleResult",
+              "line": 136
+            },
+            {
+              "name": "finishEventCombat",
+              "line": 151
+            },
+            {
+              "name": "finishCombat",
+              "line": 158
+            },
+            {
+              "name": "applyCardChanges",
+              "line": 187
+            },
+            {
+              "name": "applyPermanentChanges",
+              "line": 204
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "role": "event battle bridge and potion reward preparation",
+      "modules": [
+        "abyss_event_combat",
+        "abyss_event_combat_routes",
+        "abyss_potion_rewards"
+      ],
+      "owner": "Run/Nodes supplied Session command controls room generation and RNG publication; these modules prepare/check/reopen/reward on its staged owner.",
+      "sources": [
+        {
+          "module": "abyss_event_combat",
+          "path": "src/lua/abyss_event_combat.lua",
+          "sha256LF": "6285d68921ff20b649d50252e9024eab794ce4df765aa5925cc34cafe6b222df",
+          "sourceOpening": "-- EventRoom owns its constructor and fixed rewards independently of map queues.\nlocal C=require('abyss_combat')\nlocal R=require('abyss_sts_random')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "encounter",
+              "line": 11
+            },
+            {
+              "name": "roomOptions",
+              "line": 23
+            },
+            {
+              "name": "encounterVisualFloat",
+              "line": 25
+            },
+            {
+              "name": "boolean",
+              "line": 27
+            },
+            {
+              "name": "integer",
+              "line": 28
+            },
+            {
+              "name": "visualFloat",
+              "line": 29
+            },
+            {
+              "name": "M.prepare",
+              "line": 33
+            },
+            {
+              "name": "validRequest",
+              "line": 47
+            },
+            {
+              "name": "preparedFor",
+              "line": 60
+            },
+            {
+              "name": "M.start",
+              "line": 69
+            },
+            {
+              "name": "ownerMatches",
+              "line": 104
+            },
+            {
+              "name": "M.finish",
+              "line": 114
+            },
+            {
+              "name": "M.escape",
+              "line": 128
+            }
+          ]
+        },
+        {
+          "module": "abyss_event_combat_routes",
+          "path": "src/lua/abyss_event_combat_routes.lua",
+          "sha256LF": "0bde4ab1ed47a606e42894d9d7cfbb549ad5a29fee8f51f2a4ff6ba1fa0bbfae",
+          "sourceOpening": "-- Missing act1/act2 EventRoom combat routes. Map encounter queues are untouched.\nlocal C=require('abyss_combat')\nlocal R=require('abyss_sts_random')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.supportsSource",
+              "line": 19
+            },
+            {
+              "name": "M.supportsEvent",
+              "line": 20
+            },
+            {
+              "name": "encounter",
+              "line": 21
+            },
+            {
+              "name": "roomFor",
+              "line": 26
+            },
+            {
+              "name": "M.prepare",
+              "line": 35
+            },
+            {
+              "name": "validRequest",
+              "line": 46
+            },
+            {
+              "name": "addRelic",
+              "line": 61
+            },
+            {
+              "name": "fixedRelic",
+              "line": 69
+            },
+            {
+              "name": "prepareRewards",
+              "line": 79
+            },
+            {
+              "name": "preparedFor",
+              "line": 105
+            },
+            {
+              "name": "M.start",
+              "line": 113
+            },
+            {
+              "name": "ownerMatches",
+              "line": 134
+            },
+            {
+              "name": "reopen",
+              "line": 141
+            },
+            {
+              "name": "M.finish",
+              "line": 155
+            },
+            {
+              "name": "M.escape",
+              "line": 168
+            }
+          ]
+        },
+        {
+          "module": "abyss_potion_rewards",
+          "path": "src/lua/abyss_potion_rewards.lua",
+          "sha256LF": "965a96293ad56d4bd10cbbe1dc21b2b16301d7f5468d9a8ca897df0efef00954",
+          "sourceOpening": "-- Act-one combat potion rewards, independently implemented from the fixed\n-- AbstractRoom/AbstractDungeon rule evidence in docs/POTION_REWARDS.md.\n-- Select from the source-ordered full pool; rarity rejection spends every draw.",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "P.rarity",
+              "line": 8
+            },
+            {
+              "name": "P.prepare",
+              "line": 13
+            },
+            {
+              "name": "P.commit",
+              "line": 35
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "role": "Session relic rules and compatibility bridges",
+      "modules": [
+        "abyss_boss_relics",
+        "abyss_relic_hooks",
+        "abyss_shop_relics",
+        "abyss_uncommon_relics"
+      ],
+      "owner": "Permanent hooks use staged Run or explicit adapter; default public select/claim/health paths delegate to existing Run commands. Ordinary combat/query fields now share canonical capability slots.",
+      "sources": [
+        {
+          "module": "abyss_boss_relics",
+          "path": "src/lua/abyss_boss_relics.lua",
+          "sha256LF": "07202773300b3808fb154d473769f3c2c1ba9733141b2a6411f20748c88b147e",
+          "sourceOpening": "-- STS1 319009d5 boss-relic rules. Call permanent operations on a staged Run.\n-- Selection/reward continuation belongs to the caller; no filtered random pools.\nlocal R=require('abyss_sts_random')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "queryIndex",
+              "line": 9
+            },
+            {
+              "name": "queryNewIndex",
+              "line": 13
+            },
+            {
+              "name": "definition",
+              "line": 21
+            },
+            {
+              "name": "upgradeable",
+              "line": 24
+            },
+            {
+              "name": "upgrade",
+              "line": 28
+            },
+            {
+              "name": "purge",
+              "line": 31
+            },
+            {
+              "name": "selectTransform",
+              "line": 32
+            },
+            {
+              "name": "finishSelection",
+              "line": 42
+            },
+            {
+              "name": "M.select",
+              "line": 64
+            },
+            {
+              "name": "<anonymous>",
+              "line": 65
+            },
+            {
+              "name": "selection",
+              "line": 76
+            },
+            {
+              "name": "pandora",
+              "line": 88
+            },
+            {
+              "name": "bell",
+              "line": 112
+            },
+            {
+              "name": "M.claimRelic",
+              "line": 127
+            },
+            {
+              "name": "<anonymous>",
+              "line": 128
+            },
+            {
+              "name": "M.claim",
+              "line": 135
+            }
+          ]
+        },
+        {
+          "module": "abyss_relic_hooks",
+          "path": "src/lua/abyss_relic_hooks.lua",
+          "sha256LF": "5d929b950824caaa51db1934fd1c7c0fea82ee4a763dc45f63e615d083a7fcfa",
+          "sourceOpening": "-- Session relic commands and lifecycle bridges; delegated APIs share fixed slots.\nlocal A=require('abyss_actor')\nlocal S=require('abyss_sts_random')",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "queryIndex",
+              "line": 10
+            },
+            {
+              "name": "queryNewIndex",
+              "line": 15
+            },
+            {
+              "name": "integer",
+              "line": 23
+            },
+            {
+              "name": "counters",
+              "line": 25
+            },
+            {
+              "name": "healRun",
+              "line": 29
+            },
+            {
+              "name": "equipmentUpgrade",
+              "line": 31
+            },
+            {
+              "name": "definition",
+              "line": 33
+            },
+            {
+              "name": "M.onEquip",
+              "line": 53
+            },
+            {
+              "name": "M.onUnequip",
+              "line": 102
+            },
+            {
+              "name": "M.obtainCirclet",
+              "line": 108
+            },
+            {
+              "name": "M.onUsePotion",
+              "line": 119
+            },
+            {
+              "name": "M.onRest",
+              "line": 127
+            },
+            {
+              "name": "M.onEnterRoom",
+              "line": 133
+            },
+            {
+              "name": "M.onSpendGold",
+              "line": 148
+            }
+          ]
+        },
+        {
+          "module": "abyss_shop_relics",
+          "path": "src/lua/abyss_shop_relics.lua",
+          "sha256LF": "4d193801023eb938b4a25878b61c0210ab3023f1133ab395daadbcdf11f810ba",
+          "sourceOpening": "-- Independently adapted from STS 319009d5 relics and UseCardAction.\n-- The caller owns transactions and action ordering; this module never rerolls\n-- an unavailable item or silently completes an unresolved reward screen.",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "queryIndex",
+              "line": 10
+            },
+            {
+              "name": "queryNewIndex",
+              "line": 14
+            },
+            {
+              "name": "M.onEquip",
+              "line": 20
+            },
+            {
+              "name": "M.chooseMirror",
+              "line": 50
+            }
+          ]
+        },
+        {
+          "module": "abyss_uncommon_relics",
+          "path": "src/lua/abyss_uncommon_relics.lua",
+          "sha256LF": "8e260bd5c52f8ca90f61281858099afbf98d7ec91a5f82a3c7b8f9e74108093c",
+          "sourceOpening": "-- STS 319009d5: uncommon relic callbacks; the caller owns queue placement.\nlocal Queries=require('abyss_relic_queries').uncommon\nlocal Combat=require('abyss_relic_family_combat').uncommon",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "queryIndex",
+              "line": 6
+            },
+            {
+              "name": "queryNewIndex",
+              "line": 10
+            },
+            {
+              "name": "counters",
+              "line": 17
+            },
+            {
+              "name": "heal",
+              "line": 19
+            },
+            {
+              "name": "M.onEquip",
+              "line": 22
+            },
+            {
+              "name": "M.onEnterRoom",
+              "line": 27
+            },
+            {
+              "name": "M.battleEnd",
+              "line": 30
+            },
+            {
+              "name": "M.singingBowl",
+              "line": 34
+            },
+            {
+              "name": "M.onChestOpen",
+              "line": 39
+            },
+            {
+              "name": "definition",
+              "line": 47
+            },
+            {
+              "name": "M.bottleCandidates",
+              "line": 51
+            },
+            {
+              "name": "M.equipBottle",
+              "line": 57
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "role": "modal/reward owner and public selection orchestration",
+      "modules": [
+        "abyss_relic_card_rewards",
+        "abyss_relic_choices",
+        "abyss_relic_pending"
+      ],
+      "owner": "Run.transaction commits card/health/potion/relic changes; modal tokens and reward graph identity must be validated/re-read around nested commands. Pending.view is a read projection, resolve is Session command orchestration.",
+      "sources": [
+        {
+          "module": "abyss_relic_card_rewards",
+          "path": "src/lua/abyss_relic_card_rewards.lua",
+          "sha256LF": "868af280866ff94468dd3b2ea2dc53b46eb5bb50b41289e57cd5c2b0bd5ba98c",
+          "sourceOpening": "-- Independent CARD RewardItems; normal-room Prayer Wheel and Singing Bowl.\n-- Generation consumes the shared card RNG in source order, never a rarity reroll.\nlocal M={}",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "owns",
+              "line": 4
+            },
+            {
+              "name": "M.managed",
+              "line": 5
+            },
+            {
+              "name": "M.ensure",
+              "line": 8
+            },
+            {
+              "name": "M.nextGroup",
+              "line": 15
+            },
+            {
+              "name": "M.sync",
+              "line": 18
+            },
+            {
+              "name": "M.prepareExtra",
+              "line": 23
+            },
+            {
+              "name": "M.open",
+              "line": 36
+            },
+            {
+              "name": "<anonymous>",
+              "line": 43
+            },
+            {
+              "name": "M.claim",
+              "line": 51
+            },
+            {
+              "name": "<anonymous>",
+              "line": 52
+            },
+            {
+              "name": "M.close",
+              "line": 74
+            }
+          ]
+        },
+        {
+          "module": "abyss_relic_choices",
+          "path": "src/lua/abyss_relic_choices.lua",
+          "sha256LF": "6ff4a6f99f70c197f078ffccc9806871ad1896fa76a95bbd7e55e7a0945fa522",
+          "sourceOpening": "-- Same-run shop relic reward screens; Run wraps public commands in transactions.\nlocal M={}\nlocal function runApi()return require('abyss_run')end",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "runApi",
+              "line": 3
+            },
+            {
+              "name": "M.createCardReward",
+              "line": 4
+            },
+            {
+              "name": "M.openRewards",
+              "line": 13
+            },
+            {
+              "name": "M.adapter",
+              "line": 18
+            },
+            {
+              "name": "obtainCardCopy",
+              "line": 20
+            },
+            {
+              "name": "screen",
+              "line": 22
+            },
+            {
+              "name": "M.claim",
+              "line": 27
+            },
+            {
+              "name": "M.finish",
+              "line": 53
+            },
+            {
+              "name": "M.chooseMirror",
+              "line": 58
+            },
+            {
+              "name": "M.pending",
+              "line": 61
+            }
+          ]
+        },
+        {
+          "module": "abyss_relic_pending",
+          "path": "src/lua/abyss_relic_pending.lua",
+          "sha256LF": "269d672dd3f0190efff77991a21a96490d52e2bbd038b95e3e7f3bd3104c2446",
+          "sourceOpening": "-- Permanent relic choices retain the originating room/reward behind this modal.\n-- UI reads these offers and sends their owner token back; only Run mutates them.\nlocal M={}",
+          "measuredPublicAndLocalNames": [
+            {
+              "name": "M.owner",
+              "line": 4
+            },
+            {
+              "name": "cardRows",
+              "line": 11
+            },
+            {
+              "name": "rewardCards",
+              "line": 18
+            },
+            {
+              "name": "M.view",
+              "line": 31
+            },
+            {
+              "name": "M.resolve",
+              "line": 79
+            },
+            {
+              "name": "<anonymous>",
+              "line": 82
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "remainingCycles": [
+    {
+      "path": [
+        "abyss_actor",
+        "abyss_relic_family_combat",
+        "abyss_actor"
+      ],
+      "reason": "Actor callbacks consult family rules; family uses initialized Actor mutation API. Same Combat command owner, lazy return edge; no initialization callback call.",
+      "pathKind": "module import cycle, not a claimed single runtime call trace"
+    },
+    {
+      "path": [
+        "abyss_combat",
+        "abyss_combat_native_play",
+        "abyss_card_actions",
+        "abyss_relic_family_combat",
+        "abyss_build_actions",
+        "abyss_combat"
+      ],
+      "reason": "Command execution and native card/relic creation use existing host APIs. Same battle/queue/savepoint; does not introduce another drain owner.",
+      "pathKind": "module import cycle, not a claimed single runtime call trace"
+    },
+    {
+      "path": [
+        "abyss_run",
+        "abyss_relic_hooks",
+        "abyss_boss_relics",
+        "abyss_run"
+      ],
+      "reason": "Permanent obtain hook and default boss public commands return to initialized Run.transaction. Same Session staged transaction with nested-failure poison.",
+      "pathKind": "module import cycle, not a claimed single runtime call trace"
+    },
+    {
+      "path": [
+        "abyss_run",
+        "abyss_run_settlement",
+        "abyss_uncommon_relics",
+        "abyss_run"
+      ],
+      "reason": "Victory healing delegates to initialized Run health command while phase remains combat; one modifier pass and same outer settlement owner.",
+      "pathKind": "module import cycle, not a claimed single runtime call trace"
+    }
+  ],
+  "unreviewedRisk": [
+    "Group purpose/authority is reviewed; all branches of all97 modules are not newly behavior-audited. Remaining highCC and long/callback unknowns remain in remaining-risk.json.",
+    "Old Session facade reflection/rawget/pairs/module-metatable shape is outside the agreed ordinary field compatibility boundary; pairs(Shop.aliases) remains required.",
+    "Static imports do not prove arbitrary runtime parameter/loader flow; original plan Unknown dispatch inventory remains explicit.",
+    "D5 eliminates cross-domain reachability from the four roots and two capabilities, not all same-domain cycles. No SCC-size-only acceptance."
+  ]
+}

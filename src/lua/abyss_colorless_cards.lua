@@ -389,11 +389,13 @@ function actionHandlers.deepBreath(_,state)
     if #state.discard>0 then
         -- Constructor callbacks queue their effects before EmptyDeck/Shuffle/
         -- Draw. Collect in held order; reverse TOP insertion preserves it.
-        local effects={};local uncommon,shop=require('abyss_uncommon_relics'),require('abyss_shop_relics')
+        local effects={};local uncommon,shop=require('abyss_relic_family_combat').uncommon,require('abyss_relic_family_combat').shop
+        local uncommonQueries=require('abyss_relic_queries').uncommon
+        local shopQueries=require('abyss_relic_queries').shop
         for _,id in ipairs(state.relics or {})do
-            if uncommon.localId(id)=='sundial'then
+            if uncommonQueries.localId(id)=='sundial'then
                 for _,effect in ipairs(uncommon.onShuffle(state))do effects[#effects+1]=effect end
-            elseif shop.localId(id)=='the_abacus'then effects[#effects+1]=shop.onShuffle(state,true)end
+            elseif shopQueries.localId(id)=='the_abacus'then effects[#effects+1]=shop.onShuffle(state,true)end
         end
         actions().enqueueReaction(state,e('deepBreathShuffle'),true)
         for i=#effects,1,-1 do actions().enqueueReaction(state,effects[i],true)end
@@ -446,7 +448,7 @@ local function eligibleKill(target,before)
     return before>0 and target.hp<=0 and not target.escaped and not target.halfDead and not target.minion and (target.statuses.minion or 0)<=0
 end
 local function rewardGreed(combat,state,a)
-    if not require('abyss_relic_hooks').owns(state,'ectoplasm')then
+    if not require('abyss_relic_queries').hooks.owns(state,'ectoplasm')then
         state.player.gold=state.player.gold+a.value
         if state.scoreStats then state.scoreStats.goldGained=state.scoreStats.goldGained+a.value end
         require('abyss_act2_event_relics').gainGold(state,a.value,function(n)

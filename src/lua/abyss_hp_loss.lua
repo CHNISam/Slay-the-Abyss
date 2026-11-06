@@ -6,8 +6,8 @@ local M={}
 -- ordinary cards and a used Puzzle retain the existing batching fast path.
 function M.requiresQueue(state)
     local combat=state.relicCombat
-    return require('abyss_relic_hooks').owns(state,'red_skull') or (state.player.statuses.rupture or 0)>0 or combat~=nil and not combat.centennialUsed
-        and require('abyss_relic_hooks').owns(state,'centennial_puzzle')
+    return require('abyss_relic_queries').hooks.owns(state,'red_skull') or (state.player.statuses.rupture or 0)>0 or combat~=nil and not combat.centennialUsed
+        and require('abyss_relic_queries').hooks.owns(state,'centennial_puzzle')
 end
 function M.notify(state,owner,target,amount)
     if target~=state.player or amount<=0 then return end
@@ -20,11 +20,11 @@ function M.notify(state,owner,target,amount)
     for _,action in ipairs(plan.top) do
         require('abyss_card_actions').enqueueReaction(state,action.effect,true)
     end
-    require('abyss_relic_hooks').wasHpLost(state,target,amount)
+    require('abyss_relic_combat_hooks').wasHpLost(state,target,amount)
     -- Source damage updates bloodied before the fatal reserve. Only actual
     -- positive damage grants this HP0 callback; arbitrary zeroing does not.
     if state.player.hp<=0 then
-        require('abyss_relic_hooks').hpChanged(state,target,target.hp+amount,true)
+        require('abyss_relic_combat_hooks').hpChanged(state,target,target.hp+amount,true)
         require('abyss_player_revive').battle(state)
     end
 end

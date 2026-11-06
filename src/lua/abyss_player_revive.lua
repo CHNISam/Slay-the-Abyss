@@ -11,7 +11,7 @@ function M.battle(state)
   local amount=math.min(actor.maxHp,Health.modifyHealing(value,state.relics,true))
   actor.hp=amount
   require('abyss_events').emit(state,'heal',{target=actor.id,amount=amount,relic='lizard_tail'})
-  require('abyss_relic_hooks').hpChanged(state,actor,0,true)
+  require('abyss_relic_combat_hooks').hpChanged(state,actor,0,true)
  end)
 end
 function M.outside(run,heal)

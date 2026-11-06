@@ -229,7 +229,7 @@ function M.choose(combat,state,token,index)
  if index==1 then require('abyss_actor').applyPower(state,state.player,'strength',up and 4 or 3,state.player)
  elseif index==2 then
   local owner={gold=state.player.gold,relics=state.relics,scoreStats=state.scoreStats}
-  local gained=require('abyss_relic_hooks').gainGold(owner,up and 30 or 25)
+  local gained=require('abyss_relic_family_combat').common.gainGold(owner,up and 30 or 25)
   state.player.gold=owner.gold
   require('abyss_events').emit(state,'gold',{amount=gained,source='wish'})
  else require('abyss_actor').applyPower(state,state.player,'plated_armor',up and 8 or 6,state.player)end
@@ -304,7 +304,7 @@ function M.execute(combat,state,effect,queue)
  elseif op=='watcherFinalConjureBlade' then
   local context=assert(state.pendingPlay,'missing Conjure Blade context')
   local x=context.energyOnUse+effect.value
-  if require('abyss_relic_hooks').owns(state,'chemical_x')then x=x+2 end
+  if require('abyss_relic_queries').hooks.owns(state,'chemical_x')then x=x+2 end
   local uid=state.nextUid
   require('abyss_build_actions').makeCard(state,{cardId='expunger',pile='draw',randomSpot=true,value=1})
   for _,c in ipairs(state.draw)do if c.uid==uid then c.expungerHits=x end end

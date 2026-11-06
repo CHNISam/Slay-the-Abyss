@@ -155,7 +155,7 @@ end
 -- action later executes. A scalar zero is an intentional ownership snapshot.
 function M.poisonBonus(state, actor, source)
     return source==state.player and actor~=source
-        and require('abyss_relic_hooks').owns(state,'snake_skull') and 1 or 0
+        and require('abyss_relic_queries').hooks.owns(state,'snake_skull') and 1 or 0
 end
 
 local function preparePowerAmount(state,actor,id,amount,source,preparedPoisonBonus)
@@ -204,9 +204,9 @@ function M.applyPower(state, actor, id, amount, source, sourceIsMonster, prepare
     amount=preparePowerAmount(state,actor,id,amount,source,preparedPoisonBonus)
     -- Strength/Dexterity's incoming Power has DEBUFF type at amount <= 0,
     -- regardless of the target's existing signed total. Zero is not an early exit.
-    if require('abyss_rare_relics').blockPower(state,actor,id)then return false end
+    if require('abyss_relic_family_combat').rare.blockPower(state,actor,id)then return false end
     if M.artifactBlocksPower(actor, id, amount) then blockDebuff(state, actor, id); return false end
-    if id=='vulnerable'and source==state.player and actor~=source then require('abyss_rare_relics').onVulnerableApplied(state,actor)end
+    if id=='vulnerable'and source==state.player and actor~=source then require('abyss_relic_family_combat').rare.onVulnerableApplied(state,actor)end
     rememberConstrictedSource(state,actor,id,source)
     local callbackBefore=#state.events
     M.status(state, actor, id, amount, source, sourceIsMonster)
@@ -433,7 +433,7 @@ local function queueDeathPower(state, target, before, reactions)
         end
         require('abyss_reptomancer').died(state,target,deathReaction)
         if target~=state.player and not target.halfDead and not target.awakenedRebirthPending then
-            for _,effect in ipairs(require('abyss_uncommon_relics').onMonsterDeath(state,target))do reaction(state,effect)end
+            for _,effect in ipairs(require('abyss_relic_family_combat').uncommon.onMonsterDeath(state,target))do reaction(state,effect)end
         end
         require('abyss_spire_pair').died(state,target,function(effect)
             reaction(state,{op='spireDeathRemove',targetId=effect.targetId,status=effect.status})
@@ -489,7 +489,7 @@ local function directDamage(state, source, target, amount, status, blocked, reac
     amount=require('abyss_defect_final_cards').incoming(state,target,amount)
     amount=require('abyss_corrupt_heart').capDamage(target,amount)
     Act3Powers.attacked(state,target,amount,reactions)
-    if target==state.player then amount=require('abyss_relic_hooks').onLoseHpLast(state,amount)end
+    if target==state.player then amount=require('abyss_relic_queries').hooks.onLoseHpLast(state,amount)end
     local before = target.hp
     require('abyss_run_scoring').damage(state,target,amount,status=='hp_loss')
     local lost = math.min(target.hp, amount)
@@ -499,7 +499,7 @@ local function directDamage(state, source, target, amount, status, blocked, reac
     notifyHpLost(state,damageOwner,target,lost)
     local damageEvent=Events.emit(state, status=='hp_loss'and 'hp_loss'or "status_damage", {
         source = source and source.id, target = target.id, status = status, amount = lost, blocked = blocked or 0 })
-    require('abyss_relic_hooks').hpChanged(state,target,before)
+    require('abyss_relic_combat_hooks').hpChanged(state,target,before)
     if state.originalV4 then require('abyss_original_v4').enemyDied(state,target,before) end
     queueDeathPower(state, target, before, reactions)
     if target.halfDead or Darklings.owns(target)and target.isDying then damageEvent.frame=Events.frame(state)end
@@ -520,7 +520,7 @@ function M.instantKill(state,target)
     local before=target.hp
     target.hp=0
     local damageEvent=Events.emit(state,'damage',{target=target.id,amount=0,blocked=0})
-    require('abyss_relic_hooks').hpChanged(state,target,before)
+    require('abyss_relic_combat_hooks').hpChanged(state,target,before)
     local reactions={};queueDeathPower(state,target,before,reactions)
     if target.halfDead or Darklings.owns(target)and target.isDying then damageEvent.frame=Events.frame(state)end
     M.resolveDamageReactions(state,reactions)
@@ -551,7 +551,7 @@ function M.suicideTransient(state,target)
 end
 
 function M.vulnerablePercent(state,target)
-    local rare=require('abyss_uncommon_relics').vulnerablePercent(state,target)
+    local rare=require('abyss_relic_family_combat').uncommon.vulnerablePercent(state,target)
     if rare then return rare end
     if target==state.player then
         for _,id in ipairs(state.relics or {})do if id=='odd_mushroom'or id=='Odd Mushroom'then return 125 end end
@@ -632,7 +632,7 @@ function M.retaliate(state, source, target, amount, status)
     if intangible(target) then amount=math.min(amount,1) end
     local blocked = math.min(target.block, amount)
     target.block = target.block - blocked
-    if blocked>0 and target.block==0 then require('abyss_shop_relics').onBlockBroken(state,target)end
+    if blocked>0 and target.block==0 then require('abyss_relic_family_combat').shop.onBlockBroken(state,target)end
     local reactions = {}
     local lost = directDamage(state, source, target, amount - blocked, status or "thorns", blocked, reactions)
     M.resolveDamageReactions(state, reactions)
@@ -673,7 +673,7 @@ local function consumeAttackBlock(state,source,target,amount,fixed)
     if intangible(target) then amount=math.min(amount,1) end
     local absorbed = math.min(target.block, amount)
     target.block = target.block - absorbed
-    if absorbed>0 and target.block==0 then require('abyss_shop_relics').onBlockBroken(state,target)end
+    if absorbed>0 and target.block==0 then require('abyss_relic_family_combat').shop.onBlockBroken(state,target)end
     local unblocked=amount-absorbed
     if source==state.player and not fixed and unblocked>0 and unblocked<5 then
         for _,id in ipairs(state.relics or {})do if id=='boot' or id=='Boot'then unblocked=5;break end end
@@ -686,8 +686,8 @@ local function modifyIncomingAttack(state,source,target,unblocked,fixed,reaction
     unblocked=require('abyss_corrupt_heart').capDamage(target,unblocked)
     Act3Powers.attacked(state,target,unblocked,reactions)
     local playerAttackedQueued=queuePlayerAttackedReactions(state,source,target,unblocked,fixed)
-    if target==state.player then unblocked=require('abyss_rare_relics').onAttacked(state,source,fixed and 'thorns'or 'normal',unblocked)end
-    if target==state.player then unblocked=require('abyss_relic_hooks').onLoseHpLast(state,unblocked)end
+    if target==state.player then unblocked=require('abyss_relic_family_combat').rare.onAttacked(state,source,fixed and 'thorns'or 'normal',unblocked)end
+    if target==state.player then unblocked=require('abyss_relic_queries').hooks.onLoseHpLast(state,unblocked)end
     require('abyss_run_scoring').damage(state,target,unblocked,false)
     return unblocked,playerAttackedQueued
 end
@@ -703,7 +703,7 @@ local function applyAttackHpLoss(state,source,target,unblocked,absorbed,fixed,be
     notifyHpLost(state,source,target,lost)
     local damageEvent=Events.emit(state, "damage", { source = source and source.id, target = target.id, amount = lost, blocked = absorbed })
     if target==state.player then PlatedArmor.hpLost(state,source,target,lost,not fixed,reaction)end
-    require('abyss_relic_hooks').hpChanged(state,target,before)
+    require('abyss_relic_combat_hooks').hpChanged(state,target,before)
     Act2Powers.inflicted(state,source,lost,fixed,reaction)
     return lost,damageEvent
 end
@@ -844,7 +844,7 @@ local function tick(state, actor, phase)
                     local healed = math.min(actor.maxHp - actor.hp, healing)
                     actor.hp = actor.hp + healed
                     Events.emit(state, "heal", { target = actor.id, amount = healed, status = id })
-                    require('abyss_relic_hooks').hpChanged(state,actor,before)
+                    require('abyss_relic_combat_hooks').hpChanged(state,actor,before)
                     end
                 end
             end
@@ -975,7 +975,7 @@ function M.resetBlock(state, actor)
         return
     end
     if (actor.statuses.barricade or 0) <= 0 and actor.block ~= 0 then
-        actor.block = actor==state.player and require('abyss_rare_relics').blockAtTurnStart(state,actor.block)or 0
+        actor.block = actor==state.player and require('abyss_relic_family_combat').rare.blockAtTurnStart(state,actor.block)or 0
         Events.emit(state, "block_reset", {target = actor.id})
     end
 end

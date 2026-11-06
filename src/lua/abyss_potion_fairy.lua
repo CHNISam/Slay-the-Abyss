@@ -27,7 +27,7 @@ function M.fatal(state,queuedFatal)
  if not slot then return false end
  require('abyss_events').emit(state,'potion_revive',{slot=slot,id='fairy_in_a_bottle',amount=actor.hp})
  -- Fairy is an automatic fatal path: no ordinary onUsePotion dispatch.
- require('abyss_relic_hooks').hpChanged(state,actor,0,queuedFatal)
+ require('abyss_relic_combat_hooks').hpChanged(state,actor,0,queuedFatal)
  return true
 end
 function M.outside(run)

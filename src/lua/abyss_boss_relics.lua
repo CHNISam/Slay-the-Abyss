@@ -1,63 +1,23 @@
 -- STS1 319009d5 boss-relic rules. Call permanent operations on a staged Run.
 -- Selection/reward continuation belongs to the caller; no filtered random pools.
 local R=require('abyss_sts_random')
-local A=require('abyss_actor')
+
 local Queries=require('abyss_relic_queries').boss
--- Only these public query fields share slots; other fields remain ordinary.
+local Combat=require('abyss_relic_family_combat').boss
+local queryFields={canPlay=true,cardRewardCount=true,drawBonus=true,energyBonus=true,hidesIntents=true,localId=true,retainsHand=true}
+local combatFields={atTurnStart=true,battleStart=true,onPlayCard=true,onSpawnMonster=true,preBattle=true,wasHpLost=true}
 local function queryIndex(_,key)
- if key=='localId' or key=='cardRewardCount' then return Queries[key] end
+ if queryFields[key] then return Queries[key] end
+ if combatFields[key] then return Combat[key] end
 end
 local function queryNewIndex(self,key,value)
- if key=='localId' or key=='cardRewardCount' then Queries[key]=value
+ if queryFields[key] then Queries[key]=value
+ elseif combatFields[key] then Combat[key]=value
  else rawset(self,key,value) end
 end
 local M=setmetatable({}, {__index=queryIndex,__newindex=queryNewIndex})
 local owns=Queries.privateOwns
-local energy={velvet_choker=true,runic_dome=true,cursed_key=true,busted_crown=true,
- ectoplasm=true,philosophers_stone=true,mark_of_pain=true}
-function M.energyBonus(id)return energy[M.localId(id)]and 1 or 0 end
-function M.drawBonus(owner)return owns(owner,'snecko_eye')and 2 or 0 end
-function M.hidesIntents(owner)return owns(owner,'runic_dome')end
-function M.retainsHand(owner)return owns(owner,'runic_pyramid')end
-function M.atTurnStart(state)
- if owns(state,'velvet_choker')then
-  state.relicCounters=state.relicCounters or {};state.relicCounters.velvet_choker=0
- end
-end
-function M.canPlay(state)
- if owns(state,'velvet_choker')and (state.relicCounters.velvet_choker or 0)>=6 then return false,'velvet_choker_limit'end
- return true
-end
-function M.onPlayCard(state)
- if owns(state,'velvet_choker')then
-  state.relicCounters.velvet_choker=math.min(6,(state.relicCounters.velvet_choker or 0)+1)
- end
-end
-function M.wasHpLost(state,actor,amount)
- if actor==state.player and amount>0 and owns(state,'runic_cube')then
-  local combat=false;for _,e in ipairs(state.enemies)do if A.isPresent(e)then combat=true;break end end
-  if combat then require('abyss_card_actions').enqueueReaction(state,{op='draw',value=1},true)end
- end
-end
-function M.preBattle(state,owner)
- if owns(owner or state,'snecko_eye')then A.applyPower(state,state.player,'confusion',1,state.player)end
-end
-function M.onSpawnMonster(state,enemy)
- if owns(state,'philosophers_stone')then
-  -- Source monster.addPower bypasses Artifact/debuff application hooks.
-  A.addStatus(enemy,'strength',1)
- end
-end
-function M.battleStart(state,id)
- id=M.localId(id)
- if id=='philosophers_stone'then for _,enemy in ipairs(state.enemies)do M.onSpawnMonster(state,enemy)end
- elseif id=='mark_of_pain'then
-  -- This hook is dispatched by the already ordered after-draw opening group.
-  -- Use the native MakeTempCard helper, whose random spot excludes the top
-  -- slot exactly as CardGroup.addToRandomSpot does in the pinned source.
-  require('abyss_build_actions').makeCard(state,{cardId='wound',value=2,pile='draw',randomSpot=true})
- else error('unsupported boss battle hook '..tostring(id))end
-end
+
 local function definition(run,id)
  for _,d in ipairs(run.data.cards.cards)do if d.id==id then return d end end
 end

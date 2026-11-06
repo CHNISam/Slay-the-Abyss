@@ -94,6 +94,8 @@ export function reviewRenderComplexity(diagnostics, sources) {
 // Budget only this governance slice and every extracted responsibility module.
 // Unrelated pre-existing Combat/UI hotspots keep their diagnostic reports.
 const responsibilityRoots = {
+  'src/lua/abyss_relic_combat_hooks.lua': [],
+  'src/lua/abyss_relic_family_combat.lua': [],
   'src/lua/abyss_purge_candidates.lua': [],
   'src/lua/abyss_living_wall.lua': ["function 'queryIndex'","function 'queryNewIndex'"],
   'src/lua/abyss_relic_queries.lua': [],
@@ -208,11 +210,15 @@ const responsibilityRoots = {
 // All Run orchestration and newly extracted Run helpers receive the full budget.
 const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|combat_catalog|combat_reactions|combat_native_play|combat_queued_play|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui(?:_.+)?|game_ui_.+|run(?:_(?!(?:card_catalog|red_card_contract|seed)\.lua$).+)?|nodes(?:_.+)?)\.lua$/.test(file);
 const completeResponsibility = file => responsibilityHelper(file)
+  || file==='src/lua/abyss_relic_combat_hooks.lua'
+  || file==='src/lua/abyss_relic_family_combat.lua'
   || file==='src/lua/abyss_purge_candidates.lua'
   || file==='src/lua/abyss_relic_queries.lua'
   || file==='src/lua/abyss_actor_power_rules.lua'
   || file==='src/lua/abyss_card_actions.lua' || file==='src/lua/abyss_game_ui.lua';
 export function reviewModuleSize(sources, budgets = {'src/lua/abyss_run.lua': 1000, 'src/lua/abyss_nodes.lua': 1000,
+  'src/lua/abyss_relic_combat_hooks.lua':1000,
+  'src/lua/abyss_relic_family_combat.lua':1000,
   'src/lua/abyss_purge_candidates.lua':1000,
   'src/lua/abyss_relic_queries.lua':1000,
   'src/lua/abyss_actor.lua':1000,'src/lua/abyss_actor_power_rules.lua':1000}) {

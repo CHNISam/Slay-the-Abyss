@@ -5,6 +5,7 @@ import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {luaString} from '../../scripts/build-lua-data.mjs';
 import {runLua} from '../../scripts/test-lua.mjs';
+import {frozenPurgeA27Sources,purgeA27FrozenPrelude} from './relic-lifecycle-baseline.mjs';
 
 export const purgeQueryRevision='a27b86a5ffa7f7d344b11413eb5e0c13953af50b';
 export const purgeQueryArchiveSha256='7ddb2bf87ff3d7a56a80f34a4bb06e6249e7dd7d0811afd391afad16a5f39dee';
@@ -32,10 +33,15 @@ export function runPurgeQueryFixture(fixture,{frozen=false}={}){
  const version=frozen?'frozena27':'current',name=fixture.split('/').at(-1).slice(0,-4);
  const driver=`${directory}/${name}-${version}.lua`;
  let source="package.path='src/lua/?.lua;build/lua/?.lua;'..package.path\n";
- if(frozen)for(const [module,file]of Object.entries(frozenPurgeQuerySources().files)){
-  source+=`assert(package.loaded[${luaString(module)}]==nil,'fresh pinned module');package.preload[${luaString(module)}]=function()return assert(load(${luaString(file.source)},${luaString('@frozena27/'+module+'.lua')},'t'))()end\n`;
+ if(frozen){
+  const corpus=frozenPurgeA27Sources();
+  for(const [module,file]of Object.entries(frozenPurgeQuerySources().files))
+   assert.equal(corpus.files[module].source,file.source,'original two-source proof agrees with complete a27 execution epoch');
+  source+=purgeA27FrozenPrelude();
+  source+=`assert(RELIC_LIFECYCLE_FROZEN.revision==${luaString(purgeQueryRevision)})\n`;
  }
  source+=`dofile(${luaString(resolve(fixture).replaceAll('\\','/'))})\n`;
+ if(frozen)source+='assert(RELIC_LIFECYCLE_FROZEN.audit())\n';
  writeFileSync(driver,source);
  const started=Date.now(),result=runLua(driver);
  writeFileSync(`${directory}/${name}-${version}.stdout.log`,result.stdout);

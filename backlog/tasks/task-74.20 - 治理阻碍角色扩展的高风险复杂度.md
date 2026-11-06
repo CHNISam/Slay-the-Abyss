@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-06 01:46'
-updated_date: '2026-11-06 02:36'
+updated_date: '2026-11-06 06:32'
 labels: []
 milestone: m-7
 dependencies: []
@@ -51,4 +51,8 @@ ordinal: 162000
 六入口与纯Power叶模块本地验证完成：Actor996行、leaf62行；329模块5314完整测量、CC>30为67→61、CC>15为258→252。旧新差分、函数/错误别名、6+4真实语义变异、相关回归、四源桥51专项及原raw预算通过。独立c48b6a35深审PASS；组合接续本人PR521，当前Full/实际合后未验，所有AC仍不勾，余项风险未接受。
 
 组合补测CI闭合库存733JS/1359Lua发现旧固定库存断言失败；仅显式登记5JS/3Lua为未测文件，原725/1356及2900/2712测量、timings、worker安全、原预算保持。主控3/3与独审3/3通过，最终源码Full仍待；不借旧7ec候选绿灯。
+
+D5同源全采333模块5370/5370测量，CC>15降至240、>30仍61、最大75、最长580，Combat仍2275行。两新cap全函数/嵌套/初始化CC15及1000行硬门禁通过，1746 governed、14旧告警、零新增豁免。剩余热点正按真实owner/调用者与变化频次做有限风险审计，不视为接受；独立整片深审与完整交付未完成。机器证据docs/evidence/m7-relic-lifecycle-20261106.json。
+
+独立有限审计补齐61高CC与61长跨度逐项owner/静态调用/测试/文件历史证据；未知不降级，无新P0确证。见docs/backlog-details/M7-CORE-REMAINING-RISK-20261106.md与机器附件。P1用于相关下一变更的审查顺序，非把所有数字强拆；不冒充Owner接受残余。当前D5有35组完整图等价、6具名语义负控与全新helper门槛证据，最终独审和托管仍待。
 <!-- SECTION:NOTES:END -->

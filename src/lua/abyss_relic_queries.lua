@@ -70,4 +70,75 @@ function hooks.owns(owner,id)
  for _,held in ipairs(owner.relics or {})do if hooks.localId(held)==id then return true end end
  return false
 end
+
+do
+local M=boss
+local owns=bossOwns
+local energy={velvet_choker=true,runic_dome=true,cursed_key=true,busted_crown=true,
+ ectoplasm=true,philosophers_stone=true,mark_of_pain=true}
+function M.energyBonus(id)return energy[M.localId(id)]and 1 or 0 end
+function M.drawBonus(owner)return owns(owner,'snecko_eye')and 2 or 0 end
+function M.hidesIntents(owner)return owns(owner,'runic_dome')end
+function M.retainsHand(owner)return owns(owner,'runic_pyramid')end
+function M.canPlay(state)
+ if owns(state,'velvet_choker')and (state.relicCounters.velvet_choker or 0)>=6 then return false,'velvet_choker_limit'end
+ return true
+end
+end
+
+do
+local M=uncommon
+function M.rewardCardCount(owner,base)return base+(M.owns(owner,'question_card')and 1 or 0)end
+function M.isBottled(card)return card.inBottleFlame==true or card.inBottleLightning==true or card.inBottleTornado==true end
+end
+
+do
+local M=rare
+local owns=rareOwns
+function M.extraCardRewards(run,normalRoom)return owns(run,'prayer_wheel')and normalRoom and 1 or 0 end
+local function campSpawnCount(run)
+ local n=0
+ for _,held in ipairs(run.relics or {})do
+  local localId=M.localId(held)
+  if localId=='girya'or localId=='shovel'or localId=='peace_pipe'then n=n+1 end
+ end
+ return n
+end
+function M.canSpawn(run,id)
+ id=M.localId(id)
+ local floor=run.sourceFloor or run.floor or 0
+ if id=='winged_greaves'then return run.endless==true or floor<=40 end
+ if id=='prayer_wheel'then return run.endless==true or floor<=48 end
+ if id=='girya'or id=='shovel'or id=='peace_pipe'then
+  if floor>=48 and not run.endless then return false end
+  return campSpawnCount(run)<2
+ end
+ return true
+end
+end
+
+do
+local M=shop
+function M.xBonus(state)return M.owns(state,'chemical_x')and 2 or 0 end
+function M.drawOrderVisible(state)return M.owns(state,'frozen_eye')end
+end
+
+do
+local M=hooks
+local function integer(n)return type(n)=='number' and n%1==0 and n>=0 and n<=2147483647 end
+function M.onLoseHpLast(owner,amount)
+ assert(type(amount)=='number'and amount%1==0 and amount>=0 and amount<=9007199254740991,'invalid final HP loss')
+ for _,id in ipairs(owner.relics or {})do
+  if M.localId(id)=='tungsten_rod'and amount>0 then amount=amount-1 end
+ end
+ return amount
+end
+function M.scoreAdjustment(run)return M.owns(run,'spirit_poop') and -1 or 0 end
+function M.campHealAmount(run,base)
+ assert(integer(base),'invalid camp healing')
+ local total=base+(M.owns(run,'regal_pillow') and 15 or 0)
+ assert(total<=2147483647,'camp healing overflow');return total
+end
+end
+
 return {hooks=hooks,uncommon=uncommon,rare=rare,boss=boss,shop=shop}

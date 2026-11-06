@@ -11,11 +11,15 @@ local EnemyRandom = require("abyss_enemy_random")
 local SourceRandom = require("abyss_sts_random")
 local Formation = require("abyss_encounter_formation")
 local EnemySetup=require('abyss_combat_enemy_setup')
-local RelicHooks = require('abyss_relic_hooks')
-local Uncommon=require('abyss_uncommon_relics')
-local Rare=require('abyss_rare_relics')
-local Boss=require('abyss_boss_relics')
-local ShopRelics=require('abyss_shop_relics')
+local RelicHooks = require('abyss_relic_combat_hooks')
+local RelicHooksQueries=require('abyss_relic_queries').hooks
+local Uncommon=require('abyss_relic_family_combat').uncommon
+local Rare=require('abyss_relic_family_combat').rare
+local RareQueries=require('abyss_relic_queries').rare
+local Boss=require('abyss_relic_family_combat').boss
+local BossQueries=require('abyss_relic_queries').boss
+local ShopRelics=require('abyss_relic_family_combat').shop
+local ShopRelicsQueries=require('abyss_relic_queries').shop
 local Awakened=require('abyss_awakened_one')
 local Darklings=require('abyss_darklings')
 local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTemporaryStrength,
@@ -178,7 +182,7 @@ local function drainNative(state)
     if state.player.hp>0 and not state.drainingCardActions and not state.pendingChoice then
         if not state.cardActions and not state.queuedCards and not state.actionQueue
             and not state.pendingPlay and not state.resolvingCard and not state.endTurnAfterCard
-            and Rare.owns(state,'unceasing_top')then Rare.onRefreshHand(state,true)end
+            and RareQueries.owns(state,'unceasing_top')then Rare.onRefreshHand(state,true)end
         if state.cardActions or state.queuedCards then CardActions.drain(M,state)end
     end
 end
@@ -517,7 +521,7 @@ local function finishCardDefinition(state,instance,card)
     card=require('abyss_colorless_cards').adapt(state,instance,card)
     card=require('abyss_silent_final_cards').adapt(state,instance,card)
     if card.id=='expunger' then card.expungerHits=instance.expungerHits or 0 end
-    if RelicHooks.owns(state,'necronomicon')then card.necronomiconCostForTurn=card.cost end
+    if RelicHooksQueries.owns(state,'necronomicon')then card.necronomiconCostForTurn=card.cost end
     if state.player and not card.costMode and require('abyss_watcher_final_cards').freeAttack(state,card) then card.cost=0 end
     card=ShopRelics.medicalCard(state,card)
     if Uncommon.canPlayCurse(state,card)then card.exhaust=true;card.cost=math.max(0,card.cost)end
@@ -665,7 +669,7 @@ local function playWindow(state)
     if state.pendingPlay or state.pendingScry or state.pendingHandChoice or state.pendingPileChoice or state.actionQueue then return false, "selection_pending" end
     if state.pendingDiscard then return false, "discard_choice_pending" end
     if state.phase ~= "player" then return false, "not_player_turn" end
-    local relicAllowed,relicReason=Boss.canPlay(state)
+    local relicAllowed,relicReason=BossQueries.canPlay(state)
     if not relicAllowed then return false,relicReason end
     return true
 end
@@ -679,7 +683,7 @@ end
 
 local function playSupportedEffects(state,card)
     local ok, op
-    if (Uncommon.canPlayCurse(state,card)or card.type=='status'and ShopRelics.owns(state,'medical_kit'))and #card.effects==0 then
+    if (Uncommon.canPlayCurse(state,card)or card.type=='status'and ShopRelicsQueries.owns(state,'medical_kit'))and #card.effects==0 then
         -- Source curse/status use methods are empty; their relic owns the
         -- HP-loss/exhaust callback. Keep this exception ownership/type bound.
         ok=true
@@ -1253,7 +1257,7 @@ function M.resolveQueuedCard(state,e)
     -- A queued targeted card whose original target died is removed from limbo;
     -- it does not retarget, execute, or emit a real exhaust event.
     if d.target=="ENEMY" and (not target or not Actors.isActive(target)) then rejected();return end
-    local invalid=d.cost==-2 or not Boss.canPlay(state)or Curses.limitsPlay(state) or d.type=="attack" and (state.player.statuses.entangled or 0)>0
+    local invalid=d.cost==-2 or not BossQueries.canPlay(state)or Curses.limitsPlay(state) or d.type=="attack" and (state.player.statuses.entangled or 0)>0
     if d.condition=="only_attacks_in_hand" then
         for _,held in ipairs(state.hand) do if state.catalog.cards[held.cardId].type~="attack" then invalid=true end end
     end
@@ -1390,7 +1394,7 @@ end
 local function enqueueNativeOpeningDraw(state,originalExtra)
     -- The source queues ordinary draw and post-draw Powers before executing
     -- DrawCardAction. Draw hooks append behind those already queued actions.
-    if state.turn==1 and ShopRelics.owns(state,'toolbox')then CardActions.enqueue(state,{op='shopRelic',kind='toolbox'})end
+    if state.turn==1 and ShopRelicsQueries.owns(state,'toolbox')then CardActions.enqueue(state,{op='shopRelic',kind='toolbox'})end
     CardActions.enqueue(state,{op='draw',value=TimeEater.drawCount(state,state.rules.player.drawPerTurn+originalExtra)})
     if state.turn==1 and state.openingInnateExtra then
         CardActions.enqueue(state,{op='draw',value=state.openingInnateExtra});state.openingInnateExtra=nil
@@ -1477,7 +1481,7 @@ function M.startPlayerTurn(state, beforeOpeningDraw)
     state.energy=state.energy+state.rules.player.energyPerTurn
     RelicHooks.atTurnStart(state)
     for _,action in ipairs(turns.onEnergyRecharge(state)) do actions[#actions+1]=action end
-    if state.turn==1 and ShopRelics.owns(state,'toolbox')then actions[#actions+1]={kind='effect',effect={op='shopRelic',kind='toolbox'}}end
+    if state.turn==1 and ShopRelicsQueries.owns(state,'toolbox')then actions[#actions+1]={kind='effect',effect={op='shopRelic',kind='toolbox'}}end
     actions[#actions+1]={kind='effect',effect={op='draw',value=TimeEater.drawCount(state,require('abyss_defect_final_cards').drawCount(state,state.rules.player.drawPerTurn))}}
     RelicHooks.enqueuePostDraw(state)
     appendRelicActions(state,actions)
@@ -1909,7 +1913,7 @@ local function discardNativeRetainedHand(state)
     local retained={}
     for _,instance in ipairs(state.hand)do
         local definition=M.cardDefinition(state,instance)
-        if (instance.silentRetainTurn==state.turn or Boss.retainsHand(state))and not definition.ethereal then retained[#retained+1]=instance
+        if (instance.silentRetainTurn==state.turn or BossQueries.retainsHand(state))and not definition.ethereal then retained[#retained+1]=instance
         else state.discard[#state.discard+1]=instance end
     end
     state.hand=retained
