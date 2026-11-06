@@ -88,7 +88,7 @@ test('warm Runtime projections still reread actual linked host files and reject 
  const root=mkdtempSync(join(tmpdir(),'compendium-runtime-'));
  t.after(()=>rmSync(root,{recursive:true,force:true}));
  const owners=['src/lua/abyss_game_ui.lua','src/lua/abyss_compendium_catalog.lua','src/lua/abyss_relic_text.lua','src/lua/abyss_node_ui_faces.lua'];
- for(const path of [...owners,...gameUiExtractionAddedPaths,'config/architecture.json','tests/helpers/compendium-source-inverse.mjs','tests/helpers/architecture-source-format.mjs','tests/helpers/game-ui-extraction-source-inverse.mjs','tests/helpers/game-ui-extraction-source-layer.json']){
+ for(const path of [...owners,...gameUiExtractionAddedPaths,'src/lua/abyss_actor.lua','src/lua/abyss_combat.lua','src/lua/abyss_actor_power_rules.lua','config/architecture.json','tests/helpers/core-lifecycle-source-inverse.mjs','tests/helpers/actor-lifecycle-before.lua','tests/helpers/combat-lifecycle-before.json','tests/helpers/compendium-source-inverse.mjs','tests/helpers/architecture-source-format.mjs','tests/helpers/game-ui-extraction-source-inverse.mjs','tests/helpers/game-ui-extraction-source-layer.json']){
   const target=join(root,path);mkdirSync(dirname(target),{recursive:true});copyFileSync(path,target);
  }
  const {preCompendiumSource:project}=await import(pathToFileURL(join(root,'tests/helpers/compendium-source-inverse.mjs')).href);

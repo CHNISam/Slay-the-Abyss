@@ -1,5 +1,6 @@
 {
   "layers": {
+    "abyss_actor_power_rules": "core",
     "abyss_combat_reactions": "core",
     "abyss_compendium_catalog": "ui",
     "abyss_relic_text": "core",
@@ -580,6 +581,12 @@
     }
   ],
   "dependencyBoundaries": [
+    {
+      "id": "actor-power-rules-independence",
+      "from": ["abyss_actor_power_rules"],
+      "forbiddenTargets": ["abyss_actor", "abyss_combat", "abyss_relic_hooks"],
+      "reason": "Pure Power validation and stacking cannot depend on lifecycle orchestration or relic callbacks."
+    },
     {
       "id": "living-wall-copy-isolation",
       "from": ["abyss_living_wall"],

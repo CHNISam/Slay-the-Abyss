@@ -6,9 +6,14 @@ import {tmpdir} from 'node:os';
 import {pathToFileURL} from 'node:url';
 import {spawnSync} from 'node:child_process';
 import {gameUiExtractionProof as proof,gameUiExtractionAddedPaths as added,preGameUiExtractionSource as project,gameUiExtractionReader,prepareGameUiExtractionModuleRetirement as prepare} from './helpers/game-ui-extraction-source-inverse.mjs';
+import {preCoreLifecycleSource} from './helpers/core-lifecycle-source-inverse.mjs';
 const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
 const host='src/lua/abyss_game_ui.lua',architecture='config/architecture.json';
 const paths=Object.keys(proof.files);
+const lifecycleSources=['src/lua/abyss_actor.lua','src/lua/abyss_combat.lua','src/lua/abyss_actor_power_rules.lua'];
+const lifecycleHelpers=['tests/helpers/core-lifecycle-source-inverse.mjs','tests/helpers/actor-lifecycle-before.lua','tests/helpers/combat-lifecycle-before.json'];
+const lifecycleReads=4;
+const originalInputs=()=>Object.fromEntries(paths.map(path=>[path,preCoreLifecycleSource(path,read(path))]));
 function copy(root,path){const target=join(root,path);mkdirSync(dirname(target),{recursive:true});copyFileSync(path,target);}
 function isolated(t){const root=mkdtempSync(join(tmpdir(),'game-ui-source-proof-'));t.after(()=>rmSync(root,{recursive:true,force:true}));return root;}
 
@@ -16,16 +21,23 @@ test('one complete extraction restores immutable full Host/config and authentica
  assert.equal(proof.baseCommit,'78e4e746a7f05754f0d838999c466cd88630368c');
  assert.equal(proof.files[host].beforeSource,read('tests/fixtures/game-ui-host/old-host.lua'));
  assert.equal(proof.files[host].beforeSha256,JSON.parse(read('tests/fixtures/game-ui-host/identity.json')).sha256);
+ const original=originalInputs();let originalReads=0;
+ const readOriginal=p=>{originalReads++;return original[p];};
+ for(const path of paths)for(const input of [original[path],original[path].replaceAll('\n','\r\n')])
+  assert.equal(project(path,input,{readSource:readOriginal}),proof.files[path].beforeSource);
+ assert.equal(originalReads,paths.length*paths.length*2,'the independent original Host epoch still performs exactly 98 reads');
  let reads=0;const readSource=p=>{reads++;return read(p);};
  for(const path of paths){
   const source=read(path),before=proof.files[path].beforeSource;
   assert.equal(project(path,source,{readSource}),before);
   assert.equal(project(path,source.replaceAll('\n','\r\n'),{readSource}),before);
  }
- assert.equal(reads,paths.length*paths.length*2);
+ // Original Host epoch: 98 reads. Each of its 14 validations now encounters
+ // one new config (4 fresh owners), and the two config inputs add 4 each.
+ assert.equal(reads,paths.length*paths.length*2+paths.length*lifecycleReads*2+lifecycleReads*2);
  for(const source of [JSON.stringify(JSON.parse(read(architecture))),JSON.stringify(JSON.parse(read(architecture)),null,'\t')]){
   const prior=reads;assert.equal(project(architecture,source,{readSource}),proof.files[architecture].beforeSource);
-  assert.equal(reads-prior,paths.length,'layout-equivalent architecture still rereads every owner');
+  assert.equal(reads-prior,paths.length+lifecycleReads*2,'layout-equivalent architecture rereads the exact outer and inner owner closures');
  }
  for(const readSource of [null,{},'invalid',()=>undefined,()=>null,()=>Buffer.from('source'),()=>{throw Error('reader sentinel');}])
   assert.throws(()=>project(host,read(host),{readSource}),/linked reader|linked owner|reader sentinel/);
@@ -59,10 +71,17 @@ test('configuration owner names never waive complete tokens or fresh linked vali
   current=path=>read(path)+(path===added.at(-1)?'\n-- fresh owner drift\n':'');
   assert.throws(()=>project(architecture,source,{readSource}),/linked owner/);
  }
- assert.equal(reads,paths.length*6,'exact and layout-equivalent config admission rereads all owners each time');
+ assert.equal(reads,(paths.length+lifecycleReads*2)*6,'exact and layout-equivalent config admission rereads all owners each time');
 });
 
 test('nested linked readers keep fresh raw identities across composed historical boundaries',()=>{
+ const original=originalInputs();let originalReads=0;
+ const originalReader=gameUiExtractionReader(p=>{originalReads++;return original[p];});
+ for(let i=0;i<2;i++){
+  assert.equal(project(host,original[host],{readSource:originalReader}),proof.files[host].beforeSource);
+  assert.equal(originalReader(host),proof.files[host].beforeSource);
+ }
+ assert.equal(originalReads,paths.length*4+2,'the independent original nested-reader epoch still performs exactly 30 reads');
  let reads=0;const raw=p=>{reads++;return read(p);};
  const reader=gameUiExtractionReader(raw);
  assert.equal(gameUiExtractionReader(reader),reader);
@@ -70,7 +89,9 @@ test('nested linked readers keep fresh raw identities across composed historical
   assert.equal(project(host,read(host),{readSource:reader}),proof.files[host].beforeSource);
   assert.equal(reader(host),proof.files[host].beforeSource);
  }
- assert.equal(reads,paths.length*4+2);
+ // Original nested-reader epoch: 30 reads; four linked config projections
+ // each add exactly the four final lifecycle owners, giving 46.
+ assert.equal(reads,paths.length*4+2+lifecycleReads*4);
 });
 
 test('actual current Host reaches every direct and transitive consumer with frozen historical results',async()=>{
@@ -124,7 +145,7 @@ test('injected readers at shared consumer seams never fall back to live owners',
 
 test('actual detached filesystem owners reject warm drift and deletion separately for every module',async t=>{
  const root=isolated(t);
- for(const path of [...paths,'tests/helpers/game-ui-extraction-source-inverse.mjs','tests/helpers/game-ui-extraction-source-layer.json'])copy(root,path);
+ for(const path of [...paths,...lifecycleSources,...lifecycleHelpers,'tests/helpers/game-ui-extraction-source-inverse.mjs','tests/helpers/game-ui-extraction-source-layer.json'])copy(root,path);
  const {preGameUiExtractionSource:detached}=await import(pathToFileURL(join(root,'tests/helpers/game-ui-extraction-source-inverse.mjs')));
  for(const input of [host,architecture])for(const owner of paths){
   const source=read(input),file=join(root,owner),original=read(owner),expected=detached(input,source);
@@ -204,7 +225,7 @@ test('real filesystem traces distinguish foreign/old inputs from fresh equivalen
  const root=isolated(t),reads={},opens={};
  for(const mode of ['foreign','old','equivalent','warm-drift','warm-missing']){
   const directory=join(root,mode);mkdirSync(directory);
-  for(const path of [...paths,'tests/helpers/game-ui-extraction-source-inverse.mjs','tests/helpers/game-ui-extraction-source-layer.json','tests/helpers/game-ui-extraction-read-probe.mjs'])copy(directory,path);
+  for(const path of [...paths,...lifecycleSources,...lifecycleHelpers,'tests/helpers/game-ui-extraction-source-inverse.mjs','tests/helpers/game-ui-extraction-source-layer.json','tests/helpers/game-ui-extraction-read-probe.mjs'])copy(directory,path);
   const trace=join(root,mode+'.trace.json');
   const result=spawnSync(process.execPath,['--trace-event-file-pattern='+trace,'tests/helpers/game-ui-extraction-read-probe.mjs',mode],{cwd:directory,encoding:'utf8',timeout:30000,maxBuffer:1024*1024,windowsHide:true});
   assert.ifError(result.error);assert.equal(result.status,0,result.stdout+result.stderr);
@@ -218,8 +239,8 @@ test('real filesystem traces distinguish foreign/old inputs from fresh equivalen
   }
  }
  assert.equal(reads.foreign,0);assert.equal(reads.old,0);
- assert.equal(reads.equivalent,paths.length*2);
- assert.equal(reads['warm-drift'],paths.length);assert.equal(reads['warm-missing'],paths.length-1);
- assert.deepEqual(opens,{foreign:0,old:0,equivalent:paths.length*2,'warm-drift':paths.length,'warm-missing':paths.length});
+ assert.equal(reads.equivalent,paths.length*2+lifecycleReads*4);
+ assert.equal(reads['warm-drift'],paths.length+lifecycleReads*2);assert.equal(reads['warm-missing'],paths.length-1+lifecycleReads*2);
+ assert.deepEqual(opens,{foreign:0,old:0,equivalent:paths.length*2+lifecycleReads*4,'warm-drift':paths.length+lifecycleReads*2,'warm-missing':paths.length+lifecycleReads*2});
  process.stdout.write('GAME_UI_EXTRACTION_FS_READS '+JSON.stringify({reads,opens})+'\n');
 });
