@@ -1,10 +1,11 @@
 ---
 id: TASK-100
 title: 建立主要运行时路径的同源性能基准
-status: To Do
+status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-06 01:46'
+updated_date: '2026-11-06 02:23'
 labels: []
 milestone: m-7
 dependencies: []
@@ -27,3 +28,9 @@ ordinal: 163000
 - [ ] #2 至少三组可复现配对样本报告P50/P95与调用次数，原静止300帧重复提交有绝对计数；整体路径无未解释回退
 - [ ] #3 优化以行为等价、独立审查和实际合后Full验收；无官方候选设备证据保持UNVERIFIED并明确交接TASK-4.21
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1.复用现有Host与运行时夹具，固定当前源码摘要与确定输入。2.实现有界的代表路径离线测量入口，区分真实调用计数与VM时间，不改生产架构。3.定向合同测试及独立审查，记录未覆盖设备与完整前后比较；本切片不宣称任务完成。
+<!-- SECTION:PLAN:END -->
