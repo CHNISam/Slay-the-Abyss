@@ -1,6 +1,6 @@
 -- Opt-in offline Host measurement, not official client/device performance.
 package.path='./build/lua/?.lua;./src/lua/?.lua;'..package.path
-local counts={requireCalls=0,moduleLoads=0,nativeCalls=0,propertyWrites=0,snapshots=0}
+local counts={requireCalls=0,moduleLoads=0,nativeCalls=0,propertyWrites=0,snapshots=0,methods={},properties={}}
 local originalRequire=require
 require=function(name)
  counts.requireCalls=counts.requireCalls+1
@@ -10,7 +10,7 @@ require=function(name)
  return value
 end
 local function mark(label)
- BASELINE_MARK(label,counts.requireCalls,counts.moduleLoads,counts.nativeCalls,counts.propertyWrites,counts.snapshots)
+ BASELINE_MARK(label,counts.requireCalls,counts.moduleLoads,counts.nativeCalls,counts.propertyWrites,counts.snapshots,counts.methods,counts.properties)
 end
 local observe=dofile('scripts/runtime-baseline/observer.lua')
 local verifyTurn=dofile('scripts/runtime-baseline/turn.lua')

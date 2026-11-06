@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {phases,counters,validateSample,percentile} from '../scripts/benchmark-runtime-path.mjs';
+import {phases,counters,validateSample,percentile,validateHistogram} from '../scripts/benchmark-runtime-path.mjs';
 function sample(){
- const rows=phases.map(phase=>({phase,elapsedMs:1,...Object.fromEntries(counters.map(key=>[key,0])),memory:{rss:100,heapUsed:50}}));
- Object.assign(rows[1],{moduleLoads:2,nativeCalls:3,propertyWrites:4});rows[5].snapshots=1;
+ const rows=phases.map(phase=>({phase,elapsedMs:1,...Object.fromEntries(counters.map(key=>[key,0])),nativeMethods:{},propertyNames:{},memory:{rss:100,heapUsed:50}}));
+ Object.assign(rows[1],{moduleLoads:2,nativeCalls:3,propertyWrites:4,nativeMethods:{SetVisible:3},propertyNames:{visible:4}});rows[5].snapshots=1;
  return {rows};
 }
 test('runtime baseline requires the complete ordered path and every observer',()=>{
@@ -32,4 +32,9 @@ test('runtime turn contract rejects no-op, skipped and unfinished combat transit
  const {runLua}=await import('../scripts/test-lua.mjs');
  const result=runLua('scripts/runtime-baseline/turn-check.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/RUNTIME_TURN_CONTRACT_PASS/);
+});
+
+test('attribution totals reject missing, truncated, negative or invented buckets',()=>{
+ validateHistogram({SetVisible:2,SetImage:1},3);validateHistogram({},0);
+ for(const [histogram,total] of [[null,0],[[],0],[{},1],[{SetVisible:2},3],[{SetVisible:-1},-1],[{SetVisible:0},0],[{'':1},1]])assert.throws(()=>validateHistogram(histogram,total));
 });

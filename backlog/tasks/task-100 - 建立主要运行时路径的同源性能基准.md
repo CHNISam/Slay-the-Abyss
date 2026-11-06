@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-06 01:46'
-updated_date: '2026-11-06 02:29'
+updated_date: '2026-11-06 02:56'
 labels: []
 milestone: m-7
 dependencies: []
@@ -39,4 +39,6 @@ ordinal: 163000
 
 <!-- SECTION:NOTES:BEGIN -->
 PR #523 首份离线Host全路径基线已实现：固定实际seed、源摘要、三次独立VM、冷暖构造/回合/300帧/卡组/奖励，调用计数一致；4项定向合同测试通过。证据与边界见docs/backlog-details/TASK-100.md。尚非优化前后对照，无官方设备及合后Full，全部AC保持未勾。
+
+补充schema2逐阶段原生方法/属性名计数及总数一致性门禁，6项定向测试通过；一次诊断定位300帧写入来源，非优化结论。待#521最终组合刷新正式三样本/源摘要，不复用旧核心证据。
 <!-- SECTION:NOTES:END -->

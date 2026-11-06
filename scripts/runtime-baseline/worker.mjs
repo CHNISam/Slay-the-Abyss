@@ -5,12 +5,23 @@ const require=createRequire(import.meta.url);
 const {lua,lauxlib,lualib,to_luastring,to_jsstring}=require('fengari');
 const L=lauxlib.luaL_newstate();lualib.luaL_openlibs(L);
 const rows=[];let previous=performance.now(),before=[0,0,0,0,0];
+let beforeMethods={},beforeProperties={};
+function histogram(state,index){
+ const result={};lua.lua_pushnil(state);
+ while(lua.lua_next(state,index)!==0){
+  const key=to_jsstring(lua.lua_tostring(state,-2));
+  Object.defineProperty(result,key,{value:lua.lua_tonumber(state,-1),enumerable:true});lua.lua_pop(state,1);
+ }
+ return result;
+}
+const delta=(current,previous)=>Object.fromEntries(Object.entries(current).map(([key,value])=>[key,value-(Object.hasOwn(previous,key)?previous[key]:0)]).filter(([,value])=>value!==0));
 const keys=['requireCalls','moduleLoads','nativeCalls','propertyWrites','snapshots'];
 lua.lua_pushjsfunction(L,state=>{
  const now=performance.now(),label=to_jsstring(lua.lua_tostring(state,1));
  const current=keys.map((_,i)=>lua.lua_tonumber(state,i+2));
- rows.push({phase:label,elapsedMs:now-previous,...Object.fromEntries(keys.map((key,i)=>[key,current[i]-before[i]])),memory:process.memoryUsage()});
- previous=now;before=current;return 0;
+ const methods=histogram(state,7),properties=histogram(state,8);
+ rows.push({phase:label,elapsedMs:now-previous,...Object.fromEntries(keys.map((key,i)=>[key,current[i]-before[i]])),nativeMethods:delta(methods,beforeMethods),propertyNames:delta(properties,beforeProperties),memory:process.memoryUsage()});
+ previous=now;before=current;beforeMethods=methods;beforeProperties=properties;return 0;
 });
 lua.lua_setglobal(L,to_luastring('BASELINE_MARK'));
 const fixture=readFileSync('tests/lua/support/game_ui_fixture.lua','utf8');
