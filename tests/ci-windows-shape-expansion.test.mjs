@@ -4,7 +4,7 @@ import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {ciWindowsShapeProof as proof,preCiWindowsShapeSource} from './helpers/ci-windows-shape-source-inverse.mjs';
 import {preIntegrationSource} from './helpers/pr372-integration-source.mjs';
-import {preCiCompleteCalibrationSource} from './helpers/ci-complete-calibration-source-inverse.mjs';
+import {ciCompleteCalibrationProof,preCiCompleteCalibrationSource} from './helpers/ci-complete-calibration-source-inverse.mjs';
 import {discoverJs,partition} from '../scripts/ci-shards.mjs';
 import {shardLuaScripts} from '../scripts/test-lua.mjs';
 const hash=source=>createHash('sha256').update(source).digest('hex');
@@ -45,17 +45,17 @@ test('complete approved fourteen-shard source alone recovers the unchanged full 
  assert.equal(preCiWindowsShapeSource('scripts/foreign.mjs',proof.afterSource),proof.afterSource);
 });
 
-test('fourteen Windows and nine POSIX partitions cover every JS and raw Lua file once while the original budget remains binding',()=>{
+test('historical fourteen-slot budget retains its complete observed inventory while partition coverage includes every current file',()=>{
  const js=discoverJs(),lua=readdirSync('tests/lua').filter(name=>name.endsWith('.lua')).map(name=>'tests/lua/'+name);
  for(const [platform,count]of [['win32',14],['linux',9]]){
   const bins=Array.from({length:count},(_,i)=>jsShard(js,`${i+1}/${count}`,platform).files),union=bins.flat();
   assert.equal(new Set(union).size,union.length);assert.deepEqual(union.sort(),[...js].sort());
  }
  const short=file=>(timings.lua[file]??timings.unknownLuaMs)<10000;
- function combined(count){
-  const jsLoads=jsShard(js,`1/${count}`,'win32').loads;
-  const bins=Array.from({length:count},(_,i)=>shardLuaScripts(lua,`${i+1}/${count}`,{...timings,windowsJsShardMs:jsLoads},2));
-  assert.equal(new Set(bins.flat()).size,lua.length);assert.deepEqual(bins.flat().sort(),[...lua].sort());
+ function combined(count,jsFiles,luaFiles){
+  const jsLoads=jsShard(jsFiles,`1/${count}`,'win32').loads;
+  const bins=Array.from({length:count},(_,i)=>shardLuaScripts(luaFiles,`${i+1}/${count}`,{...timings,windowsJsShardMs:jsLoads},2));
+  assert.equal(new Set(bins.flat()).size,luaFiles.length);assert.deepEqual(bins.flat().sort(),[...luaFiles].sort());
   const observed=file=>timings.luaShard[file]??timings.lua[file]??timings.unknownLuaMs;
   return bins.map((bin,i)=>{
    const pool=[0,0];
@@ -63,8 +63,17 @@ test('fourteen Windows and nine POSIX partitions cover every JS and raw Lua file
    return jsLoads[i]+bin.filter(file=>!short(file)).reduce((sum,file)=>sum+observed(file),0)+Math.max(...pool);
   });
  }
- assert.ok(Math.max(...combined(13))+60000>=1800000,'retain the actual thirteen-slot infeasibility witness');
- assert.ok(Math.max(...combined(14))+60000<1800000,'the unchanged thirty-minute budget and sixty-second sensitivity must pass');
+ // The sealed observations identify the complete inventory of the historical
+ // fourteen-slot epoch. Later unknown files belong to the current Full
+ // budget in ci-complete-calibration.test.mjs, not to this old capacity witness.
+ const historicalJs=[...new Set(ciCompleteCalibrationProof.evidence.observations.js.map(row=>row.file))].sort();
+ const historicalLua=[...new Set(ciCompleteCalibrationProof.evidence.observations.lua.map(row=>row.file))].sort();
+ assert.equal(historicalJs.length,725);assert.equal(historicalLua.length,1356);
+ for(const file of historicalJs)assert(js.includes(file),'complete historical JS input still present: '+file);
+ for(const file of historicalLua)assert(lua.includes(file),'complete historical Lua input still present: '+file);
+ combined(13,js,lua);combined(14,js,lua); // Current raw inventory keeps both complete partition checks.
+ assert.ok(Math.max(...combined(13,historicalJs,historicalLua))+60000>=1800000,'retain the actual thirteen-slot infeasibility witness');
+ assert.ok(Math.max(...combined(14,historicalJs,historicalLua))+60000<1800000,'the unchanged thirty-minute budget and sixty-second sensitivity must pass');
  const posix=Array.from({length:9},(_,i)=>shardLuaScripts(lua,`${i+1}/9`,timings,2));
  assert.equal(new Set(posix.flat()).size,lua.length);assert.deepEqual(posix.flat().sort(),[...lua].sort());
 });

@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "baselineRevision": "5762bdd07234b1b25d2541604af773d31e7d05f7",
+  "kind": "expected ordinary public-field canonical slots; raw reflection excluded",
+  "forwardedFields": 89,
+  "groups": [
+    {
+      "facade": "abyss_boss_relics",
+      "module": "abyss_relic_family_combat",
+      "namespace": "boss",
+      "fields": [
+        "atTurnStart",
+        "battleStart",
+        "onPlayCard",
+        "onSpawnMonster",
+        "preBattle",
+        "wasHpLost"
+      ]
+    },
+    {
+      "facade": "abyss_boss_relics",
+      "module": "abyss_relic_queries",
+      "namespace": "boss",
+      "fields": [
+        "canPlay",
+        "cardRewardCount",
+        "drawBonus",
+        "energyBonus",
+        "hidesIntents",
+        "localId",
+        "retainsHand"
+      ]
+    },
+    {
+      "facade": "abyss_rare_relics",
+      "module": "abyss_relic_family_combat",
+      "namespace": "rare",
+      "fields": [
+        "applyEffect",
+        "atTurnStart",
+        "battleStart",
+        "bindBattle",
+        "blockAtTurnStart",
+        "blockPower",
+        "chooseGambling",
+        "disableTop",
+        "modifyHealing",
+        "onAttacked",
+        "onExhaust",
+        "onPlayCard",
+        "onPlayerEndTurn",
+        "onRefreshHand",
+        "onUseCard",
+        "onVictory",
+        "onVulnerableApplied",
+        "postDraw",
+        "randomCardId",
+        "rechargeEnergy"
+      ]
+    },
+    {
+      "facade": "abyss_rare_relics",
+      "module": "abyss_relic_queries",
+      "namespace": "rare",
+      "fields": [
+        "canSpawn",
+        "extraCardRewards",
+        "localId",
+        "owns"
+      ]
+    },
+    {
+      "facade": "abyss_relic_hooks",
+      "module": "abyss_relic_combat_hooks",
+      "namespace": null,
+      "fields": [
+        "afterCard",
+        "atTurnStart",
+        "battleStart",
+        "bindBattle",
+        "endTurnBlock",
+        "enqueuePostDraw",
+        "hpChanged",
+        "onPlayerEndTurn",
+        "onUseCard",
+        "onVictory",
+        "preBattle",
+        "prepareTurnStart",
+        "upgradeRandomHand",
+        "wasHpLost"
+      ]
+    },
+    {
+      "facade": "abyss_relic_hooks",
+      "module": "abyss_relic_family_combat",
+      "namespace": "common",
+      "fields": [
+        "beforeObtainCard",
+        "gainGold",
+        "onObtainCard",
+        "onPreviewObtainCard",
+        "previewCardReward"
+      ]
+    },
+    {
+      "facade": "abyss_relic_hooks",
+      "module": "abyss_relic_queries",
+      "namespace": "hooks",
+      "fields": [
+        "campHealAmount",
+        "localId",
+        "onLoseHpLast",
+        "owns",
+        "scoreAdjustment"
+      ]
+    },
+    {
+      "facade": "abyss_shop_relics",
+      "module": "abyss_relic_family_combat",
+      "namespace": "shop",
+      "fields": [
+        "battleStartActions",
+        "beginToolbox",
+        "chooseToolbox",
+        "execute",
+        "exhaustAfterUse",
+        "medicalCard",
+        "onBlockBroken",
+        "onShuffle",
+        "onUseCard",
+        "turnStartActions"
+      ]
+    },
+    {
+      "facade": "abyss_shop_relics",
+      "module": "abyss_relic_queries",
+      "namespace": "shop",
+      "fields": [
+        "aliases",
+        "drawOrderVisible",
+        "localId",
+        "owns",
+        "xBonus"
+      ]
+    },
+    {
+      "facade": "abyss_uncommon_relics",
+      "module": "abyss_relic_family_combat",
+      "namespace": "uncommon",
+      "fields": [
+        "atTurnStart",
+        "canPlayCurse",
+        "onMonsterDeath",
+        "onShuffle",
+        "onUseCard",
+        "onVictory",
+        "strikeBonus",
+        "vulnerablePercent",
+        "wasHpLost"
+      ]
+    },
+    {
+      "facade": "abyss_uncommon_relics",
+      "module": "abyss_relic_queries",
+      "namespace": "uncommon",
+      "fields": [
+        "isBottled",
+        "localId",
+        "owns",
+        "rewardCardCount"
+      ]
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 -- Sozu or a full inventory later rejects. All attempts share potionRng.
 local R=require('abyss_sts_random')
 local P=require('abyss_potion_random')
-local H=require('abyss_relic_hooks')
+local H=require('abyss_relic_queries').hooks
 local M={}
 function M.available(run,id)
  for _,definition in ipairs(run.data.potions.potions)do if definition.id==id then return true end end

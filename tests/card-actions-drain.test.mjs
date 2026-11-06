@@ -19,7 +19,8 @@ function execute(module,{trace=false}={}){
   const dir=mkdtempSync(join(tmpdir(),'card-drain-'));
   try{
     const driver=join(dir,'driver.lua');
-    writeFileSync(driver,`package.path='src/lua/?.lua;build/lua/?.lua;'..package.path;ABYSS_DRAIN_TRACE=${trace};package.loaded.abyss_card_actions=dofile(${luaString(resolve(module).replaceAll('\\','/'))});dofile(${luaString(resolve(fixture).replaceAll('\\','/'))})`);
+    const epoch=resolve(module)===resolve(old)?'frozen-rare':'current-family';
+    writeFileSync(driver,`package.path='src/lua/?.lua;build/lua/?.lua;'..package.path;ABYSS_DRAIN_EPOCH=${luaString(epoch)};ABYSS_DRAIN_TRACE=${trace};package.loaded.abyss_card_actions=dofile(${luaString(resolve(module).replaceAll('\\','/'))});dofile(${luaString(resolve(fixture).replaceAll('\\','/'))})`);
     if(!trace)return runLua(driver,{maxBuffer:64*1024,timeout:60000});
     const result=spawnSync(process.execPath,['tests/helpers/card-actions-drain-vm.mjs',driver],{encoding:'utf8',timeout:60000,maxBuffer:64*1024*1024});
     if(result.error)throw result.error;
@@ -137,8 +138,8 @@ test('real parsed drain semantic mutants fail genuine behavioral assertions',()=
     ['actionQueue pause','M.drain','while not state.pendingChoice and not state.pendingDiscard and not state.actionQueue','while not state.pendingChoice and not state.pendingDiscard'],
     ['extra pause','M.drain','while not state.pendingChoice','while not state.pendingPileChoice and not state.pendingChoice'],
     ['end turn refresh','refreshDrainedHand','not state.endTurnAfterCard and','true and'],
-    ['owns refresh','refreshDrainedHand',"rare.owns(state,'unceasing_top')",'true'],
-    ['terminal require','refreshDrainedHand',"local rare=require('abyss_rare_relics')","if outcome then return false end\n    local rare=require('abyss_rare_relics')"],
+    ['owns refresh','refreshDrainedHand',"rareQueries.owns(state,'unceasing_top')",'true'],
+    ['terminal require','refreshDrainedHand',"local rare=require('abyss_relic_family_combat').rare","if outcome then return false end\n    local rare=require('abyss_relic_family_combat').rare"],
     ['truthy refresh','M.drain','if not drew then break end','if drew~=true then break end'],
     ['owner finish','M.drain','state.drainingCardActions=nil','state.drainingCardActions=true'],
     ['tail return finish','M.drain','then combat.finishEarlyTurn(state)end','then return combat.finishEarlyTurn(state)end'],

@@ -1,26 +1,19 @@
 -- LivingWall at fixed source 319009d5. No event-pool registration here.
-local C = require('abyss_copy')
+local Candidates = require('abyss_purge_candidates')
 local Transform = require('abyss_transform_card')
 local Capability = require('abyss_card_capability')
 local Context = require('abyss_event_transform_context')
-local M = {}
+-- Keep ordinary reads and writes of the public query on the shared method slot.
+local function queryIndex(_,key)
+    if key=='purgeCards' then return Candidates[key] end
+end
+local function queryNewIndex(self,key,value)
+    if key=='purgeCards' then Candidates[key]=value
+    else rawset(self,key,value) end
+end
+local M = setmetatable({}, {__index=queryIndex,__newindex=queryNewIndex})
 local function find(entries,id,key)
     for i,entry in ipairs(entries) do if entry[key or 'id']==id then return entry,i end end
-end
-local protected = {Necronomicurse=true,CurseOfTheBell=true,AscendersBane=true,
-    necronomicurse=true,curse_of_the_bell=true,ascenders_bane=true}
-function M.purgeCards(run)
-    local rows={}
-    for _,card in ipairs(run.deck) do
-        local context=run.transformContext
-        local source=context and context.cards and context.cards[card.cardId]
-        local sourceId=source and source.sourceId or card.cardId
-        if not protected[sourceId] and not protected[card.cardId] and not card.inBottleFlame and not card.inBottleLightning and not card.inBottleTornado then
-            -- Source addToTop is group.add(c), preserving masterDeck order.
-            rows[#rows+1]=C.copy(card)
-        end
-    end
-    return rows
 end
 -- Context is supplied by the complete source-pool owner, never synthesized
 -- from the smaller playable catalog. Unsupported draws are atomic refusals.
@@ -56,7 +49,7 @@ function M.choose(run,flow,choice,uid,upgradeable,upgradeCards)
     end
     -- Explicit UID commands must select a currently legal card, even when the
     -- previously displayed group has gone empty. Never turn stale input into success.
-    local instance,position=find(run.deck,uid,'uid')
+    local instance=find(run.deck,uid,'uid')
     if not instance then return false,'invalid_card' end
     if choice=='grow' then
         if not upgradeable(run,instance) then return false,'card_not_upgradeable' end

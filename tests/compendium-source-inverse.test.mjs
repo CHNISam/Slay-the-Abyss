@@ -7,9 +7,10 @@ import {tmpdir} from 'node:os';
 import {pathToFileURL} from 'node:url';
 import {preCompendiumSource} from './helpers/compendium-source-inverse.mjs';
 import {gameUiExtractionProof,gameUiExtractionAddedPaths} from './helpers/game-ui-extraction-source-inverse.mjs';
+import {preRelicQuerySource} from './helpers/relic-query-source-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 // Normalize checkout endings before constructing the explicit CRLF variant.
-const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
+const read=p=>preRelicQuerySource(p,readFileSync(p,'utf8').replaceAll('\r\n','\n'));
 test('compendium inverse restores exact pre-change bytes and leaves unrelated edits visible',()=>{
  for(const [path,expected]of [
   ['config/architecture.json','8c6e10716cb4ba38d49f9164d6349e8eb2a80ca13b6c364f69181a056b7bfdbf'],
@@ -88,8 +89,8 @@ test('warm Runtime projections still reread actual linked host files and reject 
  const root=mkdtempSync(join(tmpdir(),'compendium-runtime-'));
  t.after(()=>rmSync(root,{recursive:true,force:true}));
  const owners=['src/lua/abyss_game_ui.lua','src/lua/abyss_compendium_catalog.lua','src/lua/abyss_relic_text.lua','src/lua/abyss_node_ui_faces.lua'];
- for(const path of [...owners,...gameUiExtractionAddedPaths,'config/architecture.json','tests/helpers/compendium-source-inverse.mjs','tests/helpers/architecture-source-format.mjs','tests/helpers/game-ui-extraction-source-inverse.mjs','tests/helpers/game-ui-extraction-source-layer.json']){
-  const target=join(root,path);mkdirSync(dirname(target),{recursive:true});copyFileSync(path,target);
+ for(const path of [...owners,...gameUiExtractionAddedPaths,'src/lua/abyss_actor.lua','src/lua/abyss_combat.lua','src/lua/abyss_actor_power_rules.lua','config/architecture.json','tests/helpers/core-lifecycle-source-inverse.mjs','tests/helpers/actor-lifecycle-before.lua','tests/helpers/combat-lifecycle-before.json','tests/helpers/relic-query-source-inverse.mjs','tests/helpers/relic-query-baseline-391306af.json.gz','tests/helpers/query-living-wall-before.lua','tests/helpers/relic-lifecycle-baseline-391306af.json.gz','tests/helpers/relic-lifecycle-architecture-source-inverse.json','tests/helpers/compendium-source-inverse.mjs','tests/helpers/architecture-source-format.mjs','tests/helpers/game-ui-extraction-source-inverse.mjs','tests/helpers/game-ui-extraction-source-layer.json']){
+  const target=join(root,path);mkdirSync(dirname(target),{recursive:true});if(path==='config/architecture.json'||path==='src/lua/abyss_actor.lua'||path==='src/lua/abyss_combat.lua')writeFileSync(target,read(path));else copyFileSync(path,target);
  }
  const {preCompendiumSource:project}=await import(pathToFileURL(join(root,'tests/helpers/compendium-source-inverse.mjs')).href);
  const host=owners[0],source=read(host),file=join(root,host);

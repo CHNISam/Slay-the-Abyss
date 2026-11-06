@@ -129,16 +129,17 @@ export function readHistoricalPlayerDeathInput(path){
  assert.ok(Object.hasOwn(context.files,path),'registered original player-death input: '+path);
  return context.files[path].source;
 }
-export function withHistoricalBaseline(callback){
- assert.equal(typeof callback,'function','historical cwd callback');
- assert.notEqual(callback.constructor.name,'AsyncFunction','historical cwd callbacks must be synchronous');
- const previous=process.cwd(),directory=mkdtempSync(join(tmpdir(),'abyss-source-contract-'));
+export function createHistoricalBaseline(){
+ const directory=mkdtempSync(join(tmpdir(),'abyss-source-contract-'));
  try{
   // Every call gets real new files. Mutations in another case or working tree
   // can never be reused as a historical source or linked-owner validation.
-  for(const [path,source]of Object.entries(loadHistoricalBaselineInputs())){
+  const inputs=loadHistoricalBaselineInputs(),directories=new Set();
+  for(const [path,source]of Object.entries(inputs)){
    const target=historicalInputPath(directory,path);
-   mkdirSync(dirname(target),{recursive:true});writeFileSync(target,source);
+   const parent=dirname(target);
+   if(!directories.has(parent)){mkdirSync(parent,{recursive:true});directories.add(parent);}
+   writeFileSync(target,source);
   }
   // Immutable oracle records stay at their real location. No source directory
   // is aliased, and historical helpers never write into these oracle folders.
@@ -147,6 +148,16 @@ export function withHistoricalBaseline(callback){
    const target=join(directory,path);mkdirSync(dirname(target),{recursive:true});
    symlinkSync(original,target,process.platform==='win32'?'junction':'dir');
   }
+  return {directory,inputs};
+ }catch(error){
+  rmSync(directory,{recursive:true,force:true});throw error;
+ }
+}
+export function withHistoricalBaseline(callback){
+ assert.equal(typeof callback,'function','historical cwd callback');
+ assert.notEqual(callback.constructor.name,'AsyncFunction','historical cwd callbacks must be synchronous');
+ const previous=process.cwd(),{directory}=createHistoricalBaseline();
+ try{
   process.chdir(directory);
   const result=callback();
   assert.ok(!result||typeof result.then!=='function','historical cwd callbacks must be synchronous');

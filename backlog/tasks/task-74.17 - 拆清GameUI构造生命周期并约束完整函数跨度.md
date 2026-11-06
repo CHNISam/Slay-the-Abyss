@@ -1,11 +1,11 @@
 ---
 id: TASK-74.17
 title: 拆清GameUI构造生命周期并约束完整函数跨度
-status: In Progress
+status: Done
 assignee:
   - Furinya
 created_date: '2026-11-04 22:58'
-updated_date: '2026-11-05 06:35'
+updated_date: '2026-11-06 01:47'
 labels: []
 milestone: m-7
 dependencies: []
@@ -29,7 +29,7 @@ GameUI完整构造器跨度1004行，11处私有UI职责复杂度超过15；构�
 <!-- AC:BEGIN -->
 - [x] #1 入口文件不超过250行、M.new完整跨度不超过200行，其余函数含嵌套不超过150行；职责模块不超过1000行且全部函数与初始化块复杂度不超过15，当前采集可执行门禁拒绝缺测和超限
 - [x] #2 完整旧新Host独立VM差分覆盖状态别名、随机、返回与异常、原生写入顺序、同步重入、双Host和陈旧输入；真实关键语义变异被拒绝，原历史来源验证每次新鲜且不放宽旧合同
-- [ ] #3 独立深审、精确HEAD与实际合入提交完整CI和原交付验证器通过，未实测设备边界保持未完成
+- [x] #3 独立深审、精确HEAD与实际合入提交完整CI和原交付验证器通过，未实测设备边界保持未完成
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -54,4 +54,12 @@ PR516首轮Full41958033163暴露旧入口源码断言与仓库内历史副本路
 来源97bb的Full41965082090为25成功/2失败/1预期skip，唯一测试失败Win1/14 job127041092812：旧Host seed6结果窗25至27执行done27后触及原30秒，另一失败为汇总；原入口已暂停并读回。原trace43822855bytes保留，单纯细分/直接写出均不作为fix。profile确认每帧187507节点822386字段，重复push proxy分配为热点；单call typed reference proxy复用prototype16.101秒且完整bytes/节点/字段同原，不缓存状态或跨call验证。新8VM及语义变异/独审进行中，预算与所有原窗口保持，AC3仍不勾。
 
 最终保留原四result pairs与全部三checkpoint窗口，拒绝会漏暂不可达对象重现身份的split，真实反例加在原文件防回退。单observe引用代理复用不缓存字段/图/验证；原4pairs8VM全部通过、max17.227秒，353333166解码字节逐侧等原before；4parsed mutants真实kill/12VM成功，strength7及微测试/delta5通过。注册61case/112VM计划不变，只重跑具名切片，不称全61重跑；独立对照旧/新返回与WRITE实际6581bytes一致。原30s/32MiB/128MiB与full图保持，下一精确Full待，AC3不勾。
+
+2026-11-06复核：PR516源码随PR520合入dedb9ed5，来源42057661663/队列42068824052/push42074603577完整Full通过；原merged_passed回执及最终独审已读回，详见M7-DELIVERY-20261106。设备边界未代验。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Host职责拆分及绝对跨度门禁已随PR520交付；完整差分、真实变异、独立深审和精确三事件Full及原合后验证闭环。详见docs/backlog-details/M7-DELIVERY-20261106.md。
+<!-- SECTION:FINAL_SUMMARY:END -->

@@ -131,13 +131,6 @@
       "message": "unused argument 'state'"
     },
     {
-      "file": "src/lua/abyss_living_wall.lua",
-      "line": 59,
-      "column": 20,
-      "code": "W211",
-      "message": "unused variable 'position'"
-    },
-    {
       "file": "src/lua/abyss_looter_ai.lua",
       "line": 40,
       "column": 24,

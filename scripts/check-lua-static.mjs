@@ -94,8 +94,21 @@ export function reviewRenderComplexity(diagnostics, sources) {
 // Budget only this governance slice and every extracted responsibility module.
 // Unrelated pre-existing Combat/UI hotspots keep their diagnostic reports.
 const responsibilityRoots = {
+  'src/lua/abyss_relic_combat_hooks.lua': [],
+  'src/lua/abyss_relic_family_combat.lua': [],
+  'src/lua/abyss_purge_candidates.lua': [],
+  'src/lua/abyss_living_wall.lua': ["function 'queryIndex'","function 'queryNewIndex'"],
+  'src/lua/abyss_relic_queries.lua': [],
+  ...Object.fromEntries(['relic_hooks','uncommon_relics','rare_relics','boss_relics','shop_relics']
+    .map(name=>[`src/lua/abyss_${name}.lua`,["function 'queryIndex'","function 'queryNewIndex'"]])),
+  'src/lua/abyss_actor_power_rules.lua': [],
   'src/lua/abyss_combat_reactions.lua': ["function 'M.enqueue'", "function 'M.enqueueReaction'"],
   'src/lua/abyss_actor.lua': [
+    ...['M.status','M.applyPower','M.addStatus','M.endTurn'].map(name=>`function '${name}'`),
+    ...['updatePlayerStatusOrder','updateMonsterStatusOrder','markRoundDebuffApplication',
+      'preparePowerAmount','rememberConstrictedSource','rememberPostDrawPower',
+      'clearOwnerEntangled','appendAcquiredEndPower','collectOwnerEndPowers','settleOwnerEndPower',
+      'clearTemporaryPowerOrder','settleOwnerEndPowers','finishOwnerTurn'].map(name=>`function '${name}'`),
     ...['damageAmount','consumeAttackBlock','modifyIncomingAttack','applyAttackHpLoss',
       'queueHitPowers','queueAttackedPowers','M.damage'].map(name=>`function '${name}'`),
     ...['monsterStatusIds','playerStatusIds','statusKind','statusEntry','statusResource',
@@ -135,6 +148,9 @@ const responsibilityRoots = {
       'nonConditionalOpSupported','selectionAmountsSupported','mantraAmountSupported',
       'effectMetadataSupported','supported','M.supported'].map(name=>`function '${name}'`)],
   'src/lua/abyss_combat.lua': [
+    ...['M.damage','draw'].map(name=>`function '${name}'`),
+    ...['damagePoison','damageThornsCallback','damagePreview','recordDamagePreview','completeDamage',
+      'notifyDrawShuffle','drawSourcePile','drawVoid','drawStatusPowers','applyDrawHooks'].map(name=>`function '${name}'`),
     ...['previewDamage','directAttackPreview','finalAttackPreview','targetedEffectPreview',
       'damageEffectPreview','blockEffectPreview','previews','M.cardPreview'].map(name=>`function '${name}'`),
     ...['baseCardDefinition','nativeStrikeDefinition','classCardDefinition','damageCardDefinition',
@@ -194,8 +210,18 @@ const responsibilityRoots = {
 // All Run orchestration and newly extracted Run helpers receive the full budget.
 const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|combat_catalog|combat_reactions|combat_native_play|combat_queued_play|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui(?:_.+)?|game_ui_.+|run(?:_(?!(?:card_catalog|red_card_contract|seed)\.lua$).+)?|nodes(?:_.+)?)\.lua$/.test(file);
 const completeResponsibility = file => responsibilityHelper(file)
+  || file==='src/lua/abyss_relic_combat_hooks.lua'
+  || file==='src/lua/abyss_relic_family_combat.lua'
+  || file==='src/lua/abyss_purge_candidates.lua'
+  || file==='src/lua/abyss_relic_queries.lua'
+  || file==='src/lua/abyss_actor_power_rules.lua'
   || file==='src/lua/abyss_card_actions.lua' || file==='src/lua/abyss_game_ui.lua';
-export function reviewModuleSize(sources, budgets = {'src/lua/abyss_run.lua': 1000, 'src/lua/abyss_nodes.lua': 1000}) {
+export function reviewModuleSize(sources, budgets = {'src/lua/abyss_run.lua': 1000, 'src/lua/abyss_nodes.lua': 1000,
+  'src/lua/abyss_relic_combat_hooks.lua':1000,
+  'src/lua/abyss_relic_family_combat.lua':1000,
+  'src/lua/abyss_purge_candidates.lua':1000,
+  'src/lua/abyss_relic_queries.lua':1000,
+  'src/lua/abyss_actor.lua':1000,'src/lua/abyss_actor_power_rules.lua':1000}) {
   const modules = [], errors = [];
   for (const [file, limit] of Object.entries(budgets)) {
     if (!(file in sources)) { errors.push({file, message:'Required size-governed module missing'}); continue; }

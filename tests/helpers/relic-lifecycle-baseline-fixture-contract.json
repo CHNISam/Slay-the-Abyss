@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "normalization": "LF",
+  "fixtures": {
+    "fatal": {
+      "path": "tests/lua/fatal_hp_loss_callbacks.lua",
+      "sha256": "a22380ec83214ee7a3780ef91b6663d8d38751c76ba625f67257428305ebab19",
+      "dispatcher": "local function test(name,fn)"
+    },
+    "turns": {
+      "path": "tests/lua/common_relic_turns.lua",
+      "sha256": "529069476443ec8916fcbbb12558499a4c7870b84aab25666e015c05c31b054c",
+      "dispatcher": "local function test(name,f)"
+    },
+    "attacks": {
+      "path": "tests/lua/common_relic_attacks.lua",
+      "sha256": "a85ff909c7b4c6115a5132e772400ba79f0e8fabfa7e5b0846d1fd8050d0a676",
+      "dispatcher": "local function test(name,f)"
+    },
+    "uncommon": {
+      "path": "tests/lua/uncommon_relics_lifecycle.lua",
+      "sha256": "e3d6b985af2ed633a99b5cc3ef4cd90b8e2241d48c4f8b45653809e0160e4786",
+      "dispatcher": "local function test(name,f)"
+    },
+    "shop": {
+      "path": "tests/lua/shop_relics_effects.lua",
+      "sha256": "aa296ae81896c2dfb36356dc37ffe019ac59385cf6e3bc12b6980d8c4702793d",
+      "dispatcher": "local function test(name,f)"
+    },
+    "parasite": {
+      "path": "tests/lua/act3_writhing_parasite.lua",
+      "sha256": "7b06fd90e1672c11c3bb58fcca2fb66baad9274c0750e004a35b74bd8387516d",
+      "dispatcher": "local function test(name,fn)"
+    }
+  }
+}

@@ -168,7 +168,7 @@ function M.planEffect(state,effect,context)
   assert(context.chemicalX==nil or context.chemicalX==false or context.chemicalX==0,'unsupported Collect Chemical X context override')
   assert(context.freeToPlayOnce==nil or type(context.freeToPlayOnce)=='boolean','invalid Collect free flag')
   local n=context.energyOnUse;if n==nil or n==-1 then n=state.energy end
-  n=int(int(n)+0.0+effect.value+require('abyss_shop_relics').xBonus(state))
+  n=int(int(n)+0.0+effect.value+require('abyss_relic_queries').shop.xBonus(state))
   if n>0 then p.bottom[1]=gain('collect',math.min(999,n));p.consumeAllEnergy=context.freeToPlayOnce~=true end
  elseif op=='triggerMarks'then
   assert(effect.value==1,'invalid mark trigger')

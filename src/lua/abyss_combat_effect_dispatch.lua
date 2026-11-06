@@ -17,15 +17,15 @@ local function endingReactions(combat,state,effect)
 end
 local function relicActions(combat,state,effect)
     if effect.op=='shopRelic'and effect.kind=='toolbox'then
-        require('abyss_shop_relics').beginToolbox(combat,state)
+        require('abyss_relic_family_combat').shop.beginToolbox(combat,state)
         return true,'pause'
     end
     if effect.op=='relicUpgradeRandomHand'then
-        require('abyss_relic_hooks').upgradeRandomHand(combat,state)
+        require('abyss_relic_combat_hooks').upgradeRandomHand(combat,state)
         return true,true
     end
     if effect.op=='rareGamblingChip'then
-        require('abyss_rare_relics').applyEffect(combat,state,effect)
+        require('abyss_relic_family_combat').rare.applyEffect(combat,state,effect)
         return true,'pause'
     end
     return false
@@ -115,7 +115,7 @@ local function executeRounds(c,context,target)
     if effect.op == "whirlwind" then
         local rounds=context.energyOnUse
         assert(type(rounds)=="number" and rounds%1==0 and rounds>=0 and rounds<=2147483647,"invalid X snapshot")
-        rounds=rounds+require('abyss_shop_relics').xBonus(state)
+        rounds=rounds+require('abyss_relic_queries').shop.xBonus(state)
         assert(rounds<=2147483647,'X bonus overflow')
         if rounds>0 then
             queue.pushBottom(state,{kind="effect",effect={op="whirlwindRounds",remaining=rounds,matrix=effect.matrix}})

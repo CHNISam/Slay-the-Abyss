@@ -86,7 +86,7 @@ function M.bindMaster(s,deck,nextUid)
 end
 function M.obtainParasite(s,source)
  assert(isMass(source),'Parasite requires Writhing Mass')
- local Relics=require('abyss_relic_hooks')
+ local Relics=require('abyss_relic_family_combat').common
  local definition=assert(s.catalog.cards.parasite,'missing permanent Parasite')
  assert(definition.type=='curse'and definition.onRemoveMaxHpLoss==3,'invalid Parasite definition')
  local context={phase='combat',combat=s,relics=s.relics,relicCounters=s.relicCounters,gold=s.player.gold,scoreStats=s.scoreStats}

@@ -3,11 +3,12 @@
 local Actors=require('abyss_actor')
 local EnemyAI=require('abyss_enemy_ai')
 local CardActions=require('abyss_card_actions')
-local RelicHooks=require('abyss_relic_hooks')
-local Rare=require('abyss_rare_relics')
-local Boss=require('abyss_boss_relics')
-local Uncommon=require('abyss_uncommon_relics')
-local ShopRelics=require('abyss_shop_relics')
+local RelicHooks=require('abyss_relic_combat_hooks')
+local Rare=require('abyss_relic_family_combat').rare
+local Boss=require('abyss_relic_family_combat').boss
+local Uncommon=require('abyss_relic_family_combat').uncommon
+local ShopRelics=require('abyss_relic_family_combat').shop
+local ShopRelicsQueries=require('abyss_relic_queries').shop
 local Awakened=require('abyss_awakened_one')
 local copy=require('abyss_copy').copy
 local M={}
@@ -68,7 +69,7 @@ local function effectItems(combat,state,card,targetIndex,x,free)
         if not(effect.targetGroup and card.effects[i-1]and card.effects[i-1].targetGroup)then
             local e=prepareEffect(combat,state,copy(effect),targetIndex,x,card,free)
             if e.targetGroup then e={op='effectBatch',effects={e,copy(card.effects[i+1])}}end
-            if e.times=='X'then e.times=x+ShopRelics.xBonus(state);if e.times==0 then e=nil end end
+            if e.times=='X'then e.times=x+ShopRelicsQueries.xBonus(state);if e.times==0 then e=nil end end
             if e then items[#items+1]=e end
         end
     end

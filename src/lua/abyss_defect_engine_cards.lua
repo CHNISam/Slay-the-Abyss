@@ -213,7 +213,7 @@ function M.planEffect(state,effect,context)
   local x=context.energyOnUse;if x==nil or x==-1 then x=state.energy end;integer(x)
   assert(context.freeToPlayOnce==nil or type(context.freeToPlayOnce)=='boolean','invalid X free flag')
   assert(not context.chemicalX or context.chemicalX==0,'Chemical X context override unsupported')
-  local count=add(add(x,effect.value),require('abyss_shop_relics').xBonus(state))
+  local count=add(add(x,effect.value),require('abyss_relic_queries').shop.xBonus(state))
   local hasOrb=state.orbs and #state.orbs.balls>0
   if count>0 and (op=='tempestOrbs' or hasOrb)then
    p.consumeAllEnergy=context.freeToPlayOnce~=true

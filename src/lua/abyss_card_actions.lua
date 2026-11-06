@@ -47,7 +47,7 @@ function M.exhaust(combat, state, instance, pile)
     -- card hook. Dark Embrace/FNP append; Sentinel inserts at the top.
     state.exhaust[#state.exhaust+1] = instance
     Events.emit(state, "exhaust", {uid=instance.uid,cardId=instance.cardId})
-    require('abyss_rare_relics').onExhaust(state)
+    require('abyss_relic_family_combat').rare.onExhaust(state)
     local p = state.player
     for _,id in ipairs(Actors.powerSequence(p,{'dark_embrace','feel_no_pain'})) do
         if id=='dark_embrace' and not combat.outcome(state) then
@@ -378,7 +378,7 @@ local function obtainPotion(_,state,item)
         return
     end
     return require('abyss_potion_generation').obtain(state.potionInventory,state.potionCapacity,e.id,
-        require('abyss_relic_hooks').owns(state,'sozu'))
+        require('abyss_relic_queries').hooks.owns(state,'sozu'))
 end
 
 local function doubleStrength(_,state,item)
@@ -412,7 +412,7 @@ local function feedReward(state,source,amount)
     if state.originalV4 and source==state.player then require('abyss_original_v4_health').heal(state,source,healing,nil,'feed')
     else source.hp=math.min(source.maxHp,source.hp+healing)end
     Events.emit(state,"max_hp",{amount=amount,target=source.id})
-    require('abyss_relic_hooks').hpChanged(state,source,beforeHp)
+    require('abyss_relic_combat_hooks').hpChanged(state,source,beforeHp)
 end
 
 local function feed(combat,state,item)
@@ -442,7 +442,7 @@ local function heal(_,state,item)
         local beforeHp=source.hp
         source.hp=source.hp+amount
         Events.emit(state,"heal",{target=source.id,amount=amount})
-        require('abyss_relic_hooks').hpChanged(state,source,beforeHp)
+        require('abyss_relic_combat_hooks').hpChanged(state,source,beforeHp)
     end
 end
 
@@ -456,7 +456,7 @@ local function block(combat,state,item)
 end
 
 local function rareRelic(combat,state,item)
-    require('abyss_rare_relics').applyEffect(combat,state,item.effect)
+    require('abyss_relic_family_combat').rare.applyEffect(combat,state,item.effect)
 end
 
 -- Execution is deliberately broader than supports(), which controls admission
@@ -473,8 +473,8 @@ local actionHandlers={
     rareGamblingChip=rareRelic,rareRelicGenerate=rareRelic,rareRelicDamageAll=rareRelic,rareRelicWeak=rareRelic,
 }
 function actionHandlers.shopRelic(combat,state,item)
-    if item.effect.kind=='toolbox'then return require('abyss_shop_relics').beginToolbox(combat,state)end
-    return require('abyss_shop_relics').execute(state,item.effect)
+    if item.effect.kind=='toolbox'then return require('abyss_relic_family_combat').shop.beginToolbox(combat,state)end
+    return require('abyss_relic_family_combat').shop.execute(state,item.effect)
 end
 function actionHandlers.writhingRoll(_,state,item)return require('abyss_writhing_mass').roll(state,item.effect.targetId)end
 function actionHandlers.writhingParasite(_,state,item)return require('abyss_writhing_mass').obtainParasite(state,item.source)end
@@ -488,7 +488,7 @@ function actionHandlers.silentFinal(combat,state,item)return require('abyss_sile
 function actionHandlers.discover(combat,state,item)return require('abyss_potion_discovery').begin(combat,state,item.effect)end
 function actionHandlers.colorless(combat,state,item)return require('abyss_colorless_cards').apply(combat,state,item)end
 function actionHandlers.originalV4(combat,state,item)return require('abyss_original_v4').execute(combat,state,item)end
-function actionHandlers.relicUpgradeRandomHand(combat,state)require('abyss_relic_hooks').upgradeRandomHand(combat,state)end
+function actionHandlers.relicUpgradeRandomHand(combat,state)require('abyss_relic_combat_hooks').upgradeRandomHand(combat,state)end
 function actionHandlers.playTop(combat,state,item)
     local e=item.effect
     combat.autoplayTop(state,e.targetIndex,e.exhaustCards,e.append)
@@ -525,8 +525,9 @@ local function applyDrainedAction(combat,state,item,outcome)
 end
 local function refreshDrainedHand(state,outcome)
     -- Refresh observes the empty manager, then its draw joins this owner.
-    local rare=require('abyss_rare_relics')
-    return not outcome and not state.endTurnAfterCard and rare.owns(state,'unceasing_top')
+    local rare=require('abyss_relic_family_combat').rare
+    local rareQueries=require('abyss_relic_queries').rare
+    return not outcome and not state.endTurnAfterCard and rareQueries.owns(state,'unceasing_top')
         and rare.onRefreshHand(state,true)
 end
 function M.drain(combat,state)

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-11-05 02:27'
+updated_date: '2026-11-06 04:25'
 labels: []
 milestone: m-7
 dependencies: []
@@ -159,10 +159,16 @@ a73新基线重放后49/49定向测试通过（42源码/架构消费者+7反应/
 2026-11-05已复核PR514最终a245、base a308、实际squash78e4e746及相同tree；PR Full41914042810、merge_group41918738466及push41923895912和对应Licenses成功。本轮独立复审40项/35语义变异及新增scry负例PASS；主控原工程门禁和119项CI合同通过。证据见docs/backlog-details/M7-CLOSEOUT-20261105.md及docs/evidence/m7-closeout-20261105/。本轮新独审不补造合前reviewId或schema5历史收据；M7稳定耗时/Fast样本与设备仍未完成。
 
 保留PR515已交付收口与全部原证据；本轮已新增74.17/74.18运行时切片，父任务据新工作重开。当前基线87c944f3，GameUI/队列本地及独审推进，当前精确HEAD与实际合后Full尚待，AC11按本批保持未完成；既有已Done子任务不重开。
+
+2026-11-06：74.17/18随PR520完成交付，AC11由实际dedb9ed5三事件Full及原merged_passed证明。新增74.19/20承接漏登依赖所有权与高风险复杂度，父任务保持In Progress；架构优先，其次多agent协作，最后速度。
+
+PR521随后纳入74.20六核心职责与Power叶模块，父AC11涉及本轮当前HEAD，故经CLI重新取消勾选，等待新组合精确Full与实际合后。PR520的Host/drain历史交付和74.17/18 Done保持，不把旧dedb绿灯借给新源码。
+
+PR521来源Full通过后，merge_group 42157763480的rules5/16真实失败：Sapphire冻结夹具30秒总预算内准备约16.3秒，Lua首分片剩13.694秒超时，已过1至6组。已通过merge:auto --pause暂停并读回391306af。定位历史准备重复写1795+1779两套树；正在保留原历史epoch、fresh校验、21组断言及30秒预算，改为单私有树先全计划后写入。验收继续未勾，失败日志与修复验证按本轮留证。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
-已合PR514交付余项完成：精确源码树/完整PR与合后CI及本轮独审通过，保留性能与设备边界；详见M7-CLOSEOUT-20261105。
+已交付Host与drain切片的精确三事件Full及原合后验证闭环；父任务因74.19/20架构余项继续In Progress，不宣称全库架构完成。
 <!-- SECTION:FINAL_SUMMARY:END -->

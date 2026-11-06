@@ -65,9 +65,9 @@ function M.plan(s,instance,options)
     local relicHooks=options.onExhaustRelics or {}
     dense(relicHooks)
     for _,id in ipairs(relicHooks)do
-        id=require('abyss_rare_relics').localId(id)
+        id=require('abyss_relic_queries').rare.localId(id)
         assert(id=='charons_ashes'or id=='dead_branch','unsupported exhaust relic hook')
-        assert(require('abyss_rare_relics').owns(s,id),'unowned exhaust relic hook')
+        assert(require('abyss_relic_queries').rare.owns(s,id),'unowned exhaust relic hook')
     end
     assert(not def.onExhaust and not def.exhaustEffects
         and not def.exhaustTrigger,'unsupported card exhaust hook')
@@ -80,7 +80,7 @@ function M.plan(s,instance,options)
     local fnp,de=amount(powers.feel_no_pain),amount(powers.dark_embrace)
     assert((fnp==0 or seen.feel_no_pain) and (de==0 or seen.dark_embrace),'missing exhaust power order')
     local plan={top={},bottom={}}
-    require('abyss_rare_relics').onExhaust(s,function(_,e,top)
+    require('abyss_relic_family_combat').rare.onExhaust(s,function(_,e,top)
         local list=top and plan.top or plan.bottom
         list[#list+1]={kind='effect',effect=e}
     end)

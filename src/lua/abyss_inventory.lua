@@ -2,7 +2,8 @@
 -- Callers execute on an uncommitted battle: a refusal may discard this candidate safely.
 local Combat = require("abyss_combat")
 local Actors = require("abyss_actor")
-local RelicHooks = require('abyss_relic_hooks')
+local RelicHooks = require('abyss_relic_combat_hooks')
+local RelicHooksQueries=require('abyss_relic_queries').hooks
 local M = {}
 local supported = { classPotion=true, silentGhost=true, silentShivs=true, generatePotions=true, discover=true, channelOrb=true, makeMiracle=true, damage = true, damageAll = true, upgradeHand = true, healPercent = true, increaseMaxHp = true, block = true, draw = true, energy = true,
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,escape=true,playTopCards=true,
@@ -18,7 +19,7 @@ local bossRelics = { black_blood = true, slavers_collar = true, sozu = true, cof
 local fixedPotionEffects={escape=true,generatePotions=true,randomizeHandCost=true}
 function M.potionValue(owner,effect)
     local value=effect.value
-    if value and not fixedPotionEffects[effect.op] and RelicHooks.owns(owner or {},'sacred_bark') then return value*2.0 end
+    if value and not fixedPotionEffects[effect.op] and RelicHooksQueries.owns(owner or {},'sacred_bark') then return value*2.0 end
     return value
 end
 
@@ -40,7 +41,7 @@ function M.energyBonus(definitions, owned, tier)
         local relic
         for _, entry in ipairs(definitions) do if entry.id == id then relic = entry; break end end
         if not relic then return nil, "unknown_relic" end
-        bonus=bonus+require('abyss_boss_relics').energyBonus(id)
+        bonus=bonus+require('abyss_relic_queries').boss.energyBonus(id)
         if relic.trigger == "turn_start" then
             if id ~= "sozu" and id ~= "slavers_collar" and id~='coffee_dripper' and id~='fusion_hammer' then return nil, "unsupported_turn_relic:" .. id end
             local eligible = not relic.encounterTiers
@@ -85,7 +86,7 @@ function M.opening(definitions, owned, persistentCounters, context)
             elseif position == "battle_top" then table.insert(battleTop, 1, relic.effects)
             else bottom[#bottom + 1] = relic.effects end
         end
-        for _,effect in ipairs(require('abyss_shop_relics').battleStartActions({relics={id}},context))do
+        for _,effect in ipairs(require('abyss_relic_family_combat').shop.battleStartActions({relics={id}},context))do
             if effect.top then table.insert(battleTop,1,{effect})else bottom[#bottom+1]={effect}end
         end
     end
@@ -105,7 +106,7 @@ function M.applyOpening(state, groups)
     if groups.relics then
         RelicHooks.bindBattle(state,groups.relics,groups.relicCounters)
         RelicHooks.preBattle(state,groups.relicContext)
-        if RelicHooks.owns(state,'enchiridion')then
+        if RelicHooksQueries.owns(state,'enchiridion')then
             require('abyss_act2_event_relics').preBattle(Combat,state,require('abyss_card_actions'),require('abyss_card_capability').isImplemented)
         end
     end

@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFileSync,existsSync,realpathSync,rmSync} from 'node:fs';
 import {join,relative,isAbsolute} from 'node:path';
+import {preCoreLifecycleSource,coreLifecycleReader} from './core-lifecycle-source-inverse.mjs';
 const normalize=s=>s.replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const tokens=s=>s.replace(/"(?:\\.|[^"\\])*"|[ \t\r\n]+/g,t=>t.startsWith('"')?t:'');
@@ -47,9 +48,11 @@ function validate(readSource){
  }
 }
 export function preGameUiExtractionSource(path,source,{readSource=readLive}={}){
+ readSource=rawReaders.get(readSource)??readSource;
+ source=preCoreLifecycleSource(path,source,{readSource});
  // Reject path/type/hash/token drift before reading any detached owner.
  if(!identity(path,source))return source;
- validate(readSource);
+ validate(coreLifecycleReader(readSource));
  return proof.files[path].beforeSource;
 }
 export function gameUiExtractionReader(readSource=readLive){

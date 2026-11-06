@@ -28,8 +28,8 @@ test('Actor damage and all extracted pipeline responsibilities have complete CC1
 });
 test('damage modifiers, snapshot bounds and retaliation-order mutations fail actual behavior',()=>{
   const source=readFileSync('src/lua/abyss_actor.lua','utf8').replaceAll('\r\n','\n');
-  const rare="    if target==state.player then unblocked=require('abyss_rare_relics').onAttacked(state,source,fixed and 'thorns'or 'normal',unblocked)end";
-  const last="    if target==state.player then unblocked=require('abyss_relic_hooks').onLoseHpLast(state,unblocked)end";
+  const rare="    if target==state.player then unblocked=require('abyss_relic_family_combat').rare.onAttacked(state,source,fixed and 'thorns'or 'normal',unblocked)end";
+  const last="    if target==state.player then unblocked=require('abyss_relic_queries').hooks.onLoseHpLast(state,unblocked)end";
   const mutations=[
     ['fixed Boot','source==state.player and not fixed and unblocked>0','source==state.player and unblocked>0'],
     ['snapshot integer bound','normalAmount<=9007199254740991','normalAmount<=9007199254740992'],

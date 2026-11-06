@@ -20,7 +20,7 @@ function M.heal(state,actor,requested,category,origin)
     local before=actor.hp;actor.hp=actor.hp+amount;v.healUsed=v.healUsed+amount
     Events.emit(state,'heal',{target=actor.id,amount=amount,origin=origin or 'original_v4'})
     M.hpEvent(state,amount)
-    require('abyss_relic_hooks').hpChanged(state,actor,before)
+    require('abyss_relic_combat_hooks').hpChanged(state,actor,before)
     return amount
 end
 return M
