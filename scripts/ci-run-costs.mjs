@@ -67,12 +67,74 @@ export function runCost(run,response,{inventoryRun,inventoryJobs}={}) {
       &&fast.every(job=>job.conclusion==='success')&&full.length===0,
     jobs};
 }
-export function summarizeCosts(runs) {
+// Observation only: this never publishes status, changes a rule or grants admission.
+function policyFeedback(ruleset) {
+  if(ruleset===undefined)return {status:'unobserved'};
+  const refs=ruleset?.conditions?.ref_name,rules=ruleset?.rules;
+  const checks=Array.isArray(rules)?rules.filter(rule=>rule?.type==='required_status_checks'):[];
+  const queues=Array.isArray(rules)?rules.filter(rule=>rule?.type==='merge_queue'):[];
+  const parameters=checks[0]?.parameters,contexts=parameters?.required_status_checks;
+  const queue=queues[0]?.parameters;
+  if(!Number.isSafeInteger(ruleset?.id)||ruleset.id<=0||ruleset.enforcement!=='active'
+    ||!Array.isArray(refs?.include)||refs.include.length!==1||refs.include[0]!=='refs/heads/develop'
+    ||!Array.isArray(refs.exclude)||refs.exclude.length!==0||checks.length!==1||queues.length>1
+    ||typeof parameters?.strict_required_status_checks_policy!=='boolean'
+    ||!Array.isArray(contexts)||contexts.length===0||contexts.some(check=>typeof check?.context!=='string'||!check.context.trim())
+    ||new Set(contexts.map(check=>check.context)).size!==contexts.length
+    ||queues.length===1&&(!Number.isSafeInteger(queue?.max_entries_to_build)||queue.max_entries_to_build<1
+      ||!Number.isSafeInteger(queue?.max_entries_to_merge)||queue.max_entries_to_merge<1))
+    throw Error('Invalid or ambiguous active develop ruleset snapshot');
+  return {status:'observed',scope:'supplied snapshot only; not historical or complete effective policy',
+    ruleId:ruleset.id,updatedAt:ruleset.updated_at??null,requiredContexts:contexts.map(check=>check.context),
+    strictBase:parameters.strict_required_status_checks_policy,queueBuildConcurrency:queue?.max_entries_to_build??null,
+    queueMergeBatch:queue?.max_entries_to_merge??null};
+}
+function executionTiming(run) {
+  const completed=run.jobs.filter(job=>job.executed&&job.executionSeconds!==null
+    &&seconds(run.createdAt,job.completedAt)!==null);
+  const select=(jobs,key)=>jobs.reduce((best,job)=>best===null||key(job)>key(best)?job:best,null);
+  const describe=job=>job?{id:job.id,name:job.name,queueSeconds:job.queueSeconds,executionSeconds:job.executionSeconds,
+    finishAfterRunCreatedSeconds:seconds(run.createdAt,job.completedAt)}:null;
+  return {runId:run.id,attempt:run.attempt,
+    lastCompletedExecution:describe(select(completed,job=>seconds(run.createdAt,job.completedAt))),
+    longestExecution:describe(select(completed,job=>job.executionSeconds)),
+    longestQueue:describe(select(run.jobs.filter(job=>job.executed&&job.queueSeconds!==null),job=>job.queueSeconds))};
+}
+function harnessFeedback(runs,ruleset) {
+  const policySnapshot=policyFeedback(ruleset),findings=[];
+  const add=(code,nextEvidence)=>findings.push({code,nextEvidence});
+  if(policySnapshot.status==='unobserved')add('POLICY_UNOBSERVED','Collect the active develop ruleset; missing data is not a permissive policy.');
+  if(policySnapshot.requiredContexts?.includes('full-quality'))
+    add('FULL_GATE_REQUIRES_ROUTE_REVIEW','Check selector, status publisher and Required policy together; Fast feedback alone does not satisfy a Full gate.');
+  if(policySnapshot.queueBuildConcurrency===1)
+    add('SINGLE_QUEUE_BUILD','Measure two independent PRs before claiming parallel integration; do not infer single-run latency from build concurrency.');
+  if(policySnapshot.strictBase&&policySnapshot.queueBuildConcurrency!==null)
+    add('STRICT_BASE_WITH_QUEUE','Review exact-base coordinator assumptions and real invalidations before changing Strict or queue settings.');
+  const full=runs.filter(run=>run.mode==='full'&&run.qualitySuccess);
+  const fullOverBudget=full.filter(run=>Number.isFinite(run.requiredWallSeconds)&&run.requiredWallSeconds>1800)
+    .map(run=>({runId:run.id,attempt:run.attempt,seconds:run.requiredWallSeconds}));
+  const fullTimingUnknown=full.filter(run=>!Number.isFinite(run.requiredWallSeconds))
+    .map(run=>({runId:run.id,attempt:run.attempt}));
+  if(fullOverBudget.length)add('FULL_OVER_BUDGET','Compare exact tests, platform, queue and execution costs; do not raise deadlines or remove coverage.');
+  if(fullTimingUnknown.length)add('FULL_TIMING_UNKNOWN','Collect matching inventory evidence; updated_at is not a substitute for gate completion.');
+  return {deliveryAcceptance:'UNVERIFIED',safeMergeSamples:null,independentAgentDeliveries:null,playableProductOutcomes:null,
+    policySnapshot,fullBudgetSeconds:1800,fullOverBudget,fullTimingUnknown,runTimings:runs.map(executionTiming),findings,
+    limitations:['Feedback observations are not merged_passed, product acceptance or a comparable before/after experiment',
+      'A supplied ruleset is not applied retrospectively to runs; other effective rules and collection freshness remain unverified',
+      'Last completed execution is an observation, not proof of a dependency critical path or the cause of runner waiting']};
+}
+export function summarizeCosts(runs,{ruleset}={}) {
   const percentile=(values,p)=>values.length?[...values].sort((a,b)=>a-b)[Math.ceil(values.length*p)-1]:null;
   const fast=runs.filter(run=>run.fastPrEligible),distinct=new Set(fast.map(run=>`${run.pullRequests[0]}:${run.sha}`));
   if(distinct.size!==fast.length)throw Error('Duplicate run sample');
   const values=fast.map(run=>run.requiredWallSeconds);
+  const outcomes=new Map();
+  for(const run of runs){const outcome=run.conclusion??run.status??'unknown';outcomes.set(outcome,(outcomes.get(outcome)??0)+1);}
   return {runs:runs.length,naturalFastPrSamples:fast.length,fastTargetSampleCount:20,
+    feedbackWallScope:'Quality aggregates plus inventory; excludes independent review, full-quality and merge completion',
+    harnessFeedback:harnessFeedback(runs,ruleset),runOutcomes:Object.fromEntries(outcomes),
+    allCompletedExecutionRunnerMinutes:runs.reduce((n,run)=>n+run.completedExecutionRunnerMinutes,0),
+    failedCompletedExecutionRunnerMinutes:runs.filter(run=>run.conclusion==='failure').reduce((n,run)=>n+run.completedExecutionRunnerMinutes,0),
     fastSampleSufficient:fast.length>=20,fastP50Seconds:percentile(values,.5),fastP90Seconds:percentile(values,.9),
     successfulFullRuns:runs.filter(run=>run.mode==='full'&&run.qualitySuccess).length,
     cancelledRuns:runs.filter(run=>run.conclusion==='cancelled').length,
@@ -107,7 +169,13 @@ export function analyzeDirectory(directory) {
     let source;try{source=readFileSync(file);}catch(error){if(error.code==='ENOENT')continue;throw error;}
     inventoryCosts.push(runCost(run,JSON.parse(source)));
   }
-  return {...summarizeCosts(costs),listedRuns:runs.length,uncollectedRuns:runs.length-costs.length,inventoryCosts};
+  let ruleset;
+  try{ruleset=JSON.parse(readFileSync(join(directory,'ruleset-develop.json'),'utf8'));}
+  catch(error){if(error.code!=='ENOENT')throw error;}
+  const summary=summarizeCosts(costs,{ruleset}),uncollectedRuns=runs.length-costs.length;
+  if(uncollectedRuns)summary.harnessFeedback.findings.push({code:'UNCOLLECTED_RUNS',
+    nextEvidence:'Collect missing job responses; this subset cannot establish complete run outcomes or total cost.'});
+  return {...summary,listedRuns:runs.length,uncollectedRuns,inventoryCosts};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
   try {
