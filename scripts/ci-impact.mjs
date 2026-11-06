@@ -59,6 +59,10 @@ export function main() {
   const plan = impact(changed, sources, { eventName: process.env.GITHUB_EVENT_NAME, base: event.pull_request?.base.ref,
     forceFull: event.pull_request?.labels?.some(l => l.name === 'ci:full') }, JSON.parse(readFileSync('scripts/ci-test-timings.json', 'utf8')));
   plan.sha = process.env.GITHUB_SHA;
+  plan.head = event.pull_request?.head.sha;
+  plan.base = event.pull_request?.base.sha;
+  plan.runId = Number(process.env.GITHUB_RUN_ID);
+  plan.attempt = Number(process.env.GITHUB_RUN_ATTEMPT);
   writeFileSync('ci-impact.json', JSON.stringify(plan, null, 2));
   appendFileSync(process.env.GITHUB_OUTPUT, `mode=${plan.mode}\nwindows_shards=${JSON.stringify(qualityShardMatrices.windows)}\nposix_shards=${JSON.stringify(qualityShardMatrices.posix)}\n`);
   appendFileSync(process.env.GITHUB_STEP_SUMMARY, `CI plan: ${JSON.stringify(plan)}\n`);

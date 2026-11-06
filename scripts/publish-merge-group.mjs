@@ -46,7 +46,9 @@ export function queueFullErrors({event,env,needs,ruleset,run,latest,jobs,checkou
   JSON.stringify(pull?.allowed_merge_methods)!==JSON.stringify(['squash'])||
   pull?.required_review_thread_resolution!==true||!ruleset?.rules?.some(rule=>rule.type==='required_linear_history'))
   errors.push('Native queue must preserve Strict, squash-only PRs, resolved threads and linear history');
- for(const context of contexts) {
+ const required=checks?.some(check=>check.context==='pr-quality')?
+  contexts.map(name=>name==='full-quality'?'pr-quality':name):contexts;
+ for(const context of required) {
   const check=checks?.find(c=>c.context===context);
   if(!check||(context==='independent-review'?check.integration_id!=null:check.integration_id!==15368))
    errors.push('Required queue admission/check source missing: '+context);
@@ -108,7 +110,7 @@ export function main(env=process.env,query=gh,{pending=false,loadCheckout}={}) {
  if(identityErrors.length)throw Error(identityErrors.join('; '));
  const head=env.GITHUB_SHA,runId=Number(env.GITHUB_RUN_ID);
  if(pending){
-  for(const context of ['full-quality','independent-review'])post(query,head,'pending',context,runId);
+  for(const context of ['full-quality','independent-review','pr-quality'])post(query,head,'pending',context,runId);
   return {state:'pending'};
  }
  const get=path=>JSON.parse(query('api',`repos/${expectedRepo}/${path}`));
@@ -149,7 +151,7 @@ export function main(env=process.env,query=gh,{pending=false,loadCheckout}={}) {
  if(finalErrors.length)throw Error(finalErrors.join('\n'));
  if(collectQueueAdmission(event,env,query,finalRules)!==admission)
   throw Error('Native group PR authorization changed during artifact verification');
- for(const name of ['full-quality','independent-review'])post(query,head,'success',name,runId);
+ for(const name of ['full-quality','independent-review','pr-quality'])post(query,head,'success',name,runId);
  return {state:'success',runId,head};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){

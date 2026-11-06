@@ -138,3 +138,31 @@ test('downloaded receipt parents must equal the actual queue commit parent vecto
   assert.deepEqual(writes,[]);
  }
 });
+
+test('Fast queue admission rechecks the latest PR run/attempt before and after receipt download',()=>{
+ for(const mutate of [()=>{},f=>f.qualityStatus.state='pending',f=>f.prRun.conclusion='cancelled',
+  f=>f.prRun.status='in_progress',f=>f.prRun.run_attempt++,f=>f.prRun.id++,
+  f=>f.qualityStatus.creator.id=1,f=>f.qualityStatus.target_url='https://github.com/old',
+  f=>f.qualityStatus.description='Exact dual-platform Fast run 9, attempt 0']){
+  for(const duringDownload of [false,true]){
+   const f=admissionFixture(),writes=[];
+   f.ruleset.rules[1].parameters.required_status_checks.find(c=>c.context==='full-quality').context='pr-quality';
+   f.review.description=`Independent review [rules:${queueRulesFingerprint(f.ruleset)}] [base:${f.pr.base.sha}]`;
+   f.prRun={id:9,run_attempt:1,head_sha:f.pr.head.sha,event:'pull_request',path:'.github/workflows/quality.yml',
+    status:'completed',conclusion:'success',repository:{full_name:'FurinyaWorks/Slay-the-Abyss'},pull_requests:[{number:510}]};
+   f.qualityStatus={id:91,context:'pr-quality',state:'success',creator:{id:41898282,login:'github-actions[bot]'},
+    target_url:'https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/9',description:'Exact dual-platform Fast run 9, attempt 1'};
+   const underlying=admissionQuery(f,writes),query=(...args)=>{
+    const endpoint=args.at(-1);
+    if(endpoint.includes('/statuses?'))return JSON.stringify([[f.review,f.qualityStatus]]);
+    if(endpoint.includes('/actions/workflows/')&&endpoint.includes('event=pull_request'))return JSON.stringify([{workflow_runs:[f.prRun]}]);
+    return underlying(...args);
+   };
+   const receipt={checkout:structuredClone(f.checkout),checkoutArtifact:structuredClone(f.artifact)};
+   if(!duringDownload)mutate(f);
+   const run=()=>execute(f,query,{loadCheckout:()=>{if(duringDownload)mutate(f);return receipt;}});
+   if(mutate.toString()==='()=>{}')assert.equal(run().state,'success');
+   else{assert.throws(run,/admission|changed/);assert.deepEqual(writes,[]);}
+  }
+ }
+});

@@ -54,9 +54,13 @@ export function autoMergeErrors({repo,settings,pr,baseSha,ruleset,review,depende
   const actualChecks=checks?.parameters?.required_status_checks??[];
   if(checks?.parameters?.strict_required_status_checks_policy!==true)
     errors.push('Auto-merge requires strict up-to-date branch protection; current non-strict queue cannot preserve reviewed BASE');
-  for(const context of requiredContexts)if(!actualChecks.some(check=>check.context===context))
+  const admissionContexts=actualChecks.some(check=>check.context==='pr-quality')?
+    requiredContexts.map(name=>name==='full-quality'?'pr-quality':name):requiredContexts;
+  if(admissionContexts.includes('pr-quality')&&queues.length!==1)
+    errors.push('PR Fast admission requires the native Full Merge Queue');
+  for(const context of admissionContexts)if(!actualChecks.some(check=>check.context===context))
     errors.push('Required status check missing from develop ruleset: '+context);
-  for(const context of requiredContexts.filter(name=>name!==reviewContext))
+  for(const context of admissionContexts.filter(name=>name!==reviewContext))
     if(!actualChecks.some(check=>check.context===context&&check.integration_id===15368))
       errors.push('Existing CI check must retain GitHub Actions as its required source: '+context);
   if(actualChecks.some(check=>check.context===reviewContext&&check.integration_id!=null))
@@ -139,6 +143,7 @@ export function collectEligibility(repo,number,review,query=gh) {
   if(queueRequired)try{rulesFingerprint=queueRulesFingerprint(ruleset);}catch(error){errors.push(error.message);}
   return {pr,baseSha:target.object.sha,headSha:pr.head?.sha,dependsOn,errors,
     queueRequired,rulesFingerprint,
+    fastAdmission:ruleset?.rules?.find(rule=>rule.type==='required_status_checks')?.parameters?.required_status_checks?.some(check=>check.context==='pr-quality')===true,
     tested:pr.merge_commit_sha,parents,sourceTree:testedCommit.commit.tree.sha,changedFiles};
 }
 
@@ -167,16 +172,23 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false,loadCheck
       .sort((a,b)=>b.id-a.id)[0];
   };
   const verifyWitness=()=>{
-    const run=latest(),expected=proof.fullPreflight?
-      {id:proof.fullPreflight.runId,attempt:proof.fullPreflight.attempt}:proof.pendingRun;
+    const preflight=proof.fastPreflight??proof.fullPreflight;
+    const run=latest(),expected=preflight?
+      {id:preflight.runId,attempt:preflight.attempt}:proof.pendingRun;
     if(!run||run.id!==expected?.id||run.run_attempt!==expected.attempt||
-      proof.fullPreflight&&(run.status!=='completed'||run.conclusion!=='success')||
+      preflight&&(run.status!=='completed'||run.conclusion!=='success')||
       run.status==='completed'&&run.conclusion!=='success')throw Error('Latest Full run/attempt changed or failed before release');
     const jobs=json(query,'api','--paginate','--slurp',`repos/${repo}/actions/runs/${run.id}/jobs?filter=all&per_page=100`).flatMap(p=>p.jobs);
     const effective=new Map();
     for(const job of jobs)if(!effective.has(job.name)||effective.get(job.name).run_attempt<job.run_attempt)effective.set(job.name,job);
     if([...effective.values()].some(j=>['failure','cancelled','timed_out','action_required'].includes(j.conclusion)))
       throw Error('Latest Full job failed before release');
+    if(proof.fastPreflight){
+      const refreshed=collectPrDelivery(repo,number,review,query,()=>({checkout:preflight.checkout,checkoutArtifact:preflight.checkoutArtifact,plan:preflight.plan}));
+      if(verifyDelivery(refreshed.evidence).length||refreshed.evidence.runId!==preflight.runId||
+        refreshed.evidence.attempt!==preflight.attempt||!sameAdmission(refreshed.current,current.pr))
+        throw Error('Exact Fast proof changed before release');
+    }
   };
   const pending=latest();
   if(!pending)throw Error('Current Quality run has not started; do not authorize missing CI');
@@ -198,7 +210,8 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false,loadCheck
   // immutable checkout artifact. Fast greens cannot take this path.
   const {evidence,current:fullCurrent}=collectPrDelivery(repo,number,review,query,loadCheckout);
   const fullErrors=verifyDelivery(evidence);
-  if(fullErrors.length||evidence.schemaVersion!==3||evidence.head!==current.headSha||
+  const fast=evidence.schemaVersion===7&&current.fastAdmission&&current.queueRequired;
+  if(fullErrors.length||(!fast&&evidence.schemaVersion!==3)||evidence.head!==current.headSha||
     evidence.base!==current.baseSha||evidence.tested!==current.tested||
     evidence.sourceTree!==current.sourceTree||!sameAdmission(fullCurrent,current.pr))throw Error('Exact Full CI preflight failed: '+fullErrors.join('; '));
   const final=collectEligibility(repo,number,review,query);
@@ -208,12 +221,13 @@ export function armAutoMerge(repo,number,review,query=gh,{dryRun=false,loadCheck
   // Recheck current Full after the slower rules/dependency admission reads.
   // Reuse only the immutable artifact; a changed run/attempt fails its identity.
   const refreshed=collectPrDelivery(repo,number,review,query,()=>({
-    checkout:evidence.checkout,checkoutArtifact:evidence.checkoutArtifact}));
+    checkout:evidence.checkout,checkoutArtifact:evidence.checkoutArtifact,plan:evidence.plan}));
   const refreshedErrors=verifyDelivery(refreshed.evidence);
   if(refreshedErrors.length||refreshed.evidence.runId!==evidence.runId||
     refreshed.evidence.attempt!==evidence.attempt||!sameAdmission(refreshed.current,current.pr))
     throw Error('Exact Full CI or admission changed before authorization: '+refreshedErrors.join('; '));
-  proof.fullPreflight=refreshed.evidence;
+  if(fast){proof.schemaVersion=6;proof.kind='auto-merge-arm-fast';proof.fastPreflight=refreshed.evidence;}
+  else proof.fullPreflight=refreshed.evidence;
   proof.review=refreshed.evidence.review;
   if(review?.disposition==='low-risk-docs')proof.changedFiles=refreshed.evidence.changedFiles;
   return requestNativeMerge(repo,number,current,proof,review,query,{dryRun,persist,verifyWitness});

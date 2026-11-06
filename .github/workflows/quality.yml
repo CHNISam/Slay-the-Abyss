@@ -46,6 +46,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: node scripts/publish-full-quality.mjs --pending
+      - name: Invalidate previous PR admission status
+        if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'develop' && github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/publish-pr-quality.mjs --pending
       - name: Mark native queue gates pending
         if: github.event_name == 'merge_group'
         env:
@@ -126,6 +131,17 @@ jobs:
         run: node scripts/ci-fast.mjs
       - run: npm run check:platform-load
         if: steps.runtime.outputs.tests == 'true'
+      - run: node scripts/write-ci-receipt.mjs --fast
+        if: runner.os == 'Windows'
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: runner.os == 'Windows'
+        with:
+          name: quality-${{ github.run_id }}-${{ github.run_attempt }}-fast
+          path: |
+            build/ci-checkout.json
+            build/ci-impact.json
+          retention-days: 7
+          if-no-files-found: error
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always() && steps.runtime.outputs.tests == 'true'
         with:
@@ -387,6 +403,13 @@ jobs:
           FULL_MODE: ${{ needs.impact.outputs.mode }}
           FULL_NEEDS: ${{ toJSON(needs) }}
         run: node scripts/publish-full-quality.mjs
+      - name: Publish exact PR admission status
+        if: always() && github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'develop' && github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FULL_MODE: ${{ needs.impact.outputs.mode }}
+          FULL_NEEDS: ${{ toJSON(needs) }}
+        run: node scripts/publish-pr-quality.mjs
       - name: Publish native queue Full and admission gates
         if: always() && github.event_name == 'merge_group'
         env:

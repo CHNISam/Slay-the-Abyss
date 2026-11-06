@@ -1,5 +1,6 @@
 // Narrow inverse for historical workflow hash guards. Unknown or partial
 // queue wiring stays visible to frozen baseline checks; no hashes are updated.
+import {beforeFastQueueWorkflow} from './fast-queue-workflow.mjs';
 const additions=[
   [
     "  merge_group:\n    types: [checks_requested]\n    branches: [develop]\n",
@@ -23,6 +24,8 @@ const additions=[
   ]
 ];
 export function beforeNativeMergeQueueWorkflow(text) {
+ text=beforeFastQueueWorkflow(text);
+ if(text===null)return null;
  const eol=text.includes('\r\n')?'\r\n':'\n';
  const trigger='  merge_group:'+eol;
  if(!text.includes(trigger))return text; // old frozen sources

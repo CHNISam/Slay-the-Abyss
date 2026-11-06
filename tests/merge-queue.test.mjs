@@ -104,14 +104,14 @@ test('publisher writes pending first and only releases both contexts after exact
  const loadCheckout=()=>({checkout:f.checkout,checkoutArtifact:f.artifact});
  try {
   assert.equal(main(f.env,query,{pending:true}).state,'pending');
-  assert.deepEqual(writes.map(w=>w.state),['pending','pending']);
+  assert.deepEqual(writes.map(w=>w.state),['pending','pending','pending']);
   const result=main(f.env,query,{loadCheckout});
   assert.equal(result.state,'success');
-  assert.deepEqual(writes.map(w=>w.context),['full-quality','independent-review','full-quality','independent-review']);
+  assert.deepEqual(writes.map(w=>w.context),['full-quality','independent-review','pr-quality','full-quality','independent-review','pr-quality']);
   const g=fixture();g.needs.rules.result='failure';
   f.env.FULL_NEEDS=JSON.stringify(g.needs);
   assert.throws(()=>main(f.env,query,{loadCheckout}),/Full/);
-  assert.equal(writes.length,4,'failure cannot release any further status');
+  assert.equal(writes.length,6,'failure cannot release any further status');
  }finally{rmSync(dir,{recursive:true,force:true});}
 });
 test('queue reuses existing Full matrix, never selects Fast, and preserves PR/push paths',()=>{

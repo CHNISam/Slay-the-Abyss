@@ -1,11 +1,11 @@
 ---
 id: TASK-81.2
 title: 让安全Fast PR进入完整合并队列
-status: To Do
+status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-06 15:41'
-updated_date: '2026-11-06 15:41'
+updated_date: '2026-11-06 11:58'
 labels: []
 milestone: m-7
 dependencies: []
@@ -32,11 +32,13 @@ TASK-81已有按影响选测，但当前develop Ruleset 25870651强制full-quali
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
-先复核PR307/502/508/525/527与TASK-81，确认没有现有同功能PR；以当前Ruleset读回为准，将CI Required状态、原生自动合并准入、交付证据及队列Full同步设计和最小修改，先在隔离候选验证反例，再独审并按原生队列正常集成。不可仅从Ruleset删除full-quality或改写其语义来绕过门禁；保留高风险PR Full和队列/推送完整检查。此子任务只处理Fast合并准入，不扩展为Harness重构。
+接续#529；实现精确Fast收据与PR准入，保留高风险Full、队列完整Full及合后Full；独审和当前SHA CI通过后切换Ruleset，真实安全PR验证入队、squash与合后验收。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-11-06只读审计：TASK-81仍In Progress；PR307已提供Fast选择但原Ruleset六项Required含full-quality；scripts/publish-full-quality.mjs拒绝Fast发布Full成功，scripts/arm-auto-merge.mjs只接受Full入队。PR525已合入并发优化，PR527在做Sapphire超时；本任务不重复两者。开发、规则变更及真实Fast样本均未执行，验收保持未勾。
+
+已接续#529任务定义，实现pr-quality、双平台Fast不可变收据、schema6/7/8与原生队列Full/合后Full验证。固定Node24相关合同129/129及Fast组合回归29/29通过；远端Ruleset尚未切换，真实Fast链路尚待。技术证据docs/backlog-details/TASK-81.2.md，AC保持未勾。
 <!-- SECTION:NOTES:END -->

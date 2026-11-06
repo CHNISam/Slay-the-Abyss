@@ -1,5 +1,7 @@
 # 自动化检查
 
+TASK-81.2新增`pr-quality`作为PR Fast/Full准入状态，`full-quality`仍只证明完整Full。新规则必须保留原四项Actions检查、independent-review、Strict、Squash/ALLGREEN原生队列与空bypass；安全Fast须精确双平台收据及独审，高风险/未知仍PR Full，队列与合后push始终Full。实现先经旧六项Required正常合入，再将远端Required中的full-quality替换为pr-quality并读回；切换及真实样本结果另存本轮证据。下文早期上线记录中的六项Full准入属于原合同，不能据其把Fast标成Full成功。当前操作合同见[Fast准入](CI-FAST.md)。
+
 2026-10-26起Quality/check使用GitHub-hosted `windows-2025`，固定Node 24.18.0、Pillow 12.3.0和Luacheck 1.2.0。Ubuntu的presentation和engineering-posix保留，真实执行Windows权限环境可能无法运行的符号链接/硬链接边界。三项均是正常合并前必需检查；基础设施故障的唯一应急流程见下文。
 
 日常官方Runner无需用户电脑保持开机或联网。沿用PR215的可信develop/master手动local-special诊断入口，只有显式选择才使用旧本机；PR和日常push不会走它。未停止、注销或改动旧机器/其他项目的服务。原self-hosted设置与掉线记录可从Git历史和[工程审计](backlog-details/task-68.md)追溯。用户已明确批准停用额外Remote Task Claim任务锁；采用Backlog、独立分支/工作树、PR审查和当前SHA完整Quality。

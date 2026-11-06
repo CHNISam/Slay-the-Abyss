@@ -10,4 +10,5 @@ const receipt={schemaVersion:1,event:process.env.GITHUB_EVENT_NAME,runId:Number(
   base:event.pull_request?.base.sha??event.merge_group?.base_sha??event.before,
   prNumber:event.pull_request?.number,parents:git('show','-s','--format=%P','HEAD').split(' ')};
 mkdirSync('build',{recursive:true});writeFileSync('build/ci-checkout.json',JSON.stringify(receipt,null,2)+'\n');
+if(process.argv[2]==='--fast')writeFileSync('build/ci-impact.json',readFileSync('ci-impact.json'));
 console.log(JSON.stringify(receipt));

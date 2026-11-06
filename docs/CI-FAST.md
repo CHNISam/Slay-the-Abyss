@@ -6,7 +6,9 @@ TASK-81。快速反馈、完整受影响回归、集成验收分层报告；性�
 
 Lua 模块按 `config/architecture.json` 的现有层分类：已登记的 UI 职责与入口同样可规划完整受影响回归，不再仅识别六个入口文件。核心、未登记模块、数据、配置、依赖、工作流、未建模输入、删除或未映射文件均 Full。develop/master push、发版 PR 和手动运行均 Full；PR 带 ci:full 标签可强制 Full。现有 Full 矩阵和步骤完整保留。标签移除不会追认旧结果，应推送新提交重新规划。
 
-Required Checks继续使用check、engineering-posix、presentation、inventory，绑定现有GitHub Actions app。前两项汇总同时依赖影响计划、Full分片及Fast矩阵；计划必须成功且选中执行必须success，失败、缺失、跳过、取消全部拒绝。无需改名或修改ruleset，核心分支禁止强推/删除及PR规则保持。
+Required Checks保留check、engineering-posix、presentation、inventory及independent-review。TASK-81.2将额外PR准入改为Actions来源的`pr-quality`：安全PR须双平台Fast、实际不可变checkout/完整选测计划收据及当前独审；高风险仍须PR Full。`full-quality`保留原义，Fast永不发布Full成功。Ruleset切换必须等实现经原门禁合入后读回，源码合入本身不代表远端配置已生效。
+
+原生Merge Queue对真实组合SHA强制原完整Full，同时发布`pr-quality`、`full-quality`和队列准入状态，全部必要检查通过才squash；develop push继续Full。失败、取消、漏片、旧HEAD/BASE/run/attempt、过期artifact及规则指纹漂移均拒绝。Fast不支持借用旧attempt的收据。`merge:auto`仅在原生队列已受保护时接受Fast，仍使用pending独审握手、精确HEAD及暂停读回。schema6授权和schema7 Fast证据与原schema3/4 Full证据分开；合后另外核验schema8真实队列Full、inventory及独立push Full。纯文字白名单也必须经过双平台治理和独审。
 
 Quick feedback 自动随 develop PR 运行，也保留手动诊断；它是 advisory，不进入 Required Checks。`npm run test:fast -- --base <commit>` 与 `--ci-fast` 共用选集：纯 JS 和按测量权重在 90 秒估算内安排的完整 Lua 夹具，优先直接修改的夹具；执行时先跑选中的直接修改 Lua，再跑 JS，最后跑其余 Lua，任一步失败立即停止，不重复夹具。估算不是超时，不更改夹具原断言和期限。`--plan` 的 `feedback` 可查看两入口的实际选集。`test:related` 仍运行完整受影响集合，未知输入回退 `check`。
 
