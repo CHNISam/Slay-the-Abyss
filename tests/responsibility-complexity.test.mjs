@@ -112,7 +112,7 @@ test('every extracted card action helper is required and bounded with its nested
 });
 test('combat play, turn and constructor stages are required, bounded and fully measured',()=>{
   const path='src/lua/abyss_combat.lua';
-  const names=['M.damage','draw','queuedHandlers.effect','M.canPlay','playWindow','playEligibility','playSupportedEffects',
+  const names=['M.damage','draw','chooseCodex','queuedHandlers.effect','M.canPlay','playWindow','playEligibility','playSupportedEffects',
     'damagePoison','damageThornsCallback','damagePreview','recordDamagePreview','completeDamage',
     'notifyDrawShuffle','drawSourcePile','drawVoid','drawStatusPowers','applyDrawHooks',
     'playCardContent','playAdvancedMode','playEnergy','playEffectTarget','playCardRequirements','playHandRequirements',
