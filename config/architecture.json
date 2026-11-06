@@ -1,5 +1,6 @@
 {
   "layers": {
+    "abyss_purge_candidates": "core",
     "abyss_relic_queries": "core",
     "abyss_actor_power_rules": "core",
     "abyss_combat_reactions": "core",
@@ -348,7 +349,6 @@
 {"from":"abyss_actor","to":"abyss_shop_relics","reason":"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import."},
 {"from":"abyss_boss_relics","to":"abyss_card_actions","reason":"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import."},
 {"from":"abyss_boss_relics","to":"abyss_build_actions","reason":"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import."},
-{"from":"abyss_boss_relics","to":"abyss_living_wall","reason":"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import."},
 {"from":"abyss_boss_relics","to":"abyss_event_transform_context","reason":"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import."},
 {"from":"abyss_boss_relics","to":"abyss_transform_card","reason":"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import."},
 {"from":"abyss_boss_relics","to":"abyss_card_capability","reason":"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import."},
@@ -582,6 +582,18 @@
     }
   ],
   "dependencyBoundaries": [
+    {
+      "id": "purge-candidate-independence",
+      "from": ["abyss_purge_candidates"],
+      "forbiddenTargets": ["abyss_living_wall", "abyss_boss_relics", "abyss_run", "abyss_actor", "abyss_combat", "abyss_transform_card", "abyss_card_capability", "abyss_event_transform_context"],
+      "reason": "Permanent card candidates only copy legal rows; execution and state owners remain outside the query."
+    },
+    {
+      "id": "boss-purge-query",
+      "from": ["abyss_boss_relics"],
+      "forbiddenTargets": ["abyss_living_wall"],
+      "reason": "Boss selection reads permanent card candidates without importing Living Wall event execution."
+    },
     {
       "id": "relic-query-independence",
       "from": ["abyss_relic_queries"],

@@ -13,7 +13,7 @@ const read=p=>preRelicQuerySource(p,readFileSync(p,'utf8').replaceAll('\r\n','\n
 const host='src/lua/abyss_game_ui.lua',architecture='config/architecture.json';
 const paths=Object.keys(proof.files);
 const lifecycleSources=['src/lua/abyss_actor.lua','src/lua/abyss_combat.lua','src/lua/abyss_actor_power_rules.lua'];
-const lifecycleHelpers=['tests/helpers/core-lifecycle-source-inverse.mjs','tests/helpers/actor-lifecycle-before.lua','tests/helpers/combat-lifecycle-before.json','tests/helpers/relic-query-source-inverse.mjs','tests/helpers/relic-query-baseline-391306af.json.gz'];
+const lifecycleHelpers=['tests/helpers/core-lifecycle-source-inverse.mjs','tests/helpers/actor-lifecycle-before.lua','tests/helpers/combat-lifecycle-before.json','tests/helpers/relic-query-source-inverse.mjs','tests/helpers/relic-query-baseline-391306af.json.gz','tests/helpers/query-living-wall-before.lua'];
 const lifecycleReads=4;
 const originalInputs=()=>Object.fromEntries(paths.map(path=>[path,preCoreLifecycleSource(path,read(path))]));
 function copy(root,path){const target=join(root,path);mkdirSync(dirname(target),{recursive:true});if(path===architecture)writeFileSync(target,read(path));else copyFileSync(path,target);}

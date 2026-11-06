@@ -7,17 +7,20 @@
     "src/lua/abyss_relic_hooks.lua": "c3bc73e73d7b835fac49d42b12ac199f243fd76f6c2988a3d9d147759c96911f",
     "src/lua/abyss_uncommon_relics.lua": "1b86859b174c9c6986fe26a3bc98281321bd8a4446a879193ca35cb7952f1d20",
     "src/lua/abyss_rare_relics.lua": "01364ecb3eed3e3da82f3a4606a3ca2f759496d3c2c04cf8d1773fb2c4903330",
-    "src/lua/abyss_boss_relics.lua": "652915c305681443034bc618963bd6bbedc128c6b40516d32ea681a0ac8048b1",
+    "src/lua/abyss_boss_relics.lua": "e4f1ec9a134300c4ac229a2da097c4a65c0b6872aec75ce283f6924a7ce26b67",
     "src/lua/abyss_shop_relics.lua": "058568afbf864bf8ad4d90ff7c9de10d129193dd7edabff39805181721097281",
     "src/lua/abyss_card_pool.lua": "dfc3a89f7df686a677b960430b8ad1be5a8042fcb4ae9a29537659795a2d0f90",
     "src/lua/abyss_relic_queries.lua": "c0f79cbc6c37dc66df34a2d0ee0e3e45b813a20caec6524a196cb42880a8dedd",
-    "config/architecture.json": "aa03240ef422e3ba71cde0b713b57d08f750348c33e1a1f0d81edaea56dcc3db"
+    "config/architecture.json": "fd60eede4377f9304db969adfae6b719ca4bba7772fc27454755d5dd73c575e3",
+    "src/lua/abyss_living_wall.lua": "9fdf91e1b9ae66511b6c6e80d0e2b250b7245d2077452095c32c8515d281432a",
+    "src/lua/abyss_purge_candidates.lua": "a1ab5102f39adf7f44159a45d9611458e67d3ee49a9c8aa6fa50432bee4ca592",
+    "config/luacheck-baseline.json": "9fa90ea0ec3a02019c446eda12ff3786fbb1d74071e251d840584ebb1963843d"
   },
   "coverage": {
-    "modules": 330,
-    "functions": 4995,
-    "measurements": 5325,
-    "expectedMeasurements": 5325
+    "modules": 331,
+    "functions": 4997,
+    "measurements": 5328,
+    "expectedMeasurements": 5328
   },
   "dependencies": {
     "before": {
@@ -29,14 +32,18 @@
       "sccPairs": 538
     },
     "after": {
-      "modules": 330,
-      "positions": 1902,
-      "uniquePairs": 1540,
-      "sccMembers": 103,
-      "sccPositions": 791,
-      "sccPairs": 530,
+      "modules": 331,
+      "positions": 1903,
+      "uniquePairs": 1541,
+      "sccMembers": 102,
+      "sccPositions": 787,
+      "sccPairs": 527,
       "cardPoolInScc": false,
-      "queryOutbound": 0
+      "livingWallInScc": false,
+      "queryOutbound": 0,
+      "purgeTargets": [
+        "abyss_copy"
+      ]
     }
   },
   "behavior": {
@@ -51,5 +58,35 @@
     "actual develop merge and push Full",
     "official import/ready/capacity/device",
     "runtime performance gain"
-  ]
+  ],
+  "assemblyBaseRevision": "6eba688938c9a83f8b8aa1f9978503352a68e650",
+  "intermediateQueryPhase": {
+    "coverage": {
+      "modules": 330,
+      "functions": 4995,
+      "measurements": 5325,
+      "expectedMeasurements": 5325
+    },
+    "dependencies": {
+      "modules": 330,
+      "positions": 1902,
+      "uniquePairs": 1540,
+      "sccMembers": 103,
+      "sccPositions": 791,
+      "sccPairs": 530,
+      "cardPoolInScc": false,
+      "queryOutbound": 0
+    }
+  },
+  "permanentCandidates": {
+    "baselineRevision": "a27b86a5ffa7f7d344b11413eb5e0c13953af50b",
+    "frozenArchiveSha256": "7ddb2bf87ff3d7a56a80f34a4bb06e6249e7dd7d0811afd391afad16a5f39dee",
+    "queryTests": 6,
+    "relatedRuntimeTests": 9,
+    "sourceTests": 34,
+    "historicalWarnings": 14,
+    "newExemptions": 0,
+    "currentJsInventory": 738,
+    "currentLuaInventory": 1365
+  }
 }

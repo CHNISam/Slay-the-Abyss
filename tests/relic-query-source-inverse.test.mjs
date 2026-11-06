@@ -13,13 +13,14 @@ const read=p=>normalize(readFileSync(p,'utf8'));
 const bytes=readFileSync('tests/helpers/relic-query-baseline-391306af.json.gz');
 assert.equal(hash(bytes),'df89de0002fee32b9300489b95432ce4287c467435af804f481241ee3c3bbdf2');
 const frozen=JSON.parse(gunzipSync(bytes));
-const old=Object.fromEntries(Object.values(frozen.files).map(file=>[file.path,file.source]));
-const query='src/lua/abyss_relic_queries.lua',config='config/architecture.json';
-const paths=[...Object.keys(old),config],owners=[...Object.keys(old),query,config];
-const inverse=()=>epoch.preRelicQuerySource;
+const original=Object.fromEntries(Object.values(frozen.files).map(file=>[file.path,file.source]));
+const query='src/lua/abyss_relic_queries.lua',purge='src/lua/abyss_purge_candidates.lua',livingWall='src/lua/abyss_living_wall.lua',config='config/architecture.json';
+const old={...original,[livingWall]:read('tests/helpers/query-living-wall-before.lua')};
+const paths=[...Object.keys(old),config],owners=[...Object.keys(original),query,livingWall,purge,config];
+const inverse=()=>{assert.deepEqual(Object.keys(epoch.relicQuerySourceProof.files),owners,'one complete ten-owner query epoch');return epoch.preRelicQuerySource;};
 const publicPrior=(path,source,options)=>preCoreLifecycleSource(path,source,options);
 
-test('complete final relic queries restore the six frozen 391 sources and exact original architecture without inventing a witness history',()=>{
+test('complete final queries restore six frozen relic sources, complete 391 Living Wall and exact architecture without inventing witness history',()=>{
  const prior=inverse();assert.deepEqual(Object.keys(epoch.relicQuerySourceProof.files),owners);
  for(const path of paths){
   const source=read(path),expected=path===config?prior(path,source):old[path];
@@ -28,12 +29,17 @@ test('complete final relic queries restore the six frozen 391 sources and exact 
   assert.equal(publicPrior(path,source),publicPrior(path,expected),'all older source guards still run');
  }
  const previous=prior(config,read(config));
+ assert.equal(hash(old[livingWall]),'6216528eecca0c6e2be5db454a39547b124c3302948f8347ae6535a78328311c');
+ assert.equal(createHash('sha1').update('blob '+Buffer.byteLength(old[livingWall])+'\0').update(old[livingWall]).digest('hex'),'5afe2f952d7fb29d201afa8b67bc361c59e4dbdf');
  assert.equal(hash(previous),'68d46e73d734f9684326b24ba040706d768349ce9a552daf52006bb900bfaabf');
  assert.equal(createHash('sha1').update('blob '+Buffer.byteLength(previous)+'\0').update(previous).digest('hex'),'ad1880710f0b186d3532517d8f51496622141963');
  for(const source of [JSON.stringify(JSON.parse(read(config))),JSON.stringify(JSON.parse(read(config)),null,'\t'),read(config)+'\n\t '])assert.equal(prior(config,source),previous);
- assert.equal(Object.hasOwn(epoch.relicQuerySourceProof.files[query],'beforeSource'),false);
- assert.equal(Object.hasOwn(epoch.relicQuerySourceProof.files[query],'beforeSha256'),false);
- assert.equal(prior(query,read(query),{readSource(){assert.fail('witness-only input cannot read owners');}}),read(query));
+ assert.equal(JSON.parse(previous).deferredImports.filter(row=>row.from==='abyss_boss_relics'&&row.to==='abyss_living_wall').length,1,'the original unique Boss deferred edge is restored');
+ for(const witness of [query,purge]){
+  assert.equal(Object.hasOwn(epoch.relicQuerySourceProof.files[witness],'beforeSource'),false);
+  assert.equal(Object.hasOwn(epoch.relicQuerySourceProof.files[witness],'beforeSha256'),false);
+  assert.equal(prior(witness,read(witness),{readSource(){assert.fail('witness-only input cannot read owners');}}),read(witness));
+ }
 });
 
 test('foreign, original, partial, duplicate and escaped-token sources retain their bytes without reading any linked owner',()=>{
@@ -43,6 +49,7 @@ test('foreign, original, partial, duplicate and escaped-token sources retain the
   const source=read(path),variants=[originals[path],null,false,17,{},'',source.slice(1),source+source,source+(path===config?'\n-- foreign\n':'\n')];
   if(path===config){
    variants.push(source.replace('"abyss_relic_queries":','"abyss_relic_queries": "core", "abyss_relic_queries":'),source.replace('"abyss_relic_queries"','"abyss_relic_queri\\u0065s"'));
+   variants.push(source.replace('"abyss_purge_candidates":','"abyss_purge_candidates": "core", "abyss_purge_candidates":'),source.replace('"abyss_purge_candidates"','"abyss_purge_candidat\\u0065s"'));
    const changed=JSON.parse(source);changed.dependencyBoundaries.reverse();variants.push(JSON.stringify(changed));
   }
   for(const input of variants)assert.equal(prior(path,input,options),input);
@@ -51,16 +58,16 @@ test('foreign, original, partial, duplicate and escaped-token sources retain the
  assert.equal(reads,0);
 });
 
-test('each direct and common source call freshly binds all eight raw owners after warm successes, failures and reader wrapping',()=>{
+test('each direct and common source call freshly binds all ten raw owners after warm successes, failures and reader wrapping',()=>{
  const prior=inverse(),originals={...old,[config]:prior(config,read(config))};
  for(const consume of [prior,publicPrior])for(const host of paths)for(const linked of owners){
   const source=read(host),expected=consume(host,source);let mode='good',reads=[];
   const readSource=p=>{reads.push(p);if(p===linked){if(mode==='throw')throw Error('reader sentinel');if(mode==='missing')return undefined;if(mode==='null')return null;if(mode==='drift')return read(p)+'\n';if(mode==='old')return originals[p];}return read(p);};
-  assert.equal(consume(host,source,{readSource}),expected);assert.deepEqual(consume===prior?reads:reads.slice(0,8),owners);
+  assert.equal(consume(host,source,{readSource}),expected);assert.deepEqual(consume===prior?reads:reads.slice(0,10),owners);
   for(mode of ['throw','missing','null','drift','old']){
    reads=[];assert.throws(()=>consume(host,source,{readSource}),/relic query linked/);assert.ok(reads.includes(linked));
   }
-  mode='good';reads=[];assert.equal(consume(host,source,{readSource}),expected);assert.deepEqual(consume===prior?reads:reads.slice(0,8),owners);
+  mode='good';reads=[];assert.equal(consume(host,source,{readSource}),expected);assert.deepEqual(consume===prior?reads:reads.slice(0,10),owners);
   const nested=epoch.relicQueryReader(epoch.relicQueryReader(readSource));
   assert.equal(prior(host,source,{readSource:nested}),originals[host]);
   mode='drift';assert.throws(()=>prior(host,source,{readSource:nested}),/relic query linked/);
@@ -68,7 +75,7 @@ test('each direct and common source call freshly binds all eight raw owners afte
  assert.throws(()=>prior(paths[0],read(paths[0]),{readSource:null}),/linked reader/);
 });
 
-test('real isolated eight-owner files reject warm source edits, configuration reformatting and deletion without borrowing the live tree',()=>{
+test('real isolated ten-owner files reject warm source edits, configuration reformatting and deletion without borrowing the live tree',()=>{
  const prior=inverse(),source=Object.fromEntries(owners.map(path=>[path,read(path)]));
  const expected={...old,[config]:prior(config,source[config])};
  const cwd=process.cwd(),directory=mkdtempSync(join(tmpdir(),'relic-query-source-'));

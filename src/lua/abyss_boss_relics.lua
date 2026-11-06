@@ -68,7 +68,7 @@ end
 local function upgrade(card)
  card.upgrades=(card.upgrades or(card.upgraded and 1 or 0))+1;card.upgraded=true
 end
-local function purge(run)return require('abyss_living_wall').purgeCards(run)end
+local function purge(run)return require('abyss_purge_candidates').purgeCards(run)end
 local function selectTransform(run,card)
  local context=run.transformContext or require('abyss_event_transform_context').new(run)
  if not context or not context.cards[card.cardId]then return nil,'card_content_unavailable'end
