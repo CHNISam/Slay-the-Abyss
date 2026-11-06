@@ -1198,11 +1198,31 @@ local function preCardActionHandlers()
     return handlers
 end
 
+-- The existing choice transaction owns generated cards and completion. The
+-- Codex offer module validates its own token without importing action execution.
+local function chooseCodex(state,token,choiceIndex)
+    local accepted,why,p=require('abyss_codex_relic').selection(state,token,choiceIndex,require('abyss_card_capability').isImplemented)
+    if not accepted then return false,why end
+    if choiceIndex~=0 then
+        local c=CardActions.fresh(M,state,p.cards[choiceIndex].cardId)
+        CardActions.created(M,state,c)
+        -- CardGroup.addToRandomSpot: no RNG when empty; bounded(size-1)
+        -- otherwise (even size1), inserting BEFORE its sampled source slot.
+        if #state.draw==0 then state.draw[1]=c
+        else table.insert(state.draw,M.cardRandom(state,#state.draw),c)end
+        Events.emit(state,'cards_created',{source=state.player.id,relic='nilrys_codex',cardId=c.cardId,amount=1,pile='draw'})
+    end
+    state.codexEndTurnResolved=state.turn
+    state.pendingChoice=nil
+    Events.emit(state,'card_choice_resolved',{op='codex',index=choiceIndex})
+    return true
+end
+
 function M.chooseCard(state,token,uid)
     local restore=require("abyss_snapshot").capture(state)
     local called,ok,reason=pcall(function()
         if state.pendingChoice and state.pendingChoice.op=='codex'then
-            local accepted,why=require('abyss_codex_relic').choose(M,state,token,uid,require('abyss_card_capability').isImplemented)
+            local accepted,why=chooseCodex(state,token,uid)
             if not accepted then return false,why end
             local result=require('abyss_action_queue').resume(state,preCardActionHandlers())
             if result=='pause'or finish(state)then return true end

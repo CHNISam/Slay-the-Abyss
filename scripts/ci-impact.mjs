@@ -17,6 +17,7 @@ export function impact(changed, sources, event, timings) {
   if (!active.length) return { mode: 'fast', reason: 'Prose only; governance gates still run', changed, js: [], lua: [] };
   // Economic, RNG, persistence and combat changes require the complete suite.
   if (active.some(p => /^(?:data\/|config\/|\.github\/|package|vendor\/)/.test(p)
+    || /^scripts\/(?:ci-(?:impact|fast|quality-shape|shards|reviewed-lfs)|publish-(?:full-quality|pr-quality|merge-group)|arm-auto-merge|merge-queue-(?:admission|policy)|pr-quality-evidence|verify-delivery|repository-identity|write-ci-receipt|check-pr-history)\.mjs$/.test(p)
     || p.startsWith('src/lua/') && architectureLayers[p.match(/^src\/lua\/([^/]+)\.lua$/)?.[1]] !== 'ui')) return full('High risk or shared infrastructure');
   const plan = selectTests(active, sources);
   if (plan.full) return full(plan.reason);
@@ -59,6 +60,10 @@ export function main() {
   const plan = impact(changed, sources, { eventName: process.env.GITHUB_EVENT_NAME, base: event.pull_request?.base.ref,
     forceFull: event.pull_request?.labels?.some(l => l.name === 'ci:full') }, JSON.parse(readFileSync('scripts/ci-test-timings.json', 'utf8')));
   plan.sha = process.env.GITHUB_SHA;
+  plan.head = event.pull_request?.head.sha;
+  plan.base = event.pull_request?.base.sha;
+  plan.runId = Number(process.env.GITHUB_RUN_ID);
+  plan.attempt = Number(process.env.GITHUB_RUN_ATTEMPT);
   writeFileSync('ci-impact.json', JSON.stringify(plan, null, 2));
   appendFileSync(process.env.GITHUB_OUTPUT, `mode=${plan.mode}\nwindows_shards=${JSON.stringify(qualityShardMatrices.windows)}\nposix_shards=${JSON.stringify(qualityShardMatrices.posix)}\n`);
   appendFileSync(process.env.GITHUB_STEP_SUMMARY, `CI plan: ${JSON.stringify(plan)}\n`);

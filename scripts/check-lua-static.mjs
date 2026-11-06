@@ -140,6 +140,10 @@ const responsibilityRoots = {
         .map(name=>`actionHandlers.${name}`)].map(name=>`function '${name}'`),
   ],
   'src/lua/abyss_nodes.lua': [],
+  'src/lua/abyss_original_v4.lua': ['validateEffects','denseEffects','validAmount','validTargetFields',
+    'apply','applyDamage','applyBasic','applyNext','applyHT','applyGuard','applyAR','applyFR','applyRD',
+    'executeRoot','infuseRoot','rootBonus','settleRaiden'].map(name=>`function '${name}'`),
+  'src/lua/abyss_codex_relic.lua': [],
   'src/lua/abyss_run.lua': [],
   'src/lua/abyss_run_potions.lua': ["function 'potionCandidate'"],
   'src/lua/abyss_run_potion_candidate.lua': [],
@@ -171,7 +175,7 @@ const responsibilityRoots = {
       .map(name=>`function '${name}'`),
     ...['clearNativeTurnPowers','enqueueNativeTurnPowers','enqueueNativeOpeningDraw',
       'enqueueNativePostDraw','startNativePlayerTurn'].map(name=>`function '${name}'`),
-    "function 'queuedHandlers.effect'", "function 'M.canPlay'", "function 'playWindow'", "function 'playEligibility'", "function 'playSupportedEffects'", "function 'playCardContent'", "function 'playAdvancedMode'", "function 'playEnergy'", "function 'playEffectTarget'", "function 'playCardRequirements'", "function 'playHandRequirements'", "function 'beginQueuedPlay'", "function 'queueNativePlay'", "function 'M.play'"],
+    "function 'chooseCodex'", "function 'queuedHandlers.effect'", "function 'M.canPlay'", "function 'playWindow'", "function 'playEligibility'", "function 'playSupportedEffects'", "function 'playCardContent'", "function 'playAdvancedMode'", "function 'playEnergy'", "function 'playEffectTarget'", "function 'playCardRequirements'", "function 'playHandRequirements'", "function 'beginQueuedPlay'", "function 'queueNativePlay'", "function 'M.play'"],
   'src/lua/abyss_combat_native_play.lua': [],
   'src/lua/abyss_combat_queued_play.lua': [],
   'src/lua/abyss_act2_ai.lua': ["function 'choose'"],
@@ -210,6 +214,7 @@ const responsibilityRoots = {
 // All Run orchestration and newly extracted Run helpers receive the full budget.
 const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|combat_catalog|combat_reactions|combat_native_play|combat_queued_play|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui(?:_.+)?|game_ui_.+|run(?:_(?!(?:card_catalog|red_card_contract|seed)\.lua$).+)?|nodes(?:_.+)?)\.lua$/.test(file);
 const completeResponsibility = file => responsibilityHelper(file)
+  || file==='src/lua/abyss_codex_relic.lua'
   || file==='src/lua/abyss_relic_combat_hooks.lua'
   || file==='src/lua/abyss_relic_family_combat.lua'
   || file==='src/lua/abyss_purge_candidates.lua'

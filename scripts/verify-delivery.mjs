@@ -5,6 +5,7 @@ import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import {qualityShardJobs} from './ci-quality-shape.mjs';
 import {projectRepositoryId,currentProjectRepository,projectRepositoryMatches,collectIdentityWitness,identityWitnessValid} from './repository-identity.mjs';
+import {prFastErrors,collectFastCheckout} from './pr-quality-evidence.mjs';
 
 export const requiredJobs=['check','presentation','engineering-posix'];
 export const qualityWorkflowPath='.github/workflows/quality.yml';
@@ -129,7 +130,18 @@ export function verifyAutoMergeArm(e) {
   if(!e||typeof e!=='object')return ['Missing auto-merge arm evidence'];
   const errors=[];
   if(e.repositoryId!==undefined&&e.repositoryId!==projectRepositoryId)errors.push('Auto-merge repository ID differs from the project');
-  if(e.fullPreflight===undefined){
+  const fast=e.schemaVersion===6;
+  if(fast){
+    if(e.kind!=='auto-merge-arm-fast'||!/^[a-f0-9]{64}$/.test(e.queueRulesFingerprint??''))
+      errors.push('Fast authorization requires a native queue rules fingerprint');
+    if(e.fastPreflight?.schemaVersion!==7)errors.push('Missing exact Fast preflight');
+    else{
+      errors.push(...verifyDelivery(e.fastPreflight).map(error=>'Fast preflight: '+error));
+      for(const field of ['repo','prNumber','head','base','tested','sourceTree'])
+        if(e.fastPreflight[field]!==e[field])errors.push('Fast preflight differs from authorization '+field);
+      if(JSON.stringify(e.fastPreflight.review)!==JSON.stringify(e.review))errors.push('Fast review differs from authorization');
+    }
+  }else if(e.fullPreflight===undefined){
     if(!positiveId(e.pendingRun?.id)||!positiveId(e.pendingRun?.attempt)||e.pendingRun.head!==e.head)
       errors.push('Auto-merge requires the exact pending Full run identity');
   }else if(e.fullPreflight.schemaVersion!==3)errors.push('Auto-merge requires current Full preflight evidence');
@@ -139,7 +151,7 @@ export function verifyAutoMergeArm(e) {
       if(e.fullPreflight[field]!==e[field])errors.push('Full preflight differs from auto-merge '+field);
     if(JSON.stringify(e.fullPreflight.review)!==JSON.stringify(e.review))errors.push('Full preflight review differs from authorization');
   }
-  if(e.schemaVersion!==4||e.kind!=='auto-merge-arm'||!/^[-\w.]+\/[-\w.]+$/.test(e.repo??'')||
+  if(![4,6].includes(e.schemaVersion)||e.kind!==(fast?'auto-merge-arm-fast':'auto-merge-arm')||!/^[-\w.]+\/[-\w.]+$/.test(e.repo??'')||
     e.baseRef!=='develop'||!positiveId(e.prNumber))errors.push('Missing auto-merge arm identity');
   for(const key of ['head','base','tested','sourceTree','targetBeforeSha','targetAfterSha'])
     if(!validSha(e[key]))errors.push('Missing or invalid auto-merge '+key);
@@ -162,6 +174,22 @@ export function verifyAutoMergeArm(e) {
   return errors;
 }
 export function verifyDelivery(e) {
+  if(e?.schemaVersion===6)return verifyAutoMergeArm(e);
+  if(e?.schemaVersion===7){
+    const errors=prFastErrors(e);
+    errors.push(...runErrors(e.currentRun,{head:e.head,event:'pull_request',runId:e.runId,attempt:e.attempt,repo:e.repo}));
+    if(e.review?.reviewedHeadSha!==e.head||e.review?.reviewedBaseSha!==e.base||!e.review?.reviewId||
+      typeof e.review.reviewId!=='string'||!e.review.reviewId.trim()||
+      e.review.conclusion!=='pass'||!Array.isArray(e.review.unresolved)||e.review.unresolved.length)
+      errors.push('Fast independent review is missing, stale or unresolved');
+    if(e.review?.repo!=null&&e.review.repo!==e.repo||e.review?.prNumber!=null&&e.review.prNumber!==e.prNumber)
+      errors.push('Fast review belongs to a different repository/PR');
+    if(e.kind!=='pr-fast'||e.event!=='pull_request'||e.baseRef!=='develop'||e.prNumber!==e.number||e.targetBeforeSha!==e.base||e.targetAfterSha!==e.base||
+      e.testedCommit?.sha!==e.tested||e.testedCommit?.commit?.tree?.sha!==e.sourceTree||
+      !validSha(e.sourceTree)||JSON.stringify(parentShas(e.testedCommit))!==JSON.stringify([e.base,e.head]))
+      errors.push('Fast source tree or observed target differs');
+    return errors;
+  }
   if(!e||typeof e!=='object')return ['Missing preflight evidence'];
   if(e.schemaVersion===4)return [...verifyAutoMergeArm(e),
     ...(e.fullPreflight===undefined?['Review authorization is not successful Full preflight evidence']:[])];
@@ -199,6 +227,7 @@ export function verifyMergedDelivery(e) {
     if(repositories.some(repository=>!projectRepositoryMatches(repository,e.repo)))errors.push('Transferred PR/run repository identity differs from the fixed project');
   }
   if(early)errors.push(...verifyHistoricalAutoFull(e.prFull,preflight,e.identityWitness));
+  if([6,7].includes(preflight.schemaVersion))errors.push(...verifyFastQueueFull(e.queueFull,preflight,e.pr?.merge_commit_sha));
   if(![2,3].includes(e.schemaVersion))errors.push('Missing versioned merged evidence');
   if(e.repo!==preflight.repo&&!transferred)errors.push('Merged evidence repository differs from preflight');
   if(preflight.review?.disposition==='low-risk-docs'&&
@@ -243,6 +272,45 @@ export function verifyHistoricalAutoFull(e,arm,identityWitness){
   if(JSON.stringify(checkout.parents)!==JSON.stringify([arm.base,arm.head])||e.testedCommit?.sha!==arm.tested||
     JSON.stringify(parentShas(e.testedCommit))!==JSON.stringify([arm.base,arm.head])||e.testedCommit?.commit?.tree?.sha!==arm.sourceTree)
     errors.push('Historical PR tested commit/parents/tree differs from authorization');
+  return errors;
+}
+// Fast PR evidence authorizes entry only. A separate immutable Full run must
+// certify the native queue's actual squash SHA, followed by ordinary push Full.
+export function verifyFastQueueFull(e,arm,mergedSha){
+  if(!e||e.schemaVersion!==8||e.kind!=='fast-queue-full')return ['Missing native queue Full evidence for Fast PR'];
+  const run=e.run??{},errors=[];
+  errors.push(...runErrors(run,{head:mergedSha,event:'merge_group',runId:run.id,attempt:run.run_attempt,repo:arm.repo}),
+    ...runErrors(e.currentRun,{head:mergedSha,event:'merge_group',runId:run.id,attempt:run.run_attempt,repo:arm.repo}),
+    ...qualityErrors(e.jobs,{attempt:run.run_attempt,runId:run.id,head:mergedSha,schemaVersion:3}),
+    ...receiptErrors(e.checkout,e.checkoutArtifact,e.jobs,run,3));
+  if(run.head_branch!==`gh-readonly-queue/develop/pr-${arm.prNumber}-${arm.base}`)
+    errors.push('Queue Full does not belong to the authorized PR/BASE');
+  for(const [field,value]of Object.entries({schemaVersion:1,event:'merge_group',runId:run.id,
+    tested:mergedSha,head:mergedSha,base:arm.base}))
+    if(e.checkout?.[field]!==value)errors.push('Queue Full checkout differs: '+field);
+  if(e.checkout?.prNumber!=null||JSON.stringify(e.checkout?.parents)!==JSON.stringify([arm.base]))
+    errors.push('Queue Full checkout must be the exact native squash');
+  for(const context of ['full-quality','pr-quality','independent-review']){
+    const status=e.statuses?.filter(s=>s.context===context).sort((a,b)=>b.id-a.id)[0];
+    if(!positiveId(status?.id)||status.state!=='success'||status.creator?.id!==41898282||
+      status.creator?.login!=='github-actions[bot]'||
+      status.target_url!==`https://github.com/${arm.repo}/actions/runs/${run.id}`)
+      errors.push('Queue Full/admission status is missing or no longer successful: '+context);
+  }
+  const licenses=e.licenses;
+  if(!positiveId(licenses?.run?.id)||!positiveId(licenses?.run?.run_attempt)||
+    licenses.run.head_sha!==mergedSha||licenses.run.event!=='merge_group'||
+    licenses.run.status!=='completed'||licenses.run.conclusion!=='success'||
+    licenses.run.path!=='.github/workflows/licenses.yml'||licenses.run.repository?.full_name!==arm.repo||
+    licenses.currentRun?.id!==licenses.run.id||licenses.currentRun?.run_attempt!==licenses.run.run_attempt||
+    licenses.currentRun?.status!=='completed'||licenses.currentRun?.conclusion!=='success'||
+    licenses.currentRun?.event!=='merge_group'||licenses.currentRun?.path!==licenses.run.path||
+    licenses.currentRun?.head_sha!==mergedSha||licenses.currentRun?.repository?.full_name!==arm.repo||
+    !Array.isArray(licenses.jobs)||licenses.jobs.length!==1||!positiveId(licenses.jobs[0]?.id)||
+    licenses.jobs[0].name!=='inventory'||licenses.jobs[0].run_id!==licenses.run.id||
+    licenses.jobs[0].run_attempt!==licenses.run.run_attempt||licenses.jobs[0].head_sha!==mergedSha||
+    licenses.jobs[0].status!=='completed'||licenses.jobs[0].conclusion!=='success')
+    errors.push('Queue inventory is missing, stale or unsuccessful');
   return errors;
 }
 function gh(...args) {
@@ -294,10 +362,7 @@ function targetHead(query,repo,baseRef) {
     throw new Error('Actual target Git ref is missing or malformed');
   return ref.object.sha;
 }
-export function collectPrDelivery(repo,number,review,query=gh,loadCheckout=(run,jobs)=>{
-  const dir=join('build/delivery',randomUUID());mkdirSync(dir,{recursive:true});
-  return checkoutReceipt(repo,run,jobs,dir,query);
-}) {
+export function collectPrDelivery(repo,number,review,query=gh,loadCheckout) {
   const pr=JSON.parse(query('api',`repos/${repo}/pulls/${number}`));
   if(pr.state!=='open'||pr.merged)throw new Error('Preflight requires an open PR; use --merged with its saved preflight evidence after merge');
   // PR base.sha and refs/pull/*/merge can both retain the old combination after
@@ -313,15 +378,23 @@ export function collectPrDelivery(repo,number,review,query=gh,loadCheckout=(run,
   const run=latestQualityRun(query,repo,identity);
   if(!run||run.status!=='completed'||run.conclusion!=='success')throw new Error('Current Quality run is missing or not successful');
   const jobs=pages(query,`repos/${repo}/actions/runs/${run.id}/jobs?filter=all&per_page=100`,'jobs');
-  const {checkout,checkoutArtifact}=loadCheckout(run,jobs);
+  const fast=jobs.some(job=>job.name==='fast (windows-2025)');
+  if(!loadCheckout)loadCheckout=(r,j)=>{
+    const dir=join('build/delivery',randomUUID());mkdirSync(dir,{recursive:true});
+    return fast?collectFastCheckout(repo,r,j,dir,query):checkoutReceipt(repo,r,j,dir,query);
+  };
+  const {checkout,checkoutArtifact,plan}=loadCheckout(run,jobs);
   if(checkout.tested!==pr.merge_commit_sha)throw new Error('CI did not test the current PR merge combination');
   const commit=JSON.parse(query('api',`repos/${repo}/commits/${checkout.tested}`));
   const evidence={schemaVersion:deliverySchemaVersion,repo,baseRef:pr.base.ref,sourceTree:commit.commit.tree.sha,testedCommit:commit,
     head:pr.head.sha,base:pr.base.sha,tested:checkout.tested,parents:commit.parents.map(p=>p.sha),
     runId:run.id,attempt:run.run_attempt,event:run.event,prNumber:number,run,jobs,checkout,checkoutArtifact,review,targetBeforeSha,
     ...(waived?{changedFileCount,changedFiles}:{})};
+  if(fast)Object.assign(evidence,{schemaVersion:7,kind:'pr-fast',number,pr,target:targetBeforeSha,commit,plan});
   const current=JSON.parse(query('api',`repos/${repo}/pulls/${number}`));
+  if(fast)evidence.pr=current;
   evidence.currentRun=latestQualityRun(query,repo,identity);
+  if(fast)evidence.latestRun=evidence.currentRun;
   evidence.targetAfterSha=targetHead(query,repo,pr.base.ref);
   return {evidence,current};
 }
@@ -348,10 +421,26 @@ export function collectMergedDelivery(repo,number,preflight,query=gh,loadCheckou
   const receipt=run?.status==='completed'&&run.conclusion==='success'?loadCheckout(run,jobs):{};
   const current=JSON.parse(query('api',`repos/${repo}/pulls/${number}`));
   const currentRun=latestQualityRun(query,repo,identity);
+  let queueFull;
+  if([6,7].includes(preflight.schemaVersion)){
+    const groupIdentity={event:'merge_group',head:pr.merge_commit_sha,
+      branch:`gh-readonly-queue/develop/pr-${number}-${preflight.base}`};
+    const groupRun=latestQualityRun(query,repo,groupIdentity);
+    const groupJobs=groupRun?.status==='completed'?pages(query,`repos/${repo}/actions/runs/${groupRun.id}/jobs?filter=all&per_page=100`,'jobs'):[];
+    const groupReceipt=groupRun?.conclusion==='success'?loadCheckout(groupRun,groupJobs):{};
+    const statuses=JSON.parse(query('api','--paginate','--slurp',`repos/${repo}/commits/${pr.merge_commit_sha}/statuses?per_page=100`)).flat();
+    const licenseRuns=pages(query,`repos/${repo}/actions/workflows/licenses.yml/runs?event=merge_group&head_sha=${pr.merge_commit_sha}&per_page=100`,'workflow_runs');
+    const licenseRun=licenseRuns.filter(r=>r.head_sha===pr.merge_commit_sha&&r.event==='merge_group').sort((a,b)=>b.id-a.id)[0];
+    const licenseJobs=licenseRun?pages(query,`repos/${repo}/actions/runs/${licenseRun.id}/jobs?filter=all&per_page=100`,'jobs'):[];
+    queueFull={schemaVersion:8,kind:'fast-queue-full',run:groupRun,jobs:groupJobs,...groupReceipt,statuses,
+      currentRun:latestQualityRun(query,repo,groupIdentity),licenses:{run:licenseRun,jobs:licenseJobs,
+        currentRun:pages(query,`repos/${repo}/actions/workflows/licenses.yml/runs?event=merge_group&head_sha=${pr.merge_commit_sha}&per_page=100`,'workflow_runs')
+          .filter(r=>r.head_sha===pr.merge_commit_sha&&r.event==='merge_group').sort((a,b)=>b.id-a.id)[0]}};
+  }
   const waived=preflight.review?.disposition==='low-risk-docs';
   const changedFileCount=waived?pr.changed_files:undefined;
   const changedFiles=waived?lowRiskFiles(query,repo,number,changedFileCount):undefined;
-  return {schemaVersion:deliverySchemaVersion,repo,preflight,pr,commit,run,jobs,...receipt,current,currentRun,...(prFull?{prFull}:{}),
+  return {schemaVersion:deliverySchemaVersion,repo,preflight,pr,commit,run,jobs,...receipt,current,currentRun,...(prFull?{prFull}:{}),...(queueFull?{queueFull}:{}),
     ...(waived?{changedFileCount,changedFiles}:{})};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
@@ -363,7 +452,7 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
     const dir=join('build/delivery',randomUUID());mkdirSync(dir,{recursive:true});
     if(mode==='--merged') {
       const preflightText=readFileSync(evidenceFile,'utf8'),preflight=JSON.parse(preflightText);
-      const errors=preflight.schemaVersion===4?verifyAutoMergeArm(preflight):verifyDelivery(preflight);
+      const errors=[4,6].includes(preflight.schemaVersion)?verifyAutoMergeArm(preflight):verifyDelivery(preflight);
       const identityWitness=preflight.repo!==repo?collectIdentityWitness(preflightText,repo,gh):undefined;
       if(preflight.prNumber!==Number(number)||errors.length)throw new Error('Preflight evidence is invalid, stale or belongs to a different PR/repository');
       const evidence=collectMergedDelivery(repo,Number(number),preflight,gh,(run,jobs)=>checkoutReceipt(repo,run,jobs,join(dir,String(run.id))));
@@ -375,7 +464,7 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
       process.exitCode=0;
     } else {
       const {evidence,current}=collectPrDelivery(repo,Number(number),evidenceFile==='--low-risk-docs'?{disposition:'low-risk-docs'}:JSON.parse(readFileSync(evidenceFile,'utf8')),gh,
-        (run,jobs)=>checkoutReceipt(repo,run,jobs,dir));
+        (run,jobs)=>jobs.some(job=>job.name==='fast (windows-2025)')?collectFastCheckout(repo,run,jobs,dir,gh):checkoutReceipt(repo,run,jobs,dir));
       const errors=verifyDelivery(evidence);
       if(current.state!=='open'||current.merged||current.head.sha!==evidence.head||current.base.sha!==evidence.base||current.base.ref!==evidence.baseRef||current.merge_commit_sha!==evidence.tested)errors.push('PR head/base/merge combination changed during verification');
       writeFileSync(join(dir,'evidence.json'),JSON.stringify({...evidence,state:errors.length?'pr_pending':'pr_passed',errors},null,2)+'\n');

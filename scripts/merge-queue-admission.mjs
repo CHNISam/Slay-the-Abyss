@@ -21,7 +21,8 @@ const queryText=`query {
 // only releases a group whose live prefix and project-specific authorization
 // can still be proven. Ambiguous/oversized queues require operator attention.
 export function collectQueueAdmission(event,env,query,ruleset){
- const fingerprint=queueRulesFingerprint(ruleset??JSON.parse(query('api',`repos/${repo}/rulesets/25870651`)),{allowRedacted:true});
+ ruleset??=JSON.parse(query('api',`repos/${repo}/rulesets/25870651`));
+ const fingerprint=queueRulesFingerprint(ruleset,{allowRedacted:true});
  const response=JSON.parse(query('api','graphql','-f','query='+queryText));
  const repository=response?.data?.repository;
  const entries=repository?.mergeQueue?.entries;
@@ -64,6 +65,22 @@ export function collectQueueAdmission(event,env,query,ruleset){
   if(!positive(review?.id)||review.state!=='success'||typeof review.description!=='string'||
    !review.description.endsWith(` [rules:${fingerprint}] [base:${base}]`))
    throw Error('Queue PR review is paused, missing or bound to a different BASE: '+p.number);
+  let quality;
+  if(ruleset?.rules?.find(rule=>rule.type==='required_status_checks')?.parameters?.required_status_checks?.some(check=>check.context==='pr-quality')){
+   const status=statuses.flat().filter(s=>s?.context==='pr-quality').sort((a,b)=>b.id-a.id)[0];
+   const runs=JSON.parse(query('api','--paginate','--slurp',`repos/${repo}/actions/workflows/quality.yml/runs?event=pull_request&head_sha=${p.headRefOid}&per_page=100`));
+   if(!Array.isArray(runs)||!runs.length||runs.some(page=>!Array.isArray(page.workflow_runs)))
+    throw Error('Queue PR latest quality inventory cannot be verified: '+p.number);
+   const run=runs.flatMap(page=>page.workflow_runs).filter(r=>r.head_sha===p.headRefOid&&r.event==='pull_request'&&
+    r.pull_requests?.some(pr=>pr.number===p.number)).sort((a,b)=>b.id-a.id)[0];
+   if(!positive(status?.id)||status.state!=='success'||status.creator?.id!==41898282||
+    status.creator?.login!=='github-actions[bot]'||!positive(run?.id)||!positive(run.run_attempt)||
+    run.status!=='completed'||run.conclusion!=='success'||run.path!=='.github/workflows/quality.yml'||
+    run.repository?.full_name!==repo||status.target_url!==`https://github.com/${repo}/actions/runs/${run.id}`||
+    !new RegExp(`^Exact (?:dual-platform Fast|Full) run ${run.id}, attempt ${run.run_attempt}$`).test(status.description??''))
+    throw Error('Queue PR latest run/attempt admission is pending, failed or stale: '+p.number);
+   quality={status:status.id,run:run.id,attempt:run.run_attempt};
+  }
   if(!positive(entry.enqueuer?.databaseId)||review.creator?.id!==entry.enqueuer.databaseId||
    typeof entry.enqueuer.login!=='string'||!entry.enqueuer.login||
    typeof review.creator.login!=='string'||review.creator.login.toLowerCase()!==entry.enqueuer.login.toLowerCase())
@@ -86,7 +103,7 @@ export function collectQueueAdmission(event,env,query,ruleset){
   }
   snapshot.push({id:entry.id,position:entry.position,base:entry.baseCommit.oid,head:entry.headCommit.oid,
    number:p.number,prHead:p.headRefOid,review:review.id,rulesFingerprint:fingerprint,
-   enqueuer:entry.enqueuer.databaseId,dependencies:dependencyEvidence});
+   enqueuer:entry.enqueuer.databaseId,dependencies:dependencyEvidence,...(quality?{quality}:{})});
  }
  return JSON.stringify(snapshot);
 }

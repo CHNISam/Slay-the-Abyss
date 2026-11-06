@@ -46,6 +46,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: node scripts/publish-full-quality.mjs --pending
+      - name: Invalidate previous PR admission status
+        if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'develop' && github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/publish-pr-quality.mjs --pending
       - name: Mark native queue gates pending
         if: github.event_name == 'merge_group'
         env:
@@ -100,6 +105,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
+          fetch-depth: 2
           persist-credentials: false
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
@@ -126,6 +132,17 @@ jobs:
         run: node scripts/ci-fast.mjs
       - run: npm run check:platform-load
         if: steps.runtime.outputs.tests == 'true'
+      - run: node scripts/write-ci-receipt.mjs --fast
+        if: runner.os == 'Windows'
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: runner.os == 'Windows'
+        with:
+          name: quality-${{ github.run_id }}-${{ github.run_attempt }}-fast
+          path: |
+            build/ci-checkout.json
+            build/ci-impact.json
+          retention-days: 7
+          if-no-files-found: error
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always() && steps.runtime.outputs.tests == 'true'
         with:
@@ -135,7 +152,7 @@ jobs:
           if-no-files-found: warn
   rules:
     needs: impact
-    name: rules (${{ matrix.shard }}/${{ strategy.job-total }})
+    name: ${{ needs.impact.outputs.mode == 'fast' && 'rules' || format('rules ({0}/{1})', matrix.shard, strategy.job-total) }}
     if: ${{ needs.impact.outputs.mode == 'full' && !cancelled() && (inputs.runner_pool != 'local-special' || github.event_name == 'workflow_dispatch' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master')) }}
     # Only an explicit dispatch of a trusted integration branch may use the laptop.
     # All ordinary pushes and PRs, including forks, use a disposable hosted VM.
@@ -387,6 +404,13 @@ jobs:
           FULL_MODE: ${{ needs.impact.outputs.mode }}
           FULL_NEEDS: ${{ toJSON(needs) }}
         run: node scripts/publish-full-quality.mjs
+      - name: Publish exact PR admission status
+        if: always() && github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'develop' && github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FULL_MODE: ${{ needs.impact.outputs.mode }}
+          FULL_NEEDS: ${{ toJSON(needs) }}
+        run: node scripts/publish-pr-quality.mjs
       - name: Publish native queue Full and admission gates
         if: always() && github.event_name == 'merge_group'
         env:
@@ -418,7 +442,7 @@ jobs:
   engineering-posix-shards:
     needs: impact
     if: needs.impact.outputs.mode == 'full'
-    name: engineering-posix (${{ matrix.shard }}/${{ strategy.job-total }})
+    name: ${{ needs.impact.outputs.mode == 'fast' && 'engineering-posix-shards' || format('engineering-posix ({0}/{1})', matrix.shard, strategy.job-total) }}
     # Separate hosted VMs keep generated files isolated and retain the original
     # 20-minute budget. Weighted files execute once, serially per VM.
     strategy:

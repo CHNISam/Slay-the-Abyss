@@ -35,24 +35,15 @@ function M.begin(combat,state)
     Events.emit(state,'card_choice',{op='codex',token=state.choiceSerial})
     return true
 end
-function M.choose(combat,state,token,index,implemented)
+-- Only inspect the saved offer. Combat owns generation, pile insertion and
+-- completion together with its existing choice snapshot and queue continuation.
+function M.selection(state,token,index,implemented)
     local p=state.pendingChoice
     if not p or p.op~='codex'or p.token~=token or p.turn~=state.turn or state.phase~='player'then return false,'stale_card_choice'end
     if type(index)~='number'or index%1~=0 or(index~=0 and not p.cards[index])then return false,'invalid_card_choice'end
     if index~=0 then
         if not implemented or not implemented(state.catalog.cards[p.cards[index].cardId])then return false,'card_content_unavailable'end
-        local actions=require('abyss_card_actions')
-        local c=actions.fresh(combat,state,p.cards[index].cardId)
-        actions.created(combat,state,c)
-        -- CardGroup.addToRandomSpot: no RNG when empty; bounded(size-1)
-        -- otherwise (even size1), inserting BEFORE its sampled source slot.
-        if #state.draw==0 then state.draw[1]=c
-        else table.insert(state.draw,combat.cardRandom(state,#state.draw),c)end
-        Events.emit(state,'cards_created',{source=state.player.id,relic='nilrys_codex',cardId=c.cardId,amount=1,pile='draw'})
     end
-    state.codexEndTurnResolved=state.turn
-    state.pendingChoice=nil
-    Events.emit(state,'card_choice_resolved',{op='codex',index=index})
-    return true
+    return true,nil,p
 end
 return M
