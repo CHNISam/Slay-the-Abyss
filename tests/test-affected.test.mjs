@@ -265,6 +265,48 @@ test('Run API governance keeps explicit source dependencies in related integrati
   assert.equal(selectTests(['src/lua/unknown.lua'], input).full, true);
 });
 
+const eventSourceConsumer = 'tests/event-combat-routes-source.test.mjs';
+const eventSourceModules = ['abyss_dead_adventurer_event', 'abyss_colosseum_event',
+  'abyss_masked_bandits_event', 'abyss_event_combat_routes', 'abyss_event_combat_enemies']
+  .map(name => `src/lua/${name}.lua`);
+const eventSourceInputs = {
+  [eventSourceConsumer]: repositorySources[eventSourceConsumer],
+  ...Object.fromEntries(eventSourceModules.map(path => [path, 'return {}'])),
+  'scripts/unrelated.mjs': 'export const value = 1',
+  'tests/unrelated.test.mjs': 'import {value} from "../scripts/unrelated.mjs"',
+};
+for (const path of eventSourceModules) {
+  test(`event source contract retains its actual reader for ${path}`, () => {
+    // A separate literal Lua consumer already maps the change. Full fallback
+    // must not conceal the real source-contract reader's missing dependency.
+    const fixture = 'tests/lua/direct.lua';
+    const input = { ...eventSourceInputs, [fixture]: `return dofile(${JSON.stringify(path)})` };
+    const plan = selectTests([path], input);
+    assert.equal(plan.full, false, path);
+    assert.deepEqual(plan.lua, [fixture], 'the independently mapped regression stays selected');
+    assert.deepEqual(plan.integration, [eventSourceConsumer], path);
+    assert.deepEqual(plan.fast, [], 'the source contract retains its integration classification');
+  });
+}
+
+test('event source contract leaves unrelated selection narrow and unknown or deleted inputs on Full', () => {
+  const unrelated = selectTests(['scripts/unrelated.mjs'], eventSourceInputs);
+  assert.equal(unrelated.full, false);
+  assert.deepEqual(unrelated.fast, ['tests/unrelated.test.mjs']);
+  assert.deepEqual(unrelated.integration, []);
+  assert.deepEqual(unrelated.lua, []);
+  assert.equal(selectTests(['src/lua/unknown.lua'], eventSourceInputs).full, true);
+  assert.equal(selectTests(['scripts/unmapped.mjs'], {
+    ...eventSourceInputs, 'scripts/unmapped.mjs': 'export const unused = 1',
+  }).full, true);
+  for (const path of eventSourceModules) {
+    const input = { ...eventSourceInputs, 'tests/lua/direct.lua': `return dofile(${JSON.stringify(path)})` };
+    delete input[path];
+    assert.equal(selectTests([path], input).full, true, path);
+    assert.equal(selectTests([path, 'src/lua/unknown.lua'], eventSourceInputs).full, true, path);
+  }
+});
+
 const generatedSources = {
   ...luaSources,
   'scripts/node-ui-layout.mjs': 'export const nodeLayout = () => ({})',

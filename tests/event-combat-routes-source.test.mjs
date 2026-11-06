@@ -2,9 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
-const modules=['abyss_dead_adventurer_event','abyss_colosseum_event','abyss_masked_bandits_event','abyss_event_combat_routes','abyss_event_combat_enemies'];
+// Keep every real source read visible to the literal dependency selector.
+const modules=['src/lua/abyss_dead_adventurer_event.lua','src/lua/abyss_colosseum_event.lua',
+ 'src/lua/abyss_masked_bandits_event.lua','src/lua/abyss_event_combat_routes.lua','src/lua/abyss_event_combat_enemies.lua'];
 test('missing original combat events have dedicated reducers, bridge and constructors',()=>{
- for(const name of modules){const text=readFileSync(`src/lua/${name}.lua`,'utf8');assert.match(text,/return M/);}
+ for(const path of modules){const text=readFileSync(path,'utf8');assert.match(text,/return M/);}
 });
 const source=JSON.parse(readFileSync('tests/fixtures/event-combat-routes-source.json','utf8'));
 test('new source witness pins original chances, constructor variants and two-fight reward order',()=>{
