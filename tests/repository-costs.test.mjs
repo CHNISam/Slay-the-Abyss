@@ -8,13 +8,12 @@ import { execFileSync } from 'node:child_process';
 import { inspectRepository, measureBuilds, requiredBuildOutputs } from '../scripts/repository-costs.mjs';
 
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
-function fixture(t) {
+function fixture(t, payload = Buffer.from('verified asset bytes')) {
   const root = mkdtempSync(join(tmpdir(), 'abyss-repo-cost-test-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] }).trim();
   git('init', '-q'); git('config', 'core.autocrlf', 'false');
   git('config', 'user.email', 'cost-test@example.invalid'); git('config', 'user.name', 'Cost test');
-  const payload = Buffer.from('verified asset bytes');
   const oid = hash(payload);
   const pointer = `version https://git-lfs.github.com/spec/v1\noid sha256:${oid}\nsize ${payload.length}\n`;
   const spacedName = process.platform === 'win32' ? 'with space name.txt' : 'with space\tname.txt';
@@ -53,6 +52,52 @@ test('authenticates materialized bytes and counts a shared OID once', t => {
   assert.equal(result.lfs.paths.find(x => x.path === 'copy.bin').worktree, 'pointer');
   assert.equal(result.source.trackedChanges, true);
 });
+
+test('recognizes intact LFS pointers whose byte length equals the payload size', t => {
+  const { root, oid, payload, pointer } = fixture(t, Buffer.alloc(128, 42));
+  assert.equal(Buffer.byteLength(pointer), payload.length);
+  const object = join(root, '.git/lfs/objects', oid.slice(0, 2), oid.slice(2, 4), oid);
+  mkdirSync(join(object, '..'), { recursive: true }); writeFileSync(object, pointer);
+  const result = inspectRepository(root);
+  assert.equal(result.lfs.paths.find(x => x.path === 'asset.bin').worktree, 'pointer');
+  assert.equal(result.lfs.paths.find(x => x.path === 'copy.bin').worktree, 'pointer');
+  assert.equal(result.lfs.objects[0].cache, 'pointer');
+  assert.equal(result.lfs.verifiedWorktreeBytes, 0);
+  assert.equal(result.lfs.readableUniqueBytes, 0);
+});
+
+test('authenticates real payload bytes even when they form a valid LFS pointer', t => {
+  const payload = Buffer.from(`version https://git-lfs.github.com/spec/v1\noid sha256:${hash(Buffer.alloc(128, 42))}\nsize 128\n`);
+  const { root, oid, pointer } = fixture(t, payload);
+  assert.equal(payload.length, Buffer.byteLength(pointer));
+  writeFileSync(join(root, 'asset.bin'), payload);
+  const object = join(root, '.git/lfs/objects', oid.slice(0, 2), oid.slice(2, 4), oid);
+  mkdirSync(join(object, '..'), { recursive: true }); writeFileSync(object, payload);
+  const result = inspectRepository(root);
+  assert.equal(result.lfs.paths.find(x => x.path === 'asset.bin').worktree, 'verified');
+  assert.equal(result.lfs.objects[0].cache, 'verified');
+  assert.equal(result.lfs.verifiedWorktreeBytes, payload.length);
+  assert.equal(result.lfs.readableUniqueBytes, payload.length);
+});
+
+for (const [name, replacement] of [
+  ['a mismatched declared size', ({ pointer, payload }) => pointer.replace(`size ${payload.length}`, `size ${payload.length + 1}`)],
+  ['a mismatched OID', ({ pointer, oid }) => pointer.replace(oid, '0'.repeat(64))],
+  ['malformed pointer syntax', ({ pointer, payload }) => pointer.replace(`size ${payload.length}`, `size 0${payload.length}`)],
+]) {
+  test(`reports ${name} as corrupt in the worktree and cache`, t => {
+    const data = fixture(t), { root, oid } = data;
+    const bytes = replacement(data);
+    writeFileSync(join(root, 'asset.bin'), bytes);
+    const object = join(root, '.git/lfs/objects', oid.slice(0, 2), oid.slice(2, 4), oid);
+    mkdirSync(join(object, '..'), { recursive: true }); writeFileSync(object, bytes);
+    const result = inspectRepository(root);
+    assert.equal(result.lfs.paths.find(x => x.path === 'asset.bin').worktree, 'corrupt');
+    assert.equal(result.lfs.objects[0].cache, 'corrupt');
+    assert.equal(result.lfs.verifiedWorktreeBytes, 0);
+    assert.equal(result.lfs.readableUniqueBytes, 0);
+  });
+}
 
 test('reports corrupt, missing and cached objects without any network transfer', t => {
   const { root, oid, payload } = fixture(t);

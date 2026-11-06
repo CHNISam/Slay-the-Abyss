@@ -69,14 +69,17 @@ function fileState(path, object) {
   let stat;
   try { stat = lstatSync(path); } catch (error) { if (error.code === 'ENOENT') return 'missing'; throw error; }
   if (!stat.isFile()) return 'not-file';
-  if (stat.size !== object.bytes) {
-    if (stat.size <= 1024) {
-      try { if (pointer(readFileSync(path), path)?.oid === object.oid) return 'pointer'; }
-      catch (error) { if (!error.message.startsWith('Invalid LFS pointer:')) throw error; }
+  if (stat.size !== object.bytes && stat.size > 1024) return 'corrupt';
+  const bytes = readFileSync(path);
+  if (stat.size === object.bytes && sha256(bytes) === object.oid) return 'verified';
+  if (stat.size <= 1024) {
+    try {
+      const candidate = pointer(bytes, path);
+      if (candidate?.oid === object.oid && candidate.bytes === object.bytes) return 'pointer';
     }
-    return 'corrupt';
+    catch (error) { if (!error.message.startsWith('Invalid LFS pointer:')) throw error; }
   }
-  return sha256(readFileSync(path)) === object.oid ? 'verified' : 'corrupt';
+  return 'corrupt';
 }
 
 export function inspectRepository(root = process.cwd()) {
