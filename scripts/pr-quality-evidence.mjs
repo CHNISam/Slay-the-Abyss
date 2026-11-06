@@ -4,7 +4,12 @@ import {join} from 'node:path';
 const workflowPath='.github/workflows/quality.yml';
 const sha=value=>typeof value==='string'&&/^[a-f0-9]{40}$/.test(value);
 const positive=value=>Number.isSafeInteger(value)&&value>0;
-const skippedJobs=new Set(['rules','engineering-posix-shards']);
+// GitHub keeps the unexpanded job-name expression when its matrix is skipped.
+// Match those two exact observed identities; do not accept aliases or Full jobs.
+const skippedJobs=new Set([
+ "needs.impact.outputs.mode == 'fast' && 'rules' || format('rules ({0}/{1})', matrix.shard, strategy.job-total)",
+ "needs.impact.outputs.mode == 'fast' && 'engineering-posix-shards' || format('engineering-posix ({0}/{1})', matrix.shard, strategy.job-total)",
+]);
 export const currentFastQualityJobs=Object.freeze([
  'check','presentation','engineering-posix','impact',
  'fast (ubuntu-24.04)','fast (windows-2025)',...skippedJobs,
