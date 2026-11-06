@@ -58,12 +58,13 @@ test('fixed 9293405d action oracle, supports admission and victory policy remain
 test('policy projection rejects missing, additional, duplicate and condition-drift changes',()=>{
   const source=read(live);
   const admission="for _,op in ipairs({'rareGamblingChip','rareRelicGenerate','rareRelicDamageAll','rareRelicWeak','shopRelic'})do operations[op]=true end\n";
-  const refresh="    local rare=require('abyss_rare_relics')\n";
+  const refresh="    local rare=require('abyss_relic_family_combat').rare\n";
+  const query="    local rareQueries=require('abyss_relic_queries').rare\n";
   for(const [before,after] of [
     [admission,''],[admission,admission.replace("'shopRelic'","'shopRelic','unexpected'")],
     [admission,admission+admission],['return operations[op] == true','return operations[op] ~= false'],
-    [refresh,''],[refresh,refresh+refresh],
-    ["not state.endTurnAfterCard and rare.owns","state.endTurnAfterCard and rare.owns"],
+    [refresh,''],[refresh,refresh+refresh],[query,''],[query,query+query],
+    ["not state.endTurnAfterCard and rareQueries.owns","state.endTurnAfterCard and rareQueries.owns"],
     ['outcome=="victory" and keep','outcome=="victory" or keep'],
   ]){
     assert.equal(source.split(before).length-1,1,'unique real policy mutation');
