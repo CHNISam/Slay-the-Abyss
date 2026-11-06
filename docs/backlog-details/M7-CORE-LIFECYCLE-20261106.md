@@ -1,6 +1,6 @@
 # M7 核心生命周期切片（本地验证，待集成）
 
-本批承接 TASK-74.20 的六职责出口，源码基线为 `dedb9ed5af52fc595031d64d3e8fd84bc908b2c8`。任务登记、审计及 Owner 指定的“架构→多agent协作→速度”顺序由 PR521 承接；本批独立工作树不修改其已审 HEAD。当前尚未交付，不勾任务验收。
+本批承接 TASK-74.20 的六职责出口，源码基线为 `dedb9ed5af52fc595031d64d3e8fd84bc908b2c8`。任务登记、审计及 Owner 指定的“架构→多agent协作→速度”顺序由 PR521 承接。核心切片先在独立树保存为`c48b6a35`并精确独审通过，再通过原入口暂停并读回PR521，将代码线性并入同一批次，减少串行Full与基线前移后的重复验证。旧候选CI保留，不作为新HEAD通过证据。当前尚未交付，不勾任务验收。
 
 ## 职责与验证边界
 
@@ -20,6 +20,8 @@ Actor 按状态应用、Power 生命周期和回合收尾分阶段治理；Power
 - Full会自动发现的三个新增Lua原始入口均在原30秒/1MiB限制下通过。最初Actor完整图输出触及ENOBUFS，失败保留`build/core-lifecycle-raw.log`；raw默认仍执行全部121步及图遍历，只输出25字节结果。JS双VM driver显式开启完整trace，并断言14个完整检查点、函数定义和重复引用；最终raw复核见`build/core-lifecycle-raw-final.log`，差分/传输复核见`build/actor-lifecycle/raw-transport.log`，未提高预算或移除断言。
 
 [机器指标](../evidence/m7-core-lifecycle-20261106.json)绑定全部329份LF源码摘要：CC>30为67→61，CC>15为258→252，最大CC仍75。未治理热点不视为已接受风险。
+
+原始日志及报告归档在根工作区`.artifacts/m7-core-lifecycle-20261106/evidence-546a733e-d841-4ffe-94eb-621966f3c96f.zip`，2639485字节，SHA256为`95b02130cbbeada18e3ea3e62089ea27ba9523af5f9341208d6c11cc193714a6`；不将另一个工作树的生成运行时输入用于本树测试。原始`c48b6a35`分支及PR521集成前Git bundle保持可恢复；精确组合独审与托管Full按最终HEAD另验。
 
 ## 仍须完成
 
