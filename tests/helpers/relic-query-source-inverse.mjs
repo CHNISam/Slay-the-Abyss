@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
+import {preM7FinalSource,m7FinalReader} from './m7-core-final-source-inverse.mjs';
 const normalize=s=>s.replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const archive=readFileSync(new URL('./relic-query-baseline-391306af.json.gz',import.meta.url));
@@ -91,9 +92,11 @@ function inputIdentity(path,source){
  }catch{return false;}
 }
 export function preRelicQuerySource(path,source,{readSource=readLive}={}){
+ readSource=m7FinalReader(rawReaders.get(readSource)??readSource);
+ source=preM7FinalSource(path,source,{readSource});
  if(!Object.hasOwn(files[path]??{},'beforeSha256')||!inputIdentity(path,source))return source;
  assert.equal(typeof readSource,'function','relic query linked reader must be a function');
- readSource=rawReaders.get(readSource)??readSource;
+ readSource=m7FinalReader(rawReaders.get(readSource)??readSource);
  let liveConfiguration;
  for(const linked of Object.keys(files)){
   let current;try{current=readSource(linked);}catch(error){assert.fail('relic query linked owner missing: '+linked+': '+String(error?.message??error));}

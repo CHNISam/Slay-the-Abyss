@@ -8,9 +8,12 @@ import {tmpdir} from 'node:os';
 import {preCoreLifecycleSource,coreLifecycleSourceProof} from './helpers/core-lifecycle-source-inverse.mjs';
 import {preGameUiExtractionSource} from './helpers/game-ui-extraction-source-inverse.mjs';
 import * as epoch from './helpers/relic-query-source-inverse.mjs';
+import {preM7FinalSource} from './helpers/m7-core-final-source-inverse.mjs';
 const normalize=s=>s.replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
-const read=p=>normalize(readFileSync(p,'utf8'));
+// Exercise the unchanged N35 source epoch itself. The new three-owner outer
+// epoch has its own fresh-owner, missing/foreign-source and behavior contracts.
+const read=p=>preM7FinalSource(p,normalize(readFileSync(p,'utf8')));
 const bytes=readFileSync('tests/helpers/relic-query-baseline-391306af.json.gz');
 assert.equal(hash(bytes),'df89de0002fee32b9300489b95432ce4287c467435af804f481241ee3c3bbdf2');
 const frozen=JSON.parse(gunzipSync(bytes));

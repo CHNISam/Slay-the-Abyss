@@ -14,20 +14,31 @@ local conditions={low=true,not_low=true,infused=true,bloom_target=true,has_bloom
 local function live(enemy)return Actors.isActive(enemy)end
 local function active(value)return value.uses>0 and value.ends>0 end
 local function integer(n)return type(n)=='number' and n>=0 and n%1==0 and n<=2147483647 end
-local function validateEffects(effects)
+local function denseEffects(effects)
     if type(effects)~='table' or #effects==0 then return false end
     local count=0;for k in pairs(effects)do if type(k)~='number' or k<1 or k%1~=0 then return false end;count=count+1 end
-    if count~=#effects then return false end
+    return count==#effects
+end
+local function validAmount(e)
+    if e.op=='spend' then
+        if e.resource~='bond' and e.resource~='fan' and e.resource~='resolve' then return false end
+        if e.n~='all' and not integer(e.n)then return false end
+    elseif e.n~=nil and not integer(e.n)then return false end
+    return true
+end
+local function validTargetFields(e)
+    if e.target~=nil and e.target~='one' and e.target~='all'then return false end
+    if e.hits~=nil and (not integer(e.hits) or e.hits==0)then return false end
+    if e.coefficient~=nil and (type(e.coefficient)~='number' or e.coefficient<0 or e.coefficient~=e.coefficient)then return false end
+    return true
+end
+local function validateEffects(effects)
+    if not denseEffects(effects)then return false end
     for _,e in ipairs(effects)do
         if type(e)~='table' or not ops[e.op] then return false end
         if e.op=='when' and (not conditions[e.condition] or not validateEffects(e.effects))then return false end
-        if e.op=='spend' then
-            if e.resource~='bond' and e.resource~='fan' and e.resource~='resolve' then return false end
-            if e.n~='all' and not integer(e.n)then return false end
-        elseif e.n~=nil and not integer(e.n)then return false end
-        if e.target~=nil and e.target~='one' and e.target~='all'then return false end
-        if e.hits~=nil and (not integer(e.hits) or e.hits==0)then return false end
-        if e.coefficient~=nil and (type(e.coefficient)~='number' or e.coefficient<0 or e.coefficient~=e.coefficient)then return false end
+        if not validAmount(e)then return false end
+        if not validTargetFields(e)then return false end
     end
     return true
 end
@@ -193,25 +204,23 @@ trigger=function(combat,state,member)
     batch(combat,state,assert(r.guest_base_damage[member]),targets,1,nil,extra,true)
 end
 local apply
-apply=function(combat,state,e,target,ctx)
-    if state.player.hp<=0 then return end
-    local v,r,n=state.originalV4,state.originalV4Rules,e.n or 0
-    local op=e.op
-    if op=='when'then
-        assert(conditions[e.condition],'unknown original condition')
-        if ctx.snapshot[e.condition]then for _,part in ipairs(e.effects)do apply(combat,state,part,target,ctx)end end
-    elseif op=='pay_hp'then
-        -- Mandatory payments were aggregated and paid before the only snapshot.
-        return
-    elseif op=='damage' or op=='damage_spent'then
-        batch(combat,state,n+(op=='damage_spent' and e.coefficient*ctx.spent or 0),selected(state,e,target),e.hits or 1,ctx,0,false)
-    elseif op=='block' or op=='block_spent'then M.block(state,n+(op=='block_spent' and e.coefficient*ctx.spent or 0),false)
+local function applyDamage(combat,state,e,target,ctx,_v,_r,n,op)
+    batch(combat,state,n+(op=='damage_spent' and e.coefficient*ctx.spent or 0),selected(state,e,target),e.hits or 1,ctx,0,false)
+end
+local function applyBasic(combat,state,e,_target,ctx,_v,_r,n,op)
+    if op=='block' or op=='block_spent'then M.block(state,n+(op=='block_spent' and e.coefficient*ctx.spent or 0),false)
     elseif op=='heal' or op=='heal_spent'then Health.heal(state,state.player,n+(op=='heal_spent' and e.coefficient*ctx.spent or 0),ctx.tag)
     elseif op=='draw'then if not combat.outcome(state)then combat.draw(state,n)end
-    elseif op=='next_block'then v.nextBlock=math.min(r.common.next_block_cap,v.nextBlock+n)
+    end
+end
+local function applyNext(_combat,_state,_e,_target,_ctx,v,r,n,op)
+    if op=='next_block'then v.nextBlock=math.min(r.common.next_block_cap,v.nextBlock+n)
     elseif op=='next_draw'then v.nextDraw=math.min(r.common.next_draw_cap,v.nextDraw+n)
     elseif op=='next_energy'then v.nextEnergy=math.min(r.common.next_energy_cap,v.nextEnergy+n)
-    elseif op=='infuse'then v.infuse=math.max(v.infuse,math.min(r.HT.window_end_phases,n))
+    end
+end
+local function applyHT(combat,state,e,target,_ctx,v,r,n,op)
+    if op=='infuse'then v.infuse=math.max(v.infuse,math.min(r.HT.window_end_phases,n))
     elseif op=='end_infuse'then v.infuse=0
     elseif op=='bloom'then
         for _,enemy in ipairs(selected(state,e,target))do local old=enemy.v4Bloom
@@ -221,23 +230,35 @@ apply=function(combat,state,e,target,ctx)
         for _,enemy in ipairs(selected(state,e,target))do local b=enemy.v4Bloom;enemy.v4Bloom=nil
             if b then combat.damage(state,state.player,enemy,2*b.strength*b.ticks,true)end
         end
-    elseif op=='bonus'then local value=math.min(6,n);if value>=v.bonus.n then v.bonus={n=value,tag=e.tag}end
+    end
+end
+local function applyGuard(_combat,_state,e,_target,_ctx,v,_r,n,op)
+    if op=='bonus'then local value=math.min(6,n);if value>=v.bonus.n then v.bonus={n=value,tag=e.tag}end
     elseif op=='soften'then v.soften=math.min(6,v.soften+n)
     elseif op=='counter'then v.counter=math.max(v.counter,math.min(8,n))
-    elseif op=='directive'then for _,enemy in ipairs(selected(state,e,target))do enemy.v4Directive=enemy.v4Directive or {mature=false}end
+    end
+end
+local function applyAR(_combat,state,e,target,ctx,v,r,n,op)
+    if op=='directive'then for _,enemy in ipairs(selected(state,e,target))do enemy.v4Directive=enemy.v4Directive or {mature=false}end
     elseif op=='mature'then for _,enemy in ipairs(selected(state,e,target))do if enemy.v4Directive then enemy.v4Directive.mature=true end end
     elseif op=='absorb'then for _,enemy in ipairs(selected(state,e,target))do local mark=enemy.v4Directive
         if mark then enemy.v4Directive=nil;bond(state,mark.mature and r.AR.ripe_absorb or r.AR.unripe_absorb,mark.mature)end
     end
     elseif op=='spend'then local amount=n=='all' and v[e.resource] or n
         assert(v[e.resource]>=amount,'original_v4 insufficient '..e.resource);v[e.resource]=v[e.resource]-amount;ctx.spent=amount
-    elseif op=='mode'then switch(combat,state,e.mode)
+    end
+end
+local function applyFR(combat,state,e,_target,ctx,v,r,n,op)
+    if op=='mode'then switch(combat,state,e.mode)
     elseif op=='toggle'then switch(combat,state,v.mode=='ousia' and 'pneuma' or 'ousia')
     elseif op=='summon'then v.guests[e.member]=math.max(v.guests[e.member],math.min(r.FR.guest_charges_max,n))
     elseif op=='singer'then v.singer=math.max(v.singer,math.min(r.FR.singer_charges_max,n))
     elseif op=='trigger'then trigger(combat,state,e.member)
     elseif op=='revelry'then v.revelry={uses=math.min(r.FR.revelry_batches,n),ends=r.FR.revelry_end_phases,bonus=math.min(4,math.floor(ctx.spent/3))}
-    elseif op=='resolve'then resolve(state,n)
+    end
+end
+local function applyRD(combat,state,_e,target,_ctx,v,r,n,op)
+    if op=='resolve'then resolve(state,n)
     elseif op=='eye'then v.eye={uses=math.max(v.eye.uses,math.min(r.RD.eye_uses_max,n)),ends=r.RD.eye_end_phases}
     elseif op=='eye_pulse'then if active(v.eye) and live(target)then v.eye.uses=v.eye.uses-1;combat.damage(state,state.player,target,r.RD.eye_damage,true)end
     elseif op=='musou'then v.musou={uses=math.max(v.musou.uses,math.min(r.RD.musou_uses_max,n)),ends=r.RD.musou_end_phases}
@@ -245,7 +266,58 @@ apply=function(combat,state,e,target,ctx)
         local before=state.player.statuses[id]
         if before then state.player.statuses[id]=nil;Events.emit(state,'status',{source=state.player.id,target=state.player.id,status=id,amount=-before})end
     end
-    else error('unsupported original op '..tostring(op))end
+    end
+end
+-- Closed effect families, with no registration or state owner outside this module.
+local effectFamilies={damage=applyDamage,damage_spent=applyDamage,block=applyBasic,block_spent=applyBasic,
+    heal=applyBasic,heal_spent=applyBasic,draw=applyBasic,
+    next_block=applyNext,next_draw=applyNext,next_energy=applyNext,
+    infuse=applyHT,end_infuse=applyHT,bloom=applyHT,cash_bloom=applyHT,
+    bonus=applyGuard,soften=applyGuard,counter=applyGuard,
+    directive=applyAR,mature=applyAR,absorb=applyAR,spend=applyAR,
+    mode=applyFR,toggle=applyFR,summon=applyFR,singer=applyFR,trigger=applyFR,revelry=applyFR,
+    resolve=applyRD,eye=applyRD,eye_pulse=applyRD,musou=applyRD,cleanse=applyRD}
+apply=function(combat,state,e,target,ctx)
+    if state.player.hp<=0 then return end
+    local v,r,n=state.originalV4,state.originalV4Rules,e.n or 0
+    local op=e.op
+    if op=='when'then
+        assert(conditions[e.condition],'unknown original condition')
+        if ctx.snapshot[e.condition]then for _,part in ipairs(e.effects)do apply(combat,state,part,target,ctx)end end
+    elseif op~='pay_hp'then
+        -- Mandatory payments were aggregated and paid before the only snapshot.
+        local family=effectFamilies[op]
+        if not family then error('unsupported original op '..tostring(op))end
+        family(combat,state,e,target,ctx,v,r,n,op)
+    end
+end
+local function infuseRoot(v,r,raw,ctx)
+    local low=ctx.snapshot.low and r.HT.low_hp_extra or 0
+    if raw.category=='normal'then ctx.firstBonus=ctx.firstBonus+r.HT.normal_first_hit_bonus+low
+    elseif raw.category=='charged' and v.chargedUsed<r.HT.charged_eligible_cards_per_turn then
+        ctx.firstBonus=ctx.firstBonus+r.HT.charged_first_hit_bonus+low;v.chargedUsed=v.chargedUsed+1;ctx.htMark=true
+    end
+end
+local function rootBonus(v,r,raw,ctx)
+    if v.bonus.n>0 and (v.bonus.tag=='any' or v.bonus.tag==raw.category)then ctx.firstBonus=v.bonus.n;v.bonus={n=0,tag='any'}end
+    if v.role=='HT' and v.infuse>0 then infuseRoot(v,r,raw,ctx)
+    elseif v.role=='AR' and raw.category=='normal' and v.bond>=2 then ctx.firstBonus=ctx.firstBonus+v.bond;v.bond=v.bond-1
+    elseif v.role=='RD' and raw.category=='normal' and active(v.musou)then
+        v.musou.uses=v.musou.uses-1;ctx.firstBonus=ctx.firstBonus+r.RD.musou_first_hit_bonus;ctx.musouPaid=true
+    end
+end
+local function settleRaiden(combat,state,item,version,raw,ctx,v,r)
+    local actualPaid=item.effect.paidEnergy or version.cost
+    if raw.category=='command' and actualPaid>=1 then resolve(state,r.RD.paid_command_resolve_gain)
+        if not v.relicUsed then v.relicUsed=true;M.block(state,2,true)end
+    end
+    if ctx.musouPaid and ctx.actualDirect>0 and v.musouRefunded<r.RD.musou_energy_refunds_per_turn_max then
+        v.nextEnergy=math.min(r.common.next_energy_cap,v.nextEnergy+1);v.musouRefunded=v.musouRefunded+1
+    end
+    if ctx.snapshot.eye and ctx.actualDirect>0 and active(v.eye)then
+        local target=live(item.target) and item.target or selected(state,{target='all'})[1]
+        if target then v.eye.uses=v.eye.uses-1;combat.damage(state,state.player,target,r.RD.eye_damage,true)end
+    end
 end
 local function executeRoot(combat,state,item)
     local raw=item.effect.raw;assert(M.supported(raw),'unsupported original card')
@@ -254,35 +326,11 @@ local function executeRoot(combat,state,item)
     for _,e in ipairs(version.effects)do if e.op=='pay_hp'then paid=paid+e.n end end
     pay(combat,state,paid)
     local ctx={snapshot=M.snapshot(state,item.target),spent=0,tag=raw.category,firstBonus=0,directSeen=false,actualDirect=0}
-    if direct(version.effects)then
-        if v.bonus.n>0 and (v.bonus.tag=='any' or v.bonus.tag==raw.category)then ctx.firstBonus=v.bonus.n;v.bonus={n=0,tag='any'}end
-        if v.role=='HT' and v.infuse>0 then
-            local low=ctx.snapshot.low and r.HT.low_hp_extra or 0
-            if raw.category=='normal'then ctx.firstBonus=ctx.firstBonus+r.HT.normal_first_hit_bonus+low
-            elseif raw.category=='charged' and v.chargedUsed<r.HT.charged_eligible_cards_per_turn then
-                ctx.firstBonus=ctx.firstBonus+r.HT.charged_first_hit_bonus+low;v.chargedUsed=v.chargedUsed+1;ctx.htMark=true
-            end
-        elseif v.role=='AR' and raw.category=='normal' and v.bond>=2 then ctx.firstBonus=ctx.firstBonus+v.bond;v.bond=v.bond-1
-        elseif v.role=='RD' and raw.category=='normal' and active(v.musou)then
-            v.musou.uses=v.musou.uses-1;ctx.firstBonus=ctx.firstBonus+r.RD.musou_first_hit_bonus;ctx.musouPaid=true
-        end
-    end
+    if direct(version.effects)then rootBonus(v,r,raw,ctx)end
     for _,e in ipairs(version.effects)do apply(combat,state,e,item.target,ctx)end
     if state.player.hp<=0 then return end
     if ctx.htMark and live(item.target)then apply(combat,state,{op='bloom',n=1},item.target,ctx)end
-    if v.role=='RD'then
-        local actualPaid=item.effect.paidEnergy or version.cost
-        if raw.category=='command' and actualPaid>=1 then resolve(state,r.RD.paid_command_resolve_gain)
-            if not v.relicUsed then v.relicUsed=true;M.block(state,2,true)end
-        end
-        if ctx.musouPaid and ctx.actualDirect>0 and v.musouRefunded<r.RD.musou_energy_refunds_per_turn_max then
-            v.nextEnergy=math.min(r.common.next_energy_cap,v.nextEnergy+1);v.musouRefunded=v.musouRefunded+1
-        end
-        if ctx.snapshot.eye and ctx.actualDirect>0 and active(v.eye)then
-            local target=live(item.target) and item.target or selected(state,{target='all'})[1]
-            if target then v.eye.uses=v.eye.uses-1;combat.damage(state,state.player,target,r.RD.eye_damage,true)end
-        end
-    end
+    if v.role=='RD'then settleRaiden(combat,state,item,version,raw,ctx,v,r)end
 end
 function M.execute(combat,state,item)
     local previous=state.resolvingEffects;state.resolvingEffects=true
