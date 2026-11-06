@@ -2,19 +2,17 @@
 local A=require('abyss_actor')
 local S=require('abyss_sts_random')
 local E=require('abyss_events')
-local M={}
-local aliases={Ginger='ginger',['Bird Faced Urn']='bird_faced_urn',['Unceasing Top']='unceasing_top',Torii='torii',
- StoneCalendar='stone_calendar',Shovel='shovel',WingedGreaves='winged_greaves',['Thread and Needle']='thread_and_needle',
- Turnip='turnip',['Ice Cream']='ice_cream',Calipers='calipers',['Prayer Wheel']='prayer_wheel',Girya='girya',
- ['Dead Branch']='dead_branch',['Du-Vu Doll']='du_vu_doll',Pocketwatch='pocketwatch',['Incense Burner']='incense_burner',
- ['Gambling Chip']='gambling_chip',['Peace Pipe']='peace_pipe',CaptainsWheel='captains_wheel',['Magic Flower']='magic_flower',
- ["Charon's Ashes"]='charons_ashes',['Champion Belt']='champion_belt'}
-function M.localId(id)return aliases[id]or id end
-local function owns(s,id)
- for _,held in ipairs(s.relics or {})do if M.localId(held)==id then return true end end
- return false
+local Queries=require('abyss_relic_queries').rare
+-- Only these public query fields share slots; other fields remain ordinary.
+local function queryIndex(_,key)
+ if key=='localId' or key=='owns' then return Queries[key] end
 end
-M.owns=owns
+local function queryNewIndex(self,key,value)
+ if key=='localId' or key=='owns' then Queries[key]=value
+ else rawset(self,key,value) end
+end
+local M=setmetatable({}, {__index=queryIndex,__newindex=queryNewIndex})
+local owns=Queries.privateOwns
 local function counters(s)s.relicCounters=s.relicCounters or {};return s.relicCounters end
 local function flags(s)s.rareRelicCombat=s.rareRelicCombat or {};return s.rareRelicCombat end
 local function enqueue(s,e,top)require('abyss_card_actions').enqueueReaction(s,e,top)end

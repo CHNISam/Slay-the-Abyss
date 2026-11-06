@@ -1,5 +1,6 @@
 {
   "layers": {
+    "abyss_relic_queries": "core",
     "abyss_actor_power_rules": "core",
     "abyss_combat_reactions": "core",
     "abyss_compendium_catalog": "ui",
@@ -581,6 +582,18 @@
     }
   ],
   "dependencyBoundaries": [
+    {
+      "id": "relic-query-independence",
+      "from": ["abyss_relic_queries"],
+      "forbiddenTargets": ["abyss_relic_hooks", "abyss_uncommon_relics", "abyss_rare_relics", "abyss_boss_relics", "abyss_shop_relics", "abyss_actor", "abyss_combat", "abyss_run", "abyss_card_actions"],
+      "reason": "Read-only relic identity and reward counts cannot load execution or state owners."
+    },
+    {
+      "id": "card-pool-read-queries",
+      "from": ["abyss_card_pool"],
+      "forbiddenTargets": ["abyss_relic_hooks", "abyss_uncommon_relics", "abyss_rare_relics", "abyss_boss_relics", "abyss_shop_relics"],
+      "reason": "Card reward selection reads relic queries without importing mixed execution facades."
+    },
     {
       "id": "actor-power-rules-independence",
       "from": ["abyss_actor_power_rules"],

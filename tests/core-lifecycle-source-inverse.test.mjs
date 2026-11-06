@@ -7,6 +7,7 @@ import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 import {preDeckDeliverySource} from './helpers/deck-delivery-source-composition.mjs';
 import * as core from './helpers/core-lifecycle-source-inverse.mjs';
+import {preRelicQuerySource} from './helpers/relic-query-source-inverse.mjs';
 const prior=core.preCoreLifecycleSource,proof=core.coreLifecycleSourceProof;
 const normalize=s=>s.replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(normalize(s)).digest('hex');
@@ -18,7 +19,9 @@ const oldHashes={
  [combat]:'6929906a274bc84dd2914083ae3d0019ef7ad5d89659f357ff979a89ee9e7805',
  [config]:'fcaff296e24d74abe704b4d3e7c420f6492986ec2ffe9e440cfe5b6b65768380',
 };
-const read=p=>normalize(readFileSync(p,'utf8'));
+// This existing contract owns the complete pre-query epoch; the new eight-owner
+// source test separately authenticates all current production files.
+const read=p=>preRelicQuerySource(p,normalize(readFileSync(p,'utf8')));
 function before(p){
  if(p===actor)return read('tests/helpers/actor-lifecycle-before.lua');
  if(p===combat)return normalize(gunzipSync(Buffer.from(JSON.parse(read('tests/helpers/combat-lifecycle-before.json')).gzipBase64,'base64')).toString('utf8'));

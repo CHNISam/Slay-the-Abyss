@@ -7,14 +7,16 @@ import {pathToFileURL} from 'node:url';
 import {spawnSync} from 'node:child_process';
 import {gameUiExtractionProof as proof,gameUiExtractionAddedPaths as added,preGameUiExtractionSource as project,gameUiExtractionReader,prepareGameUiExtractionModuleRetirement as prepare} from './helpers/game-ui-extraction-source-inverse.mjs';
 import {preCoreLifecycleSource} from './helpers/core-lifecycle-source-inverse.mjs';
-const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
+import {preRelicQuerySource} from './helpers/relic-query-source-inverse.mjs';
+// Keep the existing two/four-owner contracts in their original source epochs.
+const read=p=>preRelicQuerySource(p,readFileSync(p,'utf8').replaceAll('\r\n','\n'));
 const host='src/lua/abyss_game_ui.lua',architecture='config/architecture.json';
 const paths=Object.keys(proof.files);
 const lifecycleSources=['src/lua/abyss_actor.lua','src/lua/abyss_combat.lua','src/lua/abyss_actor_power_rules.lua'];
-const lifecycleHelpers=['tests/helpers/core-lifecycle-source-inverse.mjs','tests/helpers/actor-lifecycle-before.lua','tests/helpers/combat-lifecycle-before.json'];
+const lifecycleHelpers=['tests/helpers/core-lifecycle-source-inverse.mjs','tests/helpers/actor-lifecycle-before.lua','tests/helpers/combat-lifecycle-before.json','tests/helpers/relic-query-source-inverse.mjs','tests/helpers/relic-query-baseline-391306af.json.gz'];
 const lifecycleReads=4;
 const originalInputs=()=>Object.fromEntries(paths.map(path=>[path,preCoreLifecycleSource(path,read(path))]));
-function copy(root,path){const target=join(root,path);mkdirSync(dirname(target),{recursive:true});copyFileSync(path,target);}
+function copy(root,path){const target=join(root,path);mkdirSync(dirname(target),{recursive:true});if(path===architecture)writeFileSync(target,read(path));else copyFileSync(path,target);}
 function isolated(t){const root=mkdtempSync(join(tmpdir(),'game-ui-source-proof-'));t.after(()=>rmSync(root,{recursive:true,force:true}));return root;}
 
 test('one complete extraction restores immutable full Host/config and authenticates each fresh owner',()=>{

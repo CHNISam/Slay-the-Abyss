@@ -4,27 +4,16 @@
 local A=require('abyss_actor')
 local E=require('abyss_events')
 local S=require('abyss_sts_random')
-local M={}
-local aliases={['Bloody Idol']='bloody_idol',MutagenicStrength='mutagenic_strength',Necronomicon='necronomicon',Enchiridion='enchiridion',["Nilry's Codex"]='nilrys_codex',["Nloth's Gift"]="nloths_gift",NlothsGift="nloths_gift",CultistMask='cultist_mask',FaceOfCleric='face_of_cleric',GremlinMask='gremlin_mask',NlothsMask='nloths_mask',SsserpentHead='ssserpent_head',FossilizedHelix='fossilized_helix',Pantograph='pantograph',SacredBark='sacred_bark',['White Beast Statue']='white_beast_statue',['Old Coin']='old_coin',
- ['Frozen Egg 2']='frozen_egg',['Coffee Dripper']='coffee_dripper',['Fusion Hammer']='fusion_hammer',
- NeowsBlessing='neows_lament',['Darkstone Periapt']='darkstone_periapt',Omamori='omamori',CeramicFish='ceramic_fish',['Potion Belt']='potion_belt',
- MealTicket='meal_ticket',MawBank='maw_bank',['Blood Vial']='blood_vial',
- ['Bag of Marbles']='bag_of_marbles',Orichalcum='orichalcum',Ectoplasm='ectoplasm',
- Strawberry='strawberry',Pear='pear',Mango='mango',["Lee's Waffle"]='lees_waffle',['Regal Pillow']='regal_pillow',['Toy Ornithopter']='toy_ornithopter',
- Whetstone='whetstone',['War Paint']='war_paint',['Happy Flower']='happy_flower',
- ['Ancient Tea Set']='ancient_tea_set',['Art of War']='art_of_war',
- Boot='boot',Akabeko='akabeko',['Pen Nib']='pen_nib',Nunchaku='nunchaku',
- PreservedInsect='preserved_insect',['Red Skull']='red_skull',['Centennial Puzzle']='centennial_puzzle',
- ['Tiny Chest']='tiny_chest',['Juzu Bracelet']='juzu_bracelet',['Dream Catcher']='dream_catcher',
- WarpedTongs='warped_tongs',['Spirit Poop']='spirit_poop',Circlet='circlet',TungstenRod='tungsten_rod',
- ['Red Mask']='red_mask',['Toxic Egg 2']='toxic_egg',['Molten Egg 2']='molten_egg',['Snake Skull']='snake_skull',DataDisk='data_disk',Damaru='damaru',['Mark of the Bloom']='mark_of_bloom',['Lizard Tail']='lizard_tail'}
-function M.localId(id)
- return aliases[id] or require('abyss_shop_relics').localId(require('abyss_boss_relics').localId(require('abyss_rare_relics').localId(require('abyss_uncommon_relics').localId(id))))
+local Queries=require('abyss_relic_queries').hooks
+-- Only these public query fields share slots; other fields remain ordinary.
+local function queryIndex(_,key)
+ if key=='localId' or key=='owns' then return Queries[key] end
 end
-function M.owns(owner,id)
- for _,held in ipairs(owner.relics or {})do if M.localId(held)==id then return true end end
- return false
+local function queryNewIndex(self,key,value)
+ if key=='localId' or key=='owns' then Queries[key]=value
+ else rawset(self,key,value) end
 end
+local M=setmetatable({}, {__index=queryIndex,__newindex=queryNewIndex})
 local function integer(n)return type(n)=='number' and n%1==0 and n>=0 and n<=2147483647 end
 -- AbstractPlayer.damage dispatches this after onAttacked (including Static
 -- Discharge), before Powers.onLoseHp and the actual HP/death notification.

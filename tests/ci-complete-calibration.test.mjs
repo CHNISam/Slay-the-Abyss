@@ -16,8 +16,10 @@ const path='scripts/ci-test-timings.json',binding=proof.files[path],before=JSON.
 // belong to the current Full inventory and retain the unknown-file cost.
 const postCalibrationJs=['tests/ci-complete-calibration.test.mjs','tests/native-ui-preview.test.mjs','tests/reference-ui-lab.test.mjs',
  'tests/actor-lifecycle.test.mjs','tests/actor-power-rules-boundary.test.mjs','tests/combat-lifecycle.test.mjs',
- 'tests/core-lifecycle-complexity.test.mjs','tests/core-lifecycle-source-inverse.test.mjs'].sort();
+ 'tests/core-lifecycle-complexity.test.mjs','tests/core-lifecycle-source-inverse.test.mjs',
+ 'tests/relic-query.test.mjs','tests/relic-query-architecture.test.mjs','tests/relic-query-source-inverse.test.mjs'].sort();
 const postCalibrationLua=['tests/lua/actor_lifecycle.lua','tests/lua/actor_lifecycle_rules.lua','tests/lua/combat-lifecycle.lua',
+ 'tests/lua/relic_query_contract.lua','tests/lua/relic_query_rewards.lua','tests/lua/relic_query_cold_load.lua',
  'tests/lua/joust_event_slice_2.lua'].sort();
 
 test('complete native successful rows authenticate every observed file and only raise effective placement costs',()=>{

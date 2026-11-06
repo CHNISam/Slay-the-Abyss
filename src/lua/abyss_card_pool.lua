@@ -3,11 +3,12 @@
 -- an unsupported result. Canonical pool evidence lives in data/reference.
 local R=require('abyss_sts_random')
 local Acts=require('abyss_acts')
+local Queries=require('abyss_relic_queries')
 local M={}
 function M.rewardCount(run,base)
     local n=(base or run.data.rules.rewards.cardChoices)
-    if require('abyss_relic_hooks').owns(run,'question_card')then n=n+1 end
-    return require('abyss_boss_relics').cardRewardCount(run,n)
+    if Queries.hooks.owns(run,'question_card')then n=n+1 end
+    return Queries.boss.cardRewardCount(run,n)
 end
 function M.prismaticPools(run)
     local pools={common={},uncommon={},rare={}}
@@ -43,7 +44,7 @@ end
 function M.prepareRewards(run)
     local rng=R.cloneState(run.cardRng)
     local offset,choices,used=run.cardRarityOffset or 5,{},{}
-    local prismatic=require('abyss_relic_hooks').owns(run,'prismatic_shard')
+    local prismatic=Queries.hooks.owns(run,'prismatic_shard')
     local pools=prismatic and M.prismaticPools(run)or assert(run.data.cards.sourcePools,'missing source pools').reward
     for _=1,M.rewardCount(run) do
         local rarity=M.rarity(R.randomInt(rng,99),offset,run.encounterTier,run.relics)

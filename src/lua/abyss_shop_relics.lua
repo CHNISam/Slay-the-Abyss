@@ -4,16 +4,16 @@
 local A=require('abyss_actor')
 local E=require('abyss_events')
 local R=require('abyss_sts_random')
-local M={}
-M.aliases={Sling='sling',HandDrill='hand_drill',Toolbox='toolbox',['Chemical X']='chemical_x',
- Orrery='orrery',DollysMirror='dollys_mirror',OrangePellets='orange_pellets',PrismaticShard='prismatic_shard',
- ClockworkSouvenir='clockwork_souvenir',['Frozen Eye']='frozen_eye',TheAbacus='the_abacus',
- ['Medical Kit']='medical_kit',Cauldron='cauldron',['Strange Spoon']='strange_spoon',Brimstone='brimstone'}
-function M.localId(id)return M.aliases[id]or id end
-function M.owns(owner,id)
- for _,held in ipairs(owner.relics or {})do if (M.aliases[held]or held)==id then return true end end
- return false
+local Queries=require('abyss_relic_queries').shop
+-- Only these public query fields share slots; other fields remain ordinary.
+local function queryIndex(_,key)
+ if key=='localId' or key=='owns' or key=='aliases' then return Queries[key] end
 end
+local function queryNewIndex(self,key,value)
+ if key=='localId' or key=='owns' or key=='aliases' then Queries[key]=value
+ else rawset(self,key,value) end
+end
+local M=setmetatable({}, {__index=queryIndex,__newindex=queryNewIndex})
 function M.onEquip(run,id,api)
  id=M.aliases[id]or id
  api=api and api.openRewards and api or require('abyss_relic_choices').adapter()

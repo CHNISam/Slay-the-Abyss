@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
+import {preRelicQuerySource,relicQueryReader} from './relic-query-source-inverse.mjs';
 const normalize=s=>s.replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(normalize(s)).digest('hex');
 const readHelper=p=>readFileSync(new URL('./'+p,import.meta.url),'utf8');
@@ -48,10 +49,12 @@ function inputIdentity(path,source){
  }catch{return false;}
 }
 export function preCoreLifecycleSource(path,source,{readSource=readLive}={}){
+ readSource=rawReaders.get(readSource)??readSource;
+ source=preRelicQuerySource(path,source,{readSource});
  // Old, foreign and partial inputs never cause I/O or enter this new epoch.
  if(!Object.hasOwn(files[path]??{},'beforeSha256')||!inputIdentity(path,source))return source;
  assert.equal(typeof readSource,'function','lifecycle linked reader must be a function');
- readSource=rawReaders.get(readSource)??readSource;
+ readSource=relicQueryReader(readSource);
  let liveConfiguration;
  for(const linked of Object.keys(files)){
   let current;try{current=readSource(linked);}catch(error){assert.fail('lifecycle linked owner missing: '+linked+': '+String(error?.message??error));}

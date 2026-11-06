@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "baselineRevision": "391306af70d9f5c6fb510223e113fcb7dcb755df",
+  "status": "local slice; independent final and hosted delivery pending",
+  "normalization": "LF",
+  "files": {
+    "src/lua/abyss_relic_hooks.lua": "c3bc73e73d7b835fac49d42b12ac199f243fd76f6c2988a3d9d147759c96911f",
+    "src/lua/abyss_uncommon_relics.lua": "1b86859b174c9c6986fe26a3bc98281321bd8a4446a879193ca35cb7952f1d20",
+    "src/lua/abyss_rare_relics.lua": "01364ecb3eed3e3da82f3a4606a3ca2f759496d3c2c04cf8d1773fb2c4903330",
+    "src/lua/abyss_boss_relics.lua": "652915c305681443034bc618963bd6bbedc128c6b40516d32ea681a0ac8048b1",
+    "src/lua/abyss_shop_relics.lua": "058568afbf864bf8ad4d90ff7c9de10d129193dd7edabff39805181721097281",
+    "src/lua/abyss_card_pool.lua": "dfc3a89f7df686a677b960430b8ad1be5a8042fcb4ae9a29537659795a2d0f90",
+    "src/lua/abyss_relic_queries.lua": "c0f79cbc6c37dc66df34a2d0ee0e3e45b813a20caec6524a196cb42880a8dedd",
+    "config/architecture.json": "aa03240ef422e3ba71cde0b713b57d08f750348c33e1a1f0d81edaea56dcc3db"
+  },
+  "coverage": {
+    "modules": 330,
+    "functions": 4995,
+    "measurements": 5325,
+    "expectedMeasurements": 5325
+  },
+  "dependencies": {
+    "before": {
+      "modules": 329,
+      "positions": 1903,
+      "uniquePairs": 1536,
+      "sccMembers": 104,
+      "sccPositions": 804,
+      "sccPairs": 538
+    },
+    "after": {
+      "modules": 330,
+      "positions": 1902,
+      "uniquePairs": 1540,
+      "sccMembers": 103,
+      "sccPositions": 791,
+      "sccPairs": 530,
+      "cardPoolInScc": false,
+      "queryOutbound": 0
+    }
+  },
+  "behavior": {
+    "aliases": 139,
+    "rewardCases": 48,
+    "rngBoundaries": 344,
+    "independentVMs": true,
+    "frozenArchiveSha256": "df89de0002fee32b9300489b95432ce4287c467435af804f481241ee3c3bbdf2"
+  },
+  "unverified": [
+    "exact final commit hosted Full",
+    "actual develop merge and push Full",
+    "official import/ready/capacity/device",
+    "runtime performance gain"
+  ]
+}

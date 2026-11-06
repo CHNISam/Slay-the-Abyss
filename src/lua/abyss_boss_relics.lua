@@ -2,22 +2,21 @@
 -- Selection/reward continuation belongs to the caller; no filtered random pools.
 local R=require('abyss_sts_random')
 local A=require('abyss_actor')
-local M={}
+local Queries=require('abyss_relic_queries').boss
+-- Only these public query fields share slots; other fields remain ordinary.
+local function queryIndex(_,key)
+ if key=='localId' or key=='cardRewardCount' then return Queries[key] end
+end
+local function queryNewIndex(self,key,value)
+ if key=='localId' or key=='cardRewardCount' then Queries[key]=value
+ else rawset(self,key,value) end
+end
+local M=setmetatable({}, {__index=queryIndex,__newindex=queryNewIndex})
+local owns=Queries.privateOwns
 local energy={velvet_choker=true,runic_dome=true,cursed_key=true,busted_crown=true,
  ectoplasm=true,philosophers_stone=true,mark_of_pain=true}
-local aliases={['Velvet Choker']='velvet_choker',['Runic Dome']='runic_dome',['Snecko Eye']='snecko_eye',
- ["Pandora's Box"]='pandoras_box',['Cursed Key']='cursed_key',['Busted Crown']='busted_crown',
- Ectoplasm='ectoplasm',['Tiny House']='tiny_house',["Philosopher's Stone"]='philosophers_stone',
- Astrolabe='astrolabe',['Empty Cage']='empty_cage',['Runic Pyramid']='runic_pyramid',
- ['Calling Bell']='calling_bell',['Mark of Pain']='mark_of_pain',['Runic Cube']='runic_cube'}
-function M.localId(id)return aliases[id]or id end
-local function owns(owner,id)
- for _,v in ipairs(owner and owner.relics or {})do if M.localId(v)==id then return true end end
- return false
-end
 function M.energyBonus(id)return energy[M.localId(id)]and 1 or 0 end
 function M.drawBonus(owner)return owns(owner,'snecko_eye')and 2 or 0 end
-function M.cardRewardCount(owner,n)return n-(owns(owner,'busted_crown')and 2 or 0)end
 function M.hidesIntents(owner)return owns(owner,'runic_dome')end
 function M.retainsHand(owner)return owns(owner,'runic_pyramid')end
 function M.atTurnStart(state)

@@ -1,19 +1,15 @@
 -- STS 319009d5: uncommon relic callbacks; the caller owns queue placement.
-local M={}
-local aliases={['Bottled Tornado']='bottled_tornado',Sundial='sundial',Kunai='kunai',
- ['Blue Candle']='blue_candle',['Eternal Feather']='eternal_feather',StrikeDummy='strike_dummy',
- ['Singing Bowl']='singing_bowl',Matryoshka='matryoshka',InkBottle='ink_bottle',
- ['Ornamental Fan']='ornamental_fan',['Bottled Lightning']='bottled_lightning',
- ['Gremlin Horn']='gremlin_horn',HornCleat='horn_cleat',['Letter Opener']='letter_opener',
- ['Question Card']='question_card',['Bottled Flame']='bottled_flame',Shuriken='shuriken',
- ['Meat on the Bone']='meat_on_the_bone',['Mummified Hand']='mummified_hand',
- ['Mercury Hourglass']='mercury_hourglass',['Self Forming Clay']='self_forming_clay',['Paper Frog']='paper_frog'}
-local bottles={bottled_flame={'attack','inBottleFlame'},bottled_lightning={'skill','inBottleLightning'},bottled_tornado={'power','inBottleTornado'}}
-function M.localId(id)return aliases[id]or id end
-function M.owns(owner,id)
- for _,held in ipairs(owner.relics or {})do if M.localId(held)==id then return true end end
- return false
+local Queries=require('abyss_relic_queries').uncommon
+-- Only these public query fields share slots; other fields remain ordinary.
+local function queryIndex(_,key)
+ if key=='localId' or key=='owns' then return Queries[key] end
 end
+local function queryNewIndex(self,key,value)
+ if key=='localId' or key=='owns' then Queries[key]=value
+ else rawset(self,key,value) end
+end
+local M=setmetatable({}, {__index=queryIndex,__newindex=queryNewIndex})
+local bottles={bottled_flame={'attack','inBottleFlame'},bottled_lightning={'skill','inBottleLightning'},bottled_tornado={'power','inBottleTornado'}}
 local function counters(owner)owner.relicCounters=owner.relicCounters or {};return owner.relicCounters end
 local function effect(op,value,extra)
  local e=extra or {};e.op=op;e.value=value;return e
