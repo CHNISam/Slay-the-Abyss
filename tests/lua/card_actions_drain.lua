@@ -2,9 +2,16 @@ package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local A=require('abyss_card_actions')
 local C=require('abyss_combat')
 local data=require('abyss_data')
-local rare=require('abyss_rare_relics')
+-- Raw execution observes today's owner. Only the independently loaded complete
+-- frozen module opts into its original Rare dependency, never a live fallback.
+local epoch=ABYSS_DRAIN_EPOCH or 'current-family'
+assert(epoch=='frozen-rare'or epoch=='current-family','unknown drain source epoch')
+local frozen=epoch=='frozen-rare'
+local rareModule=frozen and 'abyss_rare_relics'or 'abyss_relic_family_combat'
+local rare=frozen and require(rareModule)or require(rareModule).rare
+local rareQueries=frozen and rare or require('abyss_relic_queries').rare
 local silent=require('abyss_silent_final_cards')
-local original={apply=A.apply,reaction=A.reactionRetained,owns=rare.owns,refresh=rare.onRefreshHand,allowed=silent.allowedAfterVictory,require=require}
+local original={apply=A.apply,reaction=A.reactionRetained,owns=rareQueries.owns,refresh=rare.onRefreshHand,allowed=silent.allowedAfterVictory,require=require}
 local count=0
 local function eq(a,b,label)assert(a==b,'[DRAIN_CONTRACT] '..label..' '..tostring(a)..' ~= '..tostring(b))end
 local quoted={}
@@ -28,7 +35,7 @@ if ABYSS_DRAIN_TRACE then
 end
 local function run(name,setup,check,fullCatalog)
     A.apply=original.apply;A.reactionRetained=original.reaction
-    rare.owns=original.owns;rare.onRefreshHand=original.refresh;silent.allowedAfterVictory=original.allowed;require=original.require
+    rareQueries.owns=original.owns;rare.onRefreshHand=original.refresh;silent.allowedAfterVictory=original.allowed;require=original.require
     -- Constructor is real, but its opening drain is outside the controlled
     -- observation. Guard it so semantic mutants reach the tested invocation.
     local s=C.new(data,{seed=42,deck={'strike'},enemies={'cultist'},cardRandomSeed='42',beforeFirstTurn=function(state)state.drainingCardActions=true;return true end})
@@ -47,14 +54,21 @@ local function run(name,setup,check,fullCatalog)
         enemyActionRetained=function(effect)observe('enemy',effect);return false end,
         resolveQueuedCard=function(state,item)eq(state,s,'queued state');observe('queued',item);return false,nil,9 end,
         finishEarlyTurn=function(state)eq(state,s,'finish identity');eq(s.drainingCardActions,nil,'finish owner cleared');observe('finish');return false,nil,9 end}
-    rare.owns=function(state,id)eq(state,s,'owns state');eq(id,'unceasing_top','owns id');observe('owns');return false end
+    rareQueries.owns=function(state,id)eq(state,s,'owns state');eq(id,'unceasing_top','owns id');observe('owns');return false end
     rare.onRefreshHand=function(state,flag)eq(state,s,'refresh state');eq(flag,true,'refresh flag');observe('refresh');return false end
     silent.allowedAfterVictory=function(effect)observe('allowed',effect);return false end
     A.reactionRetained=function(effect)observe('reaction',effect);return false end
     A.apply=function(combat,state,item)eq(combat,api,'apply combat');eq(state,s,'apply state');observe('apply',item);return false,nil,9 end
-    local requireError
+    local requireError;local refreshLoads={}
     require=function(module)
-        if module=='abyss_rare_relics'or module=='abyss_silent_final_cards'then
+        if module==rareModule then
+            refreshLoads[#refreshLoads+1]=module
+            -- Only the approved dependency name moved. Keep the historical
+            -- graph event while checking the actual paths separately below.
+            observe('require','abyss_rare_relics');if requireError then error(requireError)end
+        elseif not frozen and module=='abyss_relic_queries'then
+            refreshLoads[#refreshLoads+1]=module
+        elseif module=='abyss_silent_final_cards'then
             observe('require',module);if requireError then error(requireError)end
         end
         return original.require(module)
@@ -68,6 +82,12 @@ local function run(name,setup,check,fullCatalog)
     observing=true
     local before=ABYSS_DRAIN_TRACE and graph({state=s,aliases=aliases})
     local result=table.pack(pcall(A.drain,api,s))
+    if not frozen then
+        for i,module in ipairs(refreshLoads)do
+            eq(module,i%2==1 and rareModule or 'abyss_relic_queries','current refresh exact require order')
+        end
+        if not requireError then eq(#refreshLoads%2,0,'current refresh requires both owners')end
+    end
     if check then check(ctx,result)else eq(result[1],true,name..' success');eq(result.n,1,name..' zero return')end
     count=count+1
     if ABYSS_DRAIN_TRACE then
@@ -99,7 +119,7 @@ for _,field in ipairs({'pendingChoice','pendingDiscard','actionQueue'})do
             elseif when=='apply'then A.apply=function()x.s[field]=marker end
             elseif when=='outcome'then x.api.outcome=function()x.s[field]=marker end
             elseif when=='queued'then x.api.resolveQueuedCard=function()x.s[field]=marker end
-            else rare.owns=function()return true end;rare.onRefreshHand=function()x.s[field]=marker;return 'again'end end
+            else rareQueries.owns=function()return true end;rare.onRefreshHand=function()x.s[field]=marker;return 'again'end end
             x.s.cardActions=(when=='refresh'or when=='queued')and {}or {x.item('block')}
             x.s.queuedCards=when=='queued'and {x.item('queued')}or {};x.aliases.queue=x.s.cardActions
             x.aliases.queued=x.s.queuedCards;x.s.resolvingCard=marker
@@ -179,13 +199,13 @@ for _,terminal in ipairs({false,'victory'})do
 end
 run('refresh truthy no progress sentinel',function(x)
     local n=0;local sentinel={label='refresh sentinel'};x.aliases.sentinel=sentinel
-    rare.owns=function()return true end;rare.onRefreshHand=function()n=n+1;x.observe('refresh',n);if n==4 then error(sentinel)end;return 'again'end
+    rareQueries.owns=function()return true end;rare.onRefreshHand=function()n=n+1;x.observe('refresh',n);if n==4 then error(sentinel)end;return 'again'end
 end,function(x,r)eq(r[1],false,'bounded refresh error');eq(r[2],x.aliases.sentinel,'error identity');eq(x.s.drainingCardActions,true,'refresh failure retains owner')end)
 run('refresh dynamic method and queues',function(x)
-    rare.owns=function()x.observe('owns');rare.onRefreshHand=function()x.s.cardActions={x.item('block','refreshed')};rare.owns=function()return false end;return {}end;return true end
+    rareQueries.owns=function()x.observe('owns');rare.onRefreshHand=function()x.s.cardActions={x.item('block','refreshed')};rareQueries.owns=function()return false end;return {}end;return true end
 end,function(x,r)eq(r[1],true,'refresh success');eq(labels(x,'apply'),'refreshed','refresh joins owner')end)
 run('end turn refresh short circuit',function(x)
-    x.s.endTurnAfterCard=true;rare.owns=function()error('[DRAIN_CONTRACT] end turn owns called')end
+    x.s.endTurnAfterCard=true;rareQueries.owns=function()error('[DRAIN_CONTRACT] end turn owns called')end
 end)
 for _,point in ipairs({'reaction','apply','queued','refresh'})do
     run('replacement queues '..point,function(x)
@@ -198,7 +218,7 @@ for _,point in ipairs({'reaction','apply','queued','refresh'})do
         if point=='reaction'then A.reactionRetained=function()replace();return false end
         elseif point=='apply'then A.apply=function(_,_,item)x.observe('apply',item);if item.label=='first'then replace()end end
         elseif point=='queued'then x.s.cardActions={};x.api.resolveQueuedCard=function(_,item)x.observe('queued',item);if item.label=='oldQueued'then replace()end end
-        else x.s.cardActions={};x.s.queuedCards={};rare.owns=function()return true end;rare.onRefreshHand=function()replace();rare.owns=function()return false end;return 'again'end end
+        else x.s.cardActions={};x.s.queuedCards={};rareQueries.owns=function()return true end;rare.onRefreshHand=function()replace();rareQueries.owns=function()return false end;return 'again'end end
     end,function(x,r)
         eq(r[1],true,'queue replacement success');eq(r.n,1,'queue replacement arity')
         eq(#x.aliases.newActions,0,'replacement actions consumed in place');eq(#x.aliases.newQueued,0,'replacement queued consumed in place')
@@ -235,7 +255,11 @@ run('require can replace rare methods',function(x)
     local wrapped=require
     require=function(module)
         local result=wrapped(module)
-        if module=='abyss_rare_relics'then result.owns=function()x.observe('replacementOwns');return true end;result.onRefreshHand=function()x.observe('replacementRefresh');x.s.pendingChoice={};return {}end end
+        if module==rareModule then
+            local owner=frozen and result or result.rare
+            owner.onRefreshHand=function()x.observe('replacementRefresh');x.s.pendingChoice={};return {}end
+            if frozen then owner.owns=function()x.observe('replacementOwns');return true end end
+        elseif not frozen and module=='abyss_relic_queries'then result.rare.owns=function()x.observe('replacementOwns');return true end end
         return result
     end
 end,function(x,r)
@@ -252,7 +276,7 @@ for _,point in ipairs({'outcome','reaction','enemy','apply','queued','require','
         elseif point=='apply'then A.apply=fail
         elseif point=='queued'then x.s.cardActions={};x.s.queuedCards={x.item('queued')};x.api.resolveQueuedCard=fail
         elseif point=='finish'then x.api.finishEarlyTurn=fail
-        else x.s.cardActions={};if point=='require'then x.setRequireError(sentinel)elseif point=='owns'then rare.owns=fail else rare.owns=function()return true end;rare.onRefreshHand=fail end end
+        else x.s.cardActions={};if point=='require'then x.setRequireError(sentinel)elseif point=='owns'then rareQueries.owns=fail else rareQueries.owns=function()return true end;rare.onRefreshHand=fail end end
     end,function(x,r)
         eq(r[1],false,'error propagated');eq(r[2],x.aliases.sentinel,'original error object');eq(r.n,2,'error arity')
         eq(x.s.drainingCardActions,point~='finish'and true or nil,'error owner boundary')
@@ -272,7 +296,7 @@ run('full catalog real Top draw',function(x)
     for k,v in pairs(C)do x.api[k]=v end
     A.apply=function(combat,state,item)x.observe('realApply',item);return original.apply(combat,state,item)end
     A.reactionRetained=original.reaction
-    rare.owns=function(...)x.observe('realOwns');return original.owns(...)end
+    rareQueries.owns=function(...)x.observe('realOwns');return original.owns(...)end
     rare.onRefreshHand=function(...)x.observe('realRefresh');return original.refresh(...)end
     x.s.relics={'unceasing_top'};x.s.relicCounters={};rare.bindBattle(x.s);rare.atTurnStart(x.s)
     x.s.hand={};x.s.draw={{uid=300,cardId='strike'}};x.aliases.drawn=x.s.draw[1];x.aliases.draw=x.s.draw
@@ -305,5 +329,5 @@ end,function(x,r)
     eq(r[1],false,'real dispatch error');eq(r[2],x.aliases.sentinel,'real dispatch error identity');eq(r.n,2,'real dispatch error arity')
     eq(x.s.drainingCardActions,true,'real error preserves owner');eq(#x.aliases.queue,0,'real error leaves popped queue');eq(x.s.cardActions,x.aliases.queue,'real error skips cleanup')
 end,true)
-A.apply=original.apply;A.reactionRetained=original.reaction;rare.owns=original.owns;rare.onRefreshHand=original.refresh;silent.allowedAfterVictory=original.allowed;require=original.require
+A.apply=original.apply;A.reactionRetained=original.reaction;rareQueries.owns=original.owns;rare.onRefreshHand=original.refresh;silent.allowedAfterVictory=original.allowed;require=original.require
 print('CARD_ACTION_DRAIN_PASS '..count)

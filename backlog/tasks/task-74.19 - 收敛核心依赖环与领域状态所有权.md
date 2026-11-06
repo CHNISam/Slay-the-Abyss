@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-06 01:46'
-updated_date: '2026-11-06 06:31'
+updated_date: '2026-11-06 07:44'
 labels: []
 milestone: m-7
 dependencies: []
@@ -38,6 +38,8 @@ ordinal: 161000
 4.依据391306af只读审计与现有CardActions规范，准备单一无出边遗物只读查询模块：移动原五套有序alias及窄奖励计数，保留普通动态字段读写、Shop.aliases枚举/替换、Rare私有owns与公开替换隔离、Run调用时函数快照。先冻结完整旧源和行为/加载边界基线；当前PR521由原生队列完成，后续提交不另建待合PR或改入队HEAD，待基线落地后再集成。
 
 5.D5完整生命周期边界：已确认孤立Boss提取仍回Session，不实施该假切口。按docs/plans/2026-11-06-relic-lifecycle.md组合Hooks Combat能力与四族固定能力，保留Session公开命令和Wish/Writhing原owner规则；四Runtime根到Session传递门禁已真实RED4/4。新隔离树feat/relic-lifecycle基于5762，先完整391旧新VM基线与独立计划审查，再写产品；原query交付树保持干净。
+
+6.仅收口当前PR521：按Full42176327678逐项修复drain、旧语义变异定位与历史预算输入适配，保留原oracle、case、断言和预算；对本轮真实超时仅用已完成成功文件实测校正分配并采用可容纳全库存的最小布局。独立复审、新SHA完整CI、原生队列和实际合后验收完成后结束，不开启下一架构切片或新任务。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -54,4 +56,8 @@ ordinal: 161000
 D5生命周期产品已在独立树实现：14 Combat Hooks+固定五族能力，23消费者118读取保持原AST时机。实际333模块/1921位置/1547对；Combat SCC82/626/402与Session15/62/41，即时无环，六入口全边不能回Session。当前35组完整旧图读回与fresh current VM逐字一致，13540检查点；冷加载与89双向普通槽位、直接/延迟治理负例9/9，原查询候选12/12。最终来源桥、具名变异、精确整片深审及托管/合后验收继续，AC不勾。见docs/backlog-details/M7-RELIC-LIFECYCLE-20261106.md。
 
 D5来源扩展34项及独立有界审查PASS：23个391完整before另核Git blob、35 fresh owners/4 witness、精确配置逆和四copy完整旧epoch，原core guard不改。6个真实可解析语义负控控制先成功后被具名行为断言检出，覆盖双queue、TOP、counter别名、动态Boss、Wish/Bloom和Omamori发布；6/6通过。当前继续最终整片精确提交与原生交付，未用局部通过关闭AC。
+
+7be来源Full42176327678真实失败已保留，已通过原merge:auto暂停并读回。11个测试位置归6组：drain旧inverse/动态owner、HP顺序/Spoon/Necronomicon/Victory旧mutator site、旧14片误用当前新增库存；对应点状修复保持生产333源不变。另Linux6与Windows8/14 annotations确认20/30分钟真实上限终止，不能只更正旧历史预算断言后忽略实际吞吐；按完整成功CI_FILE_TIMING实测做当前布局必要修正，未声明新候选已通过。
+
+本批Full失败适配已定点修复并独审8file：drain5/5及raw75例/18真变异、三处定位12/12、Actor与历史预算9/9保持，补回当前13/14完整raw覆盖。真实timeout按1458条成功file原生日志校正129项JS权重，16/12工作下界已超原预算，采用必要最小17/13；原预算、unknown、raw安全/成本、worker、并发与Relic35均不变。既有CI入口仅加2个新完整SHA纯映射，3历史+4当前合同7/7及直接25/25通过。新精确HEAD/Full/队列/合后验收仍待；按Owner最新要求只收当前PR521，完成后结束，不新增任务。
 <!-- SECTION:NOTES:END -->

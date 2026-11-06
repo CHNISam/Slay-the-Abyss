@@ -15,8 +15,16 @@ const refreshBody=`    -- Refresh observes the empty manager, then its draw join
     return not outcome and not state.endTurnAfterCard and rare.owns(state,'unceasing_top')
         and rare.onRefreshHand(state,true)
 `;
+// Approved lifecycle relocation: the current refresh loads the combat owner
+// and query slot separately; the frozen policy still names the original Rare.
+const currentRefreshBody=`    -- Refresh observes the empty manager, then its draw joins this owner.
+    local rare=require('abyss_relic_family_combat').rare
+    local rareQueries=require('abyss_relic_queries').rare
+    return not outcome and not state.endTurnAfterCard and rareQueries.owns(state,'unceasing_top')
+        and rare.onRefreshHand(state,true)
+`;
 const extracted=`local function applyDrainedAction(combat,state,item,outcome)\n${actionBody}end
-local function refreshDrainedHand(state,outcome)\n${refreshBody}end\n`;
+local function refreshDrainedHand(state,outcome)\n${currentRefreshBody}end\n`;
 const indent=body=>body.split('\n').map(line=>line?'        '+line:line).join('\n');
 const drainHunks=[
   [extracted,''],

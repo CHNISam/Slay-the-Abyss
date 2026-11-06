@@ -15,7 +15,7 @@ test('source victory lifecycle manifest authenticates exact thirteen original Ja
 });
 for(const mutation of [
  {name:'missing public settlement callback',module:'abyss_run_settlement',before:"if result=='victory'then RelicHooks.onVictory(run.combat)end",after:'-- mutation omits settlement victory callback'},
- {name:'missing uncommon victory cleanup',module:'abyss_relic_hooks',before:" require('abyss_uncommon_relics').onVictory(state)",after:' -- mutation omits uncommon victory cleanup'},
+ {name:'missing uncommon victory cleanup',module:'abyss_relic_combat_hooks',before:" require('abyss_relic_family_combat').uncommon.onVictory(state)",after:' -- mutation omits uncommon victory cleanup'},
 ])test(`public seven-counter lifecycle rejects ${mutation.name}`,()=>{
  const directory=mkdtempSync(join(tmpdir(),'victory-counter-mutant-'));
  try{

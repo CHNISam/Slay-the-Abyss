@@ -28,7 +28,7 @@ export function registerSeed(seed){
 }
 const mutations={
  preplan:{name:'one final target preplan',module:'abyss_inventory',before:'local chosenTarget=#pool>0 and pool[Combat.cardRandom(state,#pool)] or nil',after:'local chosenTarget=_==value and pool[1] or (#pool>0 and pool[Combat.cardRandom(state,#pool)] or nil)'},
- spoon:{name:'one played-card Spoon boolean',module:'abyss_shop_relics',before:'return not R.randomBoolean(state.cardRandomRng)',after:'return false -- mutation omits exactly one Spoon boolean'},
+ spoon:{name:'one played-card Spoon boolean',module:'abyss_relic_family_combat',before:'return not R.randomBoolean(state.cardRandomRng)',after:'return false -- mutation omits exactly one Spoon boolean'},
 };
 export function registerMutation(name){
  const mutation=mutations[name];assert.ok(mutation,'registered exact Chaos mutation');

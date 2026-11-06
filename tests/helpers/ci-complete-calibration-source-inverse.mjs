@@ -13,7 +13,18 @@ for(const binding of Object.values(ciCompleteCalibrationProof.files)){
  assert.equal(hash(binding.beforeSource),binding.beforeSha256);assert.equal(hash(binding.afterSource),binding.afterSha256);
  assert.equal(createHash('sha1').update(`blob ${Buffer.byteLength(binding.beforeSource)}\0`).update(binding.beforeSource).digest('hex'),binding.beforeGitBlob);
 }
+const currentPlacementSha256=Object.freeze({
+ 'scripts/ci-test-timings.json':'3f12a6a2cffe9516fae02de768d545a2847e5632efedb72b0298a8bb26ca9ee5',
+ 'scripts/ci-quality-shape.mjs':'0d6c82c2a7e7db82e276eb563978d5253d9a225039329e171ed3f907f98609d1',
+});
+// This placement-only bridge returns the existing complete approved source.
+// It adds no live owner, fixture dependency or permission-bearing cache.
+export function preCurrentCiPlacementSource(path,source){
+ if(!Object.hasOwn(currentPlacementSha256,path)||typeof source!=='string'||hash(source.replaceAll('\r\n','\n'))!==currentPlacementSha256[path])return source;
+ return ciCompleteCalibrationProof.files[path].afterSource;
+}
 export function preCiCompleteCalibrationSource(path,source){
+ source=preCurrentCiPlacementSource(path,source);
  const binding=ciCompleteCalibrationProof.files[path];
  if(!binding||typeof source!=='string'||hash(source.replaceAll('\r\n','\n'))!==binding.afterSha256)return source;
  return binding.beforeSource;
