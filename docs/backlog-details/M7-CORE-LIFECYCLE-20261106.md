@@ -18,6 +18,7 @@ Actor 按状态应用、Power 生命周期和回合收尾分阶段治理；Power
 - 主控工程采集329模块、5314/5314测量，架构329模块/1903依赖位置通过；4个关键变异全部被断言杀死。首次原生合同6项因独立树缺生成主题失败，保留`build/core-lifecycle-engineering.log`；生成标准theme/UI/layout后，仅补验失败合同6/6通过，见`build/core-lifecycle-native-contract.log`，未重复其余工程阶段。
 - 历史来源适配提升至`preGameUiExtractionSource`公共入口，新增Actor/Combat/PowerRules/config四源新鲜验证及精确配置逆投影；叶模块只作关联证据，不伪造旧源。最终core4、GameUI13、compendium6、reaction3、LivingWall4、architecture格式3、deck3、preparation3、freshness3、pr372 2、pure cache5及composition格式2项均通过。最后一项耗时152.5秒，未视为速度收益。保留旧epoch精确98/30读取断言，新epoch计入四源后严格162/46；布局等价、重复键拒绝、暖漂移及注入reader失败合同保持，旧golden不更新。
 - Full会自动发现的三个新增Lua原始入口均在原30秒/1MiB限制下通过。最初Actor完整图输出触及ENOBUFS，失败保留`build/core-lifecycle-raw.log`；raw默认仍执行全部121步及图遍历，只输出25字节结果。JS双VM driver显式开启完整trace，并断言14个完整检查点、函数定义和重复引用；最终raw复核见`build/core-lifecycle-raw-final.log`，差分/传输复核见`build/actor-lifecycle/raw-transport.log`，未提高预算或移除断言。
+- 集成补测发现旧CI库存728/1356未包含本批5份JS和3份Lua，真实RED保留`build/core-calibration-inventory-red.log`。仅显式登记新文件为未测集合，原725份JS/1356份Lua及2900/2712条历史实测、摘要、分配与安全数据保持；当前733JS/1359Lua唯一完整覆盖及原30/20分钟+60秒断言3/3通过，独审另复验3/3，见`build/core-calibration-inventory-final.log`。不伪造新文件历史成本，不把模型通过当托管耗时已验。
 
 [机器指标](../evidence/m7-core-lifecycle-20261106.json)绑定全部329份LF源码摘要：CC>30为67→61，CC>15为258→252，最大CC仍75。未治理热点不视为已接受风险。
 

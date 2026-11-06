@@ -14,8 +14,11 @@ const hash=s=>createHash('sha256').update(s).digest('hex'),read=p=>readFileSync(
 const path='scripts/ci-test-timings.json',binding=proof.files[path],before=JSON.parse(binding.beforeSource),after=JSON.parse(binding.afterSource),e=proof.evidence;
 // These files were added after the frozen 725-file observations. They still
 // belong to the current Full inventory and retain the unknown-file cost.
-const postCalibrationJs=['tests/ci-complete-calibration.test.mjs','tests/native-ui-preview.test.mjs','tests/reference-ui-lab.test.mjs'];
-const postCalibrationLua=['tests/lua/joust_event_slice_2.lua'];
+const postCalibrationJs=['tests/ci-complete-calibration.test.mjs','tests/native-ui-preview.test.mjs','tests/reference-ui-lab.test.mjs',
+ 'tests/actor-lifecycle.test.mjs','tests/actor-power-rules-boundary.test.mjs','tests/combat-lifecycle.test.mjs',
+ 'tests/core-lifecycle-complexity.test.mjs','tests/core-lifecycle-source-inverse.test.mjs'].sort();
+const postCalibrationLua=['tests/lua/actor_lifecycle.lua','tests/lua/actor_lifecycle_rules.lua','tests/lua/combat-lifecycle.lua',
+ 'tests/lua/joust_event_slice_2.lua'].sort();
 
 test('complete native successful rows authenticate every observed file and only raise effective placement costs',()=>{
  assert.equal(e.lockedObservationsSha256,'a80b5fe95fcfb0b4d5fedf839045100466423f3129c000ce2eef642cc31c421d');
@@ -48,10 +51,14 @@ test('complete native successful rows authenticate every observed file and only 
   assert.equal(after.js[platform][file],undefined,'new tests must not acquire fabricated historical measurements');
   assert.equal(jsPlanningWeights(postCalibrationJs,platform)[file],after.unknownJsMs);
  }
-  const lua=readdirSync('tests/lua').filter(n=>n.endsWith('.lua')).map(n=>'tests/lua/'+n).sort();
-  const originalLua=lua.filter(file=>!postCalibrationLua.includes(file));assert.equal(originalLua.length,1356);
-  assert.deepEqual(lua.filter(file=>postCalibrationLua.includes(file)),postCalibrationLua);
-  for(const file of postCalibrationLua){assert.equal(after.lua[file],undefined);assert.equal(after.luaShard[file],undefined,'new raw entries must not acquire fabricated historical measurements');}
+ const currentLua=readdirSync('tests/lua').filter(n=>n.endsWith('.lua')).map(n=>'tests/lua/'+n).sort();
+ const originalLua=currentLua.filter(p=>!postCalibrationLua.includes(p));assert.equal(originalLua.length,1356);
+ assert.equal(currentLua.length,1356+postCalibrationLua.length);
+ assert.deepEqual(currentLua.filter(p=>postCalibrationLua.includes(p)),postCalibrationLua);
+ for(const file of postCalibrationLua){
+  assert.equal(after.luaShard[file],undefined,'new fixtures must not acquire fabricated historical placement costs');
+  assert.equal(after.lua[file],undefined,'new fixtures must not acquire fabricated historical worker safety');
+ }
  for(const runId of [e.sourceRun,e.groupRun]){
   for(const platform of ['win32','linux'])assert.deepEqual(e.observations.js.filter(r=>r.runId===runId&&r.platform===platform).map(r=>r.file).sort(),originalJs);
    assert.deepEqual(e.observations.lua.filter(r=>r.runId===runId).map(r=>r.file).sort(),originalLua);
