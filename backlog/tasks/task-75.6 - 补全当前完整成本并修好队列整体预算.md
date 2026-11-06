@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-05 07:58'
-updated_date: '2026-11-05 15:42'
+updated_date: '2026-11-06 05:49'
 labels: []
 milestone: m-7
 dependencies: []
@@ -36,6 +36,8 @@ PR516来源Full通过，但同树原生队列Windows1的JS和Lua均成功后，�
 1.保全同树来源41与原生队列完整作业、日志和整体30分钟取消证据，来源66秒门禁与47秒setup分开，截断40秒工程步骤不作完整测量。2.锁定2900成功JS及2712外层raw步骤成功认证的记录，按实际步骤排除两轮各7共14条JS内嵌Lua；全部成本ceil/max且旧显式值及fallback不降，raw只改luaShard，原timings.lua安全资格不动。3.最终选择Windows16/POSIX12 cap6/Full33，保留原30/20分钟、75/44秒门禁、60秒敏感度；当前726库存重算，POSIX9至11的真实RED保留，12最小可行两波，13的第三波模型壁钟更差不采用。12额外5%工作量即超2.061秒仅作风险诊断，不新增或放宽门槛，不承诺托管稳定30分钟。4.单一shape同步严格33项来源、队列、推送及交付集合，整源精确inverse回14/9再13/9，完整成本回旧d580再旧8e；不更新历史golden，所有错误漂移保持拒绝。5.独立深审与必要专项，精确新HEAD来源Full、原生组、实际push Full及原merged_passed，分别报告真实wall、排队、runner成本和未达稳定目标，设备证据保持未完成。
 
 6. 集成既有UI测试时，分开固定725份历史实测清单与新增未测文件；按当前完整库存保留原预算、余量和唯一覆盖验证，不改历史测量或成本。
+
+PR525实际合入c20后的push Full42168995589再次在Sapphire原30秒总预算失败，准备耗约24.5秒、Lua仅剩5457ms。独立回移已评审的6eba单树准备与35e7完整preflight，仅三个测试框架文件；保留原21组/五片/原文oracle/30秒与fresh校验，正常PR恢复当前develop，不靠重跑涂绿。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -54,4 +56,6 @@ PR516来源Full通过，但同树原生队列Windows1的JS和Lua均成功后，�
 本轮清理集成PR520复现ci-complete-calibration两处固定库存失败：727与725、728与726。来源是新增native-ui-preview和reference-ui-lab两个测试，不是历史实测记录变化；先暂停原生合并，修复合同的历史/当前清单边界。
 
 修复后固定725份历史JS、2900条成功JS观测和2712条raw记录仍逐项认证；当前728份JS含3个明确未测文件，逐平台验证unknown成本，16/12分片完整唯一覆盖及原预算/60秒余量断言全部保留。10项校准/历史来源/容量合同通过，原2处RED保留；新HEAD独审与Full/队列/push/merged验收待执行，AC3保持未完成。
+
+当前develop隔离回移与35e7三个源码blob完全一致，无Core未合实现依赖。Node24在本轮c20基线下完整launch-content+Sapphire43/43通过0跳过；五片11656/14113/8686/9680/5858ms且含历史准备，正常1730输出/hash不变，错误源/owner零投影写删。来源/队列成功与c20合后失败分别保留，新修复候选Full仍待。
 <!-- SECTION:NOTES:END -->
