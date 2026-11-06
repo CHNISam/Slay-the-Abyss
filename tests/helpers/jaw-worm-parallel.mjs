@@ -21,21 +21,33 @@ function __jawSharedDataGuard(data)
   local object=table.remove(pending)
   if not seen[object]then
    seen[object]=true
-   local values={};local meta=getmetatable(object)
-   records[#records+1]={object=object,values=values,meta=meta}
+   local values={};local meta=getmetatable(object);local count=0
    if type(meta)=='table'then pending[#pending+1]=meta end
    for k,v in next,object do
     values[k]=v
+    count=count+1
     if type(k)=='table'then pending[#pending+1]=k end
     if type(v)=='table'then pending[#pending+1]=v end
    end
+   records[#records+1]={object=object,values=values,meta=meta,count=count}
   end
  end
  return function()
   for _,record in ipairs(records)do
-   assert(rawequal(getmetatable(record.object),record.meta),'shared data metatable changed')
-   for k,v in next,record.values do assert(rawequal(rawget(record.object,k),v),'shared data field changed')end
-   for k in next,record.object do assert(rawget(record.values,k)~=nil,'shared data field added')end
+   if not rawequal(getmetatable(record.object),record.meta)then error('shared data metatable changed')end
+   local count=0
+   for k,v in next,record.object do
+    count=count+1
+    if not rawequal(rawget(record.values,k),v)then
+     -- Keep the old changed-before-added error even for a same-size key swap.
+     -- Only a failing graph needs this original-field scan.
+     for originalKey,originalValue in next,record.values do
+      if not rawequal(rawget(record.object,originalKey),originalValue)then error('shared data field changed')end
+     end
+     error('shared data field added')
+    end
+   end
+   if count~=record.count then error('shared data field changed')end
   end
  end
 end
