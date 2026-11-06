@@ -13,6 +13,7 @@ local function mark(label)
  BASELINE_MARK(label,counts.requireCalls,counts.moduleLoads,counts.nativeCalls,counts.propertyWrites,counts.snapshots)
 end
 local observe=dofile('scripts/runtime-baseline/observer.lua')
+local verifyTurn=dofile('scripts/runtime-baseline/turn.lua')
 ABYSS_HOST_CONTROL=function(control)observe(control,counts)end
 mark('begin')
 local Snapshot=require('abyss_snapshot');local capture=Snapshot.capture
@@ -29,9 +30,10 @@ mark('start-map')
 assert(host.mapUI:choose(F.Nodes.available(host.run,host.map)[1].id))
 assert(host.run.phase=='combat')
 mark('map-combat')
+local battle,previousTurn=host.run.combat,host.run.combat.turn
 F.click(root,'battlePanel','endTurn')
 for _=1,400 do if not host.battleUI.busy then break end;host:update(.05)end
-assert(not host.battleUI.busy and host.run.phase=='combat')
+verifyTurn(host,battle,previousTurn)
 mark('combat-turn')
 for _=1,300 do host:update(1/60)end
 mark('idle-300')

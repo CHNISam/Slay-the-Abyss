@@ -28,3 +28,8 @@ test('native observer preserves capability, read-only, argument and callback sem
  const result=runLua('scripts/runtime-baseline/observer-check.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/RUNTIME_OBSERVER_PASS/);
 });
+test('runtime turn contract rejects no-op, skipped and unfinished combat transitions',async()=>{
+ const {runLua}=await import('../scripts/test-lua.mjs');
+ const result=runLua('scripts/runtime-baseline/turn-check.lua');
+ assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/RUNTIME_TURN_CONTRACT_PASS/);
+});
