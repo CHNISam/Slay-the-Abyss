@@ -1,0 +1,2083 @@
+{
+  "schemaVersion": 1,
+  "kind": "read-only-architecture-baseline",
+  "head": "dedb9ed5af52fc595031d64d3e8fd84bc908b2c8",
+  "parser": "luaparse@0.3.1",
+  "sourceHashes": {
+    "abyss_acid_slime_m_ai": "f2f9fd15bce53c750bc4ee855a157be3aff954b382f402f71c0cc4b8251ce9e3",
+    "abyss_acid_slime_s_ai": "669c8cc35172ed1f19214902b342fa40ea0dc1e5a0d2f509ffd4f1fd9d7d921d",
+    "abyss_act1_bosses": "7dac7cdf2773862811b94e0dc90cb234bea8e466378ef56f1a2d9499922f2f28",
+    "abyss_act1_events": "e7d43e9ae6a9aaf9d23654fff3455d0fcb81974c0fc25c766290b76b44793908",
+    "abyss_act2_ai": "7751a8be3ca90d7f7a454aa045fffd018f69740aa9c877953bbc4d86c71deee2",
+    "abyss_act2_ai_moves": "edc2c226f164d15dfdfb15eddd839cddd1e2ae1242d54ae16045cb5770552d60",
+    "abyss_act2_enemies": "a9f931caa681879aef84ae7f79759fab33c71cd75907a368294a9e0741b5ac18",
+    "abyss_act2_event_relics": "85f489ff80b769907cc23b4dece7d1cb4032bed5fdaedcb6338307693f11eb18",
+    "abyss_act2_events": "a72a2260690b3b975060cf8fe2a90a6b5ffe2cba391a8793fab6737666153665",
+    "abyss_act2_powers": "0532d825b0c1b5dffa4626def1a9fd400dc86329b8d6d015ac7551dd4cf0a9c1",
+    "abyss_act2_stasis": "d27e5b5a238de6ad70e5f37b7feec89b11d0e547a962e620c46ee8850682a1aa",
+    "abyss_act2_summons": "756289846193776ef931a1d7d481242e702f3a1afb19054cb6f1d0625c59fb8f",
+    "abyss_act3_ai": "af766af2cf5eb5112158e3ee6c0b80b948e844a4fa9c8ae323646cb54cf436c7",
+    "abyss_act3_bosses": "05040a53f82b0faefd0d6cace153a512710a13aed91afc04018f04b96563b7bf",
+    "abyss_act3_enemies": "cf7e505b9bd98fe65941e0f7ccbcff82d41ab565498fec0b87d0baeaef15e47c",
+    "abyss_act3_events": "119c3a329a4f1ee7fb57ea7d191f199a48d4c75681dbf0b35f00e5c4cfe68a1f",
+    "abyss_act3_powers": "fee155d266c1a01b41ec8293dfd29a904f50d4120d37cd2317bd2ba357e549ae",
+    "abyss_act4_enemies": "cff50f51c1008930113e0f4570ba2fc788544cf8ef2dbc41e3b010ca6ea80ea7",
+    "abyss_action_queue": "b1f07bdd963be3fbc4acc18c64a5100da5553176a1efc204a2e2e184208a1445",
+    "abyss_actor": "3f2b67403774a146212aa4abd68463ec3a2389d9f251c8212344928d998a1837",
+    "abyss_actor_motion": "0fdd18c8abb9bd68f481de0197a84d8f7f196a3c03ab7af05f3fe0bab85a103b",
+    "abyss_acts": "15ef6438baa4cef1c59ef74ebf1ad18ec13623c862e27d3b091caab293a4789d",
+    "abyss_awakened_one": "3f68c2c98c221b7132efcd2adfb69a6e193bda7720451578ce5737f8609a4909",
+    "abyss_back_to_basics": "310571db810f206d5b94e8c49f9ec2b99e7dffe27027f7e94f4efbb52a58a0f4",
+    "abyss_battle_action_bindings": "800acbfefbb73b77072c646e560b0e1d7133b9d8140aab839399fa0ac30edf4c",
+    "abyss_battle_actions": "64466674e1c6a9ddeb5a26b5df2e4ecbf84c0671031acabaff0a1a75d4297b08",
+    "abyss_battle_aim_arrow": "af2e2e23107eb4dc8533794b6e4ac5405d75eb90aa21be001d0be441395c3e0f",
+    "abyss_battle_card_bindings": "23b6a8e8d4ea8284c1fae4128e41cf4560de8426de8d3c5463f863617b2978be",
+    "abyss_battle_card_gestures": "4a18f2fb76792b3660363ad00e4d2e7d7fecdf94cc60923f0d1d66c53a8213a4",
+    "abyss_battle_card_layout": "4599bd374e9e6bfe4ab991496f0399333b48302a1df8238f22c0139e6f00bb98",
+    "abyss_battle_card_view": "3ff9603663c96c77f0e83326325f7220d9a47b1c5ae3ca601d0f2d54e09848e9",
+    "abyss_battle_damage_view": "90fcf54d35fdf4485a6408d728761e7dae6895767081c619ddc197ba0cfe144a",
+    "abyss_battle_detail_bindings": "840bcbecd8ab95b0bfe4ee310dc3c54f9afa546fe153c31f0de63c497bad8d6b",
+    "abyss_battle_details": "d102ac2bc0551efd7f9c03f2313f62460c8bef63d8b8a7bce4648e056961b4fa",
+    "abyss_battle_ending_intent": "03bb86acc4a68bc49e56a21be51ad6cd9dec0fd91cfca8636d95a69b34c92042",
+    "abyss_battle_enemy_view": "965a05445e3510cfc7ac4b41b20d6c7a07c7bd3ad056368258f67d41e9e02d58",
+    "abyss_battle_info_content": "280673f2037fb2819ef2bc48d61487924a76b4d952f8b01f635031868e763d45",
+    "abyss_battle_info_view": "602fa6e7e1eb633770045771269b2fc738321447d09165807981c919f52e2fdd",
+    "abyss_battle_input_state": "f90523e9cd507763a60783095287c212eefa4394ff85e13443babd0863f19985",
+    "abyss_battle_intent_view": "b9309d90fa9d8108ec94f0006b2be246acafb0ccc96ba473ced210fd681b2349",
+    "abyss_battle_potion_bindings": "716fe6b8faf5ef808bee346a1516add089c228f13b67903eb3d5d840bbe688c9",
+    "abyss_battle_potion_popup": "93e29dfa5b58c9ffb62603165d1360fe5731553eb7883f5908ffe405d3b12d0c",
+    "abyss_battle_potion_view": "9b0f808516be3f472cea06d379cb45ac5b08499567ae6e33ba4f2f981a565f00",
+    "abyss_battle_render": "a6ef402792f16b3a2b689f2788eb680323249a2435a1fb262bd453151cb72448",
+    "abyss_battle_render_actors": "714308d794f700aec412d934a52ddf41cfaedbb98170a132f08a62409c61f555",
+    "abyss_battle_render_hud": "1f8711b3831f424a04eeedafa0240d38a8785fe314196667a5b31809cac25b28",
+    "abyss_battle_render_state": "0b4d3df03b2712c09e1021046e141ab1c384f0389a3cd173c2133c585e161367",
+    "abyss_battle_reward_layout": "3a873cd998f29ee4c39ed63d07e89c4b00578af0bfc1a7f246df9cf1efaa0999",
+    "abyss_battle_reward_owner": "78bb7cfca891117dc963f8c3139eb1a26856c44aa6f07f16443346f5f14f5656",
+    "abyss_battle_status_view": "a74ca3b4bea8141dae91288b3548f83aa7054509414137c1786710912e51bac9",
+    "abyss_battle_target_bindings": "9c46a099f198738d9be713231f2f91834994f9237b0140f5dcc833e41d324b7f",
+    "abyss_battle_targeting": "c568c5c1e6b46b856bff918a36c2f3eb203bd5361f176c0a2002c2013e2e46ce",
+    "abyss_battle_ui": "cb8633150071b8b6a314432cc0a6b5a93742ddc99768fb74fe1e407c52da55ea",
+    "abyss_battle_unit_view": "2065bc1416e2db6403fd1aba2f7db4e08e19bcedf29440e665b305c8bfeaae9d",
+    "abyss_bgm": "c202344ab9a923f46be97603858c25e30f893a3c68fac1d3d091b9c4cd440525",
+    "abyss_blue_slaver_ai": "b7d21d343d44b931b078243f18194171e3dccd75ba875bd177a277a4d28e6132",
+    "abyss_boss_relics": "42ce51c157fe46fccdf14e38927876bc705f89c7dcb28235011ca1d0d45b8494",
+    "abyss_build_actions": "2398349732fdd20d8c7ac93a6cc4751bde07c4ee0c89544c7886e5662013b3e9",
+    "abyss_card_actions": "a5d5184cbf7acbb9049542c6f4a74106b9d1175ef19a06d5c1a056d6b881f604",
+    "abyss_card_art_runtime": "36a653b52f351f884db26bef5757a6d3b2ca5b429c65a88b94525e21eb3e2af2",
+    "abyss_card_capability": "f5cea08f87cd0e0bde9a1684646698ddd6d8845433a3b0a43652c70820a454ba",
+    "abyss_card_display": "5b61d70849389ba0f6aa3fd333913a954466b3c684f48dca126b24d24fff1010",
+    "abyss_card_flow": "d57e617089aaa79f8958dac6bef87c9f93746d287fcfb10d5c4ab3ee29bfc20d",
+    "abyss_card_input": "f86270c616c49a096609ec4d4a86a37650c80fa5a4343947ae75a90d46b6cae6",
+    "abyss_card_origin": "f20687372d0ab3436d657a7ebefaac6354f9ac75667a126016b1079bd36fe70a",
+    "abyss_card_origin_view": "050c8b97ca22353c9c51523bf53f0cf53611086bb184b1cb08918b4c397b053a",
+    "abyss_card_pool": "5482ff18fd39ed7fac71038c871fd110143053680a9e4f41d5a10b4d04105310",
+    "abyss_card_random": "c36e1c15f621056dd55ddab009fc3ddf61c6e0757c5639973e050e27355b8af9",
+    "abyss_card_skin": "1718f624a6c9ccc8a06f7e8dfaeaf4d578878adcf8472e89950faded5fe65202",
+    "abyss_card_triggers": "146675f16d316db03000adcbf7f4428131898466a726b05a53cc581176394d4f",
+    "abyss_character_presentation": "237c8b4c1e5e243e34775814c2914c40bf0842c0434b6ab64dd003b5cc63b1d5",
+    "abyss_character_presentation_text": "3b14a5a157009c358d57bbc14a2867bf28288c31a134062b4b8700d6c5190b60",
+    "abyss_character_profiles": "ae5dc874294c2e01474e476f6b77bbd51d775338413ef087d2a459861677b40b",
+    "abyss_character_select": "70fccfe4b202ae68c74d86cda0b39746b597ee546d4b0270539d76c51eda6ba8",
+    "abyss_character_select_view": "9dfeeabcd92bc8bb05328f7f99e04dcd139d635b08d239bc97029fe0282432cb",
+    "abyss_choice_ui": "bbbbbefdd19ae25445db1c310e0f8bd6cd48f858da30df8a69fa02b061bff8e7",
+    "abyss_class_card_pools": "16424bfa1680825072259d3efd466083d4659cc8c4d48b0ef0f4822692353d64",
+    "abyss_class_potions": "ad8a6bca792dbe1e5a940f770826df8c5cb2ab54216144c49dec42adb24fb84d",
+    "abyss_codex_relic": "32d22ceb2d8da38e84e2b446b76bcb7c9369f8d8f6714b68f1483816c31dd5e0",
+    "abyss_colorless_cards": "20e961a22a253331e44e223f6c7e005ccbd84a379a2a348c7742d6b04b218451",
+    "abyss_colosseum_event": "ffd89d002e8f651e9381dc2c4fdb2f0345454581bc30f863d638ee75e4ca036c",
+    "abyss_combat": "e7052489cae608e4f633e6239d61293624e71aedb43c22f05d82dc5171ebb631",
+    "abyss_combat_catalog": "0119a0252973a0af4c2f7812fcaeeb7c202a4f7b940c799ebaed28ae3db9c1bd",
+    "abyss_combat_effect_cards": "9c3c4270ff792d2fd7a4cb758b6e669f9e55418587bf6286ba057d2beb83c419",
+    "abyss_combat_effect_choice": "aac0a5566df19539f818a006ae3dae2f21159586e2cc7d54a137577a0d64be72",
+    "abyss_combat_effect_damage": "6b8df8304a6688f0d17ac5d59897ae218ec4242b4793cd28b379a2faf655fc74",
+    "abyss_combat_effect_dispatch": "df451cd039bc0aa53bbf0de42a04b4bb6629950c0f984d71c0b9aa32a3612f99",
+    "abyss_combat_effect_powers": "f74b89457f8d4d9f0cc3fb034ca92900c87ffd793ea49c885f9ba343738c4dad",
+    "abyss_combat_enemy_setup": "0bab5daf04c1f9b4d0b5762e39c047c1b6633be0fe573c6e28d16bf9810e39f8",
+    "abyss_combat_native_play": "e97970e307d4e5fc386152d5226047f2d59587a32a2af1cb59bbd776d32e6b01",
+    "abyss_combat_queued_play": "508ae08d7ad0694dc1e54dc53a4c837c7b7318f378ab6e112fc108b941abe7de",
+    "abyss_combat_reactions": "ed92401b3648db9a0759875016749d532440e59e359df3fcfde2ab1268008bae",
+    "abyss_compendium_catalog": "afb74d5953ef48f7b41492aaab7e99b84cbada765fe0647445df21a403e3036e",
+    "abyss_controller": "4c2304a9410245e7318daa1512048b7a6e3c3e3eca4b031887d5879a5f437f3e",
+    "abyss_copy": "0c8dc11722bcef6aa08cd1c514c76be4a31a7090d3114e89caca2a1c5b862cca",
+    "abyss_corrupt_heart": "47b24453c2934e480d0acab37078d845b249b1ed00438993bcf6f4a9ccd35b9a",
+    "abyss_corruption": "8db1d3c77e130d5c2e653654f27f02ffe57912707a779b26edc11ea9a81d9659",
+    "abyss_cursed_tome_event": "29d7fb979039fd9d044b4110552656469003a37ef4846903110987765fe70767",
+    "abyss_curses": "fb3906266397994cfaa30b672754a400da00d3bf1dc0c6889bdb3800fb4bde47",
+    "abyss_darklings": "0a3cd5503674d25b01654d3092e8d85f8e012fa31cbe44a1e5e7a48e07c7c1e7",
+    "abyss_dead_adventurer_event": "6c730c038d309d78bce8001b92b01be936132227b0b5feca33d71355d5c316c4",
+    "abyss_deck_ui": "708ae66dfdd457fd00fb331a50f00cd21f6fed73c554a0111ef19d6a1d0296ce",
+    "abyss_defect_cards": "3a88a0951d680642b495b71dad80168e7d79d490f49cf6f6d7ce0a529dd2f165",
+    "abyss_defect_engine_cards": "b632948d75f186e4d673850f291d68a39cf42683ff0716ebf6173b6a95542bce",
+    "abyss_defect_final_cards": "66a479bbc7379074818be4326d45ddca3cc9d8ef77ec319f816be54d422a0b14",
+    "abyss_defect_utility_cards": "772cb06d8be13f7c8220390540bf9feb7a55b14a390f77f416d0a66693828e63",
+    "abyss_designer_event": "685d8b5b5f857942cb6b6a971461460f2b03203ff5f34676f16e63434e6cb73a",
+    "abyss_discard": "88416282ef1e799cae998ed912014976720be4ae47d89a5ce639d42168da3253",
+    "abyss_drug_dealer_event": "8128bbe43225a15184e28ee8b9cf1639824a26ca625e1b2485013e546eb90ef3",
+    "abyss_duplicator_event": "568c0a6822281c6a2e6c13b0381b6f0ad52ba7f6ae56c80aa8401f5303a08949",
+    "abyss_effects": "839a9e6e599f370d66e485e31778820c8c0665da5d0918c54f3032174a249c06",
+    "abyss_effects_cards": "93580fbb13b8ac3960046c78ecf13cf83909576c704781bdc92b60a391d1cea7",
+    "abyss_effects_damage": "8da5dc19cc1dbb645ffa9e91df5b8db7c4d0266bc667971bd7acd482ef4ee095",
+    "abyss_effects_enemy": "0fb6b76da2b1b2aa62d33b16e7baa326fba9aa382449a36817c082b7188a60a1",
+    "abyss_effects_powers": "e6d7b50471b1147ec3f9bc7dbe56c5b2275e4472265fe03000bc82e3c031b4d1",
+    "abyss_emerald_elite": "76585b92d11ca60a7ac5a8f8c0118efb47041c4dd07489533272a8fbac53e325",
+    "abyss_emerald_rewards": "3cf11e00101688cc707d3ba5f0b59219ac4f0f8b399a3d620171ab39d20d8fbc",
+    "abyss_encounter_formation": "964de6219b619b4e4e5ed80597377f2b9c8f22559bbfa53f174215673d8f467b",
+    "abyss_encounter_queue": "238174a26089ff5df5c182519eb94d30891e5409adb79c03f05d15b925cfa35b",
+    "abyss_end_turn_powers": "da2e651f76464bc41c752f655ece37eee8a97b5ee82b19383b62b231f4a186a2",
+    "abyss_ending_actions": "1e4c1155c3153334ea875a53e3cf5c47d3629c1452d332f2d2108fc394e4ce25",
+    "abyss_ending_history": "ff7d8b8f59c1dd8c82480b46e688e1ee85aec2569948a52124aeb1d685e5293f",
+    "abyss_enemy_ai": "5ae51b85ab1459529b5c2c491e96ef4e372365b5d3700f0a67c106123d6aca21",
+    "abyss_enemy_random": "c2bb12fae0c69b8c858ac63227761e5b43c6754a24d9473f6bfe171bce9414ec",
+    "abyss_event_card_sampling": "46be62b81b2efbedee2e7f42cb3745a60833b2dc34bb809a52bd802a39024d94",
+    "abyss_event_combat": "03ce611ddb7d1f721015c049a2756854ede33122e676c44fc4eede8f9b1da7bc",
+    "abyss_event_combat_enemies": "228e16f5fedcefe7b92c4af95a2a3b91c40c1ddd44c8dbc88f7613a8e109f0a9",
+    "abyss_event_combat_routes": "df502a1f6555d1a0d631b967e847f87f39e986d2ac06a436c17a351297cdbc18",
+    "abyss_event_pool": "01f09e14c78f333e743acb71430b070cadcd7a28373c926d5dbf0bb5e158b291",
+    "abyss_event_transform_context": "db9092323601a54c9cdc44bf3e035a11d2aed253d4ea1b32a2204e2c2f3d47cd",
+    "abyss_events": "4d8d18e9d7353d1b17718007842539c6dde19b2ccc6233d8339b507756ab914e",
+    "abyss_exhaust": "a4c5374f40fe47b58591307cbc94269ad7b8a2219858dd2ed6a582573eb7ca75",
+    "abyss_external_random": "34d716ea91e3afd9e8b63608a9230cac819bd9bb21351f86ddedfeafa2321221",
+    "abyss_face_trader_event": "6a32cea40925e7133c62a50b098e2ff8ff854a88cb8d25c7a5473196a0d9a8f1",
+    "abyss_feedback": "81f8218ef5296c83ab0cf6675bda6cc073cc0f3e0fa51d5688e0d37dab4b78a0",
+    "abyss_feedback_actor_painter": "c484dcbce77dab51990fe9df980f543141345e394538053da2a651f59bee107e",
+    "abyss_flow_actions": "c63b476ac3e90a3df442bc416bf4063678a0d77ec3301aafb8b4166396f4c5a9",
+    "abyss_focus": "0216f20375e14a98629ae2ae95823f62cf909033d11c45d0db8b1b7731735d91",
+    "abyss_forgotten_altar_event": "fdfe917ee4bc3be2aed608b08535cae573751707304984b2524ce271a5bd4ca0",
+    "abyss_fountain": "ef4d867c671a7923104875fb1455fc26f7d88642869b3daccf451a4b24f6bb83",
+    "abyss_fungi_beast_ai": "d26b17e50fe1bdd37e909e16fe924155e96c2f8658ff7e5ef465a81e24dc0cc1",
+    "abyss_game_ui": "f6af5ea95ae039f2d1e2df13702cb91084b177e0ef53d5fa1ed9a9aab3632f7b",
+    "abyss_game_ui_input": "ce445f6f2f8b16696eb6178e478d4a767d5406e55942b72dcfaa1740badeef4b",
+    "abyss_game_ui_lifecycle": "3955f7170b7dd273636be76451dc244e063d72d2ce4880c532eca224090dba58",
+    "abyss_game_ui_menu_view": "6d4d0ba4958a5f592222c152100d1893ce2c101cb1b0a844e8ef21f50a195e58",
+    "abyss_game_ui_overlays": "6a24a34665ab913df6e04f86b24ac9e3f17d9d3ce0874ea5ce8d84f1097573c3",
+    "abyss_game_ui_run": "af151046f8716f4ad5ad9320f0addab89760103bea1dc628bdc06fc1546b1465",
+    "abyss_game_ui_view": "7b20ef783c43366008d831181585dda903806a29186d987cee84f3e720c3d01b",
+    "abyss_ghosts_event": "d559e68c1fea481f41a24c84af56b38951af928203622c5c154ed5ba29e4d860",
+    "abyss_giant_head": "a5692765e90ed0ab845e5d25fd6dbe00336063d54532a96b4ce415d59214d854",
+    "abyss_gold_rewards": "7262ebac5d7c4d33e8c6ef231c613e2cb9dffb6cefbafbdf117de512eef369cb",
+    "abyss_golden_idol_event": "aad16cd8edf024ffbfaf87fb32f7ad11d06c6a6636e999432a53ef90d6b7fa27",
+    "abyss_gremlin_nob_ai": "5c3d197e1a5aabe514b2425776b5fffdbee7414625e0630cad27cd7bc59cf3c2",
+    "abyss_guardian_ai": "a0ebb5ec54b36f6ddde3e516ce1956d2d5eb703829effa849c4a92df2d2f37a0",
+    "abyss_hand_choice": "5daafd740d7c4e35a57d4e9c015209edbfa94f2ddd827356628aa6298dfe6a7d",
+    "abyss_hp_loss": "d0567da89c883643bca12e025b25a93a6c3d5a9fd7a4787787a5772f7125dac4",
+    "abyss_inventory": "6690d03c382cf36ce87150fb3a8f2a7c5225c37988d21081de30c242d70fe998",
+    "abyss_jaw_worm_ai": "bd4ff20c87b9d43ba68fafe393691c25edc1576db851e81dcc83e46c6b83fc45",
+    "abyss_joust_event": "68b9a9b5b38efe068fb9e904b0652efca2a2a6fd2b4effee93d3964c39d0ee46",
+    "abyss_knowing_skull_event": "6f9e0a9c5bfdac0f009b4bff9b9ddee46bcb37fcc8d4a233d0a68a247d2d1bbe",
+    "abyss_library_event": "e7cbc3d21baee51014a2ac3b23bb8cf21846ac792fa73f580003f452b8311d6e",
+    "abyss_living_wall": "dc3287f33cd369b75ac1b1e798df8e9baed5a3a857a555d746c0dcc2c02c73a8",
+    "abyss_lizard_tail": "5b4d074a31f894a3c7b063dff96383fe23f6428a1b3cfe451eaec39a3e519f8b",
+    "abyss_looter_ai": "7578c6ab8b943040970bb0ff293e3182ab863ef024d44f3df4db8f0d27562aee",
+    "abyss_louse_ai": "45b758b6798ca46a2f58b9efdbf0c3354ebe4bcdf4db5cbbd108e7e1e176e7e0",
+    "abyss_mantra": "26aba88670b1a56bb25dff173faf4c8f93e92045b02778913bdea1ff498e5cfc",
+    "abyss_map": "a7c18eac76b25620f54d0eddc6643ef3c3e1e19cdb187e7fd8643f1406919ca8",
+    "abyss_map_rooms": "90f104dd8cfe04828eabbc71346795b15b63c811bb1ee58e5f37582bdeaee1a1",
+    "abyss_map_topology": "6b341f6a4a4fd1df70c4251d1653ad9c1648c58e6d0ce7a0577cc8452bb27895",
+    "abyss_map_ui": "81c31f315a0d1c1396faee9479f2940fa31f460e11ac38144b5df6b96f88bedd",
+    "abyss_masked_bandits_event": "6463ea76c9ba9691b04c768ff39c9abe0b1850a7de255b9aa5943aa46350d5ee",
+    "abyss_match_event": "0bfd732ef9e8ba0650de8b7493fc147eff314b7fe324c6a201ea8824a3255eca",
+    "abyss_match_event_ui": "1b4725e07c30bcc2d0af9b2037d608178a344e440d9a6858a7e957c96bbdaa30",
+    "abyss_max_hp_relics": "bc3ccd80aa1bdadbbe88d68a5f17aff1157a07e8009e7dfcdd682626b59557c0",
+    "abyss_menu_background": "69886568c75b30b9cd4e92b09b223c8733882640c4971717eb0fd229c45bc11f",
+    "abyss_merchant": "5aaccfcf5c36ae306069418141275e522c6207430cda8046c785ba6faf3cd0e2",
+    "abyss_mind_bloom_event": "a476757c799dcc1fa2f6dce6e5f30406faad9e20964bac194d5918a6ce4a0003",
+    "abyss_moai_event": "6654e082eed09bba2f46e4d5b130360442eaa3b4f78d9a2b865877c1e7292dbb",
+    "abyss_monster_art": "6767239a8474f12ca2b457c6e3317fe44d859678d9ead1bc3834019a3892ea0d",
+    "abyss_monster_displayed_intent": "5bab53353c06351f733c8b1bc32923921f2134c6a76bf63f7469fe7bead0b3c3",
+    "abyss_monster_escape": "f93dda540c6cf99f6be4519c058b5ef46f326aa2697d0b00430909d7c0fea5d7",
+    "abyss_monster_intent_particle_view": "63c4e79c0bf0ae02454b3f5801fc2e95176f13865a07789c351236f4ac860c1a",
+    "abyss_monster_intent_particles": "e54185dd3af931f14f5d3d990bad77d72283240fee16e19e4f433e225e6aecf2",
+    "abyss_monster_power_surfaces": "f018e7f6ceea328a122bab6468ddb25d5a2036942ec5530b055eb1372909d077",
+    "abyss_monster_power_view": "596497c8b281634fd7e1d8735a7d127b8d724c800473a5602ff51e111229971d",
+    "abyss_monster_source_geometry": "cb32adcff9c2c06b11e8a1dfe8cccae85f76f0ed30b95c786fe6097f8b17f87f",
+    "abyss_monster_source_intents": "d8e0c32afef3e76bc35b89cf2dac85e3fc0344863fa4deceff315c2f5bde4e4f",
+    "abyss_monster_source_positions": "b68e8db51500618517a4684ef9f920da6deb4b45d824a554e3f4d20e1d923f70",
+    "abyss_monster_surfaces": "c2c67bf0f051eacaf7c276ed2e7a915056477acb3066225d3a0968c66bd05e8a",
+    "abyss_mushrooms_event": "015e3878bb83425596b0e3e6f7f959b23cdcf35dd06cb5fd9a441aa21a2e5dc5",
+    "abyss_mysterious_sphere_event": "7588464af67f98dfb2bd2b1c98627933198afc2545a7df40545bbbc44144bb75",
+    "abyss_necronomicurse": "6f0c8d7d94bca1bc44e8d35cc718cab96c6fe533051cd94173161428e94e4639",
+    "abyss_nemesis": "5fbc8983928c273768618d4c92ab1388702f2a1892016096570b5db7204f4ba5",
+    "abyss_neow": "239e60e75404bdcc8056ce047c01b1d8a9ac0ab74a1cb84e6972436d0c41eeda",
+    "abyss_neow_history": "c10b8b169f6c3464a5b5edaf06baebca82165764e13d3c3435d57ab36cff5390",
+    "abyss_nest_event": "b29491dff7dc4bf2b99ffb4a855ab4888b1756e5c1c2d9914ebb3a019f4d8a64",
+    "abyss_new_run_seed": "bbf281ef43af3b17264a930615a26bc51fc1d34394d8d857911c5fffe7ec1f2d",
+    "abyss_nloth_event": "44a25c166a90a63d0a34046eb632e4a982847ffdcd5eb13de767c5c226c01047",
+    "abyss_node_ui": "9ba97d7ab307a41c9e5f13b99605e5551a3f128878f7456b0cc3fafac1e1c5f5",
+    "abyss_node_ui_camp": "4b4b9ce9ac95d9766e50b26d12b068d290e319aef80118cc73ea87282bd325de",
+    "abyss_node_ui_camp_actions": "079dbd9e5c297bcbeb7d94541393b4b23ea2456e6aa4fb20540e74e07dcdf7d4",
+    "abyss_node_ui_ending": "01e4bd42b5e8be6644c098c6732e299561c975187698db89cffd6bb4adac3f33",
+    "abyss_node_ui_event_cards": "5399c23e2e87cbc1765dcd0f2d1c75c8a14b5b418a066dc673eb470c7d01a706",
+    "abyss_node_ui_event_ownership": "ead64f3b3fc13601f022269521690a42800154663d1c0767a5be3bdf2c4871ca",
+    "abyss_node_ui_events": "920608d1be35144b2fea9c2d49dfe8d1e4738b0d056ff1f4357715b9dd43356b",
+    "abyss_node_ui_faces": "61e806fab2fc3cd1503e6fcdefb473f267e4cb415cd083eb22d26bd281f9051f",
+    "abyss_node_ui_feedback": "64c0c765ee8c3d1b7a1c8dccf2102262485bb88a642cea3a3d115dd87d18c4b9",
+    "abyss_node_ui_input": "a2b6f16adb815efd066d98073bc4f6da656a54cdbb4acb8823829ec37f746110",
+    "abyss_node_ui_lifecycle": "5124a6359064a8f4b14afd3f34a255d4b1ec73cfcf4a5877b42f4e5388f1962a",
+    "abyss_node_ui_motion": "2f64f42200c944509fa0afc7399d20cb92e5f737514612c85ef5083f8aeae374",
+    "abyss_node_ui_reward_detail": "041f3329bcccf88c5767e9997fc6405d8caf80ddbef84c607d8b507ca17f623d",
+    "abyss_node_ui_rewards": "3cd265ba0408c55ace456a038c89d30d7782b8166a8872185080f57813a41dee",
+    "abyss_node_ui_shop": "f66b1ae3c7dc9d7b1c27da13c7c7881a758298850ad191b804c04fd819193719",
+    "abyss_node_ui_treasure": "1b120973870ea372c49489cd68ebe05f36539aa3b9503063349c6dd1ffcd1d21",
+    "abyss_node_ui_treasure_list": "e6010238189f5571c79bfc13abeb13f48c9f63dc079e769eaf0abcb0a12f7b43",
+    "abyss_nodes": "6c838f1a3d41e266887796e97afe762fdd37cca1db850eaf3f2cb607fc50c81e",
+    "abyss_nodes_common": "e552774a99dac488ca970eb431a73f9e9360b71ea379b25894aea0ed8280de3c",
+    "abyss_nodes_entry": "4a426d738d3a9e552694bb2de31ce53e4e37793043f8bb070f7558a9647b94f3",
+    "abyss_nodes_events": "bfabf77ca9a6a071b73612d4a321738fd178dbd04ba51909dd3fc50ce3ee89a1",
+    "abyss_nodes_rare_camp": "f73eb72ef3c9d9f989899bdb3543524aee716d4b22ae09f197984514d4f5c8a1",
+    "abyss_nodes_sources": "afcc4e50bb6df9766afdc538bbc6e9b5e65df8ebed39b6823648e34b46b8e5c7",
+    "abyss_numbers": "c65422fc6a2661f96067b6135c848a34b4255caba2f505ef2b651e67b77e81d8",
+    "abyss_opening_hand": "790db956d36f2785fa7ff4d7b536c9180c6a879cf8da4d774ef8437ff5731b3c",
+    "abyss_orb_powers": "1fab81fc8641538e1903673dfdb167e37a15da52548528071246b51ec9bcc3e4",
+    "abyss_orbs": "56dc89d9c7c9b2abcfc7f6168fa4bea4e1888897f9bd1b12f097e1629fc39eb8",
+    "abyss_original_v4": "5a22a8e40fb2e48cc1c9b581bdc1f0ebd0f0bcb356fb1af23eb1bd0007c32565",
+    "abyss_original_v4_display": "db0126d89e4b69a8df6f0e929380a2b5f470826e91f2590bbc59d011fd484eac",
+    "abyss_original_v4_health": "1ea49f3794764e72e41f65751e9003c659310a4ab00a027c85a024aac8646d12",
+    "abyss_original_v4_profiles": "c3a91ba80db37f92c00eaacbfe252af8eda374c56edeaa1acf1b22c60a620a82",
+    "abyss_pile_choice": "a9a7f4a8352bad0211155105835b670337cb09bee4a7503d2840b3f74d062308",
+    "abyss_plated_armor": "8b84f580a0b1a43aac930cb38fd545a90dcc2dec5e4d9111bd0f94fefd5b0bf7",
+    "abyss_player_revive": "c9851b34f27328422f8aeebbaf5184e281c332567b505fc185cee844e5a076eb",
+    "abyss_poison": "0462b298e9402454d7858b9071bb82ff1703edc2f5c7b67f2299b276a7312efc",
+    "abyss_potion_discard_ui": "7f23e50be6ed67b7235ebd3e8647884469b843275a0fa9b0adbee37d33ee3a2f",
+    "abyss_potion_discovery": "b8260bffbf1e4eee46b2813cb708692ef694fe6349209cdb8fc245e1df33a3c6",
+    "abyss_potion_events": "ef056593cd23ceb670ad4b28e4c414b7215ebafe874f116b79298fc1274c54fe",
+    "abyss_potion_fairy": "0e6460dc9d26b7c28151b988711bed0c885e3922f595e6e092367f370ee03173",
+    "abyss_potion_generation": "943059b3b983e063172258eea4b9ea4836d2d4fd92998472ed5b963e722bab20",
+    "abyss_potion_health": "783527729676741e6fc74e714c9d0d70557027662a83ee8eaed5eed5a95df08d",
+    "abyss_potion_random": "26ea990c6bcb8f916f036b3c191489187aec28b209004d4a4395a9cd1f738c7a",
+    "abyss_potion_rewards": "00acfbcb28ea3d00e3aada7e61b977fb39a2fbbfa8b02c37a065f3c80db7ebfb",
+    "abyss_potion_stance": "4dcf5dfa908b6415a027d28fad2b5a237c9de2ecebf5402d8519d0a670f987e2",
+    "abyss_potion_text": "736721b1581a0231f59aea666a0e9bfe8026a7c3d987417f759b93a08a0e941f",
+    "abyss_power_order": "10c886c16471b35799e93911444ace4b650251f6492f852ad6a3f4724504c48c",
+    "abyss_power_schedule": "ed4986f65236bfb645a14ad81fb7cd8ae3c144473e11a5d6a13cda4a1909ba4e",
+    "abyss_prologue": "23467bd0af4a973a3665fd7e9b554bd8117dc7b506e5c98557bc6c6442141a57",
+    "abyss_random": "2104296392c6cc52e4813eb05c4138319de0297a3b72c30598fba8ad4dbf4c93",
+    "abyss_randomxs128": "11104d5e2f1158566d2db6abbe4a358df9d02526edfff5632147e79d04d99986",
+    "abyss_rare_relics": "671726511ee70772873d76911b3b108f901150369e09a2b2cbc728424fa59c61",
+    "abyss_red_slaver_ai": "3b46f147effecf60debbccd4f293cdc81832692227308ba2226e12b35760b91f",
+    "abyss_relic_card_rewards": "65bd10f0d225498098e3531ff61c6df5ff942a03ba9fa5b250bb40059db59d6d",
+    "abyss_relic_choices": "31541f9f3ded8dc6340c8acc2d6cb7b8a56b5312c0975c21c2d3aed849d9fa41",
+    "abyss_relic_end_turn": "58bb7a66c3904328648263209df47fa972a5f2f765da81024b23c5ff41706c1e",
+    "abyss_relic_hooks": "ff32f3fce7ae7ccf1db9586bc160e66fd7852a14a158b399c597ed834bb7516e",
+    "abyss_relic_loss": "92fd6fed51f0f298a7f3a99d3ca32cf654bfa3c240354f1e785b3f35fe33d539",
+    "abyss_relic_names": "41fb60f4dbe139b05785b9361320ca23c8c653ba59dac8c88b2ec5ece1c632d3",
+    "abyss_relic_pending": "b7ec0a30fbddd0a42070d584959b7dc8b2736a353350a7bf9abc1cab0536dc06",
+    "abyss_relic_pending_ui": "1f6e08c955220402de51bce2abf21fe8f05c80cc59a7067c9e418b0583f58d44",
+    "abyss_relic_pool": "31d77c7429fe9435e16062a80b70896f6e0cf00779027554f7ad2d56b30b7626",
+    "abyss_relic_rarity": "d39dea253910c7d22d285f1811dad6b17c3ae7339c8ef76285fc1880e524a3c4",
+    "abyss_relic_rewards": "9d9741d58ef183d93ef63e315e10f79041306fd0c02e202fe7411241a2d580bf",
+    "abyss_relic_text": "0c8ecd36bb99a5338c63c783582364b73cad16a14abe069a6eb6bb6b36a64379",
+    "abyss_relic_view_ui": "addffa55d4ea1cefd47b762b10330f248d8f9e1eb3640ab0272ee35360593752",
+    "abyss_reptomancer": "7fe1631cce3e6c328197b2e57edbaf375077d4248ccce2420a4158e6ed79ce06",
+    "abyss_retained_cards": "46795cc87bb9aa2338708e42eafbf3d403a1e62e049097296165a98d53f58b71",
+    "abyss_retrieval_cards": "14f0ebec5ccd4461eae07ce67a055bb8198b747338b322feda4b25b3a278196b",
+    "abyss_room_encounters": "367f2c6524926814263d825e8159729b329c927abf5a315d6252787b45b6b8b0",
+    "abyss_run": "3d6484f7e43298e321fd40d785d1d3c650a8663aa2b94f85cc125bc0c85e1496",
+    "abyss_run_admission": "0e7e9cdd3e7b40cfbee08740a2e9fe62de6b826bf3a6b8d12e81548e2a8efea4",
+    "abyss_run_card_catalog": "73ca2c1d47b17011f9b40349134565390200178e950a72015b818ee770443192",
+    "abyss_run_initialization": "4d03fc4e702979d101e4676e0607bb438e401f14b98fbb76e3fed8166975f1db",
+    "abyss_run_potion_candidate": "0b5a6042dc1a45ac0c67e00f54e9557d94eb02c9e609292ad192c313c15ebf23",
+    "abyss_run_potions": "abe117457f3c9dfd4e77e5153ea76cb3ab1e26cf5e5817b33d1789fc9313c6ba",
+    "abyss_run_red_card_contract": "f9e9fc3e52606b73e481259d06504d349c23834f025b60a7ebece217ad6d43e4",
+    "abyss_run_rooms": "cc404c5d11fefb68a0c0918db6538cca7f86abfd4758b1c49d23bc718f81e817",
+    "abyss_run_score": "1f90805ea68bfaa914be6b66ab3053c0e7a138def2c3a1f32f68526fe75fae0b",
+    "abyss_run_scoring": "d0e161ba01fd406979480345062c4ff06905eb233740adc1fc25111d1d73fcd9",
+    "abyss_run_seed": "0f85ce01bd2c7d63fdf701ee77855e4dcd6d1f04053445478736c212ee84a3f0",
+    "abyss_run_settlement": "90b5275bf92800fd11ef78bc3abf09a72059176578b804fbbc1c2a4cae057603",
+    "abyss_run_transition": "6de61802ab8558626a62de4c467b09018a623002ce3563d38ac5b838397b8ce8",
+    "abyss_scry": "55b2bdf3d8b69ac8815702df9f5602ab1a9fc96045973ce03ead328b982929d7",
+    "abyss_sensory_stone_event": "065d2c9aa75a6688d787b79e319819998283921ad48e54f8b17072f1d1b4bdee",
+    "abyss_sentry_ai": "3243df25170aa011e72a108a5c7b205f98cc2e8628a13b3ca8b240119b1607c7",
+    "abyss_shivs": "ee9cc53ec2ff4d02f1cbe5894929898c00ba7782292092b979e906854657ce68",
+    "abyss_shop": "a405574418645d98241dbb6052a35e43be3959c2960835cfad015d8cd0b07d76",
+    "abyss_shop_price": "53095e7d7a4deaac3e9dfe0f2d5a2d39849805e43f8383232e518af7f588fb70",
+    "abyss_shop_relics": "af4f3c26083dbb304669b9bc7a67df91e77f7e7de446d2101debcd7be60e3cbd",
+    "abyss_shop_selection": "27a455d2b906b1483f4bf3a931cc4d7da40135ff88bb20362f504249f367a11e",
+    "abyss_shop_ui": "666055c2d8716bc360f275b1f969d134f5be3973875842f16e6227e0fc3fcbd2",
+    "abyss_silent": "35383003dd904bcc90f6f04ca2b1d9b6a176d5d2de3d24e150b97c3f05ba4e26",
+    "abyss_silent_attack_cards": "dda39403bfa1822880fc8917390f7eda4e35b74e4b87d3f468d70404faac277c",
+    "abyss_silent_discard_cards": "004807b505fd22d0e68c4dc891357cd6317a4bdf3c68b862d0752ac6c24e8478",
+    "abyss_silent_final_cards": "9683fa26d0a32964fe5ec07fb46d3b09731a1fd392d39a60691a64b16efa7efe",
+    "abyss_silent_potions": "3c65971a9197b94b4b065a6c74aa75a0b539181c16fa6a8d7afd64f9c5ae5546",
+    "abyss_silent_tactics_cards": "c4e3cbf460aba68b9b88d6e11974c54bc4684be40e310d9fa9c68f91dbb5780c",
+    "abyss_skill_feedback": "f1387a1ab40ca1ed097eea1c31bf9dd4f275fd8509c440d27ef5b0213fd1f2ef",
+    "abyss_snapshot": "9aee051d54b0cae312f4067ca97ee275a38a18871d925d3454e8eec5892d3c00",
+    "abyss_spike_slime_m_ai": "234caee12229e1a9c693e8cda5ad19534e0334ad9eb391894d07470b956dc3b5",
+    "abyss_spire_pair": "11c5f223f4a90e26e4534e2b074740ccd1e0f3225de3adb4c6774c3e05021173",
+    "abyss_stances": "5d9e72d1db86302e2bd1faeda69afabb65d56ecfa859463fa52fa85d81c67c2f",
+    "abyss_sts_random": "6728ffa86944e578852ad9dfc4c5a23d825e917e2d24ab12f93fc1730a6d24ac",
+    "abyss_time_eater": "90a96551c17a60f7aa3a5e17be5f35748824dbfd8d958a71abc2098649ec2a45",
+    "abyss_tomb_red_mask_event": "253d62a4c39436cbb614d9c4a639d061202b234d669f0636e5d71b532a2629c6",
+    "abyss_trade_event": "a3391d3ada5b48f57c64211b5f2c65f9c025ebacdc77971c5364b48e2893a03f",
+    "abyss_transform_card": "94b6b1e811752d260755d433ba5125333d681ba2f5e562fd51e0e6baf62ff886",
+    "abyss_traveler_portraits": "6b0227c6e03a4e2358cd6508d0203c6a8b91471d5f3af049215490b71a429a64",
+    "abyss_treasure": "8869849396b0ebbab59c5824b17fd79ffe7f55bb69e22bb03a3b860260af8103",
+    "abyss_treasure_source": "b31675c47b1663d6277bdc3babd67eae28cc6c141f27f9094938c1cec333299a",
+    "abyss_treasure_ui": "f24d44d8c19cab4f45013e295da4b150981f1c1843358448efcd1c6df02305be",
+    "abyss_turn_powers": "538ce8691ca92cab1f92dd3415339b0cc2bd94af03b224d42dbf66405c1518f1",
+    "abyss_ui": "6b14bea6981d990e5c08cff1d50c643d539b8c2c7d534cf84dfd67d4076bbbd9",
+    "abyss_uncommon_relics": "22f2621ef3c8565799f8621027cbbfa500234ffc486427fa3e7cd56c0a3dd538",
+    "abyss_unknown": "06fd62a6f679f0cee51e42c47314735b39420001e97952cca81db4656dc4128e",
+    "abyss_vampires_event": "c6afbfe53e8774c23cd981269b64f250a6ec99c6108fb00a4a3f54f0d6d140b6",
+    "abyss_victory_easter_egg": "d36b9d2a1a714976672bbb24952cc50664e33f9227434f471dd790ad734bd4f0",
+    "abyss_viewport": "0967e630bd058b14e08dbb2da5e477134f695232b579c3997633be0f9b8918de",
+    "abyss_warrior_cards": "659852360da74fe2cc35e5282df5b70c644f98e823ea53fc4f9e837037d1d3b5",
+    "abyss_warrior_exhaust_cards": "34f61ccbb197eacfebaa40d62a30aa9490753b5faf8b683cffa4a5172146002c",
+    "abyss_warrior_status_cards": "a50815bb6146cd87c2f19b113f4d02c9b99a5280a1eacec245a3bf9131a49684",
+    "abyss_warrior_strength_cards": "e2cf0b75271fa8b6aaf60e110958adc61584ac9e9899521018c51a36bbe01515",
+    "abyss_watcher_attack_cards": "936b51390234e67fc3f2a969d6d3c6511bdb9a26b8078bceca1e161ff7704c63",
+    "abyss_watcher_cards": "699e789be9f3a8988b46d0a6a62c83532b7eccf5d6a813dc7d07ba3f76aa7ac2",
+    "abyss_watcher_final_cards": "19b9d15795d4fb388cd53ceb98f593dd17e07540b82bec03f2777082ea95d9d3",
+    "abyss_watcher_flow_cards": "1418035353fc96c1c6c81d1cbc1f34bab7ad3138ff85dcca11e09fcb1f7693cf",
+    "abyss_watcher_foreign_pool": "bb950f0a3b618a6b4ad5a650860498acd9f01cbb7918d1641612758dbac0a241",
+    "abyss_wheel_event": "7a3cf03745925f38b1b1a03f4568d4d6e69859e8bad558560845159622a6328c",
+    "abyss_winding_event": "35c246c4ced8c4bfe3ddff992908e4930e6f0cbf6ac938ace1799e7493193668",
+    "abyss_writhing_mass": "e0255232c6bbd3018083ec0326a5c312ded4683769dec981eef86ce964bbe688"
+  },
+  "dependency": {
+    "head": "dedb9ed5af52fc595031d64d3e8fd84bc908b2c8",
+    "nodes": 328,
+    "positions": 1902,
+    "pairs": 1535,
+    "errors": [],
+    "cycles": [
+      {
+        "members": 104,
+        "positions": 804,
+        "pairs": 538
+      }
+    ],
+    "immediate": [],
+    "experiments": [
+      {
+        "from": "abyss_relic_hooks",
+        "to": "abyss_card_actions",
+        "removed": [
+          {
+            "from": "abyss_relic_hooks",
+            "to": "abyss_card_actions",
+            "line": 148,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_hooks",
+            "to": "abyss_card_actions",
+            "line": 176,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_hooks",
+            "to": "abyss_card_actions",
+            "line": 318,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_hooks",
+            "to": "abyss_card_actions",
+            "line": 322,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_hooks",
+            "to": "abyss_card_actions",
+            "line": 337,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_hooks",
+            "to": "abyss_card_actions",
+            "line": 344,
+            "reviewedDeferred": true
+          }
+        ],
+        "cycles": [
+          {
+            "members": 104,
+            "positions": 798,
+            "pairs": 537
+          }
+        ]
+      },
+      {
+        "from": "abyss_relic_hooks",
+        "to": "abyss_actor",
+        "removed": [
+          {
+            "from": "abyss_relic_hooks",
+            "to": "abyss_actor",
+            "line": 4,
+            "reviewedDeferred": false
+          }
+        ],
+        "cycles": [
+          {
+            "members": 104,
+            "positions": 803,
+            "pairs": 537
+          }
+        ]
+      },
+      {
+        "from": "abyss_hp_loss",
+        "to": "abyss_relic_hooks",
+        "removed": [
+          {
+            "from": "abyss_hp_loss",
+            "to": "abyss_relic_hooks",
+            "line": 9,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_hp_loss",
+            "to": "abyss_relic_hooks",
+            "line": 10,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_hp_loss",
+            "to": "abyss_relic_hooks",
+            "line": 23,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_hp_loss",
+            "to": "abyss_relic_hooks",
+            "line": 27,
+            "reviewedDeferred": false
+          }
+        ],
+        "cycles": [
+          {
+            "members": 104,
+            "positions": 800,
+            "pairs": 537
+          }
+        ]
+      },
+      {
+        "from": "abyss_uncommon_relics",
+        "to": "abyss_run",
+        "removed": [
+          {
+            "from": "abyss_uncommon_relics",
+            "to": "abyss_run",
+            "line": 33,
+            "reviewedDeferred": true
+          }
+        ],
+        "cycles": [
+          {
+            "members": 104,
+            "positions": 803,
+            "pairs": 537
+          }
+        ]
+      },
+      {
+        "from": "abyss_boss_relics",
+        "to": "abyss_run",
+        "removed": [
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 84,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 106,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 149,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 154,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 169,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 172,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 178,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 181,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 215,
+            "reviewedDeferred": true
+          }
+        ],
+        "cycles": [
+          {
+            "members": 104,
+            "positions": 795,
+            "pairs": 537
+          }
+        ]
+      },
+      {
+        "from": "abyss_relic_choices",
+        "to": "abyss_run",
+        "removed": [
+          {
+            "from": "abyss_relic_choices",
+            "to": "abyss_run",
+            "line": 3,
+            "reviewedDeferred": true
+          }
+        ],
+        "cycles": [
+          {
+            "members": 104,
+            "positions": 803,
+            "pairs": 537
+          }
+        ]
+      },
+      {
+        "from": "abyss_relic_card_rewards",
+        "to": "abyss_run",
+        "removed": [
+          {
+            "from": "abyss_relic_card_rewards",
+            "to": "abyss_run",
+            "line": 43,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_card_rewards",
+            "to": "abyss_run",
+            "line": 52,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_card_rewards",
+            "to": "abyss_run",
+            "line": 59,
+            "reviewedDeferred": true
+          }
+        ],
+        "cycles": [
+          {
+            "members": 104,
+            "positions": 801,
+            "pairs": 537
+          }
+        ]
+      },
+      {
+        "from": "abyss_relic_pending",
+        "to": "abyss_run",
+        "removed": [
+          {
+            "from": "abyss_relic_pending",
+            "to": "abyss_run",
+            "line": 81,
+            "reviewedDeferred": true
+          }
+        ],
+        "cycles": [
+          {
+            "members": 104,
+            "positions": 803,
+            "pairs": 537
+          }
+        ]
+      }
+    ],
+    "focus": [
+      {
+        "from": "abyss_actor",
+        "to": "abyss_relic_hooks",
+        "line": 160,
+        "reviewedDeferred": true
+      },
+      {
+        "from": "abyss_actor",
+        "to": "abyss_relic_hooks",
+        "line": 494,
+        "reviewedDeferred": true
+      },
+      {
+        "from": "abyss_actor",
+        "to": "abyss_relic_hooks",
+        "line": 504,
+        "reviewedDeferred": true
+      },
+      {
+        "from": "abyss_actor",
+        "to": "abyss_relic_hooks",
+        "line": 525,
+        "reviewedDeferred": true
+      },
+      {
+        "from": "abyss_actor",
+        "to": "abyss_relic_hooks",
+        "line": 692,
+        "reviewedDeferred": true
+      },
+      {
+        "from": "abyss_actor",
+        "to": "abyss_relic_hooks",
+        "line": 708,
+        "reviewedDeferred": true
+      },
+      {
+        "from": "abyss_actor",
+        "to": "abyss_relic_hooks",
+        "line": 849,
+        "reviewedDeferred": true
+      },
+      {
+        "from": "abyss_card_actions",
+        "to": "abyss_actor",
+        "line": 3,
+        "reviewedDeferred": false
+      },
+      {
+        "from": "abyss_card_actions",
+        "to": "abyss_relic_hooks",
+        "line": 381,
+        "reviewedDeferred": true
+      },
+      {
+        "from": "abyss_card_actions",
+        "to": "abyss_relic_hooks",
+        "line": 415,
+        "reviewedDeferred": true
+      },
+      {
+        "from": "abyss_card_actions",
+        "to": "abyss_relic_hooks",
+        "line": 445,
+        "reviewedDeferred": true
+      },
+      {
+        "from": "abyss_card_actions",
+        "to": "abyss_relic_hooks",
+        "line": 491,
+        "reviewedDeferred": true
+      },
+      {
+        "from": "abyss_combat",
+        "to": "abyss_actor",
+        "line": 2,
+        "reviewedDeferred": false
+      },
+      {
+        "from": "abyss_combat",
+        "to": "abyss_card_actions",
+        "line": 6,
+        "reviewedDeferred": false
+      },
+      {
+        "from": "abyss_combat",
+        "to": "abyss_relic_hooks",
+        "line": 14,
+        "reviewedDeferred": false
+      },
+      {
+        "from": "abyss_relic_hooks",
+        "to": "abyss_actor",
+        "line": 4,
+        "reviewedDeferred": false
+      },
+      {
+        "from": "abyss_relic_hooks",
+        "to": "abyss_card_actions",
+        "line": 148,
+        "reviewedDeferred": true
+      },
+      {
+        "from": "abyss_relic_hooks",
+        "to": "abyss_card_actions",
+        "line": 176,
+        "reviewedDeferred": true
+      },
+      {
+        "from": "abyss_relic_hooks",
+        "to": "abyss_card_actions",
+        "line": 318,
+        "reviewedDeferred": true
+      },
+      {
+        "from": "abyss_relic_hooks",
+        "to": "abyss_card_actions",
+        "line": 322,
+        "reviewedDeferred": true
+      },
+      {
+        "from": "abyss_relic_hooks",
+        "to": "abyss_card_actions",
+        "line": 337,
+        "reviewedDeferred": true
+      },
+      {
+        "from": "abyss_relic_hooks",
+        "to": "abyss_card_actions",
+        "line": 344,
+        "reviewedDeferred": true
+      },
+      {
+        "from": "abyss_run",
+        "to": "abyss_combat",
+        "line": 2,
+        "reviewedDeferred": false
+      },
+      {
+        "from": "abyss_run",
+        "to": "abyss_relic_hooks",
+        "line": 7,
+        "reviewedDeferred": false
+      },
+      {
+        "from": "abyss_run",
+        "to": "abyss_relic_hooks",
+        "line": 357,
+        "reviewedDeferred": false
+      }
+    ]
+  },
+  "complexity": {
+    "head": "dedb9ed5af52fc595031d64d3e8fd84bc908b2c8",
+    "tool": {
+      "version": "1.2.0",
+      "sha256": "0f1c69c4d09f1ebb4d8df14c215e4553e2e639bd4cb7bf3c639b0daa6198317b"
+    },
+    "modules": 328,
+    "functions": 4955,
+    "chunks": 328,
+    "measurements": 5283,
+    "functionCcTotal": 29553,
+    "maxCc": 75,
+    "ccOver15": 258,
+    "ccOver30": 67,
+    "maxSpan": 580,
+    "over1000": [
+      {
+        "file": "src/lua/abyss_combat.lua",
+        "lines": 2240
+      }
+    ],
+    "long150": 39
+  },
+  "highComplexity": [
+    {
+      "file": "src/lua/abyss_watcher_final_cards.lua",
+      "id": "$/M.execute#1",
+      "name": "M.execute",
+      "kind": "function",
+      "constructorName": false,
+      "line": 239,
+      "column": 1,
+      "endLine": 342,
+      "lines": 104,
+      "complexity": 75
+    },
+    {
+      "file": "src/lua/abyss_act1_events.lua",
+      "id": "$/M.choose#1",
+      "name": "M.choose",
+      "kind": "function",
+      "constructorName": false,
+      "line": 86,
+      "column": 1,
+      "endLine": 238,
+      "lines": 153,
+      "complexity": 69
+    },
+    {
+      "file": "src/lua/abyss_original_v4.lua",
+      "id": "$/apply#1",
+      "name": "apply",
+      "kind": "function",
+      "constructorName": false,
+      "line": 196,
+      "column": 7,
+      "endLine": 249,
+      "lines": 54,
+      "complexity": 69
+    },
+    {
+      "file": "src/lua/abyss_defect_engine_cards.lua",
+      "id": "$/M.planEffect#1",
+      "name": "M.planEffect",
+      "kind": "function",
+      "constructorName": false,
+      "line": 153,
+      "column": 1,
+      "endLine": 232,
+      "lines": 80,
+      "complexity": 64
+    },
+    {
+      "file": "src/lua/abyss_treasure_ui.lua",
+      "id": "$/M.render#1",
+      "name": "M.render",
+      "kind": "function",
+      "constructorName": false,
+      "line": 74,
+      "column": 1,
+      "endLine": 143,
+      "lines": 70,
+      "complexity": 61
+    },
+    {
+      "file": "src/lua/abyss_original_v4_display.lua",
+      "id": "$/M.brief#1",
+      "name": "M.brief",
+      "kind": "function",
+      "constructorName": false,
+      "line": 254,
+      "column": 1,
+      "endLine": 317,
+      "lines": 64,
+      "complexity": 60
+    },
+    {
+      "file": "src/lua/abyss_choice_ui.lua",
+      "id": "$/M.new#1/render#1",
+      "name": "render",
+      "kind": "function",
+      "constructorName": false,
+      "line": 118,
+      "column": 11,
+      "endLine": 171,
+      "lines": 54,
+      "complexity": 59
+    },
+    {
+      "file": "src/lua/abyss_map_ui.lua",
+      "id": "$/M.new#1/self.render#1",
+      "name": "self.render",
+      "kind": "function",
+      "constructorName": false,
+      "line": 327,
+      "column": 5,
+      "endLine": 441,
+      "lines": 115,
+      "complexity": 59
+    },
+    {
+      "file": "src/lua/abyss_run_card_catalog.lua",
+      "id": "$/M.prepare#1",
+      "name": "M.prepare",
+      "kind": "function",
+      "constructorName": false,
+      "line": 183,
+      "column": 1,
+      "endLine": 265,
+      "lines": 83,
+      "complexity": 59
+    },
+    {
+      "file": "src/lua/abyss_card_capability.lua",
+      "id": "$/M.isImplemented#1",
+      "name": "M.isImplemented",
+      "kind": "function",
+      "constructorName": false,
+      "line": 7,
+      "column": 1,
+      "endLine": 49,
+      "lines": 43,
+      "complexity": 57
+    },
+    {
+      "file": "src/lua/abyss_colorless_cards.lua",
+      "id": "$/M.describe#1",
+      "name": "M.describe",
+      "kind": "function",
+      "constructorName": false,
+      "line": 154,
+      "column": 1,
+      "endLine": 196,
+      "lines": 43,
+      "complexity": 56
+    },
+    {
+      "file": "src/lua/abyss_end_turn_powers.lua",
+      "id": "$/M.prepare#1",
+      "name": "M.prepare",
+      "kind": "function",
+      "constructorName": false,
+      "line": 66,
+      "column": 1,
+      "endLine": 112,
+      "lines": 47,
+      "complexity": 55
+    },
+    {
+      "file": "src/lua/abyss_inventory.lua",
+      "id": "$/M.apply#1",
+      "name": "M.apply",
+      "kind": "function",
+      "constructorName": false,
+      "line": 166,
+      "column": 1,
+      "endLine": 265,
+      "lines": 100,
+      "complexity": 53
+    },
+    {
+      "file": "src/lua/abyss_traveler_portraits.lua",
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 224,
+      "column": 1,
+      "endLine": 361,
+      "lines": 138,
+      "complexity": 51
+    },
+    {
+      "file": "src/lua/abyss_actor.lua",
+      "id": "$/M.endTurn#1",
+      "name": "M.endTurn",
+      "kind": "function",
+      "constructorName": false,
+      "line": 886,
+      "column": 1,
+      "endLine": 941,
+      "lines": 56,
+      "complexity": 50
+    },
+    {
+      "file": "src/lua/abyss_feedback.lua",
+      "id": "$/classify#1",
+      "name": "classify",
+      "kind": "function",
+      "constructorName": false,
+      "line": 44,
+      "column": 7,
+      "endLine": 109,
+      "lines": 66,
+      "complexity": 49
+    },
+    {
+      "file": "src/lua/abyss_character_presentation.lua",
+      "id": "$/M.prepare#1",
+      "name": "M.prepare",
+      "kind": "function",
+      "constructorName": false,
+      "line": 72,
+      "column": 1,
+      "endLine": 113,
+      "lines": 42,
+      "complexity": 48
+    },
+    {
+      "file": "src/lua/abyss_character_select_view.lua",
+      "id": "$/M.render#1",
+      "name": "M.render",
+      "kind": "function",
+      "constructorName": false,
+      "line": 85,
+      "column": 1,
+      "endLine": 146,
+      "lines": 62,
+      "complexity": 48
+    },
+    {
+      "file": "src/lua/abyss_feedback.lua",
+      "id": "$/M.new#1/self.update#1/<anonymous>#1",
+      "name": "<anonymous>",
+      "kind": "function",
+      "constructorName": false,
+      "line": 613,
+      "column": 35,
+      "endLine": 700,
+      "lines": 88,
+      "complexity": 48
+    },
+    {
+      "file": "src/lua/abyss_relic_hooks.lua",
+      "id": "$/M.onEquip#1",
+      "name": "M.onEquip",
+      "kind": "function",
+      "constructorName": false,
+      "line": 78,
+      "column": 1,
+      "endLine": 125,
+      "lines": 48,
+      "complexity": 47
+    },
+    {
+      "file": "src/lua/abyss_act3_ai.lua",
+      "id": "$/M.advance#1",
+      "name": "M.advance",
+      "kind": "function",
+      "constructorName": false,
+      "line": 9,
+      "column": 1,
+      "endLine": 54,
+      "lines": 46,
+      "complexity": 46
+    },
+    {
+      "file": "src/lua/abyss_deck_ui.lua",
+      "id": "$/M.new#1/self.open#1",
+      "name": "self.open",
+      "kind": "function",
+      "constructorName": false,
+      "line": 354,
+      "column": 5,
+      "endLine": 398,
+      "lines": 45,
+      "complexity": 45
+    },
+    {
+      "file": "src/lua/abyss_enemy_ai.lua",
+      "id": "$/M.advance#1",
+      "name": "M.advance",
+      "kind": "function",
+      "constructorName": false,
+      "line": 152,
+      "column": 1,
+      "endLine": 213,
+      "lines": 62,
+      "complexity": 43
+    },
+    {
+      "file": "src/lua/abyss_prologue.lua",
+      "id": "$/M.new#1/self:pose#1",
+      "name": "self:pose",
+      "kind": "function",
+      "constructorName": false,
+      "line": 123,
+      "column": 5,
+      "endLine": 201,
+      "lines": 79,
+      "complexity": 43
+    },
+    {
+      "file": "src/lua/abyss_silent_final_cards.lua",
+      "id": "$/M.apply#1",
+      "name": "M.apply",
+      "kind": "function",
+      "constructorName": false,
+      "line": 206,
+      "column": 1,
+      "endLine": 257,
+      "lines": 52,
+      "complexity": 42
+    },
+    {
+      "file": "src/lua/abyss_enemy_ai.lua",
+      "id": "$/M.initialize#1",
+      "name": "M.initialize",
+      "kind": "function",
+      "constructorName": false,
+      "line": 65,
+      "column": 1,
+      "endLine": 127,
+      "lines": 63,
+      "complexity": 40
+    },
+    {
+      "file": "src/lua/abyss_original_v4.lua",
+      "id": "$/executeRoot#1",
+      "name": "executeRoot",
+      "kind": "function",
+      "constructorName": false,
+      "line": 250,
+      "column": 7,
+      "endLine": 286,
+      "lines": 37,
+      "complexity": 40
+    },
+    {
+      "file": "src/lua/abyss_defect_final_cards.lua",
+      "id": "$/M.execute#1",
+      "name": "M.execute",
+      "kind": "function",
+      "constructorName": false,
+      "line": 214,
+      "column": 1,
+      "endLine": 262,
+      "lines": 49,
+      "complexity": 39
+    },
+    {
+      "file": "src/lua/abyss_ending_history.lua",
+      "id": "$/terminal#1",
+      "name": "terminal",
+      "kind": "function",
+      "constructorName": false,
+      "line": 83,
+      "column": 7,
+      "endLine": 104,
+      "lines": 22,
+      "complexity": 39
+    },
+    {
+      "file": "src/lua/abyss_map.lua",
+      "id": "$/emeraldNode#1",
+      "name": "emeraldNode",
+      "kind": "function",
+      "constructorName": false,
+      "line": 179,
+      "column": 7,
+      "endLine": 203,
+      "lines": 25,
+      "complexity": 38
+    },
+    {
+      "file": "src/lua/abyss_scry.lua",
+      "id": "$/M.choose#1",
+      "name": "M.choose",
+      "kind": "function",
+      "constructorName": false,
+      "line": 74,
+      "column": 1,
+      "endLine": 120,
+      "lines": 47,
+      "complexity": 38
+    },
+    {
+      "file": "src/lua/abyss_defect_utility_cards.lua",
+      "id": "$/M.planEffect#1",
+      "name": "M.planEffect",
+      "kind": "function",
+      "constructorName": false,
+      "line": 115,
+      "column": 1,
+      "endLine": 172,
+      "lines": 58,
+      "complexity": 37
+    },
+    {
+      "file": "src/lua/abyss_run_card_catalog.lua",
+      "id": "$/M.prepareSelected#1",
+      "name": "M.prepareSelected",
+      "kind": "function",
+      "constructorName": false,
+      "line": 133,
+      "column": 1,
+      "endLine": 182,
+      "lines": 50,
+      "complexity": 37
+    },
+    {
+      "file": "src/lua/abyss_actor.lua",
+      "id": "$/M.applyPower#1",
+      "name": "M.applyPower",
+      "kind": "function",
+      "constructorName": false,
+      "line": 163,
+      "column": 1,
+      "endLine": 206,
+      "lines": 44,
+      "complexity": 36
+    },
+    {
+      "file": "src/lua/abyss_original_v4_display.lua",
+      "id": "$/faceEffect#1",
+      "name": "faceEffect",
+      "kind": "function",
+      "constructorName": false,
+      "line": 322,
+      "column": 7,
+      "endLine": 346,
+      "lines": 25,
+      "complexity": 36
+    },
+    {
+      "file": "src/lua/abyss_potion_text.lua",
+      "id": "$/M.special#1",
+      "name": "M.special",
+      "kind": "function",
+      "constructorName": false,
+      "line": 7,
+      "column": 1,
+      "endLine": 33,
+      "lines": 27,
+      "complexity": 36
+    },
+    {
+      "file": "src/lua/abyss_warrior_status_cards.lua",
+      "id": "$/M.withCards#1",
+      "name": "M.withCards",
+      "kind": "function",
+      "constructorName": false,
+      "line": 67,
+      "column": 1,
+      "endLine": 107,
+      "lines": 41,
+      "complexity": 36
+    },
+    {
+      "file": "src/lua/abyss_actor.lua",
+      "id": "$/M.addStatus#1",
+      "name": "M.addStatus",
+      "kind": "function",
+      "constructorName": false,
+      "line": 233,
+      "column": 1,
+      "endLine": 253,
+      "lines": 21,
+      "complexity": 35
+    },
+    {
+      "file": "src/lua/abyss_character_profiles.lua",
+      "id": "$/M.prepare#1",
+      "name": "M.prepare",
+      "kind": "function",
+      "constructorName": false,
+      "line": 18,
+      "column": 1,
+      "endLine": 107,
+      "lines": 90,
+      "complexity": 35
+    },
+    {
+      "file": "src/lua/abyss_feedback.lua",
+      "id": "$/M.new#1/self.start#1",
+      "name": "self.start",
+      "kind": "function",
+      "constructorName": false,
+      "line": 537,
+      "column": 5,
+      "endLine": 610,
+      "lines": 74,
+      "complexity": 35
+    },
+    {
+      "file": "src/lua/abyss_treasure_source.lua",
+      "id": "$/M.pair#1",
+      "name": "M.pair",
+      "kind": "function",
+      "constructorName": false,
+      "line": 48,
+      "column": 1,
+      "endLine": 73,
+      "lines": 26,
+      "complexity": 35
+    },
+    {
+      "file": "src/lua/abyss_treasure_ui.lua",
+      "id": "$/bind#1/owned#1",
+      "name": "owned",
+      "kind": "function",
+      "constructorName": false,
+      "line": 37,
+      "column": 8,
+      "endLine": 55,
+      "lines": 19,
+      "complexity": 35
+    },
+    {
+      "file": "src/lua/abyss_combat.lua",
+      "id": "$/M.damage#1",
+      "name": "M.damage",
+      "kind": "function",
+      "constructorName": false,
+      "line": 63,
+      "column": 1,
+      "endLine": 90,
+      "lines": 28,
+      "complexity": 34
+    },
+    {
+      "file": "src/lua/abyss_end_turn_powers.lua",
+      "id": "$/M.apply#1",
+      "name": "M.apply",
+      "kind": "function",
+      "constructorName": false,
+      "line": 117,
+      "column": 1,
+      "endLine": 156,
+      "lines": 40,
+      "complexity": 34
+    },
+    {
+      "file": "src/lua/abyss_inventory.lua",
+      "id": "$/validate#1",
+      "name": "validate",
+      "kind": "function",
+      "constructorName": false,
+      "line": 134,
+      "column": 7,
+      "endLine": 164,
+      "lines": 31,
+      "complexity": 34
+    },
+    {
+      "file": "src/lua/abyss_potion_text.lua",
+      "id": "$/M.describe#1",
+      "name": "M.describe",
+      "kind": "function",
+      "constructorName": false,
+      "line": 61,
+      "column": 1,
+      "endLine": 90,
+      "lines": 30,
+      "complexity": 34
+    },
+    {
+      "file": "src/lua/abyss_silent_tactics_cards.lua",
+      "id": "$/M.planEffect#1",
+      "name": "M.planEffect",
+      "kind": "function",
+      "constructorName": false,
+      "line": 143,
+      "column": 1,
+      "endLine": 216,
+      "lines": 74,
+      "complexity": 34
+    },
+    {
+      "file": "src/lua/abyss_skill_feedback.lua",
+      "id": "$/M.resolve#1",
+      "name": "M.resolve",
+      "kind": "function",
+      "constructorName": false,
+      "line": 28,
+      "column": 1,
+      "endLine": 50,
+      "lines": 23,
+      "complexity": 34
+    },
+    {
+      "file": "src/lua/abyss_wheel_event.lua",
+      "id": "$/M.choose#1",
+      "name": "M.choose",
+      "kind": "function",
+      "constructorName": false,
+      "line": 17,
+      "column": 1,
+      "endLine": 81,
+      "lines": 65,
+      "complexity": 34
+    },
+    {
+      "file": "src/lua/abyss_act2_events.lua",
+      "id": "$/M.choose#1",
+      "name": "M.choose",
+      "kind": "function",
+      "constructorName": false,
+      "line": 175,
+      "column": 1,
+      "endLine": 225,
+      "lines": 51,
+      "complexity": 33
+    },
+    {
+      "file": "src/lua/abyss_act3_events.lua",
+      "id": "$/M.choose#1",
+      "name": "M.choose",
+      "kind": "function",
+      "constructorName": false,
+      "line": 69,
+      "column": 1,
+      "endLine": 99,
+      "lines": 31,
+      "complexity": 33
+    },
+    {
+      "file": "src/lua/abyss_actor.lua",
+      "id": "$/M.status#1",
+      "name": "M.status",
+      "kind": "function",
+      "constructorName": false,
+      "line": 78,
+      "column": 1,
+      "endLine": 114,
+      "lines": 37,
+      "complexity": 33
+    },
+    {
+      "file": "src/lua/abyss_combat.lua",
+      "id": "$/draw#1",
+      "name": "draw",
+      "kind": "function",
+      "constructorName": false,
+      "line": 305,
+      "column": 7,
+      "endLine": 368,
+      "lines": 64,
+      "complexity": 33
+    },
+    {
+      "file": "src/lua/abyss_effects.lua",
+      "id": "$/targetGroup#1",
+      "name": "targetGroup",
+      "kind": "function",
+      "constructorName": false,
+      "line": 46,
+      "column": 7,
+      "endLine": 98,
+      "lines": 53,
+      "complexity": 33
+    },
+    {
+      "file": "src/lua/abyss_inventory.lua",
+      "id": "$/M.opening#1",
+      "name": "M.opening",
+      "kind": "function",
+      "constructorName": false,
+      "line": 68,
+      "column": 1,
+      "endLine": 102,
+      "lines": 35,
+      "complexity": 33
+    },
+    {
+      "file": "src/lua/abyss_match_event_ui.lua",
+      "id": "$/ownership#1/<anonymous>#1",
+      "name": "<anonymous>",
+      "kind": "function",
+      "constructorName": false,
+      "line": 31,
+      "column": 9,
+      "endLine": 51,
+      "lines": 21,
+      "complexity": 33
+    },
+    {
+      "file": "src/lua/abyss_shivs.lua",
+      "id": "$/M.startTurn#1",
+      "name": "M.startTurn",
+      "kind": "function",
+      "constructorName": false,
+      "line": 122,
+      "column": 1,
+      "endLine": 167,
+      "lines": 46,
+      "complexity": 33
+    },
+    {
+      "file": "src/lua/abyss_winding_event.lua",
+      "id": "$/M.choose#1",
+      "name": "M.choose",
+      "kind": "function",
+      "constructorName": false,
+      "line": 30,
+      "column": 1,
+      "endLine": 68,
+      "lines": 39,
+      "complexity": 33
+    },
+    {
+      "file": "src/lua/abyss_match_event_ui.lua",
+      "id": "$/M.install#1/ctx.renderMatch#1",
+      "name": "ctx.renderMatch",
+      "kind": "function",
+      "constructorName": false,
+      "line": 101,
+      "column": 2,
+      "endLine": 150,
+      "lines": 50,
+      "complexity": 32
+    },
+    {
+      "file": "src/lua/abyss_original_v4.lua",
+      "id": "$/validateEffects#1",
+      "name": "validateEffects",
+      "kind": "function",
+      "constructorName": false,
+      "line": 17,
+      "column": 7,
+      "endLine": 33,
+      "lines": 17,
+      "complexity": 32
+    },
+    {
+      "file": "src/lua/abyss_shop.lua",
+      "id": "$/cardOffer#1",
+      "name": "cardOffer",
+      "kind": "function",
+      "constructorName": false,
+      "line": 48,
+      "column": 7,
+      "endLine": 76,
+      "lines": 29,
+      "complexity": 32
+    },
+    {
+      "file": "src/lua/abyss_watcher_flow_cards.lua",
+      "id": "$/M.withCards#1",
+      "name": "M.withCards",
+      "kind": "function",
+      "constructorName": false,
+      "line": 79,
+      "column": 1,
+      "endLine": 124,
+      "lines": 46,
+      "complexity": 32
+    },
+    {
+      "file": "src/lua/abyss_watcher_flow_cards.lua",
+      "id": "$/M.planEffect#1",
+      "name": "M.planEffect",
+      "kind": "function",
+      "constructorName": false,
+      "line": 149,
+      "column": 1,
+      "endLine": 195,
+      "lines": 47,
+      "complexity": 32
+    },
+    {
+      "file": "src/lua/abyss_encounter_formation.lua",
+      "id": "$/M.assemble#1",
+      "name": "M.assemble",
+      "kind": "function",
+      "constructorName": false,
+      "line": 19,
+      "column": 1,
+      "endLine": 132,
+      "lines": 114,
+      "complexity": 31
+    },
+    {
+      "file": "src/lua/abyss_golden_idol_event.lua",
+      "id": "$/M.choose#1",
+      "name": "M.choose",
+      "kind": "function",
+      "constructorName": false,
+      "line": 24,
+      "column": 1,
+      "endLine": 55,
+      "lines": 32,
+      "complexity": 31
+    },
+    {
+      "file": "src/lua/abyss_original_v4_display.lua",
+      "id": "$/M.summary#1",
+      "name": "M.summary",
+      "kind": "function",
+      "constructorName": false,
+      "line": 213,
+      "column": 1,
+      "endLine": 252,
+      "lines": 40,
+      "complexity": 31
+    },
+    {
+      "file": "src/lua/abyss_relic_pending.lua",
+      "id": "$/M.view#1",
+      "name": "M.view",
+      "kind": "function",
+      "constructorName": false,
+      "line": 31,
+      "column": 1,
+      "endLine": 78,
+      "lines": 48,
+      "complexity": 31
+    }
+  ],
+  "longFunctions": [
+    {
+      "file": "src/lua/abyss_feedback.lua",
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 136,
+      "column": 1,
+      "endLine": 715,
+      "lines": 580,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_map_ui.lua",
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 168,
+      "column": 1,
+      "endLine": 736,
+      "lines": 569,
+      "complexity": 23
+    },
+    {
+      "file": "src/lua/abyss_deck_ui.lua",
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 59,
+      "column": 1,
+      "endLine": 559,
+      "lines": 501,
+      "complexity": 12
+    },
+    {
+      "file": "src/lua/abyss_battle_render_actors.lua",
+      "id": "$/M.install#1",
+      "name": "M.install",
+      "kind": "function",
+      "constructorName": false,
+      "line": 48,
+      "column": 1,
+      "endLine": 388,
+      "lines": 341,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_run_rooms.lua",
+      "id": "$/M.install#1",
+      "name": "M.install",
+      "kind": "function",
+      "constructorName": false,
+      "line": 13,
+      "column": 1,
+      "endLine": 347,
+      "lines": 335,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_battle_card_view.lua",
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 148,
+      "column": 1,
+      "endLine": 475,
+      "lines": 328,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_node_ui_rewards.lua",
+      "id": "$/M.install#1",
+      "name": "M.install",
+      "kind": "function",
+      "constructorName": false,
+      "line": 21,
+      "column": 1,
+      "endLine": 345,
+      "lines": 325,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_battle_ui.lua",
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 55,
+      "column": 1,
+      "endLine": 359,
+      "lines": 305,
+      "complexity": 15
+    },
+    {
+      "file": "src/lua/abyss_nodes_events.lua",
+      "id": "$/<anonymous>#1",
+      "name": "<anonymous>",
+      "kind": "function",
+      "constructorName": false,
+      "line": 23,
+      "column": 8,
+      "endLine": 311,
+      "lines": 289,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_nodes_entry.lua",
+      "id": "$/<anonymous>#1",
+      "name": "<anonymous>",
+      "kind": "function",
+      "constructorName": false,
+      "line": 32,
+      "column": 8,
+      "endLine": 318,
+      "lines": 287,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_node_ui_input.lua",
+      "id": "$/M.install#1",
+      "name": "M.install",
+      "kind": "function",
+      "constructorName": false,
+      "line": 9,
+      "column": 1,
+      "endLine": 293,
+      "lines": 285,
+      "complexity": 9
+    },
+    {
+      "file": "src/lua/abyss_battle_actions.lua",
+      "id": "$/M.install#1",
+      "name": "M.install",
+      "kind": "function",
+      "constructorName": false,
+      "line": 20,
+      "column": 1,
+      "endLine": 282,
+      "lines": 263,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_battle_detail_bindings.lua",
+      "id": "$/M.install#1",
+      "name": "M.install",
+      "kind": "function",
+      "constructorName": false,
+      "line": 9,
+      "column": 1,
+      "endLine": 264,
+      "lines": 256,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_run_settlement.lua",
+      "id": "$/M.install#1",
+      "name": "M.install",
+      "kind": "function",
+      "constructorName": false,
+      "line": 15,
+      "column": 1,
+      "endLine": 267,
+      "lines": 253,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_battle_card_gestures.lua",
+      "id": "$/M.install#1",
+      "name": "M.install",
+      "kind": "function",
+      "constructorName": false,
+      "line": 68,
+      "column": 1,
+      "endLine": 316,
+      "lines": 249,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_node_ui.lua",
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 25,
+      "column": 1,
+      "endLine": 263,
+      "lines": 239,
+      "complexity": 4
+    },
+    {
+      "file": "src/lua/abyss_shop_ui.lua",
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 34,
+      "column": 1,
+      "endLine": 268,
+      "lines": 235,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_choice_ui.lua",
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 74,
+      "column": 1,
+      "endLine": 295,
+      "lines": 222,
+      "complexity": 7
+    },
+    {
+      "file": "src/lua/abyss_battle_info_content.lua",
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 57,
+      "column": 1,
+      "endLine": 273,
+      "lines": 217,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_prologue.lua",
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 39,
+      "column": 1,
+      "endLine": 253,
+      "lines": 215,
+      "complexity": 3
+    },
+    {
+      "file": "src/lua/abyss_battle_render_hud.lua",
+      "id": "$/M.install#1",
+      "name": "M.install",
+      "kind": "function",
+      "constructorName": false,
+      "line": 28,
+      "column": 1,
+      "endLine": 223,
+      "lines": 196,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_run_potions.lua",
+      "id": "$/M.install#1",
+      "name": "M.install",
+      "kind": "function",
+      "constructorName": false,
+      "line": 9,
+      "column": 1,
+      "endLine": 203,
+      "lines": 195,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_node_ui_input.lua",
+      "id": "$/M.install#1/bindControl#1",
+      "name": "bindControl",
+      "kind": "function",
+      "constructorName": false,
+      "line": 101,
+      "column": 11,
+      "endLine": 291,
+      "lines": 191,
+      "complexity": 5
+    },
+    {
+      "file": "src/lua/abyss_battle_target_bindings.lua",
+      "id": "$/M.install#1",
+      "name": "M.install",
+      "kind": "function",
+      "constructorName": false,
+      "line": 12,
+      "column": 1,
+      "endLine": 198,
+      "lines": 187,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_node_ui_lifecycle.lua",
+      "id": "$/M.install#1",
+      "name": "M.install",
+      "kind": "function",
+      "constructorName": false,
+      "line": 29,
+      "column": 1,
+      "endLine": 212,
+      "lines": 184,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_battle_info_view.lua",
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 81,
+      "column": 1,
+      "endLine": 253,
+      "lines": 173,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_battle_input_state.lua",
+      "id": "$/M.install#1",
+      "name": "M.install",
+      "kind": "function",
+      "constructorName": false,
+      "line": 14,
+      "column": 1,
+      "endLine": 186,
+      "lines": 173,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_traveler_portraits.lua",
+      "id": "$/controller#1",
+      "name": "controller",
+      "kind": "function",
+      "constructorName": false,
+      "line": 44,
+      "column": 7,
+      "endLine": 214,
+      "lines": 171,
+      "complexity": 3
+    },
+    {
+      "file": "src/lua/abyss_battle_potion_bindings.lua",
+      "id": "$/M.install#1",
+      "name": "M.install",
+      "kind": "function",
+      "constructorName": false,
+      "line": 9,
+      "column": 1,
+      "endLine": 175,
+      "lines": 167,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_node_ui_events.lua",
+      "id": "$/M.install#1",
+      "name": "M.install",
+      "kind": "function",
+      "constructorName": false,
+      "line": 123,
+      "column": 1,
+      "endLine": 287,
+      "lines": 165,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_monster_power_surfaces.lua",
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 5,
+      "column": 1,
+      "endLine": 167,
+      "lines": 163,
+      "complexity": 4
+    },
+    {
+      "file": "src/lua/abyss_node_ui_treasure.lua",
+      "id": "$/M.install#1",
+      "name": "M.install",
+      "kind": "function",
+      "constructorName": false,
+      "line": 8,
+      "column": 1,
+      "endLine": 169,
+      "lines": 162,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_monster_surfaces.lua",
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 6,
+      "column": 1,
+      "endLine": 166,
+      "lines": 161,
+      "complexity": 4
+    },
+    {
+      "file": "src/lua/abyss_battle_target_bindings.lua",
+      "id": "$/M.install#1/bindEnemyControl#1",
+      "name": "bindEnemyControl",
+      "kind": "function",
+      "constructorName": false,
+      "line": 14,
+      "column": 11,
+      "endLine": 173,
+      "lines": 160,
+      "complexity": 15
+    },
+    {
+      "file": "src/lua/abyss_battle_unit_view.lua",
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 41,
+      "column": 1,
+      "endLine": 197,
+      "lines": 157,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_card_flow.lua",
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 37,
+      "column": 1,
+      "endLine": 191,
+      "lines": 155,
+      "complexity": 1
+    },
+    {
+      "file": "src/lua/abyss_act1_events.lua",
+      "id": "$/M.choose#1",
+      "name": "M.choose",
+      "kind": "function",
+      "constructorName": false,
+      "line": 86,
+      "column": 1,
+      "endLine": 238,
+      "lines": 153,
+      "complexity": 69
+    },
+    {
+      "file": "src/lua/abyss_node_ui_events.lua",
+      "id": "$/M.install#1/ctx.renderEvent#1",
+      "name": "ctx.renderEvent",
+      "kind": "function",
+      "constructorName": false,
+      "line": 124,
+      "column": 5,
+      "endLine": 276,
+      "lines": 153,
+      "complexity": 14
+    },
+    {
+      "file": "src/lua/abyss_game_ui.lua",
+      "id": "$/M.new#1",
+      "name": "M.new",
+      "kind": "function",
+      "constructorName": true,
+      "line": 31,
+      "column": 1,
+      "endLine": 181,
+      "lines": 151,
+      "complexity": 6
+    }
+  ],
+  "rawArtifacts": [
+    {
+      "path": "build/dependency-audit/graph.json",
+      "sha256": "632d62b0df0d24b9b7181f0da5da423d89e07fdbe9a155c2328bed74dac05b4e"
+    },
+    {
+      "path": "build/m7-complexity-audit-20261106/measurements.json",
+      "sha256": "8423c484eff774b4bd4a77593fb1abe3f3c2c86f94d4fbb35ea07c36a501cab6"
+    },
+    {
+      "path": "build/m7-complexity-audit-20261106/luacheck-complexity.txt",
+      "sha256": "3ec44e8b58abf775f512d7a6fef9b3bcae8d05c82043c878077bd36ec96f6106"
+    }
+  ],
+  "limitations": [
+    "No production changes or risk acceptance",
+    "Deferred SCC is a static dependency graph, not runtime loading cycles",
+    "Counterfactual removed edges do not prove safe implementation"
+  ]
+}

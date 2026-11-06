@@ -1,5 +1,7 @@
 # 交接说明
 
+**2026-11-06 当前工程接续：** PR516成果已随PR520合入`dedb9ed5`，来源、原生队列、实际push完整33项Full及原`merged_passed`回执闭环，74.17/18经CLI收口。父74因新登记的74.19/20依赖所有权与高风险复杂度保持In Progress；100/101补齐运行时及仓库成本，暂列To Do。用户指定执行顺序为**架构→多agent协作→速度**；最新Required-wall为35:02，稳定30分钟及自然Fast仍未达。详见[本轮复核](backlog-details/M7-DELIVERY-20261106.md)。下段为上一轮候选历史状态。
+
 **2026-11-05 当前工程接续：** 本批基线为PR515实际合入的87c944f3，原收口记录保留。TASK-74因74.17/74.18重开In Progress。PR516的41a99579来源Full通过，但同树原生队列Windows1在JS和Lua成功后耗尽原30分钟作业预算，自动合并已由原入口暂停并读回。75.6经准入承接完整成功计时校准；完整Linux成本另使原9片失败，最终选择16Windows/12POSIX、Full33、POSIX cap6，原预算、安全和完整覆盖保持。新候选及实际合后Full仍待，稳定30分钟目标未达。GameUI、drain和CI证据见[本批附件](backlog-details/M7-HOST-BATCH-20261105.md)。此前四项查询/加载任务保持Done，原schema3回执及归档见[补充证据](backlog-details/M7-QUERY-CLOSEOUT-20261105.md)。
 
 **PR515历史收尾复核：** 已合PR514的精确源码树、PR/队列/push完整CI及当轮独审均通过，TASK-74及74.14/15/16、75.2当时通过CLI收口。TASK-75/81继续In Progress：该轮Required-wall 30分02秒、前次33分04秒，100次Quality为0个实际Fast，稳定30分钟与20样本未达；当轮无新设备证据。详见[原交付复核](backlog-details/M7-CLOSEOUT-20261105.md)。
