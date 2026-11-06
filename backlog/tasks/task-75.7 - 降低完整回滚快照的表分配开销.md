@@ -5,10 +5,13 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-06 06:56'
-updated_date: '2026-11-06 06:56'
+updated_date: '2026-11-06 07:08'
 labels: []
 milestone: m-7
 dependencies: []
+references:
+  - docs/plans/2026-11-06-snapshot-flat-design.md
+  - docs/plans/2026-11-06-snapshot-flat-implementation.md
 parent_task_id: TASK-75
 priority: medium
 type: enhancement
