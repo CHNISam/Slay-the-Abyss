@@ -38,13 +38,39 @@ export function launchBaselineFixture() {
   // A changed source, removed input or filesystem alias cannot borrow the
   // earlier archive validation. Preflight every mutation before the first one.
   assert.equal(realpathSync(root),realRoot,'historical launch root changed during planning');
-  for(const path of new Set([...outputs.keys(),...excluded])){
-    const target=historicalInputPath(root,path),entry=lstatSync(target,{throwIfNoEntry:false});
-    assert.equal(!!entry,Object.hasOwn(inputs,path),'original launch source existence: '+path);
-    if(!entry)continue;
-    assert(entry.isFile()&&!entry.isSymbolicLink(),'original launch source must be a private file: '+path);
-    assert.equal(realpathSync(target),historicalInputPath(realRoot,path),'original launch source cannot alias another owner: '+path);
-    assert.deepEqual(readFileSync(target),inputs[path],'original launch source changed during planning: '+path);
+  const mounts=new Map(['tests/fixtures','node_modules'].map(path=>[path,realpathSync(resolve(implementationRoot,path))]));
+  const directories=new Set(),files=[],links=[];
+  for(const path of Object.keys(inputs)){
+    let parent=path;
+    while(parent.includes('/')){parent=parent.slice(0,parent.lastIndexOf('/'));directories.add(parent);}
+  }
+  function inspect(directory,prefix=''){
+    for(const name of readdirSync(directory)){
+      const path=prefix+name,target=historicalInputPath(root,path),entry=lstatSync(target);
+      if(mounts.has(path)){
+        assert(entry.isSymbolicLink(),'declared historical oracle link: '+path);
+        assert.equal(realpathSync(target),mounts.get(path),'historical oracle link owner: '+path);
+        links.push(path);continue;
+      }
+      assert(!entry.isSymbolicLink(),'original launch source must be a private file: '+path);
+      assert.equal(realpathSync(target),historicalInputPath(realRoot,path),'original launch source cannot alias another owner: '+path);
+      if(entry.isDirectory()){
+        assert(directories.has(path),'unregistered original launch input: '+path);
+        inspect(target,path+'/');
+      }else{
+        assert(entry.isFile()&&Object.hasOwn(inputs,path),'unregistered original launch input: '+path);
+        assert.deepEqual(readFileSync(target),inputs[path],'original launch source changed during planning: '+path);
+        files.push(path);
+      }
+    }
+  }
+  inspect(root);
+  assert.deepEqual(files.sort(),Object.keys(inputs).sort(),'complete original launch source inventory');
+  assert.deepEqual(links.sort(),[...mounts.keys()].sort(),'complete historical oracle links');
+  for(const path of outputs.keys()){
+    assert(![...mounts.keys()].some(owner=>path===owner||path.startsWith(owner+'/')),'launch projection cannot target an oracle link: '+path);
+    const target=historicalInputPath(root,path);
+    assert.equal(!!lstatSync(target,{throwIfNoEntry:false}),Object.hasOwn(inputs,path),'original launch source existence: '+path);
   }
   for(const [path,value]of outputs){
     const target=historicalInputPath(root,path);
@@ -58,11 +84,6 @@ export function launchBaselineFixture() {
       assert.equal(realpathSync(directory),join(realRoot,relative(root,directory)),'private launch directory cannot alias another owner');
       rmdirSync(directory);directory=dirname(directory);
     }
-  }
-  for(const directory of ['tests/fixtures','node_modules']){
-    const target=join(root,directory);
-    assert(lstatSync(target).isSymbolicLink(),'declared historical oracle link: '+directory);
-    assert.equal(realpathSync(target),realpathSync(resolve(implementationRoot,directory)),'historical oracle link owner: '+directory);
   }
   for(const directory of ['tests/helpers','docs']){
     const target=join(root,directory);

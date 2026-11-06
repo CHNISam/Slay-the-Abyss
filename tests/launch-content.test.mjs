@@ -139,6 +139,50 @@ test('a failed frozen launch construction restores cwd and removes its private t
   for(const root of roots)assert.equal(fs.existsSync(root),false,'construction failure cannot leave a partial source root');
 });
 
+for(const mode of ['unregistered file','wrong oracle owner']){
+  test(`frozen launch rejects ${mode} before any projection write or deletion`,()=>{
+    const originalTemp=fs.mkdtempSync,originalLink=fs.symlinkSync;
+    const originalWrite=fs.writeFileSync,originalRemove=fs.rmSync;
+    let root,projecting=false,writes=0,deletions=0;
+    const inside=path=>root&&String(path).replaceAll('\\','/').startsWith(root.replaceAll('\\','/')+'/');
+    fs.mkdtempSync=function(prefix,...args){
+      const value=originalTemp.call(this,prefix,...args);
+      if(String(prefix).includes('abyss-source-contract-'))root=value;
+      return value;
+    };
+    fs.symlinkSync=function(target,path,...args){
+      const wrong=mode==='wrong oracle owner'&&root&&resolve(path)===resolve(root,'tests/fixtures');
+      const result=originalLink.call(this,wrong?resolve(currentRoot,'docs'):target,path,...args);
+      if(root&&resolve(path)===resolve(root,'node_modules')){
+        if(mode==='unregistered file')originalWrite(resolve(root,'src/lua/unregistered-preflight.lua'),'return {}\n');
+        projecting=true;
+      }
+      return result;
+    };
+    fs.writeFileSync=function(path,...args){
+      if(projecting&&inside(path))writes++;
+      return originalWrite.call(this,path,...args);
+    };
+    fs.rmSync=function(path,...args){
+      if(projecting&&inside(path))deletions++;
+      return originalRemove.call(this,path,...args);
+    };
+    syncBuiltinESMExports();
+    try{
+      assert.throws(()=>launchBaselineFixture(),mode==='unregistered file'
+        ? /unregistered original launch input/ : /historical oracle link owner/);
+    }finally{
+      fs.mkdtempSync=originalTemp;fs.symlinkSync=originalLink;
+      fs.writeFileSync=originalWrite;fs.rmSync=originalRemove;syncBuiltinESMExports();
+    }
+    assert.equal(writes,0,'source preflight precedes every projection write');
+    assert.equal(deletions,0,'source preflight precedes every projection deletion');
+    assert.equal(process.cwd(),currentRoot);
+    assert(root,'the real private root was constructed');
+    assert.equal(fs.existsSync(root),false,'failed preflight immediately cleans the private root');
+  });
+}
+
 test('copy and Match production routes preserve separate candidate and pending platform acceptance',()=>{
   const manifest=fresh();
   for(const [id,originalId] of [['duplicator','Duplicator'],['match_game','Match and Keep!']]) {
