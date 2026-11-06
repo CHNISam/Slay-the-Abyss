@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync,mkdtempSync,writeFileSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
-import {queueEventErrors,queueFullErrors,main} from '../scripts/publish-merge-group.mjs';
+import {queueEventErrors,queueFullErrors,statusWriteResponse,main} from '../scripts/publish-merge-group.mjs';
 import {currentFullQualityJobs,qualityWorkflowPath} from '../scripts/verify-delivery.mjs';
 import {impact} from '../scripts/ci-impact.mjs';
 import {beforeNativeMergeQueueWorkflow} from './helpers/merge-queue-workflow.mjs';
@@ -113,6 +113,138 @@ test('publisher writes pending first and only releases both contexts after exact
   assert.throws(()=>main(f.env,query,{loadCheckout}),/Full/);
   assert.equal(writes.length,6,'failure cannot release any further status');
  }finally{rmSync(dir,{recursive:true,force:true});}
+});
+
+function statusTransportFixture({state='pending',faults=1,committed=false,readback={},newerReadback,mutate,onAttempt,onRead,emptyBody=false,fault}={}){
+ const f=admissionFixture(),dir=mkdtempSync(join(tmpdir(),'queue-status-transport-'));
+ const eventPath=join(dir,'event.json');writeFileSync(eventPath,JSON.stringify(f.event));f.env.GITHUB_EVENT_PATH=eventPath;
+ const writes=[],attempts=[],waits=[],reads=[];let status;
+ const base=admissionQuery(f,writes),context=state==='pending'?'independent-review':'full-quality';
+ const query=(...args)=>{
+  const endpoint=args.find(a=>typeof a==='string'&&a.startsWith('repos/'))??'';
+  if(args.includes('POST')){
+   const name=args.find(a=>a.startsWith('context=')).slice(8),value=args.find(a=>a.startsWith('state=')).slice(6);
+   if(name===context&&value===state){
+    attempts.push(args);onAttempt?.(attempts.length);
+    if(attempts.length<=faults){
+     if(committed){status={id:701,context,state,description:args.find(a=>a.startsWith('description=')).slice(12),creator:{id:41898282,login:'github-actions[bot]'},
+      target_url:`https://github.com/${repo}/actions/runs/7`,...readback};writes.push({context,state});}
+     mutate?.(f);
+     if(emptyBody)return '';
+     throw fault??Error('Merge Queue GitHub API failed: unexpected end of JSON input');
+    }
+   }
+  }
+  if(endpoint.includes(`/commits/${f.env.GITHUB_SHA}/statuses?`)){
+   reads.push(args);onRead?.(f);return JSON.stringify([status?[status,...(newerReadback?[{...status,id:702,...newerReadback}]:[])]:[]]);
+  }
+  return base(...args);
+ };
+ return {f,writes,attempts,waits,reads,query,
+  run:()=>main(f.env,query,{pending:state==='pending',loadCheckout:()=>({checkout:f.checkout,checkoutArtifact:f.artifact}),wait:ms=>waits.push(ms)}),
+  cleanup:()=>{assert(dir.startsWith(join(tmpdir(),'queue-status-transport-')));rmSync(dir,{recursive:true,force:true});}};
+}
+
+test('a lost pending POST response is accepted only from exact latest Actions/head/context/run/state readback',()=>{
+ const m=statusTransportFixture({committed:true});try{
+  assert.equal(m.run().state,'pending');assert.equal(m.attempts.length,1);
+  assert.equal(m.reads.length,1);assert.equal(m.waits.length,0);
+  assert.deepEqual(m.writes.map(w=>w.context),['full-quality','independent-review','pr-quality']);
+ }finally{m.cleanup();}
+});
+test('an uncommitted empty POST response retries only that context with bounded waiting',()=>{
+ const m=statusTransportFixture();try{
+  assert.equal(m.run().state,'pending');assert.equal(m.attempts.length,2);
+  assert.equal(m.reads.length,1);assert.deepEqual(m.waits,[250]);
+  assert.deepEqual(m.writes.map(w=>w.context),['full-quality','independent-review','pr-quality']);
+ }finally{m.cleanup();}
+});
+test('a transient HTTP503 retries only the failed status and preserves normal Full gates',()=>{
+ const m=statusTransportFixture({fault:Object.assign(Error('Queue status response unavailable'),{httpStatus:503})});try{
+  assert.equal(m.run().state,'pending');assert.equal(m.attempts.length,2);assert.deepEqual(m.waits,[250]);
+ }finally{m.cleanup();}
+});
+test('three uncertain status writes fail closed without starting an unbounded retry loop',()=>{
+ const m=statusTransportFixture({faults:99});try{
+  assert.throws(m.run,/status.*(uncertain|unavailable|failed)/i);assert.equal(m.attempts.length,3);
+  assert.deepEqual(m.waits,[250,500]);assert.equal(m.reads.length,3);
+  assert.deepEqual(m.writes,[{context:'full-quality',state:'pending'}]);
+ }finally{m.cleanup();}
+});
+test('every HTTP4xx including 408/429 stops without retrying or borrowing an older status',()=>{
+ for(const code of [400,401,403,408,429]){
+ const m=statusTransportFixture();let attempts=0;
+ const query=(...args)=>{
+  if(args.includes('POST')&&args.includes('context=independent-review')){attempts++;throw Object.assign(Error('HTTP '+code),{httpStatus:code});}
+  return m.query(...args);
+ };
+ try{
+  assert.throws(()=>main(m.f.env,query,{pending:true,wait:ms=>m.waits.push(ms)}),new RegExp(String(code)));
+  assert.equal(attempts,1);assert.equal(m.reads.length,0);assert.deepEqual(m.waits,[]);
+ }finally{m.cleanup();}
+ }
+});
+test('a lost write cannot borrow a foreign Actions source, run, context, state or older status',()=>{
+ for(const readback of [
+  {creator:{id:1,login:'someone'}},{creator:{id:41898282,login:'someone'}},
+  {target_url:`https://github.com/${repo}/actions/runs/6`},{context:'full-quality'},{state:'success'},
+  {description:'Awaiting verified native merge group Full [attempt:0]'},
+ ]){
+  const m=statusTransportFixture({faults:99,committed:true,readback});try{
+   assert.throws(m.run,/status.*(uncertain|unavailable|failed)/i);assert.equal(m.attempts.length,3);
+  }finally{m.cleanup();}
+ }
+ const m=statusTransportFixture({faults:99,committed:true,newerReadback:{state:'failure'}});try{
+  assert.throws(m.run,/status.*unavailable/i);assert.equal(m.attempts.length,3,'latest context failure supersedes old matching success');
+ }finally{m.cleanup();}
+});
+test('success transport recovery revalidates the current attempt and complete queue admission',()=>{
+ const m=statusTransportFixture({state:'success',committed:true});try{
+  assert.equal(m.run().state,'success');assert.equal(m.attempts.length,1);assert.equal(m.reads.length,1);
+  assert.deepEqual(m.writes.map(w=>w.context),['full-quality','independent-review','pr-quality']);
+ }finally{m.cleanup();}
+ for(const mutate of [
+  f=>{f.run.status='completed';f.run.conclusion='cancelled';},f=>f.run.run_attempt++,
+  f=>f.pr.labels.push({name:'hold'}),f=>f.review.description+=' stale',
+ ]){
+  const stale=statusTransportFixture({state:'success',mutate});try{
+   assert.throws(stale.run,/run|attempt|authoriz|eligible|paused|Full/i);
+   assert.equal(stale.attempts.length,1,'stale authorization must not be posted again');
+   assert.equal(stale.writes.length,0,'no later success context may release a stale group');
+  }finally{stale.cleanup();}
+ }
+});
+test('pending recovery accepts a genuinely queued run but refuses cancelled or newer attempts',()=>{
+ const queued=statusTransportFixture({committed:true});try{
+  queued.f.run.status='queued';assert.equal(queued.run().state,'pending');assert.equal(queued.attempts.length,1);
+ }finally{queued.cleanup();}
+ for(const mutate of [f=>f.run.run_attempt++,f=>{f.run.status='completed';f.run.conclusion='cancelled';}]){
+  const m=statusTransportFixture({mutate});try{assert.throws(m.run,/run\/attempt/);assert.equal(m.attempts.length,1);}
+  finally{m.cleanup();}
+ }
+});
+test('an empty raw JSON response follows the same bounded recovery and rechecks after accepted readback',()=>{
+ const empty=statusTransportFixture({committed:true,emptyBody:true});try{
+  assert.equal(empty.run().state,'pending');assert.equal(empty.attempts.length,1);
+ }finally{empty.cleanup();}
+ const stale=statusTransportFixture({state:'success',committed:true,onRead:f=>{f.run.status='completed';f.run.conclusion='cancelled';}});
+ try{assert.throws(stale.run,/run\/attempt/);assert.equal(stale.attempts.length,1);assert.equal(stale.writes.length,1);}
+ finally{stale.cleanup();}
+});
+test('status HTTP diagnostics retain status/request-id and never raw authenticated headers or error bodies',()=>{
+ const diagnostic=[],identity={context:'independent-review',state:'pending'},body=JSON.stringify(identity);
+ const response=statusWriteResponse({status:0,stdout:'HTTP/1.1 100 Continue\r\n\r\nHTTP/2.0 201 Created\r\nX-GitHub-Request-Id: AB12:CD34\r\nAuthorization: Bearer secret-header\r\n\r\n'+body},identity,item=>diagnostic.push(item));
+ assert.equal(response,body);assert.deepEqual(diagnostic,[{event:'queue_status_http',...identity,httpStatus:201,requestId:'AB12:CD34',exitCode:0}]);
+ for(const [status,stdout,stderr,retryable,httpStatus]of [
+  [1,'HTTP/2.0 503 Service Unavailable\r\nX-GitHub-Request-Id: RETRY:1\r\n\r\n{"message":"secret-body"}','secret-stderr',true,503],
+  [1,'HTTP/2.0 403 Forbidden\r\n\r\n{}','unexpected end of JSON input secret-stderr',false,403],
+  [1,'HTTP/2.0 201 Created\r\n\r\n','unexpected end of JSON input secret-stderr',true,201],
+  [0,'','',true,undefined],
+ ]){
+  assert.throws(()=>statusWriteResponse({status,stdout,stderr},identity,item=>diagnostic.push(item)),error=>
+   error.retryable===retryable&&error.httpStatus===httpStatus&&!/secret/.test(error.message));
+ }
+ assert(!/secret/.test(JSON.stringify(diagnostic)));
 });
 test('queue reuses existing Full matrix, never selects Fast, and preserves PR/push paths',()=>{
  const workflow=readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n');

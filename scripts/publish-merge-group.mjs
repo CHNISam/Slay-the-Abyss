@@ -93,28 +93,92 @@ export function queueFullErrors({event,env,needs,ruleset,run,latest,jobs,checkou
 }
 
 function gh(...args) {
- const p=spawnSync('gh',args,{encoding:'utf8',timeout:60000,maxBuffer:16*1024*1024});
+ const statusWrite=args[0]==='api'&&args.includes('POST')&&args.some(arg=>/^repos\/.+\/statuses\/[a-f0-9]{40}$/.test(arg));
+ const p=spawnSync('gh',statusWrite?[...args,'--include']:args,{encoding:'utf8',timeout:60000,maxBuffer:16*1024*1024});
+ if(statusWrite)return statusWriteResponse(p,{
+  context:args.find(arg=>arg.startsWith('context='))?.slice(8),state:args.find(arg=>arg.startsWith('state='))?.slice(6)});
  if(p.error||p.status!==0)throw Error('Merge Queue GitHub API failed: '+(p.error?.message??p.stderr));
  return p.stdout;
 }
-function post(query,head,state,context,runId) {
- const result=JSON.parse(query('api','--method','POST',`repos/${expectedRepo}/statuses/${head}`,
-  '-f','state='+state,'-f','context='+context,
-  '-f','description='+(state==='pending'?'Awaiting verified native merge group Full':'Verified native queue admission and exact Full group'),
-  '-f',`target_url=https://github.com/${expectedRepo}/actions/runs/${runId}`));
- if(result.state!==state||result.context!==context)throw Error('Queue status write readback failed: '+context);
+function retryableStatusError(error){
+ const code=error.httpStatus??Number(error.message?.match(/\bHTTP\s+(\d{3})\b/i)?.[1]);
+ if(code>=400&&code<500)return false;
+ if(code>=500&&code<600)return true;
+ return error.retryable===true||/unexpected end of JSON input|\bEOF\b|ECONNRESET|ECONNABORTED|ETIMEDOUT|EPIPE|EAI_AGAIN|ENETUNREACH|socket hang up|connection (?:reset|aborted)|(?:TLS handshake|i\/o) timeout|Client\.Timeout/i.test(error.message??'');
 }
-export function main(env=process.env,query=gh,{pending=false,loadCheckout}={}) {
+// Only these allowlisted HTTP facts are logged. Never print headers, body,
+// raw stderr or environment values from an authenticated status request.
+export function statusWriteResponse(p,identity,diagnostic=entry=>console.error(JSON.stringify(entry))){
+ const output=p.stdout??'',start=[...output.matchAll(/^HTTP\/[^\r\n]+/gm)].at(-1)?.index;
+ const response=start===undefined?output:output.slice(start),boundary=response.match(/\r?\n\r?\n/);
+ const headers=start===undefined?'':response.slice(0,boundary?.index??response.length);
+ const body=start===undefined?response:boundary?response.slice(boundary.index+boundary[0].length):'';
+ const httpStatus=Number(headers.match(/^HTTP\/\S+\s+(\d{3})/)?.[1])||undefined;
+ const requestId=headers.match(/^x-github-request-id:\s*([A-Za-z0-9:-]{1,128})\s*$/im)?.[1];
+ diagnostic({event:'queue_status_http',context:identity.context,state:identity.state,httpStatus:httpStatus??null,requestId:requestId??null,exitCode:p.status??null});
+ let parseError;try{JSON.parse(body);}catch(error){parseError=error;}
+ if(p.error||p.status!==0||httpStatus>=400||parseError){
+  const error=Object.assign(Error('Queue status response unavailable'),{httpStatus,requestId});
+  error.retryable=retryableStatusError({httpStatus,message:[p.error?.code,p.error?.message,p.stderr,parseError?.message].filter(Boolean).join(' ')});
+  throw error;
+ }
+ return body;
+}
+function post(query,head,state,context,runId,attempt,{validate,wait}) {
+ const target=`https://github.com/${expectedRepo}/actions/runs/${runId}`;
+ const description=(state==='pending'?'Awaiting verified native merge group Full':'Verified native queue admission and exact Full group')+` [attempt:${attempt}]`;
+ for(let retry=0;retry<3;retry++){
+  if(retry)validate();
+  let failure;
+  try{
+   const result=JSON.parse(query('api','--method','POST',`repos/${expectedRepo}/statuses/${head}`,
+    '-f','state='+state,'-f','context='+context,'-f','description='+description,'-f','target_url='+target));
+   if(result.state!==state||result.context!==context)throw Error('Queue status write readback failed');
+  }catch(error){failure=error;}
+  if(!failure){if(retry)validate();return;}
+  const unavailable=()=>Error(`Queue status write unavailable: ${context}; attempt ${retry+1}/3; HTTP ${failure.httpStatus??'unknown'}; request ${failure.requestId??'unknown'}`);
+  if(!retryableStatusError(failure))throw unavailable();
+  validate();
+  let confirmed=false;
+  try{
+   const pages=JSON.parse(query('api','--paginate','--slurp',`repos/${expectedRepo}/commits/${head}/statuses?per_page=100`));
+   if(Array.isArray(pages)&&pages.length&&pages.every(Array.isArray)){
+    const statuses=pages.flat().filter(status=>status?.context===context);
+    const latest=statuses.every(status=>id(status.id))?statuses.sort((a,b)=>b.id-a.id)[0]:undefined;
+    confirmed=latest?.state===state&&latest.target_url===target&&latest.description===description&&
+     latest.creator?.id===41898282&&latest.creator?.login==='github-actions[bot]';
+   }
+  }catch{/* An uncertain read never authorizes the write. */}
+  if(confirmed){validate();return;}
+  if(retry===2)throw unavailable();
+  wait(250*(retry+1));
+ }
+}
+export function main(env=process.env,query=gh,{pending=false,loadCheckout,
+ wait=ms=>Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,ms)}={}) {
  const event=JSON.parse(readFileSync(env.GITHUB_EVENT_PATH,'utf8'));
  const identityErrors=queueEventErrors(event,env);
  if(identityErrors.length)throw Error(identityErrors.join('; '));
- const head=env.GITHUB_SHA,runId=Number(env.GITHUB_RUN_ID);
- if(pending){
-  for(const context of ['full-quality','independent-review','pr-quality'])post(query,head,'pending',context,runId);
-  return {state:'pending'};
- }
+ const head=env.GITHUB_SHA,runId=Number(env.GITHUB_RUN_ID),attempt=Number(env.GITHUB_RUN_ATTEMPT);
  const get=path=>JSON.parse(query('api',`repos/${expectedRepo}/${path}`));
  const pages=(path,key)=>JSON.parse(query('api','--paginate','--slurp',`repos/${expectedRepo}/${path}`)).flatMap(page=>page[key]);
+ const latestRun=()=>pages(`actions/workflows/quality.yml/runs?event=merge_group&head_sha=${head}&per_page=100`,'workflow_runs')
+  .filter(r=>r.head_sha===head&&r.event==='merge_group').sort((a,b)=>b.id-a.id)[0];
+ const activeRun=allowQueued=>{
+  const run=get('actions/runs/'+runId),latest=latestRun();
+  if(!id(runId)||!id(attempt)||run.id!==runId||run.run_attempt!==attempt||
+   run.head_sha!==head||run.event!=='merge_group'||run.path!==qualityWorkflowPath||
+   run.repository?.full_name!==expectedRepo||run.conclusion!=null||
+   !(allowQueued?['queued','in_progress']:['in_progress']).includes(run.status)||
+   latest?.id!==runId||latest.run_attempt!==attempt)
+   throw Error('Queue status run/attempt changed during transport recovery');
+  return {run,latest};
+ };
+ if(pending){
+  for(const context of ['full-quality','independent-review','pr-quality'])
+   post(query,head,'pending',context,runId,attempt,{validate:()=>activeRun(true),wait});
+  return {state:'pending'};
+ }
  const run=get('actions/runs/'+runId);
  const latest=pages(`actions/workflows/quality.yml/runs?event=merge_group&head_sha=${head}&per_page=100`,'workflow_runs')
   .filter(r=>r.head_sha===head&&r.event==='merge_group').sort((a,b)=>b.id-a.id)[0];
@@ -140,18 +204,16 @@ export function main(env=process.env,query=gh,{pending=false,loadCheckout}={}) {
   throw Error('Actual queue commit parent vector differs from checkout receipt');
  // A rerun could begin during artifact download. Never let an old attempt
  // overwrite the new group's pending/failure status.
- const current=get('actions/runs/'+runId);
- const again=pages(`actions/workflows/quality.yml/runs?event=merge_group&head_sha=${head}&per_page=100`,'workflow_runs')
-  .filter(r=>r.head_sha===head&&r.event==='merge_group').sort((a,b)=>b.id-a.id)[0];
- if(current.run_attempt!==run.run_attempt||current.status!=='in_progress'||
-  again?.id!==run.id||again.run_attempt!==run.run_attempt)
-  throw Error('Queue Full run changed during artifact verification');
- const finalRules=get('rulesets/25870651');
- const finalErrors=queueFullErrors({...context,ruleset:finalRules,checkout:receipt});
- if(finalErrors.length)throw Error(finalErrors.join('\n'));
- if(collectQueueAdmission(event,env,query,finalRules)!==admission)
-  throw Error('Native group PR authorization changed during artifact verification');
- for(const name of ['full-quality','independent-review','pr-quality'])post(query,head,'success',name,runId);
+ const validate=()=>{
+  const current=activeRun(false),finalRules=get('rulesets/25870651');
+  const currentJobs=pages(`actions/runs/${runId}/jobs?filter=all&per_page=100`,'jobs');
+  const finalErrors=queueFullErrors({...context,...current,jobs:currentJobs,ruleset:finalRules,checkout:receipt});
+  if(finalErrors.length)throw Error(finalErrors.join('\n'));
+  if(collectQueueAdmission(event,env,query,finalRules)!==admission)
+   throw Error('Native group PR authorization changed during artifact verification');
+ };
+ validate();
+ for(const name of ['full-quality','independent-review','pr-quality'])post(query,head,'success',name,runId,attempt,{validate,wait});
  return {state:'success',runId,head};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){
