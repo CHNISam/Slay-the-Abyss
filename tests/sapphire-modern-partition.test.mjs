@@ -7,7 +7,9 @@ const hash=text=>createHash('sha256').update(text).digest('hex');
 const lock=JSON.parse(read('tests/fixtures/sapphire-modern-partition.json'));
 // Real fixture dependencies stay explicit so the existing related-test selector sees them.
 const coreEntries=['tests/lua/sapphire_treasure.lua','tests/lua/sapphire_treasure_slice_2.lua',
- 'tests/lua/sapphire_treasure_slice_3.lua','tests/lua/sapphire_treasure_slice_4.lua','tests/lua/sapphire_treasure_slice_5.lua'];
+ 'tests/lua/sapphire_treasure_slice_3.lua','tests/lua/sapphire_treasure_slice_4.lua','tests/lua/sapphire_treasure_slice_5.lua',
+ 'tests/lua/sapphire_treasure_slice_6.lua'];
+const currentSlices=[[1,6],...lock.slices.slice(1),[7,7]];
 function assertFrozenSapphireUI(source){
  // Restore exactly the reviewed mock-only edits; never normalize scenario bodies.
  const loader="local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')\n";
@@ -40,15 +42,18 @@ test('Sapphire core coverage rejects missing or duplicate groups independent of 
 });
 test('modern Sapphire keeps the complete migrated core body and all original 21 groups exactly once',()=>{
  assert.equal(lock.originalGroups,21);assert.equal(lock.timeout,30000);
- assert.equal(coreEntries[0],lock.entry);assert.equal(coreEntries.length,lock.slices.length);
- let body=read(lock.entry);assert(body.startsWith(lock.prefix)&&body.endsWith(lock.footer));
- body=body.slice(lock.prefix.length,-lock.footer.length);
+  assert.deepEqual(lock.slices[0],[1,7],'the original partition witness remains frozen');
+  assert.equal(coreEntries[0],lock.entry);assert.equal(coreEntries.length,currentSlices.length);
+  const prefix=lock.prefix.replace('sliceLast or 7','sliceLast or 6');
+  assert.notEqual(prefix,lock.prefix,'one approved default-range change');
+  let body=read(lock.entry);assert(body.startsWith(prefix)&&body.endsWith(lock.footer));
+  body=body.slice(prefix.length,-lock.footer.length);
  assert.equal(body.split(lock.after).length,2);body=body.replace(lock.after,lock.before);
  assert.equal(hash(body),lock.migratedBodySha256);
  const groups=[];
- for(const [index,[first,last]]of lock.slices.entries()){
+  for(const [index,[first,last]]of currentSlices.entries()){
   if(index)assert.equal(read(coreEntries[index]),`assert(loadfile('${lock.entry}'))(${first},${last})\n`);
-  else assert(lock.prefix.includes(`sliceFirst or ${first},sliceLast or ${last}`));
+   else assert(prefix.includes(`sliceFirst or ${first},sliceLast or ${last}`));
   for(let n=first;n<=last;n++)groups.push(n);
  }
  assertCoreGroups(groups);

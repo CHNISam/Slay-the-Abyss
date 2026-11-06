@@ -41,7 +41,7 @@ test('a same-named fixture in another workspace remains an ordinary real Lua scr
   });
 });
 
-test('historical routing permits only two presentation and five frozen Sapphire fixtures without case selection',()=>{
+test('historical routing permits only two presentation and six frozen Sapphire fixtures without case selection',()=>{
   assert.deepEqual(historicalPresentationFixtures,[
     'tests/lua/presentation_responsibilities_trace.lua',
     'tests/lua/presentation_responsibilities_text.lua',
@@ -50,6 +50,7 @@ test('historical routing permits only two presentation and five frozen Sapphire 
     'tests/lua/sapphire_treasure_slice_3.lua',
     'tests/lua/sapphire_treasure_slice_4.lua',
     'tests/lua/sapphire_treasure_slice_5.lua',
+    'tests/lua/sapphire_treasure_slice_6.lua',
   ]);
   for(const name of ['presentation_responsibilities_text.lua','tests/lua/presentation_responsibilities_text.lua.extra',
     'other/presentation_responsibilities_trace.lua','tests/lua/sapphire_treasure.lua.extra',
@@ -57,6 +58,19 @@ test('historical routing permits only two presentation and five frozen Sapphire 
     assert.throws(()=>runHistoricalPresentation(null,name),/only exact historical presentation fixtures/);
   for(const name of historicalPresentationFixtures)
     assert.throws(()=>runHistoricalPresentation(null,name,{caseName:'one case'}),/complete historical scenario/);
+});
+
+test('raw Sapphire routing executes the first six and isolated seventh groups on their frozen source',()=>{
+  for(const [script,expected] of [
+    ['tests/lua/sapphire_treasure.lua',[1,2,3,4,5,6]],
+    ['tests/lua/sapphire_treasure_slice_6.lua',[7]],
+  ]){
+    const result=runHistoricalPresentation(null,script,{timeout:30000});
+    assert.equal(result.status,0,result.stdout+result.stderr);
+    assert.match(result.stdout,/Historical Sapphire core replay: exact pre-relic source tree/);
+    assert.deepEqual([...result.stdout.matchAll(/^ok sapphire treasure (\d+) - /gm)].map(match=>Number(match[1])),expected);
+    assert.match(result.stdout,new RegExp(`^SAPPHIRE_TREASURE_PASS ${expected.length}$`,'m'));
+  }
 });
 
 test('actual CLI continues after ordinary Lua failure and retains failure after later success', () => {

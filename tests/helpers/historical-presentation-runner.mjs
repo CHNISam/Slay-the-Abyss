@@ -8,6 +8,7 @@ export const historicalSapphireFixtures=Object.freeze([
   'tests/lua/sapphire_treasure_slice_3.lua',
   'tests/lua/sapphire_treasure_slice_4.lua',
   'tests/lua/sapphire_treasure_slice_5.lua',
+  'tests/lua/sapphire_treasure_slice_6.lua',
 ]);
 export const historicalPresentationFixtures=Object.freeze([
   'tests/lua/presentation_responsibilities_trace.lua',

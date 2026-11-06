@@ -1,5 +1,5 @@
 local sliceFirst,sliceLast=...
-sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 7
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 6
 local registered=0
 -- Real Nodes entry/choice commands over navigation-only fixtures. Prior rooms
 -- and endingUnlocked are staged, not earned campaign/history evidence.

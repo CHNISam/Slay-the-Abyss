@@ -130,17 +130,44 @@ test('live extracted treasure RNG and Boss preparation bodies cannot evade the o
   }
 });
 
-// The 8–14 process exceeded its unchanged 30s budget. Only registration
-// ranges change; the complete original 21-group body and fixture stay frozen.
+// The 1–7 and former 8–14 processes exceeded their unchanged 30s budgets.
+// Only ranges change; the complete original 21-group body and fixture stay frozen.
 const sapphireSlices=[
-  ['sapphire_treasure.lua',1,7],['sapphire_treasure_slice_2.lua',8,13],
+  ['sapphire_treasure.lua',1,6],['sapphire_treasure_slice_2.lua',8,13],
   ['sapphire_treasure_slice_3.lua',15,18],['sapphire_treasure_slice_4.lua',14,14],
-  ['sapphire_treasure_slice_5.lua',19,21],
+  ['sapphire_treasure_slice_5.lua',19,21],['sapphire_treasure_slice_6.lua',7,7],
 ];
+function verifySapphireFixture(code){
+  const approved='sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 6\n';
+  assert.equal(code.split(approved).length-1,1,'one exact approved Sapphire default range');
+  // Reverse only the approved default; retain the original full-body oracle.
+  const original=code.replace(approved,'sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 7\n');
+  assert.equal(digest(original),
+    '1032c2146280eb73011f91d7dad76407cd02d19c9ff7feed44f194ec05ac54ee','all original cases, assertions and variants');
+}
+test('Sapphire frozen body accepts only the approved default inverse and rejects range, seed and assertion drift',()=>{
+  const code=readFileSync('tests/lua/sapphire_treasure.lua','utf8').replaceAll('\r\n','\n');
+  verifySapphireFixture(code);
+  for(const [before,after] of [
+    ['sliceFirst or 1,sliceLast or 6','sliceFirst or 1,sliceLast or 7'],
+    ['sliceFirst or 1,sliceLast or 6','sliceFirst or 1,sliceLast or 5'],
+    ['sliceFirst or 1,sliceLast or 6','sliceFirst or 2,sliceLast or 6'],
+    ["Map.generate(Data,'42',act)","Map.generate(Data,'43',act)"],
+    ['assert(fresh.endingUnlocked==nil)','assert(true)'],
+    ["{'ironclad','silent','defect','watcher'}","{'ironclad','silent','defect'}"],
+  ]){
+    const mutant=code.replace(before,after);assert.notEqual(mutant,code,before);
+    assert.throws(()=>verifySapphireFixture(mutant),before);
+  }
+});
 test('Sapphire budget partition keeps every original body and discovers each of 21 groups exactly once',()=>{
   const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
-  assert.equal(digest(read('tests/lua/sapphire_treasure.lua')),
-    '1032c2146280eb73011f91d7dad76407cd02d19c9ff7feed44f194ec05ac54ee','all original cases, assertions and variants');
+  assert.deepEqual(sapphireSlices,[
+    ['sapphire_treasure.lua',1,6],['sapphire_treasure_slice_2.lua',8,13],
+    ['sapphire_treasure_slice_3.lua',15,18],['sapphire_treasure_slice_4.lua',14,14],
+    ['sapphire_treasure_slice_5.lua',19,21],['sapphire_treasure_slice_6.lua',7,7],
+  ],'only split the original first slice; keep all other ranges');
+  verifySapphireFixture(read('tests/lua/sapphire_treasure.lua'));
   assert.equal(digest(read('tests/lua/support/sapphire_source_fixture.lua')),
     '6359769726601a70e890bd18fd4f3d631f4586f8c54a6359457bf6883cdc7bac','unchanged source stream/checkpoint fixture');
   assert.deepEqual(readdirSync('tests/lua').filter(file=>/^sapphire_treasure(?:_slice_\d+)?\.lua$/.test(file)).sort(),
@@ -162,17 +189,22 @@ test('frozen Nodes chest choice remains linked, source-bound, once-only and tran
     // boundary. Replay its complete matching source layer; current effects
     // have separate real Run/Nodes and native UI coverage.
     const root=launchBaselineFixture();
-    // Only the validated thin range wrapper is new. Keep the entire original
-    // historical scenario body, source layer and per-process 30s budget intact.
-    if(file!=='sapphire_treasure.lua')writeFileSync(join(root,'tests/lua',file),readFileSync('tests/lua/'+file));
+    // The historical body still defaults to 1–7. Pass 1–6 through a private
+    // parameter-only wrapper; never overwrite the frozen body to select a slice.
+    let script=file;
+    if(file==='sapphire_treasure.lua'){
+      script='sapphire_treasure_slice_1.lua';
+      writeFileSync(join(root,'tests/lua',script),`assert(loadfile('tests/lua/sapphire_treasure.lua'))(${first},${last})\n`);
+    }else writeFileSync(join(root,'tests/lua',file),readFileSync('tests/lua/'+file));
     const remaining=()=>{const value=Math.floor(30000-(performance.now()-started));assert.ok(value>0,'original Sapphire process deadline');return value;};
     const build=spawnSync(process.execPath,['scripts/build-lua-data.mjs'],{cwd:root,encoding:'utf8',timeout:remaining(),windowsHide:true});
     assert.ifError(build.error);assert.equal(build.status,0,build.stdout+build.stderr);
-    const result=runLua(`tests/lua/${file}`,{cwd:root,timeout:remaining()});
-    t.diagnostic(`${file}: ${Math.round(performance.now()-started)} ms`);
+    const result=runLua(`tests/lua/${script}`,{cwd:root,timeout:remaining()});
+    const actual=[...result.stdout.matchAll(/^ok sapphire treasure (\d+) - /gm)].map(match=>Number(match[1]));
+    t.diagnostic(`${file}: ${Math.round(performance.now()-started)} ms; groups ${actual.join(',')}`);
     assert.equal(result.status,0,result.stdout+result.stderr);
     const expected=Array.from({length:last-first+1},(_,i)=>first+i);
-    assert.deepEqual([...result.stdout.matchAll(/^ok sapphire treasure (\d+) - /gm)].map(match=>Number(match[1])),expected);
+    assert.deepEqual(actual,expected);
     assert.match(result.stdout,new RegExp(`^SAPPHIRE_TREASURE_PASS ${expected.length}$`,'m'));groups+=expected.length;
   }
   assert.equal(groups,21);

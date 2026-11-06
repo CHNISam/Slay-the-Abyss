@@ -30,7 +30,11 @@ try{
   projected[path]=preRelicCompletionSource(path,source);
  }
  applyHistoricalRuntimeTarget(directory,projected);
- if(script!=='tests/lua/sapphire_treasure.lua'){
+ let entry=script;
+ if(script==='tests/lua/sapphire_treasure.lua'){
+  entry='tests/lua/sapphire_treasure_slice_1.lua';
+  writeFileSync(join(directory,entry),"assert(loadfile('tests/lua/sapphire_treasure.lua'))(1,6)\n");
+ }else{
   const wrapper=readFileSync(new URL('../../'+script,import.meta.url),'utf8').replaceAll('\r\n','\n');
   assert.match(wrapper,/^assert\(loadfile\('tests\/lua\/sapphire_treasure\.lua'\)\)\(\d+,\d+\)\n$/,'thin range only, no replacement historical cases');
   writeFileSync(join(directory,script),wrapper);
@@ -40,6 +44,6 @@ try{
  const built=spawnSync(process.execPath,['scripts/build-lua-data.mjs'],{cwd:directory,encoding:'utf8',timeout:remaining(),windowsHide:true});
  assert.ifError(built.error);assert.equal(built.status,0,built.stdout+built.stderr);
  console.error('HISTORICAL_BUILT '+(Date.now()-started)+'ms');
- const result=runLua(join(directory,script),{cwd:directory,timeout:remaining()});
+ const result=runLua(join(directory,entry),{cwd:directory,timeout:remaining()});
  process.stdout.write(result.stdout);process.stderr.write(result.stderr);process.exitCode=result.status;
 }finally{runtime.close();}

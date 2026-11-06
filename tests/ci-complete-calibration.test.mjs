@@ -17,7 +17,8 @@ const path='scripts/ci-test-timings.json',binding=proof.files[path],before=JSON.
 const postCalibrationJs=['tests/ci-complete-calibration.test.mjs','tests/native-ui-preview.test.mjs','tests/reference-ui-lab.test.mjs',
  'tests/actor-lifecycle.test.mjs','tests/actor-power-rules-boundary.test.mjs','tests/combat-lifecycle.test.mjs',
  'tests/core-lifecycle-complexity.test.mjs','tests/core-lifecycle-source-inverse.test.mjs'].sort();
-const postCalibrationLua=['tests/lua/actor_lifecycle.lua','tests/lua/actor_lifecycle_rules.lua','tests/lua/combat-lifecycle.lua'].sort();
+const postCalibrationLua=['tests/lua/actor_lifecycle.lua','tests/lua/actor_lifecycle_rules.lua','tests/lua/combat-lifecycle.lua',
+ 'tests/lua/sapphire_treasure_slice_6.lua'].sort();
 
 test('complete native successful rows authenticate every observed file and only raise effective placement costs',()=>{
  assert.equal(e.lockedObservationsSha256,'a80b5fe95fcfb0b4d5fedf839045100466423f3129c000ce2eef642cc31c421d');
