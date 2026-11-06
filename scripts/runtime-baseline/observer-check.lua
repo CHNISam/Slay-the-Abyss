@@ -1,0 +1,18 @@
+local observe=dofile('scripts/runtime-baseline/observer.lua')
+local counts={nativeCalls=0,propertyWrites=0}
+local c={kind='cursorArea',SetVisible=function(...)return select('#',...),... end,flush=function(...)return select('#',...),... end}
+setmetatable(c,{__index=function(_,key)if key=='alive' then return true end end})
+observe(c,counts)
+assert(not pcall(function()return c.interactable end),'capability read guard lost')
+assert(not pcall(function()c.interactable=true end),'capability write guard lost')
+assert(not pcall(function()c.alive=false end),'engine property must remain read-only')
+assert(c.alive==true)
+assert(c.SetVisible()==0,'zero arguments must stay zero')
+local n,a,b,d=c.SetVisible(1,nil,3);assert(n==3 and a==1 and b==nil and d==3)
+local n2,self=c:SetVisible();assert(n2==1 and self==c)
+assert(counts.nativeCalls==3)
+assert(c.flush()==0 and counts.nativeCalls==3,'fixture helper counted as native')
+c.text='same';c.text='same';assert(counts.propertyWrites==2,'repeated property writes missing')
+assert(counts.methods.SetVisible==3 and counts.methods.flush==nil,'method attribution incorrect')
+assert(counts.properties.text==2 and counts.properties.alive==nil,'property attribution incorrect')
+print('RUNTIME_OBSERVER_PASS')
