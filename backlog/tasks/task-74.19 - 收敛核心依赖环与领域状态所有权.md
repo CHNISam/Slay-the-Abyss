@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-06 01:46'
-updated_date: '2026-11-06 07:44'
+updated_date: '2026-11-06 08:46'
 labels: []
 milestone: m-7
 dependencies: []
@@ -60,4 +60,6 @@ D5来源扩展34项及独立有界审查PASS：23个391完整before另核Git blo
 7be来源Full42176327678真实失败已保留，已通过原merge:auto暂停并读回。11个测试位置归6组：drain旧inverse/动态owner、HP顺序/Spoon/Necronomicon/Victory旧mutator site、旧14片误用当前新增库存；对应点状修复保持生产333源不变。另Linux6与Windows8/14 annotations确认20/30分钟真实上限终止，不能只更正旧历史预算断言后忽略实际吞吐；按完整成功CI_FILE_TIMING实测做当前布局必要修正，未声明新候选已通过。
 
 本批Full失败适配已定点修复并独审8file：drain5/5及raw75例/18真变异、三处定位12/12、Actor与历史预算9/9保持，补回当前13/14完整raw覆盖。真实timeout按1458条成功file原生日志校正129项JS权重，16/12工作下界已超原预算，采用必要最小17/13；原预算、unknown、raw安全/成本、worker、并发与Relic35均不变。既有CI入口仅加2个新完整SHA纯映射，3历史+4当前合同7/7及直接25/25通过。新精确HEAD/Full/队列/合后验收仍待；按Owner最新要求只收当前PR521，完成后结束，不新增任务。
+
+657来源Full42184962874的POSIX8真实20分钟超时已由首失败CLI回传，已原入口暂停读回。精确58计划/44完成前缀定位run-max-hp-config-inverse为首未完成：Linux旧254137，当前未观测；Windows完整成功889637.0668。629181截尾不入测量。仅复用既有planning floor加889638跨平台保守分配估计，原平台表/129观测/1.17MB证据/其他floors/17-13/预算/worker/并发保持；预测Win1707732/POSIX1187278含60秒。短历史实验不支持改D5缓存，已停止额外性能设计，只收当前PR521。
 <!-- SECTION:NOTES:END -->

@@ -1,0 +1,490 @@
+{
+  "schemaVersion": 1,
+  "kind": "cross-platform-planning-floor",
+  "file": "tests/run-max-hp-config-inverse.test.mjs",
+  "durationMs": 889638,
+  "environment": "hosted Windows",
+  "coverage": "Complete success:true file in a completed successful outer JavaScript step; containing Windows job later cancelled during raw Lua. Linux remains unfinished, with no complete per-file measurement.",
+  "scope": "Planning only using the existing Math.max localLowerBounds slot across platforms; not a Linux observation, pass claim, censored runtime import, cache permission or execution deadline change.",
+  "beforeTimingsLfSha256": "3f12a6a2cffe9516fae02de768d545a2847e5632efedb72b0298a8bb26ca9ee5",
+  "originalPlacementEvidence": {
+    "path": "docs/evidence/pr521-ci-placement-20261106.json",
+    "sha256": "5af2e277b3472262b57a12a6c13e387f4a008eeff0223b2a214bdddae115bd78",
+    "sourceRun": {
+      "id": 42176327678,
+      "attempt": 1,
+      "headSha": "7be4b68ce2214d42273affe7a887bddf03bdbd87",
+      "treeSha": "c532b6efb5b752198be083be1c4dcf51b7c4167c",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/42176327678",
+      "completionMetadataSha256": "e8471929ce008fd9ec3f26121977e5f81e420e9177aa86572d65574869686f6d",
+      "jobMetadataSnapshotSha256": "9581f1797667aff4f968a15f740989aa64129ac203374b9fe129fb2aa4cae570"
+    },
+    "observationCount": 1458,
+    "raiseCount": 129
+  },
+  "completedWindowsSource": {
+    "observation": {
+      "file": "tests/run-max-hp-config-inverse.test.mjs",
+      "durationMs": 889637.0668,
+      "success": true,
+      "platform": "win32",
+      "jobId": 127755728122,
+      "jobName": "rules (8/16)",
+      "jobConclusion": "cancelled",
+      "jsStepConclusion": "success",
+      "logPath": "build/m7-full-7be-failure/job-127755728122.log",
+      "logSha256": "7d44804129c65002ebfd37a09547a5b22f0902bac13c2183af3bb2ec563e0f02",
+      "line": 583,
+      "timestamp": "2026-11-06T07:06:27.2179538Z"
+    },
+    "sourceRecord": {
+      "runId": 42176327678,
+      "runAttempt": 1,
+      "headSha": "7be4b68ce2214d42273affe7a887bddf03bdbd87",
+      "treeSha": "c532b6efb5b752198be083be1c4dcf51b7c4167c",
+      "jobId": 127755728122,
+      "jobName": "rules (8/16)",
+      "platform": "win32",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/FurinyaWorks/Slay-the-Abyss/actions/runs/42176327678/job/127755728122",
+      "path": "build/m7-full-7be-failure/job-127755728122.log",
+      "sha256": "7d44804129c65002ebfd37a09547a5b22f0902bac13c2183af3bb2ec563e0f02",
+      "step": {
+        "completedAt": "2026-11-06T07:07:22Z",
+        "conclusion": "success",
+        "name": "JavaScript regression shard",
+        "number": 17,
+        "startedAt": "2026-11-06T06:45:38Z",
+        "status": "completed"
+      }
+    },
+    "rawLine": "2026-11-06T07:06:27.2179538Z CI_FILE_TIMING {\"file\":\"tests/run-max-hp-config-inverse.test.mjs\",\"durationMs\":889637.0668,\"success\":true}",
+    "ceilMs": 889638
+  },
+  "censoredLinuxSource": {
+    "runId": 42184962874,
+    "headSha": "657a025994c30d7699f38d777b5633e6b2119d84",
+    "jobId": 127784165649,
+    "jobName": "engineering-posix (8/13)",
+    "jobConclusion": "cancelled",
+    "evidence": [
+      {
+        "path": "build/m7-657-failure/linux8.log",
+        "sha256": "b363b301d12f398b6ddd3c093c46b1c62c0e9e37429f5add11eb9ccea23625f7"
+      },
+      {
+        "path": "build/m7-657-failure/linux8-job.json",
+        "sha256": "40d2582728b7caab525e3f138b12b2edb8115855c1800d9999004c6b07b904d0"
+      },
+      {
+        "path": "build/m7-657-failure/linux8-annotations.json",
+        "sha256": "e7b25995d95e62ade349e1c50217f3516ac2b6741779f8ee951d508e511c4cdb"
+      }
+    ],
+    "annotation": {
+      "path": "build/m7-657-failure/linux8-annotations.json",
+      "message": "The job has exceeded the maximum execution time of 20m0s"
+    },
+    "plannedFiles": [
+      "tests/act3-maw-growth.test.mjs",
+      "tests/actor-power-rules-boundary.test.mjs",
+      "tests/approved-main-potions.test.mjs",
+      "tests/art-features-build.test.mjs",
+      "tests/battle-ui-slices.test.mjs",
+      "tests/boss-entrance-notice.test.mjs",
+      "tests/boss-relics-missing.test.mjs",
+      "tests/card-help-release-slices.test.mjs",
+      "tests/card-random-chain.test.mjs",
+      "tests/card-rarity-semantics.test.mjs",
+      "tests/ci-posix-concurrency.test.mjs",
+      "tests/combat-reactions-architecture-inverse.test.mjs",
+      "tests/common-relic-attacks.test.mjs",
+      "tests/common-relic-turns.test.mjs",
+      "tests/cultist-roll-data.test.mjs",
+      "tests/dazed-data.test.mjs",
+      "tests/deck-ui-layout.test.mjs",
+      "tests/deep-breath-source-seed-7.test.mjs",
+      "tests/encounter-runtime.test.mjs",
+      "tests/ending-history.test.mjs",
+      "tests/ending-route-api.test.mjs",
+      "tests/event-487-source-inverse.test.mjs",
+      "tests/experimental-turn-end.test.mjs",
+      "tests/fungi-beast-data.test.mjs",
+      "tests/game-ui-host-map.test.mjs",
+      "tests/game-ui-scope.test.mjs",
+      "tests/hud-topbar-composition.test.mjs",
+      "tests/lizard-tail-persistence.test.mjs",
+      "tests/m3-relic-choice-events.test.mjs",
+      "tests/map-production.test.mjs",
+      "tests/merchant-chain-ordinary.test.mjs",
+      "tests/mind-bloom-source.test.mjs",
+      "tests/mobile-card-release.test.mjs",
+      "tests/mysterious-sphere.test.mjs",
+      "tests/native-card-art-fallback-ownership.test.mjs",
+      "tests/native-graph-payload.test.mjs",
+      "tests/neow-competition-restart.test.mjs",
+      "tests/official-vista-layout.test.mjs",
+      "tests/pr238-lua-budget-slices.test.mjs",
+      "tests/pr372-integration-source.test.mjs",
+      "tests/rare-relics.test.mjs",
+      "tests/ready-art-source-inverse.test.mjs",
+      "tests/relic-round3-composition-inverse.test.mjs",
+      "tests/relic-view-controller-click.test.mjs",
+      "tests/run-max-hp-config-inverse.test.mjs",
+      "tests/run-red-card-contract.test.mjs",
+      "tests/secret-candidate-skill-base-large.test.mjs",
+      "tests/sensory-stone-source.test.mjs",
+      "tests/source-intent-descriptor.test.mjs",
+      "tests/spike-slime-l-data.test.mjs",
+      "tests/spire-pair-component.test.mjs",
+      "tests/sts1-shop-price-lua-candidate.test.mjs",
+      "tests/sword-random-negative-one-upgraded.test.mjs",
+      "tests/title-menu-admission.test.mjs",
+      "tests/two-act-selection-audit.test.mjs",
+      "tests/ui-acceptance.test.mjs",
+      "tests/victory-relic-counter-outcomes.test.mjs",
+      "tests/warrior75-names.test.mjs"
+    ],
+    "completeSuccessfulPrefix": [
+      {
+        "timestamp": "2026-11-06T08:07:04.7018900Z",
+        "file": "tests/act3-maw-growth.test.mjs",
+        "durationMs": 14088.237659,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:07:04.7803878Z",
+        "file": "tests/actor-power-rules-boundary.test.mjs",
+        "durationMs": 13.375087,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:07:15.6953863Z",
+        "file": "tests/approved-main-potions.test.mjs",
+        "durationMs": 10841.800746,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:07:51.1628589Z",
+        "file": "tests/art-features-build.test.mjs",
+        "durationMs": 35393.387658,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:10:13.6693439Z",
+        "file": "tests/battle-ui-slices.test.mjs",
+        "durationMs": 142193.500697,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:10:16.5652001Z",
+        "file": "tests/boss-entrance-notice.test.mjs",
+        "durationMs": 2819.777717,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:10:34.5103755Z",
+        "file": "tests/boss-relics-missing.test.mjs",
+        "durationMs": 17890.00272,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:10:34.9917033Z",
+        "file": "tests/card-help-release-slices.test.mjs",
+        "durationMs": 435.795687,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:11:00.5424180Z",
+        "file": "tests/card-random-chain.test.mjs",
+        "durationMs": 25482.902716,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:11:02.1171505Z",
+        "file": "tests/card-rarity-semantics.test.mjs",
+        "durationMs": 1517.039865,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:11:02.5228578Z",
+        "file": "tests/ci-posix-concurrency.test.mjs",
+        "durationMs": 360.132032,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:11:04.0954538Z",
+        "file": "tests/combat-reactions-architecture-inverse.test.mjs",
+        "durationMs": 1466.920893,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:11:05.5588146Z",
+        "file": "tests/common-relic-attacks.test.mjs",
+        "durationMs": 1402.956806,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:11:07.0562356Z",
+        "file": "tests/common-relic-turns.test.mjs",
+        "durationMs": 1438.211466,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:11:07.1567846Z",
+        "file": "tests/cultist-roll-data.test.mjs",
+        "durationMs": 60.180982,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:11:07.2666973Z",
+        "file": "tests/dazed-data.test.mjs",
+        "durationMs": 70.575768,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:11:07.5144602Z",
+        "file": "tests/deck-ui-layout.test.mjs",
+        "durationMs": 185.64975,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:11:08.9369402Z",
+        "file": "tests/deep-breath-source-seed-7.test.mjs",
+        "durationMs": 1356.551615,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:11:52.7766973Z",
+        "file": "tests/encounter-runtime.test.mjs",
+        "durationMs": 43783.126278,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:12:01.1254826Z",
+        "file": "tests/ending-history.test.mjs",
+        "durationMs": 8292.900891,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:12:08.2162433Z",
+        "file": "tests/ending-route-api.test.mjs",
+        "durationMs": 7036.192535,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:12:09.8246035Z",
+        "file": "tests/event-487-source-inverse.test.mjs",
+        "durationMs": 1470.001621,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:12:37.4864044Z",
+        "file": "tests/experimental-turn-end.test.mjs",
+        "durationMs": 27584.018773,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:12:37.6259883Z",
+        "file": "tests/fungi-beast-data.test.mjs",
+        "durationMs": 99.23843,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:14:04.7718480Z",
+        "file": "tests/game-ui-host-map.test.mjs",
+        "durationMs": 87095.603645,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:14:07.4427564Z",
+        "file": "tests/game-ui-scope.test.mjs",
+        "durationMs": 2610.477486,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:14:07.5668162Z",
+        "file": "tests/hud-topbar-composition.test.mjs",
+        "durationMs": 57.423629,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:15:09.2997733Z",
+        "file": "tests/lizard-tail-persistence.test.mjs",
+        "durationMs": 61674.339149,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:15:13.8854472Z",
+        "file": "tests/m3-relic-choice-events.test.mjs",
+        "durationMs": 4525.873328,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:15:21.9386441Z",
+        "file": "tests/map-production.test.mjs",
+        "durationMs": 7996.408868,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:15:25.2644859Z",
+        "file": "tests/merchant-chain-ordinary.test.mjs",
+        "durationMs": 3261.765511,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:15:25.3156995Z",
+        "file": "tests/mind-bloom-source.test.mjs",
+        "durationMs": 9.474056,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:15:34.8880091Z",
+        "file": "tests/mobile-card-release.test.mjs",
+        "durationMs": 9515.751448,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:15:35.2394914Z",
+        "file": "tests/mysterious-sphere.test.mjs",
+        "durationMs": 292.622982,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:15:41.0052562Z",
+        "file": "tests/native-card-art-fallback-ownership.test.mjs",
+        "durationMs": 5690.097226,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:15:41.1106525Z",
+        "file": "tests/native-graph-payload.test.mjs",
+        "durationMs": 35.605674,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:15:48.6026147Z",
+        "file": "tests/neow-competition-restart.test.mjs",
+        "durationMs": 7435.891041,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:15:51.7412041Z",
+        "file": "tests/official-vista-layout.test.mjs",
+        "durationMs": 3070.037943,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:15:51.7968328Z",
+        "file": "tests/pr238-lua-budget-slices.test.mjs",
+        "durationMs": 9.996158,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:15:54.3197379Z",
+        "file": "tests/pr372-integration-source.test.mjs",
+        "durationMs": 2364.429861,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:16:12.2692075Z",
+        "file": "tests/rare-relics.test.mjs",
+        "durationMs": 17858.975893,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:16:13.5507935Z",
+        "file": "tests/ready-art-source-inverse.test.mjs",
+        "durationMs": 1112.992154,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:16:15.3131706Z",
+        "file": "tests/relic-round3-composition-inverse.test.mjs",
+        "durationMs": 1574.581278,
+        "success": true
+      },
+      {
+        "timestamp": "2026-11-06T08:16:19.1763676Z",
+        "file": "tests/relic-view-controller-click.test.mjs",
+        "durationMs": 3767.883314,
+        "success": true
+      }
+    ],
+    "plannedCount": 58,
+    "completedCount": 44,
+    "firstUncompletedFile": "tests/run-max-hp-config-inverse.test.mjs",
+    "followingUnobservedFiles": [
+      "tests/run-red-card-contract.test.mjs",
+      "tests/secret-candidate-skill-base-large.test.mjs",
+      "tests/sensory-stone-source.test.mjs",
+      "tests/source-intent-descriptor.test.mjs",
+      "tests/spike-slime-l-data.test.mjs",
+      "tests/spire-pair-component.test.mjs",
+      "tests/sts1-shop-price-lua-candidate.test.mjs",
+      "tests/sword-random-negative-one-upgraded.test.mjs",
+      "tests/title-menu-admission.test.mjs",
+      "tests/two-act-selection-audit.test.mjs",
+      "tests/ui-acceptance.test.mjs",
+      "tests/victory-relic-counter-outcomes.test.mjs",
+      "tests/warrior75-names.test.mjs"
+    ],
+    "lastCompletion": {
+      "timestamp": "2026-11-06T08:16:19.1763676Z",
+      "file": "tests/relic-view-controller-click.test.mjs",
+      "durationMs": 3767.883314,
+      "success": true
+    },
+    "cancelAt": "2026-11-06T08:26:48.3573086Z",
+    "censoredWindowMs": 629181,
+    "measurementImported": false,
+    "censoringIsNotRuntimeOrPass": true
+  },
+  "planningEffect": {
+    "existingMathMax": true,
+    "previousEffectiveLinuxMs": 254137,
+    "previousEffectiveWindowsMs": 889638,
+    "newFloorMs": 889638,
+    "additionalTotalWorkMs": {
+      "linux": 635501,
+      "win32": 0
+    },
+    "forecast17_13": {
+      "before": {
+        "windowsMaxPlusReserveMs": 1707732,
+        "posixMaxPlusReserveMs": 1138396
+      },
+      "after": {
+        "windowsMaxPlusReserveMs": 1707732,
+        "posixMaxPlusReserveMs": 1187278
+      },
+      "reserveMs": 60000,
+      "budgets": {
+        "windows": 1800000,
+        "posix": 1200000
+      },
+      "inventory": {
+        "js": 741,
+        "lua": 1401
+      },
+      "workers": 2,
+      "workerClassificationUnchanged": true,
+      "concurrencyCapUnchanged": 12,
+      "projectedFit": true,
+      "actualFullPassClaim": false
+    }
+  },
+  "unchanged": [
+    "actual platform js observations and129raises",
+    "jsCalibrationUpdates and original placement receipt",
+    "all other existing localLowerBounds",
+    "lua safety and luaShard placement maps",
+    "unknown fallback and initial reserves",
+    "matrix17/13",
+    "budgets,timeouts,worker count/classification,concurrency cap",
+    "source epochs and CI implementation"
+  ]
+}

@@ -160,10 +160,25 @@ test('current timing records preserve all measured corrections without duplicate
  }
  assert.equal(timings.jsCalibration.runId,41097231681);assert.equal(timings.jsCalibration.runAttempt,1);
  assert.equal(timings.jsCalibration.headSha,'568d47a8f51164ed9e3cfb0656f57f2d832ed546');
+ let localFloorCount=0;
  for(const [file,entry]of Object.entries(timings.jsPlanning.localLowerBounds)){
-  assert.match(entry.environment,/local/);assert.match(entry.kind,/not .*hosted/);
+  if(file==='tests/run-max-hp-config-inverse.test.mjs'){
+   assert.equal(entry.environment,'hosted Windows');assert.equal(entry.durationMs,889638);
+   assert.equal(entry.kind,'Planning-only cross-platform floor from a complete successful hosted Windows same-file observation; not a Linux measurement or censored elapsed-time sample.');
+   assert.equal(entry.sourceReceipt,'docs/evidence/pr521-run-max-planning-floor-20261106.json');
+   const bytes=readFileSync(entry.sourceReceipt,'utf8').replaceAll('\r\n','\n'),receipt=JSON.parse(bytes);
+   assert.equal(createHash('sha256').update(bytes).digest('hex'),'503e94c83632f032d6b160ae24ec6b3d33f8d91c4c0f734d91056f4371a750b0');assert.equal(entry.sourceReceiptSha256,createHash('sha256').update(bytes).digest('hex'));
+   const {observation,sourceRecord}=receipt.completedWindowsSource;
+   assert.equal(observation.file,file);assert.equal(observation.platform,'win32');assert.equal(observation.success,true);assert.equal(observation.durationMs,889637.0668);assert.equal(Math.ceil(observation.durationMs),entry.durationMs);
+   assert.equal(sourceRecord.step.status,'completed');assert.equal(sourceRecord.step.conclusion,'success');assert.equal(sourceRecord.conclusion,'cancelled');
+   assert.equal(entry.sourceLog,observation.logPath);assert.equal(entry.sourceLogSha256,observation.logSha256);assert.equal(entry.sourceJobId,observation.jobId);assert.equal(entry.sourceRunId,sourceRecord.runId);assert.equal(entry.sourceHeadSha,sourceRecord.headSha);
+   assert.equal(receipt.censoredLinuxSource.measurementImported,false);assert.equal(timings.js.linux[file],254137,'retain the actual Linux observation independently of the cross-platform planning floor');
+  }else{
+   assert.match(entry.environment,/local/);assert.match(entry.kind,/not .*hosted/);localFloorCount++;
+  }
   for(const platform of ['win32','linux'])assert.equal(jsPlanningWeights([file],platform)[file],Math.max(timings.js[platform][file]??timings.unknownJsMs,entry.durationMs));
  }
+ assert.equal(localFloorCount,8,'all eight original local floor contracts remain checked');assert.equal(Object.keys(timings.jsPlanning.localLowerBounds).length,9);
  assert.ok(jsPlanningWeights(['tests/task77-current-source-layers.test.mjs'],'win32')['tests/task77-current-source-layers.test.mjs']>=394262,'retain the first complete successful hosted floor');
 });
 

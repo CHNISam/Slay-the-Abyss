@@ -5011,7 +5011,7 @@
     }
   },
   "jsPlanning": {
-    "model": "Per-file maximum of the actual selected platform map (unknown files retain the fallback) and explicit local lower bounds. Unknown platforms conservatively use the cross-platform maximum. This is placement only: no execution cache, passing-scope permission or timeout change.",
+    "model": "Per-file maximum of the actual selected platform map (unknown files retain the fallback) and explicit local and cross-platform planning floors. Unknown platforms conservatively use the cross-platform maximum. This is placement only: no execution cache, passing-scope permission or timeout change.",
     "localLowerBounds": {
       "tests/presentation-native-m3-contract.test.mjs": {
         "durationMs": 367516,
@@ -5105,6 +5105,19 @@
         "baseHead": "f2e3ef50b930661ee59aa443561b761ccb96a475",
         "sourceRevision": "post-f2 historical source and current runtime fixture repairs; uncommitted at capture",
         "summedComponentDurationMs": 116386.90649999998
+      },
+      "tests/run-max-hp-config-inverse.test.mjs": {
+        "durationMs": 889638,
+        "environment": "hosted Windows",
+        "coverage": "Complete success:true file in a completed successful outer JavaScript step; containing Windows job later cancelled during raw Lua. Linux remains unfinished, with no complete per-file measurement.",
+        "kind": "Planning-only cross-platform floor from a complete successful hosted Windows same-file observation; not a Linux measurement or censored elapsed-time sample.",
+        "sourceLog": "build/m7-full-7be-failure/job-127755728122.log",
+        "sourceLogSha256": "7d44804129c65002ebfd37a09547a5b22f0902bac13c2183af3bb2ec563e0f02",
+        "sourceRunId": 42176327678,
+        "sourceHeadSha": "7be4b68ce2214d42273affe7a887bddf03bdbd87",
+        "sourceJobId": 127755728122,
+        "sourceReceipt": "docs/evidence/pr521-run-max-planning-floor-20261106.json",
+        "sourceReceiptSha256": "503e94c83632f032d6b160ae24ec6b3d33f8d91c4c0f734d91056f4371a750b0"
       }
     }
   },
