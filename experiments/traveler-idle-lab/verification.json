@@ -1,0 +1,74 @@
+{
+  "scope": "Real BeyondSimulator Lua/Host; not official game, GPU FPS or device acceptance",
+  "checks": [
+    "Native Lua mounts, exact ready logged, both layered actor heads move",
+    "Idle roots and feet remain anchored across varied dt",
+    "Both attack directions, contact feedback and exact return-to-origin",
+    "100 interrupted/repeated attacks, reset, fixed control count",
+    "Interrupt active hit flash by counterattack/reset; varied dt recovery",
+    "Host rejects negative dt; long dt capped without Lua error or control growth",
+    "600 simulated seconds automatic alternating attacks; no control growth or Lua errors",
+    "Realtime pause/resume",
+    "Three stop/start remounts; single click emits exactly one attack log"
+  ],
+  "candidateSha256": "2fc2f87b2017e1bb1e49ce6cbb8e1a3272f9474542a8ec58c5318d3f67024dad",
+  "stress": {
+    "simulatedSeconds": 600,
+    "steps": 18000,
+    "controls": 157,
+    "wallMs": 5850.293216000001,
+    "rpcP95Ms": 0.525861999999961,
+    "note": "IPC plus Lua update cost, not GPU or device frame time"
+  },
+  "video": {
+    "frames": 240,
+    "dt": 0.03333333333333333,
+    "seconds": 8,
+    "note": "Real Host screenshots at deterministic 30 Hz simulation; offline encoded, not live GPU capture"
+  },
+  "export": {
+    "warnings": [
+      "当前服务器控件 GIA 不包含 1 个 Lua 脚本的源码；请使用「资产包 GIA 整合包」，或另行导入脚本包并核对挂载。",
+      "客户端控件容器: 新服务端控件模板写入显式空 Info.related，避免跨沙箱复用伴生资源 GUID 产生无法加载的索引。",
+      "title: 垂直居中按推定值导出，尚待实机确认。",
+      "subtitle: 垂直居中按推定值导出，尚待实机确认。",
+      "traveler-label: 垂直居中按推定值导出，尚待实机确认。",
+      "monster-label: 垂直居中按推定值导出，尚待实机确认。",
+      "attack-label: 垂直居中按推定值导出，尚待实机确认。",
+      "counter-label: 垂直居中按推定值导出，尚待实机确认。",
+      "auto-label: 垂直居中按推定值导出，尚待实机确认。",
+      "reset-label: 垂直居中按推定值导出，尚待实机确认。",
+      "status: 垂直居中按推定值导出，尚待实机确认。",
+      "客户端控件模板仍是默认「Lua实例化面板」，未改动且当前未显示，已从资产包 GIA 中省略。",
+      "脚本挂载关系不进入 GIA：官方 script.gia 只含映射（ID/名称/路径/源码），导入后需重新挂载。"
+    ],
+    "files": [
+      {
+        "filename": "Traveler and Stonebloom Idle Lab · 服务器控件模板.gia",
+        "mimeType": "application/octet-stream",
+        "encoding": "base64",
+        "warnings": [
+          "当前服务器控件 GIA 不包含 1 个 Lua 脚本的源码；请使用「资产包 GIA 整合包」，或另行导入脚本包并核对挂载。",
+          "客户端控件容器: 新服务端控件模板写入显式空 Info.related，避免跨沙箱复用伴生资源 GUID 产生无法加载的索引。",
+          "title: 垂直居中按推定值导出，尚待实机确认。",
+          "subtitle: 垂直居中按推定值导出，尚待实机确认。",
+          "traveler-label: 垂直居中按推定值导出，尚待实机确认。",
+          "monster-label: 垂直居中按推定值导出，尚待实机确认。",
+          "attack-label: 垂直居中按推定值导出，尚待实机确认。",
+          "counter-label: 垂直居中按推定值导出，尚待实机确认。",
+          "auto-label: 垂直居中按推定值导出，尚待实机确认。",
+          "reset-label: 垂直居中按推定值导出，尚待实机确认。",
+          "status: 垂直居中按推定值导出，尚待实机确认。"
+        ]
+      },
+      {
+        "filename": "Traveler and Stonebloom Idle Lab · 脚本.gia",
+        "mimeType": "application/octet-stream",
+        "encoding": "base64",
+        "warnings": [
+          "脚本挂载关系不进入 GIA：官方 script.gia 只含映射（ID/名称/路径/源码），导入后需重新挂载。"
+        ]
+      }
+    ]
+  }
+}
