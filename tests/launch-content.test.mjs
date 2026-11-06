@@ -4,6 +4,9 @@ import { readFileSync as readCurrentFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import {validateLaunchContent as validateCurrentLaunchContent,inspectLaunchRuntime as inspectCurrentLaunchRuntime,validateLaunchRuntimeModules} from '../scripts/verify-launch-content.mjs';
 import {launchBaselineFixture} from './helpers/launch-baseline-fixture.mjs';
+import fs from 'node:fs';
+import {syncBuiltinESMExports} from 'node:module';
+import {createHash} from 'node:crypto';
 
 
 const currentRoot = process.cwd();
@@ -69,6 +72,71 @@ test('frozen formal launch retains its original thirty-one explicit event routes
   const root=launchBaselineFixture();
   const original=JSON.parse(readCurrentFileSync(resolve(root,'data/release/launch-content.json'),'utf8'));
   assert.equal(original.events.filter(row=>row.poolMode==='explicit-only').length,31);
+});
+
+test('frozen launch preparation uses one freshly verified private tree per invocation',()=>{
+  const originalRead=fs.readFileSync,originalTemp=fs.mkdtempSync;
+  let archives=0;const roots=[];
+  fs.readFileSync=function(path,...args){
+    if(String(path).replaceAll('\\','/').endsWith('/tests/fixtures/pr323-historical-fixtures.json.gz'))archives++;
+    return originalRead.call(this,path,...args);
+  };
+  fs.mkdtempSync=function(prefix,...args){
+    const path=originalTemp.call(this,prefix,...args);
+    if(/abyss-(?:source-contract|launch-baseline)-/.test(String(prefix)))roots.push(path);
+    return path;
+  };
+  syncBuiltinESMExports();
+  let first,second;
+  try{
+    first=launchBaselineFixture();
+    const actor=resolve(first,'src/lua/abyss_actor.lua');
+    fs.writeFileSync(actor,originalRead(actor,'utf8')+'\n-- private invocation mutation\n');
+    second=launchBaselineFixture();
+  }finally{
+    fs.readFileSync=originalRead;fs.mkdtempSync=originalTemp;syncBuiltinESMExports();
+  }
+  assert.equal(roots.length,2,'one private filesystem tree, without a second priming copy');
+  assert.equal(archives,2,'each invocation freshly authenticates the complete original archive once');
+  assert.notEqual(first,second);assert.equal(process.cwd(),currentRoot);
+  for(const path of ['tests/helpers','tests/fixtures','docs','node_modules']){
+    assert(fs.lstatSync(resolve(second,path)).isSymbolicLink(),path+' remains a declared oracle/implementation link');
+    assert.equal(fs.realpathSync(resolve(second,path)),fs.realpathSync(resolve(currentRoot,path)),path+' link owner');
+  }
+  const rows=[];
+  function walk(directory,prefix=''){
+    for(const entry of fs.readdirSync(directory,{withFileTypes:true})){
+      if(entry.isSymbolicLink())continue;
+      const path=prefix+entry.name,target=resolve(directory,entry.name);
+      if(entry.isDirectory())walk(target,path+'/');
+      else{const bytes=originalRead(target);rows.push([path,bytes.length,createHash('sha256').update(bytes).digest('hex')]);}
+    }
+  }
+  walk(second);rows.sort((a,b)=>a[0]<b[0]?-1:a[0]>b[0]?1:0);
+  assert.equal(rows.length,1730,'complete original launch executable inventory');
+  assert.equal(createHash('sha256').update(JSON.stringify(rows)).digest('hex'),
+    'a3bb91b1665a36a374e9af68eef0b850041f8fe1765b275f4a0d93e0529ac921',
+    'complete private output remains byte-exact to reviewed 391306af, independent of prior invocation writes');
+});
+
+test('a failed frozen launch construction restores cwd and removes its private tree immediately',()=>{
+  const originalTemp=fs.mkdtempSync,originalWrite=fs.writeFileSync,roots=[],failure={stage:'private historical input write'};
+  fs.mkdtempSync=function(prefix,...args){
+    const path=originalTemp.call(this,prefix,...args);
+    if(/abyss-(?:source-contract|launch-baseline)-/.test(String(prefix)))roots.push(path);
+    return path;
+  };
+  fs.writeFileSync=function(path,...args){
+    const normalized=String(path).replaceAll('\\','/');
+    if(roots.some(root=>normalized.startsWith(root.replaceAll('\\','/')+'/')))throw failure;
+    return originalWrite.call(this,path,...args);
+  };
+  syncBuiltinESMExports();
+  try{assert.throws(()=>launchBaselineFixture(),error=>error===failure);}
+  finally{fs.mkdtempSync=originalTemp;fs.writeFileSync=originalWrite;syncBuiltinESMExports();}
+  assert(roots.length>0,'actual private materialization was attempted');
+  assert.equal(process.cwd(),currentRoot);
+  for(const root of roots)assert.equal(fs.existsSync(root),false,'construction failure cannot leave a partial source root');
 });
 
 test('copy and Match production routes preserve separate candidate and pending platform acceptance',()=>{
