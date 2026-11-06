@@ -39,6 +39,19 @@ local function intentPosition(control,x,y,owner)
     -- Overlapping native setters have unknown completion order: retry next time.
     if result~=false and current then intentPositions[control]={owner=owner,x=x,y=y} end
 end
+-- Only the six intent controls have exclusive visibility writers in this module.
+-- Name visibility is also owned by UnitView, so it is deliberately not cached.
+local intentVisibilities=setmetatable({},{__mode='k'})
+local function intentVisible(control,value,binding)
+    local saved=intentVisibilities[control]
+    if saved and saved.binding==binding and saved.value==value and control.alive~=false then return end
+    local pending={};intentVisibilities[control]=pending
+    local ok,accepted=pcall(control.SetVisible,control,value)
+    local ownsWrite=intentVisibilities[control]==pending
+    intentVisibilities[control]=nil
+    if not ok then error(accepted,0) end
+    if accepted~=false and ownsWrite then intentVisibilities[control]={binding=binding,value=value} end
+end
 local function needsTarget(state, instance)
     -- Ask the core to validate the same card with and without a target.
     local _, reason = Combat.canPlay(state, instance.uid, nil)
@@ -111,7 +124,7 @@ function M.install(owner, ownership, host, dependencies)
     local function renderIntentIcon(box,face,x,y,size,allowed,alpha)
         local kind=face.worldKind or face.kind
         local visible=allowed~=false and (face.sourceEnum and face.worldVisible or not face.sourceEnum)
-        local icon=box:GetChild('intentIcon');icon:SetVisible(visible==true)
+        local icon=box:GetChild('intentIcon');intentVisible(icon,visible==true,intentGeometryOwner)
         -- STS 128px intent frames are mostly transparent padding; the official glyphs here
         -- are full-bleed, so draw them at the glyph size and float them clear of the head.
         local glyph=math.min(size,L.intent.size)
@@ -125,7 +138,7 @@ function M.install(owner, ownership, host, dependencies)
         local kind=face.worldKind or face.kind
         local value=box:GetChild('intent')
         local attack=face.sourceEnum and face.sourceEnum:sub(1,6)=='ATTACK' or not face.sourceEnum and kind=='attack'
-        value:SetVisible(allowed~=false and attack and face.value~='')
+        intentVisible(value,allowed~=false and attack and face.value~='',intentGeometryOwner)
         local text=face.value and face.value:gsub('×','x') or ''
         if intentTexts[value]~=text or value.alive==false then
             intentTexts[value]=nil
@@ -140,10 +153,10 @@ function M.install(owner, ownership, host, dependencies)
     local function renderEnemyIntent(box,face,portrait,geometry,allowed,alpha)
         local x,y,size=intentGeometry(portrait,geometry)
         renderIntentIcon(box,face,x,y,size,allowed,alpha)
-        for _,name in ipairs({'intentBadge','intentExtra','intentLabel'})do box:GetChild(name):SetVisible(false)end
+        for _,name in ipairs({'intentBadge','intentExtra','intentLabel'})do intentVisible(box:GetChild(name),false,intentGeometryOwner)end
         renderIntentValue(box,face,x,y,allowed,alpha)
         local sx,sy=Theme.canvas.base[1]/1920,Theme.canvas.base[2]/1080
-        local hit=box:GetChild('intentHit');hit:SetVisible(allowed~=false)
+        local hit=box:GetChild('intentHit');intentVisible(hit,allowed~=false,intentGeometryOwner)
         intentPosition(hit,x,y,intentGeometryOwner);intentSize(hit,64*sx,64*sy,intentGeometryOwner)
     end
     local function enemyIntentAllowed(actor,battle)
@@ -250,7 +263,11 @@ function M.install(owner, ownership, host, dependencies)
     local function hideEscapingHud(box,id)
         if not owner.feedback.escaping[id] then return end
         for _,name in ipairs({'hpBorder','hpTrack','hpGhost','hpFill','hp','blockEdge','blockIcon','block','name','statusRow','intentIcon','intentBadge','intentExtra','intent','intentHit'})do
-            box:GetChild(name):SetVisible(false)
+            local control=box:GetChild(name)
+            intentVisibilities[control]=nil
+            local ok,why=pcall(control.SetVisible,control,false)
+            intentVisibilities[control]=nil
+            if not ok then error(why,0) end
         end
     end
     local function suspendEnemies(rows)
