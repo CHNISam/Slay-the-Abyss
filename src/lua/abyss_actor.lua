@@ -1,5 +1,6 @@
 -- Actor arithmetic and turn status rules; no UI or platform globals.
 local M = {}
+local PowerRules = require('abyss_actor_power_rules')
 local Events = require("abyss_events")
 local Act2Powers = require('abyss_act2_powers')
 local PlatedArmor = require('abyss_plated_armor')
@@ -75,6 +76,36 @@ function M.isPresent(actor)
     return actor~=nil and not actor.escaped and not actor.isDying and (actor.hp>0 or actor.halfDead or actor.awakenedRebirthPending) or false
 end
 
+local function updatePlayerStatusOrder(actor,id,beforeRaw,before)
+    if actor.definitionId then return end
+    local zeroMembership=id=='slow' or id=='time_warp' or id=='invincible'
+    if zeroMembership and beforeRaw==nil or not zeroMembership and (before==0 or actor.statuses[id]==0) then
+        local order={}
+        for _,old in ipairs(actor.powerOrder or {}) do if old~=id then order[#order+1]=old end end
+        if actor.statuses[id]~=0 or zeroMembership then order[#order+1]=id end
+        actor.powerOrder=order
+    end
+end
+
+local function updateMonsterStatusOrder(actor,id,beforeMember,powerOrderModule)
+    if not actor.definitionId then return end
+    -- Existing source objects retain their position when stacked, even at zero.
+    powerOrderModule.applyNew(actor,id)
+    -- Strength/Dexterity stackPower queues removal at exactly zero.
+    if (id=='strength' or id=='dexterity') and beforeMember and actor.statuses[id]==0 then
+        powerOrderModule.remove(actor,id)
+    end
+end
+
+local function markRoundDebuffApplication(state,actor,id,before,source,sourceIsMonster)
+    if before <= 0 and actor.statuses[id] > 0
+        and actor.statusDefinitions[id].decay == "round_end_minus_1" then
+        local monster = sourceIsMonster
+        if monster == nil then monster = source ~= nil and source ~= state.player end
+        actor[id .. "JustApplied"] = monster and (id ~= "vulnerable" or state.phase == "enemy") or nil
+    end
+end
+
 function M.status(state, actor, id, amount, source, sourceIsMonster)
     local beforeRaw=rawget(actor.statuses,id)
     local powerOrderModule=require('abyss_power_order')
@@ -83,49 +114,16 @@ function M.status(state, actor, id, amount, source, sourceIsMonster)
     local before = actor.statuses[id] or 0
     M.addStatus(actor, id, amount, true)
     Nemesis.applied(actor,id,beforeRaw)
-    if not actor.definitionId then
-        local zeroMembership=id=='slow' or id=='time_warp' or id=='invincible'
-        if zeroMembership and beforeRaw==nil or not zeroMembership and (before==0 or actor.statuses[id]==0) then
-            local order={}
-            for _,old in ipairs(actor.powerOrder or {}) do if old~=id then order[#order+1]=old end end
-            if actor.statuses[id]~=0 or zeroMembership then order[#order+1]=id end
-            actor.powerOrder=order
-        end
-    end
+    updatePlayerStatusOrder(actor,id,beforeRaw,before)
     powerOrderModule.applied(state,actor,id,beforeRaw)
-    if actor.definitionId then
-        -- Existing source objects retain their position when stacked, even at zero.
-        powerOrderModule.applyNew(actor,id)
-        -- Strength/Dexterity stackPower queues removal at exactly zero.
-        if (id=='strength' or id=='dexterity') and beforeMember and actor.statuses[id]==0 then
-            powerOrderModule.remove(actor,id)
-        end
-    end
-    if before <= 0 and actor.statuses[id] > 0
-        and actor.statusDefinitions[id].decay == "round_end_minus_1" then
-        local monster = sourceIsMonster
-        if monster == nil then monster = source ~= nil and source ~= state.player end
-        actor[id .. "JustApplied"] = monster and (id ~= "vulnerable" or state.phase == "enemy") or nil
-    end
+    updateMonsterStatusOrder(actor,id,beforeMember,powerOrderModule)
+    markRoundDebuffApplication(state,actor,id,before,source,sourceIsMonster)
     local sourceId = (source or actor).id
     if source == nil and sourceIsMonster ~= nil then sourceId = nil end
     Events.emit(state, "status", {source = sourceId, target = actor.id,
         status = id, amount = actor.statuses[id] - before})
 end
 
-local stacks = { intensity = true, duration = true, none = true }
-local decays = { none = true, turn_end_minus_1 = true, round_end_minus_1 = true,
-    turn_start_trigger_then_minus_1 = true, turn_end_trigger_then_minus_1 = true }
-local signed = { strength = true, dexterity = true, focus = true }
-
-local function integer(amount)
-    return type(amount) == "number" and amount == amount and amount % 1 == 0
-        and amount >= -2147483647 and amount <= 2147483647
-end
-
--- Only source-verified ApplyPower categories; raw status mutation stays separate.
-local debuffs = { draw_reduction=true, corpse_explosion=true,wraith_form=true,no_block=true, bias=true, weak=true, vulnerable=true, frail=true, poison=true, entangled=true,
-    shackled=true,choked=true,block_return=true,mark=true,energy_down=true,hex=true,confusion=true,constricted=true,slow=true }
 local function blockDebuff(state, actor, id)
     local before = actor.statuses.artifact or 0
     if before <= 0 then return false end
@@ -150,7 +148,7 @@ end
 -- before stackPower, so a blocked application has no prospective stack overflow.
 function M.artifactBlocksPower(actor, id, amount)
     return M.isActive(actor) and (actor.statuses.artifact or 0) > 0
-        and (debuffs[id] == true or (signed[id] == true and amount <= 0)) or false
+        and PowerRules.artifactEligible(id,amount) or false
 end
 
 -- Invoke at the source ApplyPowerAction construction site, not when a paused
@@ -160,11 +158,7 @@ function M.poisonBonus(state, actor, source)
         and require('abyss_relic_hooks').owns(state,'snake_skull') and 1 or 0
 end
 
-function M.applyPower(state, actor, id, amount, source, sourceIsMonster, preparedPoisonBonus)
-    if id == "focus" then return require("abyss_focus").apply(state, actor, amount, source) end
-    if not M.isActive(actor) then return false end -- ApplyPower cancels for a dead target.
-    assert(actor.statusDefinitions and actor.statusDefinitions[id], "unknown status: " .. tostring(id))
-    assert(integer(amount) and (signed[id] or id=='wraith_form' or (id=='unawakened'or id=='regrow'or id=='painful_stabs') and amount==-1 or amount >= 0), "invalid status amount")
+local function preparePowerAmount(state,actor,id,amount,source,preparedPoisonBonus)
     -- Explicit queued Poison applications carry their constructor snapshot.
     -- Immediate actions construct/apply together. Both incoming Power and raw
     -- stack amounts get the bonus after the caller's cap, before Artifact.
@@ -173,13 +167,12 @@ function M.applyPower(state, actor, id, amount, source, sourceIsMonster, prepare
         if bonus==nil then bonus=M.poisonBonus(state,actor,source) end
         assert(bonus==0 or bonus==1,'invalid prepared poison bonus')
         amount=amount+0.0+bonus
-        assert(integer(amount),'poison application overflow')
+        assert(PowerRules.integer(amount),'poison application overflow')
     end
-    -- Strength/Dexterity's incoming Power has DEBUFF type at amount <= 0,
-    -- regardless of the target's existing signed total. Zero is not an early exit.
-    if require('abyss_rare_relics').blockPower(state,actor,id)then return false end
-    if M.artifactBlocksPower(actor, id, amount) then blockDebuff(state, actor, id); return false end
-    if id=='vulnerable'and source==state.player and actor~=source then require('abyss_rare_relics').onVulnerableApplied(state,actor)end
+    return amount
+end
+
+local function rememberConstrictedSource(state,actor,id,source)
     local firstConstricted=id=='constricted' and (actor.statuses.constricted or 0)<=0
     if id=='constricted' then
         assert(actor==state.player and source and source~=actor and source.ai and source.ai.policy=='spire_growth',
@@ -192,16 +185,34 @@ function M.applyPower(state, actor, id, amount, source, sourceIsMonster, prepare
         state.constrictedSource=source
         actor.constrictedSourceId,actor.constrictedSourceName=source.id,source.name
     end
-    local callbackBefore=#state.events
-    M.status(state, actor, id, amount, source, sourceIsMonster)
-    Events.onModifyPower(state,'ApplyPowerAction',callbackBefore)
-    require('abyss_colorless_cards').debuffApplied(state,actor,id,amount,source)
+end
+
+local function rememberPostDrawPower(state,actor,id)
     if actor==state.player and (id=='demon_form' or id=='brutality' or id=='devotion' or id=='noxious_fumes') then
         state.postDrawPowerOrder=state.postDrawPowerOrder or {}
         local found=false
         for _,key in ipairs(state.postDrawPowerOrder) do if key==id then found=true end end
         if not found then state.postDrawPowerOrder[#state.postDrawPowerOrder+1]=id end
     end
+end
+
+function M.applyPower(state, actor, id, amount, source, sourceIsMonster, preparedPoisonBonus)
+    if id == "focus" then return require("abyss_focus").apply(state, actor, amount, source) end
+    if not M.isActive(actor) then return false end -- ApplyPower cancels for a dead target.
+    assert(actor.statusDefinitions and actor.statusDefinitions[id], "unknown status: " .. tostring(id))
+    PowerRules.validateAmount(id,amount)
+    amount=preparePowerAmount(state,actor,id,amount,source,preparedPoisonBonus)
+    -- Strength/Dexterity's incoming Power has DEBUFF type at amount <= 0,
+    -- regardless of the target's existing signed total. Zero is not an early exit.
+    if require('abyss_rare_relics').blockPower(state,actor,id)then return false end
+    if M.artifactBlocksPower(actor, id, amount) then blockDebuff(state, actor, id); return false end
+    if id=='vulnerable'and source==state.player and actor~=source then require('abyss_rare_relics').onVulnerableApplied(state,actor)end
+    rememberConstrictedSource(state,actor,id,source)
+    local callbackBefore=#state.events
+    M.status(state, actor, id, amount, source, sourceIsMonster)
+    Events.onModifyPower(state,'ApplyPowerAction',callbackBefore)
+    require('abyss_colorless_cards').debuffApplied(state,actor,id,amount,source)
+    rememberPostDrawPower(state,actor,id)
     return true
 end
 
@@ -220,29 +231,16 @@ function M.applyNoDraw(state, actor)
 end
 
 function M.bindStatuses(actor, definitions)
-    assert(type(definitions) == "table", "missing status definitions")
-    for id, definition in pairs(definitions) do
-        assert(definition.id == id and stacks[definition.stack] and decays[definition.decay], "invalid status definition")
-        if definition.decay:find("trigger", 1, true) then
-            assert(id == "poison" or id == "regen", "unknown status trigger")
-        end
-    end
+    PowerRules.validateDefinitions(definitions)
     actor.statusDefinitions = definitions
 end
 
 function M.addStatus(actor, id, amount, actionApplication)
     local definition = assert(actor.statusDefinitions and actor.statusDefinitions[id], "unknown status: " .. tostring(id))
-    assert(integer(amount) and (signed[id] or id=='wraith_form' or (id=='unawakened'or id=='regrow'or id=='painful_stabs') and amount==-1 or amount >= 0), "invalid status amount")
+    PowerRules.validateAmount(id,amount)
     local before = actor.statuses[id] or 0
-    local value = before + 0.0 + amount
-    assert(integer(value), "status stack overflow") -- reject before mutating
-    -- Strength/Dexterity clamp after stacking, for either actor and either sign.
-    if signed[id] then value = math.max(-999, math.min(999, value)) end
-    if id == 'plated_armor' and before > 0 then value = math.min(999, value) end
-    if id=='painful_stabs' and (before==-1 or amount==-1)then value=-1 end
-    if definition.stack == "none" and id~="unawakened" and id~="regrow" and id~='painful_stabs' then value = value > 0 and 1 or 0 end
-    if id=='painful_stabs' and value>0 then value=1 end
-    actor.statuses[id] = (signed[id] or id=='wraith_form' or id=='unawakened'or id=='regrow'or id=='painful_stabs') and value or math.max(0, value)
+    local value=PowerRules.stackValue(id,definition,before,amount)
+    actor.statuses[id] = value
     if (actor.statuses[id] == 0 or before <= 0) and definition.decay == "round_end_minus_1" then
         actor[id .. "JustApplied"] = nil
     end
@@ -276,7 +274,7 @@ local function rememberTemporaryOrder(actor, id)
 end
 
 local function addTemporaryStat(actor, id, amount, state)
-    assert(integer(amount) and amount >= 0, "invalid temporary " .. id)
+    assert(PowerRules.integer(amount) and amount >= 0, "invalid temporary " .. id)
     assert(not state or amount > 0, "zero temporary " .. (id == "strength" and "Strength" or "Dexterity") .. " application unsupported")
     if state and not M.isActive(actor) then return false end
     local field = temporaryFields[id]
@@ -284,7 +282,7 @@ local function addTemporaryStat(actor, id, amount, state)
     -- Positive Strength/Dexterity cannot spend Artifact. If its loss is blocked,
     -- its old debt is never stacked and must not fail a nonexistent addition.
     local blockedLoss = state and (actor.statuses.artifact or 0) > 0
-    if not blockedLoss then assert(integer(total), "temporary " .. id .. " overflow") end
+    if not blockedLoss then assert(PowerRules.integer(total), "temporary " .. id .. " overflow") end
     if state then
         -- Flex/Speed queue the gain then a separate timed-loss DEBUFF. Artifact
         -- can block that latter application while preserving the positive stat.
@@ -445,7 +443,7 @@ local function queueDeathPower(state, target, before, reactions)
         and not target.stolenGoldRewarded then
         local stolen = target.stolenGold or 0
         local total = (state.stolenGoldReward or 0) + 0.0 + stolen
-        assert(integer(stolen) and stolen >= 0 and integer(total), "stolen gold overflow")
+        assert(PowerRules.integer(stolen) and stolen >= 0 and PowerRules.integer(total), "stolen gold overflow")
         state.stolenGoldReward, target.stolenGoldRewarded = total, true
     end
     local amount = target.statuses.spore_cloud or 0
@@ -883,12 +881,7 @@ function M.endRound(state, actor)
     tick(state, actor, "round_end")
 end
 
-function M.endTurn(state, actor)
-    if actor~=state.player and M.isActive(actor) then
-        if (actor.statuses.malleable or 0)>0 then actor.statuses.malleable=3 end
-    end
-    tick(state, actor, "turn_end")
-    if not M.isActive(actor) then return end
+local function clearOwnerEntangled(state,actor)
     -- EntanglePower removes itself only for isPlayer=true, rather than reducing
     -- one stack at the monster round boundary or applying another Power.
     local entangled = actor.statuses.entangled or 0
@@ -896,48 +889,83 @@ function M.endTurn(state, actor)
         actor.statuses.entangled = 0
         Events.emit(state, "status", {source = actor.id, target = actor.id, status = "entangled", amount = -entangled})
     end
-    local changed = false
+end
+
+local function appendAcquiredEndPower(state,actor,id,endings,seen)
+    local stat=id:match('^lose_(.+)$')
+    if id=='ritual' and actor==state.player and (actor.statuses.ritual or 0)>0 then
+        endings[#endings+1]='ritual';seen.ritual=true
+    elseif id=='wraith_form'and actor==state.player and (actor.statuses.wraith_form or 0)<0 then
+        endings[#endings+1]=id;seen[id]=true
+    elseif temporaryFields[stat] and (actor[temporaryFields[stat]] or 0)>0 then
+        endings[#endings+1]=stat;seen[stat]=true
+    end
+end
+
+local function collectOwnerEndPowers(state,actor)
     local endings,seen = {},{}
     for _,id in ipairs(actor.powerOrder or {}) do
-        local stat=id:match('^lose_(.+)$')
-        if id=='ritual' and actor==state.player and (actor.statuses.ritual or 0)>0 then
-            endings[#endings+1]='ritual';seen.ritual=true
-        elseif id=='wraith_form'and actor==state.player and (actor.statuses.wraith_form or 0)<0 then
-            endings[#endings+1]=id;seen[id]=true
-        elseif temporaryFields[stat] and (actor[temporaryFields[stat]] or 0)>0 then
-            endings[#endings+1]=stat;seen[stat]=true
-        end
+        appendAcquiredEndPower(state,actor,id,endings,seen)
     end
     for _,id in ipairs(actor.temporaryPowerOrder or {"strength","dexterity"}) do
         if not seen[id] then endings[#endings+1]=id end
     end
     if actor==state.player and (actor.statuses.ritual or 0)>0 and not seen.ritual then endings[#endings+1]='ritual' end
     if actor==state.player and (actor.statuses.wraith_form or 0)<0 and not seen.wraith_form then endings[#endings+1]='wraith_form'end
-    for _, id in ipairs(endings) do
-        local field = temporaryFields[id]
-        local temporary = field and actor[field] or 0
-        if id=='ritual' then
-            M.applyPower(state,actor,'strength',actor.statuses.ritual,actor)
-        elseif id=='wraith_form'then
-            M.applyPower(state,actor,'dexterity',actor.statuses.wraith_form,actor)
-        elseif temporary ~= 0 then
-            -- The owner-end negative Power is a new Artifact-eligible DEBUFF.
-            M.applyPower(state, actor, id, -temporary, actor)
-            actor[field] = 0
-            changed = true
-            state.events[#state.events].frame = Events.frame(state)
-        end
+    return endings
+end
+
+local function settleOwnerEndPower(state,actor,id)
+    local field = temporaryFields[id]
+    local temporary = field and actor[field] or 0
+    if id=='ritual' then
+        M.applyPower(state,actor,'strength',actor.statuses.ritual,actor)
+    elseif id=='wraith_form'then
+        M.applyPower(state,actor,'dexterity',actor.statuses.wraith_form,actor)
+    elseif temporary ~= 0 then
+        -- The owner-end negative Power is a new Artifact-eligible DEBUFF.
+        M.applyPower(state, actor, id, -temporary, actor)
+        actor[field] = 0
+        state.events[#state.events].frame = Events.frame(state)
+        return true
     end
+    return false
+end
+
+local function clearTemporaryPowerOrder(actor)
     actor.temporaryPowerOrder = nil
     local powers={}
     for _,id in ipairs(actor.powerOrder or {}) do if id~='lose_strength' and id~='lose_dexterity' then powers[#powers+1]=id end end
     actor.powerOrder=powers
+end
+
+local function settleOwnerEndPowers(state,actor)
+    local changed = false
+    local endings=collectOwnerEndPowers(state,actor)
+    for _,id in ipairs(endings) do
+        if settleOwnerEndPower(state,actor,id) then changed=true end
+    end
+    clearTemporaryPowerOrder(actor)
     if changed then state.events[#state.events].frame = Events.frame(state) end
+end
+
+local function finishOwnerTurn(state,actor)
     local transient=actor.ai and actor.ai.kind=='act3'and actor.ai.policy=='transient'
     if not transient and not Awakened.owns(actor)and (actor.statuses.regenerate_monster or 0)<=0 then
         require('abyss_colorless_cards').endOwnerTurn(state,actor)
     end
     require('abyss_silent_final_cards').endTurn(state,actor)
+end
+
+function M.endTurn(state, actor)
+    if actor~=state.player and M.isActive(actor) then
+        if (actor.statuses.malleable or 0)>0 then actor.statuses.malleable=3 end
+    end
+    tick(state, actor, "turn_end")
+    if not M.isActive(actor) then return end
+    clearOwnerEntangled(state,actor)
+    settleOwnerEndPowers(state,actor)
+    finishOwnerTurn(state,actor)
 end
 
 function M.resetBlock(state, actor)

@@ -112,7 +112,9 @@ test('every extracted card action helper is required and bounded with its nested
 });
 test('combat play, turn and constructor stages are required, bounded and fully measured',()=>{
   const path='src/lua/abyss_combat.lua';
-  const names=['queuedHandlers.effect','M.canPlay','playWindow','playEligibility','playSupportedEffects',
+  const names=['M.damage','draw','queuedHandlers.effect','M.canPlay','playWindow','playEligibility','playSupportedEffects',
+    'damagePoison','damageThornsCallback','damagePreview','recordDamagePreview','completeDamage',
+    'notifyDrawShuffle','drawSourcePile','drawVoid','drawStatusPowers','applyDrawHooks',
     'playCardContent','playAdvancedMode','playEnergy','playEffectTarget','playCardRequirements','playHandRequirements',
     'beginQueuedPlay','queueNativePlay','M.play', 'clearNativeTurnPowers','enqueueNativeTurnPowers',
     'enqueueNativeOpeningDraw','enqueueNativePostDraw','startNativePlayerTurn',
@@ -153,7 +155,11 @@ test('combat play, turn and constructor stages are required, bounded and fully m
 });
 test('Actor damage and status stages plus nested callbacks cannot escape the production CC15 policy',()=>{
   const path='src/lua/abyss_actor.lua';
-  const names=['damageAmount','consumeAttackBlock','modifyIncomingAttack','applyAttackHpLoss',
+  const names=['M.status','M.applyPower','M.addStatus','M.endTurn','damageAmount','consumeAttackBlock','modifyIncomingAttack','applyAttackHpLoss',
+    'updatePlayerStatusOrder','updateMonsterStatusOrder','markRoundDebuffApplication',
+    'preparePowerAmount','rememberConstrictedSource','rememberPostDrawPower',
+    'clearOwnerEntangled','appendAcquiredEndPower','collectOwnerEndPowers','settleOwnerEndPower',
+    'clearTemporaryPowerOrder','settleOwnerEndPowers','finishOwnerTurn',
     'queueHitPowers','queueAttackedPowers','M.damage',
     'monsterStatusIds','playerStatusIds','statusKind','statusEntry','statusResource',
     'appendRaidenResources','appendOriginalV4Resources','appendTargetV4Resources','M.statusView'];
