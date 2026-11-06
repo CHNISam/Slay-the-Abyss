@@ -16,12 +16,14 @@ for(const [name,anchor,replacement,marker] of [
  ['overlap','accepted~=false and ownsWrite then intentVisibilities','accepted~=false then intentVisibilities','overlapping visibility cached'],
  ['escape post-clear','local ok,why=pcall(control.SetVisible,control,false)\n            intentVisibilities[control]=nil','local ok,why=pcall(control.SetVisible,control,false)','escape writer retained nested visibility promise'],
  ['no cache','saved and saved.binding','false and saved and saved.binding','unchanged visibility resubmitted'],
-])test('visibility negative control: '+name,()=>{
- const path='src/lua/abyss_battle_render_actors.lua',source=readFileSync(path,'utf8');assert.equal(source.split(anchor).length,2);
+])for(const [format,newline] of [['LF','\n'],['CRLF','\r\n']])test(`visibility negative control (${format}): ${name}`,()=>{
+ const path='src/lua/abyss_battle_render_actors.lua',original=readFileSync(path,'utf8');
+ const source=original.replace(/\r?\n/g,newline),formattedAnchor=anchor.replaceAll('\n',newline);
+ assert.equal(source.split(formattedAnchor).length,2,'exactly one mutation boundary in either checkout format');
  const entry=join(tmpdir(),'visibility-'+randomUUID()+'.lua');
- writeFileSync(entry,`package.preload.abyss_battle_render_actors=assert(load(${luaString(source.replace(anchor,replacement))},'@visibility-mutant'))\ndofile('tests/lua/intent_visibility_cache.lua')`);
+ writeFileSync(entry,`package.preload.abyss_battle_render_actors=assert(load(${luaString(source.replace(formattedAnchor,replacement.replaceAll('\n',newline)))},'@visibility-mutant'))\ndofile('tests/lua/intent_visibility_cache.lua')`);
  try{const r=runLua(entry);assert.notEqual(r.status,0);assert.match(r.stdout+r.stderr,new RegExp(marker));}finally{unlinkSync(entry);}
- assert.equal(readFileSync(path,'utf8'),source);
+ assert.equal(readFileSync(path,'utf8'),original,'negative control changed production source');
 });
 test('complete Host route retains final run/native graph while idle intent writes fall',async()=>{
  const {spawnSync}=await import('node:child_process');

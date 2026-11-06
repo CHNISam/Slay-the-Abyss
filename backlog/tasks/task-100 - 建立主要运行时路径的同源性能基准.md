@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-06 01:46'
-updated_date: '2026-11-06 12:38'
+updated_date: '2026-11-06 14:49'
 labels: []
 milestone: m-7
 dependencies: []
@@ -47,4 +47,6 @@ PR #523 首份离线Host全路径基线已实现：固定实际seed、源摘要�
 以#521实际合入c685409d线性接续#523/5439b658，原分支与两份历史报告保留；新schema2三VM的491来源逐项一致，11阶段计数和分项一致，wall P50/P95为5746.400/5771.628ms，仅离线基线。运行时6项与库存8项共14/14；当前742JS/1401Lua与冻结741/1401收据分开验证，原17/13分片、timings与预算不改。CLI1.55.3 doctor报告既存5组重复ID未修；精确独审、托管Full、队列及合后验收继续，AC未勾。
 
 接续实际已合530的67793786，仅移植原526可见性优化/已有实验，不覆盖530未优化基线报告。494实验输入逐字相同，无重采样；新增1JS/1Lua沿post-placement unknown清单，8项库存PASS。受控20主配对通过预声明判据并独立重算，原不利样本保留；精确提交准入和实际合后Full仍待，所有AC未勾。
+
+接续#532修复Windows六负控LF/CRLF定位，并为冻结源parasite_08验收阻塞优化完整图观察器：所有原检查点和图字节保持，原30秒定向frozen/current通过，独审无未决问题；保留旧48样本为旧观察器历史，新组合来源已变化，仍待稳定Core组合复验与实际Full，未勾AC。证据见TASK-100-VISIBILITY-INTEGRATION及graph-observer-cost-20261106.json。
 <!-- SECTION:NOTES:END -->

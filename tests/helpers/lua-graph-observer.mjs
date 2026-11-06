@@ -5,24 +5,34 @@ const {lua,lauxlib,to_luastring,to_jsstring}=require('fengari');
 // preceding definitions remain part of the reconstructable graph stream.
 export function installLuaGraphObserver(L,name='ABYSS_HOST_GRAPH',writeGraph){
  const allocations=new Map(),previous=new Map(),backings=new Map();let serial=0;
+ const tags=Object.fromEntries([lua.LUA_TTABLE,lua.LUA_TFUNCTION,lua.LUA_TUSERDATA,lua.LUA_TTHREAD].map(type=>[type,to_jsstring(lua.lua_typename(L,type))]));
+ // A graph value is a nil tag or a typed scalar/reference pair, never a table
+ // body. Compare freshly collected definitions instead of encoding unchanged
+ // ones just to discard them. No Lua fields, aliases or metatables are cached.
+ const sameValue=(a,b)=>a===b||(a!==null&&b!==null&&a.length===b.length&&a[0]===b[0]&&a[1]===b[1]);
+ const sameDefinition=(a,b)=>{
+  if(!a||a[0]!==b[0]||a[1]!==b[1]||!sameValue(a[3],b[3])||a[2].length!==b[2].length)return false;
+  for(let i=0;i<a[2].length;i++)if(!sameValue(a[2][i][0],b[2][i][0])||!sameValue(a[2][i][1],b[2][i][1]))return false;
+  return true;
+ };
  const observe=(L,eventArgs=false)=>{
   const stable=eventArgs||lua.lua_toboolean(L,3),localIds=new Map(),visited=new Set(),definitions=[],proxies=new Map();let localSerial=0;
   const event=eventArgs||lua.lua_toboolean(L,4);
-  function identity(index){const pointer=lua.lua_topointer(L,index),ids=stable?allocations:localIds;
-   if(!ids.has(pointer))ids.set(pointer,stable?++serial:++localSerial);return ids.get(pointer);}
+  function identity(pointer){const ids=stable?allocations:localIds;let id=ids.get(pointer);
+   if(id===undefined){id=stable?++serial:++localSerial;ids.set(pointer,id);}return id;}
   function capture(index){const type=lua.lua_type(L,index);
-   if(type===lua.LUA_TNIL)return {value:['nil']};
-   if(type===lua.LUA_TBOOLEAN)return {value:['boolean',lua.lua_toboolean(L,index)]};
-   if(type===lua.LUA_TNUMBER)return {value:['number',String(lua.lua_tonumber(L,index))]};
-   if(type===lua.LUA_TSTRING)return {value:['string',to_jsstring(lua.lua_tolstring(L,index))]};
+   if(type===lua.LUA_TNIL)return ['nil'];
+   if(type===lua.LUA_TBOOLEAN)return ['boolean',lua.lua_toboolean(L,index)];
+   if(type===lua.LUA_TNUMBER)return ['number',String(lua.lua_tonumber(L,index))];
+   if(type===lua.LUA_TSTRING)return ['string',to_jsstring(lua.lua_tolstring(L,index))];
    // Reuse only a typed reference-push closure within this call. Every field,
    // metatable and definition is still freshly visited; IDs are assigned by read.
    let typed=proxies.get(type);if(!typed){typed=new Map();proxies.set(type,typed);}
    const pointer=lua.lua_topointer(L,index);let push=typed.get(pointer);
    if(!push){push=lua.lua_toproxy(L,index);typed.set(pointer,push);}
-   return {push};
+   return push;
   }
-  function captured(value){if(value.value)return value.value;value.push(L);const result=read(-1);lua.lua_pop(L,1);return result;}
+  function captured(value){if(typeof value!=='function')return value;value(L);const result=read(-1);lua.lua_pop(L,1);return result;}
   function read(index){
    if(!lua.lua_checkstack(L,12))throw Error('observer stack exhausted');
    index=lua.lua_absindex(L,index);const originalIndex=index,type=lua.lua_type(L,index);
@@ -30,21 +40,21 @@ export function installLuaGraphObserver(L,name='ABYSS_HOST_GRAPH',writeGraph){
    if(type===lua.LUA_TBOOLEAN)return ['boolean',lua.lua_toboolean(L,index)];
    if(type===lua.LUA_TNUMBER)return ['number',String(lua.lua_tonumber(L,index))];
    if(type===lua.LUA_TSTRING)return ['string',to_jsstring(lua.lua_tolstring(L,index))];
-   if(![lua.LUA_TTABLE,lua.LUA_TFUNCTION,lua.LUA_TUSERDATA,lua.LUA_TTHREAD].includes(type))throw Error('unsupported graph value');
-   const id=identity(index),tag=to_jsstring(lua.lua_typename(L,type));
-   if(event&&type===lua.LUA_TTABLE&&backings.has(lua.lua_topointer(L,index)))return ['nativeControl',id];
+   const tag=tags[type];if(tag===undefined)throw Error('unsupported graph value');
+   const pointer=lua.lua_topointer(L,index),id=identity(pointer);
+   if(event&&type===lua.LUA_TTABLE&&backings.has(pointer))return ['nativeControl',id];
    if(visited.has(id))return [tag,id];visited.add(id);const entries=[];
    if(type===lua.LUA_TTABLE){
     // Native proxy controls retain their full engine backing fields here.
-    const backing=backings.get(lua.lua_topointer(L,index));
+    const backing=backings.get(pointer);
     if(backing){backing(L);index=lua.lua_absindex(L,-1);}
     const keys=[];lua.lua_pushnil(L);
     while(lua.lua_next(L,index)){
      const key=capture(-2),value=capture(-1),kt=lua.lua_type(L,-2);let order;
-     if(kt===lua.LUA_TSTRING)order='string:'+to_jsstring(lua.lua_tolstring(L,-2));
+     if(kt===lua.LUA_TSTRING)order='string:'+key[1];
      else if(kt===lua.LUA_TNUMBER)order='number:'+lua.lua_tonumber(L,-2);
      else if(kt===lua.LUA_TBOOLEAN)order='boolean:'+lua.lua_toboolean(L,-2);
-     else order=to_jsstring(lua.lua_typename(L,kt))+':'+identity(-2);
+     else order=to_jsstring(lua.lua_typename(L,kt))+':'+identity(lua.lua_topointer(L,-2));
      keys.push({key,value,order});lua.lua_pop(L,1);
     }
     keys.sort((a,b)=>a.order<b.order?-1:a.order>b.order?1:0);
@@ -54,8 +64,8 @@ export function installLuaGraphObserver(L,name='ABYSS_HOST_GRAPH',writeGraph){
     }
    }
    const hasMeta=lua.lua_getmetatable(L,index),meta=hasMeta?read(-1):null;if(hasMeta)lua.lua_pop(L,1);
-   const definition=[tag,id,entries,meta],encoded=JSON.stringify(definition);
-   if(!stable||previous.get(id)!==encoded){definitions.push(definition);if(stable)previous.set(id,encoded);}
+   const definition=[tag,id,entries,meta];
+   if(!stable||!sameDefinition(previous.get(id),definition)){definitions.push(definition);if(stable)previous.set(id,definition);}
    return [tag,id];
   }
   let root;
