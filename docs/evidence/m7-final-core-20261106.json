@@ -22370,7 +22370,29 @@
       },
       "guidance": "passed",
       "backlog": "passed",
-      "old35OwnerEpoch": "pending final rerun"
+      "old35OwnerEpoch": {
+        "status": "passed",
+        "tests": 4,
+        "durationMs": 150203.8342,
+        "originalOwnerCount": 35,
+        "originalFrozenHashesUnchanged": true
+      },
+      "backlogDoctor": {
+        "status": "passed",
+        "exitCode": 0
+      },
+      "rawLogs": [
+        {
+          "name": "source-tests.log",
+          "sha256": "c274cdbcd0c66237e847595c1695a09cf2bb47c782d688d7797866b53d5147c4",
+          "text": "✔ complete final lifecycle epoch restores all thirty existing Lua owners and exact 391 architecture without inventing witness history (673.0013ms)\r\n✔ foreign, original, partial, duplicate and escaped-token sources retain their bytes without reading any linked owner (20.0054ms)\r\n✔ each direct and common source call freshly binds all thirty-five raw owners after warm successes, failures and reader wrapping (127807.0782ms)\r\n✔ real isolated thirty-five-owner files reject warm source edits, configuration reformatting and deletion without borrowing the live tree (21495.2978ms)\r\nℹ tests 4\r\nℹ suites 0\r\nℹ pass 4\r\nℹ fail 0\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 150203.8342\r\n"
+        },
+        {
+          "name": "final-core-tests.log",
+          "sha256": "a6bbf86e3473499ed7b80bfe0466fcaaddc9dc3be6193ba6d692743eecf3d78d",
+          "text": "✔ the final source epoch freshly authenticates all three complete Git sources and rejects partial owners (32.1376ms)\r\n✔ Codex offer planning cannot import the Combat executor even with a deferred edge (2699.9671ms)\r\n✔ V4 entry/helper/nested functions and Codex commit enforce the same CC15 budget (7.3ms)\r\n✔ original_v4_contract: independent old/current VMs preserve full command state, aliases, RNG, events and failure returns (19350.3862ms)\r\n✔ act2_event_relic_codex: independent old/current VMs preserve full command state, aliases, RNG, events and failure returns (44568.3566ms)\r\n✔ a real parsed payment regression is caught by the original behavior assertions (790.7497ms)\r\n✔ a real parsed snapshot regression is caught by the original behavior assertions (1446.7658ms)\r\n✔ a real parsed Codex insertion RNG regression is caught by the original behavior assertions (5246.9891ms)\r\nℹ tests 8\r\nℹ suites 0\r\nℹ pass 8\r\nℹ fail 0\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 74473.9722\r\n"
+        }
+      ]
     }
   },
   "equivalence": [
