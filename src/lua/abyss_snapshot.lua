@@ -6,32 +6,37 @@ local M={}
 local owners=setmetatable({},{__mode='k'})
 function M.capture(root,target)
     assert(type(root)=='table','snapshot requires a table')
-    local saved,pending={[root]={}},{root}
-    local top,kind=1,type
+    local seen,pending={[root]=true},{root}
+    local originals,ends,entries={},{},{}
+    local top,entryCount,kind=1,0,type
     local keyTables={}
     while top>0 do
         local original=pending[top];pending[top]=nil;top=top-1
-        local values=saved[original]
+        originals[#originals+1]=original
         for k,v in next,original do
-            values[k]=v
+            entries[entryCount+1]=k;entries[entryCount+2]=v;entryCount=entryCount+2
             local tableKey=keyTables[k]
             if tableKey==nil then tableKey=kind(k)=='table';keyTables[k]=tableKey end
-            if tableKey and not saved[k] then
-                saved[k]={};top=top+1;pending[top]=k
+            if tableKey and not seen[k] then
+                seen[k]=true;top=top+1;pending[top]=k
             end
-            if kind(v)=='table' and not saved[v] then
-                saved[v]={};top=top+1;pending[top]=v
+            if kind(v)=='table' and not seen[v] then
+                seen[v]=true;top=top+1;pending[top]=v
             end
         end
+        ends[#originals]=entryCount -- empty tables still have a boundary
     end
     local function restore()
-        for original,values in next,saved do
+        local first=1
+        for i=1,#originals do
+            local original=originals[i]
             for k in next,original do rawset(original,k,nil) end
-            for k,v in next,values do rawset(original,k,v) end
+            for j=first,ends[i],2 do rawset(original,entries[j],entries[j+1]) end
+            first=ends[i]+1
         end
     end
     if target~=nil then
-        assert(type(target)=='table' and saved[target],'snapshot target is not captured')
+        assert(type(target)=='table' and seen[target],'snapshot target is not captured')
         owners[restore]=target
         return restore,restore
     end
