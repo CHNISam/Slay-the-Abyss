@@ -1,0 +1,314 @@
+{
+  "kind": "one-predeclared-phase-diagnostic-not-acceptance",
+  "base": "c685409d7d34d91cae79e917090fe4299184ca8b",
+  "node": "v24.22.1",
+  "platform": "linux",
+  "originalHelperSha256": "d2e10a1b8b2ed255efeb668c8404f7f486cb391e816192b3e606716ca837cd0c",
+  "instrumentedHelperSha256": "e23af2cd82e8e095a256acfb816c467e8a1f141eb33d0b6db595cfabaebe6be1",
+  "instrumentedHelper": "import {createRequire} from 'node:module';\nimport {readFileSync} from 'node:fs';\nimport {createHash} from 'node:crypto';\nimport {installLuaGraphObserver} from \"file:///workspace/scratch/c1a4970a76e0/m7-task100-final-20261106/tests/helpers/lua-graph-observer.mjs\";\nconst require=createRequire(\"/workspace/scratch/c1a4970a76e0/m7-task100-final-20261106/tests/helpers/intent-visibility-vm.mjs\");\nconst {lua,lauxlib,lualib,to_luastring,to_jsstring}=require('fengari');\nconst L=lauxlib.luaL_newstate();lualib.luaL_openlibs(L);\ninstallLuaGraphObserver(L,'VISIBILITY_STATE',(label,graph)=>console.log('VISIBILITY_GRAPH '+graph));\nconst baseline=process.argv[2]==='before';\nconst timed=process.argv[3]==='--timed';\nif(process.argv[3]&&!timed)throw Error('unexpected mode');\nif(!baseline&&process.argv[2]!=='after')throw Error('expected before or after');\nconst execute=source=>{if(lauxlib.luaL_dostring(L,to_luastring(source))!==lua.LUA_OK)throw Error(to_jsstring(lua.lua_tostring(L,-1)));};\nif(baseline){\n const before=readFileSync('tests/fixtures/intent-visibility/before.lua','utf8');\n if(createHash('sha256').update(before.replaceAll('\\r\\n','\\n')).digest('hex')!=='f535f2d14b15e8af3fe49bf3e3af45900b4cae4fcc8f8ccb29a407cf6fdcc6d9')throw Error('baseline source identity changed');\n execute(`package.preload.abyss_battle_render_actors=assert(load(${JSON.stringify(before)},'@visibility-before'))`);\n}\nconst fixture=readFileSync('tests/lua/support/game_ui_fixture.lua','utf8');\nconst needle='return NativeContract.control(self,spec)';if(fixture.split(needle).length!==2)throw Error('fixture anchor changed');\nlua.lua_pushstring(L,to_luastring(fixture.replace(needle,'ABYSS_HOST_CONTROL(self); '+needle)));lua.lua_setglobal(L,to_luastring('BASELINE_FIXTURE'));\nconst rows=[];let previous=[0,0,0,0,0],lastWall=performance.now(),lastCpu=process.cpuUsage();\nlua.lua_pushjsfunction(L,state=>{\n const current=previous.map((_,i)=>lua.lua_tonumber(state,i+2));\n const wall=performance.now(),cpu=process.cpuUsage();\n rows.push({wallMs:wall-lastWall,cpuUserMs:(cpu.user-lastCpu.user)/1000,cpuSystemMs:(cpu.system-lastCpu.system)/1000,phase:to_jsstring(lua.lua_tostring(state,1)),counts:current.map((value,i)=>value-previous[i])});previous=current;lastWall=performance.now();lastCpu=process.cpuUsage();return 0;\n});lua.lua_setglobal(L,to_luastring('BASELINE_MARK'));\nlet observer=readFileSync('scripts/runtime-baseline/observer.lua','utf8');\nobserver=observer.replace('for k in pairs(fields)do',\"VISIBILITY_STATE_CONTROL(control,fields)\\n for k in pairs(fields)do\");\nlet host=readFileSync('scripts/runtime-baseline/host.lua','utf8');\nhost=host.replace(\"local observe=dofile('scripts/runtime-baseline/observer.lua')\",`local observe=assert(load(${JSON.stringify(observer)},'@visibility-observer'))()`);\n// Compare every reachable final Host/run/native field, aliases and metatables.\nif(!timed)host+=\"\\nVISIBILITY_STATE_WRITE({host=host,root=root},'final')\\n\";\nexecute(host);\nconsole.log('VISIBILITY_COUNTS '+JSON.stringify(rows));\n",
+  "samples": [
+    {
+      "side": "before",
+      "rows": [
+        {
+          "wallMs": 6.961240999999973,
+          "cpuUserMs": 12.392,
+          "cpuSystemMs": 0.277,
+          "phase": "begin",
+          "counts": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "wallMs": 2369.0818409999997,
+          "cpuUserMs": 3520.78,
+          "cpuSystemMs": 398.561,
+          "phase": "cold-host",
+          "counts": [
+            838,
+            244,
+            930,
+            1920,
+            0
+          ]
+        },
+        {
+          "wallMs": 1180.9955569999997,
+          "cpuUserMs": 1357.306,
+          "cpuSystemMs": 94.832,
+          "phase": "warm-host",
+          "counts": [
+            36,
+            0,
+            968,
+            1981,
+            0
+          ]
+        },
+        {
+          "wallMs": 751.5179370000001,
+          "cpuUserMs": 1044.638,
+          "cpuSystemMs": 35.17,
+          "phase": "start-map",
+          "counts": [
+            475,
+            31,
+            3568,
+            6787,
+            0
+          ]
+        },
+        {
+          "wallMs": 433.02139700000043,
+          "cpuUserMs": 821.137,
+          "cpuSystemMs": 42.471,
+          "phase": "map-combat",
+          "counts": [
+            529,
+            15,
+            2424,
+            5097,
+            0
+          ]
+        },
+        {
+          "wallMs": 543.840741,
+          "cpuUserMs": 1082.061,
+          "cpuSystemMs": 19.498,
+          "phase": "combat-turn",
+          "counts": [
+            1614,
+            2,
+            5662,
+            12769,
+            1
+          ]
+        },
+        {
+          "wallMs": 494.8911529999996,
+          "cpuUserMs": 723.443,
+          "cpuSystemMs": 25.048,
+          "phase": "idle-300",
+          "counts": [
+            900,
+            0,
+            3600,
+            7200,
+            0
+          ]
+        },
+        {
+          "wallMs": 164.78838499999983,
+          "cpuUserMs": 289.566,
+          "cpuSystemMs": 10.515,
+          "phase": "deck-roundtrip",
+          "counts": [
+            763,
+            0,
+            2391,
+            5158,
+            0
+          ]
+        },
+        {
+          "wallMs": 190.415755,
+          "cpuUserMs": 194.388,
+          "cpuSystemMs": 3.139,
+          "phase": "terminal-reward",
+          "counts": [
+            18,
+            3,
+            629,
+            1290,
+            1
+          ]
+        },
+        {
+          "wallMs": 74.9457569999995,
+          "cpuUserMs": 83.922,
+          "cpuSystemMs": 0.163,
+          "phase": "reward-map",
+          "counts": [
+            7,
+            0,
+            1740,
+            3447,
+            0
+          ]
+        },
+        {
+          "wallMs": 2.6144049999993513,
+          "cpuUserMs": 2.619,
+          "cpuSystemMs": 0,
+          "phase": "disable",
+          "counts": [
+            0,
+            0,
+            38,
+            61,
+            0
+          ]
+        }
+      ],
+      "workloadSha256": "0c04ce1b19d84fd9d19785e3bd843ecc446698c8475d2c712cb812f7047fa6bd"
+    },
+    {
+      "side": "after",
+      "rows": [
+        {
+          "wallMs": 17.133516,
+          "cpuUserMs": 26.048,
+          "cpuSystemMs": 4.977,
+          "phase": "begin",
+          "counts": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "wallMs": 2086.502706,
+          "cpuUserMs": 3503.441,
+          "cpuSystemMs": 183.378,
+          "phase": "cold-host",
+          "counts": [
+            838,
+            244,
+            930,
+            1920,
+            0
+          ]
+        },
+        {
+          "wallMs": 1133.983217,
+          "cpuUserMs": 1535.884,
+          "cpuSystemMs": 86.574,
+          "phase": "warm-host",
+          "counts": [
+            36,
+            0,
+            968,
+            1981,
+            0
+          ]
+        },
+        {
+          "wallMs": 655.6517640000002,
+          "cpuUserMs": 927.168,
+          "cpuSystemMs": 20.395,
+          "phase": "start-map",
+          "counts": [
+            475,
+            31,
+            3568,
+            6787,
+            0
+          ]
+        },
+        {
+          "wallMs": 383.0492669999999,
+          "cpuUserMs": 753.584,
+          "cpuSystemMs": 12.376,
+          "phase": "map-combat",
+          "counts": [
+            529,
+            15,
+            2418,
+            5091,
+            0
+          ]
+        },
+        {
+          "wallMs": 430.0437099999999,
+          "cpuUserMs": 732.862,
+          "cpuSystemMs": 18.534,
+          "phase": "combat-turn",
+          "counts": [
+            1614,
+            2,
+            5303,
+            12410,
+            1
+          ]
+        },
+        {
+          "wallMs": 434.770622,
+          "cpuUserMs": 609.751,
+          "cpuSystemMs": 8.786,
+          "phase": "idle-300",
+          "counts": [
+            900,
+            0,
+            1800,
+            5400,
+            0
+          ]
+        },
+        {
+          "wallMs": 193.3027149999998,
+          "cpuUserMs": 366.37,
+          "cpuSystemMs": 0,
+          "phase": "deck-roundtrip",
+          "counts": [
+            763,
+            0,
+            2379,
+            5146,
+            0
+          ]
+        },
+        {
+          "wallMs": 197.40789399999994,
+          "cpuUserMs": 216.935,
+          "cpuSystemMs": 0.651,
+          "phase": "terminal-reward",
+          "counts": [
+            18,
+            3,
+            629,
+            1290,
+            1
+          ]
+        },
+        {
+          "wallMs": 69.6713609999997,
+          "cpuUserMs": 82.456,
+          "cpuSystemMs": 0.359,
+          "phase": "reward-map",
+          "counts": [
+            7,
+            0,
+            1740,
+            3447,
+            0
+          ]
+        },
+        {
+          "wallMs": 3.407857000000149,
+          "cpuUserMs": 7.989,
+          "cpuSystemMs": 0,
+          "phase": "disable",
+          "counts": [
+            0,
+            0,
+            38,
+            61,
+            0
+          ]
+        }
+      ],
+      "workloadSha256": "0c04ce1b19d84fd9d19785e3bd843ecc446698c8475d2c712cb812f7047fa6bd"
+    }
+  ],
+  "limitations": [
+    "One before then after VM only; not a replacement for the retained three-pair adverse result.",
+    "Per-phase process CPU and wall include observer and timing instrumentation; startup before first mark is omitted.",
+    "Diagnostic only: cannot prove no regression, causality or device performance."
+  ]
+}

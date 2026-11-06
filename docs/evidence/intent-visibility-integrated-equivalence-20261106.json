@@ -1,0 +1,240 @@
+{
+  "beforeSource": "f535f2d14b15e8af3fe49bf3e3af45900b4cae4fcc8f8ccb29a407cf6fdcc6d9",
+  "afterSource": "47157bd6b5d4819f674dfd0b542f40eda91268977b196f1f230a4815a60dd145",
+  "graphBytes": 20329626,
+  "graphSha256": "d888941e5c84ddde1f58355a7f0753e818f60b4ad57f134f9056de4a2eb850b9",
+  "equal": true,
+  "samples": [
+    {
+      "side": "before",
+      "counts": [
+        {
+          "phase": "begin",
+          "counts": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "phase": "cold-host",
+          "counts": [
+            838,
+            244,
+            930,
+            1920,
+            0
+          ]
+        },
+        {
+          "phase": "warm-host",
+          "counts": [
+            36,
+            0,
+            968,
+            1981,
+            0
+          ]
+        },
+        {
+          "phase": "start-map",
+          "counts": [
+            475,
+            31,
+            3568,
+            6787,
+            0
+          ]
+        },
+        {
+          "phase": "map-combat",
+          "counts": [
+            529,
+            15,
+            2424,
+            5097,
+            0
+          ]
+        },
+        {
+          "phase": "combat-turn",
+          "counts": [
+            1614,
+            2,
+            5662,
+            12769,
+            1
+          ]
+        },
+        {
+          "phase": "idle-300",
+          "counts": [
+            900,
+            0,
+            3600,
+            7200,
+            0
+          ]
+        },
+        {
+          "phase": "deck-roundtrip",
+          "counts": [
+            763,
+            0,
+            2391,
+            5158,
+            0
+          ]
+        },
+        {
+          "phase": "terminal-reward",
+          "counts": [
+            18,
+            3,
+            629,
+            1290,
+            1
+          ]
+        },
+        {
+          "phase": "reward-map",
+          "counts": [
+            7,
+            0,
+            1740,
+            3447,
+            0
+          ]
+        },
+        {
+          "phase": "disable",
+          "counts": [
+            0,
+            0,
+            38,
+            61,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "side": "after",
+      "counts": [
+        {
+          "phase": "begin",
+          "counts": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "phase": "cold-host",
+          "counts": [
+            838,
+            244,
+            930,
+            1920,
+            0
+          ]
+        },
+        {
+          "phase": "warm-host",
+          "counts": [
+            36,
+            0,
+            968,
+            1981,
+            0
+          ]
+        },
+        {
+          "phase": "start-map",
+          "counts": [
+            475,
+            31,
+            3568,
+            6787,
+            0
+          ]
+        },
+        {
+          "phase": "map-combat",
+          "counts": [
+            529,
+            15,
+            2418,
+            5091,
+            0
+          ]
+        },
+        {
+          "phase": "combat-turn",
+          "counts": [
+            1614,
+            2,
+            5303,
+            12410,
+            1
+          ]
+        },
+        {
+          "phase": "idle-300",
+          "counts": [
+            900,
+            0,
+            1800,
+            5400,
+            0
+          ]
+        },
+        {
+          "phase": "deck-roundtrip",
+          "counts": [
+            763,
+            0,
+            2379,
+            5146,
+            0
+          ]
+        },
+        {
+          "phase": "terminal-reward",
+          "counts": [
+            18,
+            3,
+            629,
+            1290,
+            1
+          ]
+        },
+        {
+          "phase": "reward-map",
+          "counts": [
+            7,
+            0,
+            1740,
+            3447,
+            0
+          ]
+        },
+        {
+          "phase": "disable",
+          "counts": [
+            0,
+            0,
+            38,
+            61,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "scope": "Full final Host/run/native reachable fields and alias/metatable graph after the fixed route, not per-frame output or official device evidence."
+}
