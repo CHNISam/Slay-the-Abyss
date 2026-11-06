@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-06 01:46'
-updated_date: '2026-11-06 03:35'
+updated_date: '2026-11-06 03:40'
 labels: []
 milestone: m-7
 dependencies: []
@@ -45,4 +45,6 @@ PR #523 首份离线Host全路径基线已实现：固定实际seed、源摘要�
 补充schema2逐阶段原生方法/属性名计数及总数一致性门禁，6项定向测试通过；一次诊断定位300帧写入来源，非优化结论。待#521最终组合刷新正式三样本/源摘要，不复用旧核心证据。
 
 独立visibility切片仅缓存六个intent控件，name外部owner及真实动画保留。完整Host A/B最终约20MB图逐字相等，idle300调用3600→1800/属性7200→5400；几何12项、可见性正负控与完整图、静态/架构通过。escape重入独审问题已修。精确CI库存/最终组合及合后验收待，见docs/backlog-details/TASK-100-VISIBILITY.md。
+
+visibility切片补齐3组交错同源全路径A/B离线计时；业务输出和操作类别一致，P50 6077.48→5781.42ms/P95 6209.17→5975.11ms，n=3无统计/设备保证。原始样本及完整来源已存intent-visibility-timing-20261106.json，等待最终组合与CI。
 <!-- SECTION:NOTES:END -->

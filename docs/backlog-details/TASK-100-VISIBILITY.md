@@ -17,3 +17,9 @@
 - 固定Luacheck1.2.0：无新增诊断，现有渲染/职责复杂度硬门禁通过。完整架构检查通过，328模块/1902引用位置。
 
 独审最初复现escape setter重入后留下缓存，已按上述协议修复并增加真实writer回归及删除post-clear负控。最终精确HEAD独审、原CI、#521/#523依赖及实际合后Full尚待，未重复本地Full。新增JS/Lua须在最终组合更新实际CI库存与未测成本清单；共享CI文件同时由#521/#525维护，暂不抢写。TASK-100所有AC仍未勾。
+
+## 三组交错离线墙钟观察
+
+`node scripts/benchmark-intent-visibility.mjs` 在同源下交错执行 before→after、after→before、before→after。每次全新VM、30秒原预算；保留同观察器和完整路径，仅关闭昂贵最终图序列化，图等价由前述独立验证承担。源集合前后相等，全部业务stdout摘要相同，同侧逐阶段计数一致，跨侧require/load/snapshot计数一致。[三组原始样本、来源与环境](../evidence/intent-visibility-timing-20261106.json)。
+
+本次 before/after 墙钟分别为6002.97/5975.11、6209.17/5781.42、6077.48/5759.42毫秒。nearest-rank P50为6077.48→5781.42毫秒，P95为6209.17→5975.11毫秒；每侧仅3样本，P95就是最大值，不是稳定尾延迟或统计保证。计时包含VM启动与观察器；不能推广到官方Lua、手机或其他敌人数量，也不替代#521合入后的组合验证。

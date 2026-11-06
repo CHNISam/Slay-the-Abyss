@@ -7,6 +7,8 @@ const {lua,lauxlib,lualib,to_luastring,to_jsstring}=require('fengari');
 const L=lauxlib.luaL_newstate();lualib.luaL_openlibs(L);
 installLuaGraphObserver(L,'VISIBILITY_STATE',(label,graph)=>console.log('VISIBILITY_GRAPH '+graph));
 const baseline=process.argv[2]==='before';
+const timed=process.argv[3]==='--timed';
+if(process.argv[3]&&!timed)throw Error('unexpected mode');
 if(!baseline&&process.argv[2]!=='after')throw Error('expected before or after');
 const execute=source=>{if(lauxlib.luaL_dostring(L,to_luastring(source))!==lua.LUA_OK)throw Error(to_jsstring(lua.lua_tostring(L,-1)));};
 if(baseline){
@@ -27,6 +29,6 @@ observer=observer.replace('for k in pairs(fields)do',"VISIBILITY_STATE_CONTROL(c
 let host=readFileSync('scripts/runtime-baseline/host.lua','utf8');
 host=host.replace("local observe=dofile('scripts/runtime-baseline/observer.lua')",`local observe=assert(load(${JSON.stringify(observer)},'@visibility-observer'))()`);
 // Compare every reachable final Host/run/native field, aliases and metatables.
-host+="\nVISIBILITY_STATE_WRITE({host=host,root=root},'final')\n";
+if(!timed)host+="\nVISIBILITY_STATE_WRITE({host=host,root=root},'final')\n";
 execute(host);
 console.log('VISIBILITY_COUNTS '+JSON.stringify(rows));
