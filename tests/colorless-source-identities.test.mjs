@@ -9,7 +9,7 @@ const snake = name => name.replace(/([A-Z]+)([A-Z][a-z])/g, '$1_$2')
 // Scope by fixed source class/path, never by the candidate sourceId being tested.
 const expected = new Map(registration.filter(row => row.sourcePath.startsWith('cards/colorless/'))
   .map(row => [snake(row.class), row]));
-const source = read('src/lua/abyss_colorless_cards.lua');
+const source = read('src/lua/abyss_colorless_catalog.lua');
 function verify(text) {
   const rows = [...text.matchAll(/card\('([^']*)','[^']*','([^']*)'/g)]
     .map(match => [match[1], match[2]]);
