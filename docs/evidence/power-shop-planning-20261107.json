@@ -1,0 +1,246 @@
+{
+  "schemaVersion": 1,
+  "kind": "local-complete-file-planning-floor",
+  "file": "tests/power-shop-boundaries.test.mjs",
+  "beforeTimingsLfSha256": "a5841ddaa53d8bc810f9c16ae342ed2de8cb5479bbcb073562d2c6c921ed1b24",
+  "durationMs": 68586,
+  "environment": {
+    "node": "v24.18.0",
+    "platform": "win32",
+    "arch": "x64",
+    "osRelease": "10.0.26200",
+    "scope": "Local Windows complete test file; not a hosted Windows or Linux measurement."
+  },
+  "completedRun": {
+    "path": "build/power-shop-stable-run.log",
+    "sha256": "9a6df9196a37baf2152bd7a02dad5dda1112924330adff1d89512c51b9a3e79c",
+    "rawTap": "✔ Power ordering cold load is independent of turn and combat execution (115.2368ms)\r\n✔ power_schedule: independent old/current VMs retain full state, aliases, RNG and error results (5317.3489ms)\r\n✔ turn_power_plans: independent old/current VMs retain full state, aliases, RNG and error results (13484.1752ms)\r\n✔ shop_complete_source: independent old/current VMs retain full state, aliases, RNG and error results (9850.3589ms)\r\n✔ shop_card_identity: independent old/current VMs retain full state, aliases, RNG and error results (37935.2622ms)\r\n✔ Power ordering cannot reach an executor through immediate or deferred AST dependencies (1489.1048ms)\r\n✔ the metadata leaf main chunk and nested helpers actually enforce CC15 (1.3506ms)\r\n✔ the new source epoch keeps complete old Git sources and freshly authenticates all current owners (46.9969ms)\r\nPOWER_SHOP_RESOURCE {\"testProcessMaxRSSKiB\":2324108}\r\nℹ tests 8\r\nℹ suites 0\r\nℹ pass 8\r\nℹ fail 0\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 68585.5837\r\n",
+    "tests": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 68585.5837,
+    "encoding": "Existing stable complete-graph encoding, third Lua observer argument true; every checkpoint still traverses fields, aliases and metatables.",
+    "checkpoints": 694,
+    "bytesPerSide": 55585110,
+    "reports": [
+      {
+        "path": "build/power-shop/power_schedule.json",
+        "sha256": "78481368a461e6b81e2f63e1a5b5b6783da3e835ba0df28d948df74c9fd74d5d",
+        "checkpoints": 170,
+        "bytesPerSide": 9937760
+      },
+      {
+        "path": "build/power-shop/turn_power_plans.json",
+        "sha256": "8c8631267ab85f5a0a508326cd061774eb3317de15454b707bf9a1d5e11d46b2",
+        "checkpoints": 400,
+        "bytesPerSide": 14483813
+      },
+      {
+        "path": "build/power-shop/shop_complete_source.json",
+        "sha256": "53cf9cdc059497f05737d6436504a1ab323f41fa216a337e04e3d1064fae898c",
+        "checkpoints": 16,
+        "bytesPerSide": 13016535
+      },
+      {
+        "path": "build/power-shop/shop_card_identity.json",
+        "sha256": "49a861fad2eb2010afca74d82cc7904636e767fd62a5d87bdc2cd8f7b6e69700",
+        "checkpoints": 108,
+        "bytesPerSide": 18147002
+      }
+    ],
+    "testProcessMaxRSSKiB": 2324108,
+    "rssScope": "Node test child process peak RSS, not devices; no heap limit changed."
+  },
+  "sourceIdentity": {
+    "base": "2c85bc618f39a4706dbc108eca0ebe5797630081",
+    "state": "Uncommitted Power/Shop candidate; post-run identities captured with measured inputs held unchanged.",
+    "ownerFiles": [
+      {
+        "path": "config/architecture.json",
+        "sha256LF": "c50bf5e59d8a439ed602dd7dc7437bd8cc8a50f8e947b6e795be2372a8ecbe09"
+      },
+      {
+        "path": "src/lua/abyss_power_order.lua",
+        "sha256LF": "7ce009e48cc6eaa9a67fbb713388e01d36fb587249ceb9353efc2fd114ac1cea"
+      },
+      {
+        "path": "src/lua/abyss_turn_powers.lua",
+        "sha256LF": "1708245a6366e94ffabae72d9ff3af48c0d578815307a022dcc82f3e4e475ac8"
+      },
+      {
+        "path": "src/lua/abyss_turn_power_phases.lua",
+        "sha256LF": "7ac6b71d7f54c871cb992af2fe02dade51557b84446f03e54e59f14d3d92e93b"
+      },
+      {
+        "path": "src/lua/abyss_shop.lua",
+        "sha256LF": "562effbddab2b0e5e7e921eb9a94be12940fdabd7799c5d829fee524bd5ae5f6"
+      }
+    ],
+    "selectedFiles": [
+      {
+        "path": "tests/power-shop-boundaries.test.mjs",
+        "sha256LF": "f861bedc278dad74ebc76499cfdd22703c9a224b28c2b8f60a9e5ab34f02d7f4"
+      },
+      {
+        "path": "tests/helpers/lua-graph-observer.mjs",
+        "sha256LF": "a93fb46a50b261dea20156bd1d0c2dfdfe06c912b13966ccb9568e6fe9229b3f"
+      },
+      {
+        "path": "tests/helpers/power-shop-source-inverse.mjs",
+        "sha256LF": "0149c11c6ecb9024916ff00a0443dba1622ebb890edbb6cbe720903e6bf592f5"
+      },
+      {
+        "path": "scripts/check-architecture.mjs",
+        "sha256LF": "6e8b193664ef197400665293bdd5f3263ad9c054f3ddbf25972181386c38ee21"
+      },
+      {
+        "path": "scripts/check-lua-static.mjs",
+        "sha256LF": "fdb06fe55431effea8b9834931988e2906667740d66dc830846e50a681aee03a"
+      },
+      {
+        "path": "scripts/lua-quality-metrics.mjs",
+        "sha256LF": "a558b68b6280998888a36cd7e4609f52a14e9d64a361ca1e50e53969708ff2fe"
+      },
+      {
+        "path": "tests/lua/power_schedule.lua",
+        "sha256LF": "2663ec8cea6799e2525b1a5b1e1aea8a10063c7e2f501884df234091d7fc075e"
+      },
+      {
+        "path": "tests/lua/turn_power_plans.lua",
+        "sha256LF": "35adb9de6464789efee842db245a59f3dcba29232bd5f4d85a1163a8092f67a4"
+      },
+      {
+        "path": "tests/lua/shop_complete_source.lua",
+        "sha256LF": "5aa9936ef8e5680fed44e52446ab9e8fbf18bf6ad333290f2edd211d391ed5e8"
+      },
+      {
+        "path": "tests/lua/shop_card_identity.lua",
+        "sha256LF": "b620b733b7192697d8bdf11025c19ded420e267bee7baad8f0e6f2aff7a8d32b"
+      },
+      {
+        "path": "package-lock.json",
+        "sha256LF": "b3f3cbd334fee96bcebeb6645c909a9b64425d0d704fd179b4279b19e1cf2ed9"
+      },
+      {
+        "path": "tests/helpers/power-shop-before-2c85.json.gz",
+        "sha256": "9a0e812b775133a4052eaba470bbc6a82eb4b447b5d7cb0f05e4c0bdbb98a52c"
+      }
+    ],
+    "sourceLua": {
+      "directory": "src/lua",
+      "extension": ".lua",
+      "count": 334,
+      "sortedPathAndLfHashSha256": "3f723072cc9dc05abefaa0425dfe310364a0cd9c80516fbb3fcc71061f7a5898"
+    },
+    "generatedLua": {
+      "directory": "build/lua",
+      "extension": ".lua",
+      "count": 16,
+      "sortedPathAndLfHashSha256": "97698aae0239ad4d495ec65334cc9dd0e453d16cb7e898ec287ca99f09338eac"
+    },
+    "scope": "Provenance of this measurement epoch; not permission to freeze future source or ignored dependencies."
+  },
+  "historicalFullEncoding": {
+    "path": "build/power-shop-final-run.log",
+    "sha256": "f328121b4268fa81c9734de68bc1711da737b45d857ba769bd3b4754e91531f5",
+    "rawTap": "✔ Power ordering cold load is independent of turn and combat execution (194.0889ms)\r\n✔ power_schedule: independent old/current VMs retain full state, aliases, RNG and error results (11048.7271ms)\r\n✔ turn_power_plans: independent old/current VMs retain full state, aliases, RNG and error results (33336.7565ms)\r\n✔ shop_complete_source: independent old/current VMs retain full state, aliases, RNG and error results (25191.9057ms)\r\n✔ shop_card_identity: independent old/current VMs retain full state, aliases, RNG and error results (80328.174ms)\r\n✔ Power ordering cannot reach an executor through immediate or deferred AST dependencies (2454.538ms)\r\n✔ the metadata leaf main chunk and nested helpers actually enforce CC15 (2.1361ms)\r\n✔ the new source epoch keeps complete old Git sources and freshly authenticates all current owners (75.638ms)\r\nℹ tests 8\r\nℹ suites 0\r\nℹ pass 8\r\nℹ fail 0\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 153107.4336\r\n",
+    "tests": 8,
+    "passed": 8,
+    "skipped": 0,
+    "durationMs": 153107.4336,
+    "checkpoints": 694,
+    "bytesPerSide": 335541022,
+    "reports": [
+      {
+        "path": "F:/New folder/.artifacts/m7-architecture-1107/full-encoding-receipts/power_schedule.json",
+        "sha256": "b0c6c5352f1c53810933af4d9a1b47111d384ae33307bca424884fef2ba04645",
+        "checkpoints": 170,
+        "bytesPerSide": 65667890
+      },
+      {
+        "path": "F:/New folder/.artifacts/m7-architecture-1107/full-encoding-receipts/turn_power_plans.json",
+        "sha256": "44e02a14aac6070bd4089457ce767279d60d357d890b5ce6aec4c7026c3272fc",
+        "checkpoints": 400,
+        "bytesPerSide": 183347336
+      },
+      {
+        "path": "F:/New folder/.artifacts/m7-architecture-1107/full-encoding-receipts/shop_complete_source.json",
+        "sha256": "016a7f977cb9a892a8325db18c8af2701585a96af7795dd9a685ddbb4474c0d7",
+        "checkpoints": 16,
+        "bytesPerSide": 12863829
+      },
+      {
+        "path": "F:/New folder/.artifacts/m7-architecture-1107/full-encoding-receipts/shop_card_identity.json",
+        "sha256": "d29bafaf17d6749041e70cb4fb6b1e3007d5bb77767a6dcd551b5c6402351d36",
+        "checkpoints": 108,
+        "bytesPerSide": 73661967
+      }
+    ],
+    "rejectedPlanningForecast": {
+      "win32MaxPlusReserveMs": 1718553,
+      "linuxMaxPlusReserveMs": 1201367,
+      "reserveMs": 60000,
+      "budgets": {
+        "win32": 1800000,
+        "linux": 1200000
+      },
+      "inventory": {
+        "js": 745,
+        "lua": 1401
+      }
+    },
+    "reason": "Existing stable encoding avoids re-emitting unchanged definitions while retaining every graph traversal and checkpoint and making cross-checkpoint identity stricter. These two differently encoded workloads are not a controlled speed comparison."
+  },
+  "planningEffect": {
+    "inventory": {
+      "js": 745,
+      "lua": 1401
+    },
+    "shape": {
+      "windows": 17,
+      "posix": 13
+    },
+    "workers": 2,
+    "concurrencyCapUnchanged": 12,
+    "reserveMs": 60000,
+    "budgets": {
+      "win32": 1800000,
+      "linux": 1200000
+    },
+    "before": {
+      "win32MaxPlusReserveMs": 1710141,
+      "linuxMaxPlusReserveMs": 1190361
+    },
+    "after": {
+      "win32MaxPlusReserveMs": 1713559,
+      "linuxMaxPlusReserveMs": 1194863
+    },
+    "actualHostedPassClaim": false,
+    "anticipated539Integration": {
+      "status": "prediction only; source PR not yet integrated into this candidate",
+      "additionalJs": [
+        "tests/intent-visibility-cache.test.mjs",
+        "tests/repository-costs.test.mjs"
+      ],
+      "additionalLua": [
+        "tests/lua/intent_visibility_cache.lua"
+      ],
+      "inventory": {
+        "js": 747,
+        "lua": 1402
+      },
+      "after": {
+        "win32MaxPlusReserveMs": 1715277,
+        "linuxMaxPlusReserveMs": 1196405
+      },
+      "unmeasuredFilesRetainUnknownCosts": true,
+      "requiresActualCombinedRecheck": true
+    }
+  },
+  "limitations": [
+    "A single complete local run is a placement estimate, not a platform observation or runtime guarantee.",
+    "All nine existing floors, hosted maps, unknown costs, raw worker safety, job budgets and shared shape remain unchanged.",
+    "Historical full-encoding data and its failed 13-POSIX budget forecast remain retained; no retry or source-oracle reduction."
+  ]
+}

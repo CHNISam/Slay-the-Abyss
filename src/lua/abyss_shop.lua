@@ -45,8 +45,8 @@ local function streams(run)
     local seed=run.eventSeed or string.format('%.0f',run.seed)
     return { merchant=R.fromSeed(seed),potion=R.fromSeed(seed) }
 end
-local function cardOffer(run,rng,cardOwner,slot,kind,color,rarity,previous,restock,external)
-    local def,sourceCardId,selected,metadata
+local function selectShopCard(run,cardOwner,kind,color,rarity,previous,external)
+    local selected
     -- The original rerolls both rarity and card for duplicate attack/skill.
     -- Bounded only to prevent an incomplete supported pool hanging the game.
     repeat
@@ -61,6 +61,12 @@ local function cardOffer(run,rng,cardOwner,slot,kind,color,rarity,previous,resto
         if external then selected=pool[Primitive.nextInt(external,#pool)+1]
         else selected=pool[R.randomInt(cardOwner.cardRng,#pool-1)+1] end
     until selected~=previous
+    return selected,rarity
+end
+local function cardOffer(run,rng,cardOwner,slot,kind,color,rarity,previous,restock,external)
+    local selected
+    selected,rarity=selectShopCard(run,cardOwner,kind,color,rarity,previous,external)
+    local def,sourceCardId,metadata
     for _,card in ipairs(run.data.cards.cards)do if card.id==selected then def=card;break end end
     metadata=(run.data.cards.sourcePools.cardSourceMetadata or {})[selected]
     sourceCardId=metadata and metadata.sourceId or def and (def.sourceId or def.sts_name or def.id) or selected

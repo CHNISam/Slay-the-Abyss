@@ -5118,6 +5118,16 @@
         "sourceJobId": 127755728122,
         "sourceReceipt": "docs/evidence/pr521-run-max-planning-floor-20261106.json",
         "sourceReceiptSha256": "503e94c83632f032d6b160ae24ec6b3d33f8d91c4c0f734d91056f4371a750b0"
+      },
+      "tests/power-shop-boundaries.test.mjs": {
+        "durationMs": 68586,
+        "environment": "local Windows",
+        "coverage": "8/8 complete file passed; 0 skipped; stable complete-graph observer",
+        "kind": "Local complete-run planning estimate only; not hosted or Linux measurement.",
+        "sourceLog": "build/power-shop-stable-run.log",
+        "sourceLogSha256": "9a6df9196a37baf2152bd7a02dad5dda1112924330adff1d89512c51b9a3e79c",
+        "sourceReceipt": "docs/evidence/power-shop-planning-20261107.json",
+        "sourceReceiptSha256": "52570c893c538ac0c5ab592e3b6d89afe883495ea6624fa4f35abaad3053f8f7"
       }
     }
   },

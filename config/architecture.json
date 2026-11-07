@@ -130,6 +130,7 @@
     "abyss_pile_choice": "core",
     "abyss_poison": "core",
     "abyss_power_order": "core",
+    "abyss_turn_power_phases": "core",
     "abyss_power_schedule": "core",
     "abyss_retained_cards": "core",
     "abyss_retrieval_cards": "core",
@@ -434,6 +435,12 @@
     {"from":"abyss_writhing_mass","to":"abyss_relic_family_combat","reason":"Only an actual Parasite obtain invokes common before/onObtainCard rules with its owner-matched permanent health adapter."}
   ],
   "dependencyBoundaries": [
+    {
+      "id": "power-metadata-independence",
+      "from": ["abyss_power_order", "abyss_power_schedule", "abyss_turn_power_phases"],
+      "forbiddenTargets": ["abyss_actor", "abyss_combat", "abyss_turn_powers"],
+      "reason": "Power metadata and acquisition ordering do not load combat or turn execution; their complete dependency closure is checked by contract."
+    },
     {
       "id": "relic-combat-session-independence",
       "from": [

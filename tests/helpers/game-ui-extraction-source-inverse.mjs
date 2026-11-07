@@ -64,23 +64,23 @@ export function gameUiExtractionReader(readSource=readLive){
 }
 const inside=(root,target)=>{const rel=relative(root,target);return !!rel&&!isAbsolute(rel)&&rel!=='..'&&!rel.startsWith('..\\')&&!rel.startsWith('../');};
 export function prepareGameUiExtractionModuleRetirement(directory,{sourceRoot=process.cwd()}={}){
- const destination=realpathSync(directory),source=realpathSync(sourceRoot);
+ const destination=realpathSync.native(directory),source=realpathSync.native(sourceRoot);
  // Historical materializers create real copies under sourceRoot/build so they
  // inherit installed dependencies. Protect live code/owners, not all descendants.
  assert.ok(destination!==source&&!inside(destination,source),'GameUI extraction retirement requires an isolated historical destination');
  const liveDirectories=new Set(),liveOwners=new Set();
  function targets(){
-  assert.equal(realpathSync(directory),destination,'GameUI extraction retirement destination changed after preparation');
-  const lua=join(source,'src/lua');if(existsSync(lua))liveDirectories.add(realpathSync(lua));
+  assert.equal(realpathSync.native(directory),destination,'GameUI extraction retirement destination changed after preparation');
+  const lua=join(source,'src/lua');if(existsSync(lua))liveDirectories.add(realpathSync.native(lua));
   for(const path of gameUiExtractionAddedPaths){
-   const owner=join(source,path);if(existsSync(owner))liveOwners.add(realpathSync(owner));
+   const owner=join(source,path);if(existsSync(owner))liveOwners.add(realpathSync.native(owner));
   }
   assert.ok([...liveDirectories].every(root=>destination!==root&&!inside(root,destination)&&!inside(destination,root)),
    'GameUI extraction retirement requires an isolated historical destination');
   const result=[];
   for(const path of gameUiExtractionAddedPaths){
    const target=join(directory,path);if(!existsSync(target))continue;
-   const actual=realpathSync(target);
+   const actual=realpathSync.native(target);
    assert.ok(inside(destination,actual)&&!liveOwners.has(actual)
     &&![...liveDirectories].some(root=>actual===root||inside(root,actual)),
     'GameUI extraction retirement target aliases source: '+path);

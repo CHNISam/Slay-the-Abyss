@@ -1,0 +1,36 @@
+# M7：Power 排序依赖与商店选牌职责
+
+接续 TASK-74.19 / TASK-74.20，完整旧源固定为 develop `2c85bc618f39a4706dbc108eca0ebe5797630081`。本片只交付下面两个源码边界及其必要验证，不表示剩余架构热点已验收。
+
+## 实际源码改动
+
+`abyss_power_order` 原为取得静态 `scheduledIds`，加载 `abyss_turn_powers` 及 Actor、Orb、职业行为执行器。将原阶段表和初始化 union 原样移到无依赖的 `abyss_turn_power_phases`；排序与执行器都静态读取它。排序可独立冷加载，Actor/Combat/TurnPowers 均不出现于已加载模块。没有注册表、隐藏 require、队列或新状态提交者。
+
+执行器仍在每次计划调用中读取公开 `M.phases[phase]`；换表和修改 filter 有真实服务回归。`scheduledIds` 保持初始化 union，phase 换表不重算它。该字段表示固定源元数据；仓库没有“先替换执行器 scheduledIds 整表，再首次加载排序”的调用，本片不为这种未使用路径引入反向代理。原始表成员、字段读取和现有运行路径均保留。排序与 Schedule 的双向协作保留：一次已成功的 Power 应用维护 acquisition/scheduling 两本序簿，合并它们不能凭 SCC 数字决定。
+
+实际退出81成员大环的是 `act3_powers`、`awakened_one`、`darklings`、`nemesis`、`plated_armor`、`power_order`、`power_schedule` 七模块。后两者仍构成独立2环；完整含延迟导入的图未隐藏这些边。
+
+`abyss_shop.cardOffer` 原把重复卡重抽、两种身份随机源、稀有度规则和商品字段/报价/preview 放在同一函数。私有 `selectShopCard` 只承担原 repeat 的完整选取策略，返回身份及最终稀有度；商品构造留在原 owner。每轮重读池、重复时同时重抽稀有度与身份、缺实现仍保留原 source、商人价格随机、Courier 及晚失败事务顺序不变。
+
+原 cardOffer CC32 分为 selector CC10、商品构造 CC23。保留23有具体依据：主要分支是 sourceId/type 元数据缺省及 initial/restock 的 nil/false/折扣选择；继续拆会分散一个商品的字段缺省语义。目前没有为它新建模块、配置表或通用工厂的收益。
+
+## 验证与防回退
+
+- 完整旧源以 SHA256 和独立 Git blob 双校验冻结；两套新 VM 执行原 Power/商店 fixture，比较全部可达状态、别名、RNG、事件和 pcall 返回，不复制产品逻辑作 oracle。首个完整运行四组共694检查点、每侧335,541,022字节；最终确数以本轮机器收据为准。
+- 实际冷加载合同在旧源码红、当前绿。AST 完整依赖闭包包含延迟 require，并有直接/延迟反向边负控；metadata 必须为叶模块。新叶的 main chunk、所有函数及嵌套回调均受 CC15，selector 也有同一硬门禁。
+- 最终差分复用现有稳定图流编码，每次仍重新读所有可达字段，只省略重复定义；跨检查点对象身份也参与比较。同694检查点的稳定证据流每侧55,585,110字节，完整8/8运行68,585.5837ms，测试子进程峰值RSS 2,324,108KiB。此本机运行用于保守分配成本，不是hosted/Linux测量，也不是不同负载两次运行的严格性能比较。
+- `turn_power_plans` 唯一初始差异是未变断言的诊断位置83→77行。仅在该断言的差分观察中映射位置；原始错误逐项保存、真实抛出值保持。其他失败、非字符串错误和状态字段仍逐字比较。
+- 复用四组独立 merchant oracle，覆盖真实 duplicate 重抽、所有替换类型、折扣、External/merchant/card 随机流及抽样后抛错回滚；不更新旧 oracle。
+- 新完整源码 epoch 仅将精确当前组合投影到固定旧源，每次新鲜验证全部 owner，未知/缺失/篡改输入拒绝。历史 archive、旧源哈希和来源读取计数保持。
+
+验证还暴露原历史清理器在本机 junction 上使用 JS `realpathSync` 未解引用的问题，两条原拒绝断言真实失败。统一使用 `realpathSync.native` 取得实际目标，保留完整身份、全部目标先验证后删除、延迟重验及原断言；13项历史 UI 源码/文件系统合同通过，读取/打开计数未改。
+
+新差分文件不能按10秒 unknown 成本分配。将完整68,585.5837ms运行记为68,586ms本地 planning floor，[成本来源](../evidence/power-shop-planning-20261107.json)保留原完整运行和输入身份；原129项托管观测修正、9个旧floor、17/13布局、worker和全部预算均不动。预取#539库存并集的预测为Windows1,715,277ms、POSIX1,196,405ms，均包含原60秒余量；POSIX额外余量仅3,595ms，必须实际整合和Full验证，预测不当作成功CI。
+
+## 剩余治理与交付边界
+
+本片同口径新鲜扫描为334模块、5387/5387测量、CC>15 237、CC>30 57、最大75；SCC 74/15/2。基线对应333、5385/5385、237/58/75和81/15。源码摘要、完整边和高CC名单由本轮机器附件绑定；后续合入其他切片后应再次采集，不能把这份脏树测量冒充实际 develop。
+
+最大环减少的实际收益是通用 Power 排序脱离行为执行器，CC 减少的实际收益是商店熵选择与商品构造分开。Session15和其事务所有权没有改变。Inventory 的 opening/validate/apply、其他战斗/事件及 UI 热点仍未完成；下一候选继续检查即时健康效果与排队效果的职责边界，不以一个高风险模块暂缓而停止治理。该优先级不是对57处残余的整体接受。
+
+本轮没有官方导入、ready、设备或 native 旧事件顺序证据。精确独审、PR Full、原生队列和实际合后 Full 分别验收；源码/离线通过不能提前完成任务 AC。
