@@ -1,0 +1,17 @@
+{
+  "scope": "PR544 existing LFS cache correction; Windows fixture follow-up",
+  "baseSha": "2ad07111e3d5b5cb52b4229860b3b780941e29a9",
+  "previousHeadSha": "ef931ee2ee9052c0538fc1ddfd9dc9a3e13b6167",
+  "environment": {"platform": "win32", "node": "22.22.1", "hostedNode": "24.18.0 (not certified by these local runs)"},
+  "cause": "JS realpath preserved the Windows ADMINI~1 alias while native Git LFS reported Administrator; lexical containment rejected the same physical fixture. realpathSync.native canonicalizes fixture roots and existing ancestors consistently.",
+  "productionScriptChanged": false,
+  "runs": [
+    {"log": "build/lfs-windows-path/before.log", "scope": "actual Git LFS", "result": "1 passed, 8 failed; original path containment assertions"},
+    {"log": "build/lfs-windows-path/after.log", "scope": "original full repository-costs test file", "result": "27 passed, 1 inherited-config child deadline failed, 3 existing Windows symlink skips; all nine real LFS cases passed"},
+    {"log": "build/lfs-windows-path/inherited-after.log", "scope": "inherited global and command config", "result": "1 passed; all 9 cases x 2 configurations retained in 3-case children, original 30000ms child timeout and all assertions retained; 108650.187ms"},
+    {"log": "build/lfs-windows-path/guard.log", "scope": "new canonicalization and mutation boundary regression", "result": "1 passed; valid descendant accepted, root/sibling prefix/real junction escape rejected"}
+  ],
+  "full": "not rerun locally; normal current-HEAD hosted and post-merge checks remain required",
+  "officialImport": "not_run",
+  "device": "not_run"
+}

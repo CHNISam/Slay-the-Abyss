@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-06 01:46'
-updated_date: '2026-11-07 01:37'
+updated_date: '2026-11-07 06:03'
 labels: []
 milestone: m-7
 dependencies: []
@@ -41,6 +41,8 @@ ordinal: 164000
 5. 从实际develop c685409d独立线性接续#522，纳入已审跨轮产物一致性修复；保留历史收据，仅定向回归与当前库存校验，不重复本地Full或三组真实构建。
 
 从最新develop线性接续#533，保留现行CI库存并集，经独立复审和正常CI交付；旧PR保留至成果验收。
+
+按本轮合并清理指令接续现有PR544：复现并修复Windows短路径与Git LFS长路径的夹具误判，完整保留缓存归属断言及九种路径；继承配置矩阵按原30秒子进程上限分三组，不增加重试或删场景。精确独审后仅更新原PR，Full及合后验收独立。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -59,4 +61,6 @@ ordinal: 164000
 2026-11-07 Owner明确恢复M7剩余治理和已有PR集成；本轮以de218e5c接续#533已审成本切片，不扩展实验、不重复采样、不回带旧核心状态。原三项AC继续未勾，技术证据追加到TASK-101附件。
 
 本轮固定Node24定向35项：32通过、3项按原Windows符号链接权限条件跳过，0失败；指引/任务/语法/diff检查通过，当前Backlog doctor通过。独立代码复审PASS；精确提交与远端Full/合后验收待，不把跳过或历史性能样本算当前跨平台证明。
+
+本轮PR544 Windows定向：修前实际LFS九组中八败，原生realpath探针证明ADMINI~1与Administrator别名误判。改用native规范化后九组全过；完整原31项27过/3原Windows符号链接跳过/1继承配置子进程超时，保留失败。未改30秒子进程上限，全部九组×两种继承配置分三组执行后通过；新增真实junction、同前缀相邻目录及根目录拒绝测试通过。生产脚本不变，未复跑业务Full或真实仓库性能测量。当前独审与新HEAD托管验证待，AC/owner/status不变。
 <!-- SECTION:NOTES:END -->
