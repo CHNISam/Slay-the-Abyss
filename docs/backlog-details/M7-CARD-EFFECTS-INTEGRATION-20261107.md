@@ -1,3 +1,5 @@
+> 历史两片集成记录：以下指标和59项结果只对应 [PR543 原提交 2fc0cbfd](https://github.com/FurinyaWorks/Slay-the-Abyss/commit/2fc0cbfd4dbb96eaafccfc6855dd5681b5b1a3cb)。追加Session及双方测试后的结果见 [最终并集](M7-SESSION-INVENTORY-SUPERSET-20261107.md)，不能把本记录当作新HEAD验收。
+
 # Watcher 与 Inventory 效果职责集成
 
 接续 TASK-74.20，以实际 develop `2ad07111e3d5b5cb52b4229860b3b780941e29a9`（#539）为基线，集成已独立实施并深审的 Watcher `1bccd73a` 与 Inventory `a6a4d8f9`。具体行为、冻结来源和负控见 [Watcher](M7-WATCHER-EXECUTION-20261107.md) 与 [Inventory](M7-INVENTORY-RESPONSIBILITIES-20261107.md)。同轮 Power 候选已与两者做本地组合验证，但因在途 [PR #541](https://github.com/FurinyaWorks/Slay-the-Abyss/pull/541) 已承接重叠职责，本次交付不含 Power、Shop 或其依赖配置，避免重复 PR 和 Full。

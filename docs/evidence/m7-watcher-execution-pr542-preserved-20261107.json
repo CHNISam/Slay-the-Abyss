@@ -1,0 +1,974 @@
+{
+  "schemaVersion": 1,
+  "baseRevision": "2c85bc618f39a4706dbc108eca0ebe5797630081",
+  "sourceIdentity": {
+    "beforeGitBlob": "4b318364ccf3786bdaf0204ead541535d6d3194b",
+    "beforeSha256": "343888e746943d3c97608033ac65f52fe02a390c0dba8283b23f18c4a2118018",
+    "afterSha256": "e4a2edb86d70500dc26174d7e0ea46a8879d7f88ba31fc34af839eaee7090224"
+  },
+  "tool": {
+    "version": "1.2.0",
+    "sha256": "d68da17fca0697d9e2fb04201f3884abd259fa558b3a449bccaed47f1390defc"
+  },
+  "before": {
+    "revision": "2c85bc618f39a4706dbc108eca0ebe5797630081",
+    "modules": 333,
+    "measurements": 5385,
+    "functions": 5052,
+    "ccGreater15": 237,
+    "ccGreater30": 58,
+    "maxComplexity": 75,
+    "watcher": [
+      {
+        "id": "$",
+        "name": "<chunk>",
+        "kind": "chunk",
+        "constructorName": false,
+        "line": 1,
+        "column": 1,
+        "endLine": 343,
+        "lines": 343,
+        "complexity": 1,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/copy#1",
+        "name": "copy",
+        "kind": "function",
+        "constructorName": false,
+        "line": 3,
+        "column": 7,
+        "endLine": 8,
+        "lines": 6,
+        "complexity": 11,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/e#1",
+        "name": "e",
+        "kind": "function",
+        "constructorName": false,
+        "line": 9,
+        "column": 7,
+        "endLine": 9,
+        "lines": 1,
+        "complexity": 3,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/power#1",
+        "name": "power",
+        "kind": "function",
+        "constructorName": false,
+        "line": 10,
+        "column": 7,
+        "endLine": 10,
+        "lines": 1,
+        "complexity": 2,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/make#1",
+        "name": "make",
+        "kind": "function",
+        "constructorName": false,
+        "line": 11,
+        "column": 7,
+        "endLine": 11,
+        "lines": 1,
+        "complexity": 5,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/derivative#1",
+        "name": "derivative",
+        "kind": "function",
+        "constructorName": false,
+        "line": 70,
+        "column": 7,
+        "endLine": 72,
+        "lines": 3,
+        "complexity": 2,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.withCards#1",
+        "name": "M.withCards",
+        "kind": "function",
+        "constructorName": false,
+        "line": 73,
+        "column": 1,
+        "endLine": 102,
+        "lines": 30,
+        "complexity": 24,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.withCards#1/add#1",
+        "name": "add",
+        "kind": "function",
+        "constructorName": false,
+        "line": 78,
+        "column": 8,
+        "endLine": 78,
+        "lines": 1,
+        "complexity": 1,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.describe#1",
+        "name": "M.describe",
+        "kind": "function",
+        "constructorName": false,
+        "line": 105,
+        "column": 1,
+        "endLine": 113,
+        "lines": 9,
+        "complexity": 5,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.supported#1",
+        "name": "M.supported",
+        "kind": "function",
+        "constructorName": false,
+        "line": 120,
+        "column": 1,
+        "endLine": 126,
+        "lines": 7,
+        "complexity": 7,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.created#1",
+        "name": "M.created",
+        "kind": "function",
+        "constructorName": false,
+        "line": 127,
+        "column": 1,
+        "endLine": 129,
+        "lines": 3,
+        "complexity": 1,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.drawn#1",
+        "name": "M.drawn",
+        "kind": "function",
+        "constructorName": false,
+        "line": 130,
+        "column": 1,
+        "endLine": 135,
+        "lines": 6,
+        "complexity": 3,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.freeAttack#1",
+        "name": "M.freeAttack",
+        "kind": "function",
+        "constructorName": false,
+        "line": 136,
+        "column": 1,
+        "endLine": 138,
+        "lines": 3,
+        "complexity": 3,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.used#1",
+        "name": "M.used",
+        "kind": "function",
+        "constructorName": false,
+        "line": 139,
+        "column": 1,
+        "endLine": 147,
+        "lines": 9,
+        "complexity": 5,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.cancelAutomatic#1",
+        "name": "M.cancelAutomatic",
+        "kind": "function",
+        "constructorName": false,
+        "line": 148,
+        "column": 1,
+        "endLine": 167,
+        "lines": 20,
+        "complexity": 13,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.gainedBlock#1",
+        "name": "M.gainedBlock",
+        "kind": "function",
+        "constructorName": false,
+        "line": 168,
+        "column": 1,
+        "endLine": 174,
+        "lines": 7,
+        "complexity": 5,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.endRound#1",
+        "name": "M.endRound",
+        "kind": "function",
+        "constructorName": false,
+        "line": 175,
+        "column": 1,
+        "endLine": 180,
+        "lines": 6,
+        "complexity": 2,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/target#1",
+        "name": "target",
+        "kind": "function",
+        "constructorName": false,
+        "line": 181,
+        "column": 7,
+        "endLine": 184,
+        "lines": 4,
+        "complexity": 5,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/top#1",
+        "name": "top",
+        "kind": "function",
+        "constructorName": false,
+        "line": 185,
+        "column": 7,
+        "endLine": 188,
+        "lines": 4,
+        "complexity": 1,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/normalized#1",
+        "name": "normalized",
+        "kind": "function",
+        "constructorName": false,
+        "line": 189,
+        "column": 7,
+        "endLine": 189,
+        "lines": 1,
+        "complexity": 2,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/foreignChoices#1",
+        "name": "foreignChoices",
+        "kind": "function",
+        "constructorName": false,
+        "line": 190,
+        "column": 7,
+        "endLine": 213,
+        "lines": 24,
+        "complexity": 12,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.choose#1",
+        "name": "M.choose",
+        "kind": "function",
+        "constructorName": false,
+        "line": 214,
+        "column": 1,
+        "endLine": 238,
+        "lines": 25,
+        "complexity": 22,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.execute#1",
+        "name": "M.execute",
+        "kind": "function",
+        "constructorName": false,
+        "line": 239,
+        "column": 1,
+        "endLine": 342,
+        "lines": 104,
+        "complexity": 75,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      }
+    ]
+  },
+  "after": {
+    "modules": 333,
+    "measurements": 5402,
+    "functions": 5069,
+    "ccGreater15": 236,
+    "ccGreater30": 57,
+    "maxComplexity": 69,
+    "watcher": [
+      {
+        "id": "$",
+        "name": "<chunk>",
+        "kind": "chunk",
+        "constructorName": false,
+        "line": 1,
+        "column": 1,
+        "endLine": 416,
+        "lines": 416,
+        "complexity": 1,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/copy#1",
+        "name": "copy",
+        "kind": "function",
+        "constructorName": false,
+        "line": 3,
+        "column": 7,
+        "endLine": 8,
+        "lines": 6,
+        "complexity": 11,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/e#1",
+        "name": "e",
+        "kind": "function",
+        "constructorName": false,
+        "line": 9,
+        "column": 7,
+        "endLine": 9,
+        "lines": 1,
+        "complexity": 3,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/power#1",
+        "name": "power",
+        "kind": "function",
+        "constructorName": false,
+        "line": 10,
+        "column": 7,
+        "endLine": 10,
+        "lines": 1,
+        "complexity": 2,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/make#1",
+        "name": "make",
+        "kind": "function",
+        "constructorName": false,
+        "line": 11,
+        "column": 7,
+        "endLine": 11,
+        "lines": 1,
+        "complexity": 5,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/derivative#1",
+        "name": "derivative",
+        "kind": "function",
+        "constructorName": false,
+        "line": 70,
+        "column": 7,
+        "endLine": 72,
+        "lines": 3,
+        "complexity": 2,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.withCards#1",
+        "name": "M.withCards",
+        "kind": "function",
+        "constructorName": false,
+        "line": 73,
+        "column": 1,
+        "endLine": 102,
+        "lines": 30,
+        "complexity": 24,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.withCards#1/add#1",
+        "name": "add",
+        "kind": "function",
+        "constructorName": false,
+        "line": 78,
+        "column": 8,
+        "endLine": 78,
+        "lines": 1,
+        "complexity": 1,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.describe#1",
+        "name": "M.describe",
+        "kind": "function",
+        "constructorName": false,
+        "line": 105,
+        "column": 1,
+        "endLine": 113,
+        "lines": 9,
+        "complexity": 5,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.supported#1",
+        "name": "M.supported",
+        "kind": "function",
+        "constructorName": false,
+        "line": 120,
+        "column": 1,
+        "endLine": 126,
+        "lines": 7,
+        "complexity": 7,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.created#1",
+        "name": "M.created",
+        "kind": "function",
+        "constructorName": false,
+        "line": 127,
+        "column": 1,
+        "endLine": 129,
+        "lines": 3,
+        "complexity": 1,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.drawn#1",
+        "name": "M.drawn",
+        "kind": "function",
+        "constructorName": false,
+        "line": 130,
+        "column": 1,
+        "endLine": 135,
+        "lines": 6,
+        "complexity": 3,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.freeAttack#1",
+        "name": "M.freeAttack",
+        "kind": "function",
+        "constructorName": false,
+        "line": 136,
+        "column": 1,
+        "endLine": 138,
+        "lines": 3,
+        "complexity": 3,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.used#1",
+        "name": "M.used",
+        "kind": "function",
+        "constructorName": false,
+        "line": 139,
+        "column": 1,
+        "endLine": 147,
+        "lines": 9,
+        "complexity": 5,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.cancelAutomatic#1",
+        "name": "M.cancelAutomatic",
+        "kind": "function",
+        "constructorName": false,
+        "line": 148,
+        "column": 1,
+        "endLine": 167,
+        "lines": 20,
+        "complexity": 13,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.gainedBlock#1",
+        "name": "M.gainedBlock",
+        "kind": "function",
+        "constructorName": false,
+        "line": 168,
+        "column": 1,
+        "endLine": 174,
+        "lines": 7,
+        "complexity": 5,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.endRound#1",
+        "name": "M.endRound",
+        "kind": "function",
+        "constructorName": false,
+        "line": 175,
+        "column": 1,
+        "endLine": 180,
+        "lines": 6,
+        "complexity": 2,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/target#1",
+        "name": "target",
+        "kind": "function",
+        "constructorName": false,
+        "line": 181,
+        "column": 7,
+        "endLine": 184,
+        "lines": 4,
+        "complexity": 5,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/top#1",
+        "name": "top",
+        "kind": "function",
+        "constructorName": false,
+        "line": 185,
+        "column": 7,
+        "endLine": 188,
+        "lines": 4,
+        "complexity": 1,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/normalized#1",
+        "name": "normalized",
+        "kind": "function",
+        "constructorName": false,
+        "line": 189,
+        "column": 7,
+        "endLine": 189,
+        "lines": 1,
+        "complexity": 2,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/foreignChoices#1",
+        "name": "foreignChoices",
+        "kind": "function",
+        "constructorName": false,
+        "line": 190,
+        "column": 7,
+        "endLine": 213,
+        "lines": 24,
+        "complexity": 12,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.choose#1",
+        "name": "M.choose",
+        "kind": "function",
+        "constructorName": false,
+        "line": 214,
+        "column": 1,
+        "endLine": 238,
+        "lines": 25,
+        "complexity": 22,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/upgradeLessonCard#1",
+        "name": "upgradeLessonCard",
+        "kind": "function",
+        "constructorName": false,
+        "line": 241,
+        "column": 7,
+        "endLine": 249,
+        "lines": 9,
+        "complexity": 5,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/executeHandlers.gainPower#1",
+        "name": "executeHandlers.gainPower",
+        "kind": "function",
+        "constructorName": false,
+        "line": 251,
+        "column": 1,
+        "endLine": 256,
+        "lines": 6,
+        "complexity": 4,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/executeHandlers.endTurnEarly#1",
+        "name": "executeHandlers.endTurnEarly",
+        "kind": "function",
+        "constructorName": false,
+        "line": 258,
+        "column": 1,
+        "endLine": 261,
+        "lines": 4,
+        "complexity": 1,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/executeHandlers.skipEnemiesTurn#1",
+        "name": "executeHandlers.skipEnemiesTurn",
+        "kind": "function",
+        "constructorName": false,
+        "line": 263,
+        "column": 1,
+        "endLine": 266,
+        "lines": 4,
+        "complexity": 1,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/executeHandlers.establishment#1",
+        "name": "executeHandlers.establishment",
+        "kind": "function",
+        "constructorName": false,
+        "line": 268,
+        "column": 1,
+        "endLine": 279,
+        "lines": 12,
+        "complexity": 13,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/executeHandlers.omega#1",
+        "name": "executeHandlers.omega",
+        "kind": "function",
+        "constructorName": false,
+        "line": 281,
+        "column": 1,
+        "endLine": 284,
+        "lines": 4,
+        "complexity": 3,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/executeHandlers.generate#1",
+        "name": "executeHandlers.generate",
+        "kind": "function",
+        "constructorName": false,
+        "line": 286,
+        "column": 1,
+        "endLine": 289,
+        "lines": 4,
+        "complexity": 1,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/executeHandlers.openChoice#1",
+        "name": "executeHandlers.openChoice",
+        "kind": "function",
+        "constructorName": false,
+        "line": 291,
+        "column": 1,
+        "endLine": 302,
+        "lines": 12,
+        "complexity": 6,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/executeHandlers.lessonLearned#1",
+        "name": "executeHandlers.lessonLearned",
+        "kind": "function",
+        "constructorName": false,
+        "line": 304,
+        "column": 1,
+        "endLine": 314,
+        "lines": 11,
+        "complexity": 9,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/executeHandlers.pileChoice#1",
+        "name": "executeHandlers.pileChoice",
+        "kind": "function",
+        "constructorName": false,
+        "line": 316,
+        "column": 1,
+        "endLine": 319,
+        "lines": 4,
+        "complexity": 6,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/executeHandlers.deusExMachina#1",
+        "name": "executeHandlers.deusExMachina",
+        "kind": "function",
+        "constructorName": false,
+        "line": 321,
+        "column": 1,
+        "endLine": 331,
+        "lines": 11,
+        "complexity": 4,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/executeHandlers.spiritShield#1",
+        "name": "executeHandlers.spiritShield",
+        "kind": "function",
+        "constructorName": false,
+        "line": 333,
+        "column": 1,
+        "endLine": 336,
+        "lines": 4,
+        "complexity": 1,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/executeHandlers.conjureBlade#1",
+        "name": "executeHandlers.conjureBlade",
+        "kind": "function",
+        "constructorName": false,
+        "line": 338,
+        "column": 1,
+        "endLine": 347,
+        "lines": 10,
+        "complexity": 5,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/executeHandlers.judgment#1",
+        "name": "executeHandlers.judgment",
+        "kind": "function",
+        "constructorName": false,
+        "line": 349,
+        "column": 1,
+        "endLine": 358,
+        "lines": 10,
+        "complexity": 3,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/executeHandlers.expungerHits#1",
+        "name": "executeHandlers.expungerHits",
+        "kind": "function",
+        "constructorName": false,
+        "line": 360,
+        "column": 1,
+        "endLine": 368,
+        "lines": 9,
+        "complexity": 4,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/executeHandlers.ragnarok#1",
+        "name": "executeHandlers.ragnarok",
+        "kind": "function",
+        "constructorName": false,
+        "line": 370,
+        "column": 1,
+        "endLine": 379,
+        "lines": 10,
+        "complexity": 5,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/executeHandlers.damageHit#1",
+        "name": "executeHandlers.damageHit",
+        "kind": "function",
+        "constructorName": false,
+        "line": 381,
+        "column": 1,
+        "endLine": 387,
+        "lines": 7,
+        "complexity": 2,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      },
+      {
+        "id": "$/M.execute#1",
+        "name": "M.execute",
+        "kind": "function",
+        "constructorName": false,
+        "line": 409,
+        "column": 1,
+        "endLine": 415,
+        "lines": 7,
+        "complexity": 2,
+        "file": "src/lua/abyss_watcher_final_cards.lua"
+      }
+    ]
+  },
+  "architecture": {
+    "before": {
+      "nodes": 333,
+      "edges": 1920,
+      "cycles": [
+        {
+          "members": 81,
+          "internalLocations": 623,
+          "internalPairs": 400
+        },
+        {
+          "members": 15,
+          "internalLocations": 62,
+          "internalPairs": 41
+        }
+      ],
+      "errors": []
+    },
+    "after": {
+      "nodes": 333,
+      "edges": 1920,
+      "cycles": [
+        {
+          "members": 81,
+          "internalLocations": 623,
+          "internalPairs": 400
+        },
+        {
+          "members": 15,
+          "internalLocations": 62,
+          "internalPairs": 41
+        }
+      ],
+      "errors": []
+    }
+  },
+  "equivalence": [
+    {
+      "fixture": "watcher-final-execution-edges",
+      "checkpoints": 30,
+      "bytesPerSide": 46414,
+      "operations": [
+        "gainWatcherFinalPower",
+        "unsupported",
+        "watcherFinalDamageHit",
+        "watcherFinalDeusExMachina",
+        "watcherFinalEstablishment",
+        "watcherFinalLessonLearned",
+        "watcherFinalMeditate",
+        "watcherFinalOmega",
+        "watcherFinalOmniscience",
+        "watcherFinalWish"
+      ]
+    },
+    {
+      "fixture": "watcher_early_turn_autoplay",
+      "checkpoints": 5,
+      "bytesPerSide": 1915263,
+      "operations": [
+        "watcherFinalEndTurnEarly",
+        "watcherFinalSkipEnemiesTurn"
+      ]
+    },
+    {
+      "fixture": "watcher_final_damage_generation",
+      "checkpoints": 58,
+      "bytesPerSide": 22661305,
+      "operations": [
+        "gainWatcherFinalPower",
+        "watcherFinalConjureBlade",
+        "watcherFinalDamageHit",
+        "watcherFinalExpungerHits",
+        "watcherFinalGenerate",
+        "watcherFinalJudgment",
+        "watcherFinalRagnarok",
+        "watcherFinalSpiritShield"
+      ]
+    },
+    {
+      "fixture": "watcher_final_draw_powers",
+      "checkpoints": 16,
+      "bytesPerSide": 6172437,
+      "operations": [
+        "gainWatcherFinalPower",
+        "watcherFinalDeusExMachina",
+        "watcherFinalGenerate"
+      ]
+    },
+    {
+      "fixture": "watcher_final_first",
+      "checkpoints": 10,
+      "bytesPerSide": 3949999,
+      "operations": [
+        "gainWatcherFinalPower"
+      ]
+    },
+    {
+      "fixture": "watcher_final_foreign",
+      "checkpoints": 10,
+      "bytesPerSide": 6096553,
+      "operations": [
+        "watcherFinalForeignInfluence"
+      ]
+    },
+    {
+      "fixture": "watcher_final_pile_choices",
+      "checkpoints": 11,
+      "bytesPerSide": 4301612,
+      "operations": [
+        "watcherFinalEndTurnEarly",
+        "watcherFinalMeditate",
+        "watcherFinalOmniscience"
+      ]
+    },
+    {
+      "fixture": "watcher_final_turn",
+      "checkpoints": 31,
+      "bytesPerSide": 12089228,
+      "operations": [
+        "gainWatcherFinalPower",
+        "watcherFinalEndTurnEarly",
+        "watcherFinalSkipEnemiesTurn"
+      ]
+    },
+    {
+      "fixture": "watcher_final_wish_lesson",
+      "checkpoints": 37,
+      "bytesPerSide": 14281946,
+      "operations": [
+        "watcherFinalLessonLearned",
+        "watcherFinalWish"
+      ]
+    },
+    {
+      "fixture": "watcher_master_reality_generation",
+      "checkpoints": 2,
+      "bytesPerSide": 935741,
+      "operations": [
+        "gainWatcherFinalPower"
+      ]
+    },
+    {
+      "fixture": "watcher_omniscience_energy_snapshot",
+      "checkpoints": 4,
+      "bytesPerSide": 1913994,
+      "operations": [
+        "watcherFinalOmniscience"
+      ]
+    }
+  ],
+  "limitations": [
+    "同模块职责分解不减少SCC。",
+    "未执行本地Full；最终集成SHA仍需仓库完整CI与独立评审。",
+    "不代表TASK-74.20整体完成，仍有57个CC>30热点。"
+  ],
+  "verification": {
+    "static": {
+      "command": "npm run check:lua-static",
+      "result": "passed",
+      "newWarnings": 0,
+      "historicalWarnings": 14
+    },
+    "architecture": {
+      "command": "npm run check:architecture",
+      "result": "passed"
+    },
+    "targeted": {
+      "command": "node --test --test-concurrency=1 tests/watcher-final-execution.test.mjs tests/m7-core-final.test.mjs",
+      "passed": 26,
+      "failed": 0,
+      "logDurationMs": 95310.592812
+    },
+    "historical": {
+      "command": "node --test --test-concurrency=1 tests/relic-query-source-inverse.test.mjs",
+      "passed": 4,
+      "failed": 0
+    },
+    "afterReview": {
+      "command": "node --test --test-concurrency=1 --test-name-pattern='execution-edges|exact source epoch|CRLF' tests/watcher-final-execution.test.mjs",
+      "passed": 3,
+      "failed": 0
+    },
+    "full": "not run locally; required on final integration SHA"
+  }
+}

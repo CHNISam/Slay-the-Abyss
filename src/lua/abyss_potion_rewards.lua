@@ -19,7 +19,7 @@ function P.prepare(run, rewardCount, context)
     -- AbstractRoom keeps chance zero when all monsters escape a normal room;
     -- it still draws once and increments the modifier on failure.
     if context and context.allEscaped and (run.encounterTier=='normal' or run.encounterTier=='boss') then chance=0 end
-    if require('abyss_relic_hooks').owns(run,'white_beast_statue') then chance=100 end
+    if require('abyss_relic_queries').hooks.owns(run,'white_beast_statue') then chance=100 end
     -- Black Star plus a marked elite key can already fill four room items.
     -- The real pre-potion count overrides even White Beast's guaranteed chance.
     if (rewardCount or 0)>=4 then chance=0 end

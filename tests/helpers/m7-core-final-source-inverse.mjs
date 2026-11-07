@@ -1,3 +1,4 @@
+import {preSessionRewardSource,sessionRewardReader} from './session-reward-source-inverse.mjs';
 // Exact final M7 epoch; the original three complete Git sources stay frozen.
 // Source bytes can be retained. Linked-owner authorization is always a fresh read.
 import assert from 'node:assert/strict';
@@ -23,6 +24,9 @@ Object.freeze(m7FinalBefore.files);Object.freeze(m7FinalBefore);Object.freeze(fi
 const readLive=p=>readFileSync(p,'utf8'),rawReaders=new WeakMap();
 const matches=(path,s)=>typeof s==='string'&&Object.hasOwn(files,path)&&hash(normalize(s))===files[path].afterSha256;
 export function preM7FinalSource(path,source,{readSource=readLive}={}){
+ readSource=rawReaders.get(readSource)??readSource;
+ source=preSessionRewardSource(path,source,{readSource});
+ readSource=sessionRewardReader(readSource);
  if(!matches(path,source))return source;
  assert.equal(typeof readSource,'function','final M7 linked reader must be a function');
  readSource=rawReaders.get(readSource)??readSource;

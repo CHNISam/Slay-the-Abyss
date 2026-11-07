@@ -4,7 +4,8 @@ local R=require('abyss_sts_random')
 local Gold=require('abyss_gold_rewards')
 local Potion=require('abyss_potion_rewards')
 local Cards=require('abyss_card_pool')
-local Hooks=require('abyss_relic_hooks')
+local Queries=require('abyss_relic_queries').hooks
+local Rewards=require('abyss_relic_family_combat').common
 local Routes=require('abyss_event_combat_routes')
 local M={}
 local bosses={['The Guardian']=true,Hexaghost=true,['Slime Boss']=true}
@@ -77,7 +78,7 @@ function M.start(run,flow,api,startEncounter)
  local gold=Gold.offerAmount(request.gold,run)
  local offer,pool
  if flow.event.id=='mushrooms'then
-  local expected=Hooks.owns(run,'odd_mushroom')and'circlet'or'odd_mushroom'
+  local expected=Queries.owns(run,'odd_mushroom')and'circlet'or'odd_mushroom'
   if request.fixedRelicId~=expected then return false,'event_reward_mismatch'end
   for _,def in ipairs(run.data.relics.relics)do
    if def.id==expected and def.rarity=='special'then offer={id=def.id,sourceId=def.sourceId,tier='special'}end
@@ -122,7 +123,7 @@ function M.finish(run)
  run.cardRng,run.cardRarityOffset=cardRng,offset
  local rewards={gold=context.gold,goldClaimed=context.gold==0,relics=C.copy(context.relics),
   cards=choices,cardUpgrades=upgrades,potion=potion,cardResolved=false,manualContinue=true}
- Hooks.previewCardReward(run,rewards,true)
+ Rewards.previewCardReward(run,rewards,true)
  return rewards
 end
 function M.escape(run)
