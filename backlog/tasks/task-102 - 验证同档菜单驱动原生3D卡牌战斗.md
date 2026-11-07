@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-07 10:29'
-updated_date: '2026-11-07 12:37'
+updated_date: '2026-11-07 12:47'
 labels: []
 dependencies: []
 references:
@@ -34,6 +34,8 @@ ordinal: 165000
 
 <!-- SECTION:PLAN:BEGIN -->
 先复用工具核实官方能力，再实现隔离菜单和表现适配，构建一份完整GIL并静态读回、测试与复审；官方及手机结果分别标注。
+
+将新增拼装/底板/选牌样例接到既有全部连续测试末尾，保留手动入口；复用原生选牌32秒超时，不自动领取。补核停止/中断/故障清理并刷新同一候选。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -54,4 +56,6 @@ ordinal: 165000
 用户追加同一实验候选范围：自动低poly拼装怪物、原生卡牌选择器与Lua奖励事务、一个官方素材替换样例、完整四幕模型覆盖。保持当前分支/PR，不改ID规则数值，不重做真实桥/Tween。上游固定f32c8b05415b64e3c2698535c1aee45b105f3304；本机旧安装缺shape工具，使用实验目录隔离运行时。
 
 扩展包bd7afc55完成：353模块/完整UI读回、0error368warning保留，GIL hash3ec88865f9d86508c2dd4f4a9a9bba1ce5baebe406d1cb7ba7e704fc48d6122e。24部件shape、6条原生奖励库与原事务、timed FX7和底板对照、67敌人/12定义30状态映射；独立复审无未解P1/P2。选择器测试优化夹具后Node24原30秒预算主执行者7030ms通过。仅最后Lua刷新，非脚本section字节不变。新候选实机/手机未验证，任务保持In Progress。
+
+当前交付更新为c113d09f，16,049,869字节/hash2c257114eb67a992bb73421593da2ea7f5a6afc180016277f1f366c26ceba657；原全部连续自动续接新增样例，原生选牌等真选择或32秒超时不发牌。353模块读回/0error370warning，非脚本section逐字节一致。独立复审捕获并修复内部stop→setMode误取消，生产等价回归先fail后pass及评审者复跑通过。本轮实机、手机仍未验证，AC保持未勾选。
 <!-- SECTION:NOTES:END -->

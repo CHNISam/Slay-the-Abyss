@@ -47,6 +47,7 @@ function M.attach(view,root,api)
         local hit=assert(panel:GetChild(name):GetChild('hit'))
         local wrapped=function()
             if self.destroyed then return end
+            self.awaitOld=nil;self.auto=nil
             local ok,reason=pcall(callback)
             if not ok then log('单项失败 '..tostring(reason))end
         end
@@ -81,6 +82,7 @@ function M.attach(view,root,api)
     view.refresh=wrappedRefresh
     local originalStop=api.lab.stop
     local wrappedStop=function(owner,...)
+        self.awaitOld=nil;self.auto=nil
         selector:cancel('stop');hideShape()
         if self.material then Material.toggle(root,false);self.material=false end
         return originalStop(owner,...)
@@ -89,11 +91,62 @@ function M.attach(view,root,api)
     -- while opening the separate specimen. Public stop still releases ownership.
     local originalScene=api.lab.sceneOnly
     api.lab.sceneOnly=function(owner,on)
-        local saved=owner.stop;owner.stop=originalStop
-        local ok,why=pcall(originalScene,owner,on);owner.stop=saved
+        local saved,inside=owner.stop,self.internalScene;owner.stop=originalStop;self.internalScene=true
+        local ok,why=pcall(originalScene,owner,on);owner.stop=saved;self.internalScene=inside
         if not ok then error(why)end
     end
     api.lab.stop=wrappedStop
+    local originalAll=api.lab.all
+    local wrappedAll=function(owner,...)
+        wrappedStop(owner)
+        local results=table.pack(originalAll(owner,...))
+        self.awaitOld=owner.job
+        return table.unpack(results,1,results.n)
+    end
+    api.lab.all=wrappedAll
+    local methodWrappers={}
+    for _,name in ipairs({'setMode','modelNext','animations','startBattle','cards','performance','tween','animation','playSample'})do
+        local original=api.lab[name]
+        if original then
+            local wrapped=function(owner,...)
+                if self.auto and not self.internalScene then wrappedStop(owner)end
+                return original(owner,...)
+            end
+            methodWrappers[#methodWrappers+1]={name=name,original=original,wrapped=wrapped}
+            api.lab[name]=wrapped
+        end
+    end
+    local function expandedStages()
+        local stages={}
+        for _,command in ipairs(config.shape.commands)do
+            stages[#stages+1]={name='拼装 '..command,duration=2,ready=function()return not self.pending end,run=function()
+                if command=='show'then api.lab:sceneOnly(true);self.shapeOn=true
+                elseif not self.shapeOn and command~='hide'then log('跳过 '..command..'：拼装未显示');return end
+                shape(command)
+            end}
+        end
+        stages[#stages+1]={name='正式底板',duration=2,run=function()api.lab:sceneOnly(false);Material.toggle(root,false)end}
+        stages[#stages+1]={name='官方底板',duration=3,run=function()self.material=true;log(Material.toggle(root,true))end}
+        stages[#stages+1]={name='正式奖励界面',duration=3,run=function()
+            Material.toggle(root,false);self.material=false
+            local ok,why=selector:start('classic',true);if not ok then log('选牌不可用 '..tostring(why))end
+        end}
+        stages[#stages+1]={name='原生选牌：等待真实选择，超时不领取',duration=1,
+            ready=function()return not selector.pending end,run=function()
+                local ok,why=selector:start('native');if not ok then log('选牌不可用 '..tostring(why))end
+            end}
+        return stages
+    end
+    local function advanceAuto()
+        local auto=self.auto;if not auto then return end
+        if auto.current and (self.clock<auto.due or auto.current.ready and not auto.current.ready())then return end
+        auto.index=auto.index+1;auto.current=auto.stages[auto.index]
+        if not auto.current then self.auto=nil;log('扩展连续测试结束；回执不等于视觉/性能验收');return end
+        local entry=auto.current;auto.due=self.clock+entry.duration
+        log('连续 '..auto.index..'/'..#auto.stages..' '..entry.name)
+        local ok,why=pcall(entry.run)
+        if not ok then log('连续单项失败 '..tostring(why))end
+    end
     function self:update(dt)
         if self.destroyed then return end
         self.clock=self.clock+dt;selector:update(dt)
@@ -105,19 +158,33 @@ function M.attach(view,root,api)
             self.shapeOn=false
             if ownsScene then api.lab:sceneOnly(false)end
         end
+        if self.awaitOld and api.lab.job~=self.awaitOld then
+            local finished=self.awaitOld.index>#self.awaitOld.stages
+            self.awaitOld=nil
+            if finished then
+                wrappedStop(api.lab)
+                self.auto={stages=expandedStages(),index=0}
+            else log('原连续测试已中断，不续接扩展样例')end
+        end
+        advanceAuto()
         panel:SetAsLastSibling()
     end
     function self:destroy()
         if self.destroyed then return end
+        self.awaitOld=nil;self.auto=nil
         selector:destroy();hideShape();Material.destroy(root)
         self.destroyed=true
         if view.refresh==wrappedRefresh then view.refresh=originalRefresh end
         if api.lab.stop==wrappedStop then api.lab.stop=originalStop end
+        if api.lab.all==wrappedAll then api.lab.all=originalAll end
+        for _,method in ipairs(methodWrappers)do
+            if api.lab[method.name]==method.wrapped then api.lab[method.name]=method.original end
+        end
         api.lab.sceneOnly=originalScene
         if type(unregister)=='function'then pcall(unregister)end
         for _,b in ipairs(self.bindings)do pcall(b.control.RemoveCursorEventListener,b.control,Enum.CursorEventType.CursorClick,b.callback)end
     end
-    log('拼装逐动作循环/选牌切原生与原方案/底板；3D出牌命中另演示官方闪光7，视觉未验收')
+    log('全部连续测试自动续接拼装/底板/选牌；也可单测；命中另演示闪光7，视觉未验收')
     return self
 end
 return M
