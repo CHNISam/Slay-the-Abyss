@@ -1,0 +1,2700 @@
+{
+  "schemaVersion": 1,
+  "kind": "M7-run-catalog-responsibilities",
+  "baseRevision": "2ad07111e3d5b5cb52b4229860b3b780941e29a9",
+  "scope": [
+    "src/lua/abyss_run_card_catalog.lua"
+  ],
+  "before": {
+    "modules": 333,
+    "measurements": 5386,
+    "functions": 5053,
+    "over15": 237,
+    "over30": 58,
+    "maximum": 75,
+    "scc": [
+      {
+        "size": 81,
+        "positions": 623,
+        "pairs": 400,
+        "members": [
+          "abyss_act2_ai",
+          "abyss_act2_ai_moves",
+          "abyss_act2_event_relics",
+          "abyss_act2_powers",
+          "abyss_act2_stasis",
+          "abyss_act2_summons",
+          "abyss_act3_ai",
+          "abyss_act3_bosses",
+          "abyss_act3_enemies",
+          "abyss_act3_powers",
+          "abyss_act4_enemies",
+          "abyss_actor",
+          "abyss_awakened_one",
+          "abyss_build_actions",
+          "abyss_card_actions",
+          "abyss_card_capability",
+          "abyss_card_triggers",
+          "abyss_class_potions",
+          "abyss_colorless_cards",
+          "abyss_combat",
+          "abyss_combat_catalog",
+          "abyss_combat_effect_cards",
+          "abyss_combat_effect_choice",
+          "abyss_combat_effect_damage",
+          "abyss_combat_effect_dispatch",
+          "abyss_combat_effect_powers",
+          "abyss_combat_enemy_setup",
+          "abyss_combat_native_play",
+          "abyss_combat_queued_play",
+          "abyss_darklings",
+          "abyss_defect_engine_cards",
+          "abyss_defect_final_cards",
+          "abyss_defect_utility_cards",
+          "abyss_discard",
+          "abyss_effects",
+          "abyss_effects_cards",
+          "abyss_effects_damage",
+          "abyss_effects_enemy",
+          "abyss_effects_powers",
+          "abyss_end_turn_powers",
+          "abyss_ending_actions",
+          "abyss_enemy_ai",
+          "abyss_exhaust",
+          "abyss_flow_actions",
+          "abyss_focus",
+          "abyss_guardian_ai",
+          "abyss_hand_choice",
+          "abyss_hp_loss",
+          "abyss_inventory",
+          "abyss_mantra",
+          "abyss_nemesis",
+          "abyss_orb_powers",
+          "abyss_orbs",
+          "abyss_original_v4",
+          "abyss_original_v4_health",
+          "abyss_pile_choice",
+          "abyss_plated_armor",
+          "abyss_player_revive",
+          "abyss_poison",
+          "abyss_potion_fairy",
+          "abyss_power_order",
+          "abyss_power_schedule",
+          "abyss_relic_combat_hooks",
+          "abyss_relic_family_combat",
+          "abyss_scry",
+          "abyss_shivs",
+          "abyss_silent",
+          "abyss_silent_attack_cards",
+          "abyss_silent_discard_cards",
+          "abyss_silent_final_cards",
+          "abyss_silent_potions",
+          "abyss_silent_tactics_cards",
+          "abyss_stances",
+          "abyss_time_eater",
+          "abyss_turn_powers",
+          "abyss_warrior_status_cards",
+          "abyss_warrior_strength_cards",
+          "abyss_watcher_attack_cards",
+          "abyss_watcher_final_cards",
+          "abyss_watcher_flow_cards",
+          "abyss_writhing_mass"
+        ]
+      },
+      {
+        "size": 15,
+        "positions": 62,
+        "pairs": 41,
+        "members": [
+          "abyss_boss_relics",
+          "abyss_event_combat",
+          "abyss_event_combat_routes",
+          "abyss_potion_rewards",
+          "abyss_relic_card_rewards",
+          "abyss_relic_choices",
+          "abyss_relic_hooks",
+          "abyss_relic_pending",
+          "abyss_run",
+          "abyss_run_potion_candidate",
+          "abyss_run_potions",
+          "abyss_run_rooms",
+          "abyss_run_settlement",
+          "abyss_shop_relics",
+          "abyss_uncommon_relics"
+        ]
+      }
+    ],
+    "edges": 1920
+  },
+  "after": {
+    "modules": 333,
+    "measurements": 5401,
+    "functions": 5068,
+    "over15": 235,
+    "over30": 56,
+    "maximum": 75,
+    "scc": [
+      {
+        "size": 81,
+        "positions": 623,
+        "pairs": 400,
+        "members": [
+          "abyss_act2_ai",
+          "abyss_act2_ai_moves",
+          "abyss_act2_event_relics",
+          "abyss_act2_powers",
+          "abyss_act2_stasis",
+          "abyss_act2_summons",
+          "abyss_act3_ai",
+          "abyss_act3_bosses",
+          "abyss_act3_enemies",
+          "abyss_act3_powers",
+          "abyss_act4_enemies",
+          "abyss_actor",
+          "abyss_awakened_one",
+          "abyss_build_actions",
+          "abyss_card_actions",
+          "abyss_card_capability",
+          "abyss_card_triggers",
+          "abyss_class_potions",
+          "abyss_colorless_cards",
+          "abyss_combat",
+          "abyss_combat_catalog",
+          "abyss_combat_effect_cards",
+          "abyss_combat_effect_choice",
+          "abyss_combat_effect_damage",
+          "abyss_combat_effect_dispatch",
+          "abyss_combat_effect_powers",
+          "abyss_combat_enemy_setup",
+          "abyss_combat_native_play",
+          "abyss_combat_queued_play",
+          "abyss_darklings",
+          "abyss_defect_engine_cards",
+          "abyss_defect_final_cards",
+          "abyss_defect_utility_cards",
+          "abyss_discard",
+          "abyss_effects",
+          "abyss_effects_cards",
+          "abyss_effects_damage",
+          "abyss_effects_enemy",
+          "abyss_effects_powers",
+          "abyss_end_turn_powers",
+          "abyss_ending_actions",
+          "abyss_enemy_ai",
+          "abyss_exhaust",
+          "abyss_flow_actions",
+          "abyss_focus",
+          "abyss_guardian_ai",
+          "abyss_hand_choice",
+          "abyss_hp_loss",
+          "abyss_inventory",
+          "abyss_mantra",
+          "abyss_nemesis",
+          "abyss_orb_powers",
+          "abyss_orbs",
+          "abyss_original_v4",
+          "abyss_original_v4_health",
+          "abyss_pile_choice",
+          "abyss_plated_armor",
+          "abyss_player_revive",
+          "abyss_poison",
+          "abyss_potion_fairy",
+          "abyss_power_order",
+          "abyss_power_schedule",
+          "abyss_relic_combat_hooks",
+          "abyss_relic_family_combat",
+          "abyss_scry",
+          "abyss_shivs",
+          "abyss_silent",
+          "abyss_silent_attack_cards",
+          "abyss_silent_discard_cards",
+          "abyss_silent_final_cards",
+          "abyss_silent_potions",
+          "abyss_silent_tactics_cards",
+          "abyss_stances",
+          "abyss_time_eater",
+          "abyss_turn_powers",
+          "abyss_warrior_status_cards",
+          "abyss_warrior_strength_cards",
+          "abyss_watcher_attack_cards",
+          "abyss_watcher_final_cards",
+          "abyss_watcher_flow_cards",
+          "abyss_writhing_mass"
+        ]
+      },
+      {
+        "size": 15,
+        "positions": 62,
+        "pairs": 41,
+        "members": [
+          "abyss_boss_relics",
+          "abyss_event_combat",
+          "abyss_event_combat_routes",
+          "abyss_potion_rewards",
+          "abyss_relic_card_rewards",
+          "abyss_relic_choices",
+          "abyss_relic_hooks",
+          "abyss_relic_pending",
+          "abyss_run",
+          "abyss_run_potion_candidate",
+          "abyss_run_potions",
+          "abyss_run_rooms",
+          "abyss_run_settlement",
+          "abyss_shop_relics",
+          "abyss_uncommon_relics"
+        ]
+      }
+    ],
+    "edges": 1920
+  },
+  "sourceIdentity": [
+    {
+      "path": "src/lua/abyss_acid_slime_m_ai.lua",
+      "beforeSha256": "972d81f4e3ed017249796267d242ab73f7bdac93945efb6a441ed53b603a90e6",
+      "currentSha256": "972d81f4e3ed017249796267d242ab73f7bdac93945efb6a441ed53b603a90e6"
+    },
+    {
+      "path": "src/lua/abyss_acid_slime_s_ai.lua",
+      "beforeSha256": "b3063719126444d01ec18bc7878d4ca614dda13dc0ddcc7599304e24b3703769",
+      "currentSha256": "b3063719126444d01ec18bc7878d4ca614dda13dc0ddcc7599304e24b3703769"
+    },
+    {
+      "path": "src/lua/abyss_act1_bosses.lua",
+      "beforeSha256": "9a3db2a6bb7e4625765cdb212172e940225a3b7c1a2f0bedae164acc3f7df1be",
+      "currentSha256": "9a3db2a6bb7e4625765cdb212172e940225a3b7c1a2f0bedae164acc3f7df1be"
+    },
+    {
+      "path": "src/lua/abyss_act1_events.lua",
+      "beforeSha256": "5052bec306ea9d3544cf40bd9d1dc1327f61c6608b1557fd13fe3473fbc8ff25",
+      "currentSha256": "5052bec306ea9d3544cf40bd9d1dc1327f61c6608b1557fd13fe3473fbc8ff25"
+    },
+    {
+      "path": "src/lua/abyss_act2_ai.lua",
+      "beforeSha256": "aba682db573572693cf60f613bcd5ce3f1f0b11f2116610f23cacf285f89bad3",
+      "currentSha256": "aba682db573572693cf60f613bcd5ce3f1f0b11f2116610f23cacf285f89bad3"
+    },
+    {
+      "path": "src/lua/abyss_act2_ai_moves.lua",
+      "beforeSha256": "b41dea36e6b664e76f4ce551027aa7372e21888efd7119f1f330c51da9b055af",
+      "currentSha256": "b41dea36e6b664e76f4ce551027aa7372e21888efd7119f1f330c51da9b055af"
+    },
+    {
+      "path": "src/lua/abyss_act2_enemies.lua",
+      "beforeSha256": "11d8b679c711ebff5a5a34609a8f4da737552377c556cfce63c8812c14329777",
+      "currentSha256": "11d8b679c711ebff5a5a34609a8f4da737552377c556cfce63c8812c14329777"
+    },
+    {
+      "path": "src/lua/abyss_act2_event_relics.lua",
+      "beforeSha256": "fbad6fda867e0dbc2b9347e9698bba6b66d1acdc208a3c966f222ec286f3af92",
+      "currentSha256": "fbad6fda867e0dbc2b9347e9698bba6b66d1acdc208a3c966f222ec286f3af92"
+    },
+    {
+      "path": "src/lua/abyss_act2_events.lua",
+      "beforeSha256": "75d8578d7cf4a3feaa0bfb6c4a0fd162625b3a0ce8dc6ad42d6f5b0520aacad6",
+      "currentSha256": "75d8578d7cf4a3feaa0bfb6c4a0fd162625b3a0ce8dc6ad42d6f5b0520aacad6"
+    },
+    {
+      "path": "src/lua/abyss_act2_powers.lua",
+      "beforeSha256": "966f9906c9fd03d306424c9ea430e3aa8840fdf6e852d13cecd274c0a3aa3629",
+      "currentSha256": "966f9906c9fd03d306424c9ea430e3aa8840fdf6e852d13cecd274c0a3aa3629"
+    },
+    {
+      "path": "src/lua/abyss_act2_stasis.lua",
+      "beforeSha256": "0a1b6da54329fe7c00cfb45bb57dfc1ff53663cd7437e1bb17b35f702181466a",
+      "currentSha256": "0a1b6da54329fe7c00cfb45bb57dfc1ff53663cd7437e1bb17b35f702181466a"
+    },
+    {
+      "path": "src/lua/abyss_act2_summons.lua",
+      "beforeSha256": "ad88bd02442af998322d69dade30fbd9cdddb14983043003c75797c12b1d9dca",
+      "currentSha256": "ad88bd02442af998322d69dade30fbd9cdddb14983043003c75797c12b1d9dca"
+    },
+    {
+      "path": "src/lua/abyss_act3_ai.lua",
+      "beforeSha256": "34511b1e1bfa55fccaa6f77cb8d549f60722a95fecaf324613abe427731a5b19",
+      "currentSha256": "34511b1e1bfa55fccaa6f77cb8d549f60722a95fecaf324613abe427731a5b19"
+    },
+    {
+      "path": "src/lua/abyss_act3_bosses.lua",
+      "beforeSha256": "e99bde5cc595bf0a3dac968a7ea61ee96faf7c8afd313464b52b653daba0d404",
+      "currentSha256": "e99bde5cc595bf0a3dac968a7ea61ee96faf7c8afd313464b52b653daba0d404"
+    },
+    {
+      "path": "src/lua/abyss_act3_enemies.lua",
+      "beforeSha256": "c810114c966767fcdc9c04a37fb835577337a18799288c7f4b57c2214b7fdd74",
+      "currentSha256": "c810114c966767fcdc9c04a37fb835577337a18799288c7f4b57c2214b7fdd74"
+    },
+    {
+      "path": "src/lua/abyss_act3_events.lua",
+      "beforeSha256": "e30d2820eb81359f9112c4b32b36b1af61db1a294151407526b9c658316f2c9a",
+      "currentSha256": "e30d2820eb81359f9112c4b32b36b1af61db1a294151407526b9c658316f2c9a"
+    },
+    {
+      "path": "src/lua/abyss_act3_powers.lua",
+      "beforeSha256": "07064486b2bb60c770c748e503b5209ede5559619be946ccb00c192fe9c88365",
+      "currentSha256": "07064486b2bb60c770c748e503b5209ede5559619be946ccb00c192fe9c88365"
+    },
+    {
+      "path": "src/lua/abyss_act4_enemies.lua",
+      "beforeSha256": "6c18570819c4f0a918bf51e04644f2f998fad696614a8f86cdd54493fb49f710",
+      "currentSha256": "6c18570819c4f0a918bf51e04644f2f998fad696614a8f86cdd54493fb49f710"
+    },
+    {
+      "path": "src/lua/abyss_action_queue.lua",
+      "beforeSha256": "5053ad084fee0bc15277ccbd9bc614c2acaa8e2b8d70bcb91f1bf4a01499cb2d",
+      "currentSha256": "5053ad084fee0bc15277ccbd9bc614c2acaa8e2b8d70bcb91f1bf4a01499cb2d"
+    },
+    {
+      "path": "src/lua/abyss_actor.lua",
+      "beforeSha256": "8c65e3f385b412eac28c1ec7d56cac1495e4f91608320af46c2a6c11394be43a",
+      "currentSha256": "8c65e3f385b412eac28c1ec7d56cac1495e4f91608320af46c2a6c11394be43a"
+    },
+    {
+      "path": "src/lua/abyss_actor_motion.lua",
+      "beforeSha256": "c5bd7f59379629cd6c8a0523e1449f4a59267617a81c0fb0e9ebd426f2558687",
+      "currentSha256": "c5bd7f59379629cd6c8a0523e1449f4a59267617a81c0fb0e9ebd426f2558687"
+    },
+    {
+      "path": "src/lua/abyss_actor_power_rules.lua",
+      "beforeSha256": "ff5ee7976332e9e3a01a62c121d7a7246ad59ae5eae27f0cd4bb5bee5be6051a",
+      "currentSha256": "ff5ee7976332e9e3a01a62c121d7a7246ad59ae5eae27f0cd4bb5bee5be6051a"
+    },
+    {
+      "path": "src/lua/abyss_acts.lua",
+      "beforeSha256": "06307170ce3ee1627c9ea5ebe45f9042a4857ad153f7f92e625f2e9856cc8150",
+      "currentSha256": "06307170ce3ee1627c9ea5ebe45f9042a4857ad153f7f92e625f2e9856cc8150"
+    },
+    {
+      "path": "src/lua/abyss_awakened_one.lua",
+      "beforeSha256": "0d8fbb76c5db90539e995aabd2f02660184481463b842045b5687b38ab42de36",
+      "currentSha256": "0d8fbb76c5db90539e995aabd2f02660184481463b842045b5687b38ab42de36"
+    },
+    {
+      "path": "src/lua/abyss_back_to_basics.lua",
+      "beforeSha256": "5d83af37dc3bffcd16f61627e164dcb41b654647ed753aa7cdd0058c10926571",
+      "currentSha256": "5d83af37dc3bffcd16f61627e164dcb41b654647ed753aa7cdd0058c10926571"
+    },
+    {
+      "path": "src/lua/abyss_battle_action_bindings.lua",
+      "beforeSha256": "84d11f396803b5bcd202aa6226e9d0b67a56fef6956b3e6bf167e089de933bd7",
+      "currentSha256": "84d11f396803b5bcd202aa6226e9d0b67a56fef6956b3e6bf167e089de933bd7"
+    },
+    {
+      "path": "src/lua/abyss_battle_actions.lua",
+      "beforeSha256": "e558c6b3dba4bcfaae21c84473933f7c4a4440104400c27561d68cbeb68fc4c2",
+      "currentSha256": "e558c6b3dba4bcfaae21c84473933f7c4a4440104400c27561d68cbeb68fc4c2"
+    },
+    {
+      "path": "src/lua/abyss_battle_aim_arrow.lua",
+      "beforeSha256": "ca8b78b1df9ea3e764cd936a39027a73e0a99bc86c524937363e73887099fea4",
+      "currentSha256": "ca8b78b1df9ea3e764cd936a39027a73e0a99bc86c524937363e73887099fea4"
+    },
+    {
+      "path": "src/lua/abyss_battle_card_bindings.lua",
+      "beforeSha256": "add73e13c968039d9eee32dacd3d7d866c21ec6e2ccc89182d4f199d2ee9b7e7",
+      "currentSha256": "add73e13c968039d9eee32dacd3d7d866c21ec6e2ccc89182d4f199d2ee9b7e7"
+    },
+    {
+      "path": "src/lua/abyss_battle_card_gestures.lua",
+      "beforeSha256": "9941287769dde812c12426f7a3ea47e685d0b5a64c4ee4c534f4d22d649d5536",
+      "currentSha256": "9941287769dde812c12426f7a3ea47e685d0b5a64c4ee4c534f4d22d649d5536"
+    },
+    {
+      "path": "src/lua/abyss_battle_card_layout.lua",
+      "beforeSha256": "a64d014875bf29300602b80bbb7d01260c59931434a509e5056b44a0f31713f8",
+      "currentSha256": "a64d014875bf29300602b80bbb7d01260c59931434a509e5056b44a0f31713f8"
+    },
+    {
+      "path": "src/lua/abyss_battle_card_view.lua",
+      "beforeSha256": "95f56c683140dc813684eb6bc67dea99ac02a1ad020ec4711346314b02056b12",
+      "currentSha256": "95f56c683140dc813684eb6bc67dea99ac02a1ad020ec4711346314b02056b12"
+    },
+    {
+      "path": "src/lua/abyss_battle_damage_view.lua",
+      "beforeSha256": "0fdde0bd08f4d94f1a95b30a4236cca9b062fcfb3cafdd3df513c5599699df29",
+      "currentSha256": "0fdde0bd08f4d94f1a95b30a4236cca9b062fcfb3cafdd3df513c5599699df29"
+    },
+    {
+      "path": "src/lua/abyss_battle_detail_bindings.lua",
+      "beforeSha256": "06f4f139894de966d8d49a1ed1855f5e08e5d127f186380b736177ad139be748",
+      "currentSha256": "06f4f139894de966d8d49a1ed1855f5e08e5d127f186380b736177ad139be748"
+    },
+    {
+      "path": "src/lua/abyss_battle_details.lua",
+      "beforeSha256": "975e2546741b40a74bd12e2424e0743f85f422b6215fec1c9b727aa17f9bfcc6",
+      "currentSha256": "975e2546741b40a74bd12e2424e0743f85f422b6215fec1c9b727aa17f9bfcc6"
+    },
+    {
+      "path": "src/lua/abyss_battle_ending_intent.lua",
+      "beforeSha256": "fd7c1b135604fe71fefaabc5caedf107d22cefa4889bd2f109b5d4a30f06b466",
+      "currentSha256": "fd7c1b135604fe71fefaabc5caedf107d22cefa4889bd2f109b5d4a30f06b466"
+    },
+    {
+      "path": "src/lua/abyss_battle_enemy_view.lua",
+      "beforeSha256": "fb453b46085fd00e781a5ca7a5f2d85475d6883a5c18a9d00e6e355da95d4f5f",
+      "currentSha256": "fb453b46085fd00e781a5ca7a5f2d85475d6883a5c18a9d00e6e355da95d4f5f"
+    },
+    {
+      "path": "src/lua/abyss_battle_info_content.lua",
+      "beforeSha256": "6689b168fc44daee3f1eca6bc7d76db277fb6cdda00b43c13d3df7a3315c9f2c",
+      "currentSha256": "6689b168fc44daee3f1eca6bc7d76db277fb6cdda00b43c13d3df7a3315c9f2c"
+    },
+    {
+      "path": "src/lua/abyss_battle_info_view.lua",
+      "beforeSha256": "121297a5930b4ad8f954407caa019caed5b604474e35354539d80242e83d3eae",
+      "currentSha256": "121297a5930b4ad8f954407caa019caed5b604474e35354539d80242e83d3eae"
+    },
+    {
+      "path": "src/lua/abyss_battle_input_state.lua",
+      "beforeSha256": "f5ca34c51e6599284d574b8053297c429b4f14d7a1951395f5a4decfbb87cd3d",
+      "currentSha256": "f5ca34c51e6599284d574b8053297c429b4f14d7a1951395f5a4decfbb87cd3d"
+    },
+    {
+      "path": "src/lua/abyss_battle_intent_view.lua",
+      "beforeSha256": "491d92710d2e269d98ef850ffc100631897fdfc0572e2da7e754776b653634e0",
+      "currentSha256": "491d92710d2e269d98ef850ffc100631897fdfc0572e2da7e754776b653634e0"
+    },
+    {
+      "path": "src/lua/abyss_battle_potion_bindings.lua",
+      "beforeSha256": "4d0529fe8b74cdf1807676dbf1c64d0913b27bb1348fbdd13069274ca006db64",
+      "currentSha256": "4d0529fe8b74cdf1807676dbf1c64d0913b27bb1348fbdd13069274ca006db64"
+    },
+    {
+      "path": "src/lua/abyss_battle_potion_popup.lua",
+      "beforeSha256": "705397ad7afc3246e7c533932cef7cd63436535676087b0e4fdd51dd1e7c24cd",
+      "currentSha256": "705397ad7afc3246e7c533932cef7cd63436535676087b0e4fdd51dd1e7c24cd"
+    },
+    {
+      "path": "src/lua/abyss_battle_potion_view.lua",
+      "beforeSha256": "c14001f467b8abd9efa98bd550b183266c97a2a2292154d7c97f374064f65a92",
+      "currentSha256": "c14001f467b8abd9efa98bd550b183266c97a2a2292154d7c97f374064f65a92"
+    },
+    {
+      "path": "src/lua/abyss_battle_render.lua",
+      "beforeSha256": "6ab3653f406287abd50cfd6773410fff2c9a64b238810390ee3fce509881daba",
+      "currentSha256": "6ab3653f406287abd50cfd6773410fff2c9a64b238810390ee3fce509881daba"
+    },
+    {
+      "path": "src/lua/abyss_battle_render_actors.lua",
+      "beforeSha256": "47157bd6b5d4819f674dfd0b542f40eda91268977b196f1f230a4815a60dd145",
+      "currentSha256": "47157bd6b5d4819f674dfd0b542f40eda91268977b196f1f230a4815a60dd145"
+    },
+    {
+      "path": "src/lua/abyss_battle_render_hud.lua",
+      "beforeSha256": "5f2cbce7d5d7411e9b575b4f88311540a7913860086a5515ebcc88cb2a8b7f55",
+      "currentSha256": "5f2cbce7d5d7411e9b575b4f88311540a7913860086a5515ebcc88cb2a8b7f55"
+    },
+    {
+      "path": "src/lua/abyss_battle_render_state.lua",
+      "beforeSha256": "190bc4eca4ebaa7cc0147e8ddb901975f3ee3ef28bf27f945b73f70f485d9398",
+      "currentSha256": "190bc4eca4ebaa7cc0147e8ddb901975f3ee3ef28bf27f945b73f70f485d9398"
+    },
+    {
+      "path": "src/lua/abyss_battle_reward_layout.lua",
+      "beforeSha256": "e1b3a9d7963298deb5a82f9a470b416e88da3e98a11d7320254d75660ac2a1b8",
+      "currentSha256": "e1b3a9d7963298deb5a82f9a470b416e88da3e98a11d7320254d75660ac2a1b8"
+    },
+    {
+      "path": "src/lua/abyss_battle_reward_owner.lua",
+      "beforeSha256": "cb73427a6fdf4b952f5cf134eb59364f8af95db334dec6d2388d35cde8f5887a",
+      "currentSha256": "cb73427a6fdf4b952f5cf134eb59364f8af95db334dec6d2388d35cde8f5887a"
+    },
+    {
+      "path": "src/lua/abyss_battle_status_view.lua",
+      "beforeSha256": "615fc1275429bef0ad4e1bc9a834d76c1aaac9e7c2baf53e284b06c7cf159b87",
+      "currentSha256": "615fc1275429bef0ad4e1bc9a834d76c1aaac9e7c2baf53e284b06c7cf159b87"
+    },
+    {
+      "path": "src/lua/abyss_battle_target_bindings.lua",
+      "beforeSha256": "430762c548eaecda576bb4edb8b85081501a5fc59d93ba11c8e7f2d192048b5b",
+      "currentSha256": "430762c548eaecda576bb4edb8b85081501a5fc59d93ba11c8e7f2d192048b5b"
+    },
+    {
+      "path": "src/lua/abyss_battle_targeting.lua",
+      "beforeSha256": "50922018fca25cbaf2ea7645b4ca9657b667c1f5e446edd52dd33b5103ae099f",
+      "currentSha256": "50922018fca25cbaf2ea7645b4ca9657b667c1f5e446edd52dd33b5103ae099f"
+    },
+    {
+      "path": "src/lua/abyss_battle_ui.lua",
+      "beforeSha256": "978f475b859da331cef3bdcb94c53b067d2db03fa12c46c212dc8150a3837f76",
+      "currentSha256": "978f475b859da331cef3bdcb94c53b067d2db03fa12c46c212dc8150a3837f76"
+    },
+    {
+      "path": "src/lua/abyss_battle_unit_view.lua",
+      "beforeSha256": "e723f9d6f1d696cc317947935a1e9a04e10f0046311a4034712c1ec133eea74e",
+      "currentSha256": "e723f9d6f1d696cc317947935a1e9a04e10f0046311a4034712c1ec133eea74e"
+    },
+    {
+      "path": "src/lua/abyss_bgm.lua",
+      "beforeSha256": "adcc610892b2c068e2c37a0f067080ec44e3b233e78d7799ac9371e1ddce39ec",
+      "currentSha256": "adcc610892b2c068e2c37a0f067080ec44e3b233e78d7799ac9371e1ddce39ec"
+    },
+    {
+      "path": "src/lua/abyss_blue_slaver_ai.lua",
+      "beforeSha256": "f600520998bd33a13716e71ff93be6937db4d323a55aa1721ab6ce8e5be8108c",
+      "currentSha256": "f600520998bd33a13716e71ff93be6937db4d323a55aa1721ab6ce8e5be8108c"
+    },
+    {
+      "path": "src/lua/abyss_boss_relics.lua",
+      "beforeSha256": "07202773300b3808fb154d473769f3c2c1ba9733141b2a6411f20748c88b147e",
+      "currentSha256": "07202773300b3808fb154d473769f3c2c1ba9733141b2a6411f20748c88b147e"
+    },
+    {
+      "path": "src/lua/abyss_build_actions.lua",
+      "beforeSha256": "77a03a52e8f07324605cb97017111023593e6497fe0cf66158807d73290f0ea7",
+      "currentSha256": "77a03a52e8f07324605cb97017111023593e6497fe0cf66158807d73290f0ea7"
+    },
+    {
+      "path": "src/lua/abyss_card_actions.lua",
+      "beforeSha256": "a89ef438e2f28f366fda05676b0724f5eac59c3447621d1253050b3105424578",
+      "currentSha256": "a89ef438e2f28f366fda05676b0724f5eac59c3447621d1253050b3105424578"
+    },
+    {
+      "path": "src/lua/abyss_card_art_runtime.lua",
+      "beforeSha256": "4917a9486da0ff8848b1fb1388aaac19b9011bfb671a702a47f33e729c4cb0c3",
+      "currentSha256": "4917a9486da0ff8848b1fb1388aaac19b9011bfb671a702a47f33e729c4cb0c3"
+    },
+    {
+      "path": "src/lua/abyss_card_capability.lua",
+      "beforeSha256": "b9eca8f9caf716ac5264b80ee4dd8142ae74b41f83f8fe6aa847b7247c2de1f9",
+      "currentSha256": "b9eca8f9caf716ac5264b80ee4dd8142ae74b41f83f8fe6aa847b7247c2de1f9"
+    },
+    {
+      "path": "src/lua/abyss_card_display.lua",
+      "beforeSha256": "8b676a31d21df94b2244780ebf5816c670a886a0e3fcab5564f28caad7a932e8",
+      "currentSha256": "8b676a31d21df94b2244780ebf5816c670a886a0e3fcab5564f28caad7a932e8"
+    },
+    {
+      "path": "src/lua/abyss_card_flow.lua",
+      "beforeSha256": "65dcdf5306c4a4a3665d934843f10974224b4b876189b0c0b0fa387458bec5fb",
+      "currentSha256": "65dcdf5306c4a4a3665d934843f10974224b4b876189b0c0b0fa387458bec5fb"
+    },
+    {
+      "path": "src/lua/abyss_card_input.lua",
+      "beforeSha256": "2bdbf7ef08346979524c336bd80a44e2e0b4c2c00998fcb8cf54efbf631f54e5",
+      "currentSha256": "2bdbf7ef08346979524c336bd80a44e2e0b4c2c00998fcb8cf54efbf631f54e5"
+    },
+    {
+      "path": "src/lua/abyss_card_origin.lua",
+      "beforeSha256": "44f4891881c0f9c982930298620dd789d49f5d87347ca6782e088af916099d06",
+      "currentSha256": "44f4891881c0f9c982930298620dd789d49f5d87347ca6782e088af916099d06"
+    },
+    {
+      "path": "src/lua/abyss_card_origin_view.lua",
+      "beforeSha256": "10ffbb328bf0660568f0e79bf439c93a61a44f739c5f1078ffc82a89ee96a285",
+      "currentSha256": "10ffbb328bf0660568f0e79bf439c93a61a44f739c5f1078ffc82a89ee96a285"
+    },
+    {
+      "path": "src/lua/abyss_card_pool.lua",
+      "beforeSha256": "dfc3a89f7df686a677b960430b8ad1be5a8042fcb4ae9a29537659795a2d0f90",
+      "currentSha256": "dfc3a89f7df686a677b960430b8ad1be5a8042fcb4ae9a29537659795a2d0f90"
+    },
+    {
+      "path": "src/lua/abyss_card_random.lua",
+      "beforeSha256": "fe5890f5ea37f9cd32905321fe8a8245c25b90c527196f67bb6ff111ca962cb9",
+      "currentSha256": "fe5890f5ea37f9cd32905321fe8a8245c25b90c527196f67bb6ff111ca962cb9"
+    },
+    {
+      "path": "src/lua/abyss_card_skin.lua",
+      "beforeSha256": "8d6b77f09db24ce501f4f1cd03d7adb0de40001a440942730e0ce631e8ff0ff7",
+      "currentSha256": "8d6b77f09db24ce501f4f1cd03d7adb0de40001a440942730e0ce631e8ff0ff7"
+    },
+    {
+      "path": "src/lua/abyss_card_triggers.lua",
+      "beforeSha256": "0fa45d814d1d1773e46358c2a7ea81b4ae2c8a823f330189609624485e2050bd",
+      "currentSha256": "0fa45d814d1d1773e46358c2a7ea81b4ae2c8a823f330189609624485e2050bd"
+    },
+    {
+      "path": "src/lua/abyss_character_presentation.lua",
+      "beforeSha256": "832d7871d48a9816f0285a30eacef48cbdbd4c4e8f394bf6eda0ee3425778bcf",
+      "currentSha256": "832d7871d48a9816f0285a30eacef48cbdbd4c4e8f394bf6eda0ee3425778bcf"
+    },
+    {
+      "path": "src/lua/abyss_character_presentation_text.lua",
+      "beforeSha256": "c57e30f30c35ee7b7d8cc654a848e8ff9fea2be2fe1fa958cf48df23c21e8311",
+      "currentSha256": "c57e30f30c35ee7b7d8cc654a848e8ff9fea2be2fe1fa958cf48df23c21e8311"
+    },
+    {
+      "path": "src/lua/abyss_character_profiles.lua",
+      "beforeSha256": "65a255630ead2887a58b34c37f3de1e25a636d3c02412774055e5294401b2a10",
+      "currentSha256": "65a255630ead2887a58b34c37f3de1e25a636d3c02412774055e5294401b2a10"
+    },
+    {
+      "path": "src/lua/abyss_character_select.lua",
+      "beforeSha256": "6eb3455bf6afa519ce9d9339a9ba58aece8ee9201c3c5ea13218047e140e6d35",
+      "currentSha256": "6eb3455bf6afa519ce9d9339a9ba58aece8ee9201c3c5ea13218047e140e6d35"
+    },
+    {
+      "path": "src/lua/abyss_character_select_view.lua",
+      "beforeSha256": "d90169c2e5d369a218b9742747fda7cd71dc5b09f4face05d657cb96a9c09cbb",
+      "currentSha256": "d90169c2e5d369a218b9742747fda7cd71dc5b09f4face05d657cb96a9c09cbb"
+    },
+    {
+      "path": "src/lua/abyss_choice_ui.lua",
+      "beforeSha256": "c05d16a48e5a11f0734b2f429cd634f383ebee5bdcc1edd9d55a73e988098b0b",
+      "currentSha256": "c05d16a48e5a11f0734b2f429cd634f383ebee5bdcc1edd9d55a73e988098b0b"
+    },
+    {
+      "path": "src/lua/abyss_class_card_pools.lua",
+      "beforeSha256": "f9e6bf8162f964f6e28915c9add89b56ad514e3d436097f726370233fd8ac708",
+      "currentSha256": "f9e6bf8162f964f6e28915c9add89b56ad514e3d436097f726370233fd8ac708"
+    },
+    {
+      "path": "src/lua/abyss_class_potions.lua",
+      "beforeSha256": "ae68080730c0286280b04fdebb95e95e2415021873264e6628eb9bc2bddfb3b9",
+      "currentSha256": "ae68080730c0286280b04fdebb95e95e2415021873264e6628eb9bc2bddfb3b9"
+    },
+    {
+      "path": "src/lua/abyss_codex_relic.lua",
+      "beforeSha256": "fbfdc03e939bd40d39178b887b65db37af16ca6e6edbfcfaa35e0d2d0dd6e339",
+      "currentSha256": "fbfdc03e939bd40d39178b887b65db37af16ca6e6edbfcfaa35e0d2d0dd6e339"
+    },
+    {
+      "path": "src/lua/abyss_colorless_cards.lua",
+      "beforeSha256": "16dc66720b2eb4007e61c13f085335bf75ecec6d90728d6b77b3e8a64d3d3a5a",
+      "currentSha256": "16dc66720b2eb4007e61c13f085335bf75ecec6d90728d6b77b3e8a64d3d3a5a"
+    },
+    {
+      "path": "src/lua/abyss_colosseum_event.lua",
+      "beforeSha256": "a4d3d339d10b0f56ed97a95237d630fda8cb46f9d125dfa21c70fc5218627058",
+      "currentSha256": "a4d3d339d10b0f56ed97a95237d630fda8cb46f9d125dfa21c70fc5218627058"
+    },
+    {
+      "path": "src/lua/abyss_combat.lua",
+      "beforeSha256": "609e75ba6e83da7b2311629adfdc2fd101c8167d3d17dbb1cdc0748baa9b1d1c",
+      "currentSha256": "609e75ba6e83da7b2311629adfdc2fd101c8167d3d17dbb1cdc0748baa9b1d1c"
+    },
+    {
+      "path": "src/lua/abyss_combat_catalog.lua",
+      "beforeSha256": "3a82ccf1d73efc1274826b4093fcead3a62a663dc2968bed953059ec1c22b72d",
+      "currentSha256": "3a82ccf1d73efc1274826b4093fcead3a62a663dc2968bed953059ec1c22b72d"
+    },
+    {
+      "path": "src/lua/abyss_combat_effect_cards.lua",
+      "beforeSha256": "ad516e63bfa3528104d42a49bb7e8b5c446c2d0d6e4c855b984bcc524f2733e5",
+      "currentSha256": "ad516e63bfa3528104d42a49bb7e8b5c446c2d0d6e4c855b984bcc524f2733e5"
+    },
+    {
+      "path": "src/lua/abyss_combat_effect_choice.lua",
+      "beforeSha256": "28f6dc9c18cb44b172858bc5be388ace2aa727609402d2478529b5536d9c086f",
+      "currentSha256": "28f6dc9c18cb44b172858bc5be388ace2aa727609402d2478529b5536d9c086f"
+    },
+    {
+      "path": "src/lua/abyss_combat_effect_damage.lua",
+      "beforeSha256": "b8ff07660d5d8e4b2348082678a3e83dd17d70994ef78652435c19dcbb5ff044",
+      "currentSha256": "b8ff07660d5d8e4b2348082678a3e83dd17d70994ef78652435c19dcbb5ff044"
+    },
+    {
+      "path": "src/lua/abyss_combat_effect_dispatch.lua",
+      "beforeSha256": "02fdbcf79108fb702d6e9508a989e12f2eb296e59d8a181ebe3ed80435aa269d",
+      "currentSha256": "02fdbcf79108fb702d6e9508a989e12f2eb296e59d8a181ebe3ed80435aa269d"
+    },
+    {
+      "path": "src/lua/abyss_combat_effect_powers.lua",
+      "beforeSha256": "abff029055d1ec47be657fb5a938c928309a925043796eb860e492df93b47afa",
+      "currentSha256": "abff029055d1ec47be657fb5a938c928309a925043796eb860e492df93b47afa"
+    },
+    {
+      "path": "src/lua/abyss_combat_enemy_setup.lua",
+      "beforeSha256": "76c8aa93a85a272b80ff4ae74645bc26fe33b7f6d18eb733d8c54d904b9331da",
+      "currentSha256": "76c8aa93a85a272b80ff4ae74645bc26fe33b7f6d18eb733d8c54d904b9331da"
+    },
+    {
+      "path": "src/lua/abyss_combat_native_play.lua",
+      "beforeSha256": "539c3a339016f9497b77f11daed7e0db0378f3e2fcb0923a2ebd39547881c6ec",
+      "currentSha256": "539c3a339016f9497b77f11daed7e0db0378f3e2fcb0923a2ebd39547881c6ec"
+    },
+    {
+      "path": "src/lua/abyss_combat_queued_play.lua",
+      "beforeSha256": "ee51b70a7afbb8584b86dfd32477a9a9a29338128393f68a03065dcbd1b62ad7",
+      "currentSha256": "ee51b70a7afbb8584b86dfd32477a9a9a29338128393f68a03065dcbd1b62ad7"
+    },
+    {
+      "path": "src/lua/abyss_combat_reactions.lua",
+      "beforeSha256": "2772aa238ce72d7628958bcf625602cd40b437cc6c24570d48dcacd578ddb06d",
+      "currentSha256": "2772aa238ce72d7628958bcf625602cd40b437cc6c24570d48dcacd578ddb06d"
+    },
+    {
+      "path": "src/lua/abyss_compendium_catalog.lua",
+      "beforeSha256": "d6594b4d276ab2f02983429227102282e51565acceca266c8971adfa9e32706a",
+      "currentSha256": "d6594b4d276ab2f02983429227102282e51565acceca266c8971adfa9e32706a"
+    },
+    {
+      "path": "src/lua/abyss_controller.lua",
+      "beforeSha256": "bfa156d81cbb4be11b5cdf6f5568051c46e2eacd724fa01b2d827736e6ddf482",
+      "currentSha256": "bfa156d81cbb4be11b5cdf6f5568051c46e2eacd724fa01b2d827736e6ddf482"
+    },
+    {
+      "path": "src/lua/abyss_copy.lua",
+      "beforeSha256": "099de1e77e190d4e61ababe30916b93656e7dbceb489755a121a021657911cc9",
+      "currentSha256": "099de1e77e190d4e61ababe30916b93656e7dbceb489755a121a021657911cc9"
+    },
+    {
+      "path": "src/lua/abyss_corrupt_heart.lua",
+      "beforeSha256": "a9b65915db69f66b9dc8a2be670ad2fb18f46f7e9fa254a406816b49cea496ac",
+      "currentSha256": "a9b65915db69f66b9dc8a2be670ad2fb18f46f7e9fa254a406816b49cea496ac"
+    },
+    {
+      "path": "src/lua/abyss_corruption.lua",
+      "beforeSha256": "a4ec793a0568245f32b79b0a6e074348b59d627b71fe2da8faa345fea2ef2f14",
+      "currentSha256": "a4ec793a0568245f32b79b0a6e074348b59d627b71fe2da8faa345fea2ef2f14"
+    },
+    {
+      "path": "src/lua/abyss_cursed_tome_event.lua",
+      "beforeSha256": "6055e253d9af199bb0e263b9460238c835107cde7cf704c5923e98220af2a411",
+      "currentSha256": "6055e253d9af199bb0e263b9460238c835107cde7cf704c5923e98220af2a411"
+    },
+    {
+      "path": "src/lua/abyss_curses.lua",
+      "beforeSha256": "942e7c65da29875fefbff132182ce7a7aab16afb4405e28d2a71e31d589a44b7",
+      "currentSha256": "942e7c65da29875fefbff132182ce7a7aab16afb4405e28d2a71e31d589a44b7"
+    },
+    {
+      "path": "src/lua/abyss_darklings.lua",
+      "beforeSha256": "4cf5255fd3ba000fb5e9d94468a74685a2ca37fbb15d0c3f5d2efd9c90fec22e",
+      "currentSha256": "4cf5255fd3ba000fb5e9d94468a74685a2ca37fbb15d0c3f5d2efd9c90fec22e"
+    },
+    {
+      "path": "src/lua/abyss_dead_adventurer_event.lua",
+      "beforeSha256": "2d225ea8e6852a4ccee55f8e1d794c111bf09f61b553d294c26c95753c76bc5c",
+      "currentSha256": "2d225ea8e6852a4ccee55f8e1d794c111bf09f61b553d294c26c95753c76bc5c"
+    },
+    {
+      "path": "src/lua/abyss_deck_ui.lua",
+      "beforeSha256": "e652f6c95c74a34072da49f6019e2915aa9c81b97d54300fca2d8a2fe997e908",
+      "currentSha256": "e652f6c95c74a34072da49f6019e2915aa9c81b97d54300fca2d8a2fe997e908"
+    },
+    {
+      "path": "src/lua/abyss_defect_cards.lua",
+      "beforeSha256": "7844025e58ffcf345243d29a8e24b21268f728e833456389acbd764bcbb8d6a3",
+      "currentSha256": "7844025e58ffcf345243d29a8e24b21268f728e833456389acbd764bcbb8d6a3"
+    },
+    {
+      "path": "src/lua/abyss_defect_engine_cards.lua",
+      "beforeSha256": "ecfccd24cac9aa6010555d4ac4d2502a75837e2ccfee4dc291aa511b494f76c0",
+      "currentSha256": "ecfccd24cac9aa6010555d4ac4d2502a75837e2ccfee4dc291aa511b494f76c0"
+    },
+    {
+      "path": "src/lua/abyss_defect_final_cards.lua",
+      "beforeSha256": "df100051b93665ecc88dea658f9c3bfdf24148907fd740c50ca0166852f9be71",
+      "currentSha256": "df100051b93665ecc88dea658f9c3bfdf24148907fd740c50ca0166852f9be71"
+    },
+    {
+      "path": "src/lua/abyss_defect_utility_cards.lua",
+      "beforeSha256": "e9372f029db58b62e4fff8f4889826607e8d114dcab2cfa00ca4f124fe29f670",
+      "currentSha256": "e9372f029db58b62e4fff8f4889826607e8d114dcab2cfa00ca4f124fe29f670"
+    },
+    {
+      "path": "src/lua/abyss_designer_event.lua",
+      "beforeSha256": "8597b051e23c7ad62276c3fa868f652ddb82f33dc6a9aa6bc0e5009935b852cc",
+      "currentSha256": "8597b051e23c7ad62276c3fa868f652ddb82f33dc6a9aa6bc0e5009935b852cc"
+    },
+    {
+      "path": "src/lua/abyss_discard.lua",
+      "beforeSha256": "5742fbad7b6daf65b324ff9c0143d458f1fb864c006237ef5b150f4e34524265",
+      "currentSha256": "5742fbad7b6daf65b324ff9c0143d458f1fb864c006237ef5b150f4e34524265"
+    },
+    {
+      "path": "src/lua/abyss_drug_dealer_event.lua",
+      "beforeSha256": "050e3ff36e02d4abf878248f4fac2a4bff3b6b8fbb3021965156f67cb901ff83",
+      "currentSha256": "050e3ff36e02d4abf878248f4fac2a4bff3b6b8fbb3021965156f67cb901ff83"
+    },
+    {
+      "path": "src/lua/abyss_duplicator_event.lua",
+      "beforeSha256": "12be2e5ebb7f0d54464d159d03829275cb1a9bfd30f46fd5d9b2912e97c6386b",
+      "currentSha256": "12be2e5ebb7f0d54464d159d03829275cb1a9bfd30f46fd5d9b2912e97c6386b"
+    },
+    {
+      "path": "src/lua/abyss_effects.lua",
+      "beforeSha256": "aa1c507c56ee8b1794641f710c4e2e2b603f52f3c29b51096f8860df58c74a71",
+      "currentSha256": "aa1c507c56ee8b1794641f710c4e2e2b603f52f3c29b51096f8860df58c74a71"
+    },
+    {
+      "path": "src/lua/abyss_effects_cards.lua",
+      "beforeSha256": "28bb3255c8d038d905bcdbe1b8e5164b787223747ec20d0c15fb33a5ab989bc1",
+      "currentSha256": "28bb3255c8d038d905bcdbe1b8e5164b787223747ec20d0c15fb33a5ab989bc1"
+    },
+    {
+      "path": "src/lua/abyss_effects_damage.lua",
+      "beforeSha256": "ae24c9ddd57d7ac2bac8c65d8f1f1768fad750ada74262501b9bad074d03ca41",
+      "currentSha256": "ae24c9ddd57d7ac2bac8c65d8f1f1768fad750ada74262501b9bad074d03ca41"
+    },
+    {
+      "path": "src/lua/abyss_effects_enemy.lua",
+      "beforeSha256": "afa4d9172f210a5b459bbd38df18718babc3993477ffbc12ddd2615eb4f2f12a",
+      "currentSha256": "afa4d9172f210a5b459bbd38df18718babc3993477ffbc12ddd2615eb4f2f12a"
+    },
+    {
+      "path": "src/lua/abyss_effects_powers.lua",
+      "beforeSha256": "323319953426476692bd7388526a249537651c46beb6b01c6e1877ceb4e70e36",
+      "currentSha256": "323319953426476692bd7388526a249537651c46beb6b01c6e1877ceb4e70e36"
+    },
+    {
+      "path": "src/lua/abyss_emerald_elite.lua",
+      "beforeSha256": "66f04ab348236f17a61125d8b76c7098b4fdf79607ae44b634892bff89be3d46",
+      "currentSha256": "66f04ab348236f17a61125d8b76c7098b4fdf79607ae44b634892bff89be3d46"
+    },
+    {
+      "path": "src/lua/abyss_emerald_rewards.lua",
+      "beforeSha256": "800a19f3a9f3c6e4dac423ac62d90ccb5ac4ddf6a23a255f12572b040490c83c",
+      "currentSha256": "800a19f3a9f3c6e4dac423ac62d90ccb5ac4ddf6a23a255f12572b040490c83c"
+    },
+    {
+      "path": "src/lua/abyss_encounter_formation.lua",
+      "beforeSha256": "de7afe27c70b14e724aa7f0ea67509e41df882e1e055904b82cc7be56916e8ec",
+      "currentSha256": "de7afe27c70b14e724aa7f0ea67509e41df882e1e055904b82cc7be56916e8ec"
+    },
+    {
+      "path": "src/lua/abyss_encounter_queue.lua",
+      "beforeSha256": "3fe80c7f00add3170c5bc3d2053889ac197e8a96e83aee1ab428b809baa4f7f8",
+      "currentSha256": "3fe80c7f00add3170c5bc3d2053889ac197e8a96e83aee1ab428b809baa4f7f8"
+    },
+    {
+      "path": "src/lua/abyss_end_turn_powers.lua",
+      "beforeSha256": "0f8881d917f93efb26c7b53f67545c05e6c4f39b43b1694bc3d3d6080173ebda",
+      "currentSha256": "0f8881d917f93efb26c7b53f67545c05e6c4f39b43b1694bc3d3d6080173ebda"
+    },
+    {
+      "path": "src/lua/abyss_ending_actions.lua",
+      "beforeSha256": "2a2ada3efd984aec9b4a28cd5e60f5f18bb22f16ba44cec95afc1538ade5dd4a",
+      "currentSha256": "2a2ada3efd984aec9b4a28cd5e60f5f18bb22f16ba44cec95afc1538ade5dd4a"
+    },
+    {
+      "path": "src/lua/abyss_ending_history.lua",
+      "beforeSha256": "65c718fc07c01542e4aee1911d347d017e97b6ec3df4a789fcc3d8f09fb7ba9d",
+      "currentSha256": "65c718fc07c01542e4aee1911d347d017e97b6ec3df4a789fcc3d8f09fb7ba9d"
+    },
+    {
+      "path": "src/lua/abyss_enemy_ai.lua",
+      "beforeSha256": "3bfec14ef91be048c5fce7d807955c0c24beda4b98da27b91b1aff12a1ff5bf2",
+      "currentSha256": "3bfec14ef91be048c5fce7d807955c0c24beda4b98da27b91b1aff12a1ff5bf2"
+    },
+    {
+      "path": "src/lua/abyss_enemy_random.lua",
+      "beforeSha256": "6e85867185aa114af1b0dd5faf38bc0a59a7292f1bfc39e513460909e22621cd",
+      "currentSha256": "6e85867185aa114af1b0dd5faf38bc0a59a7292f1bfc39e513460909e22621cd"
+    },
+    {
+      "path": "src/lua/abyss_event_card_sampling.lua",
+      "beforeSha256": "8ec3dcdbd2519f8d06d66ed96124178d0eab515c4c8d3cc6504d55c85739ae02",
+      "currentSha256": "8ec3dcdbd2519f8d06d66ed96124178d0eab515c4c8d3cc6504d55c85739ae02"
+    },
+    {
+      "path": "src/lua/abyss_event_combat.lua",
+      "beforeSha256": "6285d68921ff20b649d50252e9024eab794ce4df765aa5925cc34cafe6b222df",
+      "currentSha256": "6285d68921ff20b649d50252e9024eab794ce4df765aa5925cc34cafe6b222df"
+    },
+    {
+      "path": "src/lua/abyss_event_combat_enemies.lua",
+      "beforeSha256": "730ec209b7b4808789ab90cd255697850c36cd0c3de6d63caec18bc7b2e105da",
+      "currentSha256": "730ec209b7b4808789ab90cd255697850c36cd0c3de6d63caec18bc7b2e105da"
+    },
+    {
+      "path": "src/lua/abyss_event_combat_routes.lua",
+      "beforeSha256": "0bde4ab1ed47a606e42894d9d7cfbb549ad5a29fee8f51f2a4ff6ba1fa0bbfae",
+      "currentSha256": "0bde4ab1ed47a606e42894d9d7cfbb549ad5a29fee8f51f2a4ff6ba1fa0bbfae"
+    },
+    {
+      "path": "src/lua/abyss_event_pool.lua",
+      "beforeSha256": "2b3511baabf92f3007515de4d6707fe9b60c281d3c46ee04547109543f1219ca",
+      "currentSha256": "2b3511baabf92f3007515de4d6707fe9b60c281d3c46ee04547109543f1219ca"
+    },
+    {
+      "path": "src/lua/abyss_event_transform_context.lua",
+      "beforeSha256": "38c827ae2eb69dac8d0a7b9dc3f7d11d0964e2bf48d2157c23dc91d24eb4af44",
+      "currentSha256": "38c827ae2eb69dac8d0a7b9dc3f7d11d0964e2bf48d2157c23dc91d24eb4af44"
+    },
+    {
+      "path": "src/lua/abyss_events.lua",
+      "beforeSha256": "82a1fd4f5903454220e95d55639bbb547ec13d00257051b703bf22464fd1968c",
+      "currentSha256": "82a1fd4f5903454220e95d55639bbb547ec13d00257051b703bf22464fd1968c"
+    },
+    {
+      "path": "src/lua/abyss_exhaust.lua",
+      "beforeSha256": "a896da79d8206d763a28622ba5544920d14ee9e9b33d6fef9b11d72d8491de48",
+      "currentSha256": "a896da79d8206d763a28622ba5544920d14ee9e9b33d6fef9b11d72d8491de48"
+    },
+    {
+      "path": "src/lua/abyss_external_random.lua",
+      "beforeSha256": "e328762910a732b84bd20b1d800f7372e0295156a8e66fae146acf758e834702",
+      "currentSha256": "e328762910a732b84bd20b1d800f7372e0295156a8e66fae146acf758e834702"
+    },
+    {
+      "path": "src/lua/abyss_face_trader_event.lua",
+      "beforeSha256": "cb82eb38e4d69656dc23f170ee197618123f887f83539074199030289f0dd66a",
+      "currentSha256": "cb82eb38e4d69656dc23f170ee197618123f887f83539074199030289f0dd66a"
+    },
+    {
+      "path": "src/lua/abyss_feedback.lua",
+      "beforeSha256": "2219cdcb5d43fad4593e136b0ec40aa1505abb8e03f1e0c81aee8e767711afe1",
+      "currentSha256": "2219cdcb5d43fad4593e136b0ec40aa1505abb8e03f1e0c81aee8e767711afe1"
+    },
+    {
+      "path": "src/lua/abyss_feedback_actor_painter.lua",
+      "beforeSha256": "e5e39be2a66b707e2385e2fd7171d9eac3a707ab2ef8eebcbb0c1689f9a3ebec",
+      "currentSha256": "e5e39be2a66b707e2385e2fd7171d9eac3a707ab2ef8eebcbb0c1689f9a3ebec"
+    },
+    {
+      "path": "src/lua/abyss_flow_actions.lua",
+      "beforeSha256": "d1ce62d0481da5fef3c25fa835d4dd4c3a4d16d2ee4aefc6402bd01b4d7b3759",
+      "currentSha256": "d1ce62d0481da5fef3c25fa835d4dd4c3a4d16d2ee4aefc6402bd01b4d7b3759"
+    },
+    {
+      "path": "src/lua/abyss_focus.lua",
+      "beforeSha256": "a4cead026d11ade7e97e68190a77d4d12661a8119daaf6ecac14a31eca3c94ad",
+      "currentSha256": "a4cead026d11ade7e97e68190a77d4d12661a8119daaf6ecac14a31eca3c94ad"
+    },
+    {
+      "path": "src/lua/abyss_forgotten_altar_event.lua",
+      "beforeSha256": "e353015785d8cbe3eefe1c181c160f17ad1bd58b124fc80202c1782a777db003",
+      "currentSha256": "e353015785d8cbe3eefe1c181c160f17ad1bd58b124fc80202c1782a777db003"
+    },
+    {
+      "path": "src/lua/abyss_fountain.lua",
+      "beforeSha256": "cedc147d608a7fe39020d494dc96a3326f0fc3a1c0473741b5e9031d069a97d5",
+      "currentSha256": "cedc147d608a7fe39020d494dc96a3326f0fc3a1c0473741b5e9031d069a97d5"
+    },
+    {
+      "path": "src/lua/abyss_fungi_beast_ai.lua",
+      "beforeSha256": "2b9d1aea3c91a0570ef60e7b35ea7038c385b12c945c4058babafb71d65992e4",
+      "currentSha256": "2b9d1aea3c91a0570ef60e7b35ea7038c385b12c945c4058babafb71d65992e4"
+    },
+    {
+      "path": "src/lua/abyss_game_ui.lua",
+      "beforeSha256": "76a6a648d8a1090572adb98a1b2d49d52b3911a9f48f40c578ea683a6a31984b",
+      "currentSha256": "76a6a648d8a1090572adb98a1b2d49d52b3911a9f48f40c578ea683a6a31984b"
+    },
+    {
+      "path": "src/lua/abyss_game_ui_input.lua",
+      "beforeSha256": "a2630f7eee718be5b970a5e0fdfc8a8867fde6877e5c09402c0d1486ad096e39",
+      "currentSha256": "a2630f7eee718be5b970a5e0fdfc8a8867fde6877e5c09402c0d1486ad096e39"
+    },
+    {
+      "path": "src/lua/abyss_game_ui_lifecycle.lua",
+      "beforeSha256": "9f7ec19571c1103e536d2f579df52214cbca420f17da921459331b96c33c3f1c",
+      "currentSha256": "9f7ec19571c1103e536d2f579df52214cbca420f17da921459331b96c33c3f1c"
+    },
+    {
+      "path": "src/lua/abyss_game_ui_menu_view.lua",
+      "beforeSha256": "20db628306d05a6dc7bc8b786715322e78d7c2840c028451544d8d9b308d588e",
+      "currentSha256": "20db628306d05a6dc7bc8b786715322e78d7c2840c028451544d8d9b308d588e"
+    },
+    {
+      "path": "src/lua/abyss_game_ui_overlays.lua",
+      "beforeSha256": "cc8e70176ed82a7a8146507fb51c123ecbeeb6c5d01c8e1a98cb07cfb53fd1d2",
+      "currentSha256": "cc8e70176ed82a7a8146507fb51c123ecbeeb6c5d01c8e1a98cb07cfb53fd1d2"
+    },
+    {
+      "path": "src/lua/abyss_game_ui_run.lua",
+      "beforeSha256": "ae1d8e262a79ebc8a9e6749948f1a8d97b21a7ab13a28adcc4a886b1a98bc5b3",
+      "currentSha256": "ae1d8e262a79ebc8a9e6749948f1a8d97b21a7ab13a28adcc4a886b1a98bc5b3"
+    },
+    {
+      "path": "src/lua/abyss_game_ui_view.lua",
+      "beforeSha256": "edd045e7a13a1bac5af2669c1cd682cb45d928edbda45d1b8af4d055a0850b89",
+      "currentSha256": "edd045e7a13a1bac5af2669c1cd682cb45d928edbda45d1b8af4d055a0850b89"
+    },
+    {
+      "path": "src/lua/abyss_ghosts_event.lua",
+      "beforeSha256": "d7fb720f4fd19f95bb1315a41eee54329227ead858c8dd58cd5f663ab8b1661c",
+      "currentSha256": "d7fb720f4fd19f95bb1315a41eee54329227ead858c8dd58cd5f663ab8b1661c"
+    },
+    {
+      "path": "src/lua/abyss_giant_head.lua",
+      "beforeSha256": "5806525b4634c5396e71e7c590bc00fc0047d81e6b3a612e417f889eba79f1b2",
+      "currentSha256": "5806525b4634c5396e71e7c590bc00fc0047d81e6b3a612e417f889eba79f1b2"
+    },
+    {
+      "path": "src/lua/abyss_gold_rewards.lua",
+      "beforeSha256": "8cb4b578939c8093917e521e7114ce7a8bfc53da71692cd2db1df71c78dbb5fb",
+      "currentSha256": "8cb4b578939c8093917e521e7114ce7a8bfc53da71692cd2db1df71c78dbb5fb"
+    },
+    {
+      "path": "src/lua/abyss_golden_idol_event.lua",
+      "beforeSha256": "14ea045b9e85ee54a6b7bbf3b5a633b3a077f85962ab92dc088b95c46e7f2af2",
+      "currentSha256": "14ea045b9e85ee54a6b7bbf3b5a633b3a077f85962ab92dc088b95c46e7f2af2"
+    },
+    {
+      "path": "src/lua/abyss_gremlin_nob_ai.lua",
+      "beforeSha256": "b6739284fccfb553e229ce4f228cc8db602decbd9ee3ef4f93340ba39eeaa7e2",
+      "currentSha256": "b6739284fccfb553e229ce4f228cc8db602decbd9ee3ef4f93340ba39eeaa7e2"
+    },
+    {
+      "path": "src/lua/abyss_guardian_ai.lua",
+      "beforeSha256": "f75fb008b6ddfffec6adaa49890c192d89b459f3119e3e8baf4d9b03a7c92eb3",
+      "currentSha256": "f75fb008b6ddfffec6adaa49890c192d89b459f3119e3e8baf4d9b03a7c92eb3"
+    },
+    {
+      "path": "src/lua/abyss_hand_choice.lua",
+      "beforeSha256": "4779464a8dbdb4e8531071e3c61b2217a8ed99aec3788275aba10e054a0e2d76",
+      "currentSha256": "4779464a8dbdb4e8531071e3c61b2217a8ed99aec3788275aba10e054a0e2d76"
+    },
+    {
+      "path": "src/lua/abyss_hp_loss.lua",
+      "beforeSha256": "c850a947b868859d6fc522ccf547e76253473f29d4ebe762da0507ec9d9331ed",
+      "currentSha256": "c850a947b868859d6fc522ccf547e76253473f29d4ebe762da0507ec9d9331ed"
+    },
+    {
+      "path": "src/lua/abyss_inventory.lua",
+      "beforeSha256": "8fb3dddab386d221c76de49a1ca4b9937a2edbde93511c06ef3810cd71a7557c",
+      "currentSha256": "8fb3dddab386d221c76de49a1ca4b9937a2edbde93511c06ef3810cd71a7557c"
+    },
+    {
+      "path": "src/lua/abyss_jaw_worm_ai.lua",
+      "beforeSha256": "c8408c9ebfdf3198db3a70e63ece71a89a642dee64548d907c64cf64208252e9",
+      "currentSha256": "c8408c9ebfdf3198db3a70e63ece71a89a642dee64548d907c64cf64208252e9"
+    },
+    {
+      "path": "src/lua/abyss_joust_event.lua",
+      "beforeSha256": "c579ccb9efe508634e712388ccdf1ac61b54295922f59b89f47f032be2ea1a04",
+      "currentSha256": "c579ccb9efe508634e712388ccdf1ac61b54295922f59b89f47f032be2ea1a04"
+    },
+    {
+      "path": "src/lua/abyss_knowing_skull_event.lua",
+      "beforeSha256": "fefcadeecba9b0f47fc1a7d7467585cfad81fe5645b885a73bae148b9ae293ec",
+      "currentSha256": "fefcadeecba9b0f47fc1a7d7467585cfad81fe5645b885a73bae148b9ae293ec"
+    },
+    {
+      "path": "src/lua/abyss_library_event.lua",
+      "beforeSha256": "10d0f6970d478ca4adb58cd287dfe5d17e8d779138bfea72ce413f3b5aa79c4b",
+      "currentSha256": "10d0f6970d478ca4adb58cd287dfe5d17e8d779138bfea72ce413f3b5aa79c4b"
+    },
+    {
+      "path": "src/lua/abyss_living_wall.lua",
+      "beforeSha256": "9fdf91e1b9ae66511b6c6e80d0e2b250b7245d2077452095c32c8515d281432a",
+      "currentSha256": "9fdf91e1b9ae66511b6c6e80d0e2b250b7245d2077452095c32c8515d281432a"
+    },
+    {
+      "path": "src/lua/abyss_lizard_tail.lua",
+      "beforeSha256": "c4dbfaeb1049dd90eda158a02713977e5e968ee5e478f6986bb7fc74081ce299",
+      "currentSha256": "c4dbfaeb1049dd90eda158a02713977e5e968ee5e478f6986bb7fc74081ce299"
+    },
+    {
+      "path": "src/lua/abyss_looter_ai.lua",
+      "beforeSha256": "c754cac73612052a71475d7a209cfe97634e6d134773a93475069245143b0d48",
+      "currentSha256": "c754cac73612052a71475d7a209cfe97634e6d134773a93475069245143b0d48"
+    },
+    {
+      "path": "src/lua/abyss_louse_ai.lua",
+      "beforeSha256": "8e3201c61d29992883784b6165eb79512b2e4e974de5008fba8f227e6c7776f4",
+      "currentSha256": "8e3201c61d29992883784b6165eb79512b2e4e974de5008fba8f227e6c7776f4"
+    },
+    {
+      "path": "src/lua/abyss_mantra.lua",
+      "beforeSha256": "767b0c41782ce159b549fbbe163c1d3022bc416d0f06fa8de8d555910dc0c375",
+      "currentSha256": "767b0c41782ce159b549fbbe163c1d3022bc416d0f06fa8de8d555910dc0c375"
+    },
+    {
+      "path": "src/lua/abyss_map.lua",
+      "beforeSha256": "52d311bc4a863303906dfa3a29d65bc11606eda30759a560ed80266381900810",
+      "currentSha256": "52d311bc4a863303906dfa3a29d65bc11606eda30759a560ed80266381900810"
+    },
+    {
+      "path": "src/lua/abyss_map_rooms.lua",
+      "beforeSha256": "eef10661bd77af2e9464e4eab7199c0d487f72b1ba412cf0867f970169569e2c",
+      "currentSha256": "eef10661bd77af2e9464e4eab7199c0d487f72b1ba412cf0867f970169569e2c"
+    },
+    {
+      "path": "src/lua/abyss_map_topology.lua",
+      "beforeSha256": "0b07a3269a9110c82a3a88b9fdd25313555a5e44d6121d86606f70ed654ed788",
+      "currentSha256": "0b07a3269a9110c82a3a88b9fdd25313555a5e44d6121d86606f70ed654ed788"
+    },
+    {
+      "path": "src/lua/abyss_map_ui.lua",
+      "beforeSha256": "893880f414ac726f627c599bdc066342db6a94c58b6d4dd284f4ca57ec376504",
+      "currentSha256": "893880f414ac726f627c599bdc066342db6a94c58b6d4dd284f4ca57ec376504"
+    },
+    {
+      "path": "src/lua/abyss_masked_bandits_event.lua",
+      "beforeSha256": "e094fb78b5836742f1c55b00aaeb71face17f8c4af66c63f9ef5860c9ba45a80",
+      "currentSha256": "e094fb78b5836742f1c55b00aaeb71face17f8c4af66c63f9ef5860c9ba45a80"
+    },
+    {
+      "path": "src/lua/abyss_match_event.lua",
+      "beforeSha256": "c8e76f8be6640926de79b14cf435eb71688485072d174833f64a4fbe68361596",
+      "currentSha256": "c8e76f8be6640926de79b14cf435eb71688485072d174833f64a4fbe68361596"
+    },
+    {
+      "path": "src/lua/abyss_match_event_ui.lua",
+      "beforeSha256": "fe0508489ec452737e78f35e42107861b7cc69ba98f8b3e54d83e873712b523b",
+      "currentSha256": "fe0508489ec452737e78f35e42107861b7cc69ba98f8b3e54d83e873712b523b"
+    },
+    {
+      "path": "src/lua/abyss_max_hp_relics.lua",
+      "beforeSha256": "be64e570ab9ca4ab28acf79b474531714e41fe93d7a04a284b88a79e683dc0d6",
+      "currentSha256": "be64e570ab9ca4ab28acf79b474531714e41fe93d7a04a284b88a79e683dc0d6"
+    },
+    {
+      "path": "src/lua/abyss_menu_background.lua",
+      "beforeSha256": "343d0e5dad14423edc2bd5495c70632a2ff4b91e04c7102cc5eab397ef27d4f4",
+      "currentSha256": "343d0e5dad14423edc2bd5495c70632a2ff4b91e04c7102cc5eab397ef27d4f4"
+    },
+    {
+      "path": "src/lua/abyss_merchant.lua",
+      "beforeSha256": "1406a09412592bc65e8cc39446fa4219250d837bc55a94f06c53ea68ad31435d",
+      "currentSha256": "1406a09412592bc65e8cc39446fa4219250d837bc55a94f06c53ea68ad31435d"
+    },
+    {
+      "path": "src/lua/abyss_mind_bloom_event.lua",
+      "beforeSha256": "90839bb4c97a29e8294f3ac97481c8d3851f079f5088570c48fd885a641b2bb8",
+      "currentSha256": "90839bb4c97a29e8294f3ac97481c8d3851f079f5088570c48fd885a641b2bb8"
+    },
+    {
+      "path": "src/lua/abyss_moai_event.lua",
+      "beforeSha256": "5e91422199049347db4c33429235023180cdc3ae6fda7b4645bbf2643e0c8026",
+      "currentSha256": "5e91422199049347db4c33429235023180cdc3ae6fda7b4645bbf2643e0c8026"
+    },
+    {
+      "path": "src/lua/abyss_monster_art.lua",
+      "beforeSha256": "af776e697821870dd7c06b86862b4096262f9879ae66af3f8bbebb125d63644b",
+      "currentSha256": "af776e697821870dd7c06b86862b4096262f9879ae66af3f8bbebb125d63644b"
+    },
+    {
+      "path": "src/lua/abyss_monster_displayed_intent.lua",
+      "beforeSha256": "03ffebc6575d6ee7bca229b239276a452bec5e5800737238745ae129ead6e358",
+      "currentSha256": "03ffebc6575d6ee7bca229b239276a452bec5e5800737238745ae129ead6e358"
+    },
+    {
+      "path": "src/lua/abyss_monster_escape.lua",
+      "beforeSha256": "f5fa35cd7aa2f62fe1540d14b732647e79014e8266f64e28b4671d688c3f34a2",
+      "currentSha256": "f5fa35cd7aa2f62fe1540d14b732647e79014e8266f64e28b4671d688c3f34a2"
+    },
+    {
+      "path": "src/lua/abyss_monster_intent_particle_view.lua",
+      "beforeSha256": "8117dd827ff947880d410f19fc5999fdce6cbd8caeb0b8e2b2cdb11b9db3dd70",
+      "currentSha256": "8117dd827ff947880d410f19fc5999fdce6cbd8caeb0b8e2b2cdb11b9db3dd70"
+    },
+    {
+      "path": "src/lua/abyss_monster_intent_particles.lua",
+      "beforeSha256": "53bc76d7bd0296944fff253e4d021e2319253acda758c48e8eb673878dc3aa5f",
+      "currentSha256": "53bc76d7bd0296944fff253e4d021e2319253acda758c48e8eb673878dc3aa5f"
+    },
+    {
+      "path": "src/lua/abyss_monster_power_surfaces.lua",
+      "beforeSha256": "e9e81ea8648f22f3d2b6b2a489f72eda194304cc164a52f8cebbed9859bff15e",
+      "currentSha256": "e9e81ea8648f22f3d2b6b2a489f72eda194304cc164a52f8cebbed9859bff15e"
+    },
+    {
+      "path": "src/lua/abyss_monster_power_view.lua",
+      "beforeSha256": "64a01d5c8b97872a574749418afa0ee415290a760f62f8b70e40f369a9f90627",
+      "currentSha256": "64a01d5c8b97872a574749418afa0ee415290a760f62f8b70e40f369a9f90627"
+    },
+    {
+      "path": "src/lua/abyss_monster_source_geometry.lua",
+      "beforeSha256": "72e5b5b88b3788f88597fb84d9e8df8c7369dbb38c75d2f99e9e81866f597d47",
+      "currentSha256": "72e5b5b88b3788f88597fb84d9e8df8c7369dbb38c75d2f99e9e81866f597d47"
+    },
+    {
+      "path": "src/lua/abyss_monster_source_intents.lua",
+      "beforeSha256": "8992382ce56ae66c54194686160bfac78c035f545a50410557d02e8ae6820675",
+      "currentSha256": "8992382ce56ae66c54194686160bfac78c035f545a50410557d02e8ae6820675"
+    },
+    {
+      "path": "src/lua/abyss_monster_source_positions.lua",
+      "beforeSha256": "451aba7cc747b2ea24bcc26b646206f0c3da72be1784621e0024de2a96a8d755",
+      "currentSha256": "451aba7cc747b2ea24bcc26b646206f0c3da72be1784621e0024de2a96a8d755"
+    },
+    {
+      "path": "src/lua/abyss_monster_surfaces.lua",
+      "beforeSha256": "217ea8492fb72867ef635d674987891e5a85a1d71dda7b70b52db6a0e53f0d8e",
+      "currentSha256": "217ea8492fb72867ef635d674987891e5a85a1d71dda7b70b52db6a0e53f0d8e"
+    },
+    {
+      "path": "src/lua/abyss_mushrooms_event.lua",
+      "beforeSha256": "4cc7a98b481c4600cfbe497ad1b44e5a7fe18c08d14498b52b47225c559c25a5",
+      "currentSha256": "4cc7a98b481c4600cfbe497ad1b44e5a7fe18c08d14498b52b47225c559c25a5"
+    },
+    {
+      "path": "src/lua/abyss_mysterious_sphere_event.lua",
+      "beforeSha256": "9532b65d22f0849ca4da946abe27c99ab48f06e2f902a30d39b1ce5b1d4c71a4",
+      "currentSha256": "9532b65d22f0849ca4da946abe27c99ab48f06e2f902a30d39b1ce5b1d4c71a4"
+    },
+    {
+      "path": "src/lua/abyss_necronomicurse.lua",
+      "beforeSha256": "173812f59fb1ae31decb2904785291b12c53a7b64f9eaca12d229ace07c5bbc8",
+      "currentSha256": "173812f59fb1ae31decb2904785291b12c53a7b64f9eaca12d229ace07c5bbc8"
+    },
+    {
+      "path": "src/lua/abyss_nemesis.lua",
+      "beforeSha256": "0aee581d8fef52d08d4318ca4ff3f8656970936d0690d5705c7036405e8fbe6b",
+      "currentSha256": "0aee581d8fef52d08d4318ca4ff3f8656970936d0690d5705c7036405e8fbe6b"
+    },
+    {
+      "path": "src/lua/abyss_neow.lua",
+      "beforeSha256": "6d7c62735bcaae2b188c497b1b756216125ca85670141fb8a4c7e440a0b877d6",
+      "currentSha256": "6d7c62735bcaae2b188c497b1b756216125ca85670141fb8a4c7e440a0b877d6"
+    },
+    {
+      "path": "src/lua/abyss_neow_history.lua",
+      "beforeSha256": "6fe9d6b915f155a1edbd2581cc13af530b3fa7277aeab10c3249429a2d200b16",
+      "currentSha256": "6fe9d6b915f155a1edbd2581cc13af530b3fa7277aeab10c3249429a2d200b16"
+    },
+    {
+      "path": "src/lua/abyss_nest_event.lua",
+      "beforeSha256": "5fe3c845db3520c0c91c43307b723b7c0a5f7b0c2acf6954758f6b31b68ad936",
+      "currentSha256": "5fe3c845db3520c0c91c43307b723b7c0a5f7b0c2acf6954758f6b31b68ad936"
+    },
+    {
+      "path": "src/lua/abyss_new_run_seed.lua",
+      "beforeSha256": "3d22d46f72cae9cbeacf534091442d8e3205701bc1b118599c181e5adb981755",
+      "currentSha256": "3d22d46f72cae9cbeacf534091442d8e3205701bc1b118599c181e5adb981755"
+    },
+    {
+      "path": "src/lua/abyss_nloth_event.lua",
+      "beforeSha256": "89395ef63c0876b09097b051941e0560e5788ba9b8f863066e02ac146c790605",
+      "currentSha256": "89395ef63c0876b09097b051941e0560e5788ba9b8f863066e02ac146c790605"
+    },
+    {
+      "path": "src/lua/abyss_node_ui.lua",
+      "beforeSha256": "4f8da21e05e0289181c7890656cfca2f818cc6e3850f23e505327fd4a16acfba",
+      "currentSha256": "4f8da21e05e0289181c7890656cfca2f818cc6e3850f23e505327fd4a16acfba"
+    },
+    {
+      "path": "src/lua/abyss_node_ui_camp.lua",
+      "beforeSha256": "e67ee265250e0182f551c35b114abb39b539943caa346bbae5ea5f491fe20478",
+      "currentSha256": "e67ee265250e0182f551c35b114abb39b539943caa346bbae5ea5f491fe20478"
+    },
+    {
+      "path": "src/lua/abyss_node_ui_camp_actions.lua",
+      "beforeSha256": "cfc7a17942f4c5770a06b38fe67b04183e673d890285fc50f950810130a04252",
+      "currentSha256": "cfc7a17942f4c5770a06b38fe67b04183e673d890285fc50f950810130a04252"
+    },
+    {
+      "path": "src/lua/abyss_node_ui_ending.lua",
+      "beforeSha256": "b53dacef061da3574578cf1b7f623b5ade64a3fa80ccb464f4085deb72d052f3",
+      "currentSha256": "b53dacef061da3574578cf1b7f623b5ade64a3fa80ccb464f4085deb72d052f3"
+    },
+    {
+      "path": "src/lua/abyss_node_ui_event_cards.lua",
+      "beforeSha256": "d87d2401a475451aa11505c46a04f90147f7772e128099bde934dc4a5ba63242",
+      "currentSha256": "d87d2401a475451aa11505c46a04f90147f7772e128099bde934dc4a5ba63242"
+    },
+    {
+      "path": "src/lua/abyss_node_ui_event_ownership.lua",
+      "beforeSha256": "a9d0ebe3d0f9973274bfe0734c14881c90a5947ece6955770e27c15fb507af58",
+      "currentSha256": "a9d0ebe3d0f9973274bfe0734c14881c90a5947ece6955770e27c15fb507af58"
+    },
+    {
+      "path": "src/lua/abyss_node_ui_events.lua",
+      "beforeSha256": "45d2aab93b2e0819cca54f4082b80fd006b5253be455cc3c36cdee66437544b0",
+      "currentSha256": "45d2aab93b2e0819cca54f4082b80fd006b5253be455cc3c36cdee66437544b0"
+    },
+    {
+      "path": "src/lua/abyss_node_ui_faces.lua",
+      "beforeSha256": "0ab8654addf095b7c00980aab325fe12f496b109f47714f78abfab8adacdfbd4",
+      "currentSha256": "0ab8654addf095b7c00980aab325fe12f496b109f47714f78abfab8adacdfbd4"
+    },
+    {
+      "path": "src/lua/abyss_node_ui_feedback.lua",
+      "beforeSha256": "d684dc352f25e270991025ed37d262527d676c428e50ccf6faa7fff87dc43a27",
+      "currentSha256": "d684dc352f25e270991025ed37d262527d676c428e50ccf6faa7fff87dc43a27"
+    },
+    {
+      "path": "src/lua/abyss_node_ui_input.lua",
+      "beforeSha256": "c7aa8771c045dbdb24f7d36589f8671b548cca7c5bf55d0f5dcefddecac882ad",
+      "currentSha256": "c7aa8771c045dbdb24f7d36589f8671b548cca7c5bf55d0f5dcefddecac882ad"
+    },
+    {
+      "path": "src/lua/abyss_node_ui_lifecycle.lua",
+      "beforeSha256": "40db53d318a958922f25e84dc97825265f48b3a43f83abda54da3b6c4791651e",
+      "currentSha256": "40db53d318a958922f25e84dc97825265f48b3a43f83abda54da3b6c4791651e"
+    },
+    {
+      "path": "src/lua/abyss_node_ui_motion.lua",
+      "beforeSha256": "3673190f95c5bf81a68c7a671942fb13549267114d702bfe40e36869057bc18f",
+      "currentSha256": "3673190f95c5bf81a68c7a671942fb13549267114d702bfe40e36869057bc18f"
+    },
+    {
+      "path": "src/lua/abyss_node_ui_reward_detail.lua",
+      "beforeSha256": "166430794f9eb17607b5bed5102260c981caef9fdbf761e73c01d113b052d2f7",
+      "currentSha256": "166430794f9eb17607b5bed5102260c981caef9fdbf761e73c01d113b052d2f7"
+    },
+    {
+      "path": "src/lua/abyss_node_ui_rewards.lua",
+      "beforeSha256": "b9b321752c45bdf2800d3d9f1be68484cc3ea2e58b27f2803bf789404ad85bb2",
+      "currentSha256": "b9b321752c45bdf2800d3d9f1be68484cc3ea2e58b27f2803bf789404ad85bb2"
+    },
+    {
+      "path": "src/lua/abyss_node_ui_shop.lua",
+      "beforeSha256": "93cc968880309c10a73f38e6970c499b1ca5e14e173863a49eeb9fa20c2505b6",
+      "currentSha256": "93cc968880309c10a73f38e6970c499b1ca5e14e173863a49eeb9fa20c2505b6"
+    },
+    {
+      "path": "src/lua/abyss_node_ui_treasure.lua",
+      "beforeSha256": "771421ff18215245dcd4967f210a96019562cd3dfb80deab1829edfbaf681ec2",
+      "currentSha256": "771421ff18215245dcd4967f210a96019562cd3dfb80deab1829edfbaf681ec2"
+    },
+    {
+      "path": "src/lua/abyss_node_ui_treasure_list.lua",
+      "beforeSha256": "8761f06908f2befeb9107be141e87f7d815d5e224382ba7ef93600f64e818060",
+      "currentSha256": "8761f06908f2befeb9107be141e87f7d815d5e224382ba7ef93600f64e818060"
+    },
+    {
+      "path": "src/lua/abyss_nodes.lua",
+      "beforeSha256": "f685e7a59b57f66721e3c2f8143b99aa37efd05be77371bbda61fd6e4a4a4d9f",
+      "currentSha256": "f685e7a59b57f66721e3c2f8143b99aa37efd05be77371bbda61fd6e4a4a4d9f"
+    },
+    {
+      "path": "src/lua/abyss_nodes_common.lua",
+      "beforeSha256": "584d9e65ce3ae76df830bc3603b2a2f815312dd336774c5d69a7f767f344bb4b",
+      "currentSha256": "584d9e65ce3ae76df830bc3603b2a2f815312dd336774c5d69a7f767f344bb4b"
+    },
+    {
+      "path": "src/lua/abyss_nodes_entry.lua",
+      "beforeSha256": "b966569a6c79b03cf7734238fe516183be412cfbd0a3db9adeef2dd32ec95447",
+      "currentSha256": "b966569a6c79b03cf7734238fe516183be412cfbd0a3db9adeef2dd32ec95447"
+    },
+    {
+      "path": "src/lua/abyss_nodes_events.lua",
+      "beforeSha256": "596ec0802d0df72c3e3a431051a16e225a434ffc43b0464d267891c9eafdc4a4",
+      "currentSha256": "596ec0802d0df72c3e3a431051a16e225a434ffc43b0464d267891c9eafdc4a4"
+    },
+    {
+      "path": "src/lua/abyss_nodes_rare_camp.lua",
+      "beforeSha256": "af58260d9f6ce43190589ba78ad46dae73485450a725d02b490644ed255bdfdf",
+      "currentSha256": "af58260d9f6ce43190589ba78ad46dae73485450a725d02b490644ed255bdfdf"
+    },
+    {
+      "path": "src/lua/abyss_nodes_sources.lua",
+      "beforeSha256": "daf8bf82db53dc1fd1c8ef38d0356cc2c226d223d60d4883c8a27c96ff9ac310",
+      "currentSha256": "daf8bf82db53dc1fd1c8ef38d0356cc2c226d223d60d4883c8a27c96ff9ac310"
+    },
+    {
+      "path": "src/lua/abyss_numbers.lua",
+      "beforeSha256": "857c071eefa67b128b5d8aaf16fb4ae04374ac3f80ba2eddb13b324382953c80",
+      "currentSha256": "857c071eefa67b128b5d8aaf16fb4ae04374ac3f80ba2eddb13b324382953c80"
+    },
+    {
+      "path": "src/lua/abyss_opening_hand.lua",
+      "beforeSha256": "4b81ec5f9bfaf28f7f8c127db4df7f87de1455e5639a98ddf0162d830a664d28",
+      "currentSha256": "4b81ec5f9bfaf28f7f8c127db4df7f87de1455e5639a98ddf0162d830a664d28"
+    },
+    {
+      "path": "src/lua/abyss_orb_powers.lua",
+      "beforeSha256": "7fd3fe6cad6a519c352403f65276caaae6eccc49c2a59bae64fd58de3a3ab811",
+      "currentSha256": "7fd3fe6cad6a519c352403f65276caaae6eccc49c2a59bae64fd58de3a3ab811"
+    },
+    {
+      "path": "src/lua/abyss_orbs.lua",
+      "beforeSha256": "8db88dc31db3e60e779e737cbb49b776f817ba3fdc945b8f7779fbb35b3442bf",
+      "currentSha256": "8db88dc31db3e60e779e737cbb49b776f817ba3fdc945b8f7779fbb35b3442bf"
+    },
+    {
+      "path": "src/lua/abyss_original_v4.lua",
+      "beforeSha256": "4728b4ab4838e664d7b2fe4efa6b55c089417c79428e4362412b682a84cd927f",
+      "currentSha256": "4728b4ab4838e664d7b2fe4efa6b55c089417c79428e4362412b682a84cd927f"
+    },
+    {
+      "path": "src/lua/abyss_original_v4_display.lua",
+      "beforeSha256": "51f6f3bd0a93acb728a9c2a10c8d52041d4ac1133714ddb48758124f7cdc0711",
+      "currentSha256": "51f6f3bd0a93acb728a9c2a10c8d52041d4ac1133714ddb48758124f7cdc0711"
+    },
+    {
+      "path": "src/lua/abyss_original_v4_health.lua",
+      "beforeSha256": "ed0efdbcf41527cf87b5e9b53d6afb08d73e3462e7a1528a4f1f4a33008849bd",
+      "currentSha256": "ed0efdbcf41527cf87b5e9b53d6afb08d73e3462e7a1528a4f1f4a33008849bd"
+    },
+    {
+      "path": "src/lua/abyss_original_v4_profiles.lua",
+      "beforeSha256": "fb50790452127f2bae3821d4f8cc249cf71f9c7850e97906e65626dafc2cb9d4",
+      "currentSha256": "fb50790452127f2bae3821d4f8cc249cf71f9c7850e97906e65626dafc2cb9d4"
+    },
+    {
+      "path": "src/lua/abyss_pile_choice.lua",
+      "beforeSha256": "a0d0e6cec6cc92b3e1d59425e712cdf1c0fb183fb2cc88653daf8931ba39edb5",
+      "currentSha256": "a0d0e6cec6cc92b3e1d59425e712cdf1c0fb183fb2cc88653daf8931ba39edb5"
+    },
+    {
+      "path": "src/lua/abyss_plated_armor.lua",
+      "beforeSha256": "dd80bf7c574748759fea2eb4dfc168b05f312f8d81b630cbb8e3b4fa18125813",
+      "currentSha256": "dd80bf7c574748759fea2eb4dfc168b05f312f8d81b630cbb8e3b4fa18125813"
+    },
+    {
+      "path": "src/lua/abyss_player_revive.lua",
+      "beforeSha256": "735fe7d5b055c5ddd66335b45273e920282cd891c4814e1c13afb9ab0a3b0d92",
+      "currentSha256": "735fe7d5b055c5ddd66335b45273e920282cd891c4814e1c13afb9ab0a3b0d92"
+    },
+    {
+      "path": "src/lua/abyss_poison.lua",
+      "beforeSha256": "c739ba6e3958531a0148752b46566963b69a315cf38dfd8fa27eecb701ac8e78",
+      "currentSha256": "c739ba6e3958531a0148752b46566963b69a315cf38dfd8fa27eecb701ac8e78"
+    },
+    {
+      "path": "src/lua/abyss_potion_discard_ui.lua",
+      "beforeSha256": "5b7ad888b2f2407fc3dea893119f407f29a1600332862ddbbd75b8661d23d479",
+      "currentSha256": "5b7ad888b2f2407fc3dea893119f407f29a1600332862ddbbd75b8661d23d479"
+    },
+    {
+      "path": "src/lua/abyss_potion_discovery.lua",
+      "beforeSha256": "27350b4591b352d28aae66ca4236b3c7301bf8363d02fb7c94592bf5f5d34e38",
+      "currentSha256": "27350b4591b352d28aae66ca4236b3c7301bf8363d02fb7c94592bf5f5d34e38"
+    },
+    {
+      "path": "src/lua/abyss_potion_events.lua",
+      "beforeSha256": "2ff64303e05e625ce592f42797aef95f0c3d3b157e89b25ebd29ebf26c7dfb54",
+      "currentSha256": "2ff64303e05e625ce592f42797aef95f0c3d3b157e89b25ebd29ebf26c7dfb54"
+    },
+    {
+      "path": "src/lua/abyss_potion_fairy.lua",
+      "beforeSha256": "fe6a3d984f7387ef1f5a52a65e3874634022d9cab86f6b17576a89720607194e",
+      "currentSha256": "fe6a3d984f7387ef1f5a52a65e3874634022d9cab86f6b17576a89720607194e"
+    },
+    {
+      "path": "src/lua/abyss_potion_generation.lua",
+      "beforeSha256": "3f6c2b85cbc01a77199402cd9bdf5efd943461b42d9883bb7196cd198752b766",
+      "currentSha256": "3f6c2b85cbc01a77199402cd9bdf5efd943461b42d9883bb7196cd198752b766"
+    },
+    {
+      "path": "src/lua/abyss_potion_health.lua",
+      "beforeSha256": "8fa0f204f39258f80c6b63770d7138a5b267a193b35923d7b7020ec7466558bb",
+      "currentSha256": "8fa0f204f39258f80c6b63770d7138a5b267a193b35923d7b7020ec7466558bb"
+    },
+    {
+      "path": "src/lua/abyss_potion_random.lua",
+      "beforeSha256": "9c2f9f9beaa848af047306215e1b36d6d2d93bcd156ef54c56531c3c78342dde",
+      "currentSha256": "9c2f9f9beaa848af047306215e1b36d6d2d93bcd156ef54c56531c3c78342dde"
+    },
+    {
+      "path": "src/lua/abyss_potion_rewards.lua",
+      "beforeSha256": "965a96293ad56d4bd10cbbe1dc21b2b16301d7f5468d9a8ca897df0efef00954",
+      "currentSha256": "965a96293ad56d4bd10cbbe1dc21b2b16301d7f5468d9a8ca897df0efef00954"
+    },
+    {
+      "path": "src/lua/abyss_potion_stance.lua",
+      "beforeSha256": "8ac4826598d8d3e3eca5706420d1acce9d9b05f6852f2505affb9866d957eca6",
+      "currentSha256": "8ac4826598d8d3e3eca5706420d1acce9d9b05f6852f2505affb9866d957eca6"
+    },
+    {
+      "path": "src/lua/abyss_potion_text.lua",
+      "beforeSha256": "8c2907f1102699c59ea2167919e43a39e1c1be188756b104d5f64bf228369d59",
+      "currentSha256": "8c2907f1102699c59ea2167919e43a39e1c1be188756b104d5f64bf228369d59"
+    },
+    {
+      "path": "src/lua/abyss_power_order.lua",
+      "beforeSha256": "5e36ae81090d59148ba821b54661413eace65e6127bf5e93c9ab6f3e24ea47ef",
+      "currentSha256": "5e36ae81090d59148ba821b54661413eace65e6127bf5e93c9ab6f3e24ea47ef"
+    },
+    {
+      "path": "src/lua/abyss_power_schedule.lua",
+      "beforeSha256": "eb8fe768a1f161b8dc5ecbdff9e5e12fc38730048cefe2afc67aa125c4e275cf",
+      "currentSha256": "eb8fe768a1f161b8dc5ecbdff9e5e12fc38730048cefe2afc67aa125c4e275cf"
+    },
+    {
+      "path": "src/lua/abyss_prologue.lua",
+      "beforeSha256": "90016c56a06e97ec7508729d85ef2422adbb0441e1b6e352d226a90ee6bdce83",
+      "currentSha256": "90016c56a06e97ec7508729d85ef2422adbb0441e1b6e352d226a90ee6bdce83"
+    },
+    {
+      "path": "src/lua/abyss_purge_candidates.lua",
+      "beforeSha256": "a1ab5102f39adf7f44159a45d9611458e67d3ee49a9c8aa6fa50432bee4ca592",
+      "currentSha256": "a1ab5102f39adf7f44159a45d9611458e67d3ee49a9c8aa6fa50432bee4ca592"
+    },
+    {
+      "path": "src/lua/abyss_random.lua",
+      "beforeSha256": "a052a4996c3b7090b1d79112f18630400f21df4318afe68041a2167d1c92e09d",
+      "currentSha256": "a052a4996c3b7090b1d79112f18630400f21df4318afe68041a2167d1c92e09d"
+    },
+    {
+      "path": "src/lua/abyss_randomxs128.lua",
+      "beforeSha256": "73af699eb931d4134c81db9bc980f0fa8cabbcf3c587c9031c85ce6886fe9777",
+      "currentSha256": "73af699eb931d4134c81db9bc980f0fa8cabbcf3c587c9031c85ce6886fe9777"
+    },
+    {
+      "path": "src/lua/abyss_rare_relics.lua",
+      "beforeSha256": "2b05387c8d77ef9818d38a43c2d1b1f9fcd2f69f930db47a919df75744f74788",
+      "currentSha256": "2b05387c8d77ef9818d38a43c2d1b1f9fcd2f69f930db47a919df75744f74788"
+    },
+    {
+      "path": "src/lua/abyss_red_slaver_ai.lua",
+      "beforeSha256": "7b785a5f8c9b14199f7907fe7e71ad1a1992144d2c168e58e251c462f4474457",
+      "currentSha256": "7b785a5f8c9b14199f7907fe7e71ad1a1992144d2c168e58e251c462f4474457"
+    },
+    {
+      "path": "src/lua/abyss_relic_card_rewards.lua",
+      "beforeSha256": "868af280866ff94468dd3b2ea2dc53b46eb5bb50b41289e57cd5c2b0bd5ba98c",
+      "currentSha256": "868af280866ff94468dd3b2ea2dc53b46eb5bb50b41289e57cd5c2b0bd5ba98c"
+    },
+    {
+      "path": "src/lua/abyss_relic_choices.lua",
+      "beforeSha256": "6ff4a6f99f70c197f078ffccc9806871ad1896fa76a95bbd7e55e7a0945fa522",
+      "currentSha256": "6ff4a6f99f70c197f078ffccc9806871ad1896fa76a95bbd7e55e7a0945fa522"
+    },
+    {
+      "path": "src/lua/abyss_relic_combat_hooks.lua",
+      "beforeSha256": "fda7e14cf4b4704ba30ca79f3fa8b3ed3c933f9d391887227ed463350f8755a9",
+      "currentSha256": "fda7e14cf4b4704ba30ca79f3fa8b3ed3c933f9d391887227ed463350f8755a9"
+    },
+    {
+      "path": "src/lua/abyss_relic_end_turn.lua",
+      "beforeSha256": "0b28bacfb03f92e399c12b19e02ec880f70774d9ec56bf4993c9de7bc1a93ecd",
+      "currentSha256": "0b28bacfb03f92e399c12b19e02ec880f70774d9ec56bf4993c9de7bc1a93ecd"
+    },
+    {
+      "path": "src/lua/abyss_relic_family_combat.lua",
+      "beforeSha256": "2e001da46754b81afda1dc592beaf8519a0f308fef65ca47c5779b2ae3607e4c",
+      "currentSha256": "2e001da46754b81afda1dc592beaf8519a0f308fef65ca47c5779b2ae3607e4c"
+    },
+    {
+      "path": "src/lua/abyss_relic_hooks.lua",
+      "beforeSha256": "5d929b950824caaa51db1934fd1c7c0fea82ee4a763dc45f63e615d083a7fcfa",
+      "currentSha256": "5d929b950824caaa51db1934fd1c7c0fea82ee4a763dc45f63e615d083a7fcfa"
+    },
+    {
+      "path": "src/lua/abyss_relic_loss.lua",
+      "beforeSha256": "8a3196cd5838a838b47856703d9cc69c17b5bb61052b314ac68001508b2c964e",
+      "currentSha256": "8a3196cd5838a838b47856703d9cc69c17b5bb61052b314ac68001508b2c964e"
+    },
+    {
+      "path": "src/lua/abyss_relic_names.lua",
+      "beforeSha256": "b0d5f76ff66e76947c657bb06bf2bfb920907d00a840db5062b5e7c8c2cd06ae",
+      "currentSha256": "b0d5f76ff66e76947c657bb06bf2bfb920907d00a840db5062b5e7c8c2cd06ae"
+    },
+    {
+      "path": "src/lua/abyss_relic_pending.lua",
+      "beforeSha256": "269d672dd3f0190efff77991a21a96490d52e2bbd038b95e3e7f3bd3104c2446",
+      "currentSha256": "269d672dd3f0190efff77991a21a96490d52e2bbd038b95e3e7f3bd3104c2446"
+    },
+    {
+      "path": "src/lua/abyss_relic_pending_ui.lua",
+      "beforeSha256": "a1d5ba5d2d81ef63209651b571d91de24d967e12e144f3b454a5f9439cf2fe23",
+      "currentSha256": "a1d5ba5d2d81ef63209651b571d91de24d967e12e144f3b454a5f9439cf2fe23"
+    },
+    {
+      "path": "src/lua/abyss_relic_pool.lua",
+      "beforeSha256": "25ff5c96bf6ed5c35a77aba3d0664193211167e90de9cc478691f8da02e2f51c",
+      "currentSha256": "25ff5c96bf6ed5c35a77aba3d0664193211167e90de9cc478691f8da02e2f51c"
+    },
+    {
+      "path": "src/lua/abyss_relic_queries.lua",
+      "beforeSha256": "a9ede443094115bdf31363d530ac89fa9ab011211ee68bfac866f99e4f2dd214",
+      "currentSha256": "a9ede443094115bdf31363d530ac89fa9ab011211ee68bfac866f99e4f2dd214"
+    },
+    {
+      "path": "src/lua/abyss_relic_rarity.lua",
+      "beforeSha256": "6c92a5ede225452073ed8b283a0ce2bbe24bfc37d4651ebabc47dbef8fd8c8d4",
+      "currentSha256": "6c92a5ede225452073ed8b283a0ce2bbe24bfc37d4651ebabc47dbef8fd8c8d4"
+    },
+    {
+      "path": "src/lua/abyss_relic_rewards.lua",
+      "beforeSha256": "1a6afee50885e2e56065b05058e5e632745ba88ce202bd4fbea7ff47c54ec405",
+      "currentSha256": "1a6afee50885e2e56065b05058e5e632745ba88ce202bd4fbea7ff47c54ec405"
+    },
+    {
+      "path": "src/lua/abyss_relic_text.lua",
+      "beforeSha256": "b0c64b6f06ece16b2f3ddbc39d2b0e6ba0f78b2b67c4836c4829ded94c69fe79",
+      "currentSha256": "b0c64b6f06ece16b2f3ddbc39d2b0e6ba0f78b2b67c4836c4829ded94c69fe79"
+    },
+    {
+      "path": "src/lua/abyss_relic_view_ui.lua",
+      "beforeSha256": "59140cd7e1adbae288a50d44f631c6a2dd547069f01ecf3e9b584153c7a0c5a2",
+      "currentSha256": "59140cd7e1adbae288a50d44f631c6a2dd547069f01ecf3e9b584153c7a0c5a2"
+    },
+    {
+      "path": "src/lua/abyss_reptomancer.lua",
+      "beforeSha256": "43eb35c06a1b1fae67e51319416a58febdf524f470c851db4641b8d2e27b7ebd",
+      "currentSha256": "43eb35c06a1b1fae67e51319416a58febdf524f470c851db4641b8d2e27b7ebd"
+    },
+    {
+      "path": "src/lua/abyss_retained_cards.lua",
+      "beforeSha256": "62f43f6c006b6a5400dcb401e08edb9701404b885012fa30df38426e2da3ffe0",
+      "currentSha256": "62f43f6c006b6a5400dcb401e08edb9701404b885012fa30df38426e2da3ffe0"
+    },
+    {
+      "path": "src/lua/abyss_retrieval_cards.lua",
+      "beforeSha256": "25f54d3bc35ae4e91ed336e2565c94b8c41f0613a9b93ac4c73b47bb93d26fa2",
+      "currentSha256": "25f54d3bc35ae4e91ed336e2565c94b8c41f0613a9b93ac4c73b47bb93d26fa2"
+    },
+    {
+      "path": "src/lua/abyss_room_encounters.lua",
+      "beforeSha256": "f2e377c002ead24bdcf1ec71eece13290445980d2cd5ac142abc100ed560d73e",
+      "currentSha256": "f2e377c002ead24bdcf1ec71eece13290445980d2cd5ac142abc100ed560d73e"
+    },
+    {
+      "path": "src/lua/abyss_run.lua",
+      "beforeSha256": "189e4a36804ec74f9dcc8c54a07ea5401fb07d81a44ef08d44153b15bac89030",
+      "currentSha256": "189e4a36804ec74f9dcc8c54a07ea5401fb07d81a44ef08d44153b15bac89030"
+    },
+    {
+      "path": "src/lua/abyss_run_admission.lua",
+      "beforeSha256": "7a57fd9c9c11770f51f642df85180a4caddf5999901b7467c44eb8c52bd79992",
+      "currentSha256": "7a57fd9c9c11770f51f642df85180a4caddf5999901b7467c44eb8c52bd79992"
+    },
+    {
+      "path": "src/lua/abyss_run_card_catalog.lua",
+      "beforeSha256": "d8d7f52778dbfd6814ddebc1ecc960c6732317d3746a6aabf104e4b7ef7f4a54",
+      "currentSha256": "e6a005a33e95fda500f6ecefecfe1591b9a8054270995975d4b53be1a1eafe3f"
+    },
+    {
+      "path": "src/lua/abyss_run_initialization.lua",
+      "beforeSha256": "1b6779a80523c03c14bafdd399215190cadf04437d76a6db6e86a3f768fc73f9",
+      "currentSha256": "1b6779a80523c03c14bafdd399215190cadf04437d76a6db6e86a3f768fc73f9"
+    },
+    {
+      "path": "src/lua/abyss_run_potion_candidate.lua",
+      "beforeSha256": "a81fe8ddc9542f28b219ab68510ef80641bff75d0fa3c703f53eb7c20284488e",
+      "currentSha256": "a81fe8ddc9542f28b219ab68510ef80641bff75d0fa3c703f53eb7c20284488e"
+    },
+    {
+      "path": "src/lua/abyss_run_potions.lua",
+      "beforeSha256": "59434df0d36cecd33dbe58fc9c3be19aa42700011e0440c3e568390a68ba5be1",
+      "currentSha256": "59434df0d36cecd33dbe58fc9c3be19aa42700011e0440c3e568390a68ba5be1"
+    },
+    {
+      "path": "src/lua/abyss_run_red_card_contract.lua",
+      "beforeSha256": "933b9b7855e99736474cdff4c051a12a4613750bfe322061f3b3604aedf86397",
+      "currentSha256": "933b9b7855e99736474cdff4c051a12a4613750bfe322061f3b3604aedf86397"
+    },
+    {
+      "path": "src/lua/abyss_run_rooms.lua",
+      "beforeSha256": "0c8a3ff96133c6217abcfcb4b7287052b3929eb2e890d8aa2b7354b5f6de86d1",
+      "currentSha256": "0c8a3ff96133c6217abcfcb4b7287052b3929eb2e890d8aa2b7354b5f6de86d1"
+    },
+    {
+      "path": "src/lua/abyss_run_score.lua",
+      "beforeSha256": "417229ed8d4b836761e4d001465cfc7739ed932f81ec41ed55ddedc480023685",
+      "currentSha256": "417229ed8d4b836761e4d001465cfc7739ed932f81ec41ed55ddedc480023685"
+    },
+    {
+      "path": "src/lua/abyss_run_scoring.lua",
+      "beforeSha256": "3fca7eb3bb4c5149b4c2b9ac975386393de5c8ae5151ffd97503dca0eb76e03a",
+      "currentSha256": "3fca7eb3bb4c5149b4c2b9ac975386393de5c8ae5151ffd97503dca0eb76e03a"
+    },
+    {
+      "path": "src/lua/abyss_run_seed.lua",
+      "beforeSha256": "d94d44a66d183f6ffd5b1e082f7a14de66cc6969b0257b4920bc8c94616a576c",
+      "currentSha256": "d94d44a66d183f6ffd5b1e082f7a14de66cc6969b0257b4920bc8c94616a576c"
+    },
+    {
+      "path": "src/lua/abyss_run_settlement.lua",
+      "beforeSha256": "65c4ebaea52e996ef6dc129baa145a24b11ff4a728ffa4eab04f8eab38ce4ec1",
+      "currentSha256": "65c4ebaea52e996ef6dc129baa145a24b11ff4a728ffa4eab04f8eab38ce4ec1"
+    },
+    {
+      "path": "src/lua/abyss_run_transition.lua",
+      "beforeSha256": "7f4136e52c4bd7fe4ceb71958830cbbe90d79ecbcedb998703e1897bbf2d2120",
+      "currentSha256": "7f4136e52c4bd7fe4ceb71958830cbbe90d79ecbcedb998703e1897bbf2d2120"
+    },
+    {
+      "path": "src/lua/abyss_scry.lua",
+      "beforeSha256": "786a5b20a63abaf08f1251402238e410fedf4aefab47abd75a38ab9fc3f1d4a5",
+      "currentSha256": "786a5b20a63abaf08f1251402238e410fedf4aefab47abd75a38ab9fc3f1d4a5"
+    },
+    {
+      "path": "src/lua/abyss_sensory_stone_event.lua",
+      "beforeSha256": "3df3cc4708f6d2704b503c9805b8e9bdf130afc60a348519ffdac152aa3dc890",
+      "currentSha256": "3df3cc4708f6d2704b503c9805b8e9bdf130afc60a348519ffdac152aa3dc890"
+    },
+    {
+      "path": "src/lua/abyss_sentry_ai.lua",
+      "beforeSha256": "c174f622e36a645a8e989d1162fc1bbbc7c52f7a3e60d503638eebb85995265d",
+      "currentSha256": "c174f622e36a645a8e989d1162fc1bbbc7c52f7a3e60d503638eebb85995265d"
+    },
+    {
+      "path": "src/lua/abyss_shivs.lua",
+      "beforeSha256": "f96896a0280691c2ed5cb04f516d1bf9a92854be817dea922b9858d52a91a57e",
+      "currentSha256": "f96896a0280691c2ed5cb04f516d1bf9a92854be817dea922b9858d52a91a57e"
+    },
+    {
+      "path": "src/lua/abyss_shop.lua",
+      "beforeSha256": "c13adbaa4fd921a4b69a341f43eff5d60179b59fd3ca848a336f76b9d5a6b3f7",
+      "currentSha256": "c13adbaa4fd921a4b69a341f43eff5d60179b59fd3ca848a336f76b9d5a6b3f7"
+    },
+    {
+      "path": "src/lua/abyss_shop_price.lua",
+      "beforeSha256": "c882362aba486ae139b1d0bec7e67b5bd1b85f4cf812c3d365573a2ac7b45a1f",
+      "currentSha256": "c882362aba486ae139b1d0bec7e67b5bd1b85f4cf812c3d365573a2ac7b45a1f"
+    },
+    {
+      "path": "src/lua/abyss_shop_relics.lua",
+      "beforeSha256": "4d193801023eb938b4a25878b61c0210ab3023f1133ab395daadbcdf11f810ba",
+      "currentSha256": "4d193801023eb938b4a25878b61c0210ab3023f1133ab395daadbcdf11f810ba"
+    },
+    {
+      "path": "src/lua/abyss_shop_selection.lua",
+      "beforeSha256": "66ac3deb3029d761fea245cc1a37e9d6096ae13a7a06e18223490ce8253efb20",
+      "currentSha256": "66ac3deb3029d761fea245cc1a37e9d6096ae13a7a06e18223490ce8253efb20"
+    },
+    {
+      "path": "src/lua/abyss_shop_ui.lua",
+      "beforeSha256": "373302ed5d715034c5c0b3c14f8d65bca4b4ba1569935c2f6d65d8dfe2fbce71",
+      "currentSha256": "373302ed5d715034c5c0b3c14f8d65bca4b4ba1569935c2f6d65d8dfe2fbce71"
+    },
+    {
+      "path": "src/lua/abyss_silent.lua",
+      "beforeSha256": "32705c37dbe7dd4123663d9eb985f11c6fcc700fc92e07f1726903fcacccccd5",
+      "currentSha256": "32705c37dbe7dd4123663d9eb985f11c6fcc700fc92e07f1726903fcacccccd5"
+    },
+    {
+      "path": "src/lua/abyss_silent_attack_cards.lua",
+      "beforeSha256": "4b2efb9f0724c958d4a22aae8fef1e5bd0b3ae74f4af34e375c79640fe740efa",
+      "currentSha256": "4b2efb9f0724c958d4a22aae8fef1e5bd0b3ae74f4af34e375c79640fe740efa"
+    },
+    {
+      "path": "src/lua/abyss_silent_discard_cards.lua",
+      "beforeSha256": "b64414afecc1ba0026c649fa794f7923656ba737e282c3933f3d2c8e87973159",
+      "currentSha256": "b64414afecc1ba0026c649fa794f7923656ba737e282c3933f3d2c8e87973159"
+    },
+    {
+      "path": "src/lua/abyss_silent_final_cards.lua",
+      "beforeSha256": "a8648acd0e294f142be20bc4e1561ceded10c1455ec8b493cc96c7e1f6d36fef",
+      "currentSha256": "a8648acd0e294f142be20bc4e1561ceded10c1455ec8b493cc96c7e1f6d36fef"
+    },
+    {
+      "path": "src/lua/abyss_silent_potions.lua",
+      "beforeSha256": "ec5a9c8cdc398211d0e4e25f9ac737e012d2103315350daa534bac770b44d292",
+      "currentSha256": "ec5a9c8cdc398211d0e4e25f9ac737e012d2103315350daa534bac770b44d292"
+    },
+    {
+      "path": "src/lua/abyss_silent_tactics_cards.lua",
+      "beforeSha256": "8ea7cc9fcd64559b999431997613ae02f394de2eaa6cd04947e2695ff3d48d76",
+      "currentSha256": "8ea7cc9fcd64559b999431997613ae02f394de2eaa6cd04947e2695ff3d48d76"
+    },
+    {
+      "path": "src/lua/abyss_skill_feedback.lua",
+      "beforeSha256": "6bc4bbfc994d1b031f0857a4f690a1c7e9a405ec457d542abf82497e91f3dce6",
+      "currentSha256": "6bc4bbfc994d1b031f0857a4f690a1c7e9a405ec457d542abf82497e91f3dce6"
+    },
+    {
+      "path": "src/lua/abyss_snapshot.lua",
+      "beforeSha256": "8952ff07bea54c924d9a04200acce11be26cbb4bc66096de72a1b6a39e079b63",
+      "currentSha256": "8952ff07bea54c924d9a04200acce11be26cbb4bc66096de72a1b6a39e079b63"
+    },
+    {
+      "path": "src/lua/abyss_spike_slime_m_ai.lua",
+      "beforeSha256": "941795ae786277e32c0382c785063a241f9dc4ae3f93dba595b346bef329dd2e",
+      "currentSha256": "941795ae786277e32c0382c785063a241f9dc4ae3f93dba595b346bef329dd2e"
+    },
+    {
+      "path": "src/lua/abyss_spire_pair.lua",
+      "beforeSha256": "42aaa7b747edd6a717a4be3051974d77c4dd236fd61cfe78d2ea7570ae2d62e5",
+      "currentSha256": "42aaa7b747edd6a717a4be3051974d77c4dd236fd61cfe78d2ea7570ae2d62e5"
+    },
+    {
+      "path": "src/lua/abyss_stances.lua",
+      "beforeSha256": "c88a7c42694836b921b10bc791161ef0e0deca62f8545974f57b0aeb11ca6610",
+      "currentSha256": "c88a7c42694836b921b10bc791161ef0e0deca62f8545974f57b0aeb11ca6610"
+    },
+    {
+      "path": "src/lua/abyss_sts_random.lua",
+      "beforeSha256": "1e0e0f64fe6a7d2edfe8609419080266c554b763fd71b9565b52eed99aaa42b9",
+      "currentSha256": "1e0e0f64fe6a7d2edfe8609419080266c554b763fd71b9565b52eed99aaa42b9"
+    },
+    {
+      "path": "src/lua/abyss_time_eater.lua",
+      "beforeSha256": "678c77192bce317778f4ef9447b29632446babb69a5d0b86645182ed25f3f0f7",
+      "currentSha256": "678c77192bce317778f4ef9447b29632446babb69a5d0b86645182ed25f3f0f7"
+    },
+    {
+      "path": "src/lua/abyss_tomb_red_mask_event.lua",
+      "beforeSha256": "190184898fdaa23de61c1bd9d8739d1d7569d2cac416c691c91654b189c8e4b4",
+      "currentSha256": "190184898fdaa23de61c1bd9d8739d1d7569d2cac416c691c91654b189c8e4b4"
+    },
+    {
+      "path": "src/lua/abyss_trade_event.lua",
+      "beforeSha256": "e512ecc1e8b1fecd181da0401d5f8819e6af96d9fde3881fb0bb41acaf1f29b2",
+      "currentSha256": "e512ecc1e8b1fecd181da0401d5f8819e6af96d9fde3881fb0bb41acaf1f29b2"
+    },
+    {
+      "path": "src/lua/abyss_transform_card.lua",
+      "beforeSha256": "6fe97f0ed053616db17834ca25ec52551e1dfda898a404ba0c8f0e14d8b0a5b9",
+      "currentSha256": "6fe97f0ed053616db17834ca25ec52551e1dfda898a404ba0c8f0e14d8b0a5b9"
+    },
+    {
+      "path": "src/lua/abyss_traveler_portraits.lua",
+      "beforeSha256": "0f7b17f05bfee88f6d54fa575ca494c77dd388b102af8e837a485f644b73104c",
+      "currentSha256": "0f7b17f05bfee88f6d54fa575ca494c77dd388b102af8e837a485f644b73104c"
+    },
+    {
+      "path": "src/lua/abyss_treasure.lua",
+      "beforeSha256": "ced731d340e84dcc340926ad2b320f9bbcbec464d720d6a7065cad1f297d778e",
+      "currentSha256": "ced731d340e84dcc340926ad2b320f9bbcbec464d720d6a7065cad1f297d778e"
+    },
+    {
+      "path": "src/lua/abyss_treasure_source.lua",
+      "beforeSha256": "44ae73c0d996c4f336d18f225a44466c73db6db85921f1eca28c00865f8601da",
+      "currentSha256": "44ae73c0d996c4f336d18f225a44466c73db6db85921f1eca28c00865f8601da"
+    },
+    {
+      "path": "src/lua/abyss_treasure_ui.lua",
+      "beforeSha256": "b948aefb729dff7bcd160e991bf331d5fddf41e646eabe45fbe0d9fd4c7aadd2",
+      "currentSha256": "b948aefb729dff7bcd160e991bf331d5fddf41e646eabe45fbe0d9fd4c7aadd2"
+    },
+    {
+      "path": "src/lua/abyss_turn_powers.lua",
+      "beforeSha256": "e93e1cf190e0be800705c10fec054dd114701d68d7f7d313d56662240509f7da",
+      "currentSha256": "e93e1cf190e0be800705c10fec054dd114701d68d7f7d313d56662240509f7da"
+    },
+    {
+      "path": "src/lua/abyss_ui.lua",
+      "beforeSha256": "5a3eb4513cd979edc5bf8038ce47af16fa306914b46a39214715e3b82a788c88",
+      "currentSha256": "5a3eb4513cd979edc5bf8038ce47af16fa306914b46a39214715e3b82a788c88"
+    },
+    {
+      "path": "src/lua/abyss_uncommon_relics.lua",
+      "beforeSha256": "8e260bd5c52f8ca90f61281858099afbf98d7ec91a5f82a3c7b8f9e74108093c",
+      "currentSha256": "8e260bd5c52f8ca90f61281858099afbf98d7ec91a5f82a3c7b8f9e74108093c"
+    },
+    {
+      "path": "src/lua/abyss_unknown.lua",
+      "beforeSha256": "1a35af89546437350e32caaf12ab64ca379f37c06f636348933d5f5f4840b69c",
+      "currentSha256": "1a35af89546437350e32caaf12ab64ca379f37c06f636348933d5f5f4840b69c"
+    },
+    {
+      "path": "src/lua/abyss_vampires_event.lua",
+      "beforeSha256": "53270489c6ac1ca6e9b97fc7cc43efaa2cad992a79872d9f37c574032bea4c53",
+      "currentSha256": "53270489c6ac1ca6e9b97fc7cc43efaa2cad992a79872d9f37c574032bea4c53"
+    },
+    {
+      "path": "src/lua/abyss_victory_easter_egg.lua",
+      "beforeSha256": "53fa603781dff67b44deb317e3ed212b714785475dc7bdd02606c22c05fa256e",
+      "currentSha256": "53fa603781dff67b44deb317e3ed212b714785475dc7bdd02606c22c05fa256e"
+    },
+    {
+      "path": "src/lua/abyss_viewport.lua",
+      "beforeSha256": "14b9a3f0ac0dd4873d7735cacc2daa7b96ac41fcef4a41692194a16e437092fb",
+      "currentSha256": "14b9a3f0ac0dd4873d7735cacc2daa7b96ac41fcef4a41692194a16e437092fb"
+    },
+    {
+      "path": "src/lua/abyss_warrior_cards.lua",
+      "beforeSha256": "cf9fe3d1aa038be990b1ab47ad0b1ed7898b952a6ef5f49feb931764d0d9dabb",
+      "currentSha256": "cf9fe3d1aa038be990b1ab47ad0b1ed7898b952a6ef5f49feb931764d0d9dabb"
+    },
+    {
+      "path": "src/lua/abyss_warrior_exhaust_cards.lua",
+      "beforeSha256": "5b425f3cfc4c7d94128cc5a0a77a856a1a44edfe1dbd5abf427a8444f4bc4a1b",
+      "currentSha256": "5b425f3cfc4c7d94128cc5a0a77a856a1a44edfe1dbd5abf427a8444f4bc4a1b"
+    },
+    {
+      "path": "src/lua/abyss_warrior_status_cards.lua",
+      "beforeSha256": "554181c678d5387ca7de54095db78a37225c04acc23878bce0392d21acc33a63",
+      "currentSha256": "554181c678d5387ca7de54095db78a37225c04acc23878bce0392d21acc33a63"
+    },
+    {
+      "path": "src/lua/abyss_warrior_strength_cards.lua",
+      "beforeSha256": "222eca8efdd2568cd81dd21c1cb3b2f738e7326ac5d37ae33f66cca3be6176da",
+      "currentSha256": "222eca8efdd2568cd81dd21c1cb3b2f738e7326ac5d37ae33f66cca3be6176da"
+    },
+    {
+      "path": "src/lua/abyss_watcher_attack_cards.lua",
+      "beforeSha256": "c6adcaf2a4c88988e7e957104a4812c9cefcd67a9740a2290cd73b9e3aa2d38e",
+      "currentSha256": "c6adcaf2a4c88988e7e957104a4812c9cefcd67a9740a2290cd73b9e3aa2d38e"
+    },
+    {
+      "path": "src/lua/abyss_watcher_cards.lua",
+      "beforeSha256": "c93259044790a3e3d6d257d21355707c5879417ea65cc833bfd17ee6f6f5ad3c",
+      "currentSha256": "c93259044790a3e3d6d257d21355707c5879417ea65cc833bfd17ee6f6f5ad3c"
+    },
+    {
+      "path": "src/lua/abyss_watcher_final_cards.lua",
+      "beforeSha256": "343888e746943d3c97608033ac65f52fe02a390c0dba8283b23f18c4a2118018",
+      "currentSha256": "343888e746943d3c97608033ac65f52fe02a390c0dba8283b23f18c4a2118018"
+    },
+    {
+      "path": "src/lua/abyss_watcher_flow_cards.lua",
+      "beforeSha256": "08c363feb2269edbe1058457f5d7de39c1b1bf7e0b69b5ce05ad834641a961b9",
+      "currentSha256": "08c363feb2269edbe1058457f5d7de39c1b1bf7e0b69b5ce05ad834641a961b9"
+    },
+    {
+      "path": "src/lua/abyss_watcher_foreign_pool.lua",
+      "beforeSha256": "5bd9c29d05fe493053b03a4c8272b7a55cc774dc357968899bbdd7d8724bcd01",
+      "currentSha256": "5bd9c29d05fe493053b03a4c8272b7a55cc774dc357968899bbdd7d8724bcd01"
+    },
+    {
+      "path": "src/lua/abyss_wheel_event.lua",
+      "beforeSha256": "f775746a95c2f33eeb9a5d7c688c536b3dd0b6b3ddefeb3455fbd28468f6bc2c",
+      "currentSha256": "f775746a95c2f33eeb9a5d7c688c536b3dd0b6b3ddefeb3455fbd28468f6bc2c"
+    },
+    {
+      "path": "src/lua/abyss_winding_event.lua",
+      "beforeSha256": "1f3a5d5f40847660638443ac9c553065b1e8cec03bb523882d235d4271daebaa",
+      "currentSha256": "1f3a5d5f40847660638443ac9c553065b1e8cec03bb523882d235d4271daebaa"
+    },
+    {
+      "path": "src/lua/abyss_writhing_mass.lua",
+      "beforeSha256": "fc362d8be41e3744169067903fc979ad8bc671eda47c754e4c67f8fe6a7d2d4f",
+      "currentSha256": "fc362d8be41e3744169067903fc979ad8bc671eda47c754e4c67f8fe6a7d2d4f"
+    }
+  ],
+  "measurements": {
+    "before": {
+      "file": "src/lua/abyss_run_card_catalog.lua",
+      "sha256": "d8d7f52778dbfd6814ddebc1ecc960c6732317d3746a6aabf104e4b7ef7f4a54",
+      "lines": 272,
+      "functions": [
+        {
+          "id": "$",
+          "name": "<chunk>",
+          "kind": "chunk",
+          "constructorName": false,
+          "line": 1,
+          "column": 1,
+          "endLine": 272,
+          "lines": 272,
+          "complexity": 1
+        },
+        {
+          "id": "$/components#1",
+          "name": "components",
+          "kind": "function",
+          "constructorName": false,
+          "line": 13,
+          "column": 7,
+          "endLine": 26,
+          "lines": 14,
+          "complexity": 3
+        },
+        {
+          "id": "$/carrier#1",
+          "name": "carrier",
+          "kind": "function",
+          "constructorName": false,
+          "line": 27,
+          "column": 7,
+          "endLine": 32,
+          "lines": 6,
+          "complexity": 1
+        },
+        {
+          "id": "$/red#1",
+          "name": "red",
+          "kind": "function",
+          "constructorName": false,
+          "line": 33,
+          "column": 7,
+          "endLine": 40,
+          "lines": 8,
+          "complexity": 1
+        },
+        {
+          "id": "$/regular#1",
+          "name": "regular",
+          "kind": "function",
+          "constructorName": false,
+          "line": 41,
+          "column": 7,
+          "endLine": 41,
+          "lines": 1,
+          "complexity": 3
+        },
+        {
+          "id": "$/metadata#1",
+          "name": "metadata",
+          "kind": "function",
+          "constructorName": false,
+          "line": 42,
+          "column": 7,
+          "endLine": 48,
+          "lines": 7,
+          "complexity": 8
+        },
+        {
+          "id": "$/definitionFact#1",
+          "name": "definitionFact",
+          "kind": "function",
+          "constructorName": false,
+          "line": 49,
+          "column": 7,
+          "endLine": 52,
+          "lines": 4,
+          "complexity": 4
+        },
+        {
+          "id": "$/validateMetadata#1",
+          "name": "validateMetadata",
+          "kind": "function",
+          "constructorName": false,
+          "line": 53,
+          "column": 7,
+          "endLine": 60,
+          "lines": 8,
+          "complexity": 4
+        },
+        {
+          "id": "$/putMetadata#1",
+          "name": "putMetadata",
+          "kind": "function",
+          "constructorName": false,
+          "line": 61,
+          "column": 7,
+          "endLine": 68,
+          "lines": 8,
+          "complexity": 3
+        },
+        {
+          "id": "$/authoredCards#1",
+          "name": "authoredCards",
+          "kind": "function",
+          "constructorName": false,
+          "line": 71,
+          "column": 7,
+          "endLine": 83,
+          "lines": 13,
+          "complexity": 7
+        },
+        {
+          "id": "$/same#1",
+          "name": "same",
+          "kind": "function",
+          "constructorName": false,
+          "line": 84,
+          "column": 7,
+          "endLine": 89,
+          "lines": 6,
+          "complexity": 7
+        },
+        {
+          "id": "$/validateForeign#1",
+          "name": "validateForeign",
+          "kind": "function",
+          "constructorName": false,
+          "line": 90,
+          "column": 7,
+          "endLine": 97,
+          "lines": 8,
+          "complexity": 8
+        },
+        {
+          "id": "$/canonicalForeign#1",
+          "name": "canonicalForeign",
+          "kind": "function",
+          "constructorName": false,
+          "line": 98,
+          "column": 7,
+          "endLine": 103,
+          "lines": 6,
+          "complexity": 5
+        },
+        {
+          "id": "$/statusCompatible#1",
+          "name": "statusCompatible",
+          "kind": "function",
+          "constructorName": false,
+          "line": 104,
+          "column": 7,
+          "endLine": 107,
+          "lines": 4,
+          "complexity": 4
+        },
+        {
+          "id": "$/statusCompatible#1/priority#1",
+          "name": "priority",
+          "kind": "function",
+          "constructorName": false,
+          "line": 105,
+          "column": 8,
+          "endLine": 105,
+          "lines": 1,
+          "complexity": 4
+        },
+        {
+          "id": "$/adoptRed#1",
+          "name": "adoptRed",
+          "kind": "function",
+          "constructorName": false,
+          "line": 110,
+          "column": 7,
+          "endLine": 128,
+          "lines": 19,
+          "complexity": 13
+        },
+        {
+          "id": "$/fillList#1",
+          "name": "fillList",
+          "kind": "function",
+          "constructorName": false,
+          "line": 129,
+          "column": 7,
+          "endLine": 132,
+          "lines": 4,
+          "complexity": 3
+        },
+        {
+          "id": "$/M.prepareSelected#1",
+          "name": "M.prepareSelected",
+          "kind": "function",
+          "constructorName": false,
+          "line": 133,
+          "column": 1,
+          "endLine": 182,
+          "lines": 50,
+          "complexity": 37
+        },
+        {
+          "id": "$/M.prepare#1",
+          "name": "M.prepare",
+          "kind": "function",
+          "constructorName": false,
+          "line": 183,
+          "column": 1,
+          "endLine": 265,
+          "lines": 83,
+          "complexity": 59
+        },
+        {
+          "id": "$/M.finishMetadata#1",
+          "name": "M.finishMetadata",
+          "kind": "function",
+          "constructorName": false,
+          "line": 266,
+          "column": 1,
+          "endLine": 271,
+          "lines": 6,
+          "complexity": 2
+        }
+      ]
+    },
+    "current": {
+      "file": "src/lua/abyss_run_card_catalog.lua",
+      "sha256": "e6a005a33e95fda500f6ecefecfe1591b9a8054270995975d4b53be1a1eafe3f",
+      "lines": 321,
+      "functions": [
+        {
+          "id": "$",
+          "name": "<chunk>",
+          "kind": "chunk",
+          "constructorName": false,
+          "line": 1,
+          "column": 1,
+          "endLine": 321,
+          "lines": 321,
+          "complexity": 1
+        },
+        {
+          "id": "$/components#1",
+          "name": "components",
+          "kind": "function",
+          "constructorName": false,
+          "line": 13,
+          "column": 7,
+          "endLine": 26,
+          "lines": 14,
+          "complexity": 3
+        },
+        {
+          "id": "$/carrier#1",
+          "name": "carrier",
+          "kind": "function",
+          "constructorName": false,
+          "line": 27,
+          "column": 7,
+          "endLine": 32,
+          "lines": 6,
+          "complexity": 1
+        },
+        {
+          "id": "$/red#1",
+          "name": "red",
+          "kind": "function",
+          "constructorName": false,
+          "line": 33,
+          "column": 7,
+          "endLine": 40,
+          "lines": 8,
+          "complexity": 1
+        },
+        {
+          "id": "$/regular#1",
+          "name": "regular",
+          "kind": "function",
+          "constructorName": false,
+          "line": 41,
+          "column": 7,
+          "endLine": 41,
+          "lines": 1,
+          "complexity": 3
+        },
+        {
+          "id": "$/metadata#1",
+          "name": "metadata",
+          "kind": "function",
+          "constructorName": false,
+          "line": 42,
+          "column": 7,
+          "endLine": 48,
+          "lines": 7,
+          "complexity": 8
+        },
+        {
+          "id": "$/definitionFact#1",
+          "name": "definitionFact",
+          "kind": "function",
+          "constructorName": false,
+          "line": 49,
+          "column": 7,
+          "endLine": 52,
+          "lines": 4,
+          "complexity": 4
+        },
+        {
+          "id": "$/validateMetadata#1",
+          "name": "validateMetadata",
+          "kind": "function",
+          "constructorName": false,
+          "line": 53,
+          "column": 7,
+          "endLine": 60,
+          "lines": 8,
+          "complexity": 4
+        },
+        {
+          "id": "$/putMetadata#1",
+          "name": "putMetadata",
+          "kind": "function",
+          "constructorName": false,
+          "line": 61,
+          "column": 7,
+          "endLine": 68,
+          "lines": 8,
+          "complexity": 3
+        },
+        {
+          "id": "$/authoredCards#1",
+          "name": "authoredCards",
+          "kind": "function",
+          "constructorName": false,
+          "line": 71,
+          "column": 7,
+          "endLine": 83,
+          "lines": 13,
+          "complexity": 7
+        },
+        {
+          "id": "$/same#1",
+          "name": "same",
+          "kind": "function",
+          "constructorName": false,
+          "line": 84,
+          "column": 7,
+          "endLine": 89,
+          "lines": 6,
+          "complexity": 7
+        },
+        {
+          "id": "$/validateForeign#1",
+          "name": "validateForeign",
+          "kind": "function",
+          "constructorName": false,
+          "line": 90,
+          "column": 7,
+          "endLine": 97,
+          "lines": 8,
+          "complexity": 8
+        },
+        {
+          "id": "$/canonicalForeign#1",
+          "name": "canonicalForeign",
+          "kind": "function",
+          "constructorName": false,
+          "line": 98,
+          "column": 7,
+          "endLine": 103,
+          "lines": 6,
+          "complexity": 5
+        },
+        {
+          "id": "$/statusCompatible#1",
+          "name": "statusCompatible",
+          "kind": "function",
+          "constructorName": false,
+          "line": 104,
+          "column": 7,
+          "endLine": 107,
+          "lines": 4,
+          "complexity": 4
+        },
+        {
+          "id": "$/statusCompatible#1/priority#1",
+          "name": "priority",
+          "kind": "function",
+          "constructorName": false,
+          "line": 105,
+          "column": 8,
+          "endLine": 105,
+          "lines": 1,
+          "complexity": 4
+        },
+        {
+          "id": "$/adoptRed#1",
+          "name": "adoptRed",
+          "kind": "function",
+          "constructorName": false,
+          "line": 110,
+          "column": 7,
+          "endLine": 128,
+          "lines": 19,
+          "complexity": 13
+        },
+        {
+          "id": "$/fillList#1",
+          "name": "fillList",
+          "kind": "function",
+          "constructorName": false,
+          "line": 129,
+          "column": 7,
+          "endLine": 132,
+          "lines": 4,
+          "complexity": 3
+        },
+        {
+          "id": "$/selectedInput#1",
+          "name": "selectedInput",
+          "kind": "function",
+          "constructorName": false,
+          "line": 134,
+          "column": 7,
+          "endLine": 148,
+          "lines": 15,
+          "complexity": 5
+        },
+        {
+          "id": "$/mergeSourcePools#1",
+          "name": "mergeSourcePools",
+          "kind": "function",
+          "constructorName": false,
+          "line": 149,
+          "column": 7,
+          "endLine": 155,
+          "lines": 7,
+          "complexity": 5
+        },
+        {
+          "id": "$/mergePreparedFields#1",
+          "name": "mergePreparedFields",
+          "kind": "function",
+          "constructorName": false,
+          "line": 157,
+          "column": 7,
+          "endLine": 168,
+          "lines": 12,
+          "complexity": 14
+        },
+        {
+          "id": "$/restoreSelectedCards#1",
+          "name": "restoreSelectedCards",
+          "kind": "function",
+          "constructorName": false,
+          "line": 169,
+          "column": 7,
+          "endLine": 181,
+          "lines": 13,
+          "complexity": 11
+        },
+        {
+          "id": "$/restoreSelectedStatuses#1",
+          "name": "restoreSelectedStatuses",
+          "kind": "function",
+          "constructorName": false,
+          "line": 182,
+          "column": 7,
+          "endLine": 189,
+          "lines": 8,
+          "complexity": 4
+        },
+        {
+          "id": "$/M.prepareSelected#1",
+          "name": "M.prepareSelected",
+          "kind": "function",
+          "constructorName": false,
+          "line": 190,
+          "column": 1,
+          "endLine": 200,
+          "lines": 11,
+          "complexity": 3
+        },
+        {
+          "id": "$/validateCallerCards#1",
+          "name": "validateCallerCards",
+          "kind": "function",
+          "constructorName": false,
+          "line": 201,
+          "column": 7,
+          "endLine": 210,
+          "lines": 10,
+          "complexity": 7
+        },
+        {
+          "id": "$/verifiedSourceMetadata#1",
+          "name": "verifiedSourceMetadata",
+          "kind": "function",
+          "constructorName": false,
+          "line": 211,
+          "column": 7,
+          "endLine": 221,
+          "lines": 11,
+          "complexity": 6
+        },
+        {
+          "id": "$/indexSelectedContent#1",
+          "name": "indexSelectedContent",
+          "kind": "function",
+          "constructorName": false,
+          "line": 222,
+          "column": 7,
+          "endLine": 228,
+          "lines": 7,
+          "complexity": 4
+        },
+        {
+          "id": "$/providerOwnsCard#1",
+          "name": "providerOwnsCard",
+          "kind": "function",
+          "constructorName": false,
+          "line": 229,
+          "column": 7,
+          "endLine": 231,
+          "lines": 3,
+          "complexity": 6
+        },
+        {
+          "id": "$/registerCardFact#1",
+          "name": "registerCardFact",
+          "kind": "function",
+          "constructorName": false,
+          "line": 232,
+          "column": 7,
+          "endLine": 239,
+          "lines": 8,
+          "complexity": 5
+        },
+        {
+          "id": "$/mergeProviderCard#1",
+          "name": "mergeProviderCard",
+          "kind": "function",
+          "constructorName": false,
+          "line": 240,
+          "column": 7,
+          "endLine": 250,
+          "lines": 11,
+          "complexity": 12
+        },
+        {
+          "id": "$/mergeProviderCards#1",
+          "name": "mergeProviderCards",
+          "kind": "function",
+          "constructorName": false,
+          "line": 251,
+          "column": 7,
+          "endLine": 262,
+          "lines": 12,
+          "complexity": 4
+        },
+        {
+          "id": "$/mergeProviderStatuses#1",
+          "name": "mergeProviderStatuses",
+          "kind": "function",
+          "constructorName": false,
+          "line": 263,
+          "column": 7,
+          "endLine": 269,
+          "lines": 7,
+          "complexity": 4
+        },
+        {
+          "id": "$/mergeProviderPotions#1",
+          "name": "mergeProviderPotions",
+          "kind": "function",
+          "constructorName": false,
+          "line": 270,
+          "column": 7,
+          "endLine": 274,
+          "lines": 5,
+          "complexity": 3
+        },
+        {
+          "id": "$/finishSharedContent#1",
+          "name": "finishSharedContent",
+          "kind": "function",
+          "constructorName": false,
+          "line": 275,
+          "column": 7,
+          "endLine": 287,
+          "lines": 13,
+          "complexity": 7
+        },
+        {
+          "id": "$/M.prepare#1",
+          "name": "M.prepare",
+          "kind": "function",
+          "constructorName": false,
+          "line": 288,
+          "column": 1,
+          "endLine": 314,
+          "lines": 27,
+          "complexity": 12
+        },
+        {
+          "id": "$/M.finishMetadata#1",
+          "name": "M.finishMetadata",
+          "kind": "function",
+          "constructorName": false,
+          "line": 315,
+          "column": 1,
+          "endLine": 320,
+          "lines": 6,
+          "complexity": 2
+        }
+      ]
+    }
+  },
+  "checks": {
+    "newFile": {
+      "tests": 14,
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0
+    },
+    "ciAndRegistration": {
+      "tests": 19,
+      "passed": 19,
+      "failed": 0
+    },
+    "remainingOriginalLua": {
+      "tests": 12,
+      "passed": 12,
+      "paths": [
+        "run_card_catalog_acquisition.lua",
+        "run_card_catalog_creation.lua",
+        "run_card_catalog_export.lua",
+        "run_card_catalog_foreign.lua",
+        "run_card_catalog_native_choices.lua",
+        "run_card_catalog_native_combat.lua",
+        "run_card_catalog_presentation.lua",
+        "run_card_catalog_profile_graph.lua",
+        "run_card_catalog_red_contract.lua",
+        "run_card_catalog_review_graph.lua",
+        "run_card_catalog_review_red_foreign.lua",
+        "run_card_catalog_static_deck.lua"
+      ]
+    },
+    "independent": {
+      "coldCases": 12,
+      "warmCases": 2,
+      "events": 254469,
+      "failurePairs": 6,
+      "script": {
+        "path": "build/review-catalog/independent-proxy-probe.lua",
+        "sha256": "eab92f0b2d3a61c7996149f3db8b998538c033b0d877cb03fa79471e462136f8",
+        "source": "package.path='src/lua/?.lua;build/lua/?.lua;'..package.path\nlocal RealCopy=require('abyss_copy')\nlocal RealProfiles=require('abyss_character_profiles')\nlocal RealRed=require('abyss_run_red_card_contract')\nlocal D=require('abyss_data')\nlocal files={'tests/fixtures/run-catalog-responsibilities-before.lua','src/lua/abyss_run_card_catalog.lua'}\nlocal function sortedKeys(t)\n local keys={};for k in pairs(t)do keys[#keys+1]=k end\n table.sort(keys,function(a,b)if type(a)==type(b)then return a<b end;return type(a)<type(b)end)\n return keys\nend\nlocal function world(file,mode,character,owned,failAt,warmup)\n local events,backing,wrapped,names={},{},{},{}\n local marker={sentinel=true};local logging=false\n local function log(event)\n  if not logging then return end\n  events[#events+1]=event\n  if failAt==#events then error(marker,0)end\n end\n local wrap\n wrap=function(t,path)\n  if type(t)~='table'then return t end\n  if backing[t]then return t end\n  if wrapped[t]then return wrapped[t]end\n  local proxy={};wrapped[t]=proxy;backing[proxy]=t;names[proxy]=path\n  return setmetatable(proxy,{\n   __index=function(_,key)log('get '..path..'.'..tostring(key));return wrap(t[key],path..'.'..tostring(key))end,\n   __newindex=function(_,key,value)log('set '..path..'.'..tostring(key)..':'..type(value));t[key]=value end,\n   __len=function()log('len '..path);return #t end,\n   __pairs=function()\n    log('pairs '..path);local keys=sortedKeys(t);local at=0\n    return function()at=at+1;local key=keys[at];if key~=nil then log('iter '..path..'.'..tostring(key));return key,wrap(t[key],path..'.'..tostring(key))end end\n   end,\n   __metatable='independent catalog proxy',\n  })\n end\n local source=RealCopy.copy(D)\n source.extension={};source.extension.self=source.extension\n source.cardListAlias=source.cards.cards;source.statusListAlias=source.statuses.statuses\n source.cards.sourcePools.cardSourceMetadata={};source.metaAlias=source.cards.sourcePools.cardSourceMetadata\n for _,c in ipairs(source.cards.cards)do if c.id=='strike'then source.strikeAlias=c;c.opaque=source.extension end end\n local selected=RealProfiles.prepare(RealCopy.copy(D),character)\n selected.extension={};selected.extension.self=selected.extension\n selected.cardListAlias=selected.cards.cards;selected.statusListAlias=selected.statuses.statuses\n selected.cards.sourcePools.cardSourceMetadata=selected.cards.sourcePools.cardSourceMetadata or {}\n selected.metaAlias=selected.cards.sourcePools.cardSourceMetadata\n source=wrap(source,'source');selected=wrap(selected,'selected')\n local calls={copy=0,prepare=0,isRed=0,matches=0}\n local copy,profiles,red={},{},{}\n local function depProxy(target,original)\n  return setmetatable(target,{__index=function(_,key)\n   log('dependency get '..key)\n   return function(...)\n    calls[key]=(calls[key]or 0)+1\n    log('dependency call '..key..' #'..calls[key])\n    return original[key](...)\n   end\n  end})\n end\n depProxy(copy,RealCopy);depProxy(profiles,RealProfiles);depProxy(red,RealRed)\n local env=setmetatable({require=function(name)\n  if name=='abyss_copy'then return copy elseif name=='abyss_character_profiles'then return profiles elseif name=='abyss_run_red_card_contract'then return red end\n  log('require '..name);return require(name)\n end},{__index=_G})\n local module=assert(loadfile(file,'t',env))()\n if warmup then module.prepareSelected(source,'ironclad')end\n logging=true\n local ok,out,profile\n if mode=='selected'then ok,out,profile=pcall(module.prepareSelected,source,character)\n else ok,out=pcall(module.prepare,source,selected,character,owned)end\n logging=false\n local function canonical(root)\n  local seen,rows={},{}\n  local function visit(v)\n   if type(v)~='table'then return type(v)..':'..tostring(v)end\n   v=backing[v]or v\n   if seen[v]then return '@'..seen[v]end\n   local id=#rows+1;seen[v]=id;rows[id]=''\n   local row={}\n   for _,key in ipairs(sortedKeys(v))do row[#row+1]=visit(key)..'='..visit(v[key])end\n   rows[id]=table.concat(row,';');return '@'..id\n  end\n  visit(root);return table.concat(rows,'\\n')\n end\n if ok then\n  assert(out.cardListAlias==out.cards.cards and out.statusListAlias==out.statuses.statuses)\n  assert(out.metaAlias==out.cards.sourcePools.cardSourceMetadata)\n  assert(out.extension.self==out.extension)\n  if mode=='prepare'then assert((out==selected)==owned)end\n  if mode=='selected'then assert(out.strikeAlias.opaque==out.extension)end\n elseif failAt then assert(out==marker,'exception object identity was changed')\n else error('unexpected failure: '..tostring(out))end\n return {trace=events,ok=ok,out=ok and canonical(out)or 'sentinel',source=canonical(source),selected=canonical(selected),profile=canonical(profile)}\nend\nlocal cases={}\nfor _,character in ipairs({'ironclad','silent','defect','watcher'})do\n cases[#cases+1]={'selected',character,false}\n cases[#cases+1]={'prepare',character,false}\n cases[#cases+1]={'prepare',character,true}\nend\nlocal function equal(a,b,label)\n assert(a.ok==b.ok,label..' outcome')\n for _,key in ipairs({'out','source','selected','profile'})do assert(a[key]==b[key],label..' graph '..key)end\n assert(#a.trace==#b.trace,label..' trace count '..#a.trace..'/'..#b.trace)\n for i=1,#a.trace do assert(a.trace[i]==b.trace[i],label..' trace '..i..' '..a.trace[i]..' / '..b.trace[i])end\nend\nlocal total=0\nfor _,case in ipairs(cases)do\n local mode,character,owned=table.unpack(case);local label=mode..'/'..character..'/'..tostring(owned)\n local before=world(files[1],mode,character,owned);local after=world(files[2],mode,character,owned)\n equal(before,after,label);total=total+#before.trace\n print('PROXY_TRACE_PASS '..label..' events='..#before.trace)\n -- Representative early, mid and late dependency/metamethod failures. Retains\n -- exact exception object plus partial source/selected graph after each stop.\n local stops=(character=='silent'and owned)and {1,2,17,math.floor(#before.trace/2),#before.trace-2,#before.trace}or {}\n for _,at in ipairs(stops)do\n  equal(world(files[1],mode,character,owned,at),world(files[2],mode,character,owned,at),label..' injected '..at)\n end\nend\nfor _,mode in ipairs({'selected','prepare'})do\n local before=world(files[1],mode,'silent',true,nil,true)\n local after=world(files[2],mode,'silent',true,nil,true)\n equal(before,after,mode..'/warm');total=total+#before.trace\n print('PROXY_WARM_PASS '..mode..' events='..#before.trace)\nend\nprint('INDEPENDENT_PROXY_PASS cases='..#cases..' failure-pairs=6'..' observed-events='..total)\n"
+      }
+    }
+  },
+  "planning": {
+    "inventory": {
+      "js": 747,
+      "lua": 1402
+    },
+    "reserveMs": 60000,
+    "workers": 2,
+    "shards": {
+      "win32": 17,
+      "linux": 13
+    },
+    "budgets": {
+      "win32": 1800000,
+      "linux": 1200000
+    },
+    "win32": {
+      "maxPlusReserveMs": 1715406,
+      "withinBudget": true
+    },
+    "linux": {
+      "maxPlusReserveMs": 1196616,
+      "withinBudget": true
+    }
+  },
+  "logs": [
+    {
+      "path": "build/catalog-first-tests.log",
+      "sha256": "f19068823994e013b8fc3d842ac2d4741ac8fbb23591f0789be12b149d619dd3",
+      "raw": "✔ Run catalogue full frozen source retains exact develop 2ad07111 SHA256 and Git blob (1.148861ms)\n✔ complete fresh old/new Run catalogue contracts graph and returned values match (9556.613519ms)\nℹ {\"suffix\":\"contracts\",\"checkpoints\":29,\"bytes\":4985064,\"sha256\":\"89f58db08d6ed176fce95060b6003ed147b87bdda17fa88de79fb6d4f268eb50\"}\n✔ complete fresh old/new Run catalogue isolation graph and returned values match (9284.824434ms)\nℹ {\"suffix\":\"isolation\",\"checkpoints\":41,\"bytes\":7910212,\"sha256\":\"7e37c8b4035e98e4ba28eebdc54788ecba42aad81a29141d182101ae725cb202\"}\n✖ complete fresh old/new Run catalogue caller_foreign graph and returned values match (7285.647356ms)\n✔ complete fresh old/new Run catalogue review_card_graph graph and returned values match (6932.361704ms)\nℹ {\"suffix\":\"review_card_graph\",\"checkpoints\":29,\"bytes\":4988052,\"sha256\":\"66c6339337d7a3933034ff53ccacdd795b41b2054c227ee7262613c93e9efed2\"}\n✔ complete fresh old/new Run catalogue review_array graph and returned values match (3155.185553ms)\nℹ {\"suffix\":\"review_array\",\"checkpoints\":9,\"bytes\":1984995,\"sha256\":\"59cf4c5a4687784c7f98e494f9619b4f5839a7a9faf9747aa464faf2cc3afc07\"}\n✔ complete fresh old/new Run catalogue review_metadata graph and returned values match (7852.460177ms)\nℹ {\"suffix\":\"review_metadata\",\"checkpoints\":29,\"bytes\":5027851,\"sha256\":\"4c00090c632851028a67474f0711a1a0d5d64903eea3b9bf87788303bfa96c21\"}\n✔ complete fresh old/new Run catalogue metadata_conflicts graph and returned values match (6542.982789ms)\nℹ {\"suffix\":\"metadata_conflicts\",\"checkpoints\":35,\"bytes\":7299126,\"sha256\":\"77ddf3456095c1292c196295d76075425ec18fca279a0f382c5c6619bf241e7d\"}\n✔ complete fresh old/new Run catalogue owned_registration graph and returned values match (12016.447481ms)\nℹ {\"suffix\":\"owned_registration\",\"checkpoints\":57,\"bytes\":10036892,\"sha256\":\"1e01027e95df2ad17a05ac6504f2038def46be9d2f9912da066168b9d74a02e4\"}\n✔ Run catalogue full module includes every helper, callback and initialization in CC15 (1740.664488ms)\n✔ Run catalogue semantic oracle passes both complete source versions (2264.363396ms)\n✔ Run catalogue real semantic mutation detects caller directory identity (1171.24847ms)\n✔ Run catalogue real semantic mutation detects shared Power priority (1145.798291ms)\n✔ Run catalogue real semantic mutation detects native ABI ownership (1137.971425ms)\nℹ tests 14\nℹ suites 0\nℹ pass 13\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 70199.936692\n\n✖ failing tests:\n\ntest at tests/run-catalog-responsibilities.test.mjs:29:159\n✖ complete fresh old/new Run catalogue caller_foreign graph and returned values match (7285.647356ms)\n  AssertionError [ERR_ASSERTION]: complete graph differs at 5824716: before=[[[\"number\",\"1\"],[\"boolean\",false]],[[\"number\",\"2\"],[\"string\",\"src/lua/abyss_run_card_catalog.lua:142: incompatible caller Power: rushdown\"]],[[\"string\",\"n\"],[\"number\",\"2\"]]],null]]}\n  complete {\"root\":[\"table\",30949],\"definitions\":[[\"table\",30949,[[[\"string\",\"complete\"],[\"boolean\" after=[[[\"number\",\"1\"],[\"boolean\",false]],[[\"number\",\"2\"],[\"string\",\"src/lua/abyss_run_card_catalog.lua:143: incompatible caller Power: rushdown\"]],[[\"string\",\"n\"],[\"number\",\"2\"]]],null]]}\n  complete {\"root\":[\"table\",30949],\"definitions\":[[\"table\",30949,[[[\"string\",\"complete\"],[\"boolean\"\n      at TestContext.<anonymous> (file:///workspace/scratch/c1a4970a76e0/m7-run-catalog-responsibilities-20261107/tests/run-catalog-responsibilities.test.mjs:36:10)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: undefined,\n    expected: undefined,\n    operator: 'fail',\n    diff: 'simple'\n  }\n"
+    },
+    {
+      "path": "build/catalog-final-tests.log",
+      "sha256": "93be917d80bf8d66c844b590c237d97c3812ab9e2ac6f6ac225b46a5bf1f8853",
+      "raw": "✔ Run catalogue full frozen source retains exact develop 2ad07111 SHA256 and Git blob (1.536692ms)\n✔ complete fresh old/new Run catalogue contracts graph and returned values match (10549.924674ms)\nℹ {\"suffix\":\"contracts\",\"checkpoints\":29,\"bytes\":4985064,\"sha256\":\"89f58db08d6ed176fce95060b6003ed147b87bdda17fa88de79fb6d4f268eb50\"}\n✔ complete fresh old/new Run catalogue isolation graph and returned values match (9328.938155ms)\nℹ {\"suffix\":\"isolation\",\"checkpoints\":41,\"bytes\":7910212,\"sha256\":\"7e37c8b4035e98e4ba28eebdc54788ecba42aad81a29141d182101ae725cb202\"}\n✔ complete fresh old/new Run catalogue caller_foreign graph and returned values match (6959.777884ms)\nℹ {\"suffix\":\"caller_foreign\",\"checkpoints\":35,\"bytes\":6086965,\"sha256\":\"1b960493d9c225b28f1f0cc578c58d50fe804e1bdabd311e6ee43b46d1a73d98\"}\n✔ complete fresh old/new Run catalogue review_card_graph graph and returned values match (6785.158509ms)\nℹ {\"suffix\":\"review_card_graph\",\"checkpoints\":29,\"bytes\":4988052,\"sha256\":\"66c6339337d7a3933034ff53ccacdd795b41b2054c227ee7262613c93e9efed2\"}\n✔ complete fresh old/new Run catalogue review_array graph and returned values match (3030.357176ms)\nℹ {\"suffix\":\"review_array\",\"checkpoints\":9,\"bytes\":1984995,\"sha256\":\"59cf4c5a4687784c7f98e494f9619b4f5839a7a9faf9747aa464faf2cc3afc07\"}\n✔ complete fresh old/new Run catalogue review_metadata graph and returned values match (7415.1868ms)\nℹ {\"suffix\":\"review_metadata\",\"checkpoints\":29,\"bytes\":5027851,\"sha256\":\"4c00090c632851028a67474f0711a1a0d5d64903eea3b9bf87788303bfa96c21\"}\n✔ complete fresh old/new Run catalogue metadata_conflicts graph and returned values match (6829.44726ms)\nℹ {\"suffix\":\"metadata_conflicts\",\"checkpoints\":35,\"bytes\":7299126,\"sha256\":\"77ddf3456095c1292c196295d76075425ec18fca279a0f382c5c6619bf241e7d\"}\n✔ complete fresh old/new Run catalogue owned_registration graph and returned values match (13023.546914ms)\nℹ {\"suffix\":\"owned_registration\",\"checkpoints\":57,\"bytes\":10036892,\"sha256\":\"1e01027e95df2ad17a05ac6504f2038def46be9d2f9912da066168b9d74a02e4\"}\n✔ Run catalogue full module includes every helper, callback and initialization in CC15 (1769.73213ms)\n✔ Run catalogue semantic oracle passes both complete source versions (2211.365341ms)\n✔ Run catalogue real semantic mutation detects caller directory identity (1104.753056ms)\n✔ Run catalogue real semantic mutation detects shared Power priority (1038.189815ms)\n✔ Run catalogue real semantic mutation detects native ABI ownership (1171.777764ms)\nℹ tests 14\nℹ suites 0\nℹ pass 14\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 71326.726364\n"
+    },
+    {
+      "path": "build/catalog-ci-source.log",
+      "sha256": "ee38798d2adc2222f287788d47f672320c794b7e2cc54c26c91e969e890906c5",
+      "raw": "✔ complete native successful rows authenticate every observed file and only raise effective placement costs (53.77695ms)\n✔ only complete approved sources reverse 16/12 to 14/9 to 13/9 and new timing to d580 to original 8e epoch (13.719911ms)\n✔ historical physical Windows16 POSIX12 Full33 covers final inventory under original budgets and unchanged setup reserve (85.887049ms)\n✔ frozen Windows17 POSIX13 Full35 receipt covers its exact 741 JS and 1401 Lua files within unchanged budgets (81.437457ms)\n✔ current Full35 includes all post-placement files once at explicit unknown costs within unchanged budgets (74.899137ms)\n✔ current placement authenticates 1458 complete successful assigned files without claiming failed containing jobs passed (52.695776ms)\n✔ current 129 placement raises reconstruct exact timings while preserving all old floors and raw worker safety bytes (17.051055ms)\n✔ only two exact current source identities enter the unchanged pure historical CI chain and all byte drift remains visible (19.568204ms)\n✔ [historical 98fef source contract] scheduler inverse preserves the frozen runner for LF/CRLF and rejects unrelated changes (742.906157ms)\n✔ weighted scheduling balances unequal files deterministically and rejects unsafe inputs (1.002966ms)\n✔ platform gates reserve their measured first-shard cost for every valid shard count (0.850215ms)\n✔ all current JS and Lua files are scheduled exactly once; new unmeasured files cannot disappear (196.013066ms)\n✔ platform-native placement covers every current file once and unknown platforms retain the conservative fallback (45.059186ms)\n✔ workflow uses the same balanced plan for materialization and execution without changing concurrency (0.696182ms)\n✔ real executor preserves test failure, continues later files, reports timings and includes added files (315.049417ms)\n✔ current timing records preserve all measured corrections without duplicate JSON keys (175.534172ms)\n✔ [historical 98fef source contract] fresh relic base retains its complete accepted scheduling measurements (559.027493ms)\n✔ ordinary Run definitions match all independent fixed300 registration classes and actual HEALING tags (1034.532505ms)\n✔ another valid registered source ID and metadata-only HEALING cannot conceal incorrect actual definitions (2.658798ms)\nℹ tests 19\nℹ suites 0\nℹ pass 19\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 2434.397795\n"
+    },
+    {
+      "path": "build/catalog-remaining.log",
+      "sha256": "ef928f97ca1ea4eb93273b7180c52dba82248a6295f99f28e0ff4a98113d9fc0",
+      "raw": "{\"name\":\"run_card_catalog_acquisition.lua\",\"durationMs\":3042.0924440000003,\"status\":0,\"stdout\":\"RUN_CARD_CATALOG_ACQUISITION_PASS actual cross-color Rage/native9, Evolve/FireBreathing/zero slots, FNP/DarkEmbrace/Corruption and UID choice continuation\\n\"}\n{\"name\":\"run_card_catalog_creation.lua\",\"durationMs\":3495.389319,\"status\":0,\"stdout\":\"RUN_CARD_CATALOG_CREATION_PASS actual cross-color MR hand/draw generation, zero-slot acquisition, Calm exit and full owner/RNG/UID rollback\\n\"}\n{\"name\":\"run_card_catalog_export.lua\",\"durationMs\":926.0184930000005,\"status\":0,\"stdout\":\"CATALOG\\tstrike\\tStrike_R\\tattack\\tred\\tbasic\\tfalse\\t1\\nCATALOG\\tdefend\\tDefend_R\\tskill\\tred\\tbasic\\tfalse\\t1\\nCATALOG\\tbash\\tBash\\tattack\\tred\\tbasic\\tfalse\\t2\\nCATALOG\\tanger\\tAnger\\tattack\\tred\\tcommon\\tfalse\\t0\\nCATALOG\\tarmaments\\tArmaments\\tskill\\tred\\tcommon\\tfalse\\t1\\nCATALOG\\tbody_slam\\tBody Slam\\tattack\\tred\\tcommon\\tfalse\\t1\\nCATALOG\\tclash\\tClash\\tattack\\tred\\tcommon\\tfalse\\t0\\nCATALOG\\tcleave\\tCleave\\tattack\\tred\\tcommon\\tfalse\\t1\\nCATALOG\\tclothesline\\tClothesline\\tattack\\tred\\tcommon\\tfalse\\t2\\nCATALOG\\tflex\\tFlex\\tskill\\tred\\tcommon\\tfalse\\t0\\nCATALOG\\thavoc\\tHavoc\\tskill\\tred\\tcommon\\tfalse\\t1\\nCATALOG\\theadbutt\\tHeadbutt\\tattack\\tred\\tcommon\\tfalse\\t1\\nCATALOG\\theavy_blade\\tHeavy Blade\\tattack\\tred\\tcommon\\tfalse\\t2\\nCATALOG\\tiron_wave\\tIron Wave\\tattack\\tred\\tcommon\\tfalse\\t1\\nCATALOG\\tperfected_strike\\tPerfected Strike\\tattack\\tred\\tcommon\\tfalse\\t2\\nCATALOG\\tpommel_strike\\tPommel Strike\\tattack\\tred\\tcommon\\tfalse\\t1\\nCATALOG\\tshrug_it_off\\tShrug It Off\\tskill\\tred\\tcommon\\tfalse\\t1\\nCATALOG\\tsword_boomerang\\tSword Boomerang\\tattack\\tred\\tcommon\\tfalse\\t1\\nCATALOG\\tthunderclap\\tThunderclap\\tattack\\tred\\tcommon\\tfalse\\t1\\nCATALOG\\ttrue_grit\\tTrue Grit\\tskill\\tred\\tcommon\\tfalse\\t1\\nCATALOG\\ttwin_strike\\tTwin Strike\\tattack\\tred\\tcommon\\tfalse\\t1\\nCATALOG\\twarcry\\tWarcry\\tskill\\tred\\tcommon\\tfalse\\t0\\nCATALOG\\twild_strike\\tWild Strike\\tattack\\tred\\tcommon\\tfalse\\t1\\nCATALOG\\tbattle_trance\\tBattle Trance\\tskill\\tred\\tuncommon\\tfalse\\t0\\nCATALOG\\tblood_for_blood\\tBlood for Blood\\tattack\\tred\\tuncommon\\tfalse\\t4\\nCATALOG\\tbloodletting\\tBloodletting\\tskill\\tred\\tuncommon\\tfalse\\t0\\nCATALOG\\tburning_pact\\tBurning Pact\\tskill\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tcarnage\\tCarnage\\tattack\\tred\\tuncommon\\tfalse\\t2\\nCATALOG\\tcombust\\tCombust\\tpower\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tdark_embrace\\tDark Embrace\\tpower\\tred\\tuncommon\\tfalse\\t2\\nCATALOG\\tdisarm\\tDisarm\\tskill\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tdropkick\\tDropkick\\tattack\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tdual_wield\\tDual Wield\\tskill\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tentrench\\tEntrench\\tskill\\tred\\tuncommon\\tfalse\\t2\\nCATALOG\\tevolve\\tEvolve\\tpower\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tfeel_no_pain\\tFeel No Pain\\tpower\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tfire_breathing\\tFire Breathing\\tpower\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tflame_barrier\\tFlame Barrier\\tskill\\tred\\tuncommon\\tfalse\\t2\\nCATALOG\\tghostly_armor\\tGhostly Armor\\tskill\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\themokinesis\\tHemokinesis\\tattack\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tinfernal_blade\\tInfernal Blade\\tskill\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tinflame\\tInflame\\tpower\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tintimidate\\tIntimidate\\tskill\\tred\\tuncommon\\tfalse\\t0\\nCATALOG\\tmetallicize\\tMetallicize\\tpower\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tpower_through\\tPower Through\\tskill\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tpummel\\tPummel\\tattack\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\trage\\tRage\\tskill\\tred\\tuncommon\\tfalse\\t0\\nCATALOG\\trampage\\tRampage\\tattack\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\treckless_charge\\tReckless Charge\\tattack\\tred\\tuncommon\\tfalse\\t0\\nCATALOG\\trupture\\tRupture\\tpower\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tsearing_blow\\tSearing Blow\\tattack\\tred\\tuncommon\\tfalse\\t2\\nCATALOG\\tsecond_wind\\tSecond Wind\\tskill\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tseeing_red\\tSeeing Red\\tskill\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tsentinel\\tSentinel\\tskill\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tsever_soul\\tSever Soul\\tattack\\tred\\tuncommon\\tfalse\\t2\\nCATALOG\\tshockwave\\tShockwave\\tskill\\tred\\tuncommon\\tfalse\\t2\\nCATALOG\\tspot_weakness\\tSpot Weakness\\tskill\\tred\\tuncommon\\tfalse\\t1\\nCATALOG\\tuppercut\\tUppercut\\tattack\\tred\\tuncommon\\tfalse\\t2\\nCATALOG\\twhirlwind\\tWhirlwind\\tattack\\tred\\tuncommon\\tfalse\\t-1\\nCATALOG\\tbarricade\\tBarricade\\tpower\\tred\\trare\\tfalse\\t3\\nCATALOG\\tberserk\\tBerserk\\tpower\\tred\\trare\\tfalse\\t0\\nCATALOG\\tbludgeon\\tBludgeon\\tattack\\tred\\trare\\tfalse\\t3\\nCATALOG\\tbrutality\\tBrutality\\tpower\\tred\\trare\\tfalse\\t0\\nCATALOG\\tcorruption\\tCorruption\\tpower\\tred\\trare\\tfalse\\t3\\nCATALOG\\tdemon_form\\tDemon Form\\tpower\\tred\\trare\\tfalse\\t3\\nCATALOG\\tdouble_tap\\tDouble Tap\\tskill\\tred\\trare\\tfalse\\t1\\nCATALOG\\texhume\\tExhume\\tskill\\tred\\trare\\tfalse\\t1\\nCATALOG\\tfeed\\tFeed\\tattack\\tred\\trare\\ttrue\\t1\\nCATALOG\\tfiend_fire\\tFiend Fire\\tattack\\tred\\trare\\tfalse\\t2\\nCATALOG\\timmolate\\tImmolate\\tattack\\tred\\trare\\tfalse\\t2\\nCATALOG\\timpervious\\tImpervious\\tskill\\tred\\trare\\tfalse\\t2\\nCATALOG\\tjuggernaut\\tJuggernaut\\tpower\\tred\\trare\\tfalse\\t2\\nCATALOG\\tlimit_break\\tLimit Break\\tskill\\tred\\trare\\tfalse\\t1\\nCATALOG\\toffering\\tOffering\\tskill\\tred\\trare\\tfalse\\t0\\nCATALOG\\treaper\\tReaper\\tattack\\tred\\trare\\ttrue\\t2\\nCATALOG\\tdeadly_poison\\tDeadly Poison\\tskill\\tgreen\\tcommon\\tfalse\\t1\\nCATALOG\\tblade_dance\\tBlade Dance\\tskill\\tgreen\\tcommon\\tfalse\\t1\\nCATALOG\\tsurvivor\\tSurvivor\\tskill\\tgreen\\tbasic\\tfalse\\t1\\nCATALOG\\tacrobatics\\tAcrobatics\\tskill\\tgreen\\tcommon\\tfalse\\t1\\nCATALOG\\ttactician\\tTactician\\tskill\\tgreen\\tuncommon\\tfalse\\t-2\\nCATALOG\\treflex\\tReflex\\tskill\\tgreen\\tuncommon\\tfalse\\t-2\\nCATALOG\\tfootwork\\tFootwork\\tpower\\tgreen\\tuncommon\\tfalse\\t1\\nCATALOG\\tbackflip\\tBackflip\\tskill\\tgreen\\tcommon\\tfalse\\t1\\nCATALOG\\tdagger_throw\\tDagger Throw\\tattack\\tgreen\\tcommon\\tfalse\\t1\\nCATALOG\\tdagger_spray\\tDagger Spray\\tattack\\tgreen\\tcommon\\tfalse\\t1\\nCATALOG\\tcloak_and_dagger\\tCloak And Dagger\\tskill\\tgreen\\tcommon\\tfalse\\t1\\nCATALOG\\tprepared\\tPrepared\\tskill\\tgreen\\tcommon\\tfalse\\t0\\nCATALOG\\tquick_slash\\tQuick Slash\\tattack\\tgreen\\tcommon\\tfalse\\t1\\nCATALOG\\tcatalyst\\tCatalyst\\tskill\\tgreen\\tuncommon\\tfalse\\t1\\nCATALOG\\tbouncing_flask\\tBouncing Flask\\tskill\\tgreen\\tuncommon\\tfalse\\t2\\nCATALOG\\tnoxious_fumes\\tNoxious Fumes\\tpower\\tgreen\\tuncommon\\tfalse\\t1\\nCATALOG\\taccuracy\\tAccuracy\\tpower\\tgreen\\tuncommon\\tfalse\\t1\\nCATALOG\\tsneaky_strike\\tUnderhanded Strike\\tattack\\tgreen\\tcommon\\tfalse\\t2\\nCATALOG\\teviscerate\\tEviscerate\\tattack\\tgreen\\tuncommon\\tfalse\\t3\\nCATALOG\\tcalculated_gamble\\tCalculated Gamble\\tskill\\tgreen\\tuncommon\\tfalse\\t0\\nCATALOG\\tinfinite_blades\\tInfinite Blades\\tpower\\tgreen\\tuncommon\\tfalse\\t1\\nCATALOG\\tbane\\tBane\\tattack\\tgreen\\tcommon\\tfalse\\t1\\nCATALOG\\tslice\\tSlice\\tattack\\tgreen\\tcommon\\tfalse\\t0\\nCATALOG\\tsucker_punch\\tSucker Punch\\tattack\\tgreen\\tcommon\\tfalse\\t1\\nCATALOG\\tpoisoned_stab\\tPoisoned Stab\\tattack\\tgreen\\tcommon\\tfalse\\t1\\nCATALOG\\triddle_with_holes\\tRiddle With Holes\\tattack\\tgreen\\tuncommon\\tfalse\\t2\\nCATALOG\\tbackstab\\tBackstab\\tattack\\tgreen\\tuncommon\\tfalse\\t0\\nCATALOG\\tadrenaline\\tAdrenaline\\tskill\\tgreen\\trare\\tfalse\\t0\\nCATALOG\\tdeflect\\tDeflect\\tskill\\tgreen\\tcommon\\tfalse\\t0\\nCATALOG\\tcaltrops\\tCaltrops\\tpower\\tgreen\\tuncommon\\tfalse\\t1\\nCATALOG\\tflying_knee\\tFlying Knee\\tattack\\tgreen\\tcommon\\tfalse\\t1\\nCATALOG\\toutmaneuver\\tOutmaneuver\\tskill\\tgreen\\tcommon\\tfalse\\t1\\nCATALOG\\tdodge_and_roll\\tDodge and Roll\\tskill\\tgreen\\tcommon\\tfalse\\t1\\nCATALOG\\tgrand_finale\\tGrand Finale\\tattack\\tgreen\\trare\\tfalse\\t0\\nCATALOG\\theel_hook\\tHeel Hook\\tattack\\tgreen\\tuncommon\\tfalse\\t1\\nCATALOG\\tafter_image\\tAfter Image\\tpower\\tgreen\\trare\\tfalse\\t1\\nCATALOG\\tthousand_cuts\\tA Thousand Cuts\\tpower\\tgreen\\trare\\tfalse\\t2\\nCATALOG\\tenvenom\\tEnvenom\\tpower\\tgreen\\trare\\tfalse\\t2\\nCATALOG\\tpiercing_wail\\tPiercingWail\\tskill\\tgreen\\tcommon\\tfalse\\t1\\nCATALOG\\tall_out_attack\\tAll Out Attack\\tattack\\tgreen\\tuncommon\\tfalse\\t1\\nCATALOG\\tblur\\tBlur\\tskill\\tgreen\\tuncommon\\tfalse\\t1\\nCATALOG\\tchoke\\tChoke\\tattack\\tgreen\\tuncommon\\tfalse\\t2\\nCATALOG\\tconcentrate\\tConcentrate\\tskill\\tgreen\\tuncommon\\tfalse\\t0\\nCATALOG\\tcrippling_poison\\tCrippling Poison\\tskill\\tgreen\\tuncommon\\tfalse\\t2\\nCATALOG\\tdash\\tDash\\tattack\\tgreen\\tuncommon\\tfalse\\t2\\nCATALOG\\tescape_plan\\tEscape Plan\\tskill\\tgreen\\tuncommon\\tfalse\\t0\\nCATALOG\\texpertise\\tExpertise\\tskill\\tgreen\\tuncommon\\tfalse\\t1\\nCATALOG\\tfinisher\\tFinisher\\tattack\\tgreen\\tuncommon\\tfalse\\t1\\nCATALOG\\tflechettes\\tFlechettes\\tattack\\tgreen\\tuncommon\\tfalse\\t1\\nCATALOG\\tleg_sweep\\tLeg Sweep\\tskill\\tgreen\\tuncommon\\tfalse\\t2\\nCATALOG\\tpredator\\tPredator\\tattack\\tgreen\\tuncommon\\tfalse\\t2\\nCATALOG\\tskewer\\tSkewer\\tattack\\tgreen\\tuncommon\\tfalse\\t-1\\nCATALOG\\tterror\\tTerror\\tskill\\tgreen\\tuncommon\\tfalse\\t1\\nCATALOG\\tdie_die_die\\tDie Die Die\\tattack\\tgreen\\trare\\tfalse\\t1\\nCATALOG\\tglass_knife\\tGlass Knife\\tattack\\tgreen\\trare\\tfalse\\t1\\nCATALOG\\tmalaise\\tMalaise\\tskill\\tgreen\\trare\\tfalse\\t-1\\nCATALOG\\tunload\\tUnload\\tattack\\tgreen\\trare\\tfalse\\t1\\nCATALOG\\tstorm_of_steel\\tStorm of Steel\\tskill\\tgreen\\trare\\tfalse\\t1\\nCATALOG\\tdistraction\\tDistraction\\tskill\\tgreen\\tuncommon\\tfalse\\t1\\nCATALOG\\tendless_agony\\tEndless Agony\\tattack\\tgreen\\tuncommon\\tfalse\\t0\\nCATALOG\\tmasterful_stab\\tMasterful Stab\\tattack\\tgreen\\tuncommon\\tfalse\\t0\\nCATALOG\\tsetup\\tSetup\\tskill\\tgreen\\tuncommon\\tfalse\\t1\\nCATALOG\\twell_laid_plans\\tWell Laid Plans\\tpower\\tgreen\\tuncommon\\tfalse\\t1\\nCATALOG\\tbullet_time\\tBullet Time\\tskill\\tgreen\\trare\\tfalse\\t3\\nCATALOG\\tburst\\tBurst\\tskill\\tgreen\\trare\\tfalse\\t1\\nCATALOG\\tcorpse_explosion\\tCorpse Explosion\\tskill\\tgreen\\trare\\tfalse\\t2\\nCATALOG\\tdoppelganger\\tDoppelganger\\tskill\\tgreen\\trare\\tfalse\\t-1\\nCATALOG\\tnightmare\\tNight Terror\\tskill\\tgreen\\trare\\tfalse\\t3\\nCATALOG\\tphantasmal_killer\\tPhantasmal Killer\\tskill\\tgreen\\trare\\tfalse\\t1\\nCATALOG\\ttools_of_the_trade\\tTools of the Trade\\tpower\\tgreen\\trare\\tfalse\\t1\\nCATALOG\\talchemize\\tVenomology\\tskill\\tgreen\\trare\\ttrue\\t1\\nCATALOG\\twraith_form\\tWraith Form v2\\tpower\\tgreen\\trare\\tfalse\\t3\\nCATALOG\\tstrike_green\\tStrike_G\\tattack\\tgreen\\tbasic\\tfalse\\t1\\nCATALOG\\tdefend_green\\tDefend_G\\tskill\\tgreen\\tbasic\\tfalse\\t1\\nCATALOG\\tneutralize\\tNeutralize\\tattack\\tgreen\\tbasic\\tfalse\\t0\\nCATALOG\\tzap\\tZap\\tskill\\tblue\\tbasic\\tfalse\\t1\\nCATALOG\\tdualcast\\tDualcast\\tskill\\tblue\\tbasic\\tfalse\\t1\\nCATALOG\\tcold_snap\\tCold Snap\\tattack\\tblue\\tcommon\\tfalse\\t1\\nCATALOG\\tball_lightning\\tBall Lightning\\tattack\\tblue\\tcommon\\tfalse\\t1\\nCATALOG\\tcoolheaded\\tCoolheaded\\tskill\\tblue\\tcommon\\tfalse\\t1\\nCATALOG\\tdarkness\\tDarkness\\tskill\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\tleap\\tLeap\\tskill\\tblue\\tcommon\\tfalse\\t1\\nCATALOG\\tsweeping_beam\\tSweeping Beam\\tattack\\tblue\\tcommon\\tfalse\\t1\\nCATALOG\\tbeam_cell\\tBeam Cell\\tattack\\tblue\\tcommon\\tfalse\\t0\\nCATALOG\\tfusion\\tFusion\\tskill\\tblue\\tuncommon\\tfalse\\t2\\nCATALOG\\tdefragment\\tDefragment\\tpower\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\tcapacitor\\tCapacitor\\tpower\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\tconsume\\tConsume\\tskill\\tblue\\tuncommon\\tfalse\\t2\\nCATALOG\\treprogram\\tReprogram\\tskill\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\tbiased_cognition\\tBiased Cognition\\tpower\\tblue\\trare\\tfalse\\t1\\nCATALOG\\tloop\\tLoop\\tpower\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\telectrodynamics\\tElectrodynamics\\tpower\\tblue\\trare\\tfalse\\t2\\nCATALOG\\tbarrage\\tBarrage\\tattack\\tblue\\tcommon\\tfalse\\t1\\nCATALOG\\tcompile_driver\\tCompile Driver\\tattack\\tblue\\tcommon\\tfalse\\t1\\nCATALOG\\tgo_for_the_eyes\\tGo for the Eyes\\tattack\\tblue\\tcommon\\tfalse\\t0\\nCATALOG\\tboot_sequence\\tBootSequence\\tskill\\tblue\\tuncommon\\tfalse\\t0\\nCATALOG\\tcharge_battery\\tConserve Battery\\tskill\\tblue\\tcommon\\tfalse\\t1\\nCATALOG\\tglacier\\tGlacier\\tskill\\tblue\\tuncommon\\tfalse\\t2\\nCATALOG\\toverclock\\tSteam Power\\tskill\\tblue\\tuncommon\\tfalse\\t0\\nCATALOG\\tturbo\\tTurbo\\tskill\\tblue\\tcommon\\tfalse\\t0\\nCATALOG\\tcore_surge\\tCore Surge\\tattack\\tblue\\trare\\tfalse\\t1\\nCATALOG\\trainbow\\tRainbow\\tskill\\tblue\\trare\\tfalse\\t2\\nCATALOG\\thyperbeam\\tHyperbeam\\tattack\\tblue\\trare\\tfalse\\t2\\nCATALOG\\treinforced_body\\tReinforced Body\\tskill\\tblue\\tuncommon\\tfalse\\t-1\\nCATALOG\\tdouble_energy\\tDouble Energy\\tskill\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\tftl\\tFTL\\tattack\\tblue\\tuncommon\\tfalse\\t0\\nCATALOG\\theat_sinks\\tHeatsinks\\tpower\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\tstorm\\tStorm\\tpower\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\tclaw\\tGash\\tattack\\tblue\\tcommon\\tfalse\\t0\\nCATALOG\\tstack\\tStack\\tskill\\tblue\\tcommon\\tfalse\\t1\\nCATALOG\\tsteam_barrier\\tSteam\\tskill\\tblue\\tcommon\\tfalse\\t0\\nCATALOG\\tstreamline\\tStreamline\\tattack\\tblue\\tcommon\\tfalse\\t2\\nCATALOG\\taggregate\\tAggregate\\tskill\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\tauto_shields\\tAuto Shields\\tskill\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\tblizzard\\tBlizzard\\tattack\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\tchaos\\tChaos\\tskill\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\tchill\\tChill\\tskill\\tblue\\tuncommon\\tfalse\\t0\\nCATALOG\\tdoom_and_gloom\\tDoom and Gloom\\tattack\\tblue\\tuncommon\\tfalse\\t2\\nCATALOG\\tlock_on\\tLockon\\tattack\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\tmelter\\tMelter\\tattack\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\trip_and_tear\\tRip and Tear\\tattack\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\tskim\\tSkim\\tskill\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\tsunder\\tSunder\\tattack\\tblue\\tuncommon\\tfalse\\t3\\nCATALOG\\ttempest\\tTempest\\tskill\\tblue\\tuncommon\\tfalse\\t-1\\nCATALOG\\tmeteor_strike\\tMeteor Strike\\tattack\\tblue\\trare\\tfalse\\t5\\nCATALOG\\tmulti_cast\\tMulti-Cast\\tskill\\tblue\\trare\\tfalse\\t-1\\nCATALOG\\tthunder_strike\\tThunder Strike\\tattack\\tblue\\trare\\tfalse\\t3\\nCATALOG\\thologram\\tHologram\\tskill\\tblue\\tcommon\\tfalse\\t1\\nCATALOG\\tseek\\tSeek\\tskill\\tblue\\trare\\tfalse\\t0\\nCATALOG\\thello_world\\tHello World\\tpower\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\twhite_noise\\tWhite Noise\\tskill\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\tcreative_ai\\tCreative AI\\tpower\\tblue\\trare\\tfalse\\t3\\nCATALOG\\tbuffer\\tBuffer\\tpower\\tblue\\trare\\tfalse\\t2\\nCATALOG\\tstatic_discharge\\tStatic Discharge\\tpower\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\trebound\\tRebound\\tattack\\tblue\\tcommon\\tfalse\\t1\\nCATALOG\\tforce_field\\tForce Field\\tskill\\tblue\\tuncommon\\tfalse\\t4\\nCATALOG\\tequilibrium\\tUndo\\tskill\\tblue\\tuncommon\\tfalse\\t2\\nCATALOG\\tamplify\\tAmplify\\tskill\\tblue\\trare\\tfalse\\t1\\nCATALOG\\techo_form\\tEcho Form\\tpower\\tblue\\trare\\tfalse\\t3\\nCATALOG\\tmachine_learning\\tMachine Learning\\tpower\\tblue\\trare\\tfalse\\t1\\nCATALOG\\tself_repair\\tSelf Repair\\tpower\\tblue\\tuncommon\\ttrue\\t1\\nCATALOG\\trecursion\\tRedo\\tskill\\tblue\\tcommon\\tfalse\\t1\\nCATALOG\\tgenetic_algorithm\\tGenetic Algorithm\\tskill\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\trecycle\\tRecycle\\tskill\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\tscrape\\tScrape\\tattack\\tblue\\tuncommon\\tfalse\\t1\\nCATALOG\\tall_for_one\\tAll For One\\tattack\\tblue\\trare\\tfalse\\t2\\nCATALOG\\tfission\\tFission\\tskill\\tblue\\trare\\tfalse\\t0\\nCATALOG\\treboot\\tReboot\\tskill\\tblue\\trare\\tfalse\\t0\\nCATALOG\\tstrike_blue\\tStrike_B\\tattack\\tblue\\tbasic\\tfalse\\t1\\nCATALOG\\tdefend_blue\\tDefend_B\\tskill\\tblue\\tbasic\\tfalse\\t1\\nCATALOG\\teruption\\tEruption\\tattack\\tpurple\\tbasic\\tfalse\\t2\\nCATALOG\\tvigilance\\tVigilance\\tskill\\tpurple\\tbasic\\tfalse\\t2\\nCATALOG\\tempty_fist\\tEmptyFist\\tattack\\tpurple\\tcommon\\tfalse\\t1\\nCATALOG\\tempty_body\\tEmptyBody\\tskill\\tpurple\\tcommon\\tfalse\\t1\\nCATALOG\\tcrescendo\\tCrescendo\\tskill\\tpurple\\tcommon\\tfalse\\t1\\nCATALOG\\ttranquility\\tClearTheMind\\tskill\\tpurple\\tcommon\\tfalse\\t1\\nCATALOG\\trushdown\\tAdaptation\\tpower\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\tmental_fortress\\tMentalFortress\\tpower\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\tinner_peace\\tInnerPeace\\tskill\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\tcut_through_fate\\tCutThroughFate\\tattack\\tpurple\\tcommon\\tfalse\\t1\\nCATALOG\\tthird_eye\\tThirdEye\\tskill\\tpurple\\tcommon\\tfalse\\t1\\nCATALOG\\tjust_lucky\\tJustLucky\\tattack\\tpurple\\tcommon\\tfalse\\t0\\nCATALOG\\tnirvana\\tNirvana\\tpower\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\tprostrate\\tProstrate\\tskill\\tpurple\\tcommon\\tfalse\\t0\\nCATALOG\\tworship\\tWorship\\tskill\\tpurple\\tuncommon\\tfalse\\t2\\nCATALOG\\tdevotion\\tDevotion\\tpower\\tpurple\\trare\\tfalse\\t1\\nCATALOG\\tprotect\\tProtect\\tskill\\tpurple\\tcommon\\tfalse\\t2\\nCATALOG\\tperseverance\\tPerseverance\\tskill\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\twindmill_strike\\tWindmillStrike\\tattack\\tpurple\\tuncommon\\tfalse\\t2\\nCATALOG\\tsands_of_time\\tSandsOfTime\\tattack\\tpurple\\tuncommon\\tfalse\\t4\\nCATALOG\\tconsecrate\\tConsecrate\\tattack\\tpurple\\tcommon\\tfalse\\t0\\nCATALOG\\tbowling_bash\\tBowlingBash\\tattack\\tpurple\\tcommon\\tfalse\\t1\\nCATALOG\\tflying_sleeves\\tFlyingSleeves\\tattack\\tpurple\\tcommon\\tfalse\\t1\\nCATALOG\\tfollow_up\\tFollowUp\\tattack\\tpurple\\tcommon\\tfalse\\t1\\nCATALOG\\tcrush_joints\\tCrushJoints\\tattack\\tpurple\\tcommon\\tfalse\\t1\\nCATALOG\\tsash_whip\\tSashWhip\\tattack\\tpurple\\tcommon\\tfalse\\t1\\nCATALOG\\tempty_mind\\tEmptyMind\\tskill\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\tevaluate\\tEvaluate\\tskill\\tpurple\\tcommon\\tfalse\\t1\\nCATALOG\\thalt\\tHalt\\tskill\\tpurple\\tcommon\\tfalse\\t0\\nCATALOG\\tcarve_reality\\tCarveReality\\tattack\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\tdeceive_reality\\tDeceiveReality\\tskill\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\tsanctity\\tSanctity\\tskill\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\tsignature_move\\tSignatureMove\\tattack\\tpurple\\tuncommon\\tfalse\\t2\\nCATALOG\\tscrawl\\tScrawl\\tskill\\tpurple\\trare\\tfalse\\t1\\nCATALOG\\tbrilliance\\tBrilliance\\tattack\\tpurple\\trare\\tfalse\\t1\\nCATALOG\\tbattle_hymn\\tBattleHymn\\tpower\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\tcollect\\tCollect\\tskill\\tpurple\\tuncommon\\tfalse\\t-1\\nCATALOG\\tfasting\\tFasting2\\tpower\\tpurple\\tuncommon\\tfalse\\t2\\nCATALOG\\tfear_no_evil\\tFearNoEvil\\tattack\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\tindignation\\tIndignation\\tskill\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\tlike_water\\tLikeWater\\tpower\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\tpray\\tPray\\tskill\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\treach_heaven\\tReachHeaven\\tattack\\tpurple\\tuncommon\\tfalse\\t2\\nCATALOG\\tstudy\\tStudy\\tpower\\tpurple\\tuncommon\\tfalse\\t2\\nCATALOG\\ttalk_to_the_hand\\tTalkToTheHand\\tattack\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\ttantrum\\tTantrum\\tattack\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\tsimmering_fury\\tVengeance\\tskill\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\twallop\\tWallop\\tattack\\tpurple\\tuncommon\\tfalse\\t2\\nCATALOG\\twheel_kick\\tWheelKick\\tattack\\tpurple\\tuncommon\\tfalse\\t2\\nCATALOG\\twreath_of_flame\\tWreathOfFlame\\tskill\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\tpressure_points\\tPathToVictory\\tskill\\tpurple\\tcommon\\tfalse\\t1\\nCATALOG\\tflurry_of_blows\\tFlurryOfBlows\\tattack\\tpurple\\tcommon\\tfalse\\t0\\nCATALOG\\tweave\\tWeave\\tattack\\tpurple\\tuncommon\\tfalse\\t0\\nCATALOG\\tforeign_influence\\tForeignInfluence\\tskill\\tpurple\\tuncommon\\tfalse\\t0\\nCATALOG\\tconclude\\tConclude\\tattack\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\tmeditate\\tMeditate\\tskill\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\tswivel\\tSwivel\\tskill\\tpurple\\tuncommon\\tfalse\\t2\\nCATALOG\\twave_of_the_hand\\tWaveOfTheHand\\tskill\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\tforesight\\tWireheading\\tpower\\tpurple\\tuncommon\\tfalse\\t1\\nCATALOG\\talpha\\tAlpha\\tskill\\tpurple\\trare\\tfalse\\t1\\nCATALOG\\tblasphemy\\tBlasphemy\\tskill\\tpurple\\trare\\tfalse\\t1\\nCATALOG\\tconjure_blade\\tConjureBlade\\tskill\\tpurple\\trare\\tfalse\\t-1\\nCATALOG\\tdeus_ex_machina\\tDeusExMachina\\tskill\\tpurple\\trare\\tfalse\\t-2\\nCATALOG\\tdeva_form\\tDevaForm\\tpower\\tpurple\\trare\\tfalse\\t3\\nCATALOG\\tjudgment\\tJudgement\\tskill\\tpurple\\trare\\tfalse\\t1\\nCATALOG\\tlesson_learned\\tLessonLearned\\tattack\\tpurple\\trare\\ttrue\\t2\\nCATALOG\\tmaster_reality\\tMasterReality\\tpower\\tpurple\\trare\\tfalse\\t1\\nCATALOG\\tomniscience\\tOmniscience\\tskill\\tpurple\\trare\\tfalse\\t4\\nCATALOG\\tragnarok\\tRagnarok\\tattack\\tpurple\\trare\\tfalse\\t3\\nCATALOG\\tspirit_shield\\tSpiritShield\\tskill\\tpurple\\trare\\tfalse\\t2\\nCATALOG\\twish\\tWish\\tskill\\tpurple\\trare\\ttrue\\t3\\nCATALOG\\testablishment\\tEstablishment\\tpower\\tpurple\\trare\\tfalse\\t1\\nCATALOG\\tvault\\tVault\\tskill\\tpurple\\trare\\tfalse\\t3\\nCATALOG\\tstrike_purple\\tStrike_P\\tattack\\tpurple\\tbasic\\tfalse\\t1\\nCATALOG\\tdefend_purple\\tDefend_P\\tskill\\tpurple\\tbasic\\tfalse\\t1\\n\"}\n{\"name\":\"run_card_catalog_foreign.lua\",\"durationMs\":2141.252931000001,\"status\":0,\"stdout\":\"RUN_CARD_CATALOG_FOREIGN_PASS ordinary base/upgraded Foreign Influence, complete candidates, dual RNG and real selected-card use\\n\"}\n{\"name\":\"run_card_catalog_native_choices.lua\",\"durationMs\":2792.0987000000005,\"status\":0,\"stdout\":\"RUN_CARD_CATALOG_NATIVE_CHOICES_PASS real Armaments/Havoc/DualWield/InfernalBlade in other classes with physical UID/UUID and source RNG\\n\"}\n{\"name\":\"run_card_catalog_native_combat.lua\",\"durationMs\":3039.2672920000005,\"status\":0,\"stdout\":\"RUN_CARD_CATALOG_NATIVE_COMBAT_PASS real SearingBlow/DoubleTap/Feed/Juggernaut cross-color combat and permanent resources\\n\"}\nfile:///workspace/scratch/c1a4970a76e0/m7-run-catalog-responsibilities-20261107/build/catalog-remaining.mjs:4\n const t=performance.now();const r=runLua('tests/lua/'+name);if(r.status!==0)throw Error(name+' '+r.stderr);console.log(JSON.stringify({name,durationMs:performance.now()-t,status:r.status,stdout:r.stdout}));count++;\n                                                                                   ^\n\nError: run_card_catalog_presentation.lua ...ies-20261107/tests/lua/run_card_catalog_presentation.lua:3: module 'abyss_presentation' not found:\n\tno field package.preload['abyss_presentation']\n\tno file 'src/lua/abyss_presentation.lua'\n\tno file 'build/lua/abyss_presentation.lua'\n\tno file './build/lua/abyss_presentation.lua'\n\tno file './src/lua/abyss_presentation.lua'\n\tno file '/usr/local/share/lua/5.3/abyss_presentation.lua'\n\tno file '/usr/local/share/lua/5.3/abyss_presentation/init.lua'\n\tno file '/usr/share/lua/5.3/abyss_presentation.lua'\n\tno file '/usr/share/lua/5.3/abyss_presentation/init.lua'\n\tno file './abyss_presentation.lua'\n\tno file './abyss_presentation/init.lua'\n\tno file '/usr/local/share/lua/5.3/abyss_presentation.js'\n\tno file '/usr/local/share/lua/5.3/loadall.js'\n\tno file '/usr/share/lua/5.3/abyss_presentation.js'\n\tno file '/usr/share/lua/5.3/loadall.js'\n\tno file './abyss_presentation.js'\nstack traceback:\n\t[JS]: in function 'require'\n\t...ies-20261107/tests/lua/run_card_catalog_presentation.lua:3: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\n\n    at file:///workspace/scratch/c1a4970a76e0/m7-run-catalog-responsibilities-20261107/build/catalog-remaining.mjs:4:84\n\nNode.js v24.22.1\n"
+    },
+    {
+      "path": "build/catalog-remaining-tail.log",
+      "sha256": "d5dce328c96e5a822ef717964f075b5a4d719d19f56a9b886bf873c9b1853c41",
+      "raw": "{\"name\":\"run_card_catalog_presentation.lua\",\"durationMs\":1098.038561,\"status\":0,\"stdout\":\"RUN_CARD_CATALOG_PRESENTATION_PASS complete Run300/600 capability, real base/upgraded text and native9 display ABI\\n\"}\n{\"name\":\"run_card_catalog_profile_graph.lua\",\"durationMs\":536.9563959999998,\"status\":0,\"stdout\":\"RUN_CARD_CATALOG_PROFILE_GRAPH_PASS historical raw Ironclad66 rules/filter and graph-copy enhancement remain detached\\n\"}\n{\"name\":\"run_card_catalog_red_contract.lua\",\"durationMs\":410.9169630000001,\"status\":0,\"stdout\":\"RUN_CARD_CATALOG_RED_CONTRACT_PASS all frozen75 hashes, real semantic negatives and metadata/cycle exclusion\\n\"}\n{\"name\":\"run_card_catalog_review_graph.lua\",\"durationMs\":2046.0755359999998,\"status\":0,\"stdout\":\"RUN_CARD_CATALOG_REVIEW_GRAPH_PASS exact cards extension cycle and Strike directory alias across default/four selected classes\\n\"}\n{\"name\":\"run_card_catalog_review_red_foreign.lua\",\"durationMs\":1314.6219520000004,\"status\":0,\"stdout\":\"RUN_CARD_CATALOG_REVIEW_RED_FOREIGN_PASS selected native current value retained and incompatible red foreign rule rejected for all other classes\\n\"}\n{\"name\":\"run_card_catalog_static_deck.lua\",\"durationMs\":2015.5703279999998,\"status\":0,\"stdout\":\"RUN_CARD_CATALOG_STATIC_DECK_PASS actual DeckUI without player and combat-only FreeAttackPower cost remain distinct\\n\"}\nREMAINING_FIXTURES_PASS 6\n"
+    },
+    {
+      "path": "build/catalog-build-ui.log",
+      "sha256": "700b6af7e4ba8ae4c28ee2bfaeb5f2315c8e671dbf0c81dba8db6b47e676aff8",
+      "raw": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 build:ui\n> node scripts/build-ui.mjs\n\nNative battle UI and Traveler display module built.\n"
+    },
+    {
+      "path": "build/catalog-quality.log",
+      "sha256": "2835e00dde44bfed164b54764a9e4a23016f3b0f3538f84f60f956563c5fe955",
+      "raw": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 check:quality\n> node scripts/check-engineering-quality.mjs\n\nQuality reported: 333 modules; 5401/5401 measurements; new thresholds report-only. See build/engineering-quality.{json,md}\n"
+    },
+    {
+      "path": "build/catalog-static.log",
+      "sha256": "223ffaff9daf98b88b1f15dfad9034d9c7d68d31522b8af690840ba2716be437",
+      "raw": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 check:lua-static\n> node scripts/check-lua-static.mjs\n\nLuacheck 1.2.0: no new diagnostics; 14 explicit historical warnings. Battle render <=10; every scoped function <=15; 1804 governed responsibility measurements.\n"
+    },
+    {
+      "path": "build/catalog-architecture.log",
+      "sha256": "507f0495bc945a2d7c5881a0f47b2fb4b847505015b2a7cb0bb6def0ed24798c",
+      "raw": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 check:architecture\n> node scripts/check-architecture.mjs\n\nArchitecture passed: 333 modules, 1920 edges; build/architecture.json\n"
+    },
+    {
+      "path": "build/catalog-guidance.log",
+      "sha256": "857c4e7b87797f74dc3a352f0abd9090ad5be686df225901a72edb4ade3030db",
+      "raw": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 check:guidance\n> node scripts/check-agent-guidance.mjs\n\n{\n  \"errors\": [],\n  \"metrics\": [\n    {\n      \"file\": \"AGENTS.md\",\n      \"lines\": 41,\n      \"characters\": 2985\n    },\n    {\n      \"file\": \"CLAUDE.md\",\n      \"lines\": 5,\n      \"characters\": 150\n    },\n    {\n      \"file\": \".cursor/rules/miliastra.mdc\",\n      \"lines\": 6,\n      \"characters\": 82\n    }\n  ]\n}\n"
+    },
+    {
+      "path": "build/catalog-backlog.log",
+      "sha256": "a4713a2d2fedb45f490a85a35d164af8d315b96821d0f1a7348e42ef69544946",
+      "raw": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 verify:backlog\n> node scripts/verify-backlog-roadmap.mjs\n\n任务编号、首发排期、负责人及仅岩系旅行者前两幕规划范围检查通过；当前任务均有优先级、未完成High不超过5项；不认证运行时准入、平台或实机。\n"
+    },
+    {
+      "path": "build/catalog-doctor.log",
+      "sha256": "d367f84adfaf58324dd67df5e4e97069393d7a56330cf6eabaf60cfbcdb6b790",
+      "raw": "No duplicate IDs, self-referential dependencies, or dependency cycles found.\n"
+    },
+    {
+      "path": "build/review-catalog/independent-proxy-probe.log",
+      "sha256": "54451a394dce588348461ce70c9649c7002401720275f23a514e5e5fb5baac36",
+      "raw": "PROXY_TRACE_PASS selected/ironclad/false events=16673\nPROXY_TRACE_PASS prepare/ironclad/false events=19063\nPROXY_TRACE_PASS prepare/ironclad/true events=14444\nPROXY_TRACE_PASS selected/silent/false events=13978\nPROXY_TRACE_PASS prepare/silent/false events=22184\nPROXY_TRACE_PASS prepare/silent/true events=19757\nPROXY_TRACE_PASS selected/defect/false events=13978\nPROXY_TRACE_PASS prepare/defect/false events=22267\nPROXY_TRACE_PASS prepare/defect/true events=20302\nPROXY_TRACE_PASS selected/watcher/false events=13978\nPROXY_TRACE_PASS prepare/watcher/false events=22744\nPROXY_TRACE_PASS prepare/watcher/true events=21390\nINDEPENDENT_PROXY_PASS cases=12 failure-pairs=6 observed-events=220758\n"
+    },
+    {
+      "path": "build/review-catalog/independent-proxy-probe-final.log",
+      "sha256": "fe19f0cf2815eb222217cbf48784210ded985ee662cda35bf4ea55d42f11ab8c",
+      "raw": "PROXY_TRACE_PASS selected/ironclad/false events=16673\nPROXY_TRACE_PASS prepare/ironclad/false events=19063\nPROXY_TRACE_PASS prepare/ironclad/true events=14444\nPROXY_TRACE_PASS selected/silent/false events=13978\nPROXY_TRACE_PASS prepare/silent/false events=22184\nPROXY_TRACE_PASS prepare/silent/true events=19757\nPROXY_TRACE_PASS selected/defect/false events=13978\nPROXY_TRACE_PASS prepare/defect/false events=22267\nPROXY_TRACE_PASS prepare/defect/true events=20302\nPROXY_TRACE_PASS selected/watcher/false events=13978\nPROXY_TRACE_PASS prepare/watcher/false events=22744\nPROXY_TRACE_PASS prepare/watcher/true events=21390\nPROXY_WARM_PASS selected events=13966\nPROXY_WARM_PASS prepare events=19745\nINDEPENDENT_PROXY_PASS cases=12 failure-pairs=6 observed-events=254469\nelapsedMs=48561\n"
+    },
+    {
+      "path": "build/review-catalog/complexity-before.txt",
+      "sha256": "8cf9ecf6d40c9198cab1267acea74ab28cb8ef7ffe10b8e4f79b974eb72f2439",
+      "raw": "tests/fixtures/run-catalog-responsibilities-before.lua:1:1-1: (W561) cyclomatic complexity of main chunk is too high (1 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:13:7-27: (W561) cyclomatic complexity of function 'components' is too high (3 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:27:7-28: (W561) cyclomatic complexity of function 'carrier' is too high (1 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:33:7-24: (W561) cyclomatic complexity of function 'red' is too high (1 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:41:7-93: (W561) cyclomatic complexity of function 'regular' is too high (3 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:42:7-29: (W561) cyclomatic complexity of function 'metadata' is too high (8 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:49:7-35: (W561) cyclomatic complexity of function 'definitionFact' is too high (4 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:53:7-52: (W561) cyclomatic complexity of function 'validateMetadata' is too high (4 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:61:7-42: (W561) cyclomatic complexity of function 'putMetadata' is too high (3 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:71:7-30: (W561) cyclomatic complexity of function 'authoredCards' is too high (7 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:84:7-24: (W561) cyclomatic complexity of function 'same' is too high (7 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:90:7-36: (W561) cyclomatic complexity of function 'validateForeign' is too high (8 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:98:7-37: (W561) cyclomatic complexity of function 'canonicalForeign' is too high (5 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:104:7-36: (W561) cyclomatic complexity of function 'statusCompatible' is too high (4 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:105:8-81: (W561) cyclomatic complexity of function 'priority' is too high (4 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:110:7-43: (W561) cyclomatic complexity of function 'adoptRed' is too high (13 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:129:7-39: (W561) cyclomatic complexity of function 'fillList' is too high (3 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:133:1-37: (W561) cyclomatic complexity of function 'M.prepareSelected' is too high (37 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:183:1-51: (W561) cyclomatic complexity of function 'M.prepare' is too high (59 > 0)\ntests/fixtures/run-catalog-responsibilities-before.lua:266:1-31: (W561) cyclomatic complexity of function 'M.finishMetadata' is too high (2 > 0)\n"
+    },
+    {
+      "path": "build/review-catalog/complexity-current.txt",
+      "sha256": "ac8f465e11cbb1b7dc71a972df4b92bd1dd01c654907b178b6a3daf2827ef12c",
+      "raw": "src/lua/abyss_run_card_catalog.lua:1:1-1: (W561) cyclomatic complexity of main chunk is too high (1 > 0)\nsrc/lua/abyss_run_card_catalog.lua:13:7-27: (W561) cyclomatic complexity of function 'components' is too high (3 > 0)\nsrc/lua/abyss_run_card_catalog.lua:27:7-28: (W561) cyclomatic complexity of function 'carrier' is too high (1 > 0)\nsrc/lua/abyss_run_card_catalog.lua:33:7-24: (W561) cyclomatic complexity of function 'red' is too high (1 > 0)\nsrc/lua/abyss_run_card_catalog.lua:41:7-93: (W561) cyclomatic complexity of function 'regular' is too high (3 > 0)\nsrc/lua/abyss_run_card_catalog.lua:42:7-29: (W561) cyclomatic complexity of function 'metadata' is too high (8 > 0)\nsrc/lua/abyss_run_card_catalog.lua:49:7-35: (W561) cyclomatic complexity of function 'definitionFact' is too high (4 > 0)\nsrc/lua/abyss_run_card_catalog.lua:53:7-52: (W561) cyclomatic complexity of function 'validateMetadata' is too high (4 > 0)\nsrc/lua/abyss_run_card_catalog.lua:61:7-42: (W561) cyclomatic complexity of function 'putMetadata' is too high (3 > 0)\nsrc/lua/abyss_run_card_catalog.lua:71:7-30: (W561) cyclomatic complexity of function 'authoredCards' is too high (7 > 0)\nsrc/lua/abyss_run_card_catalog.lua:84:7-24: (W561) cyclomatic complexity of function 'same' is too high (7 > 0)\nsrc/lua/abyss_run_card_catalog.lua:90:7-36: (W561) cyclomatic complexity of function 'validateForeign' is too high (8 > 0)\nsrc/lua/abyss_run_card_catalog.lua:98:7-37: (W561) cyclomatic complexity of function 'canonicalForeign' is too high (5 > 0)\nsrc/lua/abyss_run_card_catalog.lua:104:7-36: (W561) cyclomatic complexity of function 'statusCompatible' is too high (4 > 0)\nsrc/lua/abyss_run_card_catalog.lua:105:8-81: (W561) cyclomatic complexity of function 'priority' is too high (4 > 0)\nsrc/lua/abyss_run_card_catalog.lua:110:7-43: (W561) cyclomatic complexity of function 'adoptRed' is too high (13 > 0)\nsrc/lua/abyss_run_card_catalog.lua:129:7-39: (W561) cyclomatic complexity of function 'fillList' is too high (3 > 0)\nsrc/lua/abyss_run_card_catalog.lua:134:7-39: (W561) cyclomatic complexity of function 'selectedInput' is too high (5 > 0)\nsrc/lua/abyss_run_card_catalog.lua:149:7-50: (W561) cyclomatic complexity of function 'mergeSourcePools' is too high (5 > 0)\nsrc/lua/abyss_run_card_catalog.lua:157:7-48: (W561) cyclomatic complexity of function 'mergePreparedFields' is too high (14 > 0)\nsrc/lua/abyss_run_card_catalog.lua:169:7-48: (W561) cyclomatic complexity of function 'restoreSelectedCards' is too high (11 > 0)\nsrc/lua/abyss_run_card_catalog.lua:182:7-59: (W561) cyclomatic complexity of function 'restoreSelectedStatuses' is too high (4 > 0)\nsrc/lua/abyss_run_card_catalog.lua:190:1-37: (W561) cyclomatic complexity of function 'M.prepareSelected' is too high (3 > 0)\nsrc/lua/abyss_run_card_catalog.lua:201:7-61: (W561) cyclomatic complexity of function 'validateCallerCards' is too high (7 > 0)\nsrc/lua/abyss_run_card_catalog.lua:211:7-51: (W561) cyclomatic complexity of function 'verifiedSourceMetadata' is too high (6 > 0)\nsrc/lua/abyss_run_card_catalog.lua:222:7-40: (W561) cyclomatic complexity of function 'indexSelectedContent' is too high (4 > 0)\nsrc/lua/abyss_run_card_catalog.lua:229:7-60: (W561) cyclomatic complexity of function 'providerOwnsCard' is too high (6 > 0)\nsrc/lua/abyss_run_card_catalog.lua:232:7-56: (W561) cyclomatic complexity of function 'registerCardFact' is too high (5 > 0)\nsrc/lua/abyss_run_card_catalog.lua:240:7-97: (W561) cyclomatic complexity of function 'mergeProviderCard' is too high (12 > 0)\nsrc/lua/abyss_run_card_catalog.lua:251:7-100: (W561) cyclomatic complexity of function 'mergeProviderCards' is too high (4 > 0)\nsrc/lua/abyss_run_card_catalog.lua:263:7-55: (W561) cyclomatic complexity of function 'mergeProviderStatuses' is too high (4 > 0)\nsrc/lua/abyss_run_card_catalog.lua:270:7-57: (W561) cyclomatic complexity of function 'mergeProviderPotions' is too high (3 > 0)\nsrc/lua/abyss_run_card_catalog.lua:275:7-64: (W561) cyclomatic complexity of function 'finishSharedContent' is too high (7 > 0)\nsrc/lua/abyss_run_card_catalog.lua:288:1-51: (W561) cyclomatic complexity of function 'M.prepare' is too high (12 > 0)\nsrc/lua/abyss_run_card_catalog.lua:315:1-31: (W561) cyclomatic complexity of function 'M.finishMetadata' is too high (2 > 0)\n"
+    }
+  ],
+  "corrections": [
+    "Initial extraction script produced a syntax error before tests; split anchor repaired before baseline validation.",
+    "First complete new test run passed 13/14; sole failure was the unchanged rushdown assertion diagnostic moved from line142 to143. Only that complete observed message is mapped in the observation copy after exact source-line verification; original thrown values are unchanged.",
+    "Additional raw fixture run passed six fixtures then presentation failed because generated abyss_presentation was not yet built in this isolated tree. Ran the existing build:ui entry, then the remaining six original fixtures passed. Original failure log retained.",
+    "Independent first probe hit its own 30s diagnostic ceiling; reviewer reduced fault injection set, ran 12 cold and 2 warm groups serially under a separate120s diagnostic bound. This does not change any production test or CI timeout."
+  ],
+  "boundaries": {
+    "full": "not run locally; exact PR/head hosted Full remains required",
+    "merged": false,
+    "device": "not used",
+    "officialImport": "not run",
+    "ready": "not verified",
+    "remainingHotspots": "not accepted or completed"
+  }
+}

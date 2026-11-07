@@ -130,7 +130,8 @@ local function fillList(target,entries)
  for i=#target,1,-1 do target[i]=nil end
  for i,value in ipairs(entries)do target[i]=value end
 end
-function M.prepareSelected(source,id)
+-- Prepare only the five content branches consumed by the historical factory.
+local function selectedInput(source,id)
  -- The historical factory reads the CURRENT five content branches. Its plain
  -- tree builders never receive unrelated caller graph extensions. Preserve
  -- those with the existing graph-copy owner, including cycles and aliases.
@@ -143,24 +144,29 @@ function M.prepareSelected(source,id)
    else input.statuses.statuses[#input.statuses.statuses+1]=s end
   end
  end
- local prepared,profile=Profiles.prepare(input,id)
- local out=Copy.copy(source);local current,currentStatuses={},{}
- for i,c in ipairs(out.cards.cards)do current[i]=c end
- for i,s in ipairs(out.statuses.statuses)do currentStatuses[i]=s end
+ return input
+end
+local function mergeSourcePools(out,k,field,value)
+ for pool,entries in pairs(value)do
+  if pool=='cardSourceMetadata'and out[k][field][pool]then
+   for cardId,fact in pairs(entries)do putMetadata(out[k][field][pool],cardId,fact)end
+  else out[k][field][pool]=entries end
+ end
+end
+-- Merge generated content without replacing caller-owned directory identities.
+local function mergePreparedFields(out,prepared)
  for k,v in pairs(prepared)do
   if k=='cards'or k=='rules'or k=='statuses'or k=='relics'or k=='potions'then
    for field,value in pairs(v)do
     if k=='cards'and field=='cards'or k=='statuses'and field=='statuses'then fillList(out[k][field],value)
     elseif field=='sourcePools'and out[k][field]then
-     for pool,entries in pairs(value)do
-      if pool=='cardSourceMetadata'and out[k][field][pool]then
-       for cardId,fact in pairs(entries)do putMetadata(out[k][field][pool],cardId,fact)end
-      else out[k][field][pool]=entries end
-     end
+     mergeSourcePools(out,k,field,value)
     else out[k][field]=value end
    end
   else out[k]=v end
  end
+end
+local function restoreSelectedCards(out,current)
  local positions={};for i,c in ipairs(out.cards.cards)do positions[c.id]=i end
  local authored=authoredCards()
  for _,c in ipairs(current)do
@@ -172,20 +178,27 @@ function M.prepareSelected(source,id)
    out.cards.cards[at]=positions[c.id]and adoptRed(c,out.cards.cards[at])or c;positions[c.id]=at
   end
  end
- positions={};for i,s in ipairs(out.statuses.statuses)do positions[s.id]=i end
+end
+local function restoreSelectedStatuses(out,currentStatuses)
+ local positions={};for i,s in ipairs(out.statuses.statuses)do positions[s.id]=i end
  for _,s in ipairs(currentStatuses)do
   local at=positions[s.id]
   assert(not at or statusCompatible(s,out.statuses.statuses[at]),'incompatible caller Power: '..s.id)
   out.statuses.statuses[at or #out.statuses.statuses+1]=s
  end
+end
+function M.prepareSelected(source,id)
+ local input=selectedInput(source,id)
+ local prepared,profile=Profiles.prepare(input,id)
+ local out=Copy.copy(source);local current,currentStatuses={},{}
+ for i,c in ipairs(out.cards.cards)do current[i]=c end
+ for i,s in ipairs(out.statuses.statuses)do currentStatuses[i]=s end
+ mergePreparedFields(out,prepared)
+ restoreSelectedCards(out,current)
+ restoreSelectedStatuses(out,currentStatuses)
  return out,profile
 end
-function M.prepare(source,selected,character,owned)
- assert(not selected.originalV4Role,'original V4 does not use the STS catalogue assembler')
- character=character or 'ironclad';assert(colors[character],'unknown Run catalogue character')
- -- Own the caller graph once. Factory-owned selected graphs are already private.
- local out=owned and selected or Copy.copy(selected)
- local authored,facts=authoredCards()
+local function validateCallerCards(source,character,authored)
  local overrides={}
  for _,c in ipairs(source.cards.cards)do
   if authored[c.id]then validateForeign(c);overrides[c.id]=true
@@ -193,11 +206,9 @@ function M.prepare(source,selected,character,owned)
    assert((not c.color or c.color=='red')and RedContract.matches(c,ruleKeys),'incompatible caller foreign card: '..c.id)
   end
  end
- local providers={ironclad=red(source)}
- local constants=components()
- for _,id in ipairs({'silent','defect','watcher'})do
-  providers[id]=character==id and out or constants[id]
- end
+ return overrides
+end
+local function verifiedSourceMetadata(source,facts)
  -- A caller metadata index never overrides verified real definitions. Red
  -- facts come from native definitions, not from that secondary index.
  local sourceMeta={}
@@ -206,49 +217,62 @@ function M.prepare(source,selected,character,owned)
   local fact=definitionFact(card);validateMetadata(declared,card.id,fact);sourceMeta[card.id]=fact
  end end
  for id,fact in pairs(facts)do validateMetadata(declared,id,fact)end
+ return sourceMeta
+end
+local function indexSelectedContent(out)
  local cards,positions,statuses,potions={},{},{},{}
  for _,c in ipairs(out.cards.cards)do cards[#cards+1]=c;assert(not positions[c.id],'duplicate caller card');positions[c.id]=#cards end
  for _,s in ipairs(out.statuses.statuses)do assert(not statuses[s.id],'duplicate caller Power');statuses[s.id]=s end
  for _,p in ipairs(out.potions.potions)do potions[p.id]=true end
- out.cards.sourcePools=out.cards.sourcePools or {}
- local allMeta=out.cards.sourcePools.cardSourceMetadata or {}
- out.cards.sourcePools.cardSourceMetadata=allMeta
- for _,id in ipairs({'ironclad','silent','defect','watcher'})do
-  local provider=providers[id];local meta=id=='ironclad'and sourceMeta or metadata(provider)
-  local count=0
-  for _,value in ipairs(provider.cards.cards)do
-   local isRegular=regular(value)
-   -- Non-red providers retain only their own cards plus shared state/derived
-   -- dependencies. Never borrow another provider's rules, pool or starter.
-   if not isRegular or id=='ironclad'and not authored[value.id]and(not value.color or value.color=='red')or value.color==colors[id]then
-    local at=positions[value.id]
-    local c
-    if overrides[value.id]and at then c=canonicalForeign(cards[at])
-    elseif id=='ironclad'and isRegular and at then c=adoptRed(cards[at],value)
-    else c=Copy.copy(value)end
-    if isRegular then
-     count=count+1;c.color=colors[id]
-     local fact=assert(facts[c.id]or meta[c.id],'missing source card metadata')
-     assert(c.type==fact.type and c.rarity==fact.rarity,'incompatible source card type/rarity: '..c.id)
-     c.sourceId=fact.sourceId;c.healing=fact.healing==true or nil
-     c.runNativeABI=native[c.id]or nil
-     putMetadata(allMeta,c.id,fact)
-    end
-    if isRegular or not at or c.id=='burn'and c.burnDamage~=nil then
-     at=at or #cards+1;cards[at]=c;positions[c.id]=at
-    end
-   end
+ return cards,positions,statuses,potions
+end
+local function providerOwnsCard(value,id,isRegular,authored)
+ return not isRegular or id=='ironclad'and not authored[value.id]and(not value.color or value.color=='red')or value.color==colors[id]
+end
+local function registerCardFact(c,id,facts,meta,allMeta)
+ c.color=colors[id]
+  local fact=assert(facts[c.id]or meta[c.id],'missing source card metadata')
+  assert(c.type==fact.type and c.rarity==fact.rarity,'incompatible source card type/rarity: '..c.id)
+  c.sourceId=fact.sourceId;c.healing=fact.healing==true or nil
+  c.runNativeABI=native[c.id]or nil
+  putMetadata(allMeta,c.id,fact)
+end
+local function mergeProviderCard(value,id,isRegular,cards,positions,overrides,facts,meta,allMeta)
+ local at=positions[value.id]
+ local c
+ if overrides[value.id]and at then c=canonicalForeign(cards[at])
+ elseif id=='ironclad'and isRegular and at then c=adoptRed(cards[at],value)
+ else c=Copy.copy(value)end
+ if isRegular then registerCardFact(c,id,facts,meta,allMeta)end
+ if isRegular or not at or c.id=='burn'and c.burnDamage~=nil then
+  at=at or #cards+1;cards[at]=c;positions[c.id]=at
+ end
+end
+local function mergeProviderCards(provider,id,authored,overrides,facts,meta,allMeta,cards,positions)
+ local count=0
+ for _,value in ipairs(provider.cards.cards)do
+  local isRegular=regular(value)
+  -- Retain only this provider's cards plus shared state/derived dependencies.
+  if providerOwnsCard(value,id,isRegular,authored)then
+   mergeProviderCard(value,id,isRegular,cards,positions,overrides,facts,meta,allMeta)
+   if isRegular then count=count+1 end
   end
-  assert(count==75,'incomplete '..id..' Run catalogue: '..count)
+ end
+ assert(count==75,'incomplete '..id..' Run catalogue: '..count)
+end
+local function mergeProviderStatuses(provider,statuses)
   for _,s in ipairs(provider.statuses.statuses)do
    local old=statuses[s.id]
    assert(not old or statusCompatible(old,s),'incompatible shared Power: '..s.id)
    if not old then statuses[s.id]=Copy.copy(s)end
   end
+end
+local function mergeProviderPotions(provider,out,potions)
   for _,p in ipairs(provider.potions.potions)do if not potions[p.id]then
    out.potions.potions[#out.potions.potions+1]=Copy.copy(p);potions[p.id]=true
   end end
- end
+end
+local function finishSharedContent(out,cards,positions,statuses)
  -- Source IntangiblePlayerPower has priority75; Colorless's historical
  -- shared definition may omit it. Rage's explicit priority is default5.
  if statuses.intangible then statuses.intangible.priority=75 end
@@ -260,6 +284,31 @@ function M.prepare(source,selected,character,owned)
  local ordered,ids={},{};for id in pairs(statuses)do ids[#ids+1]=id end;table.sort(ids)
  for _,id in ipairs(ids)do ordered[#ordered+1]=statuses[id]end
  fillList(out.statuses.statuses,ordered)
+end
+function M.prepare(source,selected,character,owned)
+ assert(not selected.originalV4Role,'original V4 does not use the STS catalogue assembler')
+ character=character or 'ironclad';assert(colors[character],'unknown Run catalogue character')
+ -- Own the caller graph once. Factory-owned selected graphs are already private.
+ local out=owned and selected or Copy.copy(selected)
+ local authored,facts=authoredCards()
+ local overrides=validateCallerCards(source,character,authored)
+ local providers={ironclad=red(source)}
+ local constants=components()
+ for _,id in ipairs({'silent','defect','watcher'})do
+  providers[id]=character==id and out or constants[id]
+ end
+ local sourceMeta=verifiedSourceMetadata(source,facts)
+ local cards,positions,statuses,potions=indexSelectedContent(out)
+ out.cards.sourcePools=out.cards.sourcePools or {}
+ local allMeta=out.cards.sourcePools.cardSourceMetadata or {}
+ out.cards.sourcePools.cardSourceMetadata=allMeta
+ for _,id in ipairs({'ironclad','silent','defect','watcher'})do
+  local provider=providers[id];local meta=id=='ironclad'and sourceMeta or metadata(provider)
+  mergeProviderCards(provider,id,authored,overrides,facts,meta,allMeta,cards,positions)
+  mergeProviderStatuses(provider,statuses)
+  mergeProviderPotions(provider,out,potions)
+ end
+ finishSharedContent(out,cards,positions,statuses)
  out.runCardCatalog=true;out.runCardCharacter=character
  return out
 end
