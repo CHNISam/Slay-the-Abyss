@@ -23,8 +23,8 @@ const placementPath='docs/evidence/pr521-ci-placement-20261106.json',placementBy
 const floorPath='docs/evidence/pr521-run-max-planning-floor-20261106.json',floorBytes=read(floorPath),floorReceipt=JSON.parse(floorBytes),floorKey='tests/run-max-hp-config-inverse.test.mjs';
 // Added after the frozen #521 placement receipts. Never use these files to
 // reconstruct historical shard assignments or invent historical measurements.
-const postPlacementJs=['tests/intent-visibility-cache.test.mjs','tests/m7-core-final.test.mjs','tests/pr-quality-evidence.test.mjs','tests/repository-costs.test.mjs','tests/runtime-path-baseline.test.mjs'];
-const postPlacementLua=['tests/lua/intent_visibility_cache.lua'];
+const postPlacementJs=['tests/intent-visibility-cache.test.mjs','tests/inventory-responsibilities.test.mjs','tests/m7-core-final.test.mjs','tests/pr-quality-evidence.test.mjs','tests/repository-costs.test.mjs','tests/runtime-path-baseline.test.mjs','tests/watcher-final-execution.test.mjs'];
+const postPlacementLua=['tests/lua/intent_visibility_cache.lua','tests/lua/watcher_final_execution_boundaries.lua'];
 const currentLua=()=>readdirSync('tests/lua').filter(n=>n.endsWith('.lua')).map(n=>'tests/lua/'+n).sort();
 const placementJs=()=>discoverJs().filter(file=>!postPlacementJs.includes(file));
 const placementLua=()=>currentLua().filter(file=>!postPlacementLua.includes(file));
