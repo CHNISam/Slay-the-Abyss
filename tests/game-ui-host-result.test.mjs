@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
+import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {mainWindows,runPair} from './helpers/game-ui-host-equivalence.mjs';
 import {installLuaGraphObserver} from './helpers/lua-graph-observer.mjs';
@@ -49,6 +50,65 @@ test('native graph writes preserve every returned-string byte and event order',(
  assert.equal(written.length,7);assert.match(written[0],/中文/);
  assert.match(written[1],/nativeControl/);assert.match(written.at(-1),/"root":\["nil"\]/);
  assert.match(written[5],/\[\["engine","alive"\],\["boolean",false\]\]/,'retired native control remains fully observed');
+});
+
+test('fresh graph deltas preserve the fixed original observer stream across every value and entry mode',()=>{
+ // Oracle: tests/helpers/lua-graph-observer.mjs at 67793786, SHA256
+ // ddef991a2c414dcf6838cc9d343fa99269ae9d9c297368b3ac8df46cd785fa15.
+ // This fixed digest comes from that unmodified observer, not from the candidate.
+ function observe(nativeWrite){
+  const {lua,lauxlib,lualib,to_luastring,to_jsstring}=require('fengari');
+  const output=[],L=lauxlib.luaL_newstate();lualib.luaL_openlibs(L);
+  lua.lua_newuserdata(L,1);lua.lua_setglobal(L,to_luastring('probeUserdata'));
+  installLuaGraphObserver(L,'ABYSS_HOST_GRAPH',(label,graph)=>output.push(label+' '+graph+'\n'));
+  lua.lua_pushcfunction(L,L=>{output.push(to_jsstring(lua.lua_tostring(L,1))+'\n');return 0;});lua.lua_setglobal(L,to_luastring('print'));
+  lua.lua_pushcfunction(L,L=>{lua.lua_getglobal(L,to_luastring('probeString'));lua.lua_tolstring(L,-1)[0]=lua.lua_tointeger(L,1);lua.lua_pop(L,1);return 0;});lua.lua_setglobal(L,to_luastring('mutateBytes'));
+  const source=`local function emit(label,value,stable,event)
+    ${nativeWrite?'ABYSS_HOST_GRAPH_WRITE(value,label,stable,event)':'print(label.." "..ABYSS_HOST_GRAPH(value,{},stable,event))'}
+   end
+   probeString='red';local child={value='中文\\0😀',bytes=probeString,flag=false,inf=math.huge,nan=0/0,empty=''}
+   local key={};local fn=function()end;local thread=coroutine.create(function()end)
+   local meta={__index={value='meta'}}
+   local root=setmetatable({first=child,second=child,[key]=key,[true]=false,[false]=true,[fn]=fn,[thread]=thread,[probeUserdata]=probeUserdata,[math.sin]=math.sin,[0]='zero',[-1]='negative'},meta)
+   root.self=root;root.fn=fn;root.thread=thread;root.userdata=probeUserdata
+   debug.setmetatable(probeUserdata,{value='userdata meta'});debug.setmetatable(fn,{value='function meta'});debug.setmetatable(thread,{value='thread meta'})
+   local alive,active=true,true
+   local control=setmetatable({},{__index=function(_,field)if field=='alive'then return alive elseif field=='activeInHierarchy'then return active end end})
+   local backing={nested=child};ABYSS_HOST_GRAPH_CONTROL(control,backing);root.control=control
+   emit('plain',root,false);emit('first',root,true);emit('unchanged',root,true)
+   child.value='value only';emit('value-only',root,true)
+   child.rename='same';emit('before-key-only',root,true);child.renamed=child.rename;child.rename=nil;emit('key-only',root,true)
+   setmetatable(root,{__index={value='replacement meta'}});emit('meta-only',root,true);setmetatable(root,meta);emit('meta-restored',root,true)
+   root.second={value=child.value};emit('alias-only',root,true);root.second=child;emit('alias-restored',root,true)
+   print('event '..ABYSS_HOST_GRAPH_EVENT('native',control,nil,child,false,nil))
+   emit('packed',table.pack(control,nil,child,false,nil),true,true)
+   child.value='changed';child.flag=nil;child.added=true;mutateBytes(string.byte('b'));meta.__index.value='changed meta'
+   debug.getmetatable(probeUserdata).value='changed userdata';debug.getmetatable(fn).value='changed function';debug.getmetatable(thread).value='changed thread'
+   alive=false;active=false;backing.extra='backing added';emit('mutated',root,true)
+   root.second={value=child.value};root.fn=function()end;root[key]=nil;root[fn]=nil;root[math.sin]=math.cos;setmetatable(root,nil)
+   emit('split',root,true)
+   root.first=nil;root.second=nil;backing.nested=nil;emit('detached',root,true)
+   child.value='中文\\0😀';mutateBytes(string.byte('r'));root.first=child;root.second=child;backing.nested=child;backing.extra=nil
+   setmetatable(root,meta);emit('restored',root,true);emit('unchanged2',root,true)
+   emit('plain2',root,false);emit('stable-after-plain',root,true);emit('nil',nil,true)
+   print('arity '..ABYSS_HOST_GRAPH_EVENT(nil,false,nil))`;
+  const status=lauxlib.luaL_dostring(L,to_luastring(source));assert.equal(status,lua.LUA_OK);
+  return output.join('');
+ }
+ for(const nativeWrite of [false,true]){
+  const stream=observe(nativeWrite);
+  assert.equal(Buffer.byteLength(stream),11962);
+  assert.equal(createHash('sha256').update(stream).digest('hex'),'0e838aea2f09440f61e7fdf07d3c026a6a48aa42c14c4595d6719576f4d5917e');
+ }
+});
+
+test('graph strings still reject invalid UTF-8 after a previously observed buffer changes',()=>{
+ const {lua,lauxlib,lualib,to_luastring}=require('fengari');
+ const L=lauxlib.luaL_newstate();lualib.luaL_openlibs(L);installLuaGraphObserver(L);
+ assert.equal(lauxlib.luaL_dostring(L,to_luastring("probe='red';return ABYSS_HOST_GRAPH({value=probe},{},true)")),lua.LUA_OK);
+ lua.lua_settop(L,0);lua.lua_getglobal(L,to_luastring('probe'));
+ lua.lua_tolstring(L,-1)[0]=255;lua.lua_pop(L,1);
+ assert.notEqual(lauxlib.luaL_dostring(L,to_luastring('return ABYSS_HOST_GRAPH({value=probe},{},true)')),lua.LUA_OK);
 });
 
 test('reference-push reuse ends at each observation and freshly reads warm and detached owners',()=>{

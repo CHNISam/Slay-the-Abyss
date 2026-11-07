@@ -26,6 +26,15 @@ export function runHistoricalPresentation(_run,script,{timeout=30000,cwd,caseNam
   const result=spawnSync(process.execPath,[entry,script,String(timeout)],{
     cwd,encoding:'utf8',timeout,maxBuffer,windowsHide:true,
   });
-  if(result.error)throw new Error('Historical Lua replay failed within its original total deadline: '+result.error.message,{cause:result.error});
+  if(result.error){
+    // The outer deadline can expire before the inner Lua runner returns.
+    // Retain completed preparation phases and any child diagnostics without
+    // retrying, changing its original deadline, or converting failure to pass.
+    const output=[
+      result.stdout?`\n--- Historical replay stdout ---\n${result.stdout}`:'',
+      result.stderr?`\n--- Historical replay stderr ---\n${result.stderr}`:'',
+    ].join('');
+    throw new Error('Historical Lua replay failed within its original total deadline: '+result.error.message+output,{cause:result.error});
+  }
   return result;
 }

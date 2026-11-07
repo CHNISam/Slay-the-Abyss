@@ -72,6 +72,47 @@ test('actual CLI continues after ordinary Lua failure and retains failure after 
   });
 });
 
+test('historical replay retains bounded timeout output and original cause without retrying',()=>{
+  const runner=new URL('./helpers/historical-presentation-runner.mjs',import.meta.url).href;
+  const result=spawnSync(process.execPath,['--input-type=module','-e',`
+import assert from 'node:assert/strict';
+import childProcess from 'node:child_process';
+import {syncBuiltinESMExports} from 'node:module';
+import {runHistoricalPresentation} from ${JSON.stringify(runner)};
+for(const script of ['tests/lua/presentation_responsibilities_trace.lua','tests/lua/sapphire_treasure_slice_2.lua']){
+  for(const partial of [true,false]){
+    const cause=Object.assign(new Error('spawnSync node ETIMEDOUT'),{code:'ETIMEDOUT'});
+    const output={error:cause,status:null,signal:'SIGTERM',
+      stdout:partial?'HISTORICAL_PARTIAL_STDOUT\\n':'',
+      stderr:partial?'HISTORICAL_STAGED 2000ms\\nHISTORICAL_BUILT 3000ms\\n':''};
+    let calls=0;
+    childProcess.spawnSync=(executable,args,options)=>{
+      calls++;assert.equal(executable,process.execPath);
+      assert.deepEqual(args.slice(1),[script,'30000']);
+      assert.equal(options.timeout,30000);assert.equal(options.maxBuffer,1024*1024);
+      return output;
+    };
+    syncBuiltinESMExports();
+    assert.throws(()=>runHistoricalPresentation(null,script),error=>{
+      assert.equal(error.cause,cause);assert.equal(error.cause.code,'ETIMEDOUT');
+      assert.match(error.message,/Historical Lua replay failed within its original total deadline: spawnSync node ETIMEDOUT/);
+      if(partial){
+        assert.ok(error.message.includes(output.stdout));assert.ok(error.message.includes(output.stderr));
+      }else assert.doesNotMatch(error.message,/Historical replay (stdout|stderr)/);
+      return true;
+    });
+    assert.equal(calls,1,'timeout cannot trigger a retry');
+    delete output.error;output.status=1;output.signal=null;
+    assert.equal(runHistoricalPresentation(null,script),output,'ordinary failure remains the exact child result');
+    assert.equal(calls,2);
+  }
+}
+console.log('HISTORICAL_TIMEOUT_DIAGNOSTICS_PASS');
+  `],{encoding:'utf8',timeout:5000,maxBuffer:1024*1024});
+  assert.ifError(result.error);assert.equal(result.status,0,result.stdout+result.stderr);
+  assert.match(result.stdout,/HISTORICAL_TIMEOUT_DIAGNOSTICS_PASS/);
+});
+
 test('actual CLI continues after one injected spawn timeout and executes the next real Fengari fixture', () => {
   withWorkspace("error('first fixture must be intercepted')\n", cwd => {
     const bootstrap = join(cwd, 'timeout-once.mjs');
