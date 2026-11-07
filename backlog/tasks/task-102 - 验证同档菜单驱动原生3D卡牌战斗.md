@@ -5,9 +5,11 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-07 10:29'
-updated_date: '2026-11-07 11:03'
+updated_date: '2026-11-07 11:08'
 labels: []
 dependencies: []
+references:
+  - 'https://github.com/FurinyaWorks/Slay-the-Abyss/pull/553'
 priority: medium
 type: spike
 ordinal: 165000
@@ -39,4 +41,6 @@ ordinal: 165000
 用户追加：同一实验内对照官方Tween/TweenSequence与真实手牌归位，不另建任务；比较Lua调用、复杂度及中断拖拽命中销毁。用户同时要求精简TASK-51委派历史，已仅保留当前有效约定。原生3D桥继续现有实现，离线通过不计实机验证。
 
 完整内部GIL348模块与UI读回通过，0错误357条跨模块UNKNOWN_METHOD告警保留。独立评审已关闭性能超时误报和UI读回问题，并补修Tween旧完成回调的8类状态变更负对照；将重构建最终候选。官方导入、新ready、真实Lua↔节点通信与设备证据尚未执行，任务保持In Progress，AC不提前勾选。
+
+最终候选3f61866d已从干净源89cc82d9构建：GIL SHA256 1d5f170724b50c63bd3bb0aa75725371fee6050286d4b9da57cda0708f4c61f5，15867034字节；348模块和完整UI读回通过、0error357warning保留。独立复审无未解P1/P2，Draft PR #553。报告和摘要在experiments/native-3d-lab/RESULTS.md及evidence-summary.json。等待本轮明确输入窗口再做官方导入/真实双向回执/Tween视觉，不让用户提前导入，AC保持未勾选。
 <!-- SECTION:NOTES:END -->
