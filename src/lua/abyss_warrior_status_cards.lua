@@ -3,7 +3,14 @@
 local Actors=require('abyss_actor')
 local Random=require('abyss_sts_random')
 local Exhaust=require('abyss_exhaust')
-local M={}
+local CardUpgrade=require('abyss_card_upgrade')
+local function upgradeIndex(_,key)
+ if key=='onUpgrade'then return CardUpgrade.onUpgrade end
+end
+local function upgradeNewIndex(self,key,value)
+ if key=='onUpgrade'then CardUpgrade.onUpgrade=value else rawset(self,key,value)end
+end
+local M=setmetatable({},{__index=upgradeIndex,__newindex=upgradeNewIndex})
 local MAX=2147483647
 local copy=require('abyss_copy').copy
 local function integer(n,lo) return type(n)=='number' and n==n and n%1==0 and n>=(lo or 0) and n<=MAX end
@@ -106,10 +113,7 @@ function M.withCards(data)
  out.experimentalWarriorStatus=true;return out
 end
 local function amount(s,id) local n=s.player.statuses[id] or 0;assert(integer(n),'invalid status Power amount');return n end
-local function resolved(s,c)
- local d=copy(assert(s.catalog.cards[c.cardId],'unknown status-build card'))
- if c.upgraded then for k,v in pairs(d.upgrade or {}) do d[k]=copy(v) end end;return d
-end
+local resolved=CardUpgrade.statusDefinition
 function M.adaptDefinition(s,c,d)
  assert(d~=s.catalog.cards[c.cardId],'status adapter requires detached definition')
  if c.cardId=='blood_for_blood' then
@@ -196,11 +200,7 @@ function M.planHook(s,id,phase)
  assert(id=='flame_barrier' and phase=='turn_start','unknown warrior status phase hook')
  local p=plan();if amount(s,id)>0 then p.bottom[1]=action(make('removeStatusPower',0,{status=id})) end;return p
 end
-local function cost(s,c)
- local d=resolved(s,c);local base=c.combatCost or d.cost;local turn=c.turnCost
- if turn==nil then turn=base end
- assert(integer(base) and integer(turn),'invalid Blood for Blood cost metadata');return base,turn
-end
+local cost=CardUpgrade.bloodCost
 function M.onHpLost(s,n)
  assert(integer(n),'invalid Blood for Blood HP loss');if n==0 then return false end
  local times=s.player.damagedThisCombat or 0;assert(integer(times) and integer(times+1),'damagedThisCombat overflow')
@@ -227,14 +227,6 @@ function M.created(s,c,mode,source)
   local times=s.player.damagedThisCombat or 0;assert(integer(times),'invalid damagedThisCombat')
   c.combatCost=math.max(0,resolved(s,c).cost-times);c.turnCost=c.combatCost
  end
- return true
-end
--- Host invokes before changing the upgraded flag. Catalog upgrade damage is
--- still applied by ordinary definition merging, never copied into the instance.
-function M.onUpgrade(s,c)
- assert(c.cardId=='blood_for_blood' and not c.upgraded,'invalid Blood for Blood upgrade')
- local base,turn=cost(s,c);local rawBase=base<4 and base-1 or 3
- c.combatCost=math.max(0,rawBase);c.turnCost=turn>0 and math.max(0,rawBase+turn-base) or 0
  return true
 end
 return M

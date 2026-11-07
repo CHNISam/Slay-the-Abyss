@@ -1,5 +1,6 @@
 // Exact test-only outer epoch. No live reads, production fallback or cache.
 import assert from 'node:assert/strict';
+import {preCardUpgradeCiPlanningSource} from './card-upgrade-ci-planning-source-inverse.mjs';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
@@ -20,6 +21,7 @@ const currentPlacementSha256=Object.freeze({
 // This placement-only bridge returns the existing complete approved source.
 // It adds no live owner, fixture dependency or permission-bearing cache.
 export function preCurrentCiPlacementSource(path,source){
+ source=preCardUpgradeCiPlanningSource(path,source);
  if(!Object.hasOwn(currentPlacementSha256,path)||typeof source!=='string'||hash(source.replaceAll('\r\n','\n'))!==currentPlacementSha256[path])return source;
  return ciCompleteCalibrationProof.files[path].afterSource;
 }

@@ -94,6 +94,8 @@ export function reviewRenderComplexity(diagnostics, sources) {
 // Budget only this governance slice and every extracted responsibility module.
 // Unrelated pre-existing Combat/UI hotspots keep their diagnostic reports.
 const responsibilityRoots = {
+  'src/lua/abyss_card_upgrade.lua': [],
+  'src/lua/abyss_warrior_status_cards.lua': ["function 'upgradeIndex'","function 'upgradeNewIndex'"],
   'src/lua/abyss_relic_combat_hooks.lua': [],
   'src/lua/abyss_relic_family_combat.lua': [],
   'src/lua/abyss_purge_candidates.lua': [],
@@ -152,6 +154,7 @@ const responsibilityRoots = {
       'nonConditionalOpSupported','selectionAmountsSupported','mantraAmountSupported',
       'effectMetadataSupported','supported','M.supported'].map(name=>`function '${name}'`)],
   'src/lua/abyss_combat.lua': [
+    "function 'upgradeIndex'", "function 'upgradeNewIndex'", "function 'upgradePairs'",
     ...['M.damage','draw'].map(name=>`function '${name}'`),
     ...['damagePoison','damageThornsCallback','damagePreview','recordDamagePreview','completeDamage',
       'notifyDrawShuffle','drawSourcePile','drawVoid','drawStatusPowers','applyDrawHooks'].map(name=>`function '${name}'`),
@@ -214,6 +217,7 @@ const responsibilityRoots = {
 // All Run orchestration and newly extracted Run helpers receive the full budget.
 const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|combat_catalog|combat_reactions|combat_native_play|combat_queued_play|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui(?:_.+)?|game_ui_.+|run(?:_(?!(?:card_catalog|red_card_contract|seed)\.lua$).+)?|nodes(?:_.+)?)\.lua$/.test(file);
 const completeResponsibility = file => responsibilityHelper(file)
+  || file==='src/lua/abyss_card_upgrade.lua'
   || file==='src/lua/abyss_codex_relic.lua'
   || file==='src/lua/abyss_relic_combat_hooks.lua'
   || file==='src/lua/abyss_relic_family_combat.lua'
@@ -222,6 +226,7 @@ const completeResponsibility = file => responsibilityHelper(file)
   || file==='src/lua/abyss_actor_power_rules.lua'
   || file==='src/lua/abyss_card_actions.lua' || file==='src/lua/abyss_game_ui.lua';
 export function reviewModuleSize(sources, budgets = {'src/lua/abyss_run.lua': 1000, 'src/lua/abyss_nodes.lua': 1000,
+  'src/lua/abyss_card_upgrade.lua':1000,
   'src/lua/abyss_relic_combat_hooks.lua':1000,
   'src/lua/abyss_relic_family_combat.lua':1000,
   'src/lua/abyss_purge_candidates.lua':1000,

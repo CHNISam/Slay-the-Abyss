@@ -5118,6 +5118,17 @@
         "sourceJobId": 127755728122,
         "sourceReceipt": "docs/evidence/pr521-run-max-planning-floor-20261106.json",
         "sourceReceiptSha256": "503e94c83632f032d6b160ae24ec6b3d33f8d91c4c0f734d91056f4371a750b0"
+      },
+      "tests/card-upgrade-ownership.test.mjs": {
+        "durationMs": 28384,
+        "environment": "local cloud Linux; not GitHub Hosted",
+        "coverage": "Complete final node:test file, 21/21 successful; outer wall includes Node startup and teardown. Earlier whole-file success and all failures remain historical observations, not final-source reruns.",
+        "kind": "Planning-only local lower bound from the maximum retained successful complete-file outer wall or Node duration; not a hosted measurement.",
+        "sourceLog": "build/card-upgrade-ownership/whole-file-04.log",
+        "sourceLogSha256": "815dae53190d95816dcd0d2e5ab0405fb14efe2ebb90fad93a2e2dbb8a125a8a",
+        "sourceHeadSha": "51f77e3fb21770a6fbb72bae9d602d631e2e7843",
+        "sourceReceipt": "docs/evidence/m7-card-upgrade-planning-floor-20261107.json",
+        "sourceReceiptSha256": "84c27ab3989f4045dc8ed6d1d10b15ca816eba8a06ae59cbf787fc3649fcb000"
       }
     }
   },
