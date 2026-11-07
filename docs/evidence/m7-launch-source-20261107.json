@@ -55,8 +55,8 @@
     },
     {
       "path": "tests/sapphire-treasure.test.mjs",
-      "sha256LF": "b5cbd3b3f9f8c4fb77808646aad2e681b31b9c23cf567753012d9cf8c0cfbd62",
-      "gitBlob": "9a2cb2847679feaa08a02769beb0727d93b7a68b"
+      "sha256LF": "6e61401e0f6f122b31efc528e3cf61611480ae6a05d1b805f97c7cdf413a828a",
+      "gitBlob": "e1fbca4982f049d9c68e75bbeb6a10fef18365e1"
     }
   ],
   "isolatedInvestigation": {
@@ -375,7 +375,25 @@
         "elapsedMs": 9190
       }
     ],
-    "declaredBoundary": "Local complete combined source-contract and 21-scenario execution; not a hosted performance comparison."
+    "declaredBoundary": "Local complete combined source-contract and 21-scenario execution; not a hosted performance comparison.",
+    "sourceFilesAtThatRun": [
+      {
+        "path": "tests/helpers/launch-baseline-fixture.mjs",
+        "sha256LF": "21fc039a24f5fec8071edd8aadbd1254db7d0ac55d9fe68f4d5ce3711824be46",
+        "gitBlob": "2c1e1ee03429c8f3e03907384fe8cb6b395e20fb"
+      },
+      {
+        "path": "tests/launch-content.test.mjs",
+        "sha256LF": "ea87dfc35efffacf5105b887d5c813f8e9e8b15ae78186532f626bd1d4932bf5",
+        "gitBlob": "7ab83f4469d40a36a0409187d7226354957cdaaf"
+      },
+      {
+        "path": "tests/sapphire-treasure.test.mjs",
+        "sha256LF": "b5cbd3b3f9f8c4fb77808646aad2e681b31b9c23cf567753012d9cf8c0cfbd62",
+        "gitBlob": "9a2cb2847679feaa08a02769beb0727d93b7a68b"
+      }
+    ],
+    "version": "Initial 49-test combination before the independent review tightened the diagnostic budget sampling; unchanged contracts remain evidenced by this run."
   },
   "limitations": [
     "The original local probe stopped at junction identification, so no matched before/after speed claim is made.",
@@ -383,5 +401,21 @@
     "Host CPU, filesystem and process-start variation remain unproven causes; subsequent hosted Full must be observed.",
     "The old develop run remains failed; this evidence does not relabel it passed.",
     "No gameplay/RNG/queue/state rule, timeout, heap, buffer or worker limit was relaxed."
-  ]
+  ],
+  "deadlineReview": {
+    "issue": "A local variable sampled remaining budget before t.diagnostic and then passed the older value.",
+    "correction": "Restored the original timeout:remaining() at the runLua call; luaBudget is diagnostic-only. No added diagnostic time is granted to execution.",
+    "changedPath": "tests/sapphire-treasure.test.mjs",
+    "businessScenarioBodyChanged": false,
+    "originalGroupCount": 21,
+    "originalSlices": 5,
+    "verification": {
+      "scope": "Only the two affected partition/frozen Nodes tests were rerun, including every original Sapphire scenario; no unchanged suite was repeated.",
+      "tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "rawTap": "✔ Sapphire budget partition keeps every original body and discovers each of 21 groups exactly once (2.3443ms)\r\n✔ frozen Nodes chest choice remains linked, source-bound, once-only and transactional before relic completion (60073.1305ms)\r\nℹ sapphire_treasure.lua: fresh source preparation 3221 ms\r\nℹ sapphire_treasure.lua: data build 119 ms; Lua remaining 26660 ms\r\nℹ sapphire_treasure.lua: 13087 ms\r\nℹ sapphire_treasure_slice_2.lua: fresh source preparation 3494 ms\r\nℹ sapphire_treasure_slice_2.lua: data build 114 ms; Lua remaining 26389 ms\r\nℹ sapphire_treasure_slice_2.lua: 15407 ms\r\nℹ sapphire_treasure_slice_3.lua: fresh source preparation 3426 ms\r\nℹ sapphire_treasure_slice_3.lua: data build 123 ms; Lua remaining 26448 ms\r\nℹ sapphire_treasure_slice_3.lua: 10180 ms\r\nℹ sapphire_treasure_slice_4.lua: fresh source preparation 3435 ms\r\nℹ sapphire_treasure_slice_4.lua: data build 116 ms; Lua remaining 26447 ms\r\nℹ sapphire_treasure_slice_4.lua: 10771 ms\r\nℹ sapphire_treasure_slice_5.lua: fresh source preparation 3052 ms\r\nℹ sapphire_treasure_slice_5.lua: data build 114 ms; Lua remaining 26830 ms\r\nℹ sapphire_treasure_slice_5.lua: 7392 ms\r\nℹ tests 2\r\nℹ suites 0\r\nℹ pass 2\r\nℹ fail 0\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 60309.7664\r\n",
+      "sha256": "cdfb960bdf64edc5871a9e51c0a0bc3fc29da77dd1878fdf5470763bfb8e7eb7"
+    }
+  }
 }

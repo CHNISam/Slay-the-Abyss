@@ -172,7 +172,7 @@ test('frozen Nodes chest choice remains linked, source-bound, once-only and tran
     assert.ifError(build.error);assert.equal(build.status,0,build.stdout+build.stderr);
     const luaBudget=remaining();
     t.diagnostic(`${file}: data build ${Math.round(performance.now()-buildStarted)} ms; Lua remaining ${luaBudget} ms`);
-    const result=runLua(`tests/lua/${file}`,{cwd:root,timeout:luaBudget});
+    const result=runLua(`tests/lua/${file}`,{cwd:root,timeout:remaining()});
     t.diagnostic(`${file}: ${Math.round(performance.now()-started)} ms`);
     assert.equal(result.status,0,result.stdout+result.stderr);
     const expected=Array.from({length:last-first+1},(_,i)=>first+i);
