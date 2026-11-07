@@ -237,6 +237,19 @@ test('M3 and M4 enforce the confirmed Traveler-only two-act competition scope', 
   }
 });
 
+test('archived stages keep the frozen M3/M4 contract while the active board owns M7-M9', () => {
+  const active = ['M7｜工程架构与性能强化', 'M8｜产品体验与核心特色', 'M9｜内容建设与扩充'];
+  const archived = [...competitionTitles, 'M6｜前两幕作品人工投稿与版本归档'];
+  assert.deepEqual(auditMilestoneScope(active, archived), []);
+  // A finished stage that disappears from both the board and the archive is still a scope regression.
+  assert.match(auditMilestoneScope(active, [competitionTitles[1]]).join('\n'), /M3.*范围/);
+  assert.match(auditMilestoneScope(active, [competitionTitles[0]]).join('\n'), /M4.*范围/);
+  // Archived M7 titles cannot stand in for the active chronological contract.
+  assert.match(auditMilestoneScope(active.slice(1), ['M7｜工程架构与性能强化']).join('\n'), /M7/);
+  // The same stage in both places is ambiguous rather than accepted.
+  assert.match(auditMilestoneScope([...active, competitionTitles[0]], [competitionTitles[0]]).join('\n'), /M3.*范围/);
+});
+
 test('the public milestone is bound only to Traveler and preserves superseded history separately', () => {
   assert.deepEqual(auditCompetitionRoster(competitionScope()), []);
   assert.deepEqual(auditCompetitionRoster(competitionScope().replaceAll('\n', '\r\n')), []);

@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -37,14 +37,16 @@ export function auditQueueOwners(tasks) {
     .map(task => `${task.id}: 缺少有效负责人`);
 }
 
-export function auditMilestoneScope(titles) {
+export function auditMilestoneScope(titles, archivedTitles = []) {
   const contracts = [
     // 2026-10-29 confirmed Traveler-only/two-act scope supersedes the two-role release.
     { stage: 'M3', required: ['岩系旅行者', '第一幕', '第二幕', '核心闭环'] },
     { stage: 'M4', required: ['前两幕', '首局', 'UI', '输入', '音画', '性能'] },
   ];
+  // Finished stages move to the archive; their frozen scope stays verifiable there.
+  const historicalTitles = [...titles, ...archivedTitles];
   const historicalErrors = contracts.flatMap(({ stage, required }) => {
-    const matches = titles.filter(title => new RegExp(`^${stage}(?:[\\s｜|:：]|$)`).test(title));
+    const matches = historicalTitles.filter(title => new RegExp(`^${stage}(?:[\\s｜|:：]|$)`).test(title));
     const retiredScope = /第三幕|第四幕|四幕|全章节|两职业|双职业|四职业|八职业|全职业|雷电/;
     return matches.length === 1 && required.every(part => matches[0].includes(part)) && !retiredScope.test(matches[0]) ? []
       : [`${stage}: 里程碑范围必须明确包含${required.join('、')}，不得恢复两职业或扩大为四/八/全职业、第三/四幕，也不得退回仅第一幕或缺少该关口`];
@@ -74,13 +76,18 @@ export function auditCompetitionRoster(scope) {
     : ['M3: 比赛职业合同必须仅为岩系旅行者（Ironclad）完整通关第一幕与第二幕；不得替换角色或恢复两职业公开范围'];
 }
 
-export function verifyMilestoneScope(root = '.') {
-  const directory = join(root, 'backlog/milestones');
-  const titles = readdirSync(directory).filter(name => name.endsWith('.md')).map(name => {
+function milestoneTitles(directory) {
+  if (!existsSync(directory)) return [];
+  return readdirSync(directory).filter(name => name.endsWith('.md')).map(name => {
     const source = readFileSync(join(directory, name), 'utf8');
     return source.match(/^title:[ \t]*([^\r\n]*)/m)?.[1].trim().replace(/^['"]|['"]$/g, '') ?? '';
   });
-  return [...auditMilestoneScope(titles), ...auditCompetitionRoster(readFileSync(join(root, 'docs/SCOPE.md'), 'utf8'))];
+}
+
+export function verifyMilestoneScope(root = '.') {
+  return [...auditMilestoneScope(milestoneTitles(join(root, 'backlog/milestones')),
+    milestoneTitles(join(root, 'backlog/archive/milestones'))),
+  ...auditCompetitionRoster(readFileSync(join(root, 'docs/SCOPE.md'), 'utf8'))];
 }
 
 // Match Backlog's identity comparison, not a task-ID format requirement.
@@ -145,11 +152,14 @@ export function verifyBacklogRoadmap(root = '.') {
     filePath: `${directory}/${name}`, source: readFileSync(join(root, directory, name), 'utf8') }));
   const readTasks = directory => files(directory).map(({ filePath, source }) => ({ ...readTaskHeader(source), filePath }));
   const tasks = readTasks('backlog/tasks'), completed = readTasks('backlog/completed');
-  const milestoneRecords=files('backlog/milestones').map(({source})=>({
+  const archiveFiles = directory => { try { return files(directory); } catch { return []; } };
+  const activeMilestoneFiles = files('backlog/milestones');
+  const milestoneRecords=activeMilestoneFiles.map(({source})=>({
     id:source.match(/^id:\s*(m-\d+)/m)?.[1],
     title:source.match(/^title:[ \t]*([^\r\n]*)/m)?.[1].trim().replace(/^['"]|['"]$/g,'')||''
   }));
-  const milestones = Object.fromEntries(files('backlog/milestones').map(({ source }) => {
+  // Archived stages keep resolving their native IDs for carry-over tasks; ordering still uses the active board.
+  const milestones = Object.fromEntries([...activeMilestoneFiles, ...archiveFiles('backlog/archive/milestones')].map(({ source }) => {
     const id = source.match(/^id:\s*(m-\d+)/m)?.[1];
     const title = source.match(/^title:[ \t]*([^\r\n]*)/m)?.[1].trim().replace(/^['"]|['"]$/g, '') ?? '';
     const stage = title.match(/^(M[1-9])(?:\s|[｜|:：]|$)/)?.[1];
