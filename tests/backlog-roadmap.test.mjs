@@ -51,7 +51,7 @@ test('milestone headings can include a human-readable explanation', () => {
   assert.deepEqual(auditRoadmap([task('TASK-4.2')], '### M4 达到正式作品品质\n- TASK-4.2：背景', milestone), []);
 });
 
-import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -292,6 +292,21 @@ test('the existing CLI accepts Traveler-only and rejects restored or substituted
     assert.equal(invalid.status, 1, invalid.stdout + invalid.stderr);
     assert.match(invalid.stderr, /M3.*职业合同/);
   }
+});
+
+test('archived milestones still resolve for carry-over tasks and keep the frozen contract', t => {
+  const root = backlogFixture(t, [['backlog/tasks/task-74.md', 'TASK-74', 'To Do',
+    'priority: medium\nmilestone: m-5\nassignee: ["@Codex"]\n']], '### M4\n- TASK-74：承接候选\n');
+  assert.deepEqual(verifyBacklogRoadmap(root), [], 'the fixture starts with m-5 active');
+  assert.deepEqual(verifyMilestoneScope(root), [], 'M3 and M4 are both present while m-5 is active');
+  mkdirSync(join(root, 'backlog/archive/milestones'), { recursive: true });
+  renameSync(join(root, 'backlog/milestones/m-5.md'), join(root, 'backlog/archive/milestones/m-5.md'));
+  assert.deepEqual(verifyBacklogRoadmap(root), [], 'archived M4 still maps carry-over tasks to the M4 roadmap section');
+  assert.deepEqual(verifyMilestoneScope(root), [], 'archived M4 still satisfies the frozen M4 contract');
+  rmSync(join(root, 'backlog/archive/milestones/m-5.md'));
+  assert.ok(verifyMilestoneScope(root).some(error => /M4.*范围/.test(error)), 'losing the archive is a scope regression');
+  assert.ok(verifyBacklogRoadmap(root).some(error => error.includes('TASK-74') && error.includes('里程碑')),
+    'without the milestone record a carry-over task has no valid milestone');
 });
 
 test('unfinished optional work needs an owner; historical Done records do not', () => {
