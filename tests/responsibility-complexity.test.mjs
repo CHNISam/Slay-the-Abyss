@@ -155,7 +155,8 @@ test('combat play, turn and constructor stages are required, bounded and fully m
 });
 test('Actor damage and status stages plus nested callbacks cannot escape the production CC15 policy',()=>{
   const path='src/lua/abyss_actor.lua';
-  const names=['M.status','M.applyPower','M.addStatus','M.endTurn','damageAmount','consumeAttackBlock','modifyIncomingAttack','applyAttackHpLoss',
+  const names=['presenceIndex','presenceNewIndex',
+    'M.status','M.applyPower','M.addStatus','M.endTurn','damageAmount','consumeAttackBlock','modifyIncomingAttack','applyAttackHpLoss',
     'updatePlayerStatusOrder','updateMonsterStatusOrder','markRoundDebuffApplication',
     'preparePowerAmount','rememberConstrictedSource','rememberPostDrawPower',
     'clearOwnerEntangled','appendAcquiredEndPower','collectOwnerEndPowers','settleOwnerEndPower',
@@ -177,11 +178,16 @@ test('Actor damage and status stages plus nested callbacks cannot escape the pro
     const original=diagnostic.message;
     diagnostic.message=original.replace(/\(\d+ > 0\)/,'(16 > 0)');
     assert.ok(errors().some(e=>e.message.includes('16 exceeds 15')));
+    assert.ok(errors().some(e=>e.line===diagnostic.line&&e.column===diagnostic.column
+      &&e.message===`Responsibility complexity 16 exceeds 15: ${original.slice('cyclomatic complexity of '.length).split(' is too high ')[0]}`));
     diagnostic.message=original;
+    const removed=diagnostics.filter(d=>d!==diagnostic);
+    assert.ok(errors(removed).some(e=>e.message==='Incomplete AST function/chunk measurements'));
   }
   for(const name of names){
     const removed=diagnostics.filter(d=>!d.message.includes(`'${name}'`));
     assert.ok(errors(removed).some(e=>e.message.includes('entry missing')));
+    assert.ok(errors(removed).some(e=>e.message===`Required responsibility entry missing or duplicated: function '${name}'`));
   }
   assert.ok(reviewResponsibilityComplexity([],{}).errors.some(e=>e.file===path&&e.message.includes('module missing')));
 });
