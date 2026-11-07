@@ -82,10 +82,19 @@ function fileState(path, object) {
   return 'corrupt';
 }
 
+function lfsObjectDirectory(root) {
+  // LFS shares storage across linked worktrees, unlike rev-parse --git-path lfs/objects.
+  // lfs.storage is a literal path (no tilde expansion), relative to the common Git dir.
+  const common = git(root, ['rev-parse', '--path-format=absolute', '--git-common-dir']).replace(/\r?\n$/, '');
+  const storage = git(root, ['config', '--default', 'lfs', '--get', 'lfs.storage']).replace(/\r?\n$/, '') || 'lfs';
+  return resolve(common, storage, 'objects');
+}
+
 export function inspectRepository(root = process.cwd()) {
-  root = realpathSync(root);
+  root = realpathSync(git(realpathSync(root), ['rev-parse', '--show-toplevel']).replace(/\r?\n$/, ''));
   const entries = treeEntries(root), blobs = entries.filter(x => x.type === 'blob'), small = smallBlobs(root, entries);
   const groups = new Map(), objects = new Map(), paths = [];
+  let cacheDirectory;
   for (const entry of blobs) {
     if (!groups.has(entry.oid)) groups.set(entry.oid, { oid: entry.oid, bytes: entry.bytes, paths: [] });
     groups.get(entry.oid).paths.push(entry.path);
@@ -93,8 +102,9 @@ export function inspectRepository(root = process.cwd()) {
     if (!object) continue;
     if (objects.has(object.oid) && objects.get(object.oid).bytes !== object.bytes) throw new Error(`Conflicting LFS sizes: ${object.oid}`);
     if (!objects.has(object.oid)) {
-      const cachePath = git(root, ['rev-parse', '--git-path', `lfs/objects/${object.oid.slice(0, 2)}/${object.oid.slice(2, 4)}/${object.oid}`]).trim();
-      objects.set(object.oid, { ...object, cache: fileState(resolve(root, cachePath), object), paths: [] });
+      cacheDirectory ??= lfsObjectDirectory(root);
+      const cachePath = join(cacheDirectory, object.oid.slice(0, 2), object.oid.slice(2, 4), object.oid);
+      objects.set(object.oid, { ...object, cache: fileState(cachePath, object), paths: [] });
     }
     const record = { path: entry.path, ...object, pointerBytes: entry.bytes, worktree: fileState(join(root, entry.path), object) };
     paths.push(record); objects.get(object.oid).paths.push(entry.path);
