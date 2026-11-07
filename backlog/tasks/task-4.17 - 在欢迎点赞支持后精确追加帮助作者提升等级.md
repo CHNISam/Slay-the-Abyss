@@ -1,15 +1,16 @@
 ---
 id: TASK-4.17
 title: 在欢迎点赞支持后精确追加帮助作者提升等级
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 22:50'
+updated_date: '2026-11-07 03:47'
 labels:
   - playtest-20261030
   - p1
   - grok
+  - 待验
 milestone: m-5
 dependencies: []
 references:
@@ -36,4 +37,6 @@ Owner逐字确认：**所有前面的已有句子保持不变**，只在原文�
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-31：PR396@f5af0664保留原完整前文并追加帮助作者提升等级，当前宿主精确串断言通过；官方客户端显示未验，不勾验收。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

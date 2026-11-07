@@ -1,11 +1,11 @@
 ---
 id: TASK-89
 title: 修复结束战斗后旅行者立绘高频退化为占位图
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-10-30 21:58'
-updated_date: '2026-11-03 15:29'
+updated_date: '2026-11-07 03:48'
 labels:
   - playtest-20261030
   - p0
@@ -43,4 +43,6 @@ Owner实机反馈：点击结束战斗后，原本正常显示的旅行者立绘
 <!-- SECTION:NOTES:BEGIN -->
 本轮离线复现：新增真实Feedback肖像中性色断言，在未修源码idle阶段失败。最小修复仅resetUnit与actor painter玩家基础色从geo改buttonPressedText，敌人及受击特效色不改。回归确认idle/attack/cancel/战斗退休/隐藏/下一战保持中性色及图像ID，原生位移、HUD、HP能量事件不变；现有actor_idle_feedback五组及actor_feedback_lifecycle通过。该缺陷只证明常态染色覆盖，未证明原报告90%资源退化原因；未官方导入、未本轮设备复测，AC保持未勾。
 2026-11-03 赛后排期：m-5 → M7 产品体验与核心特色；状态与未验 AC 保留，不设新截止日。
+
+2026-11-07 看板核对（develop 2c85bc61）：未发现实现提交或在途 PR，状态由 In Progress 归 To Do（未开始）；范围与原 AC 不变。
 <!-- SECTION:NOTES:END -->

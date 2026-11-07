@@ -1,12 +1,13 @@
 ---
 id: TASK-77
 title: 让正式比赛流程在第二幕结束
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-10-28 08:20'
-updated_date: '2026-11-01 12:07'
-labels: []
+updated_date: '2026-11-07 03:48'
+labels:
+  - 待验
 milestone: m-6
 dependencies: []
 references:
@@ -60,4 +61,6 @@ ordinal: 1
 2026-10-31 M3最终事实核对：保留已勾#1/#2/#4；competition_two_act生产边界7组通过，seed2正常规则离线两幕胜利到34层/669动作，本轮未改Run/HP/地图/库存/RNG。#3保留未完成：仍缺同候选官方导入/新ready、正式平台胜败重开和真实试玩日志截图；新Run构造隔离不是Host实际重开。
 
 2026-11-01阶段收尾：用户明确确认本轮已打Tag并进入master，发版阶段到此结束。已交付的M3核心实现不重做；本任务仅将剩余未验要求转由M5遗留严格验收承接，保留原状态、范围、全部AC及历史证据，不把发版确认等同逐条严格验收通过，也不重新阻塞已接受的v1.0.0。本次不打包、不追发布回执、不创建新门禁或新期限。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

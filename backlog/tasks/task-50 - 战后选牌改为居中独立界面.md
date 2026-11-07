@@ -1,16 +1,17 @@
 ---
 id: TASK-50
 title: 战后选牌改为居中独立界面
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 07:42'
-updated_date: '2026-10-27 15:04'
+updated_date: '2026-11-07 03:48'
 due_date: '2026-10-28'
 labels:
   - ui
   - art
   - awaiting-live
+  - 待验
 milestone: m-5
 dependencies: []
 references:
@@ -67,4 +68,6 @@ ordinal: 84000
 2026-10-26全面复核：本轮53个原战斗UI用例和card_preview通过，已交付布局/领取/跳过/预览条款补勾；当前版实机截图与设备条款仍保留。
 
 负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

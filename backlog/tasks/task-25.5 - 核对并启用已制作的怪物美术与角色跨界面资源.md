@@ -1,11 +1,11 @@
 ---
 id: TASK-25.5
 title: 核对并启用已制作的怪物美术与角色跨界面资源
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-10-30 21:58'
-updated_date: '2026-11-03 15:29'
+updated_date: '2026-11-07 03:48'
 labels:
   - playtest-20261030
   - p1
@@ -43,4 +43,6 @@ Owner说明：**怪物自制美术目前在实际战斗中一点也没用起来*
 
 <!-- SECTION:NOTES:BEGIN -->
 完整18资产及原绑定源保留，candidateAssets仅acid_slime_m；prepare先完整合法性校验，再派生实际assets/绑定/输入。完整构建、音频前源码摘要和收据同一路径，不新增远程/玩家开关；默认flags仍false。新白名单回归先红3失败后绿4/4，未知/空/重复/非串及未选非法资产均拒绝；旧无名单fixture仍18资产19绑定。32flag构建/receipt/新测试合计55项，54通过、1 Windows符号链接权限skip、零失败；完整CLI-MCP mock装配1/1通过，实际写入仅1资产1绑定2输入。当前仅准入Alpha测试，不表示官方导入、设备性能、最终美术或神像接线完成。
+
+2026-11-07 看板核对（develop 2c85bc61）：未发现实现提交或在途 PR，状态由 In Progress 归 To Do（未开始）；范围与原 AC 不变。
 <!-- SECTION:NOTES:END -->

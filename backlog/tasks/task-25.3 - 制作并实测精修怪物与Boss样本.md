@@ -1,12 +1,13 @@
 ---
 id: TASK-25.3
 title: 制作并实测精修怪物与Boss样本
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-27 09:48'
-updated_date: '2026-11-03 15:29'
-labels: []
+updated_date: '2026-11-07 03:47'
+labels:
+  - 待验
 milestone: m-8
 dependencies: []
 parent_task_id: TASK-25
@@ -47,4 +48,6 @@ ordinal: 119000
 
 2026-10-30 Owner最新调整：后续怪物源图制作与原生精修延期，优先把已经可用的原生资产用于本轮人工真机测试，不让PNG源图或继续美术优化阻塞测试。4张已接受源图仅保存方向与方法，生成提示词、真实身份参考/画风参考边界、完整画布小图和原始字节保留见art/monster-benchmarks/genshin-v1；不因此启用运行时。任务保持进行中，原生与真机验收未完成，不标Done。
 2026-11-03 赛后排期：m-5 → M7 产品体验；任务状态与未验 AC 保留。旧比赛期限 '2026-10-28' 取消，未定新截止日。样本质量和真机性能属体验门槛，批量怪物生产属于后续内容扩充。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

@@ -1,15 +1,16 @@
 ---
 id: TASK-4.12
 title: 对齐七天神像恩赐页的美术和成熟开局交互
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-10-30 21:58'
-updated_date: '2026-11-03 15:29'
+updated_date: '2026-11-07 03:47'
 labels:
   - playtest-20261030
   - p1
   - grok
+  - 待验
 milestone: m-8
 dependencies: []
 references:
@@ -49,4 +50,6 @@ Owner截图：七天神像由矩形圆片拼成，左右空旷、恩赐选项简
 UI合流补充：开局顶栏按既有roomKind=neow显示七天神像，普通事件仍保原标识；真实mini/full及普通事件复用回归已通过。组合发现新官方背景/晕影/气泡未进旧精确图ID白名单，新增命名token逐一变异传播断言与精确白名单，未放宽RGBA或任意图ID许可。仍无官方/手机验收，不勾AC。
 
 2026-11-02最新排期：优先M4非美术、非交互设计工程。神像成品美术与角色对话整体新方案先取TASK-95对应实验结论；已明确的恩赐说明可读性、颜色与入口/分支缺陷可继续修复，既有批准内容与已交付实现不重做。 仅对应新增正式设计切片以实验结论为前置；未来纯设计优化子任务显式依赖TASK-95并引用适用Go结论。本混合任务不新增整任务硬依赖，原状态与AC保留。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

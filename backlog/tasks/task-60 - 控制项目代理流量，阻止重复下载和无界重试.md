@@ -1,14 +1,15 @@
 ---
 id: TASK-60
 title: 修好CI重复拉取，并限制异常下载
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 02:09'
-updated_date: '2026-10-27 15:04'
+updated_date: '2026-11-07 03:48'
 due_date: '2026-10-26'
 labels:
   - p0 cost engineering
+  - 待验
 dependencies: []
 references:
   - scripts/ci-checkout-equivalent.mjs
@@ -58,4 +59,6 @@ Linux等价检验已实现，3项通过：首次262501B/增量319B/旧流程2627
 Linux完整npm test复验1471项全部通过，0失败/0跳过；原缺pwsh失败日志保留，新的等价检验单独记录于docs/evidence/linux-checkout-equivalent-20261026.json。没有修改正式CI或宣称Windows、远端CI、M3整体验收通过。
 
 2026-10-26用户明确仓库已公开，要求使用GitHub官方免费runner。API确认visibility=public且连接具备push权限；本轮将Quality/check由本机自托管改为标准windows-latest，其余作业ubuntu-latest，保留全部测试、精确SHA检出、网络门禁、ownership和收据。托管工作区不承诺跨轮对象复用；不操作本机runner服务。当前SHA远端CI仍待实际运行，不勾选相关验收。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

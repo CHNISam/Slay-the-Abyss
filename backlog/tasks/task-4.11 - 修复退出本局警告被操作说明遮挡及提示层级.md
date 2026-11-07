@@ -1,15 +1,16 @@
 ---
 id: TASK-4.11
 title: 修复退出本局警告被操作说明遮挡及提示层级
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-11-03 15:29'
+updated_date: '2026-11-07 03:47'
 labels:
   - playtest-20261030
   - p0
   - grok
+  - 待验
 milestone: m-8
 dependencies: []
 references:
@@ -36,4 +37,6 @@ Owner截图：放弃本局确认框中的「操作说明」入口直接压住失
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-31：PR396@f5af0664已编码退出弹窗页眉/正文/辅助说明分层，定向布局断言覆盖互不遮挡；本轮GIL已构建读回，仍待同候选官方导入与手机实测，不勾验收。见PLAYTEST-20261030末节。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

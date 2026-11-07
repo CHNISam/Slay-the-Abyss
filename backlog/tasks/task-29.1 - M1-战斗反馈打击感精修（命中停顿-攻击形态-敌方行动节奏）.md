@@ -1,14 +1,15 @@
 ---
 id: TASK-29.1
 title: 打磨战斗动画、打击感和死亡音效
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 03:53'
-updated_date: '2026-11-03 15:29'
+updated_date: '2026-11-07 03:48'
 labels:
   - enhancement
   - awaiting-live
+  - 待验
 milestone: m-8
 dependencies: []
 references:
@@ -66,4 +67,6 @@ ordinal: 44000
 
 2026-11-02最新排期：优先M4非美术、非交互设计工程。新增动效设计方案先取TASK-95对应实验结论；既有5项已完成AC及剩余同候选试听/设备验收不等待工具实验，已知错播、生命周期或性能缺陷继续修复，不重做已交付演出。 仅对应新增正式设计切片以实验结论为前置；未来纯设计优化子任务显式依赖TASK-95并引用适用Go结论。本混合任务不新增整任务硬依赖，原状态与AC保留。
 2026-11-03 赛后排期：m-5 → M7 产品体验；任务状态与未验 AC 保留。旧比赛期限 '2026-10-28' 取消，未定新截止日。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

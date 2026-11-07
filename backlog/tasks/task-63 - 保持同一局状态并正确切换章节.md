@@ -1,13 +1,14 @@
 ---
 id: TASK-63
 title: 验收第一幕到第二幕的同局连续流程
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 05:05'
-updated_date: '2026-11-01 12:07'
+updated_date: '2026-11-07 03:48'
 labels:
   - partially-implemented
+  - 待验
 milestone: m-6
 dependencies:
   - TASK-12.4
@@ -75,4 +76,6 @@ ordinal: 108000
 2026-10-31 M3最终事实核对：competition_two_act生产7组验证同Run/UID/库存/RNG、宝箱领取/跳过双终点及重复非法/回滚；seed2正常规则离线自然完成两幕34层/669动作补充合法接续轨迹。#1–3保持；#4仍缺同一候选官方导入/ready及自然通关平台日志截图，受控边界和离线自然胜利不等于平台验收。
 
 2026-11-01阶段收尾：用户明确确认本轮已打Tag并进入master，发版阶段到此结束。已交付的M3核心实现不重做；本任务仅将剩余未验要求转由M5遗留严格验收承接，保留原状态、范围、全部AC及历史证据，不把发版确认等同逐条严格验收通过，也不重新阻塞已接受的v1.0.0。本次不打包、不追发布回执、不创建新门禁或新期限。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

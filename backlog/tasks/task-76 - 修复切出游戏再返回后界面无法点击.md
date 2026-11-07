@@ -1,12 +1,13 @@
 ---
 id: TASK-76
 title: 排查手机战斗和奖励页面输入阻塞
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-10-28 09:38'
-updated_date: '2026-11-01 12:07'
-labels: []
+updated_date: '2026-11-07 03:48'
+labels:
+  - 待验
 milestone: m-5
 dependencies: []
 references:
@@ -115,4 +116,6 @@ PR323原39dab5e9历史实施记录承接（不认证本组合，当前公开范�
 2026-10-31 AC3已证实：PR436精确c3d2654完整Quality27项及inventory通过，原交付逻辑preflight为pr_passed；正常squash18:28:43Z合入develop b4f88a1，实际parent cd2与tree129836严格匹配；该develop push Quality41229605961完整27项及Licenses41229605996全通过，原merged验证为merged_passed。Actions ZIP在本地代理403，使用已独审GitHub连接器读取同artifact并核digest/大小/身份，原collect/receipt/verify及最终PR六守卫未改，原CLI网络失败原样保留，不宣称其下载成功。证据见docs/evidence/m3-mechanism-closeout-20261031/main-integration/；仅勾源回归及PR合入，不关闭根因/真实跨界面/手机与PC设备条款，任务仍In Progress。
 
 2026-11-01阶段收尾：用户明确确认本轮已打Tag并进入master，发版阶段到此结束。已交付的M3核心实现不重做；本任务仅将剩余未验要求转由M4体验与设备改进承接，保留原状态、范围、全部AC及历史证据，不把发版确认等同逐条严格验收通过，也不重新阻塞已接受的v1.0.0。本次不打包、不追发布回执、不创建新门禁或新期限。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

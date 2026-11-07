@@ -1,12 +1,13 @@
 ---
 id: TASK-4.10
 title: 对照批准稿恢复商人演出并检查其他界面
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-29 05:10'
-updated_date: '2026-11-01 04:07'
-labels: []
+updated_date: '2026-11-07 03:47'
+labels:
+  - 待验
 milestone: m-5
 dependencies: []
 references:
@@ -46,4 +47,6 @@ ordinal: 127000
 2026-10-29 核对商店接线仍在：abyss_merchant 进店、购买、金币不足和离开都由节点界面调用。旧路商人与七天神像不是同一形象。本切片没有重做交易。实机对照批准稿仍未做，验收未勾。
 
 QA-R2-07本轮先处理用户明确要求的购买/取消同组：原对白插在两按钮间已由布局和真实Host复现；保留原控件及交易，改为同排相邻，独立对白整体平移，非选中态恢复通用页脚。定向红绿与同源离线前后截图见附件；卡字/不动尚无当前设备复现，不改既有商人状态机。PC/实体手机、候选、官方ready仍未验，本轮不勾设备AC。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

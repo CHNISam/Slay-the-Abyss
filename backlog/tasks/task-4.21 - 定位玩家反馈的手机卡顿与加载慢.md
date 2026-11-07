@@ -1,12 +1,13 @@
 ---
 id: TASK-4.21
 title: 定位玩家反馈的手机卡顿与加载慢
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-10-31 23:38'
-updated_date: '2026-11-03 15:29'
-labels: []
+updated_date: '2026-11-07 03:47'
+labels:
+  - 待验
 milestone: m-8
 dependencies: []
 references:
@@ -69,4 +70,6 @@ ordinal: 136000
 2026-11-03 赛后排期：m-5 → M7 产品体验；任务状态与未验 AC 保留。未定新截止日。
 
 M9第二批复验战斗refresh绘制2→1、五张静止牌300更新几何方法7500→0、药水drag候选2100→1500；所有输入/失败/重入及有序旧新轨迹保留。见docs/evidence/m9-runtime-20261103/README.md。仅工程事实，无官方同候选手机证据，AC3及状态不变。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

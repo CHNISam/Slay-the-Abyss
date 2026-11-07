@@ -1,11 +1,11 @@
 ---
 id: TASK-96
 title: 建立首局可感知的独立职业身份
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-11-03 02:45'
-updated_date: '2026-11-03 15:29'
+updated_date: '2026-11-07 03:48'
 labels:
   - design
 milestone: m-8
@@ -53,4 +53,6 @@ ordinal: 138000
 本批集成复核：独立审查OpenCode-gpt-6.1-sol-9450b8af-50d5-4a27-ae2a-07570e988d00实际重算75映射、初始资源、来源与3模块，主控据此接受AC1；AC2–4继续待Owner方向确认、实施及设备验收。按用户最新要求，本批先复审/CI/集成再领下一批，任务保持In Progress。
 
 当前编号映射（2026-11-03）：本任务属于 M8/m-8 产品体验与核心特色；下文保留的旧称“M7 核心产品体验门槛”按当前 M8 理解，验收实质、负责人及既有 AC 不变。
+
+2026-11-07 看板核对（develop 2c85bc61）：按 config/sprint-intake.json 属 blockedUntilOwnerApproval，当前无在途 PR；状态归 To Do（待 Owner 定方向），不勾 AC。
 <!-- SECTION:NOTES:END -->

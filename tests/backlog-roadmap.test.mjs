@@ -51,7 +51,7 @@ test('milestone headings can include a human-readable explanation', () => {
   assert.deepEqual(auditRoadmap([task('TASK-4.2')], '### M4 达到正式作品品质\n- TASK-4.2：背景', milestone), []);
 });
 
-import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -237,6 +237,19 @@ test('M3 and M4 enforce the confirmed Traveler-only two-act competition scope', 
   }
 });
 
+test('archived stages keep the frozen M3/M4 contract while the active board owns M7-M9', () => {
+  const active = ['M7｜工程架构与性能强化', 'M8｜产品体验与核心特色', 'M9｜内容建设与扩充'];
+  const archived = [...competitionTitles, 'M6｜前两幕作品人工投稿与版本归档'];
+  assert.deepEqual(auditMilestoneScope(active, archived), []);
+  // A finished stage that disappears from both the board and the archive is still a scope regression.
+  assert.match(auditMilestoneScope(active, [competitionTitles[1]]).join('\n'), /M3.*范围/);
+  assert.match(auditMilestoneScope(active, [competitionTitles[0]]).join('\n'), /M4.*范围/);
+  // Archived M7 titles cannot stand in for the active chronological contract.
+  assert.match(auditMilestoneScope(active.slice(1), ['M7｜工程架构与性能强化']).join('\n'), /M7/);
+  // The same stage in both places is ambiguous rather than accepted.
+  assert.match(auditMilestoneScope([...active, competitionTitles[0]], [competitionTitles[0]]).join('\n'), /M3.*范围/);
+});
+
 test('the public milestone is bound only to Traveler and preserves superseded history separately', () => {
   assert.deepEqual(auditCompetitionRoster(competitionScope()), []);
   assert.deepEqual(auditCompetitionRoster(competitionScope().replaceAll('\n', '\r\n')), []);
@@ -278,6 +291,46 @@ test('the existing CLI accepts Traveler-only and rejects restored or substituted
     assert.ifError(invalid.error);
     assert.equal(invalid.status, 1, invalid.stdout + invalid.stderr);
     assert.match(invalid.stderr, /M3.*职业合同/);
+  }
+});
+
+test('archived milestones still resolve for carry-over tasks and keep the frozen contract', t => {
+  const root = backlogFixture(t, [['backlog/tasks/task-74.md', 'TASK-74', 'To Do',
+    'priority: medium\nmilestone: m-5\nassignee: ["@Codex"]\n']], '### M4\n- TASK-74：承接候选\n');
+  assert.deepEqual(verifyBacklogRoadmap(root), [], 'the fixture starts with m-5 active');
+  assert.deepEqual(verifyMilestoneScope(root), [], 'M3 and M4 are both present while m-5 is active');
+  mkdirSync(join(root, 'backlog/archive/milestones'), { recursive: true });
+  renameSync(join(root, 'backlog/milestones/m-5.md'), join(root, 'backlog/archive/milestones/m-5.md'));
+  assert.deepEqual(verifyBacklogRoadmap(root), [], 'archived M4 still maps carry-over tasks to the M4 roadmap section');
+  assert.deepEqual(verifyMilestoneScope(root), [], 'archived M4 still satisfies the frozen M4 contract');
+  rmSync(join(root, 'backlog/archive/milestones/m-5.md'));
+  assert.ok(verifyMilestoneScope(root).some(error => /M4.*范围/.test(error)), 'losing the archive is a scope regression');
+  assert.ok(verifyBacklogRoadmap(root).some(error => error.includes('TASK-74') && error.includes('里程碑')),
+    'without the milestone record a carry-over task has no valid milestone');
+});
+
+test('archiving every current stage cannot make the active-stage contract disappear', t => {
+  const stages = ['M7｜工程架构与性能强化', 'M8｜产品体验与核心特色', 'M9｜内容建设与扩充'];
+  const root = backlogFixture(t, [], '### M7\n### M8\n### M9\n');
+  const archive = join(root, 'backlog/archive/milestones');
+  mkdirSync(archive, { recursive: true });
+  for (const [i, title] of stages.entries()) {
+    writeFileSync(join(archive, `m-${i + 7}.md`), `---\nid: m-${i + 7}\ntitle: ${title}\n---\n`);
+  }
+  for (const i of [4, 5]) renameSync(join(root, `backlog/milestones/m-${i}.md`), join(archive, `m-${i}.md`));
+  for (const verify of [verifyBacklogRoadmap, verifyMilestoneScope]) {
+    const errors = verify(root).join('\n');
+    for (const stage of ['M7', 'M8', 'M9']) assert.match(errors, new RegExp(stage));
+  }
+});
+
+test('the configured current stages stay required even if all their records are deleted', t => {
+  const root = backlogFixture(t, []);
+  mkdirSync(join(root, 'config'));
+  writeFileSync(join(root, 'config/sprint-intake.json'), JSON.stringify({ milestoneOrder: ['m-7', 'm-8', 'm-9'] }));
+  for (const verify of [verifyBacklogRoadmap, verifyMilestoneScope]) {
+    const errors = verify(root).join('\n');
+    for (const stage of ['M7', 'M8', 'M9']) assert.match(errors, new RegExp(stage));
   }
 });
 

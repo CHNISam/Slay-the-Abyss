@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -37,20 +37,22 @@ export function auditQueueOwners(tasks) {
     .map(task => `${task.id}: 缺少有效负责人`);
 }
 
-export function auditMilestoneScope(titles) {
+export function auditMilestoneScope(titles, archivedTitles = [], requireCurrentStages = false) {
   const contracts = [
     // 2026-10-29 confirmed Traveler-only/two-act scope supersedes the two-role release.
     { stage: 'M3', required: ['岩系旅行者', '第一幕', '第二幕', '核心闭环'] },
     { stage: 'M4', required: ['前两幕', '首局', 'UI', '输入', '音画', '性能'] },
   ];
+  // Finished stages move to the archive; their frozen scope stays verifiable there.
+  const historicalTitles = [...titles, ...archivedTitles];
   const historicalErrors = contracts.flatMap(({ stage, required }) => {
-    const matches = titles.filter(title => new RegExp(`^${stage}(?:[\\s｜|:：]|$)`).test(title));
+    const matches = historicalTitles.filter(title => new RegExp(`^${stage}(?:[\\s｜|:：]|$)`).test(title));
     const retiredScope = /第三幕|第四幕|四幕|全章节|两职业|双职业|四职业|八职业|全职业|雷电/;
     return matches.length === 1 && required.every(part => matches[0].includes(part)) && !retiredScope.test(matches[0]) ? []
       : [`${stage}: 里程碑范围必须明确包含${required.join('、')}，不得恢复两职业或扩大为四/八/全职业、第三/四幕，也不得退回仅第一幕或缺少该关口`];
   });
   // Preserve frozen M3/M4 while validating the chronological M7/M8/M9 contracts.
-  const currentPresent=titles.some(t=>/^M[789](?:[\s｜|:：]|$)/.test(t));
+  const currentPresent=requireCurrentStages||historicalTitles.some(t=>/^M[789](?:[\s｜|:：]|$)/.test(t));
   const currentErrors=currentPresent?[
     {stage:'M7',required:['工程架构','性能强化']},
     {stage:'M8',required:['产品体验','核心特色']},
@@ -74,13 +76,24 @@ export function auditCompetitionRoster(scope) {
     : ['M3: 比赛职业合同必须仅为岩系旅行者（Ironclad）完整通关第一幕与第二幕；不得替换角色或恢复两职业公开范围'];
 }
 
-export function verifyMilestoneScope(root = '.') {
-  const directory = join(root, 'backlog/milestones');
-  const titles = readdirSync(directory).filter(name => name.endsWith('.md')).map(name => {
+function milestoneTitles(directory) {
+  if (!existsSync(directory)) return [];
+  return readdirSync(directory).filter(name => name.endsWith('.md')).map(name => {
     const source = readFileSync(join(directory, name), 'utf8');
     return source.match(/^title:[ \t]*([^\r\n]*)/m)?.[1].trim().replace(/^['"]|['"]$/g, '') ?? '';
   });
-  return [...auditMilestoneScope(titles), ...auditCompetitionRoster(readFileSync(join(root, 'docs/SCOPE.md'), 'utf8'))];
+}
+
+function configuredCurrentStages(root) {
+  const file = join(root, 'config/sprint-intake.json');
+  if (!existsSync(file)) return false;
+  return (JSON.parse(readFileSync(file, 'utf8')).milestoneOrder ?? []).some(id => /^m-[789]$/.test(id));
+}
+
+export function verifyMilestoneScope(root = '.') {
+  return [...auditMilestoneScope(milestoneTitles(join(root, 'backlog/milestones')),
+    milestoneTitles(join(root, 'backlog/archive/milestones')), configuredCurrentStages(root)),
+  ...auditCompetitionRoster(readFileSync(join(root, 'docs/SCOPE.md'), 'utf8'))];
 }
 
 // Match Backlog's identity comparison, not a task-ID format requirement.
@@ -129,9 +142,9 @@ export function auditRoadmap(tasks, roadmap, milestones, completed = []) {
   return errors;
 }
 
-export function auditOrderedStageIds(records) {
+export function auditOrderedStageIds(records, requireCurrentStages = false) {
   const active=records.filter(x=>/^M[789](?:[\s｜|:：]|$)/.test(x.title));
-  if(active.length===0)return [];
+  if(active.length===0&&!requireCurrentStages)return [];
   return ['M7','M8','M9'].flatMap(stage=>{
     const matches=active.filter(x=>new RegExp('^'+stage+'(?:[\\s｜|:：]|$)').test(x.title));
     const required='m-'+stage.slice(1);
@@ -145,18 +158,24 @@ export function verifyBacklogRoadmap(root = '.') {
     filePath: `${directory}/${name}`, source: readFileSync(join(root, directory, name), 'utf8') }));
   const readTasks = directory => files(directory).map(({ filePath, source }) => ({ ...readTaskHeader(source), filePath }));
   const tasks = readTasks('backlog/tasks'), completed = readTasks('backlog/completed');
-  const milestoneRecords=files('backlog/milestones').map(({source})=>({
+  const archiveFiles = directory => { try { return files(directory); } catch { return []; } };
+  const activeMilestoneFiles = files('backlog/milestones');
+  const milestoneRecords=activeMilestoneFiles.map(({source})=>({
     id:source.match(/^id:\s*(m-\d+)/m)?.[1],
     title:source.match(/^title:[ \t]*([^\r\n]*)/m)?.[1].trim().replace(/^['"]|['"]$/g,'')||''
   }));
-  const milestones = Object.fromEntries(files('backlog/milestones').map(({ source }) => {
+  // Only historical stages may resolve from the archive; current stages must stay active.
+  const archivedMilestoneFiles = archiveFiles('backlog/archive/milestones');
+  const historicalMilestoneFiles = archivedMilestoneFiles.filter(({source}) => !/^title:[ \t]*['"]?M[789](?:[\s｜|:：]|$)/m.test(source));
+  const requiresCurrent = configuredCurrentStages(root) || archivedMilestoneFiles.some(({source}) => /^title:[ \t]*['"]?M[789](?:[\s｜|:：]|$)/m.test(source));
+  const milestones = Object.fromEntries([...activeMilestoneFiles, ...historicalMilestoneFiles].map(({ source }) => {
     const id = source.match(/^id:\s*(m-\d+)/m)?.[1];
     const title = source.match(/^title:[ \t]*([^\r\n]*)/m)?.[1].trim().replace(/^['"]|['"]$/g, '') ?? '';
     const stage = title.match(/^(M[1-9])(?:\s|[｜|:：]|$)/)?.[1];
     return [id, stage];
   }).filter(([id, stage]) => id && stage));
   return [...new Set([...auditRoadmap(tasks, readFileSync(join(root, 'docs/MILESTONES.md'), 'utf8'), milestones, completed),
-    ...auditPriorities(tasks), ...auditQueueOwners(tasks), ...auditOrderedStageIds(milestoneRecords)])];
+    ...auditPriorities(tasks), ...auditQueueOwners(tasks), ...auditOrderedStageIds(milestoneRecords, requiresCurrent)])];
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const errors = [...verifyBacklogRoadmap(), ...verifyMilestoneScope()];

@@ -1,12 +1,13 @@
 ---
 id: TASK-87
 title: 精简 Agent 指引并加入自动防回退检查
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-10-29 16:59'
-updated_date: '2026-10-29 17:21'
-labels: []
+updated_date: '2026-11-07 03:48'
+labels:
+  - 待验
 dependencies: []
 documentation:
   - docs/AGENT_GUIDANCE.md
@@ -41,4 +42,6 @@ ordinal: 129000
 本地全量npm check出现act2-intent-ui既有夹具30秒超时，已停止该次全量运行；在不改时限的单夹具复核中29.158秒通过，不能宣称本地全量通过。完整验收以PR348当前SHA的Quality/Licenses为准。审查补充Windows盘符及file URI越界负对照，专项仍5/5通过。
 
 PR348第二轮Windows分片发现新增workflow步骤未纳入旧快照精确逆变换；已为新增步骤和两处package接线补精确适配，不改旧hash/权限/时限/矩阵/断言。用仓库便携Node24.18.0运行全部CI合同36/36通过，新增指引及接线/历史漂移负对照7/7通过。此前系统Node22不支持test-isolation，已停止其CI合同运行；未放宽测试。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

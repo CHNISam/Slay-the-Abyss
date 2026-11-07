@@ -3,7 +3,7 @@ id: doc-3
 title: 版本与研发顺序
 type: guide
 created_date: '2026-10-29 05:13'
-updated_date: '2026-11-03 15:29'
+updated_date: '2026-11-07 04:02'
 ---
 # 版本与研发顺序
 
@@ -16,3 +16,5 @@ updated_date: '2026-11-03 15:29'
 **7 天 Sprint 只是节律，日期不会自动放行新阶段。** 每次先核对 `config/sprint-intake.json` 和 `npm run task:pick -- TASK-编号`。编号越小代表越先启动/更早应交付。
 
 旧 PR #479/#480/#485 的 M7/M8/M9 名称保留历史，2026-11-03 后统一按新编号派工。v1.0.0 及过往 Tag/投稿不改；未来版本候选需经真实验收再决定。
+
+**2026-11-07 里程碑归档：** M3–M6（m-4/m-5/m-6、m-0）已归档到 `backlog/archive/milestones`，看板只保留 m-7/m-8/m-9；范围校验改为同时读取归档目录，历史 AC 与证据不变。

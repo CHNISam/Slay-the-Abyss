@@ -1,12 +1,13 @@
 ---
 id: TASK-4
 title: 打磨旅行者两幕的界面、音画和操作
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-11-03 15:29'
-labels: []
+updated_date: '2026-11-07 03:47'
+labels:
+  - 待验
 milestone: m-8
 dependencies:
   - TASK-29
@@ -154,4 +155,6 @@ dot本轮已切换53fa164主线新隔离树：保留PR302全部生产安全修�
 
 2026-10-29 首屏三项目视觉是 M3 必做，记在 TASK-59.3，不把全部角色美术量产提前到本任务。实机品质验收仍在本任务，未勾。
 2026-11-03 赛后调整：m-5 → M7（产品体验与核心特色）；保留状态和未验 AC；旧截止日期 '2026-10-28' 已移除，不设新期限。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

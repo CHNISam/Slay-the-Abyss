@@ -1,16 +1,17 @@
 ---
 id: TASK-16.1
 title: 验收完整职业和道具组合的结算与随机链
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-11-01 12:07'
+updated_date: '2026-11-07 03:47'
 due_date: '2026-10-28'
 labels:
   - required
   - rule-parity
   - implementation-gap
+  - 待验
 milestone: m-6
 dependencies:
   - TASK-8
@@ -143,4 +144,6 @@ ordinal: 43000
 2026-10-31 用户新增手机文字难读的高优先级缺陷。当前随机链代码及离线组合已完成并随PR436/437/438合入、实际develop检查通过，仅AC6实际游戏记录待验。本次将其移出当前High执行队列以优先处理可读性反馈；保留全部验收、状态、期限与实机责任，不代表取消要求。
 
 2026-11-01阶段收尾：用户明确确认本轮已打Tag并进入master，发版阶段到此结束。已交付的M3核心实现不重做；本任务仅将剩余未验要求转由M5遗留严格验收承接，保留原状态、范围、全部AC及历史证据，不把发版确认等同逐条严格验收通过，也不重新阻塞已接受的v1.0.0。本次不打包、不追发布回执、不创建新门禁或新期限。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

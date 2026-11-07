@@ -1,15 +1,16 @@
 ---
 id: TASK-4.14
 title: 校正顶栏卡组遗物图标计数与空间层级
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-10-30 21:58'
-updated_date: '2026-11-03 15:29'
+updated_date: '2026-11-07 03:47'
 labels:
   - playtest-20261030
   - p1
   - grok
+  - 待验
 milestone: m-8
 dependencies: []
 references:
@@ -51,4 +52,6 @@ Owner截图：卡组入口不是清楚的卡牌图标，两个类似箱子的遗
 2026-10-31 PR收口：PR426（2da54ae1f6f970684455fab13b91d49fff30633b）提出战斗中空消耗堆也显示0，原PR明确DO NOT MERGE等待Pan。当前425有意仅在非空时显示，与弃牌堆独立；这不是已确认的玩法回归。此提案保留固定PR/提交历史并归本任务待Owner决定，不合入当前候选，不勾任何AC，也不声称手机验收通过。以后若批准恢复，须重验0/正数、非战斗隐藏、实际父层可见性与对应消耗堆点击，禁止改动弃牌堆语义。
 
 2026-11-01 R2：抽牌弹层普通浏览移除常驻长排序说明，避免覆盖暗化手牌；保留控制器多页导航说明。现有共享顶栏消耗计数/药水/卡组/菜单碰撞回归通过，无口述猜坐标变更。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->
