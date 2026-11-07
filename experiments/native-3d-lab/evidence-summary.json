@@ -1,18 +1,22 @@
 {
   "task": "TASK-102",
   "pullRequest": "https://github.com/FurinyaWorks/Slay-the-Abyss/pull/553",
-  "buildId": "3f61866d-6886-4163-b321-dbf148fc430c",
-  "sourceCommit": "89cc82d950a336e544c8d24b4cd1ac80812bbbb2",
+  "buildId": "85472c95-6d2f-421c-b16a-8e8b8dc1a4d2",
+  "sourceCommit": "bb331ebc7698358baadbbc2f5feda616bdc203e1",
   "sourceDirty": false,
   "candidate": {
-    "path": ".artifacts/native-3d-lab/3f61866d-6886-4163-b321-dbf148fc430c/native-3d-lab.gil",
-    "sha256": "1d5f170724b50c63bd3bb0aa75725371fee6050286d4b9da57cda0708f4c61f5",
+    "path": ".artifacts/native-3d-lab/85472c95-6d2f-421c-b16a-8e8b8dc1a4d2/native-3d-lab.gil",
+    "sha256": "758437bcb617e4e28572db6fa3fdf2113ec48cdf245b1489a3788e717928292e",
     "bytes": 15867034
   },
-  "receipt": ".artifacts/native-3d-lab/3f61866d-6886-4163-b321-dbf148fc430c/experiment.json",
+  "receipt": ".artifacts/native-3d-lab/85472c95-6d2f-421c-b16a-8e8b8dc1a4d2/experiment.json",
   "embeddedModules": 348,
   "clientErrors": 0,
-  "clientWarnings": {"count": 357, "kind": "UNKNOWN_METHOD", "suppressed": false},
+  "clientWarnings": {
+    "count": 357,
+    "kind": "UNKNOWN_METHOD",
+    "suppressed": false
+  },
   "tweenSourceSha256": "d7b7f28478350a64df2d8a138be8461962e7ac56b383c5c6b1bd2b81b2b0522c",
   "statuses": {
     "nativeGraphsCompileWriteReadback": "pass",

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-07 10:29'
-updated_date: '2026-11-07 11:08'
+updated_date: '2026-11-07 11:18'
 labels: []
 dependencies: []
 references:
@@ -43,4 +43,8 @@ ordinal: 165000
 完整内部GIL348模块与UI读回通过，0错误357条跨模块UNKNOWN_METHOD告警保留。独立评审已关闭性能超时误报和UI读回问题，并补修Tween旧完成回调的8类状态变更负对照；将重构建最终候选。官方导入、新ready、真实Lua↔节点通信与设备证据尚未执行，任务保持In Progress，AC不提前勾选。
 
 最终候选3f61866d已从干净源89cc82d9构建：GIL SHA256 1d5f170724b50c63bd3bb0aa75725371fee6050286d4b9da57cda0708f4c61f5，15867034字节；348模块和完整UI读回通过、0error357warning保留。独立复审无未解P1/P2，Draft PR #553。报告和摘要在experiments/native-3d-lab/RESULTS.md及evidence-summary.json。等待本轮明确输入窗口再做官方导入/真实双向回执/Tween视觉，不让用户提前导入，AC保持未勾选。
+
+用户官方截图证实3f61866d试玩校验失败：出生点{0,2000.4,0}越界。根因是误用默认模板停放高度。bb331ebc统一改为[0,.4,0]并同步怪物/地板、增加坐标守卫与独立出生点读回；7项原生场景测试通过，正在重建。旧包不再交付，实机ready仍未验证。截图保存在.artifacts/native-3d-launch-failure.png。
+
+坐标修复完整候选85472c95构建/348模块/UI与出生点独立读回通过，hash758437bcb617e4e28572db6fa3fdf2113ec48cdf245b1489a3788e717928292e。简短路径 F:/New folder/.artifacts/原生3D实验-坐标修复-85472c95.gil 哈希一致。新增7项测试及小修独立复审通过，官方启动仍未验收。
 <!-- SECTION:NOTES:END -->

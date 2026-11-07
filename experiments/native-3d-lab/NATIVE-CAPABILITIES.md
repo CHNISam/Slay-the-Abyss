@@ -1,6 +1,6 @@
 # 原生表现适配边界
 
-`prepareNativeScene({call,mapPath,anchor,outputPath})` 只装配离线 GIL 副本。`call` 接受工具名和参数，返回解析后的 structuredContent；模块自身跟随每个 mapPath。默认 anchor 为官方空白底图的 `[0,2000.4,0]`，调用者可替换，必须核实对应底图脚下地面。
+`prepareNativeScene({call,mapPath,anchor,outputPath})` 只装配离线 GIL 副本。`call` 接受工具名和参数，返回解析后的 structuredContent；模块自身跟随每个 mapPath。默认 anchor 为 `[0,0.4,0]`，调用者可替换，必须核实对应底图脚下地面。此前误用默认模板停放高度2000.4，已由用户官方校验截图证实越界；现在构建器限制实验坐标在原点附近，并独立读回出生点。该内部限制不代表官方通用世界边界。
 
 使用官方复杂造物和官方动画：遗迹守卫（待机、攻击、重受击）、大型风史莱姆（待机、攻击）、打手丘丘人（待机、无武器攻击）。待机是原生站立状态；未在已读目录找到的受击 clip 返回 unsupported。死亡实验使用 destroyEntity 的原生销毁表现，不宣称有可自由播放的死亡 clip。
 
