@@ -1,6 +1,6 @@
 local Copy = require("abyss_copy")
 -- Source-derived discard-card state; the shared action queue owns execution.
-local Actors = require("abyss_actor")
+local Actors = require("abyss_actor_presence")
 local Events = require("abyss_events")
 local M = {}
 local MAX = 2147483647

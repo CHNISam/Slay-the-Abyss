@@ -1,5 +1,5 @@
 -- Decision policies only. The caller owns the one mandatory roll and move history.
-local A=require('abyss_actor')
+local A=require('abyss_actor_presence')
 local ER=require('abyss_enemy_random')
 local M={}
 local function twice(e,id)return e.act2Last==id and e.act2Previous==id end
