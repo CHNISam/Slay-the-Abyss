@@ -1,3 +1,4 @@
+import {runCatalogFloorKey,verifiedRunCatalogFloor} from './helpers/run-catalog-planning.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -23,7 +24,7 @@ const placementPath='docs/evidence/pr521-ci-placement-20261106.json',placementBy
 const floorPath='docs/evidence/pr521-run-max-planning-floor-20261106.json',floorBytes=read(floorPath),floorReceipt=JSON.parse(floorBytes),floorKey='tests/run-max-hp-config-inverse.test.mjs';
 // Added after the frozen #521 placement receipts. Never use these files to
 // reconstruct historical shard assignments or invent historical measurements.
-const postPlacementJs=['tests/intent-visibility-cache.test.mjs','tests/m7-core-final.test.mjs','tests/pr-quality-evidence.test.mjs','tests/repository-costs.test.mjs','tests/runtime-path-baseline.test.mjs'];
+const postPlacementJs=['tests/run-catalog-responsibilities.test.mjs','tests/intent-visibility-cache.test.mjs','tests/m7-core-final.test.mjs','tests/pr-quality-evidence.test.mjs','tests/repository-costs.test.mjs','tests/runtime-path-baseline.test.mjs'].sort();
 const postPlacementLua=['tests/lua/intent_visibility_cache.lua'];
 const currentLua=()=>readdirSync('tests/lua').filter(n=>n.endsWith('.lua')).map(n=>'tests/lua/'+n).sort();
 const placementJs=()=>discoverJs().filter(file=>!postPlacementJs.includes(file));
@@ -207,8 +208,13 @@ test('current Full35 includes all post-placement files once at explicit unknown 
  assert.equal(lua.length,placement.inventory.lua+postPlacementLua.length);
  for(const platform of ['win32','linux'])for(const file of postPlacementJs){
   assert.equal(currentTimings.js[platform][file],undefined,'new files have no fabricated hosted measurements');
-  assert.equal(currentTimings.jsPlanning.localLowerBounds[file],undefined,'new files have no fabricated planning floors');
-  assert.equal(currentJsPlanningWeights([file],platform)[file],currentTimings.unknownJsMs);
+  if(file===runCatalogFloorKey){
+   assert.deepEqual(currentTimings.jsPlanning.localLowerBounds[file],verifiedRunCatalogFloor());
+   assert.equal(currentJsPlanningWeights([file],platform)[file],71327);
+  }else{
+   assert.equal(currentTimings.jsPlanning.localLowerBounds[file],undefined,'other new files have no fabricated planning floors');
+   assert.equal(currentJsPlanningWeights([file],platform)[file],currentTimings.unknownJsMs);
+  }
  }
  for(const file of postPlacementLua){
   assert.equal(currentTimings.lua[file],undefined,'new fixtures have no fabricated worker-safety measurements');
@@ -318,20 +324,22 @@ test('current 129 placement raises reconstruct exact timings while preserving al
  expected.jsPlanning.localLowerBounds[floorKey]={durationMs:889638,environment:'hosted Windows',coverage:floorReceipt.coverage,
   kind:'Planning-only cross-platform floor from a complete successful hosted Windows same-file observation; not a Linux measurement or censored elapsed-time sample.',
   sourceLog:row.logPath,sourceLogSha256:row.logSha256,sourceRunId:source.runId,sourceHeadSha:source.headSha,sourceJobId:row.jobId,sourceReceipt:floorPath,sourceReceiptSha256:hash(floorBytes)};
- assert.equal(JSON.stringify(expected,null,2)+'\n',read(path),'after the original 129 raises, only model wording and one sourced planning floor may change complete bytes');
+ assert.equal(hash(JSON.stringify(expected,null,2)+'\n'),'a5841ddaa53d8bc810f9c16ae342ed2de8cb5479bbcb073562d2c6c921ed1b24','all original 129 raises and nine floors retain exact complete source bytes');
+ expected.jsPlanning.localLowerBounds[runCatalogFloorKey]=verifiedRunCatalogFloor();
+ assert.equal(JSON.stringify(expected,null,2)+'\n',read(path),'only independently sourced Run catalogue planning floor extends the original epoch');
  assert.deepEqual(currentTimings,expected);
  for(const platform of ['win32','linux'])for(const [file,value]of Object.entries(after.js[platform]))assert.ok(currentTimings.js[platform][file]>=value);
  const luaBlock=s=>s.slice(s.indexOf('  "lua": {'),s.indexOf('  "jsSource":'));
  assert.equal(luaBlock(read(path)),luaBlock(binding.afterSource),'literal worker-safety bytes remain frozen');
  for(const key of ['lua','luaShard','luaShardCalibrationUpdates','initialMs','unknownJsMs','unknownLuaMs'])assert.deepEqual(currentTimings[key],after[key],key+' remains unchanged');
- const priorFloors=structuredClone(currentTimings.jsPlanning.localLowerBounds);delete priorFloors[floorKey];assert.deepEqual(priorFloors,after.jsPlanning.localLowerBounds,'all eight existing local floors remain exact');assert.equal(Object.keys(priorFloors).length,8);
+ const priorFloors=structuredClone(currentTimings.jsPlanning.localLowerBounds);delete priorFloors[floorKey];delete priorFloors[runCatalogFloorKey];assert.deepEqual(priorFloors,after.jsPlanning.localLowerBounds,'all eight existing local floors remain exact');assert.equal(Object.keys(priorFloors).length,8);
  for(const platform of ['win32','linux'])assert.equal(currentJsPlanningWeights([floorKey],platform)[floorKey],889638);
  assert.equal(placement.forecast.reserveMs,60000);assert.deepEqual(placement.forecast.budgets,{win32:1800000,linux:1200000});assert.equal(placement.forecast.workers,2);assert.equal(placement.forecast.concurrencyCapUnchanged,12);
 });
 
 test('only two exact current source identities enter the unchanged pure historical CI chain and all byte drift remains visible',()=>{
  const identities={
-  'scripts/ci-test-timings.json':'a5841ddaa53d8bc810f9c16ae342ed2de8cb5479bbcb073562d2c6c921ed1b24',
+  'scripts/ci-test-timings.json':'39ad201a4b9bf0486820a23a95937a879a47092e2e07cf7ee848acd4a8f0ff14',
   'scripts/ci-quality-shape.mjs':'0d6c82c2a7e7db82e276eb563978d5253d9a225039329e171ed3f907f98609d1',
  };
  for(const [path,digest]of Object.entries(identities)){
