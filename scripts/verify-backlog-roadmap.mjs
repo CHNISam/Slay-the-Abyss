@@ -37,7 +37,7 @@ export function auditQueueOwners(tasks) {
     .map(task => `${task.id}: 缺少有效负责人`);
 }
 
-export function auditMilestoneScope(titles, archivedTitles = []) {
+export function auditMilestoneScope(titles, archivedTitles = [], requireCurrentStages = false) {
   const contracts = [
     // 2026-10-29 confirmed Traveler-only/two-act scope supersedes the two-role release.
     { stage: 'M3', required: ['岩系旅行者', '第一幕', '第二幕', '核心闭环'] },
@@ -52,7 +52,7 @@ export function auditMilestoneScope(titles, archivedTitles = []) {
       : [`${stage}: 里程碑范围必须明确包含${required.join('、')}，不得恢复两职业或扩大为四/八/全职业、第三/四幕，也不得退回仅第一幕或缺少该关口`];
   });
   // Preserve frozen M3/M4 while validating the chronological M7/M8/M9 contracts.
-  const currentPresent=titles.some(t=>/^M[789](?:[\s｜|:：]|$)/.test(t));
+  const currentPresent=requireCurrentStages||historicalTitles.some(t=>/^M[789](?:[\s｜|:：]|$)/.test(t));
   const currentErrors=currentPresent?[
     {stage:'M7',required:['工程架构','性能强化']},
     {stage:'M8',required:['产品体验','核心特色']},
@@ -84,9 +84,15 @@ function milestoneTitles(directory) {
   });
 }
 
+function configuredCurrentStages(root) {
+  const file = join(root, 'config/sprint-intake.json');
+  if (!existsSync(file)) return false;
+  return (JSON.parse(readFileSync(file, 'utf8')).milestoneOrder ?? []).some(id => /^m-[789]$/.test(id));
+}
+
 export function verifyMilestoneScope(root = '.') {
   return [...auditMilestoneScope(milestoneTitles(join(root, 'backlog/milestones')),
-    milestoneTitles(join(root, 'backlog/archive/milestones'))),
+    milestoneTitles(join(root, 'backlog/archive/milestones')), configuredCurrentStages(root)),
   ...auditCompetitionRoster(readFileSync(join(root, 'docs/SCOPE.md'), 'utf8'))];
 }
 
@@ -136,9 +142,9 @@ export function auditRoadmap(tasks, roadmap, milestones, completed = []) {
   return errors;
 }
 
-export function auditOrderedStageIds(records) {
+export function auditOrderedStageIds(records, requireCurrentStages = false) {
   const active=records.filter(x=>/^M[789](?:[\s｜|:：]|$)/.test(x.title));
-  if(active.length===0)return [];
+  if(active.length===0&&!requireCurrentStages)return [];
   return ['M7','M8','M9'].flatMap(stage=>{
     const matches=active.filter(x=>new RegExp('^'+stage+'(?:[\\s｜|:：]|$)').test(x.title));
     const required='m-'+stage.slice(1);
@@ -158,15 +164,18 @@ export function verifyBacklogRoadmap(root = '.') {
     id:source.match(/^id:\s*(m-\d+)/m)?.[1],
     title:source.match(/^title:[ \t]*([^\r\n]*)/m)?.[1].trim().replace(/^['"]|['"]$/g,'')||''
   }));
-  // Archived stages keep resolving their native IDs for carry-over tasks; ordering still uses the active board.
-  const milestones = Object.fromEntries([...activeMilestoneFiles, ...archiveFiles('backlog/archive/milestones')].map(({ source }) => {
+  // Only historical stages may resolve from the archive; current stages must stay active.
+  const archivedMilestoneFiles = archiveFiles('backlog/archive/milestones');
+  const historicalMilestoneFiles = archivedMilestoneFiles.filter(({source}) => !/^title:[ \t]*['"]?M[789](?:[\s｜|:：]|$)/m.test(source));
+  const requiresCurrent = configuredCurrentStages(root) || archivedMilestoneFiles.some(({source}) => /^title:[ \t]*['"]?M[789](?:[\s｜|:：]|$)/m.test(source));
+  const milestones = Object.fromEntries([...activeMilestoneFiles, ...historicalMilestoneFiles].map(({ source }) => {
     const id = source.match(/^id:\s*(m-\d+)/m)?.[1];
     const title = source.match(/^title:[ \t]*([^\r\n]*)/m)?.[1].trim().replace(/^['"]|['"]$/g, '') ?? '';
     const stage = title.match(/^(M[1-9])(?:\s|[｜|:：]|$)/)?.[1];
     return [id, stage];
   }).filter(([id, stage]) => id && stage));
   return [...new Set([...auditRoadmap(tasks, readFileSync(join(root, 'docs/MILESTONES.md'), 'utf8'), milestones, completed),
-    ...auditPriorities(tasks), ...auditQueueOwners(tasks), ...auditOrderedStageIds(milestoneRecords)])];
+    ...auditPriorities(tasks), ...auditQueueOwners(tasks), ...auditOrderedStageIds(milestoneRecords, requiresCurrent)])];
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const errors = [...verifyBacklogRoadmap(), ...verifyMilestoneScope()];

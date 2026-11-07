@@ -5,12 +5,13 @@ status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 23:29'
-updated_date: '2026-11-07 03:48'
+updated_date: '2026-11-07 05:55'
 due_date: '2026-10-28'
 labels:
   - P1
   - battle-feedback
   - awaiting-live
+  - 待验
 milestone: m-5
 dependencies:
   - TASK-10
@@ -53,5 +54,5 @@ ordinal: 38000
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
-2026-11-07 看板核对（develop 2c85bc61）：未发现实现提交或在途 PR，状态由 In Progress 归 To Do（未开始）；范围与原 AC 不变。
+2026-11-07 看板复审更正：基础反馈实现已随 PR52/79 合入，任务 AC1–3 及 TASK-29 附件、DELIVERY-CLOSEOUT 可追溯；不能记为未开始。状态保持 To Do，标待验，剩余同候选原生画面、声音及设备审阅按原 AC 取证，未执行项不勾选。
 <!-- SECTION:NOTES:END -->

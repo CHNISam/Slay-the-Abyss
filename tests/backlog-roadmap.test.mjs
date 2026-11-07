@@ -309,6 +309,31 @@ test('archived milestones still resolve for carry-over tasks and keep the frozen
     'without the milestone record a carry-over task has no valid milestone');
 });
 
+test('archiving every current stage cannot make the active-stage contract disappear', t => {
+  const stages = ['M7｜工程架构与性能强化', 'M8｜产品体验与核心特色', 'M9｜内容建设与扩充'];
+  const root = backlogFixture(t, [], '### M7\n### M8\n### M9\n');
+  const archive = join(root, 'backlog/archive/milestones');
+  mkdirSync(archive, { recursive: true });
+  for (const [i, title] of stages.entries()) {
+    writeFileSync(join(archive, `m-${i + 7}.md`), `---\nid: m-${i + 7}\ntitle: ${title}\n---\n`);
+  }
+  for (const i of [4, 5]) renameSync(join(root, `backlog/milestones/m-${i}.md`), join(archive, `m-${i}.md`));
+  for (const verify of [verifyBacklogRoadmap, verifyMilestoneScope]) {
+    const errors = verify(root).join('\n');
+    for (const stage of ['M7', 'M8', 'M9']) assert.match(errors, new RegExp(stage));
+  }
+});
+
+test('the configured current stages stay required even if all their records are deleted', t => {
+  const root = backlogFixture(t, []);
+  mkdirSync(join(root, 'config'));
+  writeFileSync(join(root, 'config/sprint-intake.json'), JSON.stringify({ milestoneOrder: ['m-7', 'm-8', 'm-9'] }));
+  for (const verify of [verifyBacklogRoadmap, verifyMilestoneScope]) {
+    const errors = verify(root).join('\n');
+    for (const stage of ['M7', 'M8', 'M9']) assert.match(errors, new RegExp(stage));
+  }
+});
+
 test('unfinished optional work needs an owner; historical Done records do not', () => {
   for (const status of ['To Do', 'In Progress', 'Blocked']) {
     for (const assignees of [[], [''], ['--append-plan']]) {
