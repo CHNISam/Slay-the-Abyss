@@ -1,3 +1,4 @@
+import {preDefectPlanSource,defectPlanReader} from './defect-plan-source-inverse.mjs';
 import {preAct1ChoiceSource,act1ChoiceReader} from './act1-choice-source-inverse.mjs';
 // Exact outer epoch for read-only relic queries. Frozen source strings may be
 // retained; authorization always comes from a new read of every linked owner.
@@ -96,6 +97,8 @@ function inputIdentity(path,source){
 }
 export function preRelicQuerySource(path,source,{readSource=readLive}={}){
  let extractionRaw=rawReaders.get(readSource)??readSource;
+ source=preDefectPlanSource(path,source,{readSource:extractionRaw});
+ extractionRaw=defectPlanReader(extractionRaw);
  source=preAct1ChoiceSource(path,source,{readSource:extractionRaw});
  extractionRaw=act1ChoiceReader(extractionRaw);
  source=preInventoryResponsibilitiesSource(path,source,{readSource:extractionRaw});

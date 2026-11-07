@@ -1,0 +1,5858 @@
+{
+  "schemaVersion": 1,
+  "base": "35d392bcf3049a214970127dbf587a4adae8fd9e",
+  "develop": "2ad07111e3d5b5cb52b4229860b3b780941e29a9",
+  "parentPr": 546,
+  "sourceBeforeBlob": "f1d8c87575db5e2bb7bda8ac05275a152929f67b",
+  "sourceAfterBlob": "33420d6ed74220a2bf6053fbc0d4f414f0b1e1ec",
+  "files": {
+    "src/lua/abyss_defect_engine_cards.lua": "4d9a0281fdd42f853d6a836f485d56d0693996577287ba2ec5283c222cd17ac7",
+    "tests/helpers/defect-plan-before.lua": "ecfccd24cac9aa6010555d4ac4d2502a75837e2ccfee4dc291aa511b494f76c0",
+    "tests/helpers/defect-plan-boundaries.lua": "61d2d77e16ba075825d92af418352661bf08abfeadbcddc1d7f6babf1764ee7d",
+    "tests/helpers/defect-plan-source-inverse.mjs": "d4bb6fcbeaffe97320b96518b2a92dd8499feebf5acb9321c14c84cbc62a3a23",
+    "tests/helpers/defect-plan-vm.mjs": "898da7e8e5e804e6420fcc92b2fdd26305ce04c063b6aa34baab2c40edcec11b",
+    "tests/defect-plan-responsibilities.test.mjs": "637f680eda406f20bc775c9aea0a4f2131c7fdd62b309c7f8639fb0f88a1b136"
+  },
+  "before": {
+    "modules": 333,
+    "measurements": 5436,
+    "cc30": 53,
+    "cc15": 230,
+    "max": 64,
+    "scc": [
+      81,
+      12
+    ],
+    "selectedModule": {
+      "modules": [
+        {
+          "file": "src/lua/abyss_defect_engine_cards.lua",
+          "sha256": "ecfccd24cac9aa6010555d4ac4d2502a75837e2ccfee4dc291aa511b494f76c0",
+          "lines": 256,
+          "functions": [
+            {
+              "id": "$",
+              "name": "<chunk>",
+              "kind": "chunk",
+              "constructorName": false,
+              "line": 1,
+              "column": 1,
+              "endLine": 256,
+              "lines": 256,
+              "complexity": 1
+            },
+            {
+              "id": "$/copy#1",
+              "name": "copy",
+              "kind": "function",
+              "constructorName": false,
+              "line": 13,
+              "column": 7,
+              "endLine": 16,
+              "lines": 4,
+              "complexity": 3
+            },
+            {
+              "id": "$/integer#1",
+              "name": "integer",
+              "kind": "function",
+              "constructorName": false,
+              "line": 17,
+              "column": 7,
+              "endLine": 20,
+              "lines": 4,
+              "complexity": 5
+            },
+            {
+              "id": "$/add#1",
+              "name": "add",
+              "kind": "function",
+              "constructorName": false,
+              "line": 21,
+              "column": 7,
+              "endLine": 21,
+              "lines": 1,
+              "complexity": 1
+            },
+            {
+              "id": "$/e#1",
+              "name": "e",
+              "kind": "function",
+              "constructorName": false,
+              "line": 22,
+              "column": 7,
+              "endLine": 22,
+              "lines": 1,
+              "complexity": 2
+            },
+            {
+              "id": "$/channel#1",
+              "name": "channel",
+              "kind": "function",
+              "constructorName": false,
+              "line": 23,
+              "column": 7,
+              "endLine": 23,
+              "lines": 1,
+              "complexity": 1
+            },
+            {
+              "id": "$/M.withCards#1",
+              "name": "M.withCards",
+              "kind": "function",
+              "constructorName": false,
+              "line": 84,
+              "column": 1,
+              "endLine": 93,
+              "lines": 10,
+              "complexity": 8
+            },
+            {
+              "id": "$/M.initHistory#1",
+              "name": "M.initHistory",
+              "kind": "function",
+              "constructorName": false,
+              "line": 94,
+              "column": 1,
+              "endLine": 97,
+              "lines": 4,
+              "complexity": 1
+            },
+            {
+              "id": "$/M.channelCount#1",
+              "name": "M.channelCount",
+              "kind": "function",
+              "constructorName": false,
+              "line": 98,
+              "column": 1,
+              "endLine": 101,
+              "lines": 4,
+              "complexity": 3
+            },
+            {
+              "id": "$/M.onChannel#1",
+              "name": "M.onChannel",
+              "kind": "function",
+              "constructorName": false,
+              "line": 102,
+              "column": 1,
+              "endLine": 105,
+              "lines": 4,
+              "complexity": 2
+            },
+            {
+              "id": "$/active#1",
+              "name": "active",
+              "kind": "function",
+              "constructorName": false,
+              "line": 106,
+              "column": 7,
+              "endLine": 106,
+              "lines": 1,
+              "complexity": 4
+            },
+            {
+              "id": "$/targets#1",
+              "name": "targets",
+              "kind": "function",
+              "constructorName": false,
+              "line": 107,
+              "column": 7,
+              "endLine": 109,
+              "lines": 3,
+              "complexity": 3
+            },
+            {
+              "id": "$/M.adaptDefinition#1",
+              "name": "M.adaptDefinition",
+              "kind": "function",
+              "constructorName": false,
+              "line": 110,
+              "column": 1,
+              "endLine": 120,
+              "lines": 11,
+              "complexity": 13
+            },
+            {
+              "id": "$/M.prepareEffect#1",
+              "name": "M.prepareEffect",
+              "kind": "function",
+              "constructorName": false,
+              "line": 121,
+              "column": 1,
+              "endLine": 142,
+              "lines": 22,
+              "complexity": 11
+            },
+            {
+              "id": "$/instanceByUid#1",
+              "name": "instanceByUid",
+              "kind": "function",
+              "constructorName": false,
+              "line": 143,
+              "column": 7,
+              "endLine": 149,
+              "lines": 7,
+              "complexity": 7
+            },
+            {
+              "id": "$/nextRound#1",
+              "name": "nextRound",
+              "kind": "function",
+              "constructorName": false,
+              "line": 150,
+              "column": 7,
+              "endLine": 152,
+              "lines": 3,
+              "complexity": 2
+            },
+            {
+              "id": "$/M.planEffect#1",
+              "name": "M.planEffect",
+              "kind": "function",
+              "constructorName": false,
+              "line": 153,
+              "column": 1,
+              "endLine": 232,
+              "lines": 80,
+              "complexity": 64
+            },
+            {
+              "id": "$/M.planEffect#1/change#1",
+              "name": "change",
+              "kind": "function",
+              "constructorName": false,
+              "line": 156,
+              "column": 8,
+              "endLine": 156,
+              "lines": 1,
+              "complexity": 1
+            },
+            {
+              "id": "$/M.planEffect#1/grow#1",
+              "name": "grow",
+              "kind": "function",
+              "constructorName": false,
+              "line": 162,
+              "column": 9,
+              "endLine": 162,
+              "lines": 1,
+              "complexity": 4
+            },
+            {
+              "id": "$/M.applyLockOn#1",
+              "name": "M.applyLockOn",
+              "kind": "function",
+              "constructorName": false,
+              "line": 233,
+              "column": 1,
+              "endLine": 239,
+              "lines": 7,
+              "complexity": 3
+            },
+            {
+              "id": "$/M.endRound#1",
+              "name": "M.endRound",
+              "kind": "function",
+              "constructorName": false,
+              "line": 240,
+              "column": 1,
+              "endLine": 249,
+              "lines": 10,
+              "complexity": 9
+            },
+            {
+              "id": "$/M.orbDamage#1",
+              "name": "M.orbDamage",
+              "kind": "function",
+              "constructorName": false,
+              "line": 251,
+              "column": 1,
+              "endLine": 255,
+              "lines": 5,
+              "complexity": 2
+            }
+          ]
+        }
+      ],
+      "errors": []
+    }
+  },
+  "after": {
+    "modules": 333,
+    "measurements": 5451,
+    "cc30": 52,
+    "cc15": 229,
+    "max": 61,
+    "errors": [],
+    "architectureErrors": [],
+    "scc": [
+      {
+        "members": [
+          "abyss_act2_ai",
+          "abyss_act2_ai_moves",
+          "abyss_act2_event_relics",
+          "abyss_act2_powers",
+          "abyss_act2_stasis",
+          "abyss_act2_summons",
+          "abyss_act3_ai",
+          "abyss_act3_bosses",
+          "abyss_act3_enemies",
+          "abyss_act3_powers",
+          "abyss_act4_enemies",
+          "abyss_actor",
+          "abyss_awakened_one",
+          "abyss_build_actions",
+          "abyss_card_actions",
+          "abyss_card_capability",
+          "abyss_card_triggers",
+          "abyss_class_potions",
+          "abyss_colorless_cards",
+          "abyss_combat",
+          "abyss_combat_catalog",
+          "abyss_combat_effect_cards",
+          "abyss_combat_effect_choice",
+          "abyss_combat_effect_damage",
+          "abyss_combat_effect_dispatch",
+          "abyss_combat_effect_powers",
+          "abyss_combat_enemy_setup",
+          "abyss_combat_native_play",
+          "abyss_combat_queued_play",
+          "abyss_darklings",
+          "abyss_defect_engine_cards",
+          "abyss_defect_final_cards",
+          "abyss_defect_utility_cards",
+          "abyss_discard",
+          "abyss_effects",
+          "abyss_effects_cards",
+          "abyss_effects_damage",
+          "abyss_effects_enemy",
+          "abyss_effects_powers",
+          "abyss_end_turn_powers",
+          "abyss_ending_actions",
+          "abyss_enemy_ai",
+          "abyss_exhaust",
+          "abyss_flow_actions",
+          "abyss_focus",
+          "abyss_guardian_ai",
+          "abyss_hand_choice",
+          "abyss_hp_loss",
+          "abyss_inventory",
+          "abyss_mantra",
+          "abyss_nemesis",
+          "abyss_orb_powers",
+          "abyss_orbs",
+          "abyss_original_v4",
+          "abyss_original_v4_health",
+          "abyss_pile_choice",
+          "abyss_plated_armor",
+          "abyss_player_revive",
+          "abyss_poison",
+          "abyss_potion_fairy",
+          "abyss_power_order",
+          "abyss_power_schedule",
+          "abyss_relic_combat_hooks",
+          "abyss_relic_family_combat",
+          "abyss_scry",
+          "abyss_shivs",
+          "abyss_silent",
+          "abyss_silent_attack_cards",
+          "abyss_silent_discard_cards",
+          "abyss_silent_final_cards",
+          "abyss_silent_potions",
+          "abyss_silent_tactics_cards",
+          "abyss_stances",
+          "abyss_time_eater",
+          "abyss_turn_powers",
+          "abyss_warrior_status_cards",
+          "abyss_warrior_strength_cards",
+          "abyss_watcher_attack_cards",
+          "abyss_watcher_final_cards",
+          "abyss_watcher_flow_cards",
+          "abyss_writhing_mass"
+        ],
+        "edges": [
+          {
+            "from": "abyss_act2_ai",
+            "to": "abyss_act2_ai_moves",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act2_ai",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act2_ai_moves",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act2_event_relics",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act2_powers",
+            "to": "abyss_act2_stasis",
+            "line": 5,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act2_powers",
+            "to": "abyss_power_order",
+            "line": 36,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_act2_stasis",
+            "to": "abyss_combat",
+            "line": 38,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_act2_summons",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act3_ai",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act3_ai",
+            "to": "abyss_writhing_mass",
+            "line": 11,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act3_ai",
+            "to": "abyss_writhing_mass",
+            "line": 56,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act3_ai",
+            "to": "abyss_writhing_mass",
+            "line": 65,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act3_ai",
+            "to": "abyss_writhing_mass",
+            "line": 75,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act3_bosses",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act3_bosses",
+            "to": "abyss_awakened_one",
+            "line": 22,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act3_bosses",
+            "to": "abyss_time_eater",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act3_enemies",
+            "to": "abyss_nemesis",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act3_enemies",
+            "to": "abyss_writhing_mass",
+            "line": 54,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act3_enemies",
+            "to": "abyss_writhing_mass",
+            "line": 55,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act3_powers",
+            "to": "abyss_nemesis",
+            "line": 29,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act3_powers",
+            "to": "abyss_power_schedule",
+            "line": 34,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act4_enemies",
+            "to": "abyss_actor",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_act4_enemies",
+            "to": "abyss_power_schedule",
+            "line": 40,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_act2_powers",
+            "line": 5,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_act3_powers",
+            "line": 7,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_awakened_one",
+            "line": 8,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_card_triggers",
+            "line": 466,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_colorless_cards",
+            "line": 214,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_colorless_cards",
+            "line": 351,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_colorless_cards",
+            "line": 353,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_colorless_cards",
+            "line": 955,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_darklings",
+            "line": 14,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_defect_final_cards",
+            "line": 474,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_defect_final_cards",
+            "line": 489,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_defect_final_cards",
+            "line": 649,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_defect_final_cards",
+            "line": 685,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_focus",
+            "line": 200,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_hp_loss",
+            "line": 60,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_nemesis",
+            "line": 10,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_original_v4",
+            "line": 503,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_original_v4",
+            "line": 533,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_original_v4_health",
+            "line": 841,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_plated_armor",
+            "line": 6,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_power_order",
+            "line": 111,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_power_order",
+            "line": 131,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_power_order",
+            "line": 248,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_power_order",
+            "line": 346,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_power_order",
+            "line": 803,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_power_order",
+            "line": 854,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_power_schedule",
+            "line": 40,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_relic_combat_hooks",
+            "line": 502,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_relic_combat_hooks",
+            "line": 523,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_relic_combat_hooks",
+            "line": 706,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_relic_combat_hooks",
+            "line": 847,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_relic_family_combat",
+            "line": 207,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_relic_family_combat",
+            "line": 209,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_relic_family_combat",
+            "line": 436,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_relic_family_combat",
+            "line": 554,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_relic_family_combat",
+            "line": 635,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_relic_family_combat",
+            "line": 676,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_relic_family_combat",
+            "line": 689,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_relic_family_combat",
+            "line": 978,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_silent_final_cards",
+            "line": 353,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_silent_final_cards",
+            "line": 424,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_silent_final_cards",
+            "line": 957,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_stances",
+            "line": 591,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_watcher_final_cards",
+            "line": 787,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_actor",
+            "to": "abyss_writhing_mass",
+            "line": 701,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_awakened_one",
+            "to": "abyss_power_schedule",
+            "line": 108,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_awakened_one",
+            "to": "abyss_power_schedule",
+            "line": 151,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_build_actions",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_build_actions",
+            "to": "abyss_combat",
+            "line": 41,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_build_actions",
+            "to": "abyss_combat",
+            "line": 42,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_build_actions",
+            "to": "abyss_shivs",
+            "line": 44,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_build_actions",
+            "to": "abyss_warrior_status_cards",
+            "line": 43,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_build_actions",
+            "to": "abyss_watcher_final_cards",
+            "line": 41,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_build_actions",
+            "to": "abyss_watcher_final_cards",
+            "line": 42,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_act2_powers",
+            "line": 6,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_awakened_one",
+            "line": 499,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_class_potions",
+            "line": 486,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_colorless_cards",
+            "line": 267,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_colorless_cards",
+            "line": 489,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_darklings",
+            "line": 496,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_defect_final_cards",
+            "line": 83,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_original_v4",
+            "line": 490,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_original_v4_health",
+            "line": 412,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_original_v4_health",
+            "line": 439,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_plated_armor",
+            "line": 5,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_relic_combat_hooks",
+            "line": 415,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_relic_combat_hooks",
+            "line": 445,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_relic_combat_hooks",
+            "line": 491,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_relic_family_combat",
+            "line": 50,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_relic_family_combat",
+            "line": 459,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_relic_family_combat",
+            "line": 476,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_relic_family_combat",
+            "line": 477,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_relic_family_combat",
+            "line": 528,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_silent_final_cards",
+            "line": 37,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_silent_final_cards",
+            "line": 266,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_silent_final_cards",
+            "line": 487,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_silent_final_cards",
+            "line": 522,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_time_eater",
+            "line": 7,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_warrior_status_cards",
+            "line": 77,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_watcher_final_cards",
+            "line": 514,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_watcher_final_cards",
+            "line": 514,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_writhing_mass",
+            "line": 479,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_actions",
+            "to": "abyss_writhing_mass",
+            "line": 480,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_capability",
+            "to": "abyss_effects",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_capability",
+            "to": "abyss_original_v4",
+            "line": 13,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_capability",
+            "to": "abyss_watcher_final_cards",
+            "line": 9,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_triggers",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_card_triggers",
+            "to": "abyss_power_schedule",
+            "line": 244,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_class_potions",
+            "to": "abyss_orbs",
+            "line": 40,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_class_potions",
+            "to": "abyss_orbs",
+            "line": 46,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_class_potions",
+            "to": "abyss_orbs",
+            "line": 58,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_colorless_cards",
+            "to": "abyss_act2_event_relics",
+            "line": 454,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_colorless_cards",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_colorless_cards",
+            "to": "abyss_card_actions",
+            "line": 127,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_colorless_cards",
+            "to": "abyss_card_actions",
+            "line": 360,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_colorless_cards",
+            "to": "abyss_power_schedule",
+            "line": 220,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_colorless_cards",
+            "to": "abyss_relic_family_combat",
+            "line": 392,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_colorless_cards",
+            "to": "abyss_relic_family_combat",
+            "line": 392,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_act2_event_relics",
+            "line": 1105,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_act2_event_relics",
+            "line": 1119,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_act2_powers",
+            "line": 373,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_act3_powers",
+            "line": 1550,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_act3_powers",
+            "line": 1582,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_act3_powers",
+            "line": 1669,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_act3_powers",
+            "line": 1800,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_act3_powers",
+            "line": 1999,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_act3_powers",
+            "line": 2067,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_act3_powers",
+            "line": 2069,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_awakened_one",
+            "line": 23,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_card_actions",
+            "line": 6,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_card_capability",
+            "line": 1204,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_card_triggers",
+            "line": 73,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_colorless_cards",
+            "line": 521,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_colorless_cards",
+            "line": 704,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_colorless_cards",
+            "line": 1406,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_colorless_cards",
+            "line": 1493,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_combat_catalog",
+            "line": 2128,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_combat_catalog",
+            "line": 2276,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_combat_effect_dispatch",
+            "line": 959,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_combat_enemy_setup",
+            "line": 13,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_combat_native_play",
+            "line": 1124,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_combat_queued_play",
+            "line": 1123,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_darklings",
+            "line": 24,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_defect_engine_cards",
+            "line": 475,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_defect_engine_cards",
+            "line": 1816,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_defect_final_cards",
+            "line": 318,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_defect_final_cards",
+            "line": 476,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_defect_final_cards",
+            "line": 1001,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_defect_final_cards",
+            "line": 1103,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_defect_final_cards",
+            "line": 1164,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_defect_final_cards",
+            "line": 1494,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_defect_final_cards",
+            "line": 1505,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_defect_final_cards",
+            "line": 1817,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_discard",
+            "line": 898,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_discard",
+            "line": 1053,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_effects",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_end_turn_powers",
+            "line": 912,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_end_turn_powers",
+            "line": 1195,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_end_turn_powers",
+            "line": 1669,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_end_turn_powers",
+            "line": 1678,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_end_turn_powers",
+            "line": 1694,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_end_turn_powers",
+            "line": 2044,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_end_turn_powers",
+            "line": 2069,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_ending_actions",
+            "line": 1529,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_ending_actions",
+            "line": 1539,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_ending_actions",
+            "line": 1591,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_enemy_ai",
+            "line": 5,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_exhaust",
+            "line": 1004,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_flow_actions",
+            "line": 368,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_hand_choice",
+            "line": 1381,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_hp_loss",
+            "line": 179,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_orbs",
+            "line": 2181,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 90,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 103,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 115,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 128,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 133,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 520,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 653,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 748,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 1285,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 1328,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 1347,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 1445,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 1548,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 1620,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 1865,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 1989,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 2022,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_original_v4",
+            "line": 2283,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_pile_choice",
+            "line": 1092,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_plated_armor",
+            "line": 7,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_power_schedule",
+            "line": 34,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_power_schedule",
+            "line": 1399,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_power_schedule",
+            "line": 1575,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_relic_combat_hooks",
+            "line": 14,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_relic_family_combat",
+            "line": 16,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_relic_family_combat",
+            "line": 17,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_relic_family_combat",
+            "line": 19,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_relic_family_combat",
+            "line": 21,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_scry",
+            "line": 1367,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_shivs",
+            "line": 381,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_shivs",
+            "line": 490,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_shivs",
+            "line": 1174,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_silent_discard_cards",
+            "line": 376,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_silent_discard_cards",
+            "line": 469,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_silent_discard_cards",
+            "line": 1484,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_silent_final_cards",
+            "line": 377,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_silent_final_cards",
+            "line": 522,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_silent_final_cards",
+            "line": 1407,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_silent_final_cards",
+            "line": 1426,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_silent_final_cards",
+            "line": 1949,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_silent_tactics_cards",
+            "line": 477,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_silent_tactics_cards",
+            "line": 1563,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_silent_tactics_cards",
+            "line": 1634,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_silent_tactics_cards",
+            "line": 1764,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_silent_tactics_cards",
+            "line": 1804,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_stances",
+            "line": 895,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_stances",
+            "line": 2173,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_time_eater",
+            "line": 8,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_turn_powers",
+            "line": 1492,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_warrior_status_cards",
+            "line": 365,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_warrior_status_cards",
+            "line": 474,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_warrior_status_cards",
+            "line": 550,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_warrior_strength_cards",
+            "line": 472,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_watcher_attack_cards",
+            "line": 473,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_watcher_attack_cards",
+            "line": 751,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_watcher_final_cards",
+            "line": 378,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_watcher_final_cards",
+            "line": 525,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_watcher_final_cards",
+            "line": 703,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_watcher_final_cards",
+            "line": 1043,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_watcher_final_cards",
+            "line": 1248,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_watcher_final_cards",
+            "line": 1810,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_watcher_flow_cards",
+            "line": 1006,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat",
+            "to": "abyss_writhing_mass",
+            "line": 2240,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_catalog",
+            "to": "abyss_colorless_cards",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_cards",
+            "to": "abyss_build_actions",
+            "line": 52,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_cards",
+            "to": "abyss_discard",
+            "line": 15,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_cards",
+            "to": "abyss_exhaust",
+            "line": 93,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_cards",
+            "to": "abyss_silent_discard_cards",
+            "line": 71,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_cards",
+            "to": "abyss_silent_discard_cards",
+            "line": 123,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_cards",
+            "to": "abyss_silent_tactics_cards",
+            "line": 16,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_cards",
+            "to": "abyss_silent_tactics_cards",
+            "line": 40,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_cards",
+            "to": "abyss_warrior_status_cards",
+            "line": 46,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_cards",
+            "to": "abyss_watcher_attack_cards",
+            "line": 61,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_choice",
+            "to": "abyss_discard",
+            "line": 13,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_choice",
+            "to": "abyss_hand_choice",
+            "line": 29,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_choice",
+            "to": "abyss_pile_choice",
+            "line": 6,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_choice",
+            "to": "abyss_scry",
+            "line": 22,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_damage",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_damage",
+            "to": "abyss_card_actions",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_damage",
+            "to": "abyss_defect_engine_cards",
+            "line": 54,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_damage",
+            "to": "abyss_enemy_ai",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_act2_powers",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_awakened_one",
+            "line": 5,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_card_actions",
+            "line": 6,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_class_potions",
+            "line": 58,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_colorless_cards",
+            "line": 75,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_combat_effect_cards",
+            "line": 9,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_combat_effect_choice",
+            "line": 9,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_combat_effect_damage",
+            "line": 7,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_combat_effect_powers",
+            "line": 9,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_defect_final_cards",
+            "line": 72,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_defect_utility_cards",
+            "line": 101,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_end_turn_powers",
+            "line": 53,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_end_turn_powers",
+            "line": 53,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_flow_actions",
+            "line": 97,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_plated_armor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_relic_combat_hooks",
+            "line": 24,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_relic_family_combat",
+            "line": 20,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_relic_family_combat",
+            "line": 28,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_silent_final_cards",
+            "line": 55,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_silent_final_cards",
+            "line": 68,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_dispatch",
+            "to": "abyss_watcher_final_cards",
+            "line": 64,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_build_actions",
+            "line": 180,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_build_actions",
+            "line": 193,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_card_actions",
+            "line": 13,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_card_triggers",
+            "line": 103,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_card_triggers",
+            "line": 110,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_card_triggers",
+            "line": 117,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_card_triggers",
+            "line": 124,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_card_triggers",
+            "line": 130,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_darklings",
+            "line": 7,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_enemy_ai",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_mantra",
+            "line": 225,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_mantra",
+            "line": 231,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_orbs",
+            "line": 25,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_orbs",
+            "line": 169,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_poison",
+            "line": 212,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_power_schedule",
+            "line": 58,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_power_schedule",
+            "line": 161,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_silent_attack_cards",
+            "line": 200,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_time_eater",
+            "line": 13,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_warrior_status_cards",
+            "line": 155,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_warrior_strength_cards",
+            "line": 148,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_effect_powers",
+            "to": "abyss_watcher_flow_cards",
+            "line": 88,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_enemy_setup",
+            "to": "abyss_act3_bosses",
+            "line": 23,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_enemy_setup",
+            "to": "abyss_act3_enemies",
+            "line": 26,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_enemy_setup",
+            "to": "abyss_act3_enemies",
+            "line": 72,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_enemy_setup",
+            "to": "abyss_act4_enemies",
+            "line": 21,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_enemy_setup",
+            "to": "abyss_act4_enemies",
+            "line": 58,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_enemy_setup",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_enemy_setup",
+            "to": "abyss_combat_catalog",
+            "line": 117,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_enemy_setup",
+            "to": "abyss_combat_catalog",
+            "line": 118,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_enemy_setup",
+            "to": "abyss_darklings",
+            "line": 25,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_enemy_setup",
+            "to": "abyss_effects",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_enemy_setup",
+            "to": "abyss_enemy_ai",
+            "line": 5,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_enemy_setup",
+            "to": "abyss_power_order",
+            "line": 82,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_awakened_one",
+            "line": 12,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_build_actions",
+            "line": 19,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_card_actions",
+            "line": 5,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_card_triggers",
+            "line": 135,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_colorless_cards",
+            "line": 133,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_enemy_ai",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_flow_actions",
+            "line": 20,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_hp_loss",
+            "line": 81,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_power_schedule",
+            "line": 98,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_relic_combat_hooks",
+            "line": 6,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_relic_family_combat",
+            "line": 7,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_relic_family_combat",
+            "line": 8,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_relic_family_combat",
+            "line": 9,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_relic_family_combat",
+            "line": 10,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_silent_final_cards",
+            "line": 58,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_silent_final_cards",
+            "line": 131,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_native_play",
+            "to": "abyss_watcher_final_cards",
+            "line": 132,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_awakened_one",
+            "line": 12,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_card_triggers",
+            "line": 193,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_colorless_cards",
+            "line": 194,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_defect_final_cards",
+            "line": 51,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_defect_final_cards",
+            "line": 112,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_defect_utility_cards",
+            "line": 140,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_effects",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_enemy_ai",
+            "line": 5,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_exhaust",
+            "line": 38,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_exhaust",
+            "line": 98,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_flow_actions",
+            "line": 142,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_hp_loss",
+            "line": 43,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_hp_loss",
+            "line": 180,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_mantra",
+            "line": 144,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_power_schedule",
+            "line": 62,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_relic_combat_hooks",
+            "line": 7,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_relic_family_combat",
+            "line": 8,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_relic_family_combat",
+            "line": 9,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_relic_family_combat",
+            "line": 10,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_relic_family_combat",
+            "line": 11,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_silent_final_cards",
+            "line": 87,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_silent_final_cards",
+            "line": 138,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_time_eater",
+            "line": 6,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_watcher_attack_cards",
+            "line": 163,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_watcher_final_cards",
+            "line": 88,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_combat_queued_play",
+            "to": "abyss_watcher_flow_cards",
+            "line": 199,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_darklings",
+            "to": "abyss_power_schedule",
+            "line": 78,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_defect_engine_cards",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_defect_engine_cards",
+            "to": "abyss_power_order",
+            "line": 284,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_defect_final_cards",
+            "to": "abyss_actor",
+            "line": 5,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_defect_final_cards",
+            "to": "abyss_card_actions",
+            "line": 137,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_defect_final_cards",
+            "to": "abyss_card_actions",
+            "line": 180,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_defect_final_cards",
+            "to": "abyss_card_actions",
+            "line": 217,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_defect_final_cards",
+            "to": "abyss_card_capability",
+            "line": 79,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_defect_final_cards",
+            "to": "abyss_combat",
+            "line": 209,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_defect_final_cards",
+            "to": "abyss_exhaust",
+            "line": 212,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_defect_final_cards",
+            "to": "abyss_hand_choice",
+            "line": 234,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_defect_final_cards",
+            "to": "abyss_orbs",
+            "line": 233,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_defect_final_cards",
+            "to": "abyss_power_schedule",
+            "line": 6,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_defect_utility_cards",
+            "to": "abyss_actor",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_discard",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_discard",
+            "to": "abyss_combat",
+            "line": 80,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_discard",
+            "to": "abyss_combat",
+            "line": 160,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_discard",
+            "to": "abyss_shivs",
+            "line": 122,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_discard",
+            "to": "abyss_silent_discard_cards",
+            "line": 123,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_discard",
+            "to": "abyss_silent_discard_cards",
+            "line": 125,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects",
+            "to": "abyss_build_actions",
+            "line": 7,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects",
+            "to": "abyss_build_actions",
+            "line": 105,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects",
+            "to": "abyss_card_actions",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects",
+            "to": "abyss_defect_final_cards",
+            "line": 155,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects",
+            "to": "abyss_effects_cards",
+            "line": 236,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects",
+            "to": "abyss_effects_damage",
+            "line": 236,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects",
+            "to": "abyss_effects_enemy",
+            "line": 237,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects",
+            "to": "abyss_effects_powers",
+            "line": 237,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects",
+            "to": "abyss_flow_actions",
+            "line": 8,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects",
+            "to": "abyss_flow_actions",
+            "line": 106,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects",
+            "to": "abyss_time_eater",
+            "line": 115,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects",
+            "to": "abyss_watcher_final_cards",
+            "line": 9,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects",
+            "to": "abyss_watcher_final_cards",
+            "line": 102,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_cards",
+            "to": "abyss_discard",
+            "line": 34,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_cards",
+            "to": "abyss_silent",
+            "line": 49,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_cards",
+            "to": "abyss_silent_discard_cards",
+            "line": 9,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_cards",
+            "to": "abyss_watcher_final_cards",
+            "line": 99,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_cards",
+            "to": "abyss_watcher_final_cards",
+            "line": 124,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_damage",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_damage",
+            "to": "abyss_defect_final_cards",
+            "line": 75,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_damage",
+            "to": "abyss_relic_combat_hooks",
+            "line": 81,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_effects_enemy",
+            "to": "abyss_act2_stasis",
+            "line": 33,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_enemy",
+            "to": "abyss_act2_summons",
+            "line": 41,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_enemy",
+            "to": "abyss_act2_summons",
+            "line": 50,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_enemy",
+            "to": "abyss_act2_summons",
+            "line": 59,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_enemy",
+            "to": "abyss_act3_powers",
+            "line": 20,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_enemy",
+            "to": "abyss_act3_powers",
+            "line": 26,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_enemy",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_enemy",
+            "to": "abyss_awakened_one",
+            "line": 15,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_enemy",
+            "to": "abyss_card_actions",
+            "line": 12,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_enemy",
+            "to": "abyss_power_schedule",
+            "line": 108,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_enemy",
+            "to": "abyss_time_eater",
+            "line": 12,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_powers",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_powers",
+            "to": "abyss_exhaust",
+            "line": 19,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_powers",
+            "to": "abyss_mantra",
+            "line": 29,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_powers",
+            "to": "abyss_orb_powers",
+            "line": 76,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_powers",
+            "to": "abyss_orb_powers",
+            "line": 87,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_powers",
+            "to": "abyss_orbs",
+            "line": 62,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_powers",
+            "to": "abyss_orbs",
+            "line": 153,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_powers",
+            "to": "abyss_poison",
+            "line": 47,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_powers",
+            "to": "abyss_shivs",
+            "line": 216,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_powers",
+            "to": "abyss_stances",
+            "line": 128,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_effects_powers",
+            "to": "abyss_stances",
+            "line": 139,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_end_turn_powers",
+            "to": "abyss_card_actions",
+            "line": 130,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_end_turn_powers",
+            "to": "abyss_card_actions",
+            "line": 132,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_end_turn_powers",
+            "to": "abyss_card_triggers",
+            "line": 82,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_end_turn_powers",
+            "to": "abyss_defect_final_cards",
+            "line": 153,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_end_turn_powers",
+            "to": "abyss_orbs",
+            "line": 121,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_end_turn_powers",
+            "to": "abyss_orbs",
+            "line": 127,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_end_turn_powers",
+            "to": "abyss_power_schedule",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_end_turn_powers",
+            "to": "abyss_relic_combat_hooks",
+            "line": 18,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_end_turn_powers",
+            "to": "abyss_relic_combat_hooks",
+            "line": 26,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_end_turn_powers",
+            "to": "abyss_warrior_strength_cards",
+            "line": 79,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_end_turn_powers",
+            "to": "abyss_watcher_flow_cards",
+            "line": 84,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_ending_actions",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_ending_actions",
+            "to": "abyss_card_actions",
+            "line": 6,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_enemy_ai",
+            "to": "abyss_act2_ai",
+            "line": 23,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_enemy_ai",
+            "to": "abyss_act2_powers",
+            "line": 26,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_enemy_ai",
+            "to": "abyss_act3_ai",
+            "line": 24,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_enemy_ai",
+            "to": "abyss_act3_bosses",
+            "line": 7,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_enemy_ai",
+            "to": "abyss_act4_enemies",
+            "line": 27,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_enemy_ai",
+            "to": "abyss_actor",
+            "line": 9,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_enemy_ai",
+            "to": "abyss_awakened_one",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_enemy_ai",
+            "to": "abyss_darklings",
+            "line": 6,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_enemy_ai",
+            "to": "abyss_guardian_ai",
+            "line": 11,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_enemy_ai",
+            "to": "abyss_nemesis",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_exhaust",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_exhaust",
+            "to": "abyss_relic_family_combat",
+            "line": 83,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_flow_actions",
+            "to": "abyss_defect_engine_cards",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_flow_actions",
+            "to": "abyss_silent_tactics_cards",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_flow_actions",
+            "to": "abyss_warrior_status_cards",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_flow_actions",
+            "to": "abyss_watcher_flow_cards",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_focus",
+            "to": "abyss_actor",
+            "line": 44,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_focus",
+            "to": "abyss_actor",
+            "line": 55,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_focus",
+            "to": "abyss_actor",
+            "line": 88,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_focus",
+            "to": "abyss_power_order",
+            "line": 69,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_focus",
+            "to": "abyss_power_order",
+            "line": 80,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_guardian_ai",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_guardian_ai",
+            "to": "abyss_power_order",
+            "line": 16,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_guardian_ai",
+            "to": "abyss_power_order",
+            "line": 21,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_guardian_ai",
+            "to": "abyss_power_order",
+            "line": 23,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_guardian_ai",
+            "to": "abyss_power_order",
+            "line": 24,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_guardian_ai",
+            "to": "abyss_power_order",
+            "line": 61,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_guardian_ai",
+            "to": "abyss_power_schedule",
+            "line": 17,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_guardian_ai",
+            "to": "abyss_power_schedule",
+            "line": 20,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_hand_choice",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_hand_choice",
+            "to": "abyss_defect_final_cards",
+            "line": 56,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_hand_choice",
+            "to": "abyss_exhaust",
+            "line": 46,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_hand_choice",
+            "to": "abyss_exhaust",
+            "line": 62,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_hp_loss",
+            "to": "abyss_card_actions",
+            "line": 21,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_hp_loss",
+            "to": "abyss_original_v4_health",
+            "line": 14,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_hp_loss",
+            "to": "abyss_player_revive",
+            "line": 28,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_hp_loss",
+            "to": "abyss_relic_combat_hooks",
+            "line": 23,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_hp_loss",
+            "to": "abyss_relic_combat_hooks",
+            "line": 27,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_hp_loss",
+            "to": "abyss_silent_final_cards",
+            "line": 16,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_hp_loss",
+            "to": "abyss_warrior_status_cards",
+            "line": 15,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_hp_loss",
+            "to": "abyss_warrior_strength_cards",
+            "line": 17,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_act2_event_relics",
+            "line": 131,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_actor",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_card_actions",
+            "line": 131,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_card_actions",
+            "line": 211,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_card_actions",
+            "line": 215,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_card_actions",
+            "line": 219,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_card_actions",
+            "line": 227,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_card_actions",
+            "line": 269,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_card_actions",
+            "line": 293,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_card_actions",
+            "line": 302,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_card_actions",
+            "line": 320,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_card_actions",
+            "line": 363,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_card_capability",
+            "line": 131,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_class_potions",
+            "line": 178,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_combat",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_orbs",
+            "line": 233,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_original_v4_health",
+            "line": 281,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_relic_combat_hooks",
+            "line": 5,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_inventory",
+            "to": "abyss_relic_family_combat",
+            "line": 110,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_mantra",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_nemesis",
+            "to": "abyss_power_schedule",
+            "line": 65,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_orb_powers",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_orb_powers",
+            "to": "abyss_focus",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_orb_powers",
+            "to": "abyss_orbs",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_orbs",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_orbs",
+            "to": "abyss_defect_engine_cards",
+            "line": 38,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_orbs",
+            "to": "abyss_defect_engine_cards",
+            "line": 113,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_orbs",
+            "to": "abyss_defect_engine_cards",
+            "line": 121,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_orbs",
+            "to": "abyss_defect_engine_cards",
+            "line": 150,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_orbs",
+            "to": "abyss_focus",
+            "line": 5,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_original_v4",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_original_v4",
+            "to": "abyss_enemy_ai",
+            "line": 167,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_original_v4",
+            "to": "abyss_enemy_ai",
+            "line": 341,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_original_v4",
+            "to": "abyss_original_v4_health",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_original_v4_health",
+            "to": "abyss_relic_combat_hooks",
+            "line": 23,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_pile_choice",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_pile_choice",
+            "to": "abyss_card_actions",
+            "line": 143,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_pile_choice",
+            "to": "abyss_shivs",
+            "line": 125,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_plated_armor",
+            "to": "abyss_power_schedule",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_player_revive",
+            "to": "abyss_potion_fairy",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_player_revive",
+            "to": "abyss_relic_combat_hooks",
+            "line": 14,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_poison",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_potion_fairy",
+            "to": "abyss_relic_combat_hooks",
+            "line": 30,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_power_order",
+            "to": "abyss_power_schedule",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_power_order",
+            "to": "abyss_turn_powers",
+            "line": 6,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_power_schedule",
+            "to": "abyss_power_order",
+            "line": 108,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_act2_event_relics",
+            "line": 159,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_act2_event_relics",
+            "line": 263,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_mantra",
+            "line": 180,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_original_v4_health",
+            "line": 220,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_relic_family_combat",
+            "line": 24,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_relic_family_combat",
+            "line": 48,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_relic_family_combat",
+            "line": 49,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_relic_family_combat",
+            "line": 57,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_relic_family_combat",
+            "line": 88,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_relic_family_combat",
+            "line": 125,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_relic_family_combat",
+            "line": 126,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_relic_family_combat",
+            "line": 167,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_relic_family_combat",
+            "line": 169,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_relic_family_combat",
+            "line": 173,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_relic_family_combat",
+            "line": 175,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_relic_family_combat",
+            "line": 257,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_relic_family_combat",
+            "line": 258,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_combat_hooks",
+            "to": "abyss_relic_family_combat",
+            "line": 279,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_family_combat",
+            "to": "abyss_act2_event_relics",
+            "line": 485,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_family_combat",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_relic_family_combat",
+            "to": "abyss_actor",
+            "line": 141,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_relic_family_combat",
+            "to": "abyss_build_actions",
+            "line": 53,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_family_combat",
+            "to": "abyss_discard",
+            "line": 304,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_family_combat",
+            "to": "abyss_power_schedule",
+            "line": 398,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_scry",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_scry",
+            "to": "abyss_flow_actions",
+            "line": 117,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_scry",
+            "to": "abyss_shivs",
+            "line": 111,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_scry",
+            "to": "abyss_watcher_flow_cards",
+            "line": 60,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_scry",
+            "to": "abyss_watcher_flow_cards",
+            "line": 116,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_shivs",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_silent",
+            "to": "abyss_card_actions",
+            "line": 116,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_silent",
+            "to": "abyss_card_actions",
+            "line": 117,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_silent",
+            "to": "abyss_combat",
+            "line": 13,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_silent",
+            "to": "abyss_combat",
+            "line": 92,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_silent",
+            "to": "abyss_combat",
+            "line": 116,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_silent",
+            "to": "abyss_combat",
+            "line": 117,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_silent",
+            "to": "abyss_shivs",
+            "line": 85,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_silent",
+            "to": "abyss_shivs",
+            "line": 118,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_silent_attack_cards",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_silent_attack_cards",
+            "to": "abyss_power_schedule",
+            "line": 106,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_silent_attack_cards",
+            "to": "abyss_power_schedule",
+            "line": 117,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_silent_discard_cards",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_silent_final_cards",
+            "to": "abyss_actor",
+            "line": 60,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_silent_final_cards",
+            "to": "abyss_card_actions",
+            "line": 61,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_silent_final_cards",
+            "to": "abyss_card_triggers",
+            "line": 212,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_silent_final_cards",
+            "to": "abyss_card_triggers",
+            "line": 214,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_silent_final_cards",
+            "to": "abyss_discard",
+            "line": 244,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_silent_final_cards",
+            "to": "abyss_enemy_ai",
+            "line": 218,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_silent_final_cards",
+            "to": "abyss_power_schedule",
+            "line": 63,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_silent_final_cards",
+            "to": "abyss_silent_potions",
+            "line": 58,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_silent_final_cards",
+            "to": "abyss_silent_potions",
+            "line": 209,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_silent_potions",
+            "to": "abyss_card_actions",
+            "line": 12,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_silent_potions",
+            "to": "abyss_combat",
+            "line": 12,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_silent_tactics_cards",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_stances",
+            "to": "abyss_flow_actions",
+            "line": 133,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_stances",
+            "to": "abyss_watcher_flow_cards",
+            "line": 97,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_stances",
+            "to": "abyss_watcher_flow_cards",
+            "line": 132,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_time_eater",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_time_eater",
+            "to": "abyss_exhaust",
+            "line": 110,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_time_eater",
+            "to": "abyss_exhaust",
+            "line": 116,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_time_eater",
+            "to": "abyss_power_schedule",
+            "line": 6,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_turn_powers",
+            "to": "abyss_actor",
+            "line": 2,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_turn_powers",
+            "to": "abyss_defect_final_cards",
+            "line": 100,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_turn_powers",
+            "to": "abyss_mantra",
+            "line": 9,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_turn_powers",
+            "to": "abyss_orb_powers",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_turn_powers",
+            "to": "abyss_power_schedule",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_turn_powers",
+            "to": "abyss_silent_tactics_cards",
+            "line": 8,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_turn_powers",
+            "to": "abyss_warrior_status_cards",
+            "line": 6,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_turn_powers",
+            "to": "abyss_warrior_strength_cards",
+            "line": 5,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_turn_powers",
+            "to": "abyss_watcher_flow_cards",
+            "line": 7,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_warrior_status_cards",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_warrior_status_cards",
+            "to": "abyss_exhaust",
+            "line": 5,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_warrior_strength_cards",
+            "to": "abyss_actor",
+            "line": 3,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_watcher_attack_cards",
+            "to": "abyss_actor",
+            "line": 96,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_actor",
+            "line": 229,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_actor",
+            "line": 235,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_actor",
+            "line": 373,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_build_actions",
+            "line": 273,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_build_actions",
+            "line": 331,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_card_actions",
+            "line": 128,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_card_actions",
+            "line": 134,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_card_actions",
+            "line": 157,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_card_actions",
+            "line": 173,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_card_actions",
+            "line": 220,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_card_actions",
+            "line": 223,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_card_actions",
+            "line": 316,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_card_capability",
+            "line": 208,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_enemy_ai",
+            "line": 341,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_enemy_ai",
+            "line": 342,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_exhaust",
+            "line": 157,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_pile_choice",
+            "line": 307,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_power_schedule",
+            "line": 143,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_power_schedule",
+            "line": 177,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_watcher_final_cards",
+            "to": "abyss_relic_family_combat",
+            "line": 232,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_watcher_flow_cards",
+            "to": "abyss_actor",
+            "line": 6,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_watcher_flow_cards",
+            "to": "abyss_build_actions",
+            "line": 156,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_writhing_mass",
+            "to": "abyss_inventory",
+            "line": 101,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_writhing_mass",
+            "to": "abyss_relic_family_combat",
+            "line": 89,
+            "reviewedDeferred": true
+          }
+        ]
+      },
+      {
+        "members": [
+          "abyss_boss_relics",
+          "abyss_relic_card_rewards",
+          "abyss_relic_choices",
+          "abyss_relic_hooks",
+          "abyss_relic_pending",
+          "abyss_run",
+          "abyss_run_potion_candidate",
+          "abyss_run_potions",
+          "abyss_run_rooms",
+          "abyss_run_settlement",
+          "abyss_shop_relics",
+          "abyss_uncommon_relics"
+        ],
+        "edges": [
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_relic_hooks",
+            "line": 192,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 43,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 65,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 108,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 113,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 128,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 131,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 137,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 140,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_boss_relics",
+            "to": "abyss_run",
+            "line": 174,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_card_rewards",
+            "to": "abyss_relic_hooks",
+            "line": 4,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_relic_card_rewards",
+            "to": "abyss_relic_hooks",
+            "line": 31,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_relic_card_rewards",
+            "to": "abyss_run",
+            "line": 43,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_card_rewards",
+            "to": "abyss_run",
+            "line": 52,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_card_rewards",
+            "to": "abyss_run",
+            "line": 59,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_choices",
+            "to": "abyss_relic_hooks",
+            "line": 10,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_choices",
+            "to": "abyss_relic_hooks",
+            "line": 36,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_choices",
+            "to": "abyss_run",
+            "line": 3,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_choices",
+            "to": "abyss_shop_relics",
+            "line": 59,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_hooks",
+            "to": "abyss_boss_relics",
+            "line": 62,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_hooks",
+            "to": "abyss_shop_relics",
+            "line": 64,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_hooks",
+            "to": "abyss_uncommon_relics",
+            "line": 55,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_hooks",
+            "to": "abyss_uncommon_relics",
+            "line": 56,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_hooks",
+            "to": "abyss_uncommon_relics",
+            "line": 134,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_pending",
+            "to": "abyss_boss_relics",
+            "line": 91,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_pending",
+            "to": "abyss_boss_relics",
+            "line": 92,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_pending",
+            "to": "abyss_relic_card_rewards",
+            "line": 99,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_relic_pending",
+            "to": "abyss_relic_choices",
+            "line": 89,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_pending",
+            "to": "abyss_relic_choices",
+            "line": 94,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_pending",
+            "to": "abyss_relic_hooks",
+            "line": 23,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_relic_pending",
+            "to": "abyss_relic_hooks",
+            "line": 68,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_relic_pending",
+            "to": "abyss_run",
+            "line": 81,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_relic_pending",
+            "to": "abyss_uncommon_relics",
+            "line": 87,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_run",
+            "to": "abyss_relic_card_rewards",
+            "line": 349,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_run",
+            "to": "abyss_relic_card_rewards",
+            "line": 358,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_run",
+            "to": "abyss_relic_hooks",
+            "line": 7,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_run",
+            "to": "abyss_relic_hooks",
+            "line": 357,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_run",
+            "to": "abyss_relic_pending",
+            "line": 433,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_run",
+            "to": "abyss_run_potions",
+            "line": 652,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_run",
+            "to": "abyss_run_rooms",
+            "line": 341,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_run",
+            "to": "abyss_run_settlement",
+            "line": 342,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_run_potion_candidate",
+            "to": "abyss_relic_hooks",
+            "line": 5,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_run_potions",
+            "to": "abyss_relic_hooks",
+            "line": 101,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_run_potions",
+            "to": "abyss_run_potion_candidate",
+            "line": 5,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_run_rooms",
+            "to": "abyss_boss_relics",
+            "line": 99,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_run_rooms",
+            "to": "abyss_boss_relics",
+            "line": 122,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_run_settlement",
+            "to": "abyss_relic_card_rewards",
+            "line": 129,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_run_settlement",
+            "to": "abyss_relic_hooks",
+            "line": 11,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_run_settlement",
+            "to": "abyss_uncommon_relics",
+            "line": 22,
+            "reviewedDeferred": false
+          },
+          {
+            "from": "abyss_shop_relics",
+            "to": "abyss_relic_choices",
+            "line": 22,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_shop_relics",
+            "to": "abyss_relic_choices",
+            "line": 55,
+            "reviewedDeferred": true
+          },
+          {
+            "from": "abyss_uncommon_relics",
+            "to": "abyss_run",
+            "line": 31,
+            "reviewedDeferred": true
+          }
+        ]
+      }
+    ],
+    "defect": {
+      "file": "src/lua/abyss_defect_engine_cards.lua",
+      "sha256": "4d9a0281fdd42f853d6a836f485d56d0693996577287ba2ec5283c222cd17ac7",
+      "lines": 295,
+      "functions": [
+        {
+          "id": "$",
+          "name": "<chunk>",
+          "kind": "chunk",
+          "constructorName": false,
+          "line": 1,
+          "column": 1,
+          "endLine": 295,
+          "lines": 295,
+          "complexity": 1
+        },
+        {
+          "id": "$/copy#1",
+          "name": "copy",
+          "kind": "function",
+          "constructorName": false,
+          "line": 13,
+          "column": 7,
+          "endLine": 16,
+          "lines": 4,
+          "complexity": 3
+        },
+        {
+          "id": "$/integer#1",
+          "name": "integer",
+          "kind": "function",
+          "constructorName": false,
+          "line": 17,
+          "column": 7,
+          "endLine": 20,
+          "lines": 4,
+          "complexity": 5
+        },
+        {
+          "id": "$/add#1",
+          "name": "add",
+          "kind": "function",
+          "constructorName": false,
+          "line": 21,
+          "column": 7,
+          "endLine": 21,
+          "lines": 1,
+          "complexity": 1
+        },
+        {
+          "id": "$/e#1",
+          "name": "e",
+          "kind": "function",
+          "constructorName": false,
+          "line": 22,
+          "column": 7,
+          "endLine": 22,
+          "lines": 1,
+          "complexity": 2
+        },
+        {
+          "id": "$/channel#1",
+          "name": "channel",
+          "kind": "function",
+          "constructorName": false,
+          "line": 23,
+          "column": 7,
+          "endLine": 23,
+          "lines": 1,
+          "complexity": 1
+        },
+        {
+          "id": "$/M.withCards#1",
+          "name": "M.withCards",
+          "kind": "function",
+          "constructorName": false,
+          "line": 84,
+          "column": 1,
+          "endLine": 93,
+          "lines": 10,
+          "complexity": 8
+        },
+        {
+          "id": "$/M.initHistory#1",
+          "name": "M.initHistory",
+          "kind": "function",
+          "constructorName": false,
+          "line": 94,
+          "column": 1,
+          "endLine": 97,
+          "lines": 4,
+          "complexity": 1
+        },
+        {
+          "id": "$/M.channelCount#1",
+          "name": "M.channelCount",
+          "kind": "function",
+          "constructorName": false,
+          "line": 98,
+          "column": 1,
+          "endLine": 101,
+          "lines": 4,
+          "complexity": 3
+        },
+        {
+          "id": "$/M.onChannel#1",
+          "name": "M.onChannel",
+          "kind": "function",
+          "constructorName": false,
+          "line": 102,
+          "column": 1,
+          "endLine": 105,
+          "lines": 4,
+          "complexity": 2
+        },
+        {
+          "id": "$/active#1",
+          "name": "active",
+          "kind": "function",
+          "constructorName": false,
+          "line": 106,
+          "column": 7,
+          "endLine": 106,
+          "lines": 1,
+          "complexity": 4
+        },
+        {
+          "id": "$/targets#1",
+          "name": "targets",
+          "kind": "function",
+          "constructorName": false,
+          "line": 107,
+          "column": 7,
+          "endLine": 109,
+          "lines": 3,
+          "complexity": 3
+        },
+        {
+          "id": "$/M.adaptDefinition#1",
+          "name": "M.adaptDefinition",
+          "kind": "function",
+          "constructorName": false,
+          "line": 110,
+          "column": 1,
+          "endLine": 120,
+          "lines": 11,
+          "complexity": 13
+        },
+        {
+          "id": "$/M.prepareEffect#1",
+          "name": "M.prepareEffect",
+          "kind": "function",
+          "constructorName": false,
+          "line": 121,
+          "column": 1,
+          "endLine": 142,
+          "lines": 22,
+          "complexity": 11
+        },
+        {
+          "id": "$/instanceByUid#1",
+          "name": "instanceByUid",
+          "kind": "function",
+          "constructorName": false,
+          "line": 143,
+          "column": 7,
+          "endLine": 149,
+          "lines": 7,
+          "complexity": 7
+        },
+        {
+          "id": "$/nextRound#1",
+          "name": "nextRound",
+          "kind": "function",
+          "constructorName": false,
+          "line": 150,
+          "column": 7,
+          "endLine": 152,
+          "lines": 3,
+          "complexity": 2
+        },
+        {
+          "id": "$/change#1",
+          "name": "change",
+          "kind": "function",
+          "constructorName": false,
+          "line": 155,
+          "column": 7,
+          "endLine": 155,
+          "lines": 1,
+          "complexity": 1
+        },
+        {
+          "id": "$/planHandlers.growClaws#1",
+          "name": "planHandlers.growClaws",
+          "kind": "function",
+          "constructorName": false,
+          "line": 157,
+          "column": 1,
+          "endLine": 165,
+          "lines": 9,
+          "complexity": 5
+        },
+        {
+          "id": "$/planHandlers.growClaws#1/grow#1",
+          "name": "grow",
+          "kind": "function",
+          "constructorName": false,
+          "line": 162,
+          "column": 9,
+          "endLine": 162,
+          "lines": 1,
+          "complexity": 4
+        },
+        {
+          "id": "$/planHandlers.loseSteamBlock#1",
+          "name": "planHandlers.loseSteamBlock",
+          "kind": "function",
+          "constructorName": false,
+          "line": 167,
+          "column": 1,
+          "endLine": 171,
+          "lines": 5,
+          "complexity": 4
+        },
+        {
+          "id": "$/planHandlers.reduceStreamlineCost#1",
+          "name": "planHandlers.reduceStreamlineCost",
+          "kind": "function",
+          "constructorName": false,
+          "line": 173,
+          "column": 1,
+          "endLine": 182,
+          "lines": 10,
+          "complexity": 6
+        },
+        {
+          "id": "$/planHandlers.aggregateEnergy#1",
+          "name": "planHandlers.aggregateEnergy",
+          "kind": "function",
+          "constructorName": false,
+          "line": 184,
+          "column": 1,
+          "endLine": 187,
+          "lines": 4,
+          "complexity": 2
+        },
+        {
+          "id": "$/planHandlers.autoShields#1",
+          "name": "planHandlers.autoShields",
+          "kind": "function",
+          "constructorName": false,
+          "line": 189,
+          "column": 1,
+          "endLine": 192,
+          "lines": 4,
+          "complexity": 3
+        },
+        {
+          "id": "$/planHandlers.blizzardDamage#1",
+          "name": "planHandlers.blizzardDamage",
+          "kind": "function",
+          "constructorName": false,
+          "line": 194,
+          "column": 1,
+          "endLine": 196,
+          "lines": 3,
+          "complexity": 1
+        },
+        {
+          "id": "$/planHandlers.chaosOrbs#1",
+          "name": "planHandlers.chaosOrbs",
+          "kind": "function",
+          "constructorName": false,
+          "line": 198,
+          "column": 1,
+          "endLine": 201,
+          "lines": 4,
+          "complexity": 3
+        },
+        {
+          "id": "$/planHandlers.chillOrbs#1",
+          "name": "planHandlers.chillOrbs",
+          "kind": "function",
+          "constructorName": false,
+          "line": 203,
+          "column": 1,
+          "endLine": 205,
+          "lines": 3,
+          "complexity": 2
+        },
+        {
+          "id": "$/planHandlers.randomEngineAttack#1",
+          "name": "planHandlers.randomEngineAttack",
+          "kind": "function",
+          "constructorName": false,
+          "line": 207,
+          "column": 1,
+          "endLine": 211,
+          "lines": 5,
+          "complexity": 4
+        },
+        {
+          "id": "$/planHandlers.engineRandomRounds#1",
+          "name": "planHandlers.engineRandomRounds",
+          "kind": "function",
+          "constructorName": false,
+          "line": 215,
+          "column": 1,
+          "endLine": 225,
+          "lines": 11,
+          "complexity": 3
+        },
+        {
+          "id": "$/planHandlers.sunderDamage#1",
+          "name": "planHandlers.sunderDamage",
+          "kind": "function",
+          "constructorName": false,
+          "line": 227,
+          "column": 1,
+          "endLine": 231,
+          "lines": 5,
+          "complexity": 2
+        },
+        {
+          "id": "$/planHandlers.engineSunderRefund#1",
+          "name": "planHandlers.engineSunderRefund",
+          "kind": "function",
+          "constructorName": false,
+          "line": 233,
+          "column": 1,
+          "endLine": 235,
+          "lines": 3,
+          "complexity": 5
+        },
+        {
+          "id": "$/planHandlers.tempestOrbs#1",
+          "name": "planHandlers.tempestOrbs",
+          "kind": "function",
+          "constructorName": false,
+          "line": 237,
+          "column": 1,
+          "endLine": 248,
+          "lines": 12,
+          "complexity": 14
+        },
+        {
+          "id": "$/planHandlers.engineChannelRounds#1",
+          "name": "planHandlers.engineChannelRounds",
+          "kind": "function",
+          "constructorName": false,
+          "line": 252,
+          "column": 1,
+          "endLine": 256,
+          "lines": 5,
+          "complexity": 2
+        },
+        {
+          "id": "$/planHandlers.engineEvokeRounds#1",
+          "name": "planHandlers.engineEvokeRounds",
+          "kind": "function",
+          "constructorName": false,
+          "line": 258,
+          "column": 1,
+          "endLine": 262,
+          "lines": 5,
+          "complexity": 4
+        },
+        {
+          "id": "$/M.planEffect#1",
+          "name": "M.planEffect",
+          "kind": "function",
+          "constructorName": false,
+          "line": 264,
+          "column": 1,
+          "endLine": 271,
+          "lines": 8,
+          "complexity": 3
+        },
+        {
+          "id": "$/M.applyLockOn#1",
+          "name": "M.applyLockOn",
+          "kind": "function",
+          "constructorName": false,
+          "line": 272,
+          "column": 1,
+          "endLine": 278,
+          "lines": 7,
+          "complexity": 3
+        },
+        {
+          "id": "$/M.endRound#1",
+          "name": "M.endRound",
+          "kind": "function",
+          "constructorName": false,
+          "line": 279,
+          "column": 1,
+          "endLine": 288,
+          "lines": 10,
+          "complexity": 9
+        },
+        {
+          "id": "$/M.orbDamage#1",
+          "name": "M.orbDamage",
+          "kind": "function",
+          "constructorName": false,
+          "line": 290,
+          "column": 1,
+          "endLine": 294,
+          "lines": 5,
+          "complexity": 2
+        }
+      ]
+    }
+  },
+  "graphComparisons": [
+    {
+      "fixture": "tests/helpers/defect-plan-boundaries.lua",
+      "mode": "plans",
+      "group": 1,
+      "checkpoints": 88,
+      "bytesPerSide": 251373,
+      "sha256": "98d533be9635f5b65ede3fe06c6f41b55054dd7566971103285923f9011facd6",
+      "labels": [
+        "before:growClaws",
+        "plan:growClaws",
+        "defect-boundary-call",
+        "before:growClaws",
+        "plan:growClaws",
+        "defect-boundary-call",
+        "before:growClaws",
+        "plan:growClaws",
+        "defect-boundary-call",
+        "before:growClaws",
+        "plan:growClaws",
+        "defect-boundary-call",
+        "before:growClaws",
+        "plan:growClaws",
+        "defect-boundary-call",
+        "before:autoShields",
+        "plan:autoShields",
+        "defect-boundary-call",
+        "before:autoShields",
+        "plan:autoShields",
+        "defect-boundary-call",
+        "before:autoShields",
+        "plan:autoShields",
+        "defect-boundary-call",
+        "before:autoShields",
+        "plan:autoShields",
+        "defect-boundary-call",
+        "before:blizzardDamage",
+        "plan:blizzardDamage",
+        "defect-boundary-call",
+        "before:blizzardDamage",
+        "plan:blizzardDamage",
+        "defect-boundary-call",
+        "before:sunderDamage",
+        "plan:sunderDamage",
+        "defect-boundary-call",
+        "before:engineSunderRefund",
+        "plan:engineSunderRefund",
+        "defect-boundary-call",
+        "before:engineSunderRefund",
+        "plan:engineSunderRefund",
+        "defect-boundary-call",
+        "before:engineSunderRefund",
+        "plan:engineSunderRefund",
+        "defect-boundary-call",
+        "before:engineSunderRefund",
+        "plan:engineSunderRefund",
+        "defect-boundary-call",
+        "before:engineSunderRefund",
+        "plan:engineSunderRefund",
+        "defect-boundary-call",
+        "before:engineSunderRefund",
+        "plan:engineSunderRefund",
+        "defect-boundary-call",
+        "before:sunderDamage",
+        "plan:sunderDamage",
+        "defect-boundary-call",
+        "before:sunderDamage",
+        "plan:sunderDamage",
+        "defect-boundary-call",
+        "before:engineRandomRounds",
+        "plan:engineRandomRounds",
+        "defect-boundary-call",
+        "before:engineRandomRounds",
+        "plan:engineRandomRounds",
+        "defect-boundary-call",
+        "before:engineRandomRounds",
+        "plan:engineRandomRounds",
+        "defect-boundary-call",
+        "before:engineRandomRounds",
+        "plan:engineRandomRounds",
+        "defect-boundary-call",
+        "before:engineRandomRounds",
+        "plan:engineRandomRounds",
+        "defect-boundary-call",
+        "before:engineRandomRounds",
+        "plan:engineRandomRounds",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "defect-dynamic-restored"
+      ],
+      "logs": [
+        "PASS defect boundaries 1 Claw deduplicates uid in traversal order and excludes exhaust",
+        "PASS defect boundaries 5 Prepared blocks and Blizzard own fresh nested output",
+        "PASS defect boundaries 9 Sunder refund is queued at bottom only for killed matching target",
+        "PASS defect boundaries 13 Dynamic Actor Random and query method replacement retains thrown identity",
+        "DEFECT_PLAN_BOUNDARIES_PASS 4/13"
+      ]
+    },
+    {
+      "fixture": "tests/helpers/defect-plan-boundaries.lua",
+      "mode": "plans",
+      "group": 2,
+      "checkpoints": 201,
+      "bytesPerSide": 570345,
+      "sha256": "375c4a57ebb3c400dce97dc9b73442f1d4bcb2384d63bf7a7c8ee538f37c6392",
+      "labels": [
+        "before:loseSteamBlock",
+        "plan:loseSteamBlock",
+        "defect-boundary-call",
+        "before:loseSteamBlock",
+        "plan:loseSteamBlock",
+        "defect-boundary-call",
+        "before:loseSteamBlock",
+        "plan:loseSteamBlock",
+        "defect-boundary-call",
+        "before:loseSteamBlock",
+        "plan:loseSteamBlock",
+        "defect-boundary-call",
+        "before:loseSteamBlock",
+        "plan:loseSteamBlock",
+        "defect-boundary-call",
+        "before:loseSteamBlock",
+        "plan:loseSteamBlock",
+        "defect-boundary-call",
+        "before:loseSteamBlock",
+        "plan:loseSteamBlock",
+        "defect-boundary-call",
+        "before:loseSteamBlock",
+        "plan:loseSteamBlock",
+        "defect-boundary-call",
+        "before:loseSteamBlock",
+        "plan:loseSteamBlock",
+        "defect-boundary-call",
+        "before:loseSteamBlock",
+        "plan:loseSteamBlock",
+        "defect-boundary-call",
+        "before:loseSteamBlock",
+        "plan:loseSteamBlock",
+        "defect-boundary-call",
+        "before:chaosOrbs",
+        "plan:chaosOrbs",
+        "defect-boundary-call",
+        "before:chaosOrbs",
+        "plan:chaosOrbs",
+        "defect-boundary-call",
+        "before:chaosOrbs",
+        "plan:chaosOrbs",
+        "defect-boundary-call",
+        "before:chaosOrbs",
+        "plan:chaosOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:tempestOrbs",
+        "plan:tempestOrbs",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call",
+        "before:multiCastOrb",
+        "plan:multiCastOrb",
+        "defect-boundary-call"
+      ],
+      "logs": [
+        "PASS defect boundaries 2 Steam instance lookup covers every pile and duplicates",
+        "PASS defect boundaries 6 Chaos preserves prepared orb order and validates preparation",
+        "PASS defect boundaries 10 X plans cover zero free empty fallback and real Chemical X aliases",
+        "DEFECT_PLAN_BOUNDARIES_PASS 3/13"
+      ]
+    },
+    {
+      "fixture": "tests/helpers/defect-plan-boundaries.lua",
+      "mode": "plans",
+      "group": 3,
+      "checkpoints": 108,
+      "bytesPerSide": 281371,
+      "sha256": "54ee65184384b299688340d9d8afde867b592feef4b4b042684b07fd2861ee73",
+      "labels": [
+        "before:reduceStreamlineCost",
+        "plan:reduceStreamlineCost",
+        "defect-boundary-call",
+        "before:reduceStreamlineCost",
+        "plan:reduceStreamlineCost",
+        "defect-boundary-call",
+        "before:reduceStreamlineCost",
+        "plan:reduceStreamlineCost",
+        "defect-boundary-call",
+        "before:reduceStreamlineCost",
+        "plan:reduceStreamlineCost",
+        "defect-boundary-call",
+        "before:reduceStreamlineCost",
+        "plan:reduceStreamlineCost",
+        "defect-boundary-call",
+        "before:reduceStreamlineCost",
+        "plan:reduceStreamlineCost",
+        "defect-boundary-call",
+        "before:reduceStreamlineCost",
+        "plan:reduceStreamlineCost",
+        "defect-boundary-call",
+        "before:reduceStreamlineCost",
+        "plan:reduceStreamlineCost",
+        "defect-boundary-call",
+        "before:reduceStreamlineCost",
+        "plan:reduceStreamlineCost",
+        "defect-boundary-call",
+        "before:chillOrbs",
+        "plan:chillOrbs",
+        "defect-boundary-call",
+        "before:chillOrbs",
+        "plan:chillOrbs",
+        "defect-boundary-call",
+        "before:chillOrbs",
+        "plan:chillOrbs",
+        "defect-boundary-call",
+        "before:chillOrbs",
+        "plan:chillOrbs",
+        "defect-boundary-call",
+        "before:randomEngineAttack",
+        "plan:randomEngineAttack",
+        "defect-boundary-call",
+        "before:randomEngineAttack",
+        "plan:randomEngineAttack",
+        "defect-boundary-call",
+        "before:randomEngineAttack",
+        "plan:randomEngineAttack",
+        "defect-boundary-call",
+        "before:randomEngineAttack",
+        "plan:randomEngineAttack",
+        "defect-boundary-call",
+        "before:thunderStrike",
+        "plan:thunderStrike",
+        "defect-boundary-call",
+        "before:thunderStrike",
+        "plan:thunderStrike",
+        "defect-boundary-call",
+        "before:thunderStrike",
+        "plan:thunderStrike",
+        "defect-boundary-call",
+        "before:thunderStrike",
+        "plan:thunderStrike",
+        "defect-boundary-call",
+        "before:engineChannelRounds",
+        "plan:engineChannelRounds",
+        "defect-boundary-call",
+        "before:engineChannelRounds",
+        "plan:engineChannelRounds",
+        "defect-boundary-call",
+        "before:engineChannelRounds",
+        "plan:engineChannelRounds",
+        "defect-boundary-call",
+        "before:engineChannelRounds",
+        "plan:engineChannelRounds",
+        "defect-boundary-call",
+        "before:engineChannelRounds",
+        "plan:engineChannelRounds",
+        "defect-boundary-call",
+        "before:engineChannelRounds",
+        "plan:engineChannelRounds",
+        "defect-boundary-call",
+        "before:engineChannelRounds",
+        "plan:engineChannelRounds",
+        "defect-boundary-call",
+        "before:engineEvokeRounds",
+        "plan:engineEvokeRounds",
+        "defect-boundary-call",
+        "before:engineEvokeRounds",
+        "plan:engineEvokeRounds",
+        "defect-boundary-call",
+        "before:engineEvokeRounds",
+        "plan:engineEvokeRounds",
+        "defect-boundary-call",
+        "before:engineEvokeRounds",
+        "plan:engineEvokeRounds",
+        "defect-boundary-call",
+        "before:engineEvokeRounds",
+        "plan:engineEvokeRounds",
+        "defect-boundary-call",
+        "before:engineEvokeRounds",
+        "plan:engineEvokeRounds",
+        "defect-boundary-call",
+        "before:engineEvokeRounds",
+        "plan:engineEvokeRounds",
+        "defect-boundary-call",
+        "before:engineChannelRounds",
+        "plan:engineChannelRounds",
+        "defect-boundary-call"
+      ],
+      "logs": [
+        "PASS defect boundaries 3 Streamline turn and combat costs preserve zero and discounts",
+        "PASS defect boundaries 7 Chill and attack initial plans remain lazy at maximum repetition",
+        "PASS defect boundaries 11 Channel and evoke rounds retain exact continuation and final removal",
+        "DEFECT_PLAN_BOUNDARIES_PASS 3/13"
+      ]
+    },
+    {
+      "fixture": "tests/helpers/defect-plan-boundaries.lua",
+      "mode": "plans",
+      "group": 4,
+      "checkpoints": 75,
+      "bytesPerSide": 227641,
+      "sha256": "d091a3fd24140553b994578b3b2322997dfb38549ec925cf46ce84f51d697819",
+      "labels": [
+        "before:aggregateEnergy",
+        "plan:aggregateEnergy",
+        "defect-boundary-call",
+        "before:aggregateEnergy",
+        "plan:aggregateEnergy",
+        "defect-boundary-call",
+        "before:aggregateEnergy",
+        "plan:aggregateEnergy",
+        "defect-boundary-call",
+        "before:aggregateEnergy",
+        "plan:aggregateEnergy",
+        "defect-boundary-call",
+        "before:aggregateEnergy",
+        "plan:aggregateEnergy",
+        "defect-boundary-call",
+        "before:aggregateEnergy",
+        "plan:aggregateEnergy",
+        "defect-boundary-call",
+        "before:aggregateEnergy",
+        "plan:aggregateEnergy",
+        "defect-boundary-call",
+        "before:aggregateEnergy",
+        "plan:aggregateEnergy",
+        "defect-boundary-call",
+        "before:aggregateEnergy",
+        "plan:aggregateEnergy",
+        "defect-boundary-call",
+        "before:aggregateEnergy",
+        "plan:aggregateEnergy",
+        "defect-boundary-call",
+        "before:aggregateEnergy",
+        "plan:aggregateEnergy",
+        "defect-boundary-call",
+        "before:aggregateEnergy",
+        "plan:aggregateEnergy",
+        "defect-boundary-call",
+        "before:aggregateEnergy",
+        "plan:aggregateEnergy",
+        "defect-boundary-call",
+        "before:engineRandomRounds",
+        "plan:engineRandomRounds",
+        "defect-boundary-call",
+        "before:engineRandomRounds",
+        "plan:engineRandomRounds",
+        "defect-boundary-call",
+        "before:engineRandomRounds",
+        "plan:engineRandomRounds",
+        "defect-boundary-call",
+        "before:engineRandomRounds",
+        "plan:engineRandomRounds",
+        "defect-boundary-call",
+        "before:engineRandomRounds",
+        "plan:engineRandomRounds",
+        "defect-boundary-call",
+        "before:unknown",
+        "plan:unknown",
+        "defect-boundary-call",
+        "before:stackBlock",
+        "plan:stackBlock",
+        "defect-boundary-call",
+        "before:applyLockOn",
+        "plan:applyLockOn",
+        "defect-boundary-call",
+        "before:removeBlock",
+        "plan:removeBlock",
+        "defect-boundary-call",
+        "before:damage",
+        "plan:damage",
+        "defect-boundary-call",
+        "before:",
+        "plan:",
+        "defect-boundary-call",
+        "before:nil",
+        "plan:nil",
+        "defect-boundary-call"
+      ],
+      "logs": [
+        "PASS defect boundaries 4 Aggregate floors both divisors including empty draw",
+        "PASS defect boundaries 8 Random rounds select only live actors and clone real RNG",
+        "PASS defect boundaries 12 Unknown and external nonplanner ops return exactly nil",
+        "DEFECT_PLAN_BOUNDARIES_PASS 3/13"
+      ]
+    },
+    {
+      "fixture": "tests/lua/defect_engine_build.lua",
+      "checkpoints": 75,
+      "bytesPerSide": 30248855,
+      "sha256": "b93193d3d1272e7aa461a97b82136874313397dcf4586fc62df04b69f5986959",
+      "labels": [
+        "play",
+        "play",
+        "play",
+        "play",
+        "endTurn",
+        "play",
+        "play",
+        "endTurn",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "endTurn",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "endTurn",
+        "play",
+        "play",
+        "endTurn",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "endTurn",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "endTurn",
+        "endTurn",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play",
+        "play"
+      ],
+      "logs": [
+        "ok 1 nineteen exact source definitions append independently and preserve input",
+        "ok 2 component history is cumulative including repeated kinds and rejects overflow",
+        "ok 3 pure Chaos preparation advances only a cloned card RNG in source order",
+        "ok 4 pure random attack plan is lazy targets live foes and recalculates NORMAL",
+        "ok 5 pure X plans append lazy native tails and empty MultiCast does not spend",
+        "ok 6 pure AutoShields records use-time condition and LockOn uses float truncation",
+        "ok 7 Claw damage then grows original and other unexhausted Claws",
+        "ok 8 Stack counts discard before current UseCard disposal",
+        "ok 9 SteamBarrier loses block on this instance after resolving",
+        "ok 10 Streamline uses source persistent combat cost decrease",
+        "ok 11 Aggregate uses integer division of current draw pile",
+        "ok 12 AutoShields blocks only from initially zero block",
+        "ok 13 Blizzard uses historical Frost not current occupied slots",
+        "ok 14 Chaos commits use-time RNG before channeling correct types",
+        "ok 15 Chill channels one Frost per live enemy exhausts and upgrade is innate",
+        "ok 16 DoomAndGloom area damage precedes new Dark",
+        "ok 17 LockOn damage then duration amplifies actual Lightning",
+        "ok 18 Melter removes all block before NORMAL damage",
+        "ok 19 RipAndTear performs two independent random ordinary attacks",
+        "ok 20 Skim draws source count",
+        "ok 21 Sunder killing a nonfinal enemy returns three energy",
+        "ok 22 Tempest spends X channels X plus upgrade then exhausts",
+        "ok 23 MeteorStrike damage then three Plasma with source five cost",
+        "ok 24 MultiCast same Frost repeats only final evoke removes orb",
+        "ok 25 ThunderStrike historical Lightning determines random attack count",
+        "ok 26 Claw+ damage then grows original and other unexhausted Claws",
+        "ok 27 Stack+ counts discard before current UseCard disposal",
+        "ok 28 SteamBarrier+ loses block on this instance after resolving",
+        "ok 29 Streamline+ uses source persistent combat cost decrease",
+        "ok 30 Aggregate+ uses integer division of current draw pile",
+        "ok 31 AutoShields+ blocks only from initially zero block",
+        "ok 32 Blizzard+ uses historical Frost not current occupied slots",
+        "ok 33 Chaos+ commits use-time RNG before channeling correct types",
+        "ok 34 Chill+ channels one Frost per live enemy exhausts and upgrade is innate",
+        "ok 35 DoomAndGloom+ area damage precedes new Dark",
+        "ok 36 LockOn+ damage then duration amplifies actual Lightning",
+        "ok 37 Melter+ removes all block before NORMAL damage",
+        "ok 38 RipAndTear+ performs two independent random ordinary attacks",
+        "ok 39 Skim+ draws source count",
+        "ok 40 Sunder+ killing a nonfinal enemy returns three energy",
+        "ok 41 Tempest+ spends X channels X plus upgrade then exhausts",
+        "ok 42 MeteorStrike+ damage then three Plasma with source five cost",
+        "ok 43 MultiCast+ same Frost repeats only final evoke removes orb",
+        "ok 44 ThunderStrike+ historical Lightning determines random attack count",
+        "ok 45 Claw growth excludes already exhausted copies",
+        "ok 46 Claw final kill cancels its queued growth",
+        "ok 47 SteamBarrier negative raw base block still receives Dexterity before floor zero",
+        "ok 48 Streamline final kill cancels persistent cost reduction",
+        "ok 49 AutoShields with existing block spends its cost without gaining block",
+        "ok 50 zero Frost Blizzard still applies Strength as ordinary area attack",
+        "ok 51 Chaos plus with zero slots still consumes both use-time RNG calls",
+        "ok 52 channel history includes full-slot replacements but excludes zero-slot attempts",
+        "ok 53 LockOn Artifact blocks only the debuff and duration really expires",
+        "ok 54 random attack retargets after first kill and consumes a draw even for one survivor",
+        "ok 55 random attack stops next target selection after Thorns kills player",
+        "ok 56 Sunder nonlethal hit has no refund and final kill clears refund",
+        "ok 57 Doom and Meteor last-enemy deaths cancel subsequent channels",
+        "ok 58 zero X base Tempest does nothing and upgraded zero X still channels one",
+        "ok 59 empty MultiCast keeps energy while upgraded zero X evokes one existing orb",
+        "ok 60 MultiCast Plasma grants energy after payment and does not consume new gains",
+        "ok 61 MultiCast Dark reacquires lowest-HP target for each separate evoke",
+        "ok 62 prequeued final MultiCast evoke removes first orb after its first hit wins",
+        "ok 63 late error restores instance growth channel history RNG energy and piles",
+        "DEFECT_ENGINE_BUILD_PASS 63"
+      ]
+    }
+  ],
+  "totalCheckpoints": 547,
+  "totalBytesPerSide": 31579585,
+  "latestTests": {
+    "Defect pure-plan dispatcher and extracted responsibilities retain CC15": {
+      "passed": true,
+      "milliseconds": 1835.717676,
+      "log": "static-source.log"
+    },
+    "existing complete Defect engine gameplay fixture preserves complete state, aliases, RNG and returns": {
+      "passed": true,
+      "milliseconds": 13251.322132,
+      "log": "runtime.log"
+    },
+    "every pure planner and nested callback retains the same CC15 hard limit": {
+      "passed": true,
+      "milliseconds": 2.476974,
+      "log": "static-source.log"
+    },
+    "pure planner extraction preserves every require edge and SCC member": {
+      "passed": true,
+      "milliseconds": 1203.112142,
+      "log": "static-source.log"
+    },
+    "Defect source proof authenticates fresh owners, original Git identity and CRLF": {
+      "passed": true,
+      "milliseconds": 4.00936,
+      "log": "static-source.log"
+    },
+    "Defect current owner composes into the unchanged full historical lifecycle source": {
+      "passed": true,
+      "milliseconds": 28.189134,
+      "log": "static-source.log"
+    },
+    "moved assert observations keep exact bodies, foreign locations and thrown object identity": {
+      "passed": true,
+      "milliseconds": 2.959402,
+      "log": "negative-final.log"
+    },
+    "Defect planner boundaries 1/4 preserve pure inputs, graphs, aliases and failure values": {
+      "passed": true,
+      "milliseconds": 1048.616512,
+      "log": "negative-coverage.log"
+    },
+    "Defect planner boundaries 2/4 preserve pure inputs, graphs, aliases and failure values": {
+      "passed": true,
+      "milliseconds": 1246.389155,
+      "log": "negative-coverage.log"
+    },
+    "Defect planner boundaries 3/4 preserve pure inputs, graphs, aliases and failure values": {
+      "passed": true,
+      "milliseconds": 1075.405776,
+      "log": "negative-coverage.log"
+    },
+    "Defect planner boundaries 4/4 preserve pure inputs, graphs, aliases and failure values": {
+      "passed": true,
+      "milliseconds": 977.949325,
+      "log": "negative-coverage.log"
+    },
+    "the boundary partitions execute every actual planner and every registered case exactly once": {
+      "passed": true,
+      "milliseconds": 0.855333,
+      "log": "negative-coverage.log"
+    },
+    "real boundary assertions reject Claw exhaust exclusion semantic mutation": {
+      "passed": true,
+      "milliseconds": 394.074663,
+      "log": "negative-final.log"
+    },
+    "real boundary assertions reject random input RNG purity semantic mutation": {
+      "passed": true,
+      "milliseconds": 491.282961,
+      "log": "negative-final.log"
+    },
+    "real boundary assertions reject X free payment semantic mutation": {
+      "passed": true,
+      "milliseconds": 528.126922,
+      "log": "negative-final.log"
+    },
+    "real boundary assertions reject final evoke continuation semantic mutation": {
+      "passed": true,
+      "milliseconds": 529.666548,
+      "log": "negative-final.log"
+    },
+    "reaction architecture inverse restores complete prior bytes through LF, CRLF and layout variants": {
+      "passed": true,
+      "milliseconds": 2044.795854,
+      "log": "closures.log"
+    },
+    "reaction inverse never hides partial registrations, boundary drift, duplicates or reordered policy": {
+      "passed": true,
+      "milliseconds": 85.722236,
+      "log": "closures.log"
+    },
+    "warm reaction projection freshly binds linked config and exposes disk mutation or deletion": {
+      "passed": true,
+      "milliseconds": 38.652977,
+      "log": "closures.log"
+    },
+    "compendium inverse restores exact pre-change bytes and leaves unrelated edits visible": {
+      "passed": true,
+      "milliseconds": 491.92562,
+      "log": "closures.log"
+    },
+    "compendium architecture inverse rejects incomplete, duplicate, reordered or wrong-layer registrations": {
+      "passed": true,
+      "milliseconds": 507.737627,
+      "log": "closures.log"
+    },
+    "compendium projections bind every new owner and never accept drift in detached providers": {
+      "passed": true,
+      "milliseconds": 755.16534,
+      "log": "closures.log"
+    },
+    "M9 projection accepts only the exact two core registrations and preserves unrelated drift": {
+      "passed": true,
+      "milliseconds": 41.411281,
+      "log": "closures.log"
+    },
+    "Runtime host projection recognizes complete before/after bytes but rejects partial, duplicate and foreign edits": {
+      "passed": true,
+      "milliseconds": 1185.569745,
+      "log": "closures.log"
+    },
+    "warm Runtime projections still reread actual linked host files and reject disk drift or deletion": {
+      "passed": true,
+      "milliseconds": 202.091351,
+      "log": "closures.log"
+    },
+    "one complete extraction restores immutable full Host/config and authenticates each fresh owner": {
+      "passed": true,
+      "milliseconds": 313.749143,
+      "log": "closures.log"
+    },
+    "foreign and old epochs perform zero linked reads, including duplicate keys and escaped JSON tokens": {
+      "passed": true,
+      "milliseconds": 18.57932,
+      "log": "closures.log"
+    },
+    "configuration owner names never waive complete tokens or fresh linked validation": {
+      "passed": true,
+      "milliseconds": 186.854983,
+      "log": "closures.log"
+    },
+    "nested linked readers keep fresh raw identities across composed historical boundaries": {
+      "passed": true,
+      "milliseconds": 58.824204,
+      "log": "closures.log"
+    },
+    "actual current Host reaches every direct and transitive consumer with frozen historical results": {
+      "passed": true,
+      "milliseconds": 2301.899227,
+      "log": "closures.log"
+    },
+    "injected readers at shared consumer seams never fall back to live owners": {
+      "passed": true,
+      "milliseconds": 386.156996,
+      "log": "closures.log"
+    },
+    "actual detached filesystem owners reject warm drift and deletion separately for every module": {
+      "passed": true,
+      "milliseconds": 285.427739,
+      "log": "closures.log"
+    },
+    "retirement verifies the full isolated destination before deleting, and revalidates deferred cleanup": {
+      "passed": true,
+      "milliseconds": 4.145466,
+      "log": "closures.log"
+    },
+    "retirement rejects a destination or nested owner junction aliasing the live source": {
+      "passed": true,
+      "milliseconds": 0.948314,
+      "log": "closures.log"
+    },
+    "retirement accepts real repository-local historical copies and preserves every live owner": {
+      "passed": true,
+      "milliseconds": 3.182561,
+      "log": "closures.log"
+    },
+    "retirement rejects live Lua directories and source ancestors before any deletion": {
+      "passed": true,
+      "milliseconds": 0.812719,
+      "log": "closures.log"
+    },
+    "repository-local cleanup rejects nested symlink escapes and revalidates all targets before deletion": {
+      "passed": true,
+      "milliseconds": 3.820836,
+      "log": "closures.log"
+    },
+    "real filesystem traces distinguish foreign/old inputs from fresh equivalent and warm owner reads": {
+      "passed": true,
+      "milliseconds": 566.673091,
+      "log": "closures.log"
+    },
+    "only the complete LivingWall increment restores authenticated prior architecture and all older witnesses": {
+      "passed": true,
+      "milliseconds": 2735.47747,
+      "log": "closures.log"
+    },
+    "missing, duplicate, partial or foreign LivingWall policy never enters any historical inverse": {
+      "passed": true,
+      "milliseconds": 130.236518,
+      "log": "closures.log"
+    },
+    "warm LivingWall projections freshly bind linked policy bytes, including guard removal and deletion": {
+      "passed": true,
+      "milliseconds": 46.332681,
+      "log": "closures.log"
+    },
+    "both outer entries authenticate foreign tokens before IO and reread reviewed linked inputs after warmup": {
+      "passed": true,
+      "milliseconds": 496.58176,
+      "log": "closures.log"
+    },
+    "current Full35 includes all post-placement files once at explicit unknown costs within unchanged budgets": {
+      "passed": true,
+      "milliseconds": 97.790745,
+      "log": "inventory.log"
+    },
+    "complete final lifecycle epoch restores all thirty existing Lua owners and exact 391 architecture without inventing witness history": {
+      "passed": true,
+      "milliseconds": 306.484392,
+      "log": "n35-final.log"
+    },
+    "foreign, original, partial, duplicate and escaped-token sources retain their bytes without reading any linked owner": {
+      "passed": true,
+      "milliseconds": 28.439235,
+      "log": "n35-final.log"
+    },
+    "each direct and common source call freshly binds all thirty-five raw owners after warm successes, failures and reader wrapping": {
+      "passed": true,
+      "milliseconds": 36036.760314,
+      "log": "n35-final.log"
+    },
+    "real isolated thirty-five-owner files reject warm source edits, configuration reformatting and deletion without borrowing the live tree": {
+      "passed": true,
+      "milliseconds": 7889.5458,
+      "log": "n35-final.log"
+    }
+  },
+  "logs": {
+    "red.log": {
+      "sha256": "f3ea99e6a9ffa6b6a6ae033e08116ebe67fee2dd99babe13f8b1262b72a6e610",
+      "text": "✖ Defect pure-plan dispatcher and extracted responsibilities retain CC15 (1391.548038ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1488.306038\n\n✖ failing tests:\n\ntest at tests/defect-plan-responsibilities.test.mjs:8:1\n✖ Defect pure-plan dispatcher and extracted responsibilities retain CC15 (1391.548038ms)\n  AssertionError [ERR_ASSERTION]: planEffect CC15\n      at TestContext.<anonymous> (file:///workspace/scratch/331215e8236a/m7-defect-plan-20261107/tests/defect-plan-responsibilities.test.mjs:12:2)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.start (node:internal/test_runner/test:1262:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: false,\n    expected: true,\n    operator: '==',\n    diff: 'simple'\n  }\n"
+    },
+    "green-initial.log": {
+      "sha256": "c553ca9b282ca33f39bfbddff66490760093bbbbee1ce56eacf52fe53cebe7b7",
+      "text": "✔ Defect pure-plan dispatcher and extracted responsibilities retain CC15 (1639.745746ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1737.589756\n"
+    },
+    "runtime.log": {
+      "sha256": "3c4b9fe623ac4f252617227f6c3ed1084b6dbbeba1e3bdcfa6bb8097119fc909",
+      "text": "✔ existing complete Defect engine gameplay fixture preserves complete state, aliases, RNG and returns (13251.322132ms)\nℹ {\"fixture\":\"tests/lua/defect_engine_build.lua\",\"checkpoints\":75,\"bytesPerSide\":30248855,\"sha256\":\"b93193d3d1272e7aa461a97b82136874313397dcf4586fc62df04b69f5986959\",\"logs\":[\"ok 1 nineteen exact source definitions append independently and preserve input\",\"ok 2 component history is cumulative including repeated kinds and rejects overflow\",\"ok 3 pure Chaos preparation advances only a cloned card RNG in source order\",\"ok 4 pure random attack plan is lazy targets live foes and recalculates NORMAL\",\"ok 5 pure X plans append lazy native tails and empty MultiCast does not spend\",\"ok 6 pure AutoShields records use-time condition and LockOn uses float truncation\",\"ok 7 Claw damage then grows original and other unexhausted Claws\",\"ok 8 Stack counts discard before current UseCard disposal\",\"ok 9 SteamBarrier loses block on this instance after resolving\",\"ok 10 Streamline uses source persistent combat cost decrease\",\"ok 11 Aggregate uses integer division of current draw pile\",\"ok 12 AutoShields blocks only from initially zero block\",\"ok 13 Blizzard uses historical Frost not current occupied slots\",\"ok 14 Chaos commits use-time RNG before channeling correct types\",\"ok 15 Chill channels one Frost per live enemy exhausts and upgrade is innate\",\"ok 16 DoomAndGloom area damage precedes new Dark\",\"ok 17 LockOn damage then duration amplifies actual Lightning\",\"ok 18 Melter removes all block before NORMAL damage\",\"ok 19 RipAndTear performs two independent random ordinary attacks\",\"ok 20 Skim draws source count\",\"ok 21 Sunder killing a nonfinal enemy returns three energy\",\"ok 22 Tempest spends X channels X plus upgrade then exhausts\",\"ok 23 MeteorStrike damage then three Plasma with source five cost\",\"ok 24 MultiCast same Frost repeats only final evoke removes orb\",\"ok 25 ThunderStrike historical Lightning determines random attack count\",\"ok 26 Claw+ damage then grows original and other unexhausted Claws\",\"ok 27 Stack+ counts discard before current UseCard disposal\",\"ok 28 SteamBarrier+ loses block on this instance after resolving\",\"ok 29 Streamline+ uses source persistent combat cost decrease\",\"ok 30 Aggregate+ uses integer division of current draw pile\",\"ok 31 AutoShields+ blocks only from initially zero block\",\"ok 32 Blizzard+ uses historical Frost not current occupied slots\",\"ok 33 Chaos+ commits use-time RNG before channeling correct types\",\"ok 34 Chill+ channels one Frost per live enemy exhausts and upgrade is innate\",\"ok 35 DoomAndGloom+ area damage precedes new Dark\",\"ok 36 LockOn+ damage then duration amplifies actual Lightning\",\"ok 37 Melter+ removes all block before NORMAL damage\",\"ok 38 RipAndTear+ performs two independent random ordinary attacks\",\"ok 39 Skim+ draws source count\",\"ok 40 Sunder+ killing a nonfinal enemy returns three energy\",\"ok 41 Tempest+ spends X channels X plus upgrade then exhausts\",\"ok 42 MeteorStrike+ damage then three Plasma with source five cost\",\"ok 43 MultiCast+ same Frost repeats only final evoke removes orb\",\"ok 44 ThunderStrike+ historical Lightning determines random attack count\",\"ok 45 Claw growth excludes already exhausted copies\",\"ok 46 Claw final kill cancels its queued growth\",\"ok 47 SteamBarrier negative raw base block still receives Dexterity before floor zero\",\"ok 48 Streamline final kill cancels persistent cost reduction\",\"ok 49 AutoShields with existing block spends its cost without gaining block\",\"ok 50 zero Frost Blizzard still applies Strength as ordinary area attack\",\"ok 51 Chaos plus with zero slots still consumes both use-time RNG calls\",\"ok 52 channel history includes full-slot replacements but excludes zero-slot attempts\",\"ok 53 LockOn Artifact blocks only the debuff and duration really expires\",\"ok 54 random attack retargets after first kill and consumes a draw even for one survivor\",\"ok 55 random attack stops next target selection after Thorns kills player\",\"ok 56 Sunder nonlethal hit has no refund and final kill clears refund\",\"ok 57 Doom and Meteor last-enemy deaths cancel subsequent channels\",\"ok 58 zero X base Tempest does nothing and upgraded zero X still channels one\",\"ok 59 empty MultiCast keeps energy while upgraded zero X evokes one existing orb\",\"ok 60 MultiCast Plasma grants energy after payment and does not consume new gains\",\"ok 61 MultiCast Dark reacquires lowest-HP target for each separate evoke\",\"ok 62 prequeued final MultiCast evoke removes first orb after its first hit wins\",\"ok 63 late error restores instance growth channel history RNG energy and piles\",\"DEFECT_ENGINE_BUILD_PASS 63\"]}\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 13339.192658\n"
+    },
+    "static-source.log": {
+      "sha256": "50067a3e80c79b848ed391347d67e1417a0fbd7b187d303b378732ed52b861a1",
+      "text": "✔ Defect pure-plan dispatcher and extracted responsibilities retain CC15 (1835.717676ms)\n✔ every pure planner and nested callback retains the same CC15 hard limit (2.476974ms)\n✔ pure planner extraction preserves every require edge and SCC member (1203.112142ms)\n✔ Defect source proof authenticates fresh owners, original Git identity and CRLF (4.00936ms)\n✔ Defect current owner composes into the unchanged full historical lifecycle source (28.189134ms)\n✖ moved assert observations keep exact bodies, foreign locations and thrown object identity (1.33024ms)\nℹ tests 6\nℹ suites 0\nℹ pass 5\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 3217.28947\n\n✖ failing tests:\n\ntest at tests/defect-plan-responsibilities.test.mjs:92:1\n✖ moved assert observations keep exact bodies, foreign locations and thrown object identity (1.33024ms)\n  AssertionError [ERR_ASSERTION]: Missing expected exception.\n      at TestContext.<anonymous> (file:///workspace/scratch/331215e8236a/m7-defect-plan-20261107/tests/defect-plan-responsibilities.test.mjs:99:9)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: undefined,\n    expected: undefined,\n    operator: 'throws',\n    diff: 'simple'\n  }\n"
+    },
+    "boundaries.log": {
+      "sha256": "25e8827d21a59ec7d21c0b865e22e066223b09e30bcc89700549afb5e3e39caf",
+      "text": "✔ moved assert observations keep exact bodies, foreign locations and thrown object identity (2.807994ms)\n✔ Defect planner boundaries 1/4 preserve pure inputs, graphs, aliases and failure values (948.846135ms)\nℹ {\"fixture\":\"tests/helpers/defect-plan-boundaries.lua\",\"mode\":\"plans\",\"group\":1,\"checkpoints\":88,\"bytesPerSide\":251373,\"sha256\":\"98d533be9635f5b65ede3fe06c6f41b55054dd7566971103285923f9011facd6\",\"logs\":[\"PASS defect boundaries 1 Claw deduplicates uid in traversal order and excludes exhaust\",\"PASS defect boundaries 5 Prepared blocks and Blizzard own fresh nested output\",\"PASS defect boundaries 9 Sunder refund is queued at bottom only for killed matching target\",\"PASS defect boundaries 13 Dynamic Actor Random and query method replacement retains thrown identity\",\"DEFECT_PLAN_BOUNDARIES_PASS 4/13\"]}\n✔ Defect planner boundaries 2/4 preserve pure inputs, graphs, aliases and failure values (1174.126652ms)\nℹ {\"fixture\":\"tests/helpers/defect-plan-boundaries.lua\",\"mode\":\"plans\",\"group\":2,\"checkpoints\":201,\"bytesPerSide\":570345,\"sha256\":\"375c4a57ebb3c400dce97dc9b73442f1d4bcb2384d63bf7a7c8ee538f37c6392\",\"logs\":[\"PASS defect boundaries 2 Steam instance lookup covers every pile and duplicates\",\"PASS defect boundaries 6 Chaos preserves prepared orb order and validates preparation\",\"PASS defect boundaries 10 X plans cover zero free empty fallback and real Chemical X aliases\",\"DEFECT_PLAN_BOUNDARIES_PASS 3/13\"]}\n✔ Defect planner boundaries 3/4 preserve pure inputs, graphs, aliases and failure values (1191.097142ms)\nℹ {\"fixture\":\"tests/helpers/defect-plan-boundaries.lua\",\"mode\":\"plans\",\"group\":3,\"checkpoints\":108,\"bytesPerSide\":281371,\"sha256\":\"54ee65184384b299688340d9d8afde867b592feef4b4b042684b07fd2861ee73\",\"logs\":[\"PASS defect boundaries 3 Streamline turn and combat costs preserve zero and discounts\",\"PASS defect boundaries 7 Chill and attack initial plans remain lazy at maximum repetition\",\"PASS defect boundaries 11 Channel and evoke rounds retain exact continuation and final removal\",\"DEFECT_PLAN_BOUNDARIES_PASS 3/13\"]}\n✔ Defect planner boundaries 4/4 preserve pure inputs, graphs, aliases and failure values (1072.478678ms)\nℹ {\"fixture\":\"tests/helpers/defect-plan-boundaries.lua\",\"mode\":\"plans\",\"group\":4,\"checkpoints\":75,\"bytesPerSide\":227641,\"sha256\":\"d091a3fd24140553b994578b3b2322997dfb38549ec925cf46ce84f51d697819\",\"logs\":[\"PASS defect boundaries 4 Aggregate floors both divisors including empty draw\",\"PASS defect boundaries 8 Random rounds select only live actors and clone real RNG\",\"PASS defect boundaries 12 Unknown and external nonplanner ops return exactly nil\",\"DEFECT_PLAN_BOUNDARIES_PASS 3/13\"]}\nℹ tests 5\nℹ suites 0\nℹ pass 5\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 4504.754322\n"
+    },
+    "negative-coverage.log": {
+      "sha256": "95b76b2d6419dd5279f9087fd9a222e516b8a39af79d7bbcd31c4a28bf0db870",
+      "text": "✔ Defect planner boundaries 1/4 preserve pure inputs, graphs, aliases and failure values (1048.616512ms)\nℹ {\"fixture\":\"tests/helpers/defect-plan-boundaries.lua\",\"mode\":\"plans\",\"group\":1,\"checkpoints\":88,\"bytesPerSide\":251373,\"sha256\":\"98d533be9635f5b65ede3fe06c6f41b55054dd7566971103285923f9011facd6\",\"logs\":[\"PASS defect boundaries 1 Claw deduplicates uid in traversal order and excludes exhaust\",\"PASS defect boundaries 5 Prepared blocks and Blizzard own fresh nested output\",\"PASS defect boundaries 9 Sunder refund is queued at bottom only for killed matching target\",\"PASS defect boundaries 13 Dynamic Actor Random and query method replacement retains thrown identity\",\"DEFECT_PLAN_BOUNDARIES_PASS 4/13\"]}\n✔ Defect planner boundaries 2/4 preserve pure inputs, graphs, aliases and failure values (1246.389155ms)\nℹ {\"fixture\":\"tests/helpers/defect-plan-boundaries.lua\",\"mode\":\"plans\",\"group\":2,\"checkpoints\":201,\"bytesPerSide\":570345,\"sha256\":\"375c4a57ebb3c400dce97dc9b73442f1d4bcb2384d63bf7a7c8ee538f37c6392\",\"logs\":[\"PASS defect boundaries 2 Steam instance lookup covers every pile and duplicates\",\"PASS defect boundaries 6 Chaos preserves prepared orb order and validates preparation\",\"PASS defect boundaries 10 X plans cover zero free empty fallback and real Chemical X aliases\",\"DEFECT_PLAN_BOUNDARIES_PASS 3/13\"]}\n✔ Defect planner boundaries 3/4 preserve pure inputs, graphs, aliases and failure values (1075.405776ms)\nℹ {\"fixture\":\"tests/helpers/defect-plan-boundaries.lua\",\"mode\":\"plans\",\"group\":3,\"checkpoints\":108,\"bytesPerSide\":281371,\"sha256\":\"54ee65184384b299688340d9d8afde867b592feef4b4b042684b07fd2861ee73\",\"logs\":[\"PASS defect boundaries 3 Streamline turn and combat costs preserve zero and discounts\",\"PASS defect boundaries 7 Chill and attack initial plans remain lazy at maximum repetition\",\"PASS defect boundaries 11 Channel and evoke rounds retain exact continuation and final removal\",\"DEFECT_PLAN_BOUNDARIES_PASS 3/13\"]}\n✔ Defect planner boundaries 4/4 preserve pure inputs, graphs, aliases and failure values (977.949325ms)\nℹ {\"fixture\":\"tests/helpers/defect-plan-boundaries.lua\",\"mode\":\"plans\",\"group\":4,\"checkpoints\":75,\"bytesPerSide\":227641,\"sha256\":\"d091a3fd24140553b994578b3b2322997dfb38549ec925cf46ce84f51d697819\",\"logs\":[\"PASS defect boundaries 4 Aggregate floors both divisors including empty draw\",\"PASS defect boundaries 8 Random rounds select only live actors and clone real RNG\",\"PASS defect boundaries 12 Unknown and external nonplanner ops return exactly nil\",\"DEFECT_PLAN_BOUNDARIES_PASS 3/13\"]}\n✔ the boundary partitions execute every actual planner and every registered case exactly once (0.855333ms)\n✔ real boundary assertions reject Claw exhaust exclusion semantic mutation (365.577673ms)\nℹ {\"name\":\"Claw exhaust exclusion\",\"error\":\"tests/helpers/defect-plan-boundaries.lua:10: 4 ~= 3\"}\n✔ real boundary assertions reject random input RNG purity semantic mutation (465.713762ms)\nℹ {\"name\":\"random input RNG purity\",\"error\":\"tests/helpers/defect-plan-boundaries.lua:10: 1 ~= 0\"}\n✔ real boundary assertions reject X free payment semantic mutation (477.650562ms)\nℹ {\"name\":\"X free payment\",\"error\":\"tests/helpers/defect-plan-boundaries.lua:10: false ~= true\"}\n✔ real boundary assertions reject final evoke continuation semantic mutation (512.982391ms)\nℹ {\"name\":\"final evoke continuation\",\"error\":\"tests/helpers/defect-plan-boundaries.lua:10: 2 ~= 1\"}\nℹ tests 9\nℹ suites 0\nℹ pass 9\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 6295.455023\n"
+    },
+    "negative-final.log": {
+      "sha256": "c6666cd0e0c30e1a4160ea2186e5725d323a808654efa707b88f71f570fd216d",
+      "text": "✔ moved assert observations keep exact bodies, foreign locations and thrown object identity (2.959402ms)\n✔ real boundary assertions reject Claw exhaust exclusion semantic mutation (394.074663ms)\nℹ {\"name\":\"Claw exhaust exclusion\",\"error\":\"tests/helpers/defect-plan-boundaries.lua:10: 4 ~= 3\"}\n✔ real boundary assertions reject random input RNG purity semantic mutation (491.282961ms)\nℹ {\"name\":\"random input RNG purity\",\"error\":\"tests/helpers/defect-plan-boundaries.lua:10: 1 ~= 0\"}\n✔ real boundary assertions reject X free payment semantic mutation (528.126922ms)\nℹ {\"name\":\"X free payment\",\"error\":\"tests/helpers/defect-plan-boundaries.lua:10: false ~= true\"}\n✔ real boundary assertions reject final evoke continuation semantic mutation (529.666548ms)\nℹ {\"name\":\"final evoke continuation\",\"error\":\"tests/helpers/defect-plan-boundaries.lua:10: 2 ~= 1\"}\nℹ tests 5\nℹ suites 0\nℹ pass 5\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 2059.464313\n"
+    },
+    "closures.log": {
+      "sha256": "f26f471196d2b55631bf25a001b35932d7fddd1a41b8f943a7079483d32c1319",
+      "text": "✔ reaction architecture inverse restores complete prior bytes through LF, CRLF and layout variants (2044.795854ms)\n✔ reaction inverse never hides partial registrations, boundary drift, duplicates or reordered policy (85.722236ms)\n✔ warm reaction projection freshly binds linked config and exposes disk mutation or deletion (38.652977ms)\n✔ compendium inverse restores exact pre-change bytes and leaves unrelated edits visible (491.92562ms)\n✔ compendium architecture inverse rejects incomplete, duplicate, reordered or wrong-layer registrations (507.737627ms)\n✔ compendium projections bind every new owner and never accept drift in detached providers (755.16534ms)\n✔ M9 projection accepts only the exact two core registrations and preserves unrelated drift (41.411281ms)\n✔ Runtime host projection recognizes complete before/after bytes but rejects partial, duplicate and foreign edits (1185.569745ms)\n✔ warm Runtime projections still reread actual linked host files and reject disk drift or deletion (202.091351ms)\nGAME_UI_EXTRACTION_FS_READS {\"reads\":{\"foreign\":0,\"old\":0,\"equivalent\":30,\"warm-drift\":15,\"warm-missing\":14},\"opens\":{\"foreign\":0,\"old\":0,\"equivalent\":30,\"warm-drift\":15,\"warm-missing\":15}}\n✔ one complete extraction restores immutable full Host/config and authenticates each fresh owner (313.749143ms)\n✔ foreign and old epochs perform zero linked reads, including duplicate keys and escaped JSON tokens (18.57932ms)\n✔ configuration owner names never waive complete tokens or fresh linked validation (186.854983ms)\n✔ nested linked readers keep fresh raw identities across composed historical boundaries (58.824204ms)\n✔ actual current Host reaches every direct and transitive consumer with frozen historical results (2301.899227ms)\n✔ injected readers at shared consumer seams never fall back to live owners (386.156996ms)\n✔ actual detached filesystem owners reject warm drift and deletion separately for every module (285.427739ms)\n✔ retirement verifies the full isolated destination before deleting, and revalidates deferred cleanup (4.145466ms)\n✔ retirement rejects a destination or nested owner junction aliasing the live source (0.948314ms)\n✔ retirement accepts real repository-local historical copies and preserves every live owner (3.182561ms)\n✔ retirement rejects live Lua directories and source ancestors before any deletion (0.812719ms)\n✔ repository-local cleanup rejects nested symlink escapes and revalidates all targets before deletion (3.820836ms)\n✔ real filesystem traces distinguish foreign/old inputs from fresh equivalent and warm owner reads (566.673091ms)\n✔ only the complete LivingWall increment restores authenticated prior architecture and all older witnesses (2735.47747ms)\n✔ missing, duplicate, partial or foreign LivingWall policy never enters any historical inverse (130.236518ms)\n✔ warm LivingWall projections freshly bind linked policy bytes, including guard removal and deletion (46.332681ms)\n✔ both outer entries authenticate foreign tokens before IO and reread reviewed linked inputs after warmup (496.58176ms)\nℹ tests 26\nℹ suites 0\nℹ pass 26\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 4309.262409\n"
+    },
+    "inventory.log": {
+      "sha256": "1a69ecdf9c9f7a350fd928cf729d0495bdb3f9d1c6e09c7c848c7449dbbacd62",
+      "text": "✔ current Full35 includes all post-placement files once at explicit unknown costs within unchanged budgets (97.790745ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 322.825288\n"
+    },
+    "n35-final.log": {
+      "sha256": "98c4c3be4484be82a3db98628dfbd9f8137ac2927b446d0bae09a6a052ee0a9a",
+      "text": "✔ complete final lifecycle epoch restores all thirty existing Lua owners and exact 391 architecture without inventing witness history (306.484392ms)\n✔ foreign, original, partial, duplicate and escaped-token sources retain their bytes without reading any linked owner (28.439235ms)\n✔ each direct and common source call freshly binds all thirty-five raw owners after warm successes, failures and reader wrapping (36036.760314ms)\n✔ real isolated thirty-five-owner files reject warm source edits, configuration reformatting and deletion without borrowing the live tree (7889.5458ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 44490.664644\n"
+    },
+    "static.log": {
+      "sha256": "dd6bedaee05544819b8a2705314b92bffbe2e6dc06dc54c154bcdfb3e99ffa12",
+      "text": "Luacheck 1.2.0: no new diagnostics; 14 explicit historical warnings. Battle render <=10; every scoped function <=15; 1853 governed responsibility measurements.\n"
+    },
+    "architecture.log": {
+      "sha256": "32ffc13fda4fa6a321c7b7e8b6927032330943707fe670bc408ec4655de4ac1f",
+      "text": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 check:architecture\n> node scripts/check-architecture.mjs\n\nArchitecture passed: 333 modules, 1922 edges; build/architecture.json\n"
+    },
+    "guidance.log": {
+      "sha256": "857c4e7b87797f74dc3a352f0abd9090ad5be686df225901a72edb4ade3030db",
+      "text": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 check:guidance\n> node scripts/check-agent-guidance.mjs\n\n{\n  \"errors\": [],\n  \"metrics\": [\n    {\n      \"file\": \"AGENTS.md\",\n      \"lines\": 41,\n      \"characters\": 2985\n    },\n    {\n      \"file\": \"CLAUDE.md\",\n      \"lines\": 5,\n      \"characters\": 150\n    },\n    {\n      \"file\": \".cursor/rules/miliastra.mdc\",\n      \"lines\": 6,\n      \"characters\": 82\n    }\n  ]\n}\n"
+    },
+    "backlog.log": {
+      "sha256": "a4713a2d2fedb45f490a85a35d164af8d315b96821d0f1a7348e42ef69544946",
+      "text": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 verify:backlog\n> node scripts/verify-backlog-roadmap.mjs\n\n任务编号、首发排期、负责人及仅岩系旅行者前两幕规划范围检查通过；当前任务均有优先级、未完成High不超过5项；不认证运行时准入、平台或实机。\n"
+    }
+  },
+  "reviewCorrection": {
+    "finding": "Historical N35 test reader did not yet project the new single-owner Defect epoch; independent direct read-count check observed 36 instead of 35.",
+    "repair": "Add only preDefectPlanSource to the existing historical read projection, preserving all original assertions, expected counts, historical hashes and fixtures.",
+    "verification": "Whole original four-test N35 file passes; fresh-owner counts 35/144/151/295 and mutation/missing/old/repeated-reader coverage unchanged."
+  },
+  "limitations": [
+    "Stacked on unmerged #546; no claim of merged develop progress or combined #541/#545 metrics.",
+    "No Full rerun, GUI, device or release verification.",
+    "Fifteen moved assert locations/bodies are verified before mapping observation copies. Actual thrown values and other errors remain unchanged; the two unmoved Claw assertions require no map.",
+    "Initial negative error-map verification modified an unmoved Claw site and correctly found no mapped-site change; the corrected negative targets a moved Steam assert and passes.",
+    "Most recent per-test results combine scoped invocations, not a claim of one complete Full run."
+  ]
+}

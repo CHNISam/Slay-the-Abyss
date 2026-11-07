@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: 2026-11-06 01:46
-updated_date: '2026-11-07T05:33:00Z'
+updated_date: '2026-11-07T06:49:00Z'
 labels: []
 milestone: m-7
 dependencies: []
@@ -85,4 +85,6 @@ Watcher与Inventory已在最新develop 2ad07111统一集成：全库CC>30为58�
 Watcher/Inventory与Session单一并集：采用PR543真实Watcher实现，原9+PR542独有5场景全部保留，270完整图检查点一致；两侧不同变异合并为6项并绑定精确assert。全库CC>30仍58→54、>15=237→232、max75→69；完整333模块5428项测量。只补来源隔离依赖/CI库存，旧断言及预算不动；逐文件承接与失败/复测证据见M7-SESSION-INVENTORY-SUPERSET-20261107。待精确独审/远端门禁，AC未勾。
 
 2026-11-07 按Owner持续架构指派，在PR543精确939e0820上独立推进Act1事件选择职责：choose CC69→13，六事件handler与Bonfire奖励/永久移除边界保留，新增职责全纳入CC15。相对该候选全库CC>30为54→53、>15为232→230、max69→64；SCC81/12不变。完整原事件与39组边界差分、源码闭包和本轮独审证据见docs/evidence/m7-act1-choice-responsibilities-20261107.json。依赖PR543尚未合，未启动重复Full、不勾AC，不声称主线已完成。
+
+2026-11-07 接续Owner指定架构治理，在PR546精确35d392bc上拆分Defect纯效果规划：planEffect CC64→3，15种职责handler最高14及2别名，纯输入/原提交者/动态依赖保持。全库333模块5451测量，相对该候选CC>30为53→52、>15为230→229、max64→61；SCC81/12与所有require边不变。547完整图检查点、每侧31579585字节一致，47项唯一必要定向验证通过。独审发现历史N35 read投影遗漏后，仅补新epoch投影并完整原4项通过，旧35/144/151/295计数未改。证据docs/evidence/m7-defect-plan-responsibilities-20261107.json。依赖前置仍未合并，不勾AC或虚报架构完成；不重复Full。
 <!-- SECTION:NOTES:END -->
