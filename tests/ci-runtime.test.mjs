@@ -20,7 +20,10 @@ historicalTest('scheduler inverse preserves the frozen runner for LF/CRLF and re
   for (const text of [source, source.replaceAll('\n', '\r\n')]) assert.equal(sha(originalLuaRunner(text)), original);
   const epoch=readFileSync('scripts/test-lua.mjs','utf8').replaceAll('\r\n','\n');
   assert.equal(sha(originalLuaRunner(epoch)),original,'the complete original runner traverses the exact historical layer');
-  for(const drift of [epoch+'\n-- unrelated drift\n',epoch.replace('60000 : 30000','60000 : 60000')]){
+  const defaultDrift=epoch.includes('luaTimeoutMs.heavy : luaTimeoutMs.default')
+    ? epoch.replace('luaTimeoutMs.heavy : luaTimeoutMs.default','luaTimeoutMs.heavy : luaTimeoutMs.heavy')
+    : epoch.replace('60000 : 30000','60000 : 60000');
+  for(const drift of [epoch+'\n-- unrelated drift\n',defaultDrift]){
     assert.notEqual(drift,epoch);
     assert.throws(()=>originalLuaRunner(drift),/exact original-deadline historical fixture dispatch/);
   }
@@ -173,12 +176,25 @@ test('current timing records preserve all measured corrections without duplicate
    assert.equal(sourceRecord.step.status,'completed');assert.equal(sourceRecord.step.conclusion,'success');assert.equal(sourceRecord.conclusion,'cancelled');
    assert.equal(entry.sourceLog,observation.logPath);assert.equal(entry.sourceLogSha256,observation.logSha256);assert.equal(entry.sourceJobId,observation.jobId);assert.equal(entry.sourceRunId,sourceRecord.runId);assert.equal(entry.sourceHeadSha,sourceRecord.headSha);
    assert.equal(receipt.censoredLinuxSource.measurementImported,false);assert.equal(timings.js.linux[file],254137,'retain the actual Linux observation independently of the cross-platform planning floor');
+  }else if(file==='tests/power-shop-boundaries.test.mjs'){
+   // This candidate's complete local observation is additional to the eight
+   // frozen local floors and the independently sourced hosted planning floor.
+   assert.equal(entry.environment,'local Windows');assert.equal(entry.durationMs,68586);
+   assert.equal(entry.sourceReceipt,'docs/evidence/power-shop-planning-20261107.json');
+   const bytes=readFileSync(entry.sourceReceipt,'utf8').replaceAll('\r\n','\n');
+   assert.equal(createHash('sha256').update(bytes).digest('hex'),'52570c893c538ac0c5ab592e3b6d89afe883495ea6624fa4f35abaad3053f8f7');
+   assert.equal(entry.sourceReceiptSha256,createHash('sha256').update(bytes).digest('hex'));
+   const receipt=JSON.parse(bytes),run=receipt.completedRun;
+   assert.equal(receipt.file,file);assert.equal(Math.ceil(run.durationMs),entry.durationMs);
+   assert.equal(run.tests,8);assert.equal(run.passed,8);assert.equal(run.failed,0);assert.equal(run.skipped,0);
+   assert.equal(entry.sourceLogSha256,createHash('sha256').update(run.rawTap).digest('hex'));
+   assert.match(entry.kind,/not hosted or Linux measurement/);
   }else{
    assert.match(entry.environment,/local/);assert.match(entry.kind,/not .*hosted/);localFloorCount++;
   }
   for(const platform of ['win32','linux'])assert.equal(jsPlanningWeights([file],platform)[file],Math.max(timings.js[platform][file]??timings.unknownJsMs,entry.durationMs));
  }
- assert.equal(localFloorCount,8,'all eight original local floor contracts remain checked');assert.equal(Object.keys(timings.jsPlanning.localLowerBounds).length,9);
+ assert.equal(localFloorCount,8,'all eight original local floor contracts remain checked');assert.equal(Object.keys(timings.jsPlanning.localLowerBounds).length,10);
  assert.ok(jsPlanningWeights(['tests/task77-current-source-layers.test.mjs'],'win32')['tests/task77-current-source-layers.test.mjs']>=394262,'retain the first complete successful hosted floor');
 });
 

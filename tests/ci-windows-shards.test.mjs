@@ -100,7 +100,7 @@ test('current Windows matrix consumes the shared seventeen-shard shape without c
   assert.ok(rules.includes('npm run setup:lua-static'));
   assert.match(rules,/^      fail-fast: false$/m);
   assert.doesNotMatch(rules,/max-parallel:/);
-  assert.ok(rules.includes("timeout-minutes: ${{ inputs.runner_pool == 'local-special' && 75 || 30 }}"));
+  assert.ok(rules.includes("timeout-minutes: ${{ inputs.runner_pool == 'local-special' && 75 || 45 }}"));
   for(const gate of ['check:network','verify:backlog','check:syntax','validate:data','build:theme','check:engineering'])
     assert.ok(rules.includes(`      - run: npm run ${gate}\n        if: matrix.shard == 1\n`),gate);
   for(const command of ['node scripts/ci-shards.mjs --prepare=','node scripts/ci-shards.mjs --shard='])

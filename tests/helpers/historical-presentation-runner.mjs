@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
+import {luaTimeoutMs} from '../../scripts/ci-timeout-policy.mjs';
 
 export const historicalSapphireFixtures=Object.freeze([
   'tests/lua/sapphire_treasure.lua',
@@ -16,8 +17,8 @@ export const historicalPresentationFixtures=Object.freeze([
 ]);
 
 // Complete historical fixtures, still executed in Fengari. Preparation and
-// Lua share its original 30s total budget. It never certifies the live UI.
-export function runHistoricalPresentation(_run,script,{timeout=30000,cwd,caseName,maxBuffer=1024*1024}={}){
+// Lua share the central execution guard. It never certifies the live UI.
+export function runHistoricalPresentation(_run,script,{timeout=luaTimeoutMs.default,cwd,caseName,maxBuffer=1024*1024}={}){
   script=script.replaceAll('\\','/');
   assert.ok(historicalPresentationFixtures.includes(script),'only exact historical presentation fixtures');
   assert.equal(caseName,undefined,'the complete historical scenario must execute');

@@ -1,3 +1,4 @@
+import {preLuaTimeoutPolicySource} from './lua-timeout-policy-source-inverse.mjs';
 import {preBetaSource,prepareBetaRetirement} from './beta-integration-source.mjs';
 import {preDeckBrowseSource} from './deck-browse-source-inverse.mjs';
 import {preAcceptedDevelopSource} from './delivery-source-composition.mjs';
@@ -15,6 +16,7 @@ const bytes=readFileSync(new URL('../fixtures/pr372-integration-sources.json',im
 assert.equal(hash(bytes),'ea2f161779f99bc4f81c25c9087eeeb911951d52b5ff85bafec112b4c9e00995','complete combined source identity');
 export const integrationSources=JSON.parse(bytes).sources;
 export function preIntegrationSource(path,source,target='base',{readSource=path=>readFileSync(path,'utf8')}={}){
+ source=preLuaTimeoutPolicySource(path,source);
  source=preCiCompleteCalibrationSource(path,source);
  source=preCiHostTimingSource(path,source);
  source=preCiWindowsShapeSource(path,source);
