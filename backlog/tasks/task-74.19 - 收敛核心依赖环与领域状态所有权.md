@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-06 01:46'
-updated_date: '2026-11-07 04:11'
+updated_date: '2026-11-07 04:33'
 labels: []
 milestone: m-7
 dependencies: []
@@ -74,4 +74,6 @@ D5来源扩展34项及独立有界审查PASS：23个391完整before另核Git blo
 接续既有Furinya任务，不重复认领；新隔离树feat/inventory-boundaries基于最新develop 2c85bc61。539保持原HEAD独立Full。先做Power元数据反向边和Shop选牌/报价分层，未完成AC保持未勾。
 
 Power静态元数据已从执行器抽为无依赖叶；实际冷加载先红后绿，当前334模块SCC81→74，Session15保持，双序簿2环明确保留。全量源码/边/函数及694旧新状态检查点见docs/backlog-details/M7-POWER-SHOP-20261107.md和docs/evidence/m7-power-shop-20261107.json；未提前勾AC，继续独审和正常PR/合后Full。
+
+已从实际#539合后develop2ad07111建立线性feat/power-shop，保留原31b历史。最新全量基线333模块/5386测量/SCC81-15，候选334/5388/SCC74-15-2，14旧告警无新增；唯一库存冲突取并集，747JS/1402Lua的原预算校准8/8通过，待精确独审与正常Full/队列/合后交付。
 <!-- SECTION:NOTES:END -->
