@@ -35,7 +35,7 @@ function M.death(s,orb)
  local discard=#s.hand==s.rules.player.maxHand
  if not discard and (s.player.statuses.master_reality or 0)>0 then
   -- MakeTempCardInHandAction performs Master Reality's upgrade in its constructor.
-  local combat=require('abyss_combat')
+  local combat=require('abyss_card_upgrade')
   if combat.canUpgrade(s,c)then combat.upgrade(s,c)end
  end
  return {op='stasis_return',ownerId=orb.id,forceDiscard=discard}

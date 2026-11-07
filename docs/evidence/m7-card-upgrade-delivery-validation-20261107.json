@@ -1,0 +1,832 @@
+{
+  "schemaVersion": 1,
+  "task": "TASK-74.19",
+  "kind": "CardUpgrade local delivery validation; not hosted, Full, merge or runtime acceptance",
+  "implementationBaseSha": "51f77e3fb21770a6fbb72bae9d602d631e2e7843",
+  "developBaseSha": "d8a57cae2a867200ca8e588abc0d368e6cdb3799",
+  "originalSourceTree": "f64565ec48d4e841dc3bc4425b1f04fb52a52e58",
+  "originalWorktreeCleanAndUnmodified": true,
+  "status": "local-narrow-validation-passed-with-preexisting-backlog-doctor-failure",
+  "finalSuccessfulChecks": [
+    {
+      "name": "ci-corrected-final",
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "tests/ci-complete-calibration.test.mjs",
+        "tests/ci-host-timing-calibration.test.mjs",
+        "tests/ci-windows-shape-expansion.test.mjs"
+      ],
+      "exitCode": 0,
+      "wallMs": 2218.752082029823,
+      "log": "build/card-upgrade-delivery/ci-corrected-final.log",
+      "logSha256": "4d9fd20e44ca116906d1187252d4bd83c3a750a376d99f0caeef4e8f4b32ee7d",
+      "tests": 18
+    },
+    {
+      "name": "responsibility-final",
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "tests/responsibility-complexity.test.mjs"
+      ],
+      "startedAt": "2026-11-07T10:50:12.219158+00:00",
+      "exitCode": 0,
+      "wallMs": 772.8976340149529,
+      "log": "build/card-upgrade-delivery/responsibility-final.log",
+      "logSha256": "3a06ea76daf36df08cced6e4991072757b756bac01c9118ef94e10fa1790a1a6",
+      "tests": 17
+    },
+    {
+      "name": "source-final",
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "tests/card-upgrade-source.test.mjs"
+      ],
+      "startedAt": "2026-11-07T10:50:12.992125+00:00",
+      "exitCode": 0,
+      "wallMs": 525.4666300024837,
+      "log": "build/card-upgrade-delivery/source-final.log",
+      "logSha256": "c5ce78bd6357502ee66d69bbbcb5bb924d869ffe4cfca4222098ff525754ee1f",
+      "tests": 15
+    },
+    {
+      "name": "shards-final",
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "tests/ci-windows-shards.test.mjs",
+        "tests/ci-posix-shards.test.mjs",
+        "tests/lua-workers.test.mjs"
+      ],
+      "startedAt": "2026-11-07T10:50:13.517659+00:00",
+      "exitCode": 0,
+      "wallMs": 7778.6777499713935,
+      "log": "build/card-upgrade-delivery/shards-final.log",
+      "logSha256": "1492e8d00010e21a53ab8c2754e73419b1064ecb865cca44f53c54d0b355f34f",
+      "tests": 17
+    },
+    {
+      "name": "guidance-after-docs",
+      "command": [
+        "npm",
+        "run",
+        "check:guidance"
+      ],
+      "exitCode": 0,
+      "wallMs": 251.4885120326653,
+      "log": "build/card-upgrade-delivery/guidance-after-docs.log",
+      "logSha256": "857c4e7b87797f74dc3a352f0abd9090ad5be686df225901a72edb4ade3030db",
+      "tests": null
+    },
+    {
+      "name": "backlog-after-docs",
+      "command": [
+        "npm",
+        "run",
+        "verify:backlog"
+      ],
+      "exitCode": 0,
+      "wallMs": 276.91269299248233,
+      "log": "build/card-upgrade-delivery/backlog-after-docs.log",
+      "logSha256": "a4713a2d2fedb45f490a85a35d164af8d315b96821d0f1a7348e42ef69544946",
+      "tests": null
+    },
+    {
+      "name": "diff-check-after-docs",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exitCode": 0,
+      "wallMs": 11.13540300866589,
+      "log": "build/card-upgrade-delivery/diff-check-after-docs.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tests": null
+    }
+  ],
+  "uniqueNarrowJsPassed": 67,
+  "actualCurrentGateNegatives": {
+    "originalSha256": "8178187f25c04399ea9f494116efedb522eda1528ddbe815e36f5e0ce9cf962c",
+    "restoredSha256": "8178187f25c04399ea9f494116efedb522eda1528ddbe815e36f5e0ce9cf962c",
+    "results": [
+      {
+        "name": "delete-card-upgrade-floor",
+        "command": "node --test --test-concurrency=1 --test-name-pattern=^CardUpgrade timing epoch appends tests/ci-complete-calibration.test.mjs",
+        "status": 1,
+        "wallMs": 353.436628,
+        "signal": null,
+        "error": null,
+        "mutatedSourceSha256": "a5841ddaa53d8bc810f9c16ae342ed2de8cb5479bbcb073562d2c6c921ed1b24",
+        "log": "build/card-upgrade-delivery/negative-delete-card-upgrade-floor.log",
+        "logSha256": "dcfab2e93b06b34f7ba81f8655001290951e720bda774334fed50fc691bcca1d",
+        "rejectedBy": "current CardUpgrade timing epoch requires the exact complete floor and unchanged prior values"
+      },
+      {
+        "name": "change-old-floor",
+        "command": "node --test --test-concurrency=1 --test-name-pattern=^CardUpgrade timing epoch appends tests/ci-complete-calibration.test.mjs",
+        "status": 1,
+        "wallMs": 324.65521900000005,
+        "signal": null,
+        "error": null,
+        "mutatedSourceSha256": "5f44039c63e079eee25a192dd1c33c639403f068599a47c66b8cc23d9b12ed61",
+        "log": "build/card-upgrade-delivery/negative-change-old-floor.log",
+        "logSha256": "9ce379fc57f483aba1c86a5e987d229f86eeae20e2c85816d73a57b001281b58",
+        "rejectedBy": "current CardUpgrade timing epoch requires the exact complete floor and unchanged prior values"
+      },
+      {
+        "name": "change-hosted-weight",
+        "command": "node --test --test-concurrency=1 --test-name-pattern=^CardUpgrade timing epoch appends tests/ci-complete-calibration.test.mjs",
+        "status": 1,
+        "wallMs": 351.61285999999984,
+        "signal": null,
+        "error": null,
+        "mutatedSourceSha256": "0c675315c286389c9a4ffc16ed3ff8ea2fcb905ccb0e644e42fcfdd1eab3980e",
+        "log": "build/card-upgrade-delivery/negative-change-hosted-weight.log",
+        "logSha256": "c6a5e8ccbfa7c9a1c25d3c2c7e51593920a1523a576808136fb507656798decc",
+        "rejectedBy": "current CardUpgrade timing epoch requires the exact complete floor and unchanged prior values"
+      },
+      {
+        "name": "change-metadata",
+        "command": "node --test --test-concurrency=1 --test-name-pattern=^CardUpgrade timing epoch appends tests/ci-complete-calibration.test.mjs",
+        "status": 1,
+        "wallMs": 311.884372,
+        "signal": null,
+        "error": null,
+        "mutatedSourceSha256": "afd0942b012a6c8c5833b2594b8cebbcba2ac6e8b18024888a0bcab10473e7cf",
+        "log": "build/card-upgrade-delivery/negative-change-metadata.log",
+        "logSha256": "03c75b9a107c0f6a0060b9f3a166ea3afdef8228e99d60ad747b5544c46588a0",
+        "rejectedBy": "current CardUpgrade timing epoch requires the exact complete floor and unchanged prior values"
+      },
+      {
+        "name": "lower-new-floor",
+        "command": "node --test --test-concurrency=1 --test-name-pattern=^CardUpgrade timing epoch appends tests/ci-complete-calibration.test.mjs",
+        "status": 1,
+        "wallMs": 630.5122399999998,
+        "signal": null,
+        "error": null,
+        "mutatedSourceSha256": "3384145625c62230936fcc61ec552d04c452f2a9cff6793867c0d4a3b025d755",
+        "log": "build/card-upgrade-delivery/negative-lower-new-floor.log",
+        "logSha256": "f150ce89e844295df8a8752dcf9cf4343a0d62fa7ce0db17a3ed154970085f35",
+        "rejectedBy": "current CardUpgrade timing epoch requires the exact complete floor and unchanged prior values"
+      },
+      {
+        "name": "change-raw-safety",
+        "command": "node --test --test-concurrency=1 --test-name-pattern=^CardUpgrade timing epoch appends tests/ci-complete-calibration.test.mjs",
+        "status": 1,
+        "wallMs": 298.7477520000002,
+        "signal": null,
+        "error": null,
+        "mutatedSourceSha256": "89acf553db2bc3154fb3674d2ec88689474ec1116cef6dcba7ea967adaaf3b34",
+        "log": "build/card-upgrade-delivery/negative-change-raw-safety.log",
+        "logSha256": "a5a735d4a6f9486b1fdabdf66704c18b429a2afef5c6100bb3c4c67430d37a58",
+        "rejectedBy": "current CardUpgrade timing epoch requires the exact complete floor and unchanged prior values"
+      }
+    ]
+  },
+  "original24FileComparison": [
+    {
+      "path": "backlog/tasks/task-74.19 - 收敛核心依赖环与领域状态所有权.md",
+      "originalSha256": "4dbdc625ab1db6fb68955a58e8eb709c7baf1ce750dc8cc416109147fbee3c48",
+      "currentSha256": "44c8f351cdc64f1b530b9d58712889a115d4be78a6c872ab87e807f835682d42",
+      "byteIdentical": false,
+      "exception": "Backlog CLI appended delivery note; normalized dates; owner/status/AC unchanged"
+    },
+    {
+      "path": "config/architecture.json",
+      "originalSha256": "5a0019e5f11e1bd9fd10c4eefae6c07c409b3c29850384bc9d5bfc6fd9533431",
+      "currentSha256": "5a0019e5f11e1bd9fd10c4eefae6c07c409b3c29850384bc9d5bfc6fd9533431",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "docs/backlog-details/M7-CARD-UPGRADE-OWNERSHIP-20261107.md",
+      "originalSha256": "b1227987e5df3a8016a9e3b70eb095eb70ddd88422a27aca6fe40311055f87dc",
+      "currentSha256": "b1227987e5df3a8016a9e3b70eb095eb70ddd88422a27aca6fe40311055f87dc",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "docs/evidence/m7-card-upgrade-ownership-20261107.json",
+      "originalSha256": "3dd9f90884dd412812eb143527ffefc21ff3b7265a36a7e6b6031794744f210e",
+      "currentSha256": "3dd9f90884dd412812eb143527ffefc21ff3b7265a36a7e6b6031794744f210e",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "scripts/check-lua-static.mjs",
+      "originalSha256": "256a22116ca067911063e1d4cc7816cab9ce32c346478d0ae60064de3a844f64",
+      "currentSha256": "256a22116ca067911063e1d4cc7816cab9ce32c346478d0ae60064de3a844f64",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "src/lua/abyss_act2_stasis.lua",
+      "originalSha256": "653dc0f0259c518bab0dc1bc293857db7290613d9c8d8d47edd077145a7e1516",
+      "currentSha256": "653dc0f0259c518bab0dc1bc293857db7290613d9c8d8d47edd077145a7e1516",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "src/lua/abyss_card_upgrade.lua",
+      "originalSha256": "de0116db8776c00d20060ca344e20ecad0a9752def3fd087efe48552bae33fb9",
+      "currentSha256": "de0116db8776c00d20060ca344e20ecad0a9752def3fd087efe48552bae33fb9",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "src/lua/abyss_combat.lua",
+      "originalSha256": "77d60b9645d4e5bb0789f1320cc91990fb1151423e1828bf144d1762e5901679",
+      "currentSha256": "77d60b9645d4e5bb0789f1320cc91990fb1151423e1828bf144d1762e5901679",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "src/lua/abyss_warrior_status_cards.lua",
+      "originalSha256": "693513a53678136eff85d5a90a6d6188be356c44f6d7828b5bb3c44963bac6e7",
+      "currentSha256": "693513a53678136eff85d5a90a6d6188be356c44f6d7828b5bb3c44963bac6e7",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "tests/card-upgrade-ownership.test.mjs",
+      "originalSha256": "4f41e039ad5d15585a458d8130848d7e90d559efb6321c52b6783ba196561182",
+      "currentSha256": "4f41e039ad5d15585a458d8130848d7e90d559efb6321c52b6783ba196561182",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "tests/card-upgrade-source.test.mjs",
+      "originalSha256": "a3c4a1c2d8e8a1a2535c63d5d21f1d34f75353ab3e30039b57e52e9fd798a38e",
+      "currentSha256": "a3c4a1c2d8e8a1a2535c63d5d21f1d34f75353ab3e30039b57e52e9fd798a38e",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "tests/ci-complete-calibration.test.mjs",
+      "originalSha256": "1031b7e567dfaf7e4f8da012e16bc74db17d5b72e293370cfd1c4191d2e1d051",
+      "currentSha256": "9e7954e794fa10dd65869e7a2373b6f6218fc8abe8dcb3cd340030b72f986aad",
+      "byteIdentical": false,
+      "exception": "shared CI inventory/floor contract updated"
+    },
+    {
+      "path": "tests/combat-reactions-architecture-inverse.test.mjs",
+      "originalSha256": "011e988eb49fa27fe3de74bb33bc04587a2f9ab35796a2cbe749c78cb3ae021f",
+      "currentSha256": "011e988eb49fa27fe3de74bb33bc04587a2f9ab35796a2cbe749c78cb3ae021f",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "tests/compendium-source-inverse.test.mjs",
+      "originalSha256": "a85238c48bbd451243a5d7fccaf954e9104ba2d07965493f80cedfd6fb072ed5",
+      "currentSha256": "a85238c48bbd451243a5d7fccaf954e9104ba2d07965493f80cedfd6fb072ed5",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "tests/game-ui-extraction-source-inverse.test.mjs",
+      "originalSha256": "2c9301656156463560d066dc45127983557037394bec3285420727f6165d3123",
+      "currentSha256": "2c9301656156463560d066dc45127983557037394bec3285420727f6165d3123",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "tests/helpers/card-upgrade-ownership-process.mjs",
+      "originalSha256": "0e1c914465063438863d69cc91b2466efb36ead1af528635e8a0b3ca2325dc20",
+      "currentSha256": "0e1c914465063438863d69cc91b2466efb36ead1af528635e8a0b3ca2325dc20",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "tests/helpers/card-upgrade-ownership-vm.mjs",
+      "originalSha256": "5be88882874b74dc98a6c89ce4f95c8751204cec972d0066b04a06f2078cfd5a",
+      "currentSha256": "5be88882874b74dc98a6c89ce4f95c8751204cec972d0066b04a06f2078cfd5a",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "tests/helpers/card-upgrade-source-inverse.mjs",
+      "originalSha256": "17d94b47b96769e7b421046e64354337b3de5c32479cb61adaa2681cacd923e3",
+      "currentSha256": "17d94b47b96769e7b421046e64354337b3de5c32479cb61adaa2681cacd923e3",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "tests/helpers/card-upgrade-source-proof.json",
+      "originalSha256": "6bd0731174a59dcf7233d0408fda5b147402df9c63bc360a9c3f5a456a86b944",
+      "currentSha256": "6bd0731174a59dcf7233d0408fda5b147402df9c63bc360a9c3f5a456a86b944",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "tests/helpers/colorless-catalog-before-2ad07111.json.gz",
+      "originalSha256": "88c0ab46a951aacc45a2cf8e4a2d2c7a6ac0b5ebc153dcdf87ac600ad6ee8a95",
+      "currentSha256": "88c0ab46a951aacc45a2cf8e4a2d2c7a6ac0b5ebc153dcdf87ac600ad6ee8a95",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "tests/helpers/m7-core-final-source-inverse.mjs",
+      "originalSha256": "4c539321df9555460770a46b22cc993f8f2907842f174afadebaeec984193ad0",
+      "currentSha256": "4c539321df9555460770a46b22cc993f8f2907842f174afadebaeec984193ad0",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "tests/helpers/round3-catalog-source-inverse.mjs",
+      "originalSha256": "d9266d9e965150354cebad11580c4576ccaccf717216e9b06b51dbea859f4677",
+      "currentSha256": "d9266d9e965150354cebad11580c4576ccaccf717216e9b06b51dbea859f4677",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "tests/living-wall-architecture-inverse.test.mjs",
+      "originalSha256": "7e697d3734d146407f49e293970a9b611bf075c30b948f4ac96d532f587890a5",
+      "currentSha256": "7e697d3734d146407f49e293970a9b611bf075c30b948f4ac96d532f587890a5",
+      "byteIdentical": true,
+      "exception": null
+    },
+    {
+      "path": "tests/lua/card_upgrade_ownership_contract.lua",
+      "originalSha256": "57b47b3a6dc066c4f6679f05cfbed8f086766e8e5243d2701f79bfc30547ab05",
+      "currentSha256": "57b47b3a6dc066c4f6679f05cfbed8f086766e8e5243d2701f79bfc30547ab05",
+      "byteIdentical": true,
+      "exception": null
+    }
+  ],
+  "originalExactFiles": 22,
+  "originalChangedExceptions": [
+    "tests/ci-complete-calibration.test.mjs",
+    "backlog/tasks/task-74.19 - 收敛核心依赖环与领域状态所有权.md"
+  ],
+  "retainedInputCount": 359,
+  "archiveVerification": {
+    "path": "tests/helpers/colorless-catalog-before-2ad07111.json.gz",
+    "sha256": "88c0ab46a951aacc45a2cf8e4a2d2c7a6ac0b5ebc153dcdf87ac600ad6ee8a95",
+    "decompressedSha256": "4f9d7725cf432227aa74c1bd616f0b449223a0f4b4c53a52cf6cfc5617f461cf",
+    "retainedRevision": "2ad07111e3d5b5cb52b4229860b3b780941e29a9",
+    "baseSha": "d8a57cae2a867200ca8e588abc0d368e6cdb3799",
+    "count": 333,
+    "allGitBlobsMatchBase": true
+  },
+  "graphStreamVerification": {
+    "streams": [
+      {
+        "path": "build/card-upgrade-ownership/process-6RGXIC/graphs.jsonl",
+        "bytes": 887209,
+        "sha256": "75049a0bb204e78364bac7693f55fda47d10e3dcd9645b6cdc0ede8c727aedb1"
+      },
+      {
+        "path": "build/card-upgrade-ownership/process-1F0zaX/graphs.jsonl",
+        "bytes": 887209,
+        "sha256": "75049a0bb204e78364bac7693f55fda47d10e3dcd9645b6cdc0ede8c727aedb1"
+      }
+    ],
+    "byteIdentical": true,
+    "payloadBytesPerSide": 885975,
+    "checkpoints": 15,
+    "definitions": 5245
+  },
+  "originalLogVerification": {
+    "count": 50,
+    "allBytesAndHashesMatch": true,
+    "originalEvidenceSha256": "3dd9f90884dd412812eb143527ffefc21ff3b7265a36a7e6b6031794744f210e"
+  },
+  "changedInputSha256": {
+    "backlog/tasks/task-74.19 - 收敛核心依赖环与领域状态所有权.md": "44c8f351cdc64f1b530b9d58712889a115d4be78a6c872ab87e807f835682d42",
+    "scripts/ci-test-timings.json": "8178187f25c04399ea9f494116efedb522eda1528ddbe815e36f5e0ce9cf962c",
+    "tests/ci-complete-calibration.test.mjs": "9e7954e794fa10dd65869e7a2373b6f6218fc8abe8dcb3cd340030b72f986aad",
+    "tests/helpers/ci-complete-calibration-source-inverse.mjs": "7ac2b8c969d83fd833a2384f6546f63f15edec7d944d1c86b5608c3b4fc66148",
+    "tests/responsibility-complexity.test.mjs": "7787aaecc2faf7291962b15504c82a65d061f27abc91a345878c1141436741c7",
+    "docs/backlog-details/M7-CARD-UPGRADE-DELIVERY-FLOOR-20261107.md": "a6beb6a36d46ba04bb7c2574b3c1ff8276892a3b54866e791aa750378917f702",
+    "docs/evidence/m7-card-upgrade-delivery-planning-20261107.json": "2df21a4fafec2a64fcc9c82b7c6565494dbef552caeb16055c98b97db2c7a71b",
+    "docs/evidence/m7-card-upgrade-planning-floor-20261107.json": "84c27ab3989f4045dc8ed6d1d10b15ca816eba8a06ae59cbf787fc3649fcb000",
+    "tests/helpers/card-upgrade-ci-planning-source-inverse.mjs": "541056f60197721e225465e6cff38b2456b825a06cce523842bf86b615374278"
+  },
+  "allNewLogs": [
+    {
+      "path": "build/card-upgrade-delivery/backlog-after-docs.log",
+      "sha256": "a4713a2d2fedb45f490a85a35d164af8d315b96821d0f1a7348e42ef69544946",
+      "bytes": 382,
+      "output": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 verify:backlog\n> node scripts/verify-backlog-roadmap.mjs\n\n任务编号、首发排期、负责人及仅岩系旅行者前两幕规划范围检查通过；当前任务均有优先级、未完成High不超过5项；不认证运行时准入、平台或实机。\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/backlog-append.log",
+      "sha256": "fbd38d5f2ab5f8a4c9746cdb64d0074df125994b18cc2a2dbbb7a2000657e6c1",
+      "bytes": 24,
+      "output": "Updated task TASK-74.19\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/backlog-before.log",
+      "sha256": "3dc732586131e119746368d4e0605782d1d2e6da18ab7c0a18eb709ffc8222b4",
+      "bytes": 10247,
+      "output": "File: /workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/backlog/tasks/task-74.19 - 收敛核心依赖环与领域状态所有权.md\n\nTask TASK-74.19 - 收敛核心依赖环与领域状态所有权\n==================================================\n\nStatus: ◒ In Progress\nPriority: Medium\nType: task\nOrdinal: 161000\nAssignee: @Furinya\nCreated: 2026-11-06 01:46 (UTC)\nUpdated: 2026-11-07 10:36 (UTC)\nMilestone: m-7\nParent: TASK-74 - 缩短完整检查并拆清超大模块职责\nDocumentation: docs/backlog-details/M7-DEPENDENCY-AUDIT-20261106.md\n\nDescription:\n--------------------------------------------------\n当前大SCC仍有104个模块，既有职责切片未覆盖全部跨领域反向边；先确认影响后续角色内容开发的真实高风险耦合，避免仅靠拆文件宣称架构完成。\n\nAcceptance Criteria:\n--------------------------------------------------\n- [ ] #1 以当前同一源码身份输出即时及延迟完整依赖图、SCC成员和内部边位置，逐类说明状态提交owner与风险依据\n- [ ] #2 消除已确证P0/P1反向依赖并以旧新状态、随机、事件、队列、别名及失败回滚对照验证；保留边有生命周期依据且新增边受可执行防回退门禁\n- [ ] #3 公布同算法最终SCC绝对值、残余风险与责任；独立深审及实际合后Full通过，未确认残余不冒充低风险\n\nDefinition of Done:\n--------------------------------------------------\nNo Definition of Done items defined\n\nImplementation Plan:\n--------------------------------------------------\n1.在dedb9ed5完整源码上复用AST依赖采集，核对即时及延迟SCC、真实反向调用与状态owner。2.独立审查优先核心调用链，形成逐边风险与可证实解环路径。3.按真实P0/P1选择最小职责切片，固定旧新行为并加门禁后独立深审及完整交付。\n\n4.依据391306af只读审计与现有CardActions规范，准备单一无出边遗物只读查询模块：移动原五套有序alias及窄奖励计数，保留普通动态字段读写、Shop.aliases枚举/替换、Rare私有owns与公开替换隔离、Run调用时函数快照。先冻结完整旧源和行为/加载边界基线；当前PR521由原生队列完成，后续提交不另建待合PR或改入队HEAD，待基线落地后再集成。\n\n5.D5完整生命周期边界：已确认孤立Boss提取仍回Session，不实施该假切口。按docs/plans/2026-11-06-relic-lifecycle.md组合Hooks Combat能力与四族固定能力，保留Session公开命令和Wish/Writhing原owner规则；四Runtime根到Session传递门禁已真实RED4/4。新隔离树feat/relic-lifecycle基于5762，先完整391旧新VM基线与独立计划审查，再写产品；原query交付树保持干净。\n\n6.仅收口当前PR521：按Full42176327678逐项修复drain、旧语义变异定位与历史预算输入适配，保留原oracle、case、断言和预算；对本轮真实超时仅用已完成成功文件实测校正分配并采用可容纳全库存的最小布局。独立复审、新SHA完整CI、原生队列和实际合后验收完成后结束，不开启下一架构切片或新任务。\n\n本轮最终有界切片：将Codex选牌生成与提交移回现有Combat选择事务owner，Codex仅保留开选和校验，消除其回导CardActions；原状态、RNG、事件与晚失败回滚逐字对照，保留完整图与残余，不扩大架构范围。\n\n2026-11-07按Owner继续架构解环指派核对fresh develop d8a57cae、PR541–549和活动树后，准备Stasis卡升级职责切片：仅Combat、Act2Stasis、WarriorStatusCards与新卡升级规则owner；先核完整调用和状态所有权，消除Stasis因Master Reality升级回导Combat，保留公开动态槽、费用/复制读序、失败与原事务。以完整来源新旧VM、真实全图和窄门禁独审；不重新认领，不勾AC，不用用户设备、不重复Full、不重试被拒载荷。\n\nImplementation Notes:\n--------------------------------------------------\n本轮新鲜AST：328模块1902引用位置1535唯一对；即时图无SCC，含延迟图104成员804内部位置538唯一对。已逐类核对RelicHooks和Session/Combat提交owner，见M7-DEPENDENCY-AUDIT-20261106。六处入队解耦只减少职责反向边，不使大环缩小；优先审清生命周期切片及历史来源适配成本，不以数字下降收口。\n\n只读反事实提示CardPool三查询接真正叶可使104→103；更大族Session与purge路径104→88仅删边实验，不是实测改善或P2接受。补查现有规范不承诺raw反射形状，真实Shop.aliases与Rare.owns动态消费必须保留；原先要求纯反射另审批的推断已撤回。证据在主控521工作树build/g1-next-boundary及根.artifacts。所有AC仍未勾。\n\n遗物只读查询切片已在隔离树完成本地实现：单一零依赖叶保留五别名域和动态API；139别名、48奖励场景/344随机数边界双独立VM一致，专项6/6绿。CardPool实际退出核心SCC，104→103成员、内部位置804→791，未宣称整个环完成。独立生产初审无缺陷；来源适配、最终提交与托管验证继续，AC保持未勾。技术证据见docs/backlog-details/M7-RELIC-QUERIES-20261106.md。\n\n只读能力批次新增永久牌候选owner：仅依赖Copy，Boss不再回导LivingWall事件；原动态purgeCards、逐卡Copy图、错误和事务/RNG保持。新增6项先红后绿，原LivingWall72变换槽及Boss/Astrolabe等9项绿；同epoch十源34项绿。完整图实测331模块，大环102成员/787内部位置/527对，CardPool与LivingWall退出；14旧告警，无新增豁免。源码和来源已稳定，最终独审/提交/托管继续，AC未勾。\n\nD5生命周期产品已在独立树实现：14 Combat Hooks+固定五族能力，23消费者118读取保持原AST时机。实际333模块/1921位置/1547对；Combat SCC82/626/402与Session15/62/41，即时无环，六入口全边不能回Session。当前35组完整旧图读回与fresh current VM逐字一致，13540检查点；冷加载与89双向普通槽位、直接/延迟治理负例9/9，原查询候选12/12。最终来源桥、具名变异、精确整片深审及托管/合后验收继续，AC不勾。见docs/backlog-details/M7-RELIC-LIFECYCLE-20261106.md。\n\nD5来源扩展34项及独立有界审查PASS：23个391完整before另核Git blob、35 fresh owners/4 witness、精确配置逆和四copy完整旧epoch，原core guard不改。6个真实可解析语义负控控制先成功后被具名行为断言检出，覆盖双queue、TOP、counter别名、动态Boss、Wish/Bloom和Omamori发布；6/6通过。当前继续最终整片精确提交与原生交付，未用局部通过关闭AC。\n\n7be来源Full42176327678真实失败已保留，已通过原merge:auto暂停并读回。11个测试位置归6组：drain旧inverse/动态owner、HP顺序/Spoon/Necronomicon/Victory旧mutator site、旧14片误用当前新增库存；对应点状修复保持生产333源不变。另Linux6与Windows8/14 annotations确认20/30分钟真实上限终止，不能只更正旧历史预算断言后忽略实际吞吐；按完整成功CI_FILE_TIMING实测做当前布局必要修正，未声明新候选已通过。\n\n本批Full失败适配已定点修复并独审8file：drain5/5及raw75例/18真变异、三处定位12/12、Actor与历史预算9/9保持，补回当前13/14完整raw覆盖。真实timeout按1458条成功file原生日志校正129项JS权重，16/12工作下界已超原预算，采用必要最小17/13；原预算、unknown、raw安全/成本、worker、并发与Relic35均不变。既有CI入口仅加2个新完整SHA纯映射，3历史+4当前合同7/7及直接25/25通过。新精确HEAD/Full/队列/合后验收仍待；按Owner最新要求只收当前PR521，完成后结束，不新增任务。\n\n657来源Full42184962874的POSIX8真实20分钟超时已由首失败CLI回传，已原入口暂停读回。精确58计划/44完成前缀定位run-max-hp-config-inverse为首未完成：Linux旧254137，当前未观测；Windows完整成功889637.0668。629181截尾不入测量。仅复用既有planning floor加889638跨平台保守分配估计，原平台表/129观测/1.17MB证据/其他floors/17-13/预算/worker/并发保持；预测Win1707732/POSIX1187278含60秒。短历史实验不支持改D5缓存，已停止额外性能设计，只收当前PR521。\n\n本轮最终有界Codex切片已将生成、升级、插牌与完成移回Combat既有选择快照事务，Codex只做开选/校验。固定全图333模块1920引用；Combat SCC82→81、内部626→623位置/402→400对，Session15/62/41不变。原Act2遗物及Codex晚失败回滚通过；完整图和源码身份见docs/evidence/m7-final-core-20261106.json。独审/实际合前后Full仍待，不勾交付AC。\n\n最终本地完整收据补证：新8/8及原35-owner4/4通过；V4/Codex两个独立旧新VM合计79完整状态图检查点、每侧52,016,680字节一致，含V4直接execute付款后和伤害后部分写入、原错误对象。当前候选只提供本轮集成，不另开PR；独审及实际Full/队列/合后证据由主控同一候选绑定，AC仍不提前完成。\n\nCardUpgrade独立切片基于d8a57cae已实做：4生产路径将升级/费用/Blood元数据归Copy-only owner，Stasis不再回导Combat；完整334模块5396测量，SCC81/623/400→80/619/397仅Stasis退出，Session15/62/41不变，CC>15 237→236，CC>30 58及max75保持。真实pairs(C)复制Armaments旧回归曾失败，未改旧test；补窄动态枚举后原75组及registry通过，新增差分21/21、raw11/11，15完整图点885975字节/侧及8语义负控。source最终69项复测/精确独审提交收口中；已有失败/成功与28384ms本地planning成本保留，不改共享timings、不重复Full，不声明Hosted/合并/AC完成。见docs/backlog-details/M7-CARD-UPGRADE-OWNERSHIP-20261107.md。\n\nCardUpgrade最终pairs修复来源69/69复验通过；连同新增21、库存8、既有definition5共103个唯一JS通过，另6份原Lua及新增11组Lua通过，失败和重测完整保留。机器证据docs/evidence/m7-card-upgrade-ownership-20261107.json；本地切片待精确提交独审收据与统一发布，状态/AC保持不动。\n\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/backlog-doctor-d8-baseline.log",
+      "sha256": "41ec373ed9871a1bdc86d07865141fe89ca39d8163789d12e940e8783de30ecc",
+      "bytes": 4785,
+      "output": "WARNING: 5 duplicate task ID groups affect 10 files.\nSome task views may hide files and ID-based commands are blocked until the collision is repaired.\n  TASK-25.3:\n    - backlog/archive/tasks/task-25.3 - 首发卡牌框与图标制作（实机门槛后）.md\n    - backlog/tasks/task-25.3 - 制作并实测精修怪物与Boss样本.md\n  TASK-25.4:\n    - backlog/archive/tasks/task-25.4 - 首发荧肖像与卡图制作（先确认原生或低图元替代）.md\n    - backlog/tasks/task-25.4 - 补齐所有场景共享卡框的原稿设计.md\n  TASK-61:\n    - backlog/archive/tasks/task-61 - 接入原创四角色战斗与正常流程.md\n    - backlog/tasks/task-61 - E2：第二幕.md\n  TASK-64:\n    - backlog/archive/tasks/task-64 - 整合原创四角色并完成生产回归.md\n    - backlog/tasks/task-64 - 获得三钥匙并打通隐藏第四幕.md\n  TASK-69:\n    - backlog/archive/tasks/task-69 - 交付原创四角色并合入远端.md\n    - backlog/completed/task-69 - 厘清代码和素材的授权边界.md\nRun 'backlog doctor' to preview a safe, human-readable repair.\n\nRepair preview (no files changed):\n  backlog/archive/tasks/task-25.3 - 首发卡牌框与图标制作（实机门槛后）.md\n    TASK-25.3 -> TASK-25.6\n    new path: backlog/archive/tasks/task-25.6 - 首发卡牌框与图标制作（实机门槛后）.md\n  backlog/archive/tasks/task-25.4 - 首发荧肖像与卡图制作（先确认原生或低图元替代）.md\n    TASK-25.4 -> TASK-25.7\n    new path: backlog/archive/tasks/task-25.7 - 首发荧肖像与卡图制作（先确认原生或低图元替代）.md\n  backlog/archive/tasks/task-61 - 接入原创四角色战斗与正常流程.md\n    TASK-61 -> TASK-102\n    new path: backlog/archive/tasks/task-102 - 接入原创四角色战斗与正常流程.md\n  backlog/archive/tasks/task-64 - 整合原创四角色并完成生产回归.md\n    TASK-64 -> TASK-103\n    new path: backlog/archive/tasks/task-103 - 整合原创四角色并完成生产回归.md\n  backlog/archive/tasks/task-69 - 交付原创四角色并合入远端.md\n    TASK-69 -> TASK-104\n    new path: backlog/archive/tasks/task-104 - 交付原创四角色并合入远端.md\n\nReferences requiring human review after repair:\n  backlog/archive/tasks/task-69 - 交付原创四角色并合入远端.md:19 [TASK-69]\n    交付附件V4的四位原创角色，每人完整75张牌，接入既有正常游戏流程并合入远端develop。技术与证据见 docs/backlog-details/task-69.md。\n  backlog/tasks/task-15 - M3-遭遇池：普通-14-组-19-变体-精英-3-Boss.md:26 [TASK-61]\n    第一幕19种普通变体、3精英的AI、数值和特殊能力实现已交付。逐招式自然实机原AC4完整迁入TASK-47；第二至四幕新增敌人仍归TASK-61/62/64，不混入本切片完成声明。\n  backlog/tasks/task-47 - M3-冻结第一幕首发内容清单与逐项可获得-可执行验收.md:125 [TASK-61, TASK-64]\n    2026-10-26用户明确第二、第三和隐藏第四幕均纳入M3，不能继续按第一幕或投稿后可选范围收口。原DRAFT-2/6已原生提升TASK-61/62，TASK-63共享跨幕核心、TASK-64钥匙/终幕，均归m-4。用户已授权本轮独立工作树离线开发/任务更新暂免认领；不改远端paused，不提交推送合并或操作桌面。固定基线45ba918，章节、职业与四层证据缺口继续保留。\n  backlog/tasks/task-47 - M3-冻结第一幕首发内容清单与逐项可获得-可执行验收.md:208 [TASK-61, TASK-64]\n    2026-10-26用户明确第二、第三和隐藏第四幕均纳入M3，不能继续按第一幕或投稿后可选范围收口。原DRAFT-2/6已原生提升TASK-61/62，TASK-63共享跨幕核心、TASK-64钥匙/终幕，均归m-4。用户已授权本轮独立工作树离线开发/任务更新暂免认领；不改远端paused，不提交推送合并或操作桌面。固定基线45ba918，章节、职业与四层证据缺口继续保留。\n  backlog/tasks/task-62 - E5：第三幕和三幕连续冒险.md:18 [TASK-61]\n    - TASK-61\nThese references are not changed automatically because the original ID is ambiguous.\n\n93 archived task files stored outside backlog/archive/tasks:\n  backlog/completed/task-1 - 定玩法与一页设计文档.md\n  backlog/completed/task-10 - M1-战斗界面：手牌-能量-血条-格挡-敌人意图.md\n  backlog/completed/task-10.1.1 - 单卡原生Lua导出链路实机门槛.md\n  backlog/completed/task-10.2 - 独立审查-TASK-10-原生战斗UI与构建资源.md\n  backlog/completed/task-10.3 - 修复本机MCP试玩前台切换阻断.md\n  ... and 88 more\nThey are moved into backlog/archive/tasks once the duplicate task IDs above are repaired. File names and task IDs stay the same.\n\nRun 'backlog doctor --fix' to apply this repair after reviewing the preview.\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/backlog-doctor.log",
+      "sha256": "41ec373ed9871a1bdc86d07865141fe89ca39d8163789d12e940e8783de30ecc",
+      "bytes": 4785,
+      "output": "WARNING: 5 duplicate task ID groups affect 10 files.\nSome task views may hide files and ID-based commands are blocked until the collision is repaired.\n  TASK-25.3:\n    - backlog/archive/tasks/task-25.3 - 首发卡牌框与图标制作（实机门槛后）.md\n    - backlog/tasks/task-25.3 - 制作并实测精修怪物与Boss样本.md\n  TASK-25.4:\n    - backlog/archive/tasks/task-25.4 - 首发荧肖像与卡图制作（先确认原生或低图元替代）.md\n    - backlog/tasks/task-25.4 - 补齐所有场景共享卡框的原稿设计.md\n  TASK-61:\n    - backlog/archive/tasks/task-61 - 接入原创四角色战斗与正常流程.md\n    - backlog/tasks/task-61 - E2：第二幕.md\n  TASK-64:\n    - backlog/archive/tasks/task-64 - 整合原创四角色并完成生产回归.md\n    - backlog/tasks/task-64 - 获得三钥匙并打通隐藏第四幕.md\n  TASK-69:\n    - backlog/archive/tasks/task-69 - 交付原创四角色并合入远端.md\n    - backlog/completed/task-69 - 厘清代码和素材的授权边界.md\nRun 'backlog doctor' to preview a safe, human-readable repair.\n\nRepair preview (no files changed):\n  backlog/archive/tasks/task-25.3 - 首发卡牌框与图标制作（实机门槛后）.md\n    TASK-25.3 -> TASK-25.6\n    new path: backlog/archive/tasks/task-25.6 - 首发卡牌框与图标制作（实机门槛后）.md\n  backlog/archive/tasks/task-25.4 - 首发荧肖像与卡图制作（先确认原生或低图元替代）.md\n    TASK-25.4 -> TASK-25.7\n    new path: backlog/archive/tasks/task-25.7 - 首发荧肖像与卡图制作（先确认原生或低图元替代）.md\n  backlog/archive/tasks/task-61 - 接入原创四角色战斗与正常流程.md\n    TASK-61 -> TASK-102\n    new path: backlog/archive/tasks/task-102 - 接入原创四角色战斗与正常流程.md\n  backlog/archive/tasks/task-64 - 整合原创四角色并完成生产回归.md\n    TASK-64 -> TASK-103\n    new path: backlog/archive/tasks/task-103 - 整合原创四角色并完成生产回归.md\n  backlog/archive/tasks/task-69 - 交付原创四角色并合入远端.md\n    TASK-69 -> TASK-104\n    new path: backlog/archive/tasks/task-104 - 交付原创四角色并合入远端.md\n\nReferences requiring human review after repair:\n  backlog/archive/tasks/task-69 - 交付原创四角色并合入远端.md:19 [TASK-69]\n    交付附件V4的四位原创角色，每人完整75张牌，接入既有正常游戏流程并合入远端develop。技术与证据见 docs/backlog-details/task-69.md。\n  backlog/tasks/task-15 - M3-遭遇池：普通-14-组-19-变体-精英-3-Boss.md:26 [TASK-61]\n    第一幕19种普通变体、3精英的AI、数值和特殊能力实现已交付。逐招式自然实机原AC4完整迁入TASK-47；第二至四幕新增敌人仍归TASK-61/62/64，不混入本切片完成声明。\n  backlog/tasks/task-47 - M3-冻结第一幕首发内容清单与逐项可获得-可执行验收.md:125 [TASK-61, TASK-64]\n    2026-10-26用户明确第二、第三和隐藏第四幕均纳入M3，不能继续按第一幕或投稿后可选范围收口。原DRAFT-2/6已原生提升TASK-61/62，TASK-63共享跨幕核心、TASK-64钥匙/终幕，均归m-4。用户已授权本轮独立工作树离线开发/任务更新暂免认领；不改远端paused，不提交推送合并或操作桌面。固定基线45ba918，章节、职业与四层证据缺口继续保留。\n  backlog/tasks/task-47 - M3-冻结第一幕首发内容清单与逐项可获得-可执行验收.md:208 [TASK-61, TASK-64]\n    2026-10-26用户明确第二、第三和隐藏第四幕均纳入M3，不能继续按第一幕或投稿后可选范围收口。原DRAFT-2/6已原生提升TASK-61/62，TASK-63共享跨幕核心、TASK-64钥匙/终幕，均归m-4。用户已授权本轮独立工作树离线开发/任务更新暂免认领；不改远端paused，不提交推送合并或操作桌面。固定基线45ba918，章节、职业与四层证据缺口继续保留。\n  backlog/tasks/task-62 - E5：第三幕和三幕连续冒险.md:18 [TASK-61]\n    - TASK-61\nThese references are not changed automatically because the original ID is ambiguous.\n\n93 archived task files stored outside backlog/archive/tasks:\n  backlog/completed/task-1 - 定玩法与一页设计文档.md\n  backlog/completed/task-10 - M1-战斗界面：手牌-能量-血条-格挡-敌人意图.md\n  backlog/completed/task-10.1.1 - 单卡原生Lua导出链路实机门槛.md\n  backlog/completed/task-10.2 - 独立审查-TASK-10-原生战斗UI与构建资源.md\n  backlog/completed/task-10.3 - 修复本机MCP试玩前台切换阻断.md\n  ... and 88 more\nThey are moved into backlog/archive/tasks once the duplicate task IDs above are repaired. File names and task IDs stay the same.\n\nRun 'backlog doctor --fix' to apply this repair after reviewing the preview.\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/backlog-edit-help.log",
+      "sha256": "712f988dc0a377597725894bc5a4f55823e3fa7a1b0a0bab8c4a2c99c9e62aa9",
+      "bytes": 9437,
+      "output": "Usage: backlog task edit [options] [taskIds...]\n\nedit an existing task\n\nOptions:\n  -t, --title <title>\n  -d, --description <text>          task description\n  --desc <text>                     alias for --description\n  -a, --assignee <assignees>        replace all task assignees with one or more\n                                    @names (comma-separated or repeatable); pass\n                                    \"\" to clear them\n  -s, --status <status>\n  -l, --label <labels>              replace all task labels (comma-separated or\n                                    repeatable; cannot combine with\n                                    --add-label/--remove-label)\n  --priority <priority>             set task priority (configured priorities)\n  --type <type>                     set task type (configured task types; pass\n                                    an empty value to clear)\n  --project <project>               set task project (configured projects; pass\n                                    an empty value to clear)\n  --due-date <date>                 set due date (YYYY-MM-DD)\n  --clear-due-date                  clear task due date\n  --ordinal <number>                set task ordinal for custom ordering\n  -m, --milestone <milestone>       assign task to milestone by ID or title\n  --clear-milestone                 clear task milestone assignment\n  --plain                           use plain text output after editing\n  --add-label <labels>              add task labels without replacing existing\n                                    labels (comma-separated or repeatable)\n  --remove-label <labels>           remove task labels without replacing others\n                                    (comma-separated or repeatable)\n  --clear-labels                    remove all task labels (cannot combine with\n                                    --label/--add-label/--remove-label)\n  --ac <criteria>                   add acceptance criteria (can be used\n                                    multiple times)\n  --dod <item>                      add Definition of Done item (can be used\n                                    multiple times)\n  --remove-ac <index>               remove acceptance criterion by index\n                                    (1-based, can be used multiple times)\n  --remove-dod <index>              remove Definition of Done item by index\n                                    (1-based, can be used multiple times)\n  --check-ac <index>                check acceptance criterion by index\n                                    (1-based, can be used multiple times)\n  --check-dod <index>               check Definition of Done item by index\n                                    (1-based, can be used multiple times)\n  --uncheck-ac <index>              uncheck acceptance criterion by index\n                                    (1-based, can be used multiple times)\n  --uncheck-dod <index>             uncheck Definition of Done item by index\n                                    (1-based, can be used multiple times)\n  --acceptance-criteria <criteria>  replace all acceptance criteria (can be used\n                                    multiple times; commas are preserved);\n                                    matching trimmed text keeps checks\n  --clear-ac                        remove all acceptance criteria (cannot\n                                    combine with acceptance criteria mutation\n                                    options)\n  --plan <text>                     set implementation plan\n  --notes <text>                    set implementation notes (replaces existing)\n  --comment <text>                  append a task comment; standalone '---'\n                                    lines are reserved (can be used multiple\n                                    times)\n  --comment-author <author>         author to record for appended comments\n  --final-summary <text>            set final summary (replaces existing)\n  --append-plan <text>              append after --plan replacement (can be used\n                                    multiple times)\n  --append-notes <text>             append to implementation notes (can be used\n                                    multiple times)\n  --append-final-summary <text>     append to final summary (can be used\n                                    multiple times)\n  --clear-final-summary             remove final summary\n  --clear-deps                      remove all task dependencies (cannot combine\n                                    with --depends-on or --dep)\n  --depends-on <taskIds>            set task dependencies (comma-separated or\n                                    use multiple times); pass \"\" to clear them\n  --dep <taskIds>                   set task dependencies (shortcut for\n                                    --depends-on)\n  --ref <reference>                 replace all references (comma-separated or\n                                    repeatable; cannot combine with\n                                    --add-ref/--remove-ref); pass \"\" to clear\n                                    them\n  --add-ref <reference>             add references without replacing existing\n                                    references (comma-separated or repeatable)\n  --remove-ref <reference>          remove references without replacing others\n                                    (comma-separated or repeatable)\n  --clear-refs                      remove all references (cannot combine with\n                                    --ref/--add-ref/--remove-ref)\n  --modified-file <path>            set modified file paths from project root\n                                    (can be used multiple times)\n  --doc <documentation>             replace all documentation (comma-separated\n                                    or repeatable; cannot combine with\n                                    --add-doc/--remove-doc); pass \"\" to clear it\n  --add-doc <documentation>         add documentation without replacing existing\n                                    documentation (comma-separated or\n                                    repeatable)\n  --remove-doc <documentation>      remove documentation without replacing\n                                    others (comma-separated or repeatable)\n  --clear-docs                      remove all documentation (cannot combine\n                                    with --doc/--add-doc/--remove-doc)\n  -h, --help                        display help for command\n\n\nInput schema:\nRequired fields:\n  - taskIds: Task IDs - Tasks to update; prompted when omitted in interactive mode. Several IDs apply the same shared-field change to every task\nOptional fields:\n  - title: String - Replacement task title\n  - description: Markdown - Replacement description\n  - status: one of configured statuses: To Do, In Progress, Blocked, Done - Project task status; case-insensitive\n  - type: one of configured task types: bug, feature, enhancement, task, chore, docs, spike - Replacement task type; case-insensitive\n  - project: no projects configured; add a 'projects:' list to the project config file - Replacement task project; case-insensitive; pass an empty value to clear\n  - due-date: date - Set the task due date (YYYY-MM-DD)\n  - clear-due-date: Boolean - Clear the task due date\n  - assignee: Comma-separated strings - Replace all assignees; repeat -a or use @name1,@name2; -a \"\" clears them\n  - label: Comma-separated strings - Replace all labels; repeat --label or use label1,label2\n  - add-label: Comma-separated strings - Add labels; repeat --add-label or use label1,label2\n  - remove-label: Comma-separated strings - Remove labels; repeat --remove-label or use label1,label2\n  - clear-labels: Boolean - Remove all labels; cannot combine with other label flags\n  - clear-deps: Boolean - Remove all task dependencies; cannot combine with dependency flags\n  - add-ref: Comma-separated strings - Add references; repeat --add-ref or use ref1,ref2\n  - remove-ref: Comma-separated strings - Remove references; repeat --remove-ref or use ref1,ref2\n  - clear-refs: Boolean - Remove all references; cannot combine with --ref, --add-ref, or --remove-ref\n  - add-doc: Comma-separated strings - Add documentation; repeat --add-doc or use doc1,doc2\n  - remove-doc: Comma-separated strings - Remove documentation; repeat --remove-doc or use doc1,doc2\n  - clear-docs: Boolean - Remove all documentation; cannot combine with --doc, --add-doc, or --remove-doc\n  - plan: Markdown - Replacement implementation plan\n  - append-plan: Markdown - Append after --plan replacement; repeatable\n  - notes: Markdown - Replacement implementation notes\n  - append-notes: Markdown - Append to implementation notes; repeatable\n  - comment: Markdown - Append a discussion comment\n  - final-summary: Markdown - Completion summary\n  - append-final-summary: Markdown - Append to final summary; repeatable\n  - check-ac: Integer - 1-based acceptance criterion index\nMarkdown fields:\n  - Multi-line values need real newlines; a literal \\n is stored as text\n  - Example (bash/zsh): --description $'First line\\nSecond line'\nWrites:\n  - Updates task metadata and structured task sections through Backlog.md\nOutput:\n  - Updated task details; use --plain for text output\nExamples:\n  backlog task edit TASK-1 --status \"<active status>\" -a @sara\n  backlog task edit TASK-1 --type \"bug\"\n  backlog task edit TASK-1 --check-ac 1\n  backlog task edit TASK-1 TASK-2 --status \"<active status>\"\n\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/backlog-execution.log",
+      "sha256": "49907e0cd7cfe7476d0bb84bc61503a1b3b18ea9ff8a546e5fafeff38ab4ccb5",
+      "bytes": 6658,
+      "output": "## Task Execution Guide\n\nUse this guide when you are working on an existing Backlog task.\n\n### Planning Workflow\n\nBefore writing code for non-trivial work:\n\n1. Read the task before mutating it:\n   - `backlog task view TASK-123 --plain`\n2. Review its current status, description, acceptance criteria, dependencies, references, and documentation. Confirm the\n   task is eligible to start and remains within the requested scope.\n   - The `Dependency Graph` section reads the whole context: `Depends on` is what this task transitively waits on,\n     `Dependents` is what transitively waits on it. Outermost entries are direct, indented entries are transitive.\n   - `unknown task ID` and `ambiguous task ID` are unresolved identities, never satisfied dependencies. The graph stops\n     at one instead of guessing, so treat that branch as unknown and run `backlog doctor` before relying on it.\n3. Mark it in progress and assign yourself:\n   - Inspect accepted statuses if needed: `backlog task edit TASK-123 --help`\n   - `backlog task edit TASK-123 -s \"<active status>\" -a @your-name`\n4. Research the current system, including relevant code, tests, conventions, and recent changes. Do not rely on an\n   implementation approach proposed when the task was created.\n5. Draft an implementation plan.\n6. Record the current plan in the task before implementation:\n   - `backlog task edit TASK-123 --plan \"1. ...\"`\n7. If the plan contains a material product, architecture, or workflow decision, or the project or user requires plan\n   review, present it and wait for explicit approval before implementation. Routine plans need not block when no review\n   was requested and they stay within confirmed scope.\n\nKeep the Backlog task as the plan of record. If the approach changes, replace it with `--plan` or extend it with one\nor more repeatable `--append-plan` values. When both options are provided, `--plan` replaces the existing plan first,\nthen each `--append-plan` value is appended in CLI order:\n\n- `backlog task edit TASK-123 --append-plan \"5. Verify the revised approach\"`\n- `backlog task edit TASK-123 --plan \"1. Revised approach\" --append-plan \"2. Verify it\"`\n\n### Execution Workflow\n\nWork in short loops:\n\n1. Implement a focused slice.\n2. Run relevant tests or checks.\n3. Record useful progress:\n   - `backlog task edit TASK-123 --append-notes \"Implemented parser and added tests.\"`\n4. Add comments for discussion or review questions:\n   - `backlog task edit TASK-123 --comment \"Question for review\" --comment-author @your-name`\n\nUse `backlog task edit TASK-123 --help` before changing unfamiliar fields.\n\nReplacing or clearing a legacy description, plan, notes, or final summary without section markers is refused if another\nlevel-two heading makes its boundary ambiguous. The file stays unchanged. Stop and ask the user to add the BEGIN and\nEND markers named in the error around the intended section body without removing any content. Do not edit task or\ndraft files directly. The user should place the END marker before a separate section, or after headings that belong\nto the body. Retry the CLI edit after the user repairs the boundary. Appends remain supported and keep ambiguous\nsections unmarked, so later replacements remain protected.\n\nDo not check acceptance criteria, write the final summary, or move the task to the terminal status from this guide alone. When implementation appears complete, read the finalization guide and verify each acceptance criterion with objective evidence before checking it.\n\n### Scope Changes\n\nIf you discover work that is outside the task's acceptance criteria, stop and ask the user whether to add scope to the current task or create follow-up work. Do not silently expand the task.\n\n### Replacing Acceptance Criteria\n\n`--acceptance-criteria` replaces the full list; repeat it for each item. Matching trimmed text keeps its check state,\neven after reordering. Duplicate text matches old entries in order, once per entry. New or reworded entries start\nunchecked, and omitted entries are removed. Use `--check-ac` or `--uncheck-ac` in a separate edit to change check states.\n\n### Working With Subtasks\n\nIf the user assigns a parent task and all subtasks, complete subtasks one at a time. Each subtask should have its own plan, notes, checked acceptance criteria, and final summary.\n\nIf the user assigns only one subtask, finish that subtask and ask before moving to the next one.\n\n### Reading and Writing Backlog Data\n\nUse CLI commands for Backlog changes:\n\n- Read: `backlog task view TASK-123 --plain`\n- Search: `backlog search \"query\" --plain`\n- List with task filters: `backlog task list --status \"<active status>\" --assignee @your-name --labels backend --search \"auth\" --limit 20 --plain`\n- Update: `backlog task edit TASK-123 ...`\n- Create docs: `backlog doc create \"Title\"`\n- Update docs: `backlog doc update doc-1 --content \"Markdown\"`\n- Archive docs: `backlog doc archive doc-1` moves the file to `backlog/archive/docs/`. The ID stays reserved. The document stays viewable with `backlog doc view` and is read-only. Tasks and drafts whose documentation names the file are printed, not changed.\n- Restore docs: `backlog doc restore doc-1` moves an archived document back to `backlog/docs/` with the same ID.\n- Delete docs: archive first, then `backlog doc delete doc-1`. Delete asks no question, removes the file and releases the ID. Tasks and drafts whose documentation names the file are printed, not changed.\n- Decisions follow the same steps: `backlog decision archive decision-1` moves the file to `backlog/archive/decisions/`, keeps the ID reserved and makes the decision read-only; `backlog decision restore decision-1` brings it back; `backlog decision delete decision-1` removes an archived decision without a question and releases the ID. Tasks and drafts whose documentation names the file are printed, not changed.\n\nFor documentation links on tasks or drafts, `task edit` and `draft edit` use `--doc` to replace the full list. Use\n`--add-doc` or `--remove-doc` to change individual entries; both accept repeated flags or comma-separated values.\nUse `--clear-docs` to remove all entries. Do not combine replacement or clear flags with add/remove flags.\n\nFor programmatic reads, `task list`, `task view`, `task <id>`, `draft list`, `decision list`, and `search` accept `--json`. JSON mode is noninteractive, versioned, and cannot be combined with `--plain`.\n\nDo not edit Backlog markdown files directly. The CLI preserves metadata, IDs, filenames, relationships, and structured sections.\n\n### Finishing\n\nWhen implementation is complete, continue with:\n\n```bash\nbacklog instructions task-finalization\n```\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/backlog-finalization.log",
+      "sha256": "ca69a65e140a7b9fe9a33f7fa9273ac5136e74c81a8a5ba472d8d757c9800af6",
+      "bytes": 2316,
+      "output": "## Task Finalization Guide\n\nUse this guide when implementation is complete and ready for review.\n\n1. Read the task with `backlog task view TASK-123 --plain`. Identify evidence for every acceptance criterion and Definition of Done item.\n2. Run relevant tests and checks. For UI or interactive work, exercise the behavior through a browser, DOM script, test runner, or documented manual interaction. Code presence, grep output, and implementation intent are not verification evidence.\n3. Check only proven items with `backlog task edit TASK-123 --check-ac 1 --check-dod 1`. Resolve failures before finishing.\n4. Confirm the recorded plan matches the final solution and required documentation/configuration updates are complete. Keep useful decisions and validation results in implementation notes (`--append-notes`); use comments for review questions (`--comment`).\n5. Write a concise `--final-summary` explaining what changed, why, verification results, and relevant risks or follow-ups. Complete any required user review before marking work finished.\n6. Mark verified work Done, or the configured final status: `backlog task edit TASK-123 -s \"<terminal status>\"`. Check accepted statuses with `backlog task edit --help`.\n\n### Task Lifecycle\n\nLeave finished tasks on the board until periodic cleanup. Archive (`backlog task archive TASK-123`) then moves them off the board while keeping their ID, record, and dependency links.\n\nArchive also takes canceled, duplicate, or invalid work off the board. Archived tasks are read-only, so finish notes and the final summary before archiving. To change an archived task or work on it again, bring it back to the board with `backlog task restore TASK-123`; it keeps its ID and status.\n\nTo remove a task for good, archive it and then delete it with `backlog task delete TASK-123`. Delete releases the ID once no other branch or worktree still holds the task, and removes the links other tasks and drafts hold to the task, so use it only for work that should leave no record.\n\n### Follow-up Work\n\nDo not create or start follow-up tasks without user approval. For subtasks, verify each separately and finish the parent only when all are complete, unless instructed otherwise. Continue to the next subtask only when the user already assigned the full series; otherwise ask first.\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/backlog-overview.log",
+      "sha256": "2657ba87f1c8b8984e1212989abb22593d0fa6586e26aca9835e9641be4ee5f1",
+      "bytes": 3004,
+      "output": "## Backlog.md Overview (CLI)\n\nBacklog.md tracks committed work: what will be built, fixed, or changed.\n\n### When to Use Backlog\n\nCreate a task when work requires planning, decisions, or handoff notes. Search for an existing task first. Skip task creation for questions, exploration, and obvious mechanical edits.\n\n### Find and Read Work\n\n- `backlog search \"query\" --plain`\n- `backlog task list --status \"<todo status>\" --plain`\n- `backlog task list --status \"<active status>\" --plain`\n- `backlog task list --search \"login\" --labels frontend,bug --limit 20 --plain`\n- `backlog task view TASK-123 --plain`\n\nFor long lists, use `--max-count` and `--skip`, follow the printed `Next` command, or use `--count` for the total; command help covers the details.\n\nFor scripts, `task list`, `task view`, `task <id>`, `draft list`, `decision list`, and `search` accept versioned `--json` output instead of `--plain`. `task list --json --watch` emits complete replacement responses; read successive JSON values, not individual lines. Filters and local scope are unchanged; intermediate edits may be coalesced. Restart for a fresh snapshot.\n\n### Required Guides\n\nRead the matching guide before taking these actions; this overview does not replace it:\n\n- `backlog instructions task-creation` — before creating or splitting tasks\n- `backlog instructions task-execution` — before planning, changing status or assignee, adding notes, or implementing\n- `backlog instructions task-finalization` — before checking acceptance criteria, writing final summaries, or marking work finished\n\nUse `backlog <command> --help` before unfamiliar operations. Help describes fields, output, and examples.\n\n### Task Lifecycle\n\nMark finished work Done (or the configured final status) and leave it on the board until periodic cleanup.\n\nArchive (`backlog task archive TASK-123`) moves a task in any status off the board: finished work during cleanup, and canceled, duplicate, or invalid work at any time. An archived task keeps its ID, its record, and every dependency and reference to it. It stays readable with `backlog task view` and is read-only. A dependency on an archived task counts as satisfied only when that task is in the final status.\n\nRestore (`backlog task restore TASK-123`) moves an archived task back to the board with the same ID and the status it had. Restore a task before changing it: editing an archived task fails and names this command.\n\nDeleting a task takes two steps: archive it, then run `backlog task delete TASK-123`. Delete permanently removes the archived task and releases its ID once no other branch or worktree still holds the task. It removes the dependencies and references other tasks and drafts hold to it and names the tasks and drafts it changed. A task whose subtasks still exist, as tasks or as drafts, is not deleted.\n\nUse the CLI for Backlog changes. Never edit task, draft, document, decision, or milestone markdown files directly; commands preserve metadata, relationships, and history.\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/backlog-verify.log",
+      "sha256": "a4713a2d2fedb45f490a85a35d164af8d315b96821d0f1a7348e42ef69544946",
+      "bytes": 382,
+      "output": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 verify:backlog\n> node scripts/verify-backlog-roadmap.mjs\n\n任务编号、首发排期、负责人及仅岩系旅行者前两幕规划范围检查通过；当前任务均有优先级、未完成High不超过5项；不认证运行时准入、平台或实机。\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/ci-corrected-final.log",
+      "sha256": "4d9fd20e44ca116906d1187252d4bd83c3a750a376d99f0caeef4e8f4b32ee7d",
+      "bytes": 2511,
+      "output": "✔ complete native successful rows authenticate every observed file and only raise effective placement costs (50.246437ms)\n✔ only complete approved sources reverse 16/12 to 14/9 to 13/9 and new timing to d580 to original 8e epoch (43.073663ms)\n✔ historical physical Windows16 POSIX12 Full33 covers final inventory under original budgets and unchanged setup reserve (78.120545ms)\n✔ frozen Windows17 POSIX13 Full35 receipt covers its exact 741 JS and 1401 Lua files within unchanged budgets (74.435193ms)\n✔ current Full35 includes all post-placement files once at explicit unknown costs or the sourced CardUpgrade floor within unchanged budgets (157.501534ms)\n✔ current placement authenticates 1458 complete successful assigned files without claiming failed containing jobs passed (129.445462ms)\n✔ current 129 placement raises reconstruct exact timings while preserving all old floors and raw worker safety bytes (34.560976ms)\n✔ only two exact current source identities enter the unchanged pure historical CI chain and all byte drift remains visible (57.871193ms)\n✔ CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape (72.119562ms)\n✔ CardUpgrade floor inverse refuses deletion, old-floor changes, weights, metadata and stale warm authorization (559.154411ms)\n✔ CardUpgrade floor authenticates retained complete successes, failures and unimported local raw timings (15.715336ms)\n✔ Host placement calibration contains only complete successful same-platform measurements and monotonic additions (17.257427ms)\n✔ only the complete approved Host timing source reverses, including through the historical integration entry (5.829191ms)\n✔ wrong measured values, duplicate positions, spelling changes, partial input and unrelated drift never gain the old identity (25.311191ms)\n✔ TASK-75.4 calibration preserves unknown fallback, worker safety and execution data independently of Full shape (6.274975ms)\n✔ TASK-75.5 historical thirteen-to-fourteen source and exact 28-job shape remain intact behind the approved outer epoch (1.254897ms)\n✔ complete approved fourteen-shard source alone recovers the unchanged full historical thirteen-shard source (1.400737ms)\n✔ historical fourteen-slot budget retains its complete observed inventory while partition coverage includes every current file (170.954293ms)\nℹ tests 18\nℹ suites 0\nℹ pass 18\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 2161.839878\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/ci-final.log",
+      "sha256": "b5957531708e9ceab60dbdb21dfe6353f69d757a3fa5115806343184278272bd",
+      "bytes": 3315,
+      "output": "✔ complete native successful rows authenticate every observed file and only raise effective placement costs (49.935633ms)\n✔ only complete approved sources reverse 16/12 to 14/9 to 13/9 and new timing to d580 to original 8e epoch (20.312899ms)\n✖ historical physical Windows16 POSIX12 Full33 covers final inventory under original budgets and unchanged setup reserve (59.731332ms)\n✔ frozen Windows17 POSIX13 Full35 receipt covers its exact 741 JS and 1401 Lua files within unchanged budgets (75.309714ms)\n✔ current Full35 includes all post-placement files once at explicit unknown costs or the sourced CardUpgrade floor within unchanged budgets (80.920285ms)\n✔ current placement authenticates 1458 complete successful assigned files without claiming failed containing jobs passed (46.972153ms)\n✔ current 129 placement raises reconstruct exact timings while preserving all old floors and raw worker safety bytes (17.610333ms)\n✔ only two exact current source identities enter the unchanged pure historical CI chain and all byte drift remains visible (24.67275ms)\n✔ CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape (32.4511ms)\n✔ CardUpgrade floor inverse refuses deletion, old-floor changes, weights, metadata and stale warm authorization (410.452577ms)\n✔ CardUpgrade floor authenticates retained complete successes, failures and unimported local raw timings (16.194453ms)\n✔ Host placement calibration contains only complete successful same-platform measurements and monotonic additions (17.598273ms)\n✔ only the complete approved Host timing source reverses, including through the historical integration entry (5.010476ms)\n✔ wrong measured values, duplicate positions, spelling changes, partial input and unrelated drift never gain the old identity (26.175725ms)\n✔ TASK-75.4 calibration preserves unknown fallback, worker safety and execution data independently of Full shape (6.389349ms)\n✔ TASK-75.5 historical thirteen-to-fourteen source and exact 28-job shape remain intact behind the approved outer epoch (1.064717ms)\n✔ complete approved fourteen-shard source alone recovers the unchanged full historical thirteen-shard source (1.471342ms)\n✔ historical fourteen-slot budget retains its complete observed inventory while partition coverage includes every current file (157.395516ms)\nℹ tests 18\nℹ suites 0\nℹ pass 17\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1729.942145\n\n✖ failing tests:\n\ntest at tests/ci-complete-calibration.test.mjs:129:1\n✖ historical physical Windows16 POSIX12 Full33 covers final inventory under original budgets and unchanged setup reserve (59.731332ms)\n  ReferenceError [Error]: expected is not defined\n      at TestContext.<anonymous> (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/ci-complete-calibration.test.mjs:147:124)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/ci-initial.log",
+      "sha256": "70b0bb8519e935c6d14e2b809db4a997d23a463c8bef2b82292c81bc971a1654",
+      "bytes": 4776,
+      "output": "✔ complete native successful rows authenticate every observed file and only raise effective placement costs (47.831607ms)\n✔ only complete approved sources reverse 16/12 to 14/9 to 13/9 and new timing to d580 to original 8e epoch (19.426078ms)\n✖ historical physical Windows16 POSIX12 Full33 covers final inventory under original budgets and unchanged setup reserve (32.906853ms)\n✔ frozen Windows17 POSIX13 Full35 receipt covers its exact 741 JS and 1401 Lua files within unchanged budgets (77.268705ms)\n✔ current Full35 includes all post-placement files once at explicit unknown costs or the sourced CardUpgrade floor within unchanged budgets (72.433308ms)\n✔ current placement authenticates 1458 complete successful assigned files without claiming failed containing jobs passed (45.728769ms)\n✔ current 129 placement raises reconstruct exact timings while preserving all old floors and raw worker safety bytes (17.853761ms)\n✔ only two exact current source identities enter the unchanged pure historical CI chain and all byte drift remains visible (24.765679ms)\n✔ CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape (32.843956ms)\n✔ CardUpgrade floor inverse refuses deletion, old-floor changes, weights, metadata and stale warm authorization (410.750382ms)\n✖ CardUpgrade floor authenticates retained complete successes, failures and unimported local raw timings (6.600015ms)\nℹ tests 11\nℹ suites 0\nℹ pass 9\nℹ fail 2\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1021.015703\n\n✖ failing tests:\n\ntest at tests/ci-complete-calibration.test.mjs:129:1\n✖ historical physical Windows16 POSIX12 Full33 covers final inventory under original budgets and unchanged setup reserve (32.906853ms)\n  ReferenceError [Error]: expected is not defined\n      at TestContext.<anonymous> (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/ci-complete-calibration.test.mjs:140:126)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)\n\ntest at tests/ci-complete-calibration.test.mjs:436:1\n✖ CardUpgrade floor authenticates retained complete successes, failures and unimported local raw timings (6.600015ms)\n  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /attempt to call a nil value \\(field 'canUpgrade'\\)/. Input:\n  \n  '...rade-ownership-20261107/tests/lua/card_actions_drain.lua:16: [DRAIN_CONTRACT] real queued choice success false ~= true\\n' +\n    'stack traceback:\\n' +\n    \"\\t[JS]: in function 'assert'\\n\" +\n    \"\\t...rade-ownership-20261107/tests/lua/card_actions_drain.lua:16: in upvalue 'eq'\\n\" +\n    \"\\t...rade-ownership-20261107/tests/lua/card_actions_drain.lua:315: in local 'check'\\n\" +\n    \"\\t...rade-ownership-20261107/tests/lua/card_actions_drain.lua:91: in local 'run'\\n\" +\n    '\\t...rade-ownership-20261107/tests/lua/card_actions_drain.lua:306: in main chunk\\n' +\n    \"\\t[JS]: in function 'dofile'\\n\" +\n    '\\t(command line):1: in main chunk\\n' +\n    'Lua fixture tests/lua/card_actions_drain.lua: 2183 ms\\n'\n  \n      at TestContext.<anonymous> (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/ci-complete-calibration.test.mjs:463:9)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: \"...rade-ownership-20261107/tests/lua/card_actions_drain.lua:16: [DRAIN_CONTRACT] real queued choice success false ~= true\\nstack traceback:\\n\\t[JS]: in function 'assert'\\n\\t...rade-ownership-20261107/tests/lua/card_actions_drain.lua:16: in upvalue 'eq'\\n\\t...rade-ownership-20261107/tests/lua/card_actions_drain.lua:315: in local 'check'\\n\\t...rade-ownership-20261107/tests/lua/card_actions_drain.lua:91: in local 'run'\\n\\t...rade-ownership-20261107/tests/lua/card_actions_drain.lua:306: in main chunk\\n\\t[JS]: in function 'dofile'\\n\\t(command line):1: in main chunk\\nLua fixture tests/lua/card_actions_drain.lua: 2183 ms\\n\",\n    expected: /attempt to call a nil value \\(field 'canUpgrade'\\)/,\n    operator: 'match',\n    diff: 'simple'\n  }\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/ci-repair.log",
+      "sha256": "460bce45122d63395fd0ed9e7fa0944ca9625621a7214e89c5c763cf00406573",
+      "bytes": 4200,
+      "output": "✔ complete native successful rows authenticate every observed file and only raise effective placement costs (50.891986ms)\n✔ only complete approved sources reverse 16/12 to 14/9 to 13/9 and new timing to d580 to original 8e epoch (21.497678ms)\n✔ historical physical Windows16 POSIX12 Full33 covers final inventory under original budgets and unchanged setup reserve (77.049935ms)\n✔ frozen Windows17 POSIX13 Full35 receipt covers its exact 741 JS and 1401 Lua files within unchanged budgets (74.418981ms)\n✔ current Full35 includes all post-placement files once at explicit unknown costs or the sourced CardUpgrade floor within unchanged budgets (73.366571ms)\n✔ current placement authenticates 1458 complete successful assigned files without claiming failed containing jobs passed (45.924392ms)\n✔ current 129 placement raises reconstruct exact timings while preserving all old floors and raw worker safety bytes (18.444105ms)\n✔ only two exact current source identities enter the unchanged pure historical CI chain and all byte drift remains visible (38.191284ms)\n✔ CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape (33.024794ms)\n✔ CardUpgrade floor inverse refuses deletion, old-floor changes, weights, metadata and stale warm authorization (415.290352ms)\n✖ CardUpgrade floor authenticates retained complete successes, failures and unimported local raw timings (7.088269ms)\nℹ tests 11\nℹ suites 0\nℹ pass 10\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1101.246225\n\n✖ failing tests:\n\ntest at tests/ci-complete-calibration.test.mjs:436:1\n✖ CardUpgrade floor authenticates retained complete successes, failures and unimported local raw timings (7.088269ms)\n  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /CARD_UPGRADE_CONTRACT_PASS all 11/. Input:\n  \n  'CARD_UPGRADE_CASE validation truth values and constructor limits\\n' +\n    'CARD_UPGRADE_CASE cost resolution precedence and complete read order\\n' +\n    'CARD_UPGRADE_CASE ordinary repeatable and count-only upgrade arithmetic\\n' +\n    'CARD_UPGRADE_CASE Blood for Blood cost deltas and direct public hook\\n' +\n    'CARD_UPGRADE_CASE malformed values retain partial writes and exact errors\\n' +\n    'CARD_UPGRADE_CASE ordinary dynamic function replacements nil false and saved references\\n' +\n    'CARD_UPGRADE_CASE catalog then validation and two Stasis eligibility reads preserve error order\\n' +\n    'CARD_UPGRADE_CASE Master Reality hand boundaries empty custody malformed and Blood return\\n' +\n    'CARD_UPGRADE_CASE actual battle Stasis release and late upgrade rollback retry\\n' +\n    'CARD_UPGRADE_CONTRACT_PASS all 9\\n'\n  \n      at TestContext.<anonymous> (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/ci-complete-calibration.test.mjs:466:116)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'CARD_UPGRADE_CASE validation truth values and constructor limits\\nCARD_UPGRADE_CASE cost resolution precedence and complete read order\\nCARD_UPGRADE_CASE ordinary repeatable and count-only upgrade arithmetic\\nCARD_UPGRADE_CASE Blood for Blood cost deltas and direct public hook\\nCARD_UPGRADE_CASE malformed values retain partial writes and exact errors\\nCARD_UPGRADE_CASE ordinary dynamic function replacements nil false and saved references\\nCARD_UPGRADE_CASE catalog then validation and two Stasis eligibility reads preserve error order\\nCARD_UPGRADE_CASE Master Reality hand boundaries empty custody malformed and Blood return\\nCARD_UPGRADE_CASE actual battle Stasis release and late upgrade rollback retry\\nCARD_UPGRADE_CONTRACT_PASS all 9\\n',\n    expected: /CARD_UPGRADE_CONTRACT_PASS all 11/,\n    operator: 'match',\n    diff: 'simple'\n  }\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/combined-repaired.log",
+      "sha256": "d089c7ca36873282bc40abb053a7b96bb88865039152e4b654d2d457b5cc747f",
+      "bytes": 4200,
+      "output": "✔ complete native successful rows authenticate every observed file and only raise effective placement costs (52.596732ms)\n✔ only complete approved sources reverse 16/12 to 14/9 to 13/9 and new timing to d580 to original 8e epoch (20.209772ms)\n✔ historical physical Windows16 POSIX12 Full33 covers final inventory under original budgets and unchanged setup reserve (78.603146ms)\n✔ frozen Windows17 POSIX13 Full35 receipt covers its exact 741 JS and 1401 Lua files within unchanged budgets (73.823942ms)\n✔ current Full35 includes all post-placement files once at explicit unknown costs or the sourced CardUpgrade floor within unchanged budgets (89.953254ms)\n✔ current placement authenticates 1458 complete successful assigned files without claiming failed containing jobs passed (48.909628ms)\n✔ current 129 placement raises reconstruct exact timings while preserving all old floors and raw worker safety bytes (39.864464ms)\n✔ only two exact current source identities enter the unchanged pure historical CI chain and all byte drift remains visible (60.980596ms)\n✔ CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape (93.102495ms)\n✔ CardUpgrade floor inverse refuses deletion, old-floor changes, weights, metadata and stale warm authorization (620.777775ms)\n✔ CardUpgrade floor authenticates retained complete successes, failures and unimported local raw timings (32.756709ms)\n✔ Host placement calibration contains only complete successful same-platform measurements and monotonic additions (16.570019ms)\n✔ only the complete approved Host timing source reverses, including through the historical integration entry (8.738199ms)\n✔ wrong measured values, duplicate positions, spelling changes, partial input and unrelated drift never gain the old identity (25.661063ms)\n✔ TASK-75.4 calibration preserves unknown fallback, worker safety and execution data independently of Full shape (6.031188ms)\n✔ TASK-75.5 historical thirteen-to-fourteen source and exact 28-job shape remain intact behind the approved outer epoch (1.317071ms)\n✔ complete approved fourteen-shard source alone recovers the unchanged full historical thirteen-shard source (1.331313ms)\n✔ historical fourteen-slot budget retains its complete observed inventory while partition coverage includes every current file (179.146469ms)\n✔ native turn orchestration and every extracted stage remain bounded and required (7.107345ms)\n✔ presentation extractions are required and their nested callbacks remain budgeted (1.93815ms)\n✔ scoped responsibility budgets include nested callbacks and preserve unrelated hotspots (2.851821ms)\n✔ every extracted helper and anonymous function receives the same budget (0.771056ms)\n✔ potion candidate helpers cannot move branching outside the responsibility budget (0.583813ms)\n✔ every extracted card action helper is required and bounded with its nested functions (226.254674ms)\n✔ combat play, turn and constructor stages are required, bounded and fully measured (340.245107ms)\n✔ Actor damage and status stages plus nested callbacks cannot escape the production CC15 policy (34.975474ms)\n✔ effect support responsibilities remain required and bounded with their nested callbacks (5.982304ms)\n✔ restoring the original Run potion candidate hotspot fails the production policy (0.411903ms)\n✔ missing entries, missing measurements, duplicate positions and unknown formats fail closed (0.59549ms)\n✔ each AST function needs its own measurement even when counts remain equal (0.318702ms)\n✔ Luacheck Unicode codepoint columns map to the byte AST on the same line (1.5881ms)\n✔ shared combat catalog and nested helpers retain the responsibility budget (0.381036ms)\n✔ main chunk and a function at the first source position are distinct measurements (0.259061ms)\n✔ the extracted wording formatter is required and restoring the old local hotspot is also budgeted (0.8137ms)\n✔ CardUpgrade owner and Warrior facade keep required modules and nested CC15 rejection (4.083823ms)\nℹ tests 35\nℹ suites 0\nℹ pass 35\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 2849.595439\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/current-gate-negative.log",
+      "sha256": "6584e1d1e2869dabe5e52c548df4e79a8430f706f652c245101bf321300be5a8",
+      "bytes": 357,
+      "output": "[\n  {\n    \"name\": \"delete-card-upgrade-floor\",\n    \"status\": 1\n  },\n  {\n    \"name\": \"change-old-floor\",\n    \"status\": 1\n  },\n  {\n    \"name\": \"change-hosted-weight\",\n    \"status\": 1\n  },\n  {\n    \"name\": \"change-metadata\",\n    \"status\": 1\n  },\n  {\n    \"name\": \"lower-new-floor\",\n    \"status\": 1\n  },\n  {\n    \"name\": \"change-raw-safety\",\n    \"status\": 1\n  }\n]\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/diff-check-after-docs.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "output": ""
+    },
+    {
+      "path": "build/card-upgrade-delivery/diff-check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "output": ""
+    },
+    {
+      "path": "build/card-upgrade-delivery/forecast.log",
+      "sha256": "afe1365aa1b883ad2ad7b839abdcfda76c7b41d71ebcefbfe43408dd1b04e9e1",
+      "bytes": 578,
+      "output": "{\n  \"baseline\": {\n    \"inventory\": {\n      \"js\": 746,\n      \"lua\": 1402\n    },\n    \"windows\": 1711077,\n    \"windowsMargin\": 88923,\n    \"posix\": 1191130,\n    \"posixMargin\": 8870\n  },\n  \"cardUpgradeInventoryBeforeFloor\": {\n    \"inventory\": {\n      \"js\": 748,\n      \"lua\": 1403\n    },\n    \"windows\": 1712897,\n    \"windowsMargin\": 87103,\n    \"posix\": 1192667,\n    \"posixMargin\": 7333\n  },\n  \"cardUpgradeWithFloor\": {\n    \"inventory\": {\n      \"js\": 748,\n      \"lua\": 1403\n    },\n    \"windows\": 1713948,\n    \"windowsMargin\": 86052,\n    \"posix\": 1194082,\n    \"posixMargin\": 5918\n  }\n}\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/guidance-after-docs.log",
+      "sha256": "857c4e7b87797f74dc3a352f0abd9090ad5be686df225901a72edb4ade3030db",
+      "bytes": 482,
+      "output": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 check:guidance\n> node scripts/check-agent-guidance.mjs\n\n{\n  \"errors\": [],\n  \"metrics\": [\n    {\n      \"file\": \"AGENTS.md\",\n      \"lines\": 41,\n      \"characters\": 2985\n    },\n    {\n      \"file\": \"CLAUDE.md\",\n      \"lines\": 5,\n      \"characters\": 150\n    },\n    {\n      \"file\": \".cursor/rules/miliastra.mdc\",\n      \"lines\": 6,\n      \"characters\": 82\n    }\n  ]\n}\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/guidance.log",
+      "sha256": "857c4e7b87797f74dc3a352f0abd9090ad5be686df225901a72edb4ade3030db",
+      "bytes": 482,
+      "output": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 check:guidance\n> node scripts/check-agent-guidance.mjs\n\n{\n  \"errors\": [],\n  \"metrics\": [\n    {\n      \"file\": \"AGENTS.md\",\n      \"lines\": 41,\n      \"characters\": 2985\n    },\n    {\n      \"file\": \"CLAUDE.md\",\n      \"lines\": 5,\n      \"characters\": 150\n    },\n    {\n      \"file\": \".cursor/rules/miliastra.mdc\",\n      \"lines\": 6,\n      \"characters\": 82\n    }\n  ]\n}\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/negative-change-hosted-weight.log",
+      "sha256": "c6a5e8ccbfa7c9a1c25d3c2c7e51593920a1523a576808136fb507656798decc",
+      "bytes": 1620,
+      "output": "✖ CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape (2.307829ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 294.13196\n\n✖ failing tests:\n\ntest at tests/ci-complete-calibration.test.mjs:377:1\n✖ CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape (2.307829ms)\n  AssertionError [ERR_ASSERTION]: current CardUpgrade timing epoch requires the exact complete floor and unchanged prior values\n  + actual - expected\n  \n  + '0c675315c286389c9a4ffc16ed3ff8ea2fcb905ccb0e644e42fcfdd1eab3980e'\n  - '8178187f25c04399ea9f494116efedb522eda1528ddbe815e36f5e0ce9cf962c'\n  \n      at validateCardUpgradeCiPlanningSource (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/helpers/card-upgrade-ci-planning-source-inverse.mjs:28:9)\n      at TestContext.<anonymous> (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/ci-complete-calibration.test.mjs:378:35)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.start (node:internal/test_runner/test:1262:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: '0c675315c286389c9a4ffc16ed3ff8ea2fcb905ccb0e644e42fcfdd1eab3980e',\n    expected: '8178187f25c04399ea9f494116efedb522eda1528ddbe815e36f5e0ce9cf962c',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/negative-change-metadata.log",
+      "sha256": "03c75b9a107c0f6a0060b9f3a166ea3afdef8228e99d60ad747b5544c46588a0",
+      "bytes": 1621,
+      "output": "✖ CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape (2.418736ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 255.130483\n\n✖ failing tests:\n\ntest at tests/ci-complete-calibration.test.mjs:377:1\n✖ CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape (2.418736ms)\n  AssertionError [ERR_ASSERTION]: current CardUpgrade timing epoch requires the exact complete floor and unchanged prior values\n  + actual - expected\n  \n  + 'afd0942b012a6c8c5833b2594b8cebbcba2ac6e8b18024888a0bcab10473e7cf'\n  - '8178187f25c04399ea9f494116efedb522eda1528ddbe815e36f5e0ce9cf962c'\n  \n      at validateCardUpgradeCiPlanningSource (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/helpers/card-upgrade-ci-planning-source-inverse.mjs:28:9)\n      at TestContext.<anonymous> (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/ci-complete-calibration.test.mjs:378:35)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.start (node:internal/test_runner/test:1262:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: 'afd0942b012a6c8c5833b2594b8cebbcba2ac6e8b18024888a0bcab10473e7cf',\n    expected: '8178187f25c04399ea9f494116efedb522eda1528ddbe815e36f5e0ce9cf962c',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/negative-change-old-floor.log",
+      "sha256": "9ce379fc57f483aba1c86a5e987d229f86eeae20e2c85816d73a57b001281b58",
+      "bytes": 1621,
+      "output": "✖ CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape (2.163932ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 247.578258\n\n✖ failing tests:\n\ntest at tests/ci-complete-calibration.test.mjs:377:1\n✖ CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape (2.163932ms)\n  AssertionError [ERR_ASSERTION]: current CardUpgrade timing epoch requires the exact complete floor and unchanged prior values\n  + actual - expected\n  \n  + '5f44039c63e079eee25a192dd1c33c639403f068599a47c66b8cc23d9b12ed61'\n  - '8178187f25c04399ea9f494116efedb522eda1528ddbe815e36f5e0ce9cf962c'\n  \n      at validateCardUpgradeCiPlanningSource (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/helpers/card-upgrade-ci-planning-source-inverse.mjs:28:9)\n      at TestContext.<anonymous> (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/ci-complete-calibration.test.mjs:378:35)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.start (node:internal/test_runner/test:1262:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: '5f44039c63e079eee25a192dd1c33c639403f068599a47c66b8cc23d9b12ed61',\n    expected: '8178187f25c04399ea9f494116efedb522eda1528ddbe815e36f5e0ce9cf962c',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/negative-change-raw-safety.log",
+      "sha256": "a5a735d4a6f9486b1fdabdf66704c18b429a2afef5c6100bb3c4c67430d37a58",
+      "bytes": 1621,
+      "output": "✖ CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape (2.168428ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 226.583072\n\n✖ failing tests:\n\ntest at tests/ci-complete-calibration.test.mjs:377:1\n✖ CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape (2.168428ms)\n  AssertionError [ERR_ASSERTION]: current CardUpgrade timing epoch requires the exact complete floor and unchanged prior values\n  + actual - expected\n  \n  + '89acf553db2bc3154fb3674d2ec88689474ec1116cef6dcba7ea967adaaf3b34'\n  - '8178187f25c04399ea9f494116efedb522eda1528ddbe815e36f5e0ce9cf962c'\n  \n      at validateCardUpgradeCiPlanningSource (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/helpers/card-upgrade-ci-planning-source-inverse.mjs:28:9)\n      at TestContext.<anonymous> (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/ci-complete-calibration.test.mjs:378:35)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.start (node:internal/test_runner/test:1262:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: '89acf553db2bc3154fb3674d2ec88689474ec1116cef6dcba7ea967adaaf3b34',\n    expected: '8178187f25c04399ea9f494116efedb522eda1528ddbe815e36f5e0ce9cf962c',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/negative-delete-card-upgrade-floor.log",
+      "sha256": "dcfab2e93b06b34f7ba81f8655001290951e720bda774334fed50fc691bcca1d",
+      "bytes": 1621,
+      "output": "✖ CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape (2.765261ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 278.725184\n\n✖ failing tests:\n\ntest at tests/ci-complete-calibration.test.mjs:377:1\n✖ CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape (2.765261ms)\n  AssertionError [ERR_ASSERTION]: current CardUpgrade timing epoch requires the exact complete floor and unchanged prior values\n  + actual - expected\n  \n  + 'a5841ddaa53d8bc810f9c16ae342ed2de8cb5479bbcb073562d2c6c921ed1b24'\n  - '8178187f25c04399ea9f494116efedb522eda1528ddbe815e36f5e0ce9cf962c'\n  \n      at validateCardUpgradeCiPlanningSource (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/helpers/card-upgrade-ci-planning-source-inverse.mjs:28:9)\n      at TestContext.<anonymous> (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/ci-complete-calibration.test.mjs:378:35)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.start (node:internal/test_runner/test:1262:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: 'a5841ddaa53d8bc810f9c16ae342ed2de8cb5479bbcb073562d2c6c921ed1b24',\n    expected: '8178187f25c04399ea9f494116efedb522eda1528ddbe815e36f5e0ce9cf962c',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/negative-lower-new-floor.log",
+      "sha256": "f150ce89e844295df8a8752dcf9cf4343a0d62fa7ce0db17a3ed154970085f35",
+      "bytes": 1621,
+      "output": "✖ CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape (4.857914ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 562.744582\n\n✖ failing tests:\n\ntest at tests/ci-complete-calibration.test.mjs:377:1\n✖ CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape (4.857914ms)\n  AssertionError [ERR_ASSERTION]: current CardUpgrade timing epoch requires the exact complete floor and unchanged prior values\n  + actual - expected\n  \n  + '3384145625c62230936fcc61ec552d04c452f2a9cff6793867c0d4a3b025d755'\n  - '8178187f25c04399ea9f494116efedb522eda1528ddbe815e36f5e0ce9cf962c'\n  \n      at validateCardUpgradeCiPlanningSource (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/helpers/card-upgrade-ci-planning-source-inverse.mjs:28:9)\n      at TestContext.<anonymous> (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/ci-complete-calibration.test.mjs:378:35)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.start (node:internal/test_runner/test:1262:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: '3384145625c62230936fcc61ec552d04c452f2a9cff6793867c0d4a3b025d755',\n    expected: '8178187f25c04399ea9f494116efedb522eda1528ddbe815e36f5e0ce9cf962c',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/prepare.log",
+      "sha256": "4aeefb2e41f78cd59953097ec663021ec70b1093ca44c04ddc2990ca947c8ef4",
+      "bytes": 297,
+      "output": "{\n  \"oldTiming\": \"a5841ddaa53d8bc810f9c16ae342ed2de8cb5479bbcb073562d2c6c921ed1b24\",\n  \"newTiming\": \"8178187f25c04399ea9f494116efedb522eda1528ddbe815e36f5e0ce9cf962c\",\n  \"receipt\": \"84c27ab3989f4045dc8ed6d1d10b15ca816eba8a06ae59cbf787fc3649fcb000\",\n  \"verifiedOriginalLogs\": 50,\n  \"inputs\": 359\n}\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/responsibility-before-repair.log",
+      "sha256": "c3dedc67e922cbba728e31753fd87113bc630f1490f33a3632a3f443971c78a7",
+      "bytes": 2659,
+      "output": "✔ native turn orchestration and every extracted stage remain bounded and required (7.020784ms)\n✔ presentation extractions are required and their nested callbacks remain budgeted (1.87401ms)\n✔ scoped responsibility budgets include nested callbacks and preserve unrelated hotspots (2.695841ms)\n✔ every extracted helper and anonymous function receives the same budget (0.825277ms)\n✔ potion candidate helpers cannot move branching outside the responsibility budget (0.466535ms)\n✔ every extracted card action helper is required and bounded with its nested functions (206.457705ms)\n✖ combat play, turn and constructor stages are required, bounded and fully measured (3.20446ms)\n✔ Actor damage and status stages plus nested callbacks cannot escape the production CC15 policy (39.65315ms)\n✔ effect support responsibilities remain required and bounded with their nested callbacks (5.792659ms)\n✔ restoring the original Run potion candidate hotspot fails the production policy (0.358922ms)\n✔ missing entries, missing measurements, duplicate positions and unknown formats fail closed (0.484652ms)\n✔ each AST function needs its own measurement even when counts remain equal (0.264679ms)\n✔ Luacheck Unicode codepoint columns map to the byte AST on the same line (1.134283ms)\n✔ shared combat catalog and nested helpers retain the responsibility budget (0.310119ms)\n✔ main chunk and a function at the first source position are distinct measurements (0.167073ms)\n✔ the extracted wording formatter is required and restoring the old local hotspot is also budgeted (0.511973ms)\nℹ tests 16\nℹ suites 0\nℹ pass 15\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 372.103098\n\n✖ failing tests:\n\ntest at tests/responsibility-complexity.test.mjs:113:1\n✖ combat play, turn and constructor stages are required, bounded and fully measured (3.20446ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  3 !== 0\n  \n      at TestContext.<anonymous> (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/responsibility-complexity.test.mjs:142:10)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 3,\n    expected: 0,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/responsibility-final.log",
+      "sha256": "3a06ea76daf36df08cced6e4991072757b756bac01c9118ef94e10fa1790a1a6",
+      "bytes": 1811,
+      "output": "✔ native turn orchestration and every extracted stage remain bounded and required (7.147864ms)\n✔ presentation extractions are required and their nested callbacks remain budgeted (1.78859ms)\n✔ scoped responsibility budgets include nested callbacks and preserve unrelated hotspots (2.731154ms)\n✔ every extracted helper and anonymous function receives the same budget (0.80806ms)\n✔ potion candidate helpers cannot move branching outside the responsibility budget (0.402768ms)\n✔ every extracted card action helper is required and bounded with its nested functions (205.050885ms)\n✔ combat play, turn and constructor stages are required, bounded and fully measured (353.321923ms)\n✔ Actor damage and status stages plus nested callbacks cannot escape the production CC15 policy (34.913019ms)\n✔ effect support responsibilities remain required and bounded with their nested callbacks (5.811175ms)\n✔ restoring the original Run potion candidate hotspot fails the production policy (0.372813ms)\n✔ missing entries, missing measurements, duplicate positions and unknown formats fail closed (0.693137ms)\n✔ each AST function needs its own measurement even when counts remain equal (0.314615ms)\n✔ Luacheck Unicode codepoint columns map to the byte AST on the same line (1.876292ms)\n✔ shared combat catalog and nested helpers retain the responsibility budget (0.617602ms)\n✔ main chunk and a function at the first source position are distinct measurements (0.304069ms)\n✔ the extracted wording formatter is required and restoring the old local hotspot is also budgeted (0.746848ms)\n✔ CardUpgrade owner and Warrior facade keep required modules and nested CC15 rejection (3.455117ms)\nℹ tests 17\nℹ suites 0\nℹ pass 17\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 713.11702\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/responsibility-initial.log",
+      "sha256": "29089127d5f62bd9791d10248f97e0680836bdaeedbc79d94d488d52dc72e418",
+      "bytes": 1393,
+      "output": "node:internal/modules/package_json_reader:331\n  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);\n        ^\n\nError [ERR_MODULE_NOT_FOUND]: Cannot find package 'luaparse' imported from /workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/scripts/check-lua-static.mjs\n    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)\n    at packageResolve (node:internal/modules/esm/resolve:784:25)\n    at moduleResolve (node:internal/modules/esm/resolve:873:18)\n    at defaultResolve (node:internal/modules/esm/resolve:1006:11)\n    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)\n    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)\n    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)\n    at #resolve (node:internal/modules/esm/loader:687:17)\n    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)\n    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {\n  code: 'ERR_MODULE_NOT_FOUND'\n}\n\nNode.js v24.22.1\n✖ tests/responsibility-complexity.test.mjs (70.218053ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 78.305799\n\n✖ failing tests:\n\ntest at tests/responsibility-complexity.test.mjs:1:1\n✖ tests/responsibility-complexity.test.mjs (70.218053ms)\n  'test failed'\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/responsibility-repair.log",
+      "sha256": "a5952fd073f5a5f24ecfdb1b050ffb64fe086dd04a40fb7715692d269798ffe1",
+      "bytes": 2763,
+      "output": "✔ native turn orchestration and every extracted stage remain bounded and required (6.402677ms)\n✔ presentation extractions are required and their nested callbacks remain budgeted (1.827399ms)\n✔ scoped responsibility budgets include nested callbacks and preserve unrelated hotspots (2.521336ms)\n✔ every extracted helper and anonymous function receives the same budget (0.727448ms)\n✔ potion candidate helpers cannot move branching outside the responsibility budget (0.429428ms)\n✔ every extracted card action helper is required and bounded with its nested functions (209.150343ms)\n✔ combat play, turn and constructor stages are required, bounded and fully measured (345.328156ms)\n✔ Actor damage and status stages plus nested callbacks cannot escape the production CC15 policy (33.559158ms)\n✔ effect support responsibilities remain required and bounded with their nested callbacks (8.907709ms)\n✔ restoring the original Run potion candidate hotspot fails the production policy (0.366633ms)\n✔ missing entries, missing measurements, duplicate positions and unknown formats fail closed (0.575739ms)\n✔ each AST function needs its own measurement even when counts remain equal (0.31118ms)\n✔ Luacheck Unicode codepoint columns map to the byte AST on the same line (1.168393ms)\n✔ shared combat catalog and nested helpers retain the responsibility budget (2.534907ms)\n✔ main chunk and a function at the first source position are distinct measurements (0.175876ms)\n✔ the extracted wording formatter is required and restoring the old local hotspot is also budgeted (0.551984ms)\n✖ CardUpgrade owner and Warrior facade keep required modules and nested CC15 rejection (5.19899ms)\nℹ tests 17\nℹ suites 0\nℹ pass 16\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 718.662727\n\n✖ failing tests:\n\ntest at tests/responsibility-complexity.test.mjs:273:1\n✖ CardUpgrade owner and Warrior facade keep required modules and nested CC15 rejection (5.19899ms)\n  AssertionError [ERR_ASSERTION]: src/lua/abyss_card_upgrade.lua missing measurement\n      at TestContext.<anonymous> (file:///workspace/scratch/c1a4970a76e0/m7-card-upgrade-floor-20261107/tests/responsibility-complexity.test.mjs:294:55)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: false,\n    expected: true,\n    operator: '==',\n    diff: 'simple'\n  }\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/shards-final.log",
+      "sha256": "1492e8d00010e21a53ab8c2754e73419b1064ecb865cca44f53c54d0b355f34f",
+      "bytes": 2131,
+      "output": "✔ [historical 98fef source contract] POSIX shards preserve the original job gates, toolchain and 20-minute budget (275.724392ms)\n✔ [historical 98fef source contract] original required engineering-posix aggregate runs always and rejects missing, skipped and cancelled shards (385.381843ms)\n✔ current POSIX matrix consumes thirteen shared shards with serial full regression and the original gate budget (0.842492ms)\n✔ native Node four-shard selection executes every current JS file name exactly once (848.849219ms)\n✔ [historical 98fef source contract] eight Windows VMs change only the original hosted matrix, preserving every original gate and deadline (421.89675ms)\n✔ the real Lua partitioner retains every discovered raw fixture exactly once across the current Windows shape (88.769687ms)\n✔ [historical 98fef source contract] original required check aggregate rejects every non-success shard result (918.942934ms)\n✔ current Windows matrix consumes the shared seventeen-shard shape without changing protection or execution gates (0.618945ms)\n✔ native Node eight-shard selection executes every current JS file name exactly once (1456.521612ms)\n✔ two fresh workers overlap, never exceed two and deliver complete stdout/stderr without interleaving (198.810349ms)\n✔ a single worker uses measured longest-first order and continues after exit failure and signal (253.680473ms)\n✔ expensive and unknown fixtures run alone before short fixtures overlap, without losing failures (352.250936ms)\n✔ partition costs charge exclusive fixtures for both slots and keep a conservative boundary (0.346785ms)\n✔ hosted timeout fixture families retain exclusive execution under the real profile (1964.210021ms)\n✔ spawn errors fail the aggregate and still visit every requested fixture (4.566619ms)\n✔ overflow terminates the child, bounds captured output and continues to the next fixture (220.663503ms)\n✔ invalid worker counts, fixture identities and weights are rejected before spawning (1.570763ms)\nℹ tests 17\nℹ suites 0\nℹ pass 17\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 7720.161541\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/source-final.log",
+      "sha256": "c5ce78bd6357502ee66d69bbbcb5bb924d869ffe4cfca4222098ff525754ee1f",
+      "bytes": 1732,
+      "output": "✔ the immutable archive authenticates all 333 complete sources without inventing leaf history (9.412542ms)\n✔ every exact entry freshly reads each of the five raw owners once through nested readers (10.951076ms)\n✔ warm source authorization rejects changed, missing and non-string raw owners rather than caching permission (92.130116ms)\n✔ linked owner failures stop in exact owner order and preserve the first error (10.897676ms)\n✔ old, foreign, partial and witness-only inputs grant no linked I/O, even with an invalid reader (3.583682ms)\n✔ CRLF and input-only JSON layout equivalence never relax linked raw bytes or exact tokens (19.68263ms)\n✔ the final M7 outer seam and existing relic chain preserve their exact older epochs (17.482359ms)\n✔ a detached source-only import observes actual file drift and deletion after warmup (37.08008ms)\n✔ Card Upgrade retirement verifies bytes twice and rejects live tree or file aliases (1.838617ms)\n✔ Card Upgrade retirement rejects retargeting between preparation and deletion (1.171318ms)\n✔ the existing historical retirement entry handles Card Upgrade leaf present and absent without weakening old guards (3.413886ms)\n✔ default linked reads use only the isolated five-owner tree, including warm missing witnesses (29.940901ms)\n✔ complete bytes from another owner and duplicated complete sources authorize no I/O (1.794971ms)\n✔ Card Upgrade retirement rejects directory aliases, nested escapes, live Lua descendants and source ancestors (1.350459ms)\n✔ Card Upgrade retirement rejects an entire destination changed after preparation (0.878867ms)\nℹ tests 15\nℹ suites 0\nℹ pass 15\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 464.915523\n"
+    }
+  ],
+  "initialChecksIncludingFailures": [
+    {
+      "name": "ci-final",
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "tests/ci-complete-calibration.test.mjs",
+        "tests/ci-host-timing-calibration.test.mjs",
+        "tests/ci-windows-shape-expansion.test.mjs"
+      ],
+      "startedAt": "2026-11-07T10:50:10.430280+00:00",
+      "exitCode": 1,
+      "wallMs": 1788.7396379956044,
+      "log": "build/card-upgrade-delivery/ci-final.log",
+      "logSha256": "b5957531708e9ceab60dbdb21dfe6353f69d757a3fa5115806343184278272bd"
+    },
+    {
+      "name": "responsibility-final",
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "tests/responsibility-complexity.test.mjs"
+      ],
+      "startedAt": "2026-11-07T10:50:12.219158+00:00",
+      "exitCode": 0,
+      "wallMs": 772.8976340149529,
+      "log": "build/card-upgrade-delivery/responsibility-final.log",
+      "logSha256": "3a06ea76daf36df08cced6e4991072757b756bac01c9118ef94e10fa1790a1a6",
+      "tests": 17
+    },
+    {
+      "name": "source-final",
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "tests/card-upgrade-source.test.mjs"
+      ],
+      "startedAt": "2026-11-07T10:50:12.992125+00:00",
+      "exitCode": 0,
+      "wallMs": 525.4666300024837,
+      "log": "build/card-upgrade-delivery/source-final.log",
+      "logSha256": "c5ce78bd6357502ee66d69bbbcb5bb924d869ffe4cfca4222098ff525754ee1f",
+      "tests": 15
+    },
+    {
+      "name": "shards-final",
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "tests/ci-windows-shards.test.mjs",
+        "tests/ci-posix-shards.test.mjs",
+        "tests/lua-workers.test.mjs"
+      ],
+      "startedAt": "2026-11-07T10:50:13.517659+00:00",
+      "exitCode": 0,
+      "wallMs": 7778.6777499713935,
+      "log": "build/card-upgrade-delivery/shards-final.log",
+      "logSha256": "1492e8d00010e21a53ab8c2754e73419b1064ecb865cca44f53c54d0b355f34f",
+      "tests": 17
+    },
+    {
+      "name": "guidance",
+      "command": [
+        "npm",
+        "run",
+        "check:guidance"
+      ],
+      "startedAt": "2026-11-07T10:50:21.296428+00:00",
+      "exitCode": 0,
+      "wallMs": 361.45760799990967,
+      "log": "build/card-upgrade-delivery/guidance.log",
+      "logSha256": "857c4e7b87797f74dc3a352f0abd9090ad5be686df225901a72edb4ade3030db"
+    },
+    {
+      "name": "backlog-doctor",
+      "command": [
+        "/workspace/scratch/c1a4970a76e0/tools/backlog-cli/node_modules/backlog.md-linux-x64/backlog",
+        "doctor"
+      ],
+      "startedAt": "2026-11-07T10:50:21.657956+00:00",
+      "exitCode": 1,
+      "wallMs": 357.912537001539,
+      "log": "build/card-upgrade-delivery/backlog-doctor.log",
+      "logSha256": "41ec373ed9871a1bdc86d07865141fe89ca39d8163789d12e940e8783de30ecc"
+    },
+    {
+      "name": "backlog-verify",
+      "command": [
+        "npm",
+        "run",
+        "verify:backlog"
+      ],
+      "startedAt": "2026-11-07T10:50:22.015966+00:00",
+      "exitCode": 0,
+      "wallMs": 273.9963820204139,
+      "log": "build/card-upgrade-delivery/backlog-verify.log",
+      "logSha256": "a4713a2d2fedb45f490a85a35d164af8d315b96821d0f1a7348e42ef69544946"
+    },
+    {
+      "name": "diff-check",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "startedAt": "2026-11-07T10:50:22.290026+00:00",
+      "exitCode": 0,
+      "wallMs": 9.951976011507213,
+      "log": "build/card-upgrade-delivery/diff-check.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "otherRetainedFailures": [
+    {
+      "log": "build/card-upgrade-delivery/ci-initial.log",
+      "cause": "New inventory assertion accidentally attached to historical fixture; failure matcher used diagnostic instead of actual Drain log. Fixed only new test edits."
+    },
+    {
+      "log": "build/card-upgrade-delivery/ci-repair.log",
+      "cause": "Earlier successful raw fixture had 9 cases, final had 11; test now explicitly preserves both actual historical counts."
+    },
+    {
+      "log": "build/card-upgrade-delivery/responsibility-initial.log",
+      "cause": "Original node_modules symlink transitive target was lost after cloud recovery. Reused recovered-repo existing node_modules; no lock changes."
+    },
+    {
+      "log": "build/card-upgrade-delivery/responsibility-before-repair.log",
+      "cause": "Original Combat synthetic fixture omitted 3 actual required roots; old assertions correctly rejected it."
+    },
+    {
+      "log": "build/card-upgrade-delivery/responsibility-repair.log",
+      "cause": "New negative asserted missing wording instead of actual Incomplete measurement diagnostic; corrected new assertion without changing production."
+    },
+    {
+      "log": "build/card-upgrade-delivery/ci-final.log",
+      "cause": "New raw plan assertion accidentally applied to historical fixture as well; removed only unintended new assertion and restored exact historical test."
+    }
+  ],
+  "setupFailures": [
+    {
+      "action": "backlog instructions before CLI recovery",
+      "outcome": "command not found; no task write executed"
+    },
+    {
+      "action": "read-only shell inspection",
+      "outcome": "exec-server transport disconnected / executor key changed during session recovery; resumed same cloud when available"
+    },
+    {
+      "action": "npm view using default cache",
+      "outcome": "ENOENT /home/agent/.npm after environment recovery; retried with workspace-local cache"
+    },
+    {
+      "action": "initial npm tool working directory",
+      "outcome": "directory not yet created, process not launched; created directory before retry"
+    }
+  ],
+  "backlog": {
+    "cliVersion": "1.55.3",
+    "source": "official npm backlog.md@1.55.3; install --ignore-scripts",
+    "taskNoteAppendedByCli": true,
+    "ownerStatusAcUnchanged": true,
+    "dateSerializationNormalizedByCli": true,
+    "doctor": {
+      "candidateExitCode": 1,
+      "baselineExitCode": 1,
+      "baselineSha": "d8a57cae2a867200ca8e588abc0d368e6cdb3799",
+      "byteIdenticalOutput": true,
+      "duplicateIds": [
+        "TASK-25.3",
+        "TASK-25.4",
+        "TASK-61",
+        "TASK-64",
+        "TASK-69"
+      ],
+      "fixNotRun": true
+    },
+    "projectVerifyBacklogPassed": true
+  },
+  "reproductionHelpers": [
+    {
+      "path": "build/card-upgrade-delivery/forecast.mjs",
+      "sha256": "6116ebd37ad419848034aa0229e996f25ccff41fd474b4b5d6b09064615ca6c2",
+      "source": "import {readFileSync,readdirSync,writeFileSync} from 'node:fs';\nimport {execFileSync} from 'node:child_process';\nimport {createHash} from 'node:crypto';\nimport assert from 'node:assert/strict';\nimport {discoverJs,partition,timings} from '../../scripts/ci-shards.mjs';\nimport {shardLuaScripts} from '../../scripts/test-lua.mjs';\nconst hash=x=>createHash('sha256').update(x).digest('hex'),base='d8a57cae2a867200ca8e588abc0d368e6cdb3799';\nconst paths=execFileSync('git',['ls-tree','-r','--name-only',base],{encoding:'utf8'}).trim().split('\\n');\nconst currentJs=discoverJs().sort(),currentLua=readdirSync('tests/lua').filter(n=>n.endsWith('.lua')).map(n=>'tests/lua/'+n).sort();\nconst baselineJs=paths.filter(p=>/^tests\\/[^/]+\\.test\\.mjs$/.test(p)).sort(),baselineLua=paths.filter(p=>/^tests\\/lua\\/[^/]+\\.lua$/.test(p)).sort();\nconst before=JSON.parse(execFileSync('git',['show',base+':scripts/ci-test-timings.json'],{encoding:'utf8'}));\nfunction forecast(js,lua,timing){const result={inventory:{js:js.length,lua:lua.length}};\n for(const [platform,count,budget]of [['win32',17,1800000],['linux',13,1200000]]){\n  const weights=Object.fromEntries(js.map(file=>[file,Math.max(timing.js[platform][file]??timing.unknownJsMs,timing.jsPlanning.localLowerBounds[file]?.durationMs??0)]));\n  const initial=Array.from({length:count},(_,i)=>i?0:timing.initialMs[platform][0]);\n  const plans=Array.from({length:count},(_,i)=>partition(js,`${i+1}/${count}`,weights,timing.unknownJsMs,initial));\n  assert.deepEqual(plans.flatMap(p=>p.files).sort(),js);const loads=plans[0].loads;\n  let combined=loads,rawCounts=null,rawFiles=null;\n  if(platform==='win32'){\n   const bins=Array.from({length:count},(_,i)=>shardLuaScripts(lua,`${i+1}/${count}`,{...timing,windowsJsShardMs:loads},2));\n   assert.deepEqual(bins.flat().sort(),lua);rawCounts=bins.map(x=>x.length);rawFiles=bins;\n   const cost=f=>timing.luaShard[f]??timing.lua[f]??timing.unknownLuaMs,safety=f=>timing.lua[f]??timing.unknownLuaMs;\n   combined=bins.map((bin,i)=>{const pool=[0,0];for(const f of bin.filter(f=>safety(f)<10000).sort((a,b)=>safety(b)-safety(a)||a.localeCompare(b)))pool[pool[0]<=pool[1]?0:1]+=cost(f);return loads[i]+bin.filter(f=>safety(f)>=10000).reduce((n,f)=>n+cost(f),0)+Math.max(...pool);});\n  }\n  const maximumMs=Math.max(...combined);result[platform]={shards:count,jsFileCounts:plans.map(p=>p.files.length),rawFileCounts:rawCounts,jsFiles:plans.map(p=>p.files),rawFiles,jsLoadsMs:loads,combinedLoadsMs:combined,maximumMs,reserveMs:60000,maxPlusReserveMs:maximumMs+60000,budgetMs:budget,marginMs:budget-maximumMs-60000};\n }return result;}\nconst result={schemaVersion:1,kind:'CardUpgrade local scheduling forecast; not hosted execution',baseSha:base,qualityShapeSha256:hash(readFileSync('scripts/ci-quality-shape.mjs')),workflowSha256:hash(readFileSync('.github/workflows/quality.yml')),timingsSha256:hash(readFileSync('scripts/ci-test-timings.json')),shape:{windows:17,posix:13},reserveMs:60000,rawWorkers:2,concurrencyCap:12,budgetsMs:{windows:1800000,posix:1200000},inventory:{baselineJs,currentJs,baselineLua,currentLua,addedJs:currentJs.filter(p=>!baselineJs.includes(p)),addedLua:currentLua.filter(p=>!baselineLua.includes(p)),removedJs:baselineJs.filter(p=>!currentJs.includes(p)),removedLua:baselineLua.filter(p=>!currentLua.includes(p))},baseline:forecast(baselineJs,baselineLua,before),cardUpgradeInventoryBeforeFloor:forecast(currentJs,currentLua,before),cardUpgradeWithFloor:forecast(currentJs,currentLua,timings),limitations:['Only a placement estimate; #541 budget changes are not included.','POSIX estimate includes JS and initial engineering reservation, not a measured full hosted job.','Windows estimate includes JS then raw Lua with the unchanged two-worker/exclusive safety model.','No Full, hosted pass or merge readiness is asserted.']};\nassert.deepEqual(result.inventory.addedJs,['tests/card-upgrade-ownership.test.mjs','tests/card-upgrade-source.test.mjs']);assert.deepEqual(result.inventory.addedLua,['tests/lua/card_upgrade_ownership_contract.lua']);assert.deepEqual(result.inventory.removedJs,[]);assert.deepEqual(result.inventory.removedLua,[]);\nwriteFileSync('docs/evidence/m7-card-upgrade-delivery-planning-20261107.json',JSON.stringify(result,null,2)+'\\n');\nconsole.log(JSON.stringify(Object.fromEntries(['baseline','cardUpgradeInventoryBeforeFloor','cardUpgradeWithFloor'].map(key=>[key,{inventory:result[key].inventory,windows:result[key].win32.maxPlusReserveMs,windowsMargin:result[key].win32.marginMs,posix:result[key].linux.maxPlusReserveMs,posixMargin:result[key].linux.marginMs}])),null,2));\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/current-gate-negative.mjs",
+      "sha256": "9997b46796661e34f5f508cc46c170ac0ac68c57755502454b5821cd8229dafd",
+      "source": "import {readFileSync,writeFileSync} from 'node:fs';\nimport {spawnSync} from 'node:child_process';\nimport {createHash} from 'node:crypto';\nimport assert from 'node:assert/strict';\nconst path='scripts/ci-test-timings.json',original=readFileSync(path),hash=x=>createHash('sha256').update(x).digest('hex');\nconst variants=[['delete-card-upgrade-floor',x=>delete x.jsPlanning.localLowerBounds['tests/card-upgrade-ownership.test.mjs']],['change-old-floor',x=>x.jsPlanning.localLowerBounds['tests/run-max-hp-config-inverse.test.mjs'].durationMs--],['change-hosted-weight',x=>x.js.win32['tests/act3-shapes.test.mjs']++],['change-metadata',x=>x.jsPlanning.localLowerBounds['tests/card-upgrade-ownership.test.mjs'].environment='hosted Linux']];\nvariants.push(['lower-new-floor',x=>x.jsPlanning.localLowerBounds['tests/card-upgrade-ownership.test.mjs'].durationMs--],['change-raw-safety',x=>x.lua[Object.keys(x.lua)[0]]++]);\nconst results=[];\ntry{\n for(const [name,change]of variants){const value=JSON.parse(original);change(value);const mutant=JSON.stringify(value,null,2)+'\\n';writeFileSync(path,mutant);\n  const args=['--test','--test-concurrency=1','--test-name-pattern=^CardUpgrade timing epoch appends','tests/ci-complete-calibration.test.mjs'];\n  const started=performance.now();const result=spawnSync(process.execPath,args,{encoding:'utf8',env:{...process.env,TMPDIR:'/workspace/scratch/c1a4970a76e0/card-upgrade-delivery-tmp'}}),log=(result.stdout??'')+(result.stderr??'');\n  writeFileSync(`build/card-upgrade-delivery/negative-${name}.log`,log);assert.equal(result.status,1);assert.match(log,/current CardUpgrade timing epoch requires/);assert.match(log,/fail 1/);\n  results.push({name,command:['node',...args].join(' '),status:result.status,wallMs:performance.now()-started,signal:result.signal,error:result.error?.message??null,mutatedSourceSha256:hash(mutant),log:`build/card-upgrade-delivery/negative-${name}.log`,logSha256:hash(log),rejectedBy:'current CardUpgrade timing epoch requires the exact complete floor and unchanged prior values'});\n }\n}finally{writeFileSync(path,original);assert.equal(hash(readFileSync(path)),hash(original));}\nwriteFileSync('build/card-upgrade-delivery/current-gate-negative.json',JSON.stringify({originalSha256:hash(original),restoredSha256:hash(readFileSync(path)),results},null,2)+'\\n');\nconsole.log(JSON.stringify(results.map(x=>({name:x.name,status:x.status})),null,2));\n"
+    },
+    {
+      "path": "build/card-upgrade-delivery/run-checks.py",
+      "sha256": "101f646fd5c87d8c848c39ac3647f1f232941a1d60972106ab38d4341c7a2165",
+      "source": "import os,subprocess,time,json,hashlib,datetime\ncli='/workspace/scratch/c1a4970a76e0/tools/backlog-cli/node_modules/backlog.md-linux-x64/backlog'\nchecks=[('ci-final',['node','--test','--test-concurrency=1','tests/ci-complete-calibration.test.mjs','tests/ci-host-timing-calibration.test.mjs','tests/ci-windows-shape-expansion.test.mjs']),('responsibility-final',['node','--test','--test-concurrency=1','tests/responsibility-complexity.test.mjs']),('source-final',['node','--test','--test-concurrency=1','tests/card-upgrade-source.test.mjs']),('shards-final',['node','--test','--test-concurrency=1','tests/ci-windows-shards.test.mjs','tests/ci-posix-shards.test.mjs','tests/lua-workers.test.mjs']),('guidance',['npm','run','check:guidance']),('backlog-doctor',[cli,'doctor']),('backlog-verify',['npm','run','verify:backlog']),('diff-check',['git','diff','--check'])]\nresults=[]\nfor name,args in checks:\n start=time.monotonic();started=datetime.datetime.now(datetime.timezone.utc).isoformat();result=subprocess.run(args,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,env={**os.environ,'TMPDIR':'/workspace/scratch/c1a4970a76e0/card-upgrade-delivery-tmp'})\n path='build/card-upgrade-delivery/'+name+'.log';open(path,'wb').write(result.stdout)\n row={'name':name,'command':args,'startedAt':started,'exitCode':result.returncode,'wallMs':(time.monotonic()-start)*1000,'log':path,'logSha256':hashlib.sha256(result.stdout).hexdigest()};results.append(row)\n print(json.dumps(row),flush=True)\n if result.returncode:print(result.stdout.decode(errors='replace')[-8000:],flush=True)\nopen('build/card-upgrade-delivery/validation.json','w').write(json.dumps(results,indent=2)+'\\n')\nraise SystemExit(any(x['exitCode'] for x in results))\n"
+    }
+  ],
+  "reproductionNote": "Extract and run helper scripts only in a fresh worktree; retained original logs must not be overwritten.",
+  "notRun": [
+    "large CardUpgrade behavioral VM",
+    "raw CardUpgrade Lua",
+    "full engineering measurement",
+    "Full",
+    "hosted CI",
+    "remote writes",
+    "PR",
+    "merge",
+    "official import",
+    "runtime-ready",
+    "user device",
+    "release"
+  ]
+}

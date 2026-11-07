@@ -1,5 +1,6 @@
 {
   "layers": {
+    "abyss_card_upgrade": "core",
     "abyss_relic_combat_hooks": "core",
     "abyss_relic_family_combat": "core",
     "abyss_purge_candidates": "core",
@@ -387,7 +388,6 @@
     {"from":"abyss_watcher_final_cards","to":"abyss_build_actions","reason":"Only resolved Watcher generation actions call the initialized shared creation helper."},
     {"from":"abyss_watcher_final_cards","to":"abyss_enemy_ai","reason":"Only InstantKill runtime resolution notifies the initialized enemy death callbacks."},
     {"from":"abyss_build_actions","to":"abyss_combat","reason":"Only runtime Master Reality creation uses the initialized host upgrade API; no module-load import."},
-    {"from":"abyss_act2_stasis","to":"abyss_combat","reason":"StasisPower death constructs Master Reality's upgrade only at runtime after Combat initialization."},
     {"from":"abyss_actor","to":"abyss_colorless_cards","reason":"Runtime Power callbacks run after Actor initialization."},
     {"from":"abyss_colorless_cards","to":"abyss_card_actions","reason":"Generation and UID choices call the initialized host dispatcher at runtime."},
     {"from":"abyss_actor","to":"abyss_hp_loss","reason":"HP-loss callback runs after Actor initializes; notifier only queues runtime reactions."},
@@ -434,6 +434,12 @@
     {"from":"abyss_writhing_mass","to":"abyss_relic_family_combat","reason":"Only an actual Parasite obtain invokes common before/onObtainCard rules with its owner-matched permanent health adapter."}
   ],
   "dependencyBoundaries": [
+    {
+      "id": "card-upgrade-custody-independence",
+      "from": ["abyss_card_upgrade", "abyss_act2_stasis"],
+      "forbiddenTargets": ["abyss_combat", "abyss_actor", "abyss_card_actions", "abyss_effects", "abyss_enemy_ai", "abyss_warrior_status_cards", "abyss_run", "abyss_inventory", "abyss_relic_combat_hooks", "abyss_relic_family_combat", "abyss_power_order", "abyss_power_schedule"],
+      "reason": "Card upgrade eligibility and cost metadata have an executable rule owner; custody and Master Reality construction do not initialize Combat orchestration or card execution."
+    },
     {
       "id": "relic-combat-session-independence",
       "from": [

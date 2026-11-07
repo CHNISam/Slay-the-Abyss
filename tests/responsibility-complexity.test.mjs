@@ -112,7 +112,7 @@ test('every extracted card action helper is required and bounded with its nested
 });
 test('combat play, turn and constructor stages are required, bounded and fully measured',()=>{
   const path='src/lua/abyss_combat.lua';
-  const names=['M.damage','draw','chooseCodex','queuedHandlers.effect','M.canPlay','playWindow','playEligibility','playSupportedEffects',
+  const names=['upgradeIndex','upgradeNewIndex','upgradePairs','M.damage','draw','chooseCodex','queuedHandlers.effect','M.canPlay','playWindow','playEligibility','playSupportedEffects',
     'damagePoison','damageThornsCallback','damagePreview','recordDamagePreview','completeDamage',
     'notifyDrawShuffle','drawSourcePile','drawVoid','drawStatusPowers','applyDrawHooks',
     'playCardContent','playAdvancedMode','playEnergy','playEffectTarget','playCardRequirements','playHandRequirements',
@@ -268,4 +268,30 @@ test('the extracted wording formatter is required and restoring the old local ho
   diagnostics.push(row(adapter,1,7,"function 'fragments'",289));
   assert.ok(reviewResponsibilityComplexity(diagnostics,sources,policy).errors.some(e=>e.message.includes('289 exceeds 15')));
   assert.ok(reviewResponsibilityComplexity(diagnostics.filter(r=>r.file!==formatter),{[adapter]:sources[adapter]},policy).errors.some(e=>e.message.includes('module missing')));
+});
+
+test('CardUpgrade owner and Warrior facade keep required modules and nested CC15 rejection',()=>{
+ const owner='src/lua/abyss_card_upgrade.lua',warrior='src/lua/abyss_warrior_status_cards.lua';
+ const modules={
+  [owner]:['M.validSearingBlowCopy','M.combatBaseCost','M.canUpgrade','M.upgrade','M.onUpgrade'],
+  [warrior]:['upgradeIndex','upgradeNewIndex'],
+ };
+ for(const [path,names]of Object.entries(modules)){
+  const lines=names.map(name=>`${name.includes('.')?'':'local '}function ${name}() return function() end end`),source=lines.join('\n');
+  const diagnostics=[row(path,1,1,'main chunk',1)];
+  for(const [i,name]of names.entries()){
+   diagnostics.push(row(path,i+1,lines[i].indexOf('function')+1,`function '${name}'`,15));
+   diagnostics.push(row(path,i+1,lines[i].indexOf('function()')+1,'function',15));
+  }
+  const errors=(rows=diagnostics,sources={[path]:source})=>reviewResponsibilityComplexity(rows,sources).errors.filter(e=>e.file===path);
+  assert.deepEqual(errors(),[],path+' complete valid measurements');
+  for(const diagnostic of diagnostics){
+   const original=diagnostic.message;diagnostic.message=original.replace(/\(\d+ > 0\)/,'(16 > 0)');
+   if(path===owner||diagnostic!==diagnostics[0])assert.ok(errors().some(e=>e.message.includes('16 exceeds 15')),path+' '+original);
+   diagnostic.message=original;
+  }
+  assert.ok(errors([],{}).some(e=>e.message.includes('module missing')),path+' remains required');
+  for(const diagnostic of diagnostics.slice(1))assert.ok(errors(diagnostics.filter(row=>row!==diagnostic)).some(e=>/Incomplete/.test(e.message)),path+' missing measurement');
+  if(path===warrior)for(const name of names)assert.ok(errors([], {[path]:'return {}'}).some(e=>e.message.includes(name)&&e.message.includes('missing')));
+ }
 });

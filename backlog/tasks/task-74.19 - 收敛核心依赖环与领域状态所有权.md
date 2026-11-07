@@ -4,8 +4,8 @@ title: 收敛核心依赖环与领域状态所有权
 status: In Progress
 assignee:
   - Furinya
-created_date: '2026-11-06 01:46'
-updated_date: '2026-11-06 12:02'
+created_date: 2026-11-06 01:46
+updated_date: '2026-11-07T10:50:00Z'
 labels: []
 milestone: m-7
 dependencies: []
@@ -42,6 +42,8 @@ ordinal: 161000
 6.仅收口当前PR521：按Full42176327678逐项修复drain、旧语义变异定位与历史预算输入适配，保留原oracle、case、断言和预算；对本轮真实超时仅用已完成成功文件实测校正分配并采用可容纳全库存的最小布局。独立复审、新SHA完整CI、原生队列和实际合后验收完成后结束，不开启下一架构切片或新任务。
 
 本轮最终有界切片：将Codex选牌生成与提交移回现有Combat选择事务owner，Codex仅保留开选和校验，消除其回导CardActions；原状态、RNG、事件与晚失败回滚逐字对照，保留完整图与残余，不扩大架构范围。
+
+2026-11-07按Owner继续架构解环指派核对fresh develop d8a57cae、PR541–549和活动树后，准备Stasis卡升级职责切片：仅Combat、Act2Stasis、WarriorStatusCards与新卡升级规则owner；先核完整调用和状态所有权，消除Stasis因Master Reality升级回导Combat，保留公开动态槽、费用/复制读序、失败与原事务。以完整来源新旧VM、真实全图和窄门禁独审；不重新认领，不勾AC，不用用户设备、不重复Full、不重试被拒载荷。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -68,4 +70,10 @@ D5来源扩展34项及独立有界审查PASS：23个391完整before另核Git blo
 本轮最终有界Codex切片已将生成、升级、插牌与完成移回Combat既有选择快照事务，Codex只做开选/校验。固定全图333模块1920引用；Combat SCC82→81、内部626→623位置/402→400对，Session15/62/41不变。原Act2遗物及Codex晚失败回滚通过；完整图和源码身份见docs/evidence/m7-final-core-20261106.json。独审/实际合前后Full仍待，不勾交付AC。
 
 最终本地完整收据补证：新8/8及原35-owner4/4通过；V4/Codex两个独立旧新VM合计79完整状态图检查点、每侧52,016,680字节一致，含V4直接execute付款后和伤害后部分写入、原错误对象。当前候选只提供本轮集成，不另开PR；独审及实际Full/队列/合后证据由主控同一候选绑定，AC仍不提前完成。
+
+CardUpgrade独立切片基于d8a57cae已实做：4生产路径将升级/费用/Blood元数据归Copy-only owner，Stasis不再回导Combat；完整334模块5396测量，SCC81/623/400→80/619/397仅Stasis退出，Session15/62/41不变，CC>15 237→236，CC>30 58及max75保持。真实pairs(C)复制Armaments旧回归曾失败，未改旧test；补窄动态枚举后原75组及registry通过，新增差分21/21、raw11/11，15完整图点885975字节/侧及8语义负控。source最终69项复测/精确独审提交收口中；已有失败/成功与28384ms本地planning成本保留，不改共享timings、不重复Full，不声明Hosted/合并/AC完成。见docs/backlog-details/M7-CARD-UPGRADE-OWNERSHIP-20261107.md。
+
+CardUpgrade最终pairs修复来源69/69复验通过；连同新增21、库存8、既有definition5共103个唯一JS通过，另6份原Lua及新增11组Lua通过，失败和重测完整保留。机器证据docs/evidence/m7-card-upgrade-ownership-20261107.json；本地切片待精确提交独审收据与统一发布，状态/AC保持不动。
+
+2026-11-07 CardUpgrade独立交付接线：仅追加真实整文件成功wall上取整28384ms planning floor，raw最大848.268684ms保留原unknown=10000/exclusive；原九floor、17Windows/13POSIX、预算及全部CardUpgrade生产/行为/五owner来源证据不改。748 JS/1403 Lua完整一次分片，含60000ms reserve余量Windows86052/POSIX5918ms。已定位并补共享responsibility合成fixture漏列3个新required根，门槛和旧断言不改。窄测及真实负例见docs/backlog-details/M7-CARD-UPGRADE-DELIVERY-FLOOR-20261107.md；未Full/hosted/远端写/合并。恢复CLI1.55.3的doctor在d8原档与本树同报5组既有归档重号，未fix；verify:backlog单独记录。
 <!-- SECTION:NOTES:END -->

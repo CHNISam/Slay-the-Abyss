@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {cardUpgradeCiPlanningProof,preCardUpgradeCiPlanningSource,validateCardUpgradeCiPlanningSource} from './helpers/card-upgrade-ci-planning-source-inverse.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -15,6 +16,8 @@ const path='scripts/ci-test-timings.json',binding=proof.files[path],before=JSON.
 // The three original contracts own the frozen 16/12 calibration, including its
 // unmeasured files. Current placement is checked separately below.
 const timings=after;
+const beforeCardUpgradeTimings=JSON.parse(preCardUpgradeCiPlanningSource(path,read(path)));
+const cardUpgradeReceiptPath='docs/evidence/m7-card-upgrade-planning-floor-20261107.json',cardUpgradeReceiptBytes=read(cardUpgradeReceiptPath),cardUpgradeReceipt=JSON.parse(cardUpgradeReceiptBytes);
 const {qualityShardMatrices,qualityShardJobs}=await import('data:text/javascript,'+encodeURIComponent(proof.files['scripts/ci-quality-shape.mjs'].afterSource));
 const historicalFullQualityJobs=['check','presentation','engineering-posix',...qualityShardJobs,'impact','fast'];
 const jsPlanningWeights=(files,platform)=>Object.fromEntries(files.map(file=>[file,Math.max(timings.js[platform][file]??timings.unknownJsMs,timings.jsPlanning?.localLowerBounds?.[file]?.durationMs??0)]));
@@ -23,8 +26,8 @@ const placementPath='docs/evidence/pr521-ci-placement-20261106.json',placementBy
 const floorPath='docs/evidence/pr521-run-max-planning-floor-20261106.json',floorBytes=read(floorPath),floorReceipt=JSON.parse(floorBytes),floorKey='tests/run-max-hp-config-inverse.test.mjs';
 // Added after the frozen #521 placement receipts. Never use these files to
 // reconstruct historical shard assignments or invent historical measurements.
-const postPlacementJs=['tests/intent-visibility-cache.test.mjs','tests/m7-core-final.test.mjs','tests/pr-quality-evidence.test.mjs','tests/repository-costs.test.mjs','tests/runtime-path-baseline.test.mjs'];
-const postPlacementLua=['tests/lua/intent_visibility_cache.lua'];
+const postPlacementJs=['tests/card-upgrade-ownership.test.mjs','tests/card-upgrade-source.test.mjs','tests/intent-visibility-cache.test.mjs','tests/m7-core-final.test.mjs','tests/pr-quality-evidence.test.mjs','tests/repository-costs.test.mjs','tests/runtime-path-baseline.test.mjs'];
+const postPlacementLua=['tests/lua/card_upgrade_ownership_contract.lua','tests/lua/intent_visibility_cache.lua'];
 const currentLua=()=>readdirSync('tests/lua').filter(n=>n.endsWith('.lua')).map(n=>'tests/lua/'+n).sort();
 const placementJs=()=>discoverJs().filter(file=>!postPlacementJs.includes(file));
 const placementLua=()=>currentLua().filter(file=>!postPlacementLua.includes(file));
@@ -199,16 +202,30 @@ test('frozen Windows17 POSIX13 Full35 receipt covers its exact 741 JS and 1401 L
  const workflow=read('.github/workflows/quality.yml');assert.match(workflow,/max-parallel: 12/);assert.match(workflow,/timeout-minutes: 20/);assert.match(workflow,/local-special' && 75 \|\| 30/);
 });
 
-test('current Full35 includes all post-placement files once at explicit unknown costs within unchanged budgets',()=>{
+test('current Full35 includes all post-placement files once at explicit unknown costs or the sourced CardUpgrade floor within unchanged budgets',()=>{
  const js=discoverJs(),lua=currentLua();
+ const forecast=JSON.parse(read('docs/evidence/m7-card-upgrade-delivery-planning-20261107.json'));
+ assert.deepEqual(forecast.inventory.currentJs,[...js].sort());assert.deepEqual(forecast.inventory.currentLua,lua);
+ assert.deepEqual(forecast.inventory.addedJs,['tests/card-upgrade-ownership.test.mjs','tests/card-upgrade-source.test.mjs']);
+ assert.deepEqual(forecast.inventory.addedLua,['tests/lua/card_upgrade_ownership_contract.lua']);
+ assert.deepEqual(forecast.inventory.baselineJs,js.filter(p=>!forecast.inventory.addedJs.includes(p)).sort());
+ assert.deepEqual(forecast.inventory.baselineLua,lua.filter(p=>!forecast.inventory.addedLua.includes(p)));
+ assert.equal(forecast.timingsSha256,hash(read(path)));assert.equal(forecast.qualityShapeSha256,hash(read('scripts/ci-quality-shape.mjs')));
+ assert.equal(forecast.workflowSha256,hash(read('.github/workflows/quality.yml')));
+ assert.deepEqual(forecast.shape,{windows:17,posix:13});assert.equal(forecast.reserveMs,60000);assert.equal(forecast.rawWorkers,2);assert.equal(forecast.concurrencyCap,12);
  assert.deepEqual(js.filter(file=>postPlacementJs.includes(file)).sort(),postPlacementJs);
  assert.deepEqual(lua.filter(file=>postPlacementLua.includes(file)),postPlacementLua);
  assert.equal(js.length,placement.inventory.js+postPlacementJs.length);
  assert.equal(lua.length,placement.inventory.lua+postPlacementLua.length);
  for(const platform of ['win32','linux'])for(const file of postPlacementJs){
   assert.equal(currentTimings.js[platform][file],undefined,'new files have no fabricated hosted measurements');
-  assert.equal(currentTimings.jsPlanning.localLowerBounds[file],undefined,'new files have no fabricated planning floors');
-  assert.equal(currentJsPlanningWeights([file],platform)[file],currentTimings.unknownJsMs);
+  if(file===cardUpgradeCiPlanningProof.floorKey){
+   assert.equal(currentTimings.jsPlanning.localLowerBounds[file].durationMs,28384,'only complete source-bound CardUpgrade local observation supplies a floor');
+   assert.equal(currentJsPlanningWeights([file],platform)[file],28384);
+  }else{
+   assert.equal(currentTimings.jsPlanning.localLowerBounds[file],undefined,'other new files have no fabricated planning floors');
+   assert.equal(currentJsPlanningWeights([file],platform)[file],currentTimings.unknownJsMs);
+  }
  }
  for(const file of postPlacementLua){
   assert.equal(currentTimings.lua[file],undefined,'new fixtures have no fabricated worker-safety measurements');
@@ -216,19 +233,22 @@ test('current Full35 includes all post-placement files once at explicit unknown 
  }
  for(const [platform,count,budget]of [['win32',17,1800000],['linux',13,1200000]]){
   const loads=currentJsShard(js,`1/${count}`,platform).loads;
+  const expected=forecast.cardUpgradeWithFloor[platform];assert.equal(expected.shards,count);assert.equal(expected.budgetMs,budget);assert.deepEqual(expected.jsLoadsMs,loads);
   const jsBins=Array.from({length:count},(_,i)=>currentJsShard(js,`${i+1}/${count}`,platform).files);
-  assert.deepEqual(jsBins.flat().sort(),[...js].sort());assert.equal(new Set(jsBins.flat()).size,js.length);
+  assert.deepEqual(jsBins.flat().sort(),[...js].sort());assert.equal(new Set(jsBins.flat()).size,js.length);assert.deepEqual(expected.jsFiles,jsBins);
   if(platform==='linux'){
+   assert.equal(expected.rawFiles,null);assert.deepEqual(expected.combinedLoadsMs,loads);assert.equal(expected.maxPlusReserveMs,Math.max(...loads)+60000);assert.equal(expected.marginMs,budget-Math.max(...loads)-60000);
    assert.ok(Math.max(...loads)+60000<budget,'current POSIX inventory retains original twenty-minute budget and reserve');
    continue;
   }
   const planning={...currentTimings,windowsJsShardMs:loads};
   const bins=Array.from({length:count},(_,i)=>shardLuaScripts(lua,`${i+1}/${count}`,planning,2));
-  assert.deepEqual(bins.flat().sort(),[...lua].sort());assert.equal(new Set(bins.flat()).size,lua.length);
+  assert.deepEqual(bins.flat().sort(),[...lua].sort());assert.equal(new Set(bins.flat()).size,lua.length);assert.deepEqual(expected.rawFiles,bins);
   const cost=file=>currentTimings.luaShard[file]??currentTimings.lua[file]??currentTimings.unknownLuaMs;
   const safety=file=>currentTimings.lua[file]??currentTimings.unknownLuaMs;
   const combined=bins.map((bin,i)=>{const pool=[0,0];for(const file of bin.filter(file=>safety(file)<10000).sort((a,b)=>safety(b)-safety(a)||a.localeCompare(b)))pool[pool[0]<=pool[1]?0:1]+=cost(file);
    return loads[i]+bin.filter(file=>safety(file)>=10000).reduce((sum,file)=>sum+cost(file),0)+Math.max(...pool);});
+  assert.deepEqual(expected.combinedLoadsMs,combined);assert.equal(expected.maxPlusReserveMs,Math.max(...combined)+60000);assert.equal(expected.marginMs,budget-Math.max(...combined)-60000);
   assert.ok(Math.max(...combined)+60000<budget,'current Windows inventory retains original thirty-minute budget and reserve');
  }
 });
@@ -287,8 +307,8 @@ test('current 129 placement raises reconstruct exact timings while preserving al
  assert.equal(changes.length,129);assert.deepEqual(raisedCounts,{win32:70,linux:59});assert.deepEqual(changes,placement.changes);
  assert.equal(placement.raisedCount,129);assert.deepEqual(placement.raisedCounts,raisedCounts);
  assert.equal(placement.previousMapSha256,hash(JSON.stringify(after.js)));assert.equal(placement.resultingMapSha256,hash(JSON.stringify(expected.js)));
- const update=currentTimings.jsCalibrationUpdates.at(-1);
- assert.deepEqual(currentTimings.jsCalibrationUpdates.slice(0,-1),after.jsCalibrationUpdates);
+ const update=beforeCardUpgradeTimings.jsCalibrationUpdates.at(-1);
+ assert.deepEqual(beforeCardUpgradeTimings.jsCalibrationUpdates.slice(0,-1),after.jsCalibrationUpdates);
  assert.equal(update.runId,placement.sourceRun.id);assert.equal(update.runAttempt,1);assert.equal(update.headSha,placement.sourceRun.headSha);assert.equal(update.treeSha,placement.sourceRun.treeSha);assert.equal(update.conclusion,'failure');
  assert.deepEqual(update.sourceRecords,placement.sourceRecords);assert.deepEqual(update.observedFileCounts,placement.observedFileCounts);assert.equal(update.observationCount,1458);assert.deepEqual(update.raisedCounts,raisedCounts);
  assert.deepEqual(update.excludedFailedCounts,{win32:7,linux:6});assert.deepEqual(update.excludedUnfinishedCounts,{win32:0,linux:11});
@@ -310,7 +330,7 @@ test('current 129 placement raises reconstruct exact timings while preserving al
  assert.equal(censored.plannedCount,58);assert.equal(censored.completedCount,44);assert.equal(censored.firstUncompletedFile,floorKey);
  assert.deepEqual(censored.completeSuccessfulPrefix.map(row=>row.file),censored.plannedFiles.slice(0,44));assert.equal(censored.plannedFiles[44],floorKey);
  assert.equal(censored.censoredWindowMs,629181);assert.equal(censored.measurementImported,false);assert.equal(censored.censoringIsNotRuntimeOrPass,true);
- assert.equal(currentTimings.js.linux[floorKey],254137,'the unfinished Linux duration never replaces its previous complete observation');
+ assert.equal(beforeCardUpgradeTimings.js.linux[floorKey],254137,'the unfinished Linux duration never replaces its previous complete observation');
  assert.equal(floorReceipt.planningEffect.previousEffectiveLinuxMs,254137);assert.equal(floorReceipt.planningEffect.previousEffectiveWindowsMs,889638);assert.equal(floorReceipt.planningEffect.newFloorMs,889638);
  assert.deepEqual(floorReceipt.planningEffect.additionalTotalWorkMs,{linux:635501,win32:0});
  expected.jsPlanning.model=after.jsPlanning.model.replace('explicit local lower bounds.','explicit local and cross-platform planning floors.');
@@ -318,13 +338,13 @@ test('current 129 placement raises reconstruct exact timings while preserving al
  expected.jsPlanning.localLowerBounds[floorKey]={durationMs:889638,environment:'hosted Windows',coverage:floorReceipt.coverage,
   kind:'Planning-only cross-platform floor from a complete successful hosted Windows same-file observation; not a Linux measurement or censored elapsed-time sample.',
   sourceLog:row.logPath,sourceLogSha256:row.logSha256,sourceRunId:source.runId,sourceHeadSha:source.headSha,sourceJobId:row.jobId,sourceReceipt:floorPath,sourceReceiptSha256:hash(floorBytes)};
- assert.equal(JSON.stringify(expected,null,2)+'\n',read(path),'after the original 129 raises, only model wording and one sourced planning floor may change complete bytes');
- assert.deepEqual(currentTimings,expected);
- for(const platform of ['win32','linux'])for(const [file,value]of Object.entries(after.js[platform]))assert.ok(currentTimings.js[platform][file]>=value);
+ assert.equal(JSON.stringify(expected,null,2)+'\n',preCardUpgradeCiPlanningSource(path,read(path)),'after the original 129 raises, only model wording and one sourced planning floor may change complete bytes');
+ assert.deepEqual(beforeCardUpgradeTimings,expected);
+ for(const platform of ['win32','linux'])for(const [file,value]of Object.entries(after.js[platform]))assert.ok(beforeCardUpgradeTimings.js[platform][file]>=value);
  const luaBlock=s=>s.slice(s.indexOf('  "lua": {'),s.indexOf('  "jsSource":'));
- assert.equal(luaBlock(read(path)),luaBlock(binding.afterSource),'literal worker-safety bytes remain frozen');
- for(const key of ['lua','luaShard','luaShardCalibrationUpdates','initialMs','unknownJsMs','unknownLuaMs'])assert.deepEqual(currentTimings[key],after[key],key+' remains unchanged');
- const priorFloors=structuredClone(currentTimings.jsPlanning.localLowerBounds);delete priorFloors[floorKey];assert.deepEqual(priorFloors,after.jsPlanning.localLowerBounds,'all eight existing local floors remain exact');assert.equal(Object.keys(priorFloors).length,8);
+ assert.equal(luaBlock(preCardUpgradeCiPlanningSource(path,read(path))),luaBlock(binding.afterSource),'literal worker-safety bytes remain frozen');
+ for(const key of ['lua','luaShard','luaShardCalibrationUpdates','initialMs','unknownJsMs','unknownLuaMs'])assert.deepEqual(beforeCardUpgradeTimings[key],after[key],key+' remains unchanged');
+ const priorFloors=structuredClone(beforeCardUpgradeTimings.jsPlanning.localLowerBounds);delete priorFloors[floorKey];assert.deepEqual(priorFloors,after.jsPlanning.localLowerBounds,'all eight existing local floors remain exact');assert.equal(Object.keys(priorFloors).length,8);
  for(const platform of ['win32','linux'])assert.equal(currentJsPlanningWeights([floorKey],platform)[floorKey],889638);
  assert.equal(placement.forecast.reserveMs,60000);assert.deepEqual(placement.forecast.budgets,{win32:1800000,linux:1200000});assert.equal(placement.forecast.workers,2);assert.equal(placement.forecast.concurrencyCapUnchanged,12);
 });
@@ -335,7 +355,7 @@ test('only two exact current source identities enter the unchanged pure historic
   'scripts/ci-quality-shape.mjs':'0d6c82c2a7e7db82e276eb563978d5253d9a225039329e171ed3f907f98609d1',
  };
  for(const [path,digest]of Object.entries(identities)){
-  const source=read(path),b=proof.files[path];assert.equal(hash(source),digest);
+  const source=preCardUpgradeCiPlanningSource(path,read(path)),b=proof.files[path];assert.equal(hash(source),digest);
   for(const input of [source,source.replaceAll('\n','\r\n')]){
    assert.equal(preCurrentCiPlacementSource(path,input),b.afterSource);assert.equal(project(path,input),b.beforeSource);
    const legacy=path.endsWith('.json')?preCiHostTimingSource(path,b.beforeSource):preCiWindowsShapeSource(path,b.beforeSource);
@@ -351,4 +371,115 @@ test('only two exact current source identities enter the unchanged pure historic
    source.replace('not a Linux measurement or censored elapsed-time sample.','a Linux measurement and censored elapsed-time sample.')].filter(value=>value!==source);
   for(const mutant of mutants){assert.equal(preCurrentCiPlacementSource(path,mutant),mutant);assert.equal(project(path,mutant),mutant);assert.notEqual(hash(mutant),b.beforeSha256);}
  }
+});
+
+
+test('CardUpgrade timing epoch appends exactly one authenticated floor and preserves every prior timing byte and quality shape',()=>{
+ const source=read(path),restored=validateCardUpgradeCiPlanningSource(source),expected=JSON.parse(restored);
+ assert.equal(hash(source),cardUpgradeCiPlanningProof.afterSha256);assert.equal(hash(restored),cardUpgradeCiPlanningProof.beforeSha256);
+ assert.equal(Object.keys(expected.jsPlanning.localLowerBounds).length,9);
+ const floor=currentTimings.jsPlanning.localLowerBounds[cardUpgradeCiPlanningProof.floorKey];
+ assert.deepEqual(floor,{durationMs:28384,environment:'local cloud Linux; not GitHub Hosted',coverage:cardUpgradeReceipt.coverage,
+  kind:'Planning-only local lower bound from the maximum retained successful complete-file outer wall or Node duration; not a hosted measurement.',
+  sourceLog:cardUpgradeReceipt.observations.at(-1).log,sourceLogSha256:cardUpgradeReceipt.observations.at(-1).logSha256,
+  sourceHeadSha:cardUpgradeReceipt.sourceHead,sourceReceipt:cardUpgradeReceiptPath,sourceReceiptSha256:hash(cardUpgradeReceiptBytes)});
+ expected.jsPlanning.localLowerBounds[cardUpgradeCiPlanningProof.floorKey]=floor;
+ assert.equal(JSON.stringify(expected,null,2)+'\n',source,'the only timing edit is this complete CardUpgrade floor entry');
+ assert.equal(Object.keys(currentTimings.jsPlanning.localLowerBounds).length,10);
+ for(const platform of ['win32','linux']){
+  assert.equal(currentTimings.js[platform][cardUpgradeCiPlanningProof.floorKey],undefined);
+  assert.equal(currentJsPlanningWeights([cardUpgradeCiPlanningProof.floorKey],platform)[cardUpgradeCiPlanningProof.floorKey],28384);
+ }
+ assert.equal(hash(read('scripts/ci-quality-shape.mjs')),'0d6c82c2a7e7db82e276eb563978d5253d9a225039329e171ed3f907f98609d1');
+ for(const input of [source,source.replaceAll('\n','\r\n')]){
+  assert.equal(preCardUpgradeCiPlanningSource(path,input),restored);
+  assert.equal(preCurrentCiPlacementSource(path,input),binding.afterSource);
+  assert.equal(project(path,input),binding.beforeSource);
+  assert.equal(preIntegrationSource(path,input,'base',{readSource(){assert.fail('timing projection must not read live owners');}}),ciHostTimingProof.beforeSource);
+ }
+});
+
+test('CardUpgrade floor inverse refuses deletion, old-floor changes, weights, metadata and stale warm authorization',()=>{
+ const source=read(path),restored=preCardUpgradeCiPlanningSource(path,source),mutants=[];
+ const mutate=fn=>{const value=JSON.parse(source);fn(value);mutants.push(JSON.stringify(value,null,2)+'\n');};
+ mutate(value=>delete value.jsPlanning.localLowerBounds[cardUpgradeCiPlanningProof.floorKey]);
+ mutate(value=>value.jsPlanning.localLowerBounds[cardUpgradeCiPlanningProof.floorKey].durationMs=28383);
+ mutate(value=>value.jsPlanning.localLowerBounds[cardUpgradeCiPlanningProof.floorKey].sourceReceiptSha256='0'.repeat(64));
+ mutate(value=>value.jsPlanning.localLowerBounds[cardUpgradeCiPlanningProof.floorKey].environment='hosted Linux');
+ for(const file of Object.keys(beforeCardUpgradeTimings.jsPlanning.localLowerBounds)){
+  mutate(value=>delete value.jsPlanning.localLowerBounds[file]);
+  mutate(value=>value.jsPlanning.localLowerBounds[file].durationMs++);
+  mutate(value=>value.jsPlanning.localLowerBounds[file].coverage+=' changed');
+ }
+ for(const key of ['unknownJsMs','unknownLuaMs'])mutate(value=>value[key]++);
+ for(const platform of ['win32','linux']){mutate(value=>value.js[platform][Object.keys(value.js[platform])[0]]++);mutate(value=>value.initialMs[platform][0]++);}
+ for(const key of ['lua','luaShard'])mutate(value=>value[key][Object.keys(value[key])[0]]++);
+ mutate(value=>value.source.headSha='f'.repeat(40));
+ mutate(value=>value.jsCalibrationUpdates.at(-1).conclusion='success');
+ mutants.push(source+'\n',source.slice(1),source.replace('"durationMs": 28384','"durationMs": 28384.0'),source.replace('"unknownJsMs": 10000','"unknownJsMs": 10000, "unknownJsMs": 10000'));
+ for(const mutant of mutants){
+  assert.notEqual(mutant,source);assert.notEqual(hash(mutant),cardUpgradeCiPlanningProof.afterSha256);
+  assert.equal(preCardUpgradeCiPlanningSource(path,source),restored,'valid input does not warm mutable authorization');
+  assert.equal(preCardUpgradeCiPlanningSource(path,mutant),mutant,'mutation must remain visible');
+  assert.throws(()=>validateCardUpgradeCiPlanningSource(mutant),/current CardUpgrade timing epoch requires/,'the same current-tree validator actually rejects the mutation');
+  if(mutant!==restored){assert.equal(preCurrentCiPlacementSource(path,mutant),mutant);assert.equal(project(path,mutant),mutant);}
+  assert.equal(preCardUpgradeCiPlanningSource(path,source),restored,'a rejection does not damage subsequent fresh exact validation');
+ }
+ // The old exact timing epoch remains valid in the original historical bridge,
+ // but cannot masquerade as the new CardUpgrade identity or authorize floor deletion.
+ assert.equal(preCardUpgradeCiPlanningSource(path,restored),restored);
+ assert.throws(()=>validateCardUpgradeCiPlanningSource(restored),/current CardUpgrade timing epoch requires/,'legal historical before is not a current floor epoch');
+ for(const value of [null,{},undefined,17])assert.equal(preCardUpgradeCiPlanningSource(path,value),value);
+ for(const foreign of ['foreign','scripts/ci-quality-shape.mjs'])assert.equal(preCardUpgradeCiPlanningSource(foreign,source),source);
+});
+
+test('CardUpgrade floor authenticates retained complete successes, failures and unimported local raw timings',()=>{
+ const receipt=cardUpgradeReceipt,originalBytes=read(receipt.originalEvidence.path),original=JSON.parse(originalBytes),observation=original.localPlanningObservation;
+ assert.equal(hash(originalBytes),receipt.originalEvidence.sha256);
+ assert.equal(receipt.schemaVersion,1);assert.equal(receipt.kind,'local-complete-file-planning-floor');
+ assert.equal(receipt.file,cardUpgradeCiPlanningProof.floorKey);assert.equal(receipt.durationMs,28384);
+ assert.equal(receipt.beforeTimingsLfSha256,cardUpgradeCiPlanningProof.beforeSha256);
+ assert.equal(receipt.sourceHead,'51f77e3fb21770a6fbb72bae9d602d631e2e7843');
+ assert.equal(receipt.sourceTree,'f64565ec48d4e841dc3bc4425b1f04fb52a52e58');
+ assert.equal(receipt.baseSha,'d8a57cae2a867200ca8e588abc0d368e6cdb3799');
+ assert.equal(receipt.notHostedCiMeasurement,true);assert.equal(Object.hasOwn(receipt,'afterTimingsLfSha256'),false);
+ assert.equal(receipt.environment,observation.environment);
+ assert.deepEqual(receipt.observations.map(({rawLog,logSha256,...row})=>row),observation.wholeFileRuns);
+ assert.equal(receipt.observations.length,3);
+ for(const row of receipt.observations){
+  assert.equal(hash(row.rawLog),row.logSha256);
+  assert.equal(Number(row.rawLog.match(/duration_ms ([0-9.]+)/)[1]),row.nodeDurationMs);
+  assert.match(row.rawLog,new RegExp('tests '+row.tests));assert.match(row.rawLog,new RegExp('pass '+row.passed));assert.match(row.rawLog,new RegExp('fail '+row.failed));
+  assert.ok(row.wallMs>=row.nodeDurationMs,'outer wall includes startup and teardown');
+ }
+ assert.deepEqual(receipt.observations.map(row=>[row.status,row.passed,row.failed]),[[1,15,1],[0,20,0],[0,21,0]]);
+ const maximum=Math.max(...receipt.observations.filter(row=>row.status===0).flatMap(row=>[row.wallMs,row.nodeDurationMs]));
+ assert.equal(maximum,28383.44112300547);assert.equal(receipt.observations.at(-1).nodeDurationMs,28317.242988);assert.equal(Math.ceil(maximum),receipt.durationMs);
+ assert.equal(receipt.launcherFailure.nodeRan,false);assert.equal(receipt.launcherFailure.status,127);assert.equal(hash(receipt.launcherFailure.rawLog),receipt.launcherFailure.logSha256);
+ assert.deepEqual(receipt.developmentFailures,observation.developmentFailures);assert.deepEqual(receipt.allOriginalFailuresRetained,original.failuresPreserved);
+ for(const entry of [receipt.compatibilityFailure,receipt.compatibilityRepair]){
+  assert.deepEqual(entry,original.validationLogs.find(row=>row.path===entry.path));assert.equal(hash(entry.output),entry.sha256);
+ }
+ assert.match(receipt.compatibilityFailure.output,/\[DRAIN_CONTRACT\] real queued choice success false ~= true/);
+ const raw=receipt.rawLua;
+ assert.deepEqual(raw.observations.map(({rawLog,logSha256,...row})=>row),observation.rawLuaRuns);
+ for(const row of raw.observations){assert.equal(row.status,0);assert.equal(hash(row.rawLog),row.logSha256);assert.match(row.rawLog,/CARD_UPGRADE_CONTRACT_PASS all (9|11)/);}
+ assert.deepEqual(raw.observations.map(row=>Number(row.rawLog.match(/CARD_UPGRADE_CONTRACT_PASS all (\d+)/)[1])),[9,11],'earlier raw success retains its actual pre-pairs case count');
+ assert.equal(raw.maximumObservedWallMs,Math.max(...raw.observations.map(row=>row.wallMs)));assert.equal(raw.maximumObservedWallMs,848.2686839997768);assert.equal(raw.ceilObservedMs,849);
+ assert.equal(raw.importedToHostedOrWorkerSafety,false);assert.equal(raw.effectiveSafetyMs,10000);assert.equal(raw.effectivePlacementMs,10000);
+ assert.equal(currentTimings.lua[raw.file],undefined);assert.equal(currentTimings.luaShard[raw.file],undefined);assert.equal(currentTimings.unknownLuaMs,raw.effectiveSafetyMs);
+ assert.deepEqual(receipt.sourceBinding.timingSourceHashes,observation.sourceHashes);assert.deepEqual(receipt.sourceBinding.engineeringInputs,original.after.inputs);
+ const production=receipt.sourceBinding.productionSourcesSha256;
+ assert.equal(Object.keys(production).length,334);
+ assert.deepEqual(readdirSync('src/lua').filter(name=>name.endsWith('.lua')).map(name=>'src/lua/'+name).sort(),Object.keys(production).sort());
+ assert.deepEqual(production,Object.fromEntries(Object.entries(original.after.graph.sourceHashes).map(([name,sha])=>['src/lua/'+name+'.lua',sha])));
+ for(const [file,digest]of Object.entries({...production,...receipt.sourceBinding.timingSourceHashes,...receipt.sourceBinding.retainedSliceInputs,...receipt.sourceBinding.engineeringInputs})){
+  const bytes=file.endsWith('.gz')?readFileSync(file):read(file);assert.equal(hash(bytes),digest,file+' retains original measurement input');
+ }
+ assert.equal(hash(read('tests/helpers/card-upgrade-source-proof.json')),receipt.sourceBinding.sourceProofSha256);
+ assert.deepEqual(receipt.reuseVerification.coverage,{modules:334,functions:5062,measurements:5396,expectedMeasurements:5396});
+ assert.deepEqual(receipt.reuseVerification.summary,original.after.summary);assert.deepEqual(receipt.reuseVerification.tests,original.testCounts);
+ assert.equal(receipt.reuseVerification.verifiedLogCount,50);assert.equal(receipt.reuseVerification.originalLogs.length,50);
+ for(const row of receipt.reuseVerification.originalLogs){const old=original.validationLogs.find(log=>log.path===row.path);assert.deepEqual(row,{path:old.path,sha256:old.sha256,bytes:old.bytes});}
+ const graph=receipt.reuseVerification.completeGraphs;assert.deepEqual(graph,{checkpoints:15,bytesPerSide:885975,definitions:5245});
 });
