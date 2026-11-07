@@ -1,15 +1,16 @@
 ---
 id: TASK-4.16
 title: 改善右上角菜单与操作说明的交互和信息层级
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-11-03 15:29'
+updated_date: '2026-11-07 03:47'
 labels:
   - playtest-20261030
   - p1
   - grok
+  - 待验
 milestone: m-8
 dependencies: []
 references:
@@ -56,4 +57,6 @@ Owner反馈：菜单只能点「继续游戏」关闭；未启程时仍显示不
 2026-11-01 QA-R2-06：地图模式的菜单入口与命令共用准入并隐藏重复地图；预览返回走既有完整菜单关闭路径，保持exitGeneration递增。真实Host新回归覆盖地图旧room tap、战斗/节点只读及单步返回、旧menu tap、手柄Cancel；专项与相邻菜单回归已通过，详见新附件。原AC1-3和TASK-38设备验收未勾，未做官方导入或手机操作。
 
 2026-11-02最新排期：优先M4非美术、非交互设计工程。新增操作说明信息架构与整体交互方案先取TASK-95对应实验结论；关闭菜单、误导入口、返回层级与触点穿透等已有明确缺陷及QA-R2-06回归继续，不因实验回退或延迟已批准修复。 仅对应新增正式设计切片以实验结论为前置；未来纯设计优化子任务显式依赖TASK-95并引用适用Go结论。本混合任务不新增整任务硬依赖，原状态与AC保留。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

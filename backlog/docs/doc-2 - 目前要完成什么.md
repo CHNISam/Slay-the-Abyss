@@ -3,7 +3,7 @@ id: doc-2
 title: 目前要完成什么
 type: specification
 created_date: '2026-10-29 05:08'
-updated_date: '2026-11-03 15:31'
+updated_date: '2026-11-07 05:55'
 ---
 # 目前要完成什么
 
@@ -14,3 +14,5 @@ M8 产品体验（m-8）只允许既有明确修复窄并行；M8-B TASK-85/96 �
 **Agent 自主领取必须**先执行 `npm run task:pick -- TASK-编号`；返回 HOLD 就检查/接续已有 PR，而不是另领下阶段任务。回到 `docs/SPRINT_EXECUTION.md` 看阶段说明。
 
 旧 M0–M6 的历史任务与已发布作品不重新立项；AC、owner、设备验收未完成就不勾选。
+
+**2026-11-07 看板现状（develop `2ad07111`，#539 合后）：** 任务目录 73 项 In Progress；本次把无在途证据的 60 项归 To Do——54 项标 `待验`（实现已在历史 PR 合入，剩 AC 待同候选设备/官方证据），6 项未标（TASK-19、25.5、81.1、89 未发现实现；TASK-85、96 属 blockedUntilOwnerApproval，待 Owner 定方向）。In Progress 保留 13 项：TASK-74、74.19、74.20、75、75.3–75.6、81、81.2、88、100、101——口径是 M7 主线已交付但证据未收口的项，加上 #541 在途的 74.19/74.20。M3–M6 里程碑（m-4/m-5/m-6、m-0）已归档，只留 m-7/m-8/m-9。

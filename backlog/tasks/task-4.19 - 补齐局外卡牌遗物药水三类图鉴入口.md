@@ -1,12 +1,13 @@
 ---
 id: TASK-4.19
 title: 补齐局外卡牌遗物药水三类图鉴入口
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-10-31 10:47'
-updated_date: '2026-11-02 02:34'
-labels: []
+updated_date: '2026-11-07 03:47'
+labels:
+  - 待验
 milestone: m-5
 dependencies: []
 references:
@@ -36,3 +37,9 @@ PR409确认局内查看已有，缺未开局的卡牌、遗物和药水目录入
 <!-- SECTION:PLAN:BEGIN -->
 2026-11-02 先实施独立非设计工程切片：局外只读卡牌/遗物/药水 catalog provider、Production 范围过滤与基础/升级预览数据；不创建假 Run、不消费随机流、不发放物品。由 dot 在独立云端目录实现和测试，本切片不含布局或动效。完整入口、返回主菜单及 PC/手机交互尚未验证，AC1/3 不勾完成；新增视觉交互设计遵循已批准前置实验与用户确认门。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
+<!-- SECTION:NOTES:END -->

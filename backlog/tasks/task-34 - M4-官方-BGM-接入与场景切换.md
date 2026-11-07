@@ -1,16 +1,17 @@
 ---
 id: TASK-34
 title: 配好背景音乐和场景切歌
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 07:34'
-updated_date: '2026-11-03 15:29'
+updated_date: '2026-11-07 03:48'
 due_date: '2026-10-28'
 labels:
   - P1
   - bgm
   - awaiting-live
+  - 待验
 milestone: m-8
 dependencies: []
 references:
@@ -74,4 +75,6 @@ ordinal: 46000
 2026-10-26逐项AC校准：将混合的已实现/已有自动回归与完整池/平台待验拆成独立条款；依据既有合并及验证记录勾选，不新增通过结论。原验收快照保留docs/evidence/backlog-ac-before-20261026.json，全部原范围要求由拆分后条款继续承接。
 
 负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

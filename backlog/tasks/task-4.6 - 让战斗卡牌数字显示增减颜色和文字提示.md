@@ -1,13 +1,14 @@
 ---
 id: TASK-4.6
 title: 让战斗卡牌数字显示增减颜色和文字提示
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 17:08'
-updated_date: '2026-11-03 15:29'
+updated_date: '2026-11-07 03:47'
 labels:
   - awaiting-live
+  - 待验
 milestone: m-8
 dependencies: []
 references:
@@ -51,4 +52,6 @@ ordinal: 92000
 2026-10-26拆分原AC3：已有组合构建/读回/PC受控渲染勾选；正式设备与严格UI验收继续未勾。
 
 负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

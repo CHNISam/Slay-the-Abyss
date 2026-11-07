@@ -1,11 +1,11 @@
 ---
 id: TASK-81.1
 title: 补齐事件源码合同的相关选测漏边
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-11-06 03:15'
-updated_date: '2026-11-06 03:26'
+updated_date: '2026-11-07 03:48'
 labels: []
 milestone: m-7
 dependencies: []
@@ -38,4 +38,6 @@ Colosseum与Masked Bandits源码变更已有其他映射，related因此不回�
 
 <!-- SECTION:NOTES:BEGIN -->
 两测试文件最小修复完成：真实consumer五路径显式化；原实现新增6项3失败，修后常规本树锁依赖与固定Node24四文件131通过0失败0跳过。独审session ses_e511dab3dffe5zKlPnL6nU6Jjn复核5路径断边负控与2856输入真实选集；仅Colosseum/Bandits integration各加原合同1项，fast/Lua及无关输入逐项不变，13类高风险和删除输入Full保持。AC3等待精确提交/正常集成，不声明Fast或M7验收。
+
+2026-11-07 看板核对（develop 2c85bc61）：未发现实现提交或在途 PR，状态由 In Progress 归 To Do（未开始）；范围与原 AC 不变。
 <!-- SECTION:NOTES:END -->

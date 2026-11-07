@@ -1,15 +1,16 @@
 ---
 id: TASK-91
 title: 澄清卡组排序的原顺序类型和费用方向
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-11-01 04:09'
+updated_date: '2026-11-07 03:48'
 labels:
   - playtest-20261030
   - p2
   - grok
+  - 待验
 dependencies: []
 references:
   - docs/backlog-details/PLAYTEST-20261030.md
@@ -44,4 +45,6 @@ Owner截图：卡组页显示「排序·原顺序」但没有解释原顺序是�
 本轮排序标签和现有底部说明已完成，算法与过滤零改。定向浏览、布局、历史合同7/7通过；证据见 docs/backlog-details/TASK-91.md。无候选和设备实测，保持进行中，待独立复审和主控集成。
 
 2026-11-01 R2：五种既有真实排序仅改初始/名称/稀有度/费用/类型短标签，普通浏览移除常驻规则页脚，手柄多页提示保留。红绿Host回归、稳定顺序/完整run不变与历史合同通过；证据见docs/evidence/hud-r2-20261101/README.md。未同候选官方导入/ready或设备，AC不勾。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

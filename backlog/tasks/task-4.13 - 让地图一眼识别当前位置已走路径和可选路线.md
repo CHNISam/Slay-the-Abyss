@@ -1,15 +1,16 @@
 ---
 id: TASK-4.13
 title: 让地图一眼识别当前位置已走路径和可选路线
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-11-03 15:29'
+updated_date: '2026-11-07 03:47'
 labels:
   - playtest-20261030
   - p1
   - grok
+  - 待验
 milestone: m-8
 dependencies: []
 references:
@@ -47,4 +48,6 @@ Owner强调地图是**整体交互体验**问题：当前节点和连线灰暗�
 
 2026-11-02最新排期：优先M4非美术、非交互设计工程。地图整体视觉交互新方案先取TASK-95对应实验结论；滚动、裁剪、点击命中与合法路径明确缺陷继续修复，复用TASK-4.3，不因实验停止稳定路径验证。 仅对应新增正式设计切片以实验结论为前置；未来纯设计优化子任务显式依赖TASK-95并引用适用Go结论。本混合任务不新增整任务硬依赖，原状态与AC保留。
 2026-11-03 赛后排期：m-5 → M7 产品体验；任务状态与未验 AC 保留。未定新截止日。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

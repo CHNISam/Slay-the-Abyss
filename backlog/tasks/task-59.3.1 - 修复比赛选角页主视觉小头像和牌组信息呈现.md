@@ -1,15 +1,16 @@
 ---
 id: TASK-59.3.1
 title: 修复比赛选角页主视觉小头像和牌组信息呈现
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-10-30 21:58'
-updated_date: '2026-11-01 12:07'
+updated_date: '2026-11-07 03:48'
 labels:
   - playtest-20261030
   - p1
   - grok
+  - 待验
 milestone: m-5
 dependencies: []
 references:
@@ -59,4 +60,6 @@ Owner截图：选角页圆形大底叠黑色矩形包裹立绘，底部小头像
 2026-10-31 M3最终事实核对：本轮真实Simulator Host选角/牌组/遗物/牌详情/退出共五张PNG已实看，源码e8eb723、1600×900/frame0；选择页生命金币遗物牌组及单角入口有局部文字证据。#1头像自然关系无法确认：本导出未装配可选portrait模板，不能把fallback认作正式缺陷；#2整体可读与#3批准对照最终证据仍受OSS CONNECT403缺纹理影响，且无官方PC/手机同候选证据。保留回执assetWarnings，不用HTML或离线截图冒充设备验收。
 
 2026-11-01阶段收尾：用户明确确认本轮已打Tag并进入master，发版阶段到此结束。已交付的M3核心实现不重做；本任务仅将剩余未验要求转由M4体验与设备改进承接，保留原状态、范围、全部AC及历史证据，不把发版确认等同逐条严格验收通过，也不重新阻塞已接受的v1.0.0。本次不打包、不追发布回执、不创建新门禁或新期限。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

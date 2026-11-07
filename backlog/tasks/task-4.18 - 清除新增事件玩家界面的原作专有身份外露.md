@@ -1,12 +1,13 @@
 ---
 id: TASK-4.18
 title: 清除新增事件玩家界面的原作专有身份外露
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-10-31 10:47'
-updated_date: '2026-11-03 15:31'
-labels: []
+updated_date: '2026-11-07 03:47'
+labels:
+  - 待验
 milestone: m-8
 dependencies: []
 references:
@@ -48,4 +49,6 @@ PR409已确认N-loth事件标题、开场、交易说明和结束正文有原作
 更正：此前将缺少新世界观映射判断为全部施工阻塞过强。data/relics.json已有中文称呼“恩洛斯的礼物”，先沿真实展示链路核验并统一已有中文；不编造新身份，世界观适配与设备验收另列。
 
 2026-11-03 已沿真实生成控件复现四处英文直写，复用现有遗物中文称呼“恩洛斯”完成四处一致性修复。新控件回归先红后绿1/1、原事件专项4/4通过；仅处理中文一致性，完整Lore适配与同候选设备未验，AC均保留。详见docs/backlog-details/TASK-4.18-20261103.md，首轮完全阻塞判断已更正。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

@@ -1,15 +1,16 @@
 ---
 id: TASK-10.1.2
 title: 验证多张卡牌和长文字是否撑得住
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 21:55'
-updated_date: '2026-10-29 19:09'
+updated_date: '2026-11-07 03:47'
 due_date: '2026-10-28'
 labels:
   - art validation
   - queued-after-M3
+  - 待验
 milestone: m-5
 dependencies:
   - TASK-10.1.1
@@ -67,4 +68,6 @@ ordinal: 35000
 2026-10-30 CI修复：新基线c3c1af6b后的运行40926629612在rules(7/8)失败，原始日志build/ci-rules7.log，根因是新增CI步骤未加入原工作流精确逆变换，ci-posix-shards报CI routing migration mismatch。已本地Node24复现失败；改为独立负载步骤/产物块，新增精确接线逆变换及删除/重复/移动/篡改负对照，原历史哈希、断言、时限不改。项目级防复发，不增加全局政策。修复后25项分片/LFS/负载合同与56项质量/CI/交付合同全部通过，完整CI仍须新HEAD重跑；官方RC缺口不变。
 
 2026-10-30基线再次整合：develop ba9b1e60含PR350已批准13,201图元荧背景及生命周期组件，原画和图元保留；其生产注册pending、enabled=false，当前不在默认映射清单。已在平台负载文档明确：分批64/207 tick不等于FPS，同步释放成本待测；接入后需同候选重新计量与手机加载/取消/重入/切战斗/释放峰值，不复用8.96MB或当前静态清单批准接入。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

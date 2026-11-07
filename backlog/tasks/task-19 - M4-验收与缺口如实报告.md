@@ -1,11 +1,11 @@
 ---
 id: TASK-19
 title: 投稿前检查资格、材料和剩余问题
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-28 14:41'
+updated_date: '2026-11-07 03:47'
 due_date: '2026-10-29'
 labels: []
 milestone: m-6
@@ -45,4 +45,6 @@ ordinal: 19000
 原AC5（仅保留历史要求，不再作为当前比赛必做）：投稿前完整验收四职业、第一至隐藏第四幕、已批准原创角色及正式品质；仅明确独立的多人、成就等候选可不阻塞首投，不能把已承诺职业或章节重新称为扩展排除。
 
 旧四职业验收要求由2026-10-28比赛范围决定覆盖。
+
+2026-11-07 看板核对（develop 2c85bc61）：未发现实现提交或在途 PR，状态由 In Progress 归 To Do（未开始）；范围与原 AC 不变。
 <!-- SECTION:NOTES:END -->

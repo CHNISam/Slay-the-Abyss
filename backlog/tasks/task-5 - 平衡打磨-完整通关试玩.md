@@ -1,13 +1,14 @@
 ---
 id: TASK-5
 title: 投稿前完整试玩最后一个版本
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-29 17:30'
+updated_date: '2026-11-07 03:47'
 due_date: '2026-10-29'
-labels: []
+labels:
+  - 待验
 milestone: m-6
 dependencies:
   - TASK-4
@@ -80,4 +81,6 @@ ordinal: 2
 合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
 
 2026-10-30：平台负载双层门禁及发布文档已实现，离线工程集成不代替RC验收。现有官方截图仅作8.96MB/0.01MB基线，缺同候选身份；正式RC须补容量、全局及区域静态、四类动态原报告、高峰手牌/敌人特效/切换/重复进出、官方上传启动操作和物理手机证据。状态保持In Progress，正式发布UNVERIFIED/不得放行。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->
