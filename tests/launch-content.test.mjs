@@ -99,15 +99,24 @@ test('frozen launch preparation uses one freshly verified private tree per invoc
   assert.equal(roots.length,2,'one private filesystem tree, without a second priming copy');
   assert.equal(archives,2,'each invocation freshly authenticates the complete original archive once');
   assert.notEqual(first,second);assert.equal(process.cwd(),currentRoot);
-  for(const path of ['tests/helpers','tests/fixtures','docs','node_modules']){
-    assert(fs.lstatSync(resolve(second,path)).isSymbolicLink(),path+' remains a declared oracle/implementation link');
-    assert.equal(fs.realpathSync(resolve(second,path)),fs.realpathSync(resolve(currentRoot,path)),path+' link owner');
+  const privateRoot=fs.realpathSync.native(second);
+  const mounts=new Map(['tests/helpers','tests/fixtures','docs','node_modules']
+    .map(path=>[path,fs.realpathSync.native(resolve(currentRoot,path))]));
+  for(const [path,owner]of mounts){
+    assert.notEqual(fs.realpathSync.native(resolve(second,path)),resolve(privateRoot,path),
+      path+' remains a declared oracle/implementation alias');
+    assert.equal(fs.realpathSync.native(resolve(second,path)),owner,path+' link owner');
   }
   const rows=[];
   function walk(directory,prefix=''){
     for(const entry of fs.readdirSync(directory,{withFileTypes:true})){
-      if(entry.isSymbolicLink())continue;
       const path=prefix+entry.name,target=resolve(directory,entry.name);
+      const actual=fs.realpathSync.native(target);
+      if(mounts.has(path)){
+        assert.notEqual(actual,resolve(privateRoot,path),'declared output alias: '+path);
+        assert.equal(actual,mounts.get(path),'declared output owner: '+path);continue;
+      }
+      assert.equal(actual,resolve(privateRoot,path),'unregistered output alias: '+path);
       if(entry.isDirectory())walk(target,path+'/');
       else{const bytes=originalRead(target);rows.push([path,bytes.length,createHash('sha256').update(bytes).digest('hex')]);}
     }
@@ -139,11 +148,11 @@ test('a failed frozen launch construction restores cwd and removes its private t
   for(const root of roots)assert.equal(fs.existsSync(root),false,'construction failure cannot leave a partial source root');
 });
 
-for(const mode of ['unregistered file','wrong oracle owner']){
+for(const mode of ['unregistered file','wrong oracle owner','ordinary directory mount','private source alias']){
   test(`frozen launch rejects ${mode} before any projection write or deletion`,()=>{
     const originalTemp=fs.mkdtempSync,originalLink=fs.symlinkSync;
     const originalWrite=fs.writeFileSync,originalRemove=fs.rmSync;
-    let root,projecting=false,writes=0,deletions=0;
+    let root,aliasOwner,projecting=false,writes=0,deletions=0;
     const inside=path=>root&&String(path).replaceAll('\\','/').startsWith(root.replaceAll('\\','/')+'/');
     fs.mkdtempSync=function(prefix,...args){
       const value=originalTemp.call(this,prefix,...args);
@@ -152,9 +161,18 @@ for(const mode of ['unregistered file','wrong oracle owner']){
     };
     fs.symlinkSync=function(target,path,...args){
       const wrong=mode==='wrong oracle owner'&&root&&resolve(path)===resolve(root,'tests/fixtures');
-      const result=originalLink.call(this,wrong?resolve(currentRoot,'docs'):target,path,...args);
+      const ordinary=mode==='ordinary directory mount'&&root&&resolve(path)===resolve(root,'tests/fixtures');
+      const result=ordinary?fs.mkdirSync(path):originalLink.call(this,wrong?resolve(currentRoot,'docs'):target,path,...args);
       if(root&&resolve(path)===resolve(root,'node_modules')){
         if(mode==='unregistered file')originalWrite(resolve(root,'src/lua/unregistered-preflight.lua'),'return {}\n');
+        if(mode==='private source alias'){
+          const source=resolve(root,'src/lua');
+          assert(source.startsWith(resolve(root)+(process.platform==='win32'?'\\':'/')));
+          aliasOwner=fs.mkdtempSync(resolve(root,'..','abyss-launch-alias-owner-'));
+          fs.cpSync(source,aliasOwner,{recursive:true});
+          originalRemove(source,{recursive:true,force:true});
+          originalLink(aliasOwner,source,'junction');
+        }
         projecting=true;
       }
       return result;
@@ -170,10 +188,16 @@ for(const mode of ['unregistered file','wrong oracle owner']){
     syncBuiltinESMExports();
     try{
       assert.throws(()=>launchBaselineFixture(),mode==='unregistered file'
-        ? /unregistered original launch input/ : /historical oracle link owner/);
+        ? /unregistered original launch input/ : mode==='ordinary directory mount'
+          ? /declared historical oracle link/ : mode==='private source alias'
+            ? /original launch source (?:must be a private file|cannot alias another owner)/ : /historical oracle link owner/);
     }finally{
       fs.mkdtempSync=originalTemp;fs.symlinkSync=originalLink;
       fs.writeFileSync=originalWrite;fs.rmSync=originalRemove;syncBuiltinESMExports();
+      if(aliasOwner){
+        assert(aliasOwner.startsWith(resolve(root,'..')+(process.platform==='win32'?'\\':'/')));
+        originalRemove(aliasOwner,{recursive:true,force:true});
+      }
     }
     assert.equal(writes,0,'source preflight precedes every projection write');
     assert.equal(deletions,0,'source preflight precedes every projection deletion');

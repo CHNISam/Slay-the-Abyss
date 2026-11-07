@@ -6,7 +6,7 @@ import {tmpdir} from 'node:os';
 import {fullGateErrors,publishFullQuality,beginFullQuality,main} from '../scripts/publish-full-quality.mjs';
 import {currentFullQualityJobs,qualityWorkflowPath} from '../scripts/verify-delivery.mjs';
 import {qualityShardJobs} from '../scripts/ci-quality-shape.mjs';
-import {beforeAutoMergeWorkflow} from './helpers/auto-merge-workflow.mjs';
+import {beforeAutoMergeWorkflow,beforeExecutionTimeoutWorkflow} from './helpers/auto-merge-workflow.mjs';
 const sha=c=>c.repeat(40),repo='CHNISam/Slay-the-Abyss';
 function fixture(){return {repo,runId:7,attempt:1,number:510,head:sha('a'),base:sha('b'),tested:sha('d'),mode:'full',
  needs:{impact:{result:'success'},rules:{result:'success'},fast:{result:'skipped'},presentation:{result:'success'},'engineering-posix':{result:'success'}},
@@ -219,6 +219,25 @@ test('reviewed workflow inverse rejects partial wiring and preserves original ar
  for(const drift of [workflow.replace('statuses: write','statuses: read'),
   workflow.replace('run: node scripts/publish-full-quality.mjs','run: echo forged'),
   workflow.replace('fast, presentation, engineering-posix]','fast]')])assert.equal(beforeAutoMergeWorkflow(drift),null);
- const drift=workflow.replace('timeout-minutes: 20','timeout-minutes: 21');
- assert(beforeAutoMergeWorkflow(drift).includes('timeout-minutes: 21'),'unrelated regression must remain visible to old guards');
+ const drift=workflow.replace('timeout-minutes: 30','timeout-minutes: 31');
+ const projected=beforeAutoMergeWorkflow(drift);
+ assert(projected===null||projected.includes('timeout-minutes: 31'),'unrelated regression must remain visible or fail closed');
+});
+
+test('execution slack restores only the complete approved workflow edit for historical guards',()=>{
+ const current=readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n');
+ for(const eol of ['\n','\r\n']){
+  const source=current.replaceAll('\n',eol),old=beforeExecutionTimeoutWorkflow(source);
+  assert.notEqual(old,source);
+  assert.ok(old.includes("75 || 30 }}"));
+  assert.ok(old.includes('runs-on: ubuntu-24.04'+eol+'    timeout-minutes: 20'));
+  for(const drift of [source.replace('75 || 45','75 || 46'),
+   source.replace('timeout-minutes: 30','timeout-minutes: 31'),
+   source.replace('if: ${{ !cancelled() }}','if: success()'),
+   source.replace('Files execute once.','Files execute twice.')])
+   assert.equal(beforeExecutionTimeoutWorkflow(drift),drift,'partial or unreviewed edit remains visible');
+  const drift=source.replace('contents: read','contents: write');
+  assert.ok(beforeExecutionTimeoutWorkflow(drift).includes('contents: write'));
+  assert.equal((old.match(/^    if: always\(\)$/gm)??[]).length,2,'restore both original summary guards only');
+ }
 });

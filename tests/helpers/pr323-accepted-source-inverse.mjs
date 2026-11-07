@@ -1,3 +1,4 @@
+import {preLuaTimeoutPolicySource} from './lua-timeout-policy-source-inverse.mjs';
 import {preCardOriginSource} from './card-origin-source-inverse.mjs';
 import {preMultiHistoricalUiTest} from './multi-historical-ui-tests.mjs';
 import {preIntegrationSource,prepareIntegrationRetirement} from './pr372-integration-source.mjs';
@@ -40,6 +41,7 @@ function preRunScoreArchitecture(path,source){
  }catch{return source;}
 }
 export function normalizePr323CompositionSource(path,source){
+ source=preLuaTimeoutPolicySource(path,source);
  source=preRunScoreArchitecture(path,preCardOriginSource(path,source));
  source=preMultiHistoricalUiTest(path,source);
  source=preIntegrationSource(path,source);

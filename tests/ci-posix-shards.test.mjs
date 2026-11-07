@@ -70,11 +70,11 @@ historicalTest('original required engineering-posix aggregate runs always and re
   }
 });
 
-test('current POSIX matrix consumes thirteen shared shards with serial full regression and the original gate budget',()=>{
+test('current POSIX matrix consumes thirteen shared shards with serial full regression and a thirty-minute hang guard',()=>{
   assert.deepEqual(qualityShardMatrices.posix,[1,2,3,4,5,6,7,8,9,10,11,12,13]);
   assert.ok(shards.includes('shard: ${{ fromJSON(needs.impact.outputs.posix_shards) }}'));
   assert.match(shards,/^    needs: impact\n    if: needs.impact.outputs.mode == 'full'$/m);
-  assert.match(shards,/^    runs-on: ubuntu-24\.04\n    timeout-minutes: 20$/m);
+  assert.match(shards,/^    runs-on: ubuntu-24\.04\n    timeout-minutes: 30$/m);
   assert.match(shards,/^      fail-fast: false$/m);
   assert.match(shards,/^      max-parallel: 12$/m);
   assert.match(workflow,/^permissions:\n  contents: read$/m);

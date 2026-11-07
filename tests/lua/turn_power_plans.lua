@@ -251,4 +251,20 @@ test('one real data queue composes pre recharge tail normal Draw and post plans'
  local frame;for _,event in ipairs(s.events)do if event.kind=='mantra'then frame=event.frame end end
  assert(frame);eq(#frame.hand,3)
 end)
+test('phase membership is an initialization snapshot and live plans read replaced public filters',function()
+ local phases,scheduled=P.phases,P.scheduledIds
+ local union={};for _,filter in pairs(phases)do for id in pairs(filter)do union[id]=true end end
+ for id in pairs(union)do eq(scheduled[id],true,'scheduled phase member '..id)end
+ for id in pairs(scheduled)do eq(union[id],true,'no extra scheduled member '..id)end
+ local s=state();apply(s,'energized',2);apply(s,'demon_form',3)
+ local energy=s.energy
+ P.phases={turn_start={},energy_recharge={},turn_start_post_draw={}}
+ eq(P.scheduledIds,scheduled,'phase replacement must not rebuild membership')
+ eq(#P.onEnergyRecharge(s),0);eq(s.energy,energy)
+ eq(#P.preparePostDraw(s),0)
+ P.phases=phases
+ eq(#P.onEnergyRecharge(s),1);eq(s.energy,energy+2)
+ local actions=P.preparePostDraw(s)
+ eq(#actions,1);eq(actions[1].effect.status,'strength');eq(actions[1].effect.value,3)
+end)
 print('TURN_POWER_PLANS_PASS '..n)

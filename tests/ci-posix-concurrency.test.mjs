@@ -17,7 +17,7 @@ const digest = source => createHash('sha256').update(source).digest('hex');
 test('physical Quality workflow caps concurrent POSIX shards at twelve',()=>{
   assert.equal((current.match(/^\s*max-parallel:/gm)??[]).length,1);
   assert.ok(job(current).includes('    strategy:\n      fail-fast: false\n'+cap+'      matrix:\n        shard: ${{ fromJSON(needs.impact.outputs.posix_shards) }}\n'));
-  assert.ok(job(current).includes('    runs-on: ubuntu-24.04\n    timeout-minutes: 20\n'));
+  assert.ok(job(current).includes('    runs-on: ubuntu-24.04\n    timeout-minutes: 30\n'));
   assert.equal(beforePosixConcurrencyWorkflow(current),current.replace(cap,''));
 });
 

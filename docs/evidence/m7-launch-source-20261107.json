@@ -1,0 +1,421 @@
+{
+  "schemaVersion": 1,
+  "scope": "Exact native source ownership and existing historical-preparation diagnostics; not a claim of hosted timeout root cause",
+  "base": "2ad07111e3d5b5cb52b4229860b3b780941e29a9",
+  "architectureHeadBeforeRepair": "33499e676a9a7242b0d9bf6b6bf2524241237ea9",
+  "hostedFailure": {
+    "runId": 42338740273,
+    "jobId": 128301696596,
+    "head": "2ad07111e3d5b5cb52b4229860b3b780941e29a9",
+    "script": "tests/lua/sapphire_treasure.lua",
+    "originalCombinedBudgetMs": 30000,
+    "luaRemainingMs": 8436,
+    "preparationAndBuildElapsedEstimateMs": 21564,
+    "inference": "30000 minus the floored remaining budget; includes preparation and data build, not a measured single helper phase.",
+    "completedOriginalGroups": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "logSha256": "d567addfd6237a0c603c13956c969648e44c9b1e78c39a7906d9fda7782a4619",
+    "rawError": "2026-11-07T04:40:43.8437364Z   Error: Lua runner failed (tests/lua/sapphire_treasure.lua, 8436 ms): spawnSync C:\\hostedtoolcache\\windows\\node\\24.18.0\\x64\\node.exe ETIMEDOUT\r"
+  },
+  "change": {
+    "productionLuaChanged": false,
+    "newRunner": false,
+    "cacheAdded": false,
+    "oracleOrArchiveChanged": false,
+    "originalSapphireGroups": 21,
+    "originalSlices": 5,
+    "perSliceBudgetMs": 30000,
+    "permissions": "Only four explicitly named mounted resources may resolve outside their exact private lexical path, and each must equal its freshly resolved declared owner. Other inputs remain exact private paths with fresh type/byte verification.",
+    "guards": [
+      "ordinary directory cannot impersonate oracle mount",
+      "wrong oracle owner rejected",
+      "same-byte external source alias rejected before projection",
+      "extra file and write failures retained",
+      "fresh root and archive read per invocation",
+      "1730 original outputs retain fixed aggregate hash"
+    ],
+    "diagnostic": "Existing Sapphire test reports source preparation, data build and remaining Lua budget before running the unchanged original body."
+  },
+  "files": [
+    {
+      "path": "tests/helpers/launch-baseline-fixture.mjs",
+      "sha256LF": "21fc039a24f5fec8071edd8aadbd1254db7d0ac55d9fe68f4d5ce3711824be46",
+      "gitBlob": "2c1e1ee03429c8f3e03907384fe8cb6b395e20fb"
+    },
+    {
+      "path": "tests/launch-content.test.mjs",
+      "sha256LF": "ea87dfc35efffacf5105b887d5c813f8e9e8b15ae78186532f626bd1d4932bf5",
+      "gitBlob": "7ab83f4469d40a36a0409187d7226354957cdaaf"
+    },
+    {
+      "path": "tests/sapphire-treasure.test.mjs",
+      "sha256LF": "6e61401e0f6f122b31efc528e3cf61611480ae6a05d1b805f97c7cdf413a828a",
+      "gitBlob": "e1fbca4982f049d9c68e75bbeb6a10fef18365e1"
+    }
+  ],
+  "isolatedInvestigation": {
+    "base": "2ad07111e3d5b5cb52b4229860b3b780941e29a9",
+    "productionChanged": false,
+    "scope": "native filesystem identity repair; no cache, fixture, archive, deadline or worker change",
+    "profile": {
+      "node": "v24.18.0",
+      "platform": "win32",
+      "mode": "single patched native-identity helper invocation; instrumentation only",
+      "root": "F:\\New folder\\.artifacts\\m7-architecture-1107\\tmp\\abyss-source-contract-6xt6FK",
+      "inventory": {
+        "count": 1730,
+        "sha256": "a3bb91b1665a36a374e9af68eef0b850041f8fe1765b275f4a0d93e0529ac921"
+      },
+      "success": true,
+      "phases": [
+        {
+          "phase": "module-import",
+          "ms": 131.357,
+          "counts": {
+            "writeFileSync": {
+              "calls": 1,
+              "ms": 3.4456999999999987
+            },
+            "realpathSync": {
+              "calls": 57,
+              "ms": 1.2601000000000084
+            },
+            "readFileSync": {
+              "calls": 56,
+              "ms": 25.3206
+            }
+          }
+        },
+        {
+          "phase": "createHistoricalBaseline",
+          "ms": 2305.9153,
+          "counts": {
+            "readFileSync": {
+              "calls": 1,
+              "ms": 1.8385999999999854
+            },
+            "mkdirSync": {
+              "calls": 25,
+              "ms": 11.652599999999723
+            },
+            "writeFileSync": {
+              "calls": 1795,
+              "ms": 2076.5221000000006
+            },
+            "symlinkSync": {
+              "calls": 2,
+              "ms": 1.3368999999997868
+            }
+          }
+        },
+        {
+          "phase": "verifiedDeliverySources",
+          "ms": 166.1806999999999,
+          "counts": {
+            "realpathSync.native": {
+              "calls": 1,
+              "ms": 0.19439999999985957
+            },
+            "readFileSync": {
+              "calls": 2307,
+              "ms": 82.35149999999794
+            }
+          }
+        },
+        {
+          "phase": "preRelicProjection",
+          "ms": 357.09789999999975,
+          "counts": {
+            "readFileSync": {
+              "calls": 548,
+              "ms": 57.300499999999374
+            }
+          }
+        },
+        {
+          "phase": "inspectPreflight",
+          "ms": 274.1310000000003,
+          "counts": {
+            "realpathSync.native": {
+              "calls": 1826,
+              "ms": 118.6662999999935
+            },
+            "readdirSync": {
+              "calls": 27,
+              "ms": 1.6749000000004344
+            },
+            "lstatSync": {
+              "calls": 1823,
+              "ms": 21.2358000000022
+            },
+            "readFileSync": {
+              "calls": 1795,
+              "ms": 84.94900000000462
+            }
+          }
+        },
+        {
+          "phase": "destinationPreflight",
+          "ms": 2.9568999999996777,
+          "counts": {
+            "lstatSync": {
+              "calls": 158,
+              "ms": 1.6733999999969456
+            }
+          }
+        },
+        {
+          "phase": "writeProjection",
+          "ms": 146.00070000000005,
+          "counts": {
+            "writeFileSync": {
+              "calls": 109,
+              "ms": 116.77219999999988
+            },
+            "lstatSync": {
+              "calls": 49,
+              "ms": 1.0677000000027874
+            },
+            "rmSync": {
+              "calls": 49,
+              "ms": 21.938999999998032
+            }
+          }
+        },
+        {
+          "phase": "prune",
+          "ms": 12.24160000000029,
+          "counts": {
+            "lstatSync": {
+              "calls": 16,
+              "ms": 0.5227000000004409
+            },
+            "rmSync": {
+              "calls": 16,
+              "ms": 6.677799999999479
+            },
+            "readdirSync": {
+              "calls": 15,
+              "ms": 1.512699999999768
+            },
+            "realpathSync.native": {
+              "calls": 7,
+              "ms": 1.0825999999992746
+            },
+            "rmdirSync": {
+              "calls": 7,
+              "ms": 2.3371000000001914
+            }
+          }
+        },
+        {
+          "phase": "mountFinalLinks",
+          "ms": 1.7838999999999032,
+          "counts": {
+            "lstatSync": {
+              "calls": 2,
+              "ms": 0.06149999999979627
+            },
+            "symlinkSync": {
+              "calls": 2,
+              "ms": 1.6362999999996646
+            }
+          }
+        },
+        {
+          "phase": "complete",
+          "ms": 109.04559999999992,
+          "counts": {
+            "readdirSync": {
+              "calls": 20,
+              "ms": 1.9057999999995445
+            },
+            "readFileSync": {
+              "calls": 1730,
+              "ms": 88.64919999998847
+            }
+          }
+        }
+      ]
+    },
+    "inputs": [
+      {
+        "path": "tests/helpers/launch-baseline-fixture.mjs",
+        "sha256": "d6633ccc05d2848a5881eb3f4022f9dfc4d68d8858c4fb9dafe05aeb329c44cb",
+        "gitBlob": "2c1e1ee03429c8f3e03907384fe8cb6b395e20fb"
+      },
+      {
+        "path": "tests/launch-content.test.mjs",
+        "sha256": "2506d7fa1f625ebb9cb11c21d222c51d58b57afca44f12eec3401fb60bb9b2db",
+        "gitBlob": "7ab83f4469d40a36a0409187d7226354957cdaaf"
+      },
+      {
+        "path": "tests/sapphire-treasure.test.mjs",
+        "sha256": "45cfa75f6e84384a679911b37e4ba738a9fe25aef1818c17b8ae292c503be289",
+        "gitBlob": "90d077e77f03ce0877ce6bc05d5019f04affc2d6"
+      },
+      {
+        "path": "tests/sapphire-modern-partition.test.mjs",
+        "sha256": "770b3a59c90f410a824864a4d550ef3b915baeb3688c07ed4a9cfbc4d87499fb",
+        "gitBlob": "dd7449efc0837b05c468d1f3067f11b394b98cb0"
+      },
+      {
+        "path": "tests/lua/sapphire_treasure.lua",
+        "sha256": "3bb1703ca711df00fce2d6ecbf3cac07971df73b1b4ab3a0dd9fc2932c1593aa",
+        "gitBlob": "ca3ffcb0ed22d5c30ab7ecf5c716315664a95678"
+      },
+      {
+        "path": "tests/lua/support/sapphire_source_fixture.lua",
+        "sha256": "ccbeae4fec0481a80f0256370bc6233638ebb4d286835ab1310167a5f1e8975b",
+        "gitBlob": "c51d567a39c440cb6f4502648417df14796c7268"
+      },
+      {
+        "path": "tests/fixtures/pr323-historical-fixtures.json.gz",
+        "sha256": "0016ea0a00171a413c2697329ea87487c19c575b6148a325285e35a24b4e8759",
+        "gitBlob": "16ce40fae511b39072f695159a60f8bc6a818bb7"
+      }
+    ],
+    "rawFailures": [
+      "build/launch-profile-original.json",
+      "build/launch-profile-instrumentation-path-error.json"
+    ],
+    "testLog": "build/launch-sapphire-native-run.log",
+    "status": "SPECIALIST_PASS_HOSTED_TIMEOUT_ROOT_CAUSE_UNPROVEN",
+    "validation": {
+      "completeRun": {
+        "fail": 0,
+        "logSha256": "520d81a86ecd4caaef3c5e740b2499014eb7549d1ba76e83dbc9bced65e3bc5a",
+        "pass": 48,
+        "skipped": 0,
+        "rawLog": "✔ legal current launch inventory is the positive control for all field mutations (7521.4256ms)\r\n✔ shared cards cannot disappear from the inventory while remaining in the runtime (51.9118ms)\r\n✔ every production event mapping is listed, including explicit transformation routes (109.8612ms)\r\n✔ launch inventory names every formal source binding rather than the legacy explicit-ID pool (16.8625ms)\r\n✔ current inventory matches production data and actual Lua support pools (22513.2809ms)\r\n✔ expanded content records actual channels without granting natural acquisition (48.6584ms)\r\n✔ frozen formal launch retains its original thirty-one explicit event routes (4387.462ms)\r\n✔ frozen launch preparation uses one freshly verified private tree per invocation (9058.7231ms)\r\n✔ a failed frozen launch construction restores cwd and removes its private tree immediately (181.0897ms)\r\n✔ frozen launch rejects unregistered file before any projection write or deletion (3761.4438ms)\r\n✔ frozen launch rejects wrong oracle owner before any projection write or deletion (4811.0191ms)\r\n✔ frozen launch rejects ordinary directory mount before any projection write or deletion (3871.4359ms)\r\n✔ copy and Match production routes preserve separate candidate and pending platform acceptance (315.4243ms)\r\n✔ Act3 event bridge evidence preserves pending native and natural acceptance (1.4121ms)\r\n✔ current release requires only Geo two acts while future campaign evidence stays incomplete (15.9678ms)\r\n✔ campaign ledger distinguishes Act3/Act4 local components from natural, persistent and native acceptance (1.3889ms)\r\n✔ gate rejects promoting explicit events, SPECIAL relics and pending potions into natural pools (852.3882ms)\r\n✔ inventory gate rejects missing content, candidate admission and invented live completion (219.5255ms)\r\n✔ inventory gate rejects reward/encounter drift and omitted final-floor relic boundary (281.8909ms)\r\n✔ production inventory rejects an unknown card in place of a required card (79.5657ms)\r\n✔ inventory includes and validates the true branch of a dynamic encounter (157.9455ms)\r\n✔ gremlin launch inventory accepts the four-of-eight production pool without fixed enemies (77.6614ms)\r\n✔ gremlin launch gate rejects missing, reordered, deduplicated, or wrong-count pool declarations (394.6562ms)\r\n✔ gremlin launch gate rejects a stale fixed-five list and missing eligible enemy channels (530.9092ms)\r\n✔ formal source gate rejects missing bindings, runtime ID drift and legacy rows promoted into the pool (308.3664ms)\r\n✔ formal member and channel ranges include every selected Thugs and Wildlife candidate (404.0605ms)\r\n✔ legacy Data encounters retain exact branches, pool order and explicit-only channels (319.0758ms)\r\n✔ runtime deployment requires the real source modules, dependencies and profile entry points (327.8823ms)\r\n✔ three additional Act2 routes record only mocked-local UI wiring while native/natural/history/full-pool gates stay pending (1.3493ms)\r\n✔ Back to Basics inventory keeps source-correct empty completion and V4 implementation boundary separate from native acceptance (1.1047ms)\r\n✔ Ghosts launch ledger binds actual cached health cost and real five-card source acquisition without claiming natural completion (426.4817ms)\r\n✔ Run launch dependency gate rejects missing or disconnected abyss_run_initialization (20.1189ms)\r\n✔ Run launch dependency gate rejects missing or disconnected abyss_run_transition (20.7888ms)\r\n✔ Run launch dependency gate rejects missing or disconnected abyss_run_rooms (27.5165ms)\r\n✔ Run launch dependency gate rejects missing or disconnected abyss_run_settlement (28.7688ms)\r\n✔ Run launch dependency gate rejects missing or disconnected abyss_run_potions (30.1737ms)\r\n✔ formal deployment inventory includes generated art flags and all four art bindings without executing their data (17.4269ms)\r\n✔ Sapphire core coverage rejects missing or duplicate groups independent of slice order (2.3546ms)\r\n✔ modern Sapphire keeps the complete migrated core body and all original 21 groups exactly once (65.2796ms)\r\n✔ modern Sapphire UI keeps the complete 17-group body and every original interruption matrix (107.552ms)\r\n✔ Sapphire frozen-body protection still rejects a deleted scenario or gameplay assertion (2.1396ms)\r\n✔ Sapphire source contract pins exact chest/reward/room/effect and hook blobs (0.766ms)\r\n✔ legacy generation changes only reviewed Darkstone destination argument; Boss blocks stay byte-identical (0.9026ms)\r\n✔ original frozen treasure witness rejects stale-floor, RNG and gold drift after exact normalization (1.6192ms)\r\n✔ same existing eligibility function governs Ruby and Sapphire without adding history (0.6322ms)\r\n✔ live extracted treasure RNG and Boss preparation bodies cannot evade the original frozen hashes (1.0566ms)\r\n✔ Sapphire budget partition keeps every original body and discovers each of 21 groups exactly once (2.907ms)\r\n✔ frozen Nodes chest choice remains linked, source-bound, once-only and transactional before relic completion (63553.4962ms)\r\nℹ sapphire_treasure.lua: 13225 ms\r\nℹ sapphire_treasure_slice_2.lua: 15852 ms\r\nℹ sapphire_treasure_slice_3.lua: 10746 ms\r\nℹ sapphire_treasure_slice_4.lua: 11624 ms\r\nℹ sapphire_treasure_slice_5.lua: 8270 ms\r\nℹ tests 48\r\nℹ suites 0\r\nℹ pass 48\r\nℹ fail 0\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 125896.7606\r\n",
+        "durationMs": 125896.7606,
+        "tests": 48
+      },
+      "sapphireTotalOriginalGroups": 21,
+      "sapphireSliceTotalMs": [
+        13225,
+        15852,
+        10746,
+        11624,
+        8270
+      ],
+      "finalWalker": {
+        "fail": 0,
+        "pass": 1,
+        "skipped": 0,
+        "rawLog": "✔ frozen launch preparation uses one freshly verified private tree per invocation (7790.2166ms)\r\nℹ tests 1\r\nℹ suites 0\r\nℹ pass 1\r\nℹ fail 0\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 8011.7627\r\n",
+        "durationMs": 8011.7627,
+        "tests": 1
+      },
+      "privateAlias": {
+        "test": "same-byte owned mirror alias rejects before projection; original live-owner injection rejected earlier by source identity and was corrected",
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0,
+        "durationMs": 6124.7983,
+        "rawLog": "✔ frozen launch rejects private source alias before any projection write or deletion (5915.9362ms)\r\nℹ tests 1\r\nℹ suites 0\r\nℹ pass 1\r\nℹ fail 0\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 6124.7983\r\n",
+        "originalNegativeDesignFailure": "✖ frozen launch rejects private source alias before any projection write or deletion (2924.7028ms)\r\nℹ tests 1\r\nℹ suites 0\r\nℹ pass 0\r\nℹ fail 1\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 3140.6669\r\n\r\n✖ failing tests:\r\n\r\ntest at tests\\launch-content.test.mjs:152:3\r\n✖ frozen launch rejects private source alias before any projection write or deletion (2924.7028ms)\r\n  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /original launch source (?:must be a private file|cannot alias another owner)/. Input:\r\n  \r\n  'AssertionError [ERR_ASSERTION]: delivery linked source identity: src/lua/abyss_monster_intent_particle_view.lua\\n' +\r\n    '+ actual - expected\\n' +\r\n    '\\n' +\r\n    \"+ '8117dd827ff947880d410f19fc5999fdce6cbd8caeb0b8e2b2cdb11b9db3dd70'\\n\" +\r\n    \"- '2d3079a761d86d91804ccea9c51fc3462aeb35aa46217edbbffb756b5dcdae78'\\n\"\r\n  \r\n      at TestContext.<anonymous> (file:///F:/New%20folder/.worktrees/m7-launch-prep-1107/tests/launch-content.test.mjs:188:14)\r\n      at Test.runInAsyncScope (node:async_hooks:227:14)\r\n      at Test.run (node:internal/test_runner/test:1325:25)\r\n      at Test.start (node:internal/test_runner/test:1191:17)\r\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {\r\n    generatedMessage: true,\r\n    code: 'ERR_ASSERTION',\r\n    actual: AssertionError [ERR_ASSERTION]: delivery linked source identity: src/lua/abyss_monster_intent_particle_view.lua\r\n    + actual - expected\r\n    \r\n    + '8117dd827ff947880d410f19fc5999fdce6cbd8caeb0b8e2b2cdb11b9db3dd70'\r\n    - '2d3079a761d86d91804ccea9c51fc3462aeb35aa46217edbbffb756b5dcdae78'\r\n    \r\n        at tryPreparedDeliverySource (file:///F:/New%20folder/.worktrees/m7-launch-prep-1107/tests/helpers/delivery-source-composition.mjs:71:10)\r\n        at preDeliveryTargetSource (file:///F:/New%20folder/.worktrees/m7-launch-prep-1107/tests/helpers/delivery-source-composition.mjs:79:14)\r\n        at verifiedDeliverySources (file:///F:/New%20folder/.worktrees/m7-launch-prep-1107/tests/helpers/delivery-source-composition.mjs:88:54)\r\n        at launchBaselineFixture (file:///F:/New%20folder/.worktrees/m7-launch-prep-1107/tests/helpers/launch-baseline-fixture.mjs:23:25)\r\n        at file:///F:/New%20folder/.worktrees/m7-launch-prep-1107/tests/launch-content.test.mjs:188:25\r\n        at getActual (node:assert:611:5)\r\n        at strict.throws (node:assert:759:24)\r\n        at TestContext.<anonymous> (file:///F:/New%20folder/.worktrees/m7-launch-prep-1107/tests/launch-content.test.mjs:188:14)\r\n        at Test.runInAsyncScope (node:async_hooks:227:14)\r\n        at Test.run (node:internal/test_runner/test:1325:25),\r\n    expected: /original launch source (?:must be a private file|cannot alias another owner)/,\r\n    operator: 'throws',\r\n    diff: 'simple'\r\n  }\r\n"
+      }
+    },
+    "hostedBoundary": {
+      "runId": 42338740273,
+      "jobId": 128301696596,
+      "totalBudgetMs": 30000,
+      "remainingLuaMs": 8436,
+      "derivedPreLuaElapsedMs": 21564,
+      "elapsedDefinition": "All wrapper preparation through launchBaselineFixture AND build, derived from floor(30000-elapsed); not a phase attribution",
+      "completedOriginalGroups": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "localProfileDefinition": "Only instrumented launchBaselineFixture; excludes module import, build, Lua and extra receipt inventory",
+      "localHelperProfileMs": 3266.308,
+      "limitations": "Original local profile failed at junction identity, so no complete same-path original timing. No controlled speed comparison, Linux/hosted replication, or hosted timeout root-cause claim. A subsequent hosted failure still requires phase evidence."
+    }
+  },
+  "combinedRun": {
+    "node": "v24.18.0",
+    "platform": "win32",
+    "tests": 49,
+    "passed": 49,
+    "failed": 0,
+    "skipped": 0,
+    "rawTap": "✔ legal current launch inventory is the positive control for all field mutations (6532.6534ms)\r\n✔ shared cards cannot disappear from the inventory while remaining in the runtime (48.9071ms)\r\n✔ every production event mapping is listed, including explicit transformation routes (98.2537ms)\r\n✔ launch inventory names every formal source binding rather than the legacy explicit-ID pool (23.9419ms)\r\n✔ current inventory matches production data and actual Lua support pools (20774.6968ms)\r\n✔ expanded content records actual channels without granting natural acquisition (35.0317ms)\r\n✔ frozen formal launch retains its original thirty-one explicit event routes (4411.2308ms)\r\n✔ frozen launch preparation uses one freshly verified private tree per invocation (8687.8867ms)\r\n✔ a failed frozen launch construction restores cwd and removes its private tree immediately (173.6033ms)\r\n✔ frozen launch rejects unregistered file before any projection write or deletion (3928.8326ms)\r\n✔ frozen launch rejects wrong oracle owner before any projection write or deletion (4031.1711ms)\r\n✔ frozen launch rejects ordinary directory mount before any projection write or deletion (3839.1543ms)\r\n✔ frozen launch rejects private source alias before any projection write or deletion (5361.069ms)\r\n✔ copy and Match production routes preserve separate candidate and pending platform acceptance (240.7616ms)\r\n✔ Act3 event bridge evidence preserves pending native and natural acceptance (2.0976ms)\r\n✔ current release requires only Geo two acts while future campaign evidence stays incomplete (19.1721ms)\r\n✔ campaign ledger distinguishes Act3/Act4 local components from natural, persistent and native acceptance (1.1759ms)\r\n✔ gate rejects promoting explicit events, SPECIAL relics and pending potions into natural pools (617.239ms)\r\n✔ inventory gate rejects missing content, candidate admission and invented live completion (198.9104ms)\r\n✔ inventory gate rejects reward/encounter drift and omitted final-floor relic boundary (222.2055ms)\r\n✔ production inventory rejects an unknown card in place of a required card (76.0406ms)\r\n✔ inventory includes and validates the true branch of a dynamic encounter (161.3693ms)\r\n✔ gremlin launch inventory accepts the four-of-eight production pool without fixed enemies (74.7071ms)\r\n✔ gremlin launch gate rejects missing, reordered, deduplicated, or wrong-count pool declarations (386.1816ms)\r\n✔ gremlin launch gate rejects a stale fixed-five list and missing eligible enemy channels (463.6785ms)\r\n✔ formal source gate rejects missing bindings, runtime ID drift and legacy rows promoted into the pool (428.955ms)\r\n✔ formal member and channel ranges include every selected Thugs and Wildlife candidate (415.7623ms)\r\n✔ legacy Data encounters retain exact branches, pool order and explicit-only channels (344.7717ms)\r\n✔ runtime deployment requires the real source modules, dependencies and profile entry points (410.3337ms)\r\n✔ three additional Act2 routes record only mocked-local UI wiring while native/natural/history/full-pool gates stay pending (1.4406ms)\r\n✔ Back to Basics inventory keeps source-correct empty completion and V4 implementation boundary separate from native acceptance (1.1136ms)\r\n✔ Ghosts launch ledger binds actual cached health cost and real five-card source acquisition without claiming natural completion (626.8828ms)\r\n✔ Run launch dependency gate rejects missing or disconnected abyss_run_initialization (28.4126ms)\r\n✔ Run launch dependency gate rejects missing or disconnected abyss_run_transition (20.6691ms)\r\n✔ Run launch dependency gate rejects missing or disconnected abyss_run_rooms (28.3842ms)\r\n✔ Run launch dependency gate rejects missing or disconnected abyss_run_settlement (22.1856ms)\r\n✔ Run launch dependency gate rejects missing or disconnected abyss_run_potions (22.261ms)\r\n✔ formal deployment inventory includes generated art flags and all four art bindings without executing their data (20.1797ms)\r\n✔ Sapphire core coverage rejects missing or duplicate groups independent of slice order (2.4568ms)\r\n✔ modern Sapphire keeps the complete migrated core body and all original 21 groups exactly once (24.9971ms)\r\n✔ modern Sapphire UI keeps the complete 17-group body and every original interruption matrix (50.9634ms)\r\n✔ Sapphire frozen-body protection still rejects a deleted scenario or gameplay assertion (1.3308ms)\r\n✔ Sapphire source contract pins exact chest/reward/room/effect and hook blobs (0.6814ms)\r\n✔ legacy generation changes only reviewed Darkstone destination argument; Boss blocks stay byte-identical (0.8573ms)\r\n✔ original frozen treasure witness rejects stale-floor, RNG and gold drift after exact normalization (1.5232ms)\r\n✔ same existing eligibility function governs Ruby and Sapphire without adding history (0.5825ms)\r\n✔ live extracted treasure RNG and Boss preparation bodies cannot evade the original frozen hashes (1.0122ms)\r\n✔ Sapphire budget partition keeps every original body and discovers each of 21 groups exactly once (4.3116ms)\r\n✔ frozen Nodes chest choice remains linked, source-bound, once-only and transactional before relic completion (64839.8013ms)\r\nℹ sapphire_treasure.lua: fresh source preparation 3635 ms\r\nℹ sapphire_treasure.lua: data build 128 ms; Lua remaining 26236 ms\r\nℹ sapphire_treasure.lua: 14213 ms\r\nℹ sapphire_treasure_slice_2.lua: fresh source preparation 3410 ms\r\nℹ sapphire_treasure_slice_2.lua: data build 115 ms; Lua remaining 26471 ms\r\nℹ sapphire_treasure_slice_2.lua: 16155 ms\r\nℹ sapphire_treasure_slice_3.lua: fresh source preparation 3411 ms\r\nℹ sapphire_treasure_slice_3.lua: data build 121 ms; Lua remaining 26465 ms\r\nℹ sapphire_treasure_slice_3.lua: 11084 ms\r\nℹ sapphire_treasure_slice_4.lua: fresh source preparation 3494 ms\r\nℹ sapphire_treasure_slice_4.lua: data build 125 ms; Lua remaining 26378 ms\r\nℹ sapphire_treasure_slice_4.lua: 11665 ms\r\nℹ sapphire_treasure_slice_5.lua: fresh source preparation 4096 ms\r\nℹ sapphire_treasure_slice_5.lua: data build 170 ms; Lua remaining 25730 ms\r\nℹ sapphire_treasure_slice_5.lua: 9190 ms\r\nℹ tests 49\r\nℹ suites 0\r\nℹ pass 49\r\nℹ fail 0\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 129159.6554\r\n",
+    "sha256": "9363f2bd56b19810e03bd6399c29317578fe20623b168baed35991bade8be09c",
+    "originalSliceTotalsMs": [
+      {
+        "script": "sapphire_treasure.lua",
+        "elapsedMs": 14213
+      },
+      {
+        "script": "sapphire_treasure_slice_2.lua",
+        "elapsedMs": 16155
+      },
+      {
+        "script": "sapphire_treasure_slice_3.lua",
+        "elapsedMs": 11084
+      },
+      {
+        "script": "sapphire_treasure_slice_4.lua",
+        "elapsedMs": 11665
+      },
+      {
+        "script": "sapphire_treasure_slice_5.lua",
+        "elapsedMs": 9190
+      }
+    ],
+    "declaredBoundary": "Local complete combined source-contract and 21-scenario execution; not a hosted performance comparison.",
+    "sourceFilesAtThatRun": [
+      {
+        "path": "tests/helpers/launch-baseline-fixture.mjs",
+        "sha256LF": "21fc039a24f5fec8071edd8aadbd1254db7d0ac55d9fe68f4d5ce3711824be46",
+        "gitBlob": "2c1e1ee03429c8f3e03907384fe8cb6b395e20fb"
+      },
+      {
+        "path": "tests/launch-content.test.mjs",
+        "sha256LF": "ea87dfc35efffacf5105b887d5c813f8e9e8b15ae78186532f626bd1d4932bf5",
+        "gitBlob": "7ab83f4469d40a36a0409187d7226354957cdaaf"
+      },
+      {
+        "path": "tests/sapphire-treasure.test.mjs",
+        "sha256LF": "b5cbd3b3f9f8c4fb77808646aad2e681b31b9c23cf567753012d9cf8c0cfbd62",
+        "gitBlob": "9a2cb2847679feaa08a02769beb0727d93b7a68b"
+      }
+    ],
+    "version": "Initial 49-test combination before the independent review tightened the diagnostic budget sampling; unchanged contracts remain evidenced by this run."
+  },
+  "limitations": [
+    "The original local probe stopped at junction identification, so no matched before/after speed claim is made.",
+    "The hosted 21564ms combined preparation/build cost is not the same scope as local helper-only phase timing.",
+    "Host CPU, filesystem and process-start variation remain unproven causes; subsequent hosted Full must be observed.",
+    "The old develop run remains failed; this evidence does not relabel it passed.",
+    "No gameplay/RNG/queue/state rule, timeout, heap, buffer or worker limit was relaxed."
+  ],
+  "deadlineReview": {
+    "issue": "A local variable sampled remaining budget before t.diagnostic and then passed the older value.",
+    "correction": "Restored the original timeout:remaining() at the runLua call; luaBudget is diagnostic-only. No added diagnostic time is granted to execution.",
+    "changedPath": "tests/sapphire-treasure.test.mjs",
+    "businessScenarioBodyChanged": false,
+    "originalGroupCount": 21,
+    "originalSlices": 5,
+    "verification": {
+      "scope": "Only the two affected partition/frozen Nodes tests were rerun, including every original Sapphire scenario; no unchanged suite was repeated.",
+      "tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "rawTap": "✔ Sapphire budget partition keeps every original body and discovers each of 21 groups exactly once (2.3443ms)\r\n✔ frozen Nodes chest choice remains linked, source-bound, once-only and transactional before relic completion (60073.1305ms)\r\nℹ sapphire_treasure.lua: fresh source preparation 3221 ms\r\nℹ sapphire_treasure.lua: data build 119 ms; Lua remaining 26660 ms\r\nℹ sapphire_treasure.lua: 13087 ms\r\nℹ sapphire_treasure_slice_2.lua: fresh source preparation 3494 ms\r\nℹ sapphire_treasure_slice_2.lua: data build 114 ms; Lua remaining 26389 ms\r\nℹ sapphire_treasure_slice_2.lua: 15407 ms\r\nℹ sapphire_treasure_slice_3.lua: fresh source preparation 3426 ms\r\nℹ sapphire_treasure_slice_3.lua: data build 123 ms; Lua remaining 26448 ms\r\nℹ sapphire_treasure_slice_3.lua: 10180 ms\r\nℹ sapphire_treasure_slice_4.lua: fresh source preparation 3435 ms\r\nℹ sapphire_treasure_slice_4.lua: data build 116 ms; Lua remaining 26447 ms\r\nℹ sapphire_treasure_slice_4.lua: 10771 ms\r\nℹ sapphire_treasure_slice_5.lua: fresh source preparation 3052 ms\r\nℹ sapphire_treasure_slice_5.lua: data build 114 ms; Lua remaining 26830 ms\r\nℹ sapphire_treasure_slice_5.lua: 7392 ms\r\nℹ tests 2\r\nℹ suites 0\r\nℹ pass 2\r\nℹ fail 0\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 60309.7664\r\n",
+      "sha256": "cdfb960bdf64edc5871a9e51c0a0bc3fc29da77dd1878fdf5470763bfb8e7eb7"
+    }
+  }
+}

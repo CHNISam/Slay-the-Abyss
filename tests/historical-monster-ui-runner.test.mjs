@@ -33,7 +33,7 @@ test('all original historical inputs reject foreign edits independently of curre
   assert.equal(defaults.get(path),binding.beforeSource,'default replay uses the unchanged complete original oracle: '+path);
  assert.equal(verifiedHistoricalMonsterSources('.',p=>current.get(p).replaceAll('\r\n','\n').replaceAll('\n','\r\n')).length,paths.length);
 });
-test('historical child keeps original total deadlines, buffer, signals and full error output',()=>{
+test('historical child applies central defaults and keeps explicit deadlines, buffer, signals and full error output',()=>{
  const original=childProcess.spawnSync,calls=[];
  let result={status:0,signal:null,stdout:'ok',stderr:''};
  childProcess.spawnSync=(...args)=>{calls.push(args);return result;};syncBuiltinESMExports();
@@ -41,7 +41,7 @@ test('historical child keeps original total deadlines, buffer, signals and full 
   for(const script of historicalMonsterUiFixtures){
    calls.length=0;assert.equal(runHistoricalMonsterUi(script),result);
    assert.equal(calls.length,1);assert.match(calls[0][1][0],/historical-monster-ui-entry\.mjs$/);
-   assert.equal(calls[0][1][1],script);assert.equal(calls[0][2].timeout,(script.includes('card_play')||script.includes('drag_click_compatibility'))?30000:60000);
+   assert.equal(calls[0][1][1],script);assert.equal(calls[0][2].timeout,120000);
    assert.equal(calls[0][2].maxBuffer,1024*1024);
   }
   calls.length=0;runHistoricalMonsterUi('battle-refactor-render');assert.equal(calls[0][2].timeout,120000);assert.equal(calls[0][2].maxBuffer,64*1024*1024);

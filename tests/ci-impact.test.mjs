@@ -25,7 +25,7 @@ test('prose allowlist cannot hide additional unmodelled changes', () => {
 test('admission control changes require Full even with proven tiny affected tests',()=>{
  for(const name of ['arm-auto-merge','verify-delivery','pr-quality-evidence','publish-pr-quality',
   'publish-full-quality','publish-merge-group','merge-queue-admission','merge-queue-policy',
-  'ci-impact','ci-fast','write-ci-receipt','repository-identity']){
+  'ci-impact','ci-fast','ci-timeout-policy','write-ci-receipt','repository-identity']){
   const path=`scripts/${name}.mjs`,input={[path]:'export const value=1;',
    'tests/value.test.mjs':`import {value} from "../${path}";`};
   const selected=impact([path],input,event,timing);
@@ -87,6 +87,8 @@ test('actual required gate commands reject every missing, failed, cancelled or s
       assert.ifError(r.error);
       assert.notEqual(r.status, 0, `${job}/${mode} cannot accept ${status || 'missing'} plan`);
     }
-    assert.match(body, /if: always\(\)/);
+    // A status function still runs the gate on failed/skipped dependencies;
+    // cancellation must release obsolete runs instead of queuing a summary.
+    assert.match(body, /^    if: \$\{\{ !cancelled\(\) \}\}$/m);
   }
 });

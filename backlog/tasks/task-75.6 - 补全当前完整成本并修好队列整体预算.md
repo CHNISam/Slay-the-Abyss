@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-05 07:58'
-updated_date: '2026-11-05 15:42'
+updated_date: '2026-11-07 05:42'
 labels: []
 milestone: m-7
 dependencies: []
@@ -36,6 +36,8 @@ PR516来源Full通过，但同树原生队列Windows1的JS和Lua均成功后，�
 1.保全同树来源41与原生队列完整作业、日志和整体30分钟取消证据，来源66秒门禁与47秒setup分开，截断40秒工程步骤不作完整测量。2.锁定2900成功JS及2712外层raw步骤成功认证的记录，按实际步骤排除两轮各7共14条JS内嵌Lua；全部成本ceil/max且旧显式值及fallback不降，raw只改luaShard，原timings.lua安全资格不动。3.最终选择Windows16/POSIX12 cap6/Full33，保留原30/20分钟、75/44秒门禁、60秒敏感度；当前726库存重算，POSIX9至11的真实RED保留，12最小可行两波，13的第三波模型壁钟更差不采用。12额外5%工作量即超2.061秒仅作风险诊断，不新增或放宽门槛，不承诺托管稳定30分钟。4.单一shape同步严格33项来源、队列、推送及交付集合，整源精确inverse回14/9再13/9，完整成本回旧d580再旧8e；不更新历史golden，所有错误漂移保持拒绝。5.独立深审与必要专项，精确新HEAD来源Full、原生组、实际push Full及原merged_passed，分别报告真实wall、排队、runner成本和未达稳定目标，设备证据保持未完成。
 
 6. 集成既有UI测试时，分开固定725份历史实测清单与新增未测文件；按当前完整库存保留原预算、余量和唯一覆盖验证，不改历史测量或成本。
+
+2026-11-07 Owner明确要求修复微小超时反复重跑机制：保留30/20分钟为性能目标，执行guard扩大为Windows45/POSIX30分钟；预测只提示，exact-once及全部断言保持；集中Lua默认执行余量，显式timeout不变。仅专项验证一次后交由最终HEAD完整CI，不逐秒扩分片。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -54,4 +56,12 @@ PR516来源Full通过，但同树原生队列Windows1的JS和Lua均成功后，�
 本轮清理集成PR520复现ci-complete-calibration两处固定库存失败：727与725、728与726。来源是新增native-ui-preview和reference-ui-lab两个测试，不是历史实测记录变化；先暂停原生合并，修复合同的历史/当前清单边界。
 
 修复后固定725份历史JS、2900条成功JS观测和2712条raw记录仍逐项认证；当前728份JS含3个明确未测文件，逐平台验证unknown成本，16/12分片完整唯一覆盖及原预算/60秒余量断言全部保留。10项校准/历史来源/容量合同通过，原2处RED保留；新HEAD独审与Full/队列/push/merged验收待执行，AC3保持未完成。
+
+本轮接续已有#541；Owner最新授权合理扩大时间余量，覆盖历史原预算冻结要求。历史测量与失败证据不刷新，AC3仍待真实最终来源/队列/推送。
+
+已实现Full Windows45/POSIX30分钟硬guard，原30/20为性能目标；当前forecast仅诊断，全部唯一覆盖/非法成本/safety断言保持。Lua默认90/120/180秒集中，历史UI及Sapphire早退入口同步，显式timeout/buffer/heap/worker不变。专项首轮44/45（误改历史负控已恢复，原失败保留），仅修正项+新增逆投影2/2；当前库存1/1。默认runner专项首轮28/29（新逆层CR匹配错误，原失败保留），仅受影响diagnostics10/10。其余已通过游戏回归不重跑，ci-runtime组合合同与最终独审进行中。
+
+集中defaults已合入：普通90、battle/host120、重型180秒，Sapphire90秒，真实早退入口同步。ci-runtime组合首轮8/9，发现此前Power/Shop新增floor遗漏；按固定完整收据单独认证新floor，原8local+1hosted合同保留，针对项1/1通过。Full原有同run/HEAD/BASE failed-only证据链经独审确认可复用，无重试框架或规则变更；#542重复旧Full仅请求取消，实际末尾汇总排队未冒充terminal。最终独审和精确来源/队列/合后Full仍待。
+
+Owner要求本轮尽快收尾结束，停止Act1延伸。最后实修：旧run取消后always汇总排队堵住同PR新run，已用原生force-cancel清除精确过期550f并读回completed/cancelled；两汇总改!cancelled()，普通失败/漏片仍原shell拒绝，取消不再占并发组。仅验证当前6文件，原失败日志保留，业务回归未重跑；最终候选待GitHub正常验证，不提前Done。
 <!-- SECTION:NOTES:END -->

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-30 11:45'
-updated_date: '2026-11-07 02:43'
+updated_date: '2026-11-07 05:15'
 labels: []
 dependencies: []
 priority: medium
@@ -61,4 +61,8 @@ PR377最新整合承接PR378事件与PR381必要修复：目录hash与原生怪�
 实际2c85bc61合后Win1在battle_ui_card_play_slice_3于31.291秒ETIMEDOUT且无输出；同源码PR12.001秒/queue15.378秒、本地原30秒15.936秒，不能以一次成功或10.553秒差异宣称修复。剖析六次独立Host构造约12秒，static import225ms，未支持重复编译/导入瓶颈假设。新增有界单次phase仅辅助下一真实失败：保留cause/输出与原执行，异常仍清理原私有runtime、错run/损坏记录不冒认。18合同及最终runner9项通过，技术证据battle-replay-timeout-diagnostic-20261107.json。真实超时根因仍未解决，所有AC未勾；本轮没有官方导入/ready/设备证据。
 
 最终集成3code blob与独立树一致；原slice3 9–11三组/六Host在最终代码组合12691ms通过，仍原30秒，493+1运行时证据全匹配。该绿灯仅验证诊断未破坏场景，不证明托管31秒异常已根治。
+
+实际develop2ad的合后Full42338740273在Sapphire历史JS第一片失败：原30秒含源包与构建，Lua仅余8436ms。保留原始失败；修复真实junction归属识别并补原测试阶段诊断，1730输出/原哈希、21原场景/5片/每片30秒不变。当前架构组合49/49通过；本机阶段记录不冒充托管根因或根治，继续正常Full验证，AC不提前勾。附件见docs/evidence/m7-launch-source-20261107.json。
+
+精确独审发现新增诊断前缓存剩余预算的细微漂移，已恢复runLua呼叫处实时remaining()，只补测受影响的分组与全部原Sapphire21场景2/2通过。首次49项与严格预算补测分别保留版本身份，未用旧日志冒充新头；托管Full仍待。
 <!-- SECTION:NOTES:END -->

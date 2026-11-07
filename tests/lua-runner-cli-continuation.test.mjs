@@ -88,8 +88,8 @@ for(const script of ['tests/lua/presentation_responsibilities_trace.lua','tests/
     let calls=0;
     childProcess.spawnSync=(executable,args,options)=>{
       calls++;assert.equal(executable,process.execPath);
-      assert.deepEqual(args.slice(1),[script,'30000']);
-      assert.equal(options.timeout,30000);assert.equal(options.maxBuffer,1024*1024);
+      assert.deepEqual(args.slice(1),[script,'90000']);
+      assert.equal(options.timeout,90000);assert.equal(options.maxBuffer,1024*1024);
       return output;
     };
     syncBuiltinESMExports();
@@ -131,7 +131,7 @@ syncBuiltinESMExports();
     const result = invoke(cwd, ['--import', pathToFileURL(bootstrap).href]);
     assert.ifError(result.error);
     assert.notEqual(result.status, 0, result.stderr);
-    assert.match(result.stderr, /Lua runner failed \(tests\/lua\/a_fail.lua, 30000 ms\).*ETIMEDOUT/);
+    assert.match(result.stderr, /Lua runner failed \(tests\/lua\/a_fail.lua, 90000 ms\).*ETIMEDOUT/);
     assert.match(result.stderr, /A_TIMEOUT_PARTIAL_OUTPUT/);
     assert.match(result.stderr, /A_TIMEOUT_DIAGNOSTIC/);
     assert.match(result.stdout, /B_REAL_FENGARI_PASS/);

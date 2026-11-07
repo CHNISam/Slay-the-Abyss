@@ -17,7 +17,7 @@ export function impact(changed, sources, event, timings) {
   if (!active.length) return { mode: 'fast', reason: 'Prose only; governance gates still run', changed, js: [], lua: [] };
   // Economic, RNG, persistence and combat changes require the complete suite.
   if (active.some(p => /^(?:data\/|config\/|\.github\/|package|vendor\/)/.test(p)
-    || /^scripts\/(?:ci-(?:impact|fast|quality-shape|shards|reviewed-lfs)|publish-(?:full-quality|pr-quality|merge-group)|arm-auto-merge|merge-queue-(?:admission|policy)|pr-quality-evidence|verify-delivery|repository-identity|write-ci-receipt|check-pr-history)\.mjs$/.test(p)
+    || /^scripts\/(?:ci-(?:impact|fast|quality-shape|timeout-policy|shards|reviewed-lfs)|publish-(?:full-quality|pr-quality|merge-group)|arm-auto-merge|merge-queue-(?:admission|policy)|pr-quality-evidence|verify-delivery|repository-identity|write-ci-receipt|check-pr-history)\.mjs$/.test(p)
     || p.startsWith('src/lua/') && architectureLayers[p.match(/^src\/lua\/([^/]+)\.lua$/)?.[1]] !== 'ui')) return full('High risk or shared infrastructure');
   const plan = selectTests(active, sources);
   if (plan.full) return full(plan.reason);

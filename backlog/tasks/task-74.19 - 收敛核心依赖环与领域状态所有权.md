@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-06 01:46'
-updated_date: '2026-11-06 12:02'
+updated_date: '2026-11-07 04:33'
 labels: []
 milestone: m-7
 dependencies: []
@@ -42,6 +42,8 @@ ordinal: 161000
 6.仅收口当前PR521：按Full42176327678逐项修复drain、旧语义变异定位与历史预算输入适配，保留原oracle、case、断言和预算；对本轮真实超时仅用已完成成功文件实测校正分配并采用可容纳全库存的最小布局。独立复审、新SHA完整CI、原生队列和实际合后验收完成后结束，不开启下一架构切片或新任务。
 
 本轮最终有界切片：将Codex选牌生成与提交移回现有Combat选择事务owner，Codex仅保留开选和校验，消除其回导CardActions；原状态、RNG、事件与晚失败回滚逐字对照，保留完整图与残余，不扩大架构范围。
+
+2026-11-07按Owner继续治理：将Power静态phase/ID元数据从TurnPowers执行器移入无依赖叶模块，PowerOrder不再为静态名单反向载入Actor和职业执行器。保留执行器M.phases动态读取、初始化scheduledIds快照和双序簿协作；先固定完整旧源及冷加载/实际阶段合同，再源码实施、AST传递防回退、独立深审和正常Full/队列/合后验收。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -68,4 +70,10 @@ D5来源扩展34项及独立有界审查PASS：23个391完整before另核Git blo
 本轮最终有界Codex切片已将生成、升级、插牌与完成移回Combat既有选择快照事务，Codex只做开选/校验。固定全图333模块1920引用；Combat SCC82→81、内部626→623位置/402→400对，Session15/62/41不变。原Act2遗物及Codex晚失败回滚通过；完整图和源码身份见docs/evidence/m7-final-core-20261106.json。独审/实际合前后Full仍待，不勾交付AC。
 
 最终本地完整收据补证：新8/8及原35-owner4/4通过；V4/Codex两个独立旧新VM合计79完整状态图检查点、每侧52,016,680字节一致，含V4直接execute付款后和伤害后部分写入、原错误对象。当前候选只提供本轮集成，不另开PR；独审及实际Full/队列/合后证据由主控同一候选绑定，AC仍不提前完成。
+
+接续既有Furinya任务，不重复认领；新隔离树feat/inventory-boundaries基于最新develop 2c85bc61。539保持原HEAD独立Full。先做Power元数据反向边和Shop选牌/报价分层，未完成AC保持未勾。
+
+Power静态元数据已从执行器抽为无依赖叶；实际冷加载先红后绿，当前334模块SCC81→74，Session15保持，双序簿2环明确保留。全量源码/边/函数及694旧新状态检查点见docs/backlog-details/M7-POWER-SHOP-20261107.md和docs/evidence/m7-power-shop-20261107.json；未提前勾AC，继续独审和正常PR/合后Full。
+
+已从实际#539合后develop2ad07111建立线性feat/power-shop，保留原31b历史。最新全量基线333模块/5386测量/SCC81-15，候选334/5388/SCC74-15-2，14旧告警无新增；唯一库存冲突取并集，747JS/1402Lua的原预算校准8/8通过，待精确独审与正常Full/队列/合后交付。
 <!-- SECTION:NOTES:END -->

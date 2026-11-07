@@ -5,6 +5,7 @@ import {readFileSync,writeFileSync,renameSync,statSync,unlinkSync,openSync,close
 import {join,basename} from 'node:path';
 import {tmpdir} from 'node:os';
 import {randomUUID} from 'node:crypto';
+import {luaTimeoutMs} from '../../scripts/ci-timeout-policy.mjs';
 const phaseNames=new Set(['waiting-for-entry','entry','staged','projected','build-data','build-ui','built','lua','lua-finished','cleanup','complete']);
 function readPhase(file,expected){
  assert.ok(statSync(file).size<=4096,'bounded historical phase receipt');
@@ -54,7 +55,7 @@ export function runHistoricalMonsterUi(script,{timeout,cwd=process.cwd(),caseNam
  script=script.replaceAll('\\','/');
  assert.ok(historicalMonsterUiFixtures.includes(script)||script==='battle-refactor-render','only exact historical monster UI fixtures');
  assert.equal(caseName,undefined,'complete frozen cases and seeds must execute');
- timeout??=script==='battle-refactor-render'?120000:(script.includes('battle_ui_card_play')||script.includes('drag_click_compatibility'))?30000:60000;
+ timeout??=luaTimeoutMs.heavy;
  assert.ok(Number.isFinite(timeout)&&timeout>0,'positive original total deadline');
  const state={schemaVersion:1,runId:randomUUID(),script,startedAt:Date.now(),phase:'waiting-for-entry',elapsedMs:0};
  const phaseFile=join(tmpdir(),`abyss-monster-phase-${state.runId}.json`);

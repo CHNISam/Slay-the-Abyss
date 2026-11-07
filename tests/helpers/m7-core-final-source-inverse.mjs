@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
+import {prePowerShopSource} from './power-shop-source-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const normalize=s=>s.replaceAll('\r\n','\n');
 const archive=readFileSync(new URL('./m7-core-final-before.json.gz',import.meta.url));
@@ -23,6 +24,7 @@ Object.freeze(m7FinalBefore.files);Object.freeze(m7FinalBefore);Object.freeze(fi
 const readLive=p=>readFileSync(p,'utf8'),rawReaders=new WeakMap();
 const matches=(path,s)=>typeof s==='string'&&Object.hasOwn(files,path)&&hash(normalize(s))===files[path].afterSha256;
 export function preM7FinalSource(path,source,{readSource=readLive}={}){
+ source=prePowerShopSource(path,source,{readSource:rawReaders.get(readSource)??readSource});
  if(!matches(path,source))return source;
  assert.equal(typeof readSource,'function','final M7 linked reader must be a function');
  readSource=rawReaders.get(readSource)??readSource;
