@@ -1,0 +1,67 @@
+acid_slime_l	大型酸液团	normal	acid_slime_l			68
+acid_slime_m	中型酸液团	normal	acid_slime_m			29
+acid_slime_s	小型酸液团	normal	acid_slime_s			10
+automaton	青铜机枢	boss	act2	automaton		300
+awakened_one	苏醒的羽冠	boss	awakened_one		AwakenedOne	300
+bandit_bear	巨熊盗匪	normal	event_combat	bear		42
+bandit_leader	蒙面首领	normal	event_combat	romeo		39
+bandit_pointy	尖刺盗匪	normal	event_combat	pointy		30
+blue_slaver	蓝衣束缚者	normal	blue_slaver			48
+book_of_stabbing	刺棘秘典	elite	act2	book		164
+bronze_orb	青铜浮核	normal	act2	orb		58
+byrd	巡风隼	normal	act2	byrd		31
+centurion	岩卫统领	normal	act2	centurion		80
+champ	磐岩斗魁	boss	act2	champ		420
+chosen	蚀咒使徒	normal	act2	chosen		99
+collector	聚烬领主	boss	act2	collector		282
+corrupt_heart	腐化之心	boss	corrupt_heart		CorruptHeart	750
+cultist	祈火徒	normal	ritual_then_attack			50
+darkling	共生暗影	normal	darkling		Darkling	56
+deca	棱岩守望者	boss	act3_boss	deca	Deca	250
+donu	环岩守望者	boss	act3_boss	donu	Donu	250
+exploder	自爆浮械	normal	act3	exploder	Exploder	30
+fat_gremlin	迟缓小魔	normal	rolled_attack			15
+fungi_beast	蕈甲兽	normal	fungi_beast			26
+giant_head	沉思巨像	elite	giant_head		GiantHead	500
+green_louse	青甲虫	normal	louse			13
+gremlin_leader	丘丘督军	elite	act2	leader		148
+gremlin_nob	怒焰巨魔	elite	gremlin_nob			84
+guardian	深渊守卫	boss	guardian			240
+hexaghost	六焰幽核	boss	act1_boss	hexaghost		250
+jaw_worm	石颚兽	normal	jaw_worm			42
+jaw_worm_hard	石颚兽	normal	jaw_worm		JawWorm	44
+lagavulin	沉眠遗卫	elite	sleep_then_cycle			110
+lagavulin_awake	苏醒的深渊潜伏者	elite	event_combat	lagavulin_awake		111
+looter	窃金客	normal	looter			48
+mad_gremlin	狂怒小魔	normal	mad_gremlin			22
+maw	吞岩巨口	normal	act3	maw	Maw	300
+mugger	荒野劫匪	normal	looter			52
+mystic	祈岩医者	normal	act2	mystic		56
+nemesis	天罚	elite	nemesis		Nemesis	185
+orb_walker	雷核步行机关	normal	act3	orb_walker	Orb Walker	96
+red_louse	赤甲虫	normal	louse			13
+red_slaver	赤衣束缚者	normal	red_slaver			48
+reptomancer	唤刃蛇使	elite	reptomancer	reptomancer	Reptomancer	190
+repulsor	斥力浮械	normal	act3	repulsor	Repulsor	35
+sentry	符文哨卫	elite	sentry			40
+shelled_parasite	岩甲寄生兽	normal	act2	parasite		72
+shield_gremlin	护盾小魔	normal	shield_gremlin			14
+slime_boss	巨型凝胶君王	boss	act1_boss	slime_boss		140
+snake_dagger	浮游蛇刃	normal	reptomancer	dagger	Dagger	25
+snake_plant	噬岩藤	normal	act2	snake		79
+sneaky_gremlin	潜行小魔	normal	opening_roll_attack			12
+snecko	惑心蜥	normal	act2	snecko		120
+spheric_guardian	磐核守卫	normal	act2	sphere		20
+spike_slime_l	大型棘刺团	normal	spike_slime_l			68
+spike_slime_m	中型棘刺团	normal	spike_slime_m			30
+spike_slime_s	小型棘刺团	normal	rolled_attack			12
+spiker	尖刺浮械	normal	act3	spiker	Spiker	56
+spire_growth	盘岩巨藤	normal	act3	spire_growth	Serpent	170
+spire_shield	尖塔之盾	elite	spire_pair	shield	SpireShield	110
+spire_spear	尖塔之矛	elite	spire_pair	spear	SpireSpear	160
+taskmaster	缚役监军	elite	act2	taskmaster		60
+time_eater	时蚀者	boss	act3_boss	time_eater	TimeEater	456
+torch_head	炬火侍从	normal	opening_roll_attack			40
+transient	流散之影	normal	act3	transient	Transient	999
+wizard_gremlin	蓄能小魔	normal	charge_then_attack			23
+writhing_mass	Writhing Mass	normal	act3	writhing_mass	WrithingMass	160

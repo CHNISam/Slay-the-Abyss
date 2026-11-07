@@ -1,0 +1,32 @@
+{
+  "name": "labMaterialBackdrop",
+  "kind": "container",
+  "size": [
+    1280,
+    720
+  ],
+  "visible": true,
+  "children": [
+    {
+      "name": "nativeImage",
+      "kind": "image",
+      "size": [
+        1280,
+        720
+      ],
+      "image": 107134,
+      "colour": "#ffffff"
+    },
+    {
+      "name": "readabilityVeil",
+      "kind": "image",
+      "size": [
+        1280,
+        720
+      ],
+      "image": 100001,
+      "colour": "#101323",
+      "opacity": 0.24
+    }
+  ]
+}

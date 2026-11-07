@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "sample": {
+    "name": "labMaterialBackdrop",
+    "image": 107134,
+    "veilImage": 100001,
+    "content": "official purple patterned plate; intentionally different art from custom landscape",
+    "kind": "native-image-background",
+    "status": "structural-only",
+    "runtimeStatus": "runtime-unverified",
+    "role": "low-cost art-direction fallback; not demonstrated savings in the current battle",
+    "sourceSheet": "src/scene/image-library/plate-colour_03.jpg",
+    "sourceTileId": 107134,
+    "drawnImages": 2,
+    "totalControls": 3
+  },
+  "input": {
+    "path": ".artifacts/native-3d-base/base.gil",
+    "sha256": "6c6c0d9fe0309c44f94a91239df0607a9c1ffcee2ef509c22960bce402a02b13",
+    "bytes": 73595
+  },
+  "output": {
+    "path": ".artifacts/native-3d-material-probe/5beff9b1-4212-477d-b4ee-dcb5f5464d46/scenes/saves/native-material-specimen.gil",
+    "sha256": "9f01b68a3fd151eb9652626de5a10426b683f1ad4f52b1463223dceae0258803",
+    "bytes": 75845
+  },
+  "templateIndex": 1073741899,
+  "statuses": {
+    "staticTemplateWrite": "pass",
+    "templateReadback": "pass",
+    "officialImport": "not_run",
+    "visualInClient": "not_run",
+    "mobile": "not_run",
+    "officialLoad": "not_run"
+  },
+  "catalogue": {
+    "images": 1590,
+    "timedEffects": 1986,
+    "loopingEffects": 1209
+  },
+  "inspectedSource": {
+    "toolRelativePath": "src/scene/image-library/plate-colour_03.jpg",
+    "sha256": "7b4fe435a974ea6e5830f81ddc9df4b5d24887ce72064477ae7e8cf03f44e3b6",
+    "copiedSheet": {
+      "path": "experiments/native-3d-lab/assets/plate-colour_03.jpg",
+      "sha256": "7b4fe435a974ea6e5830f81ddc9df4b5d24887ce72064477ae7e8cf03f44e3b6",
+      "bytes": 104745
+    },
+    "tileId": 107134,
+    "observation": "contact sheet bottom row, purple/blue rectangular patterned plate labelled 107134; visible material reviewed, no claim of landscape resemblance"
+  },
+  "sourceComparison": {
+    "baseline": {
+      "path": "art/performance/background-budget-v1.json",
+      "sha256": "47c696b1b9504c1b842fea20cdf3222c098ec8bd5886f0e8f68582a0430ba980",
+      "bytes": 344967
+    },
+    "baselineRole": "reference custom MENU background route; not the active battle backdrop",
+    "baselineDrawnImages": 4500,
+    "candidateDrawnImages": 2,
+    "drawnImagesAvoidable": 4498,
+    "lowerBoundBaselineControls": 4501,
+    "candidateControls": 3,
+    "lowerBoundControlsAvoidable": 4498,
+    "sameVisualContent": false,
+    "actualCandidateCacheFreed": false,
+    "explanation": "counterfactual source-level opportunity if the menu changes art direction; not measured savings from this in-battle toggle. Baseline group wrappers make actual total larger. The experiment retains baseline for switching, so hidden caches remain possible."
+  },
+  "currentBattleComparison": {
+    "savingsEstablished": false,
+    "currentVisibilityMeasured": false,
+    "existingSource": "scripts/official-backdrop-layout.mjs",
+    "existingRoute": "one native picture plus readability veil per visible backdrop",
+    "sampleRole": "different-art fallback specimen, not proof of fewer controls than the already-native battle background",
+    "forbiddenClaims": [
+      "current battle saves 4498 controls",
+      "better FPS",
+      "lower official load",
+      "same-quality compression"
+    ]
+  },
+  "integration": {
+    "layoutExport": "assetControls / installAssetControls from assets/specimen.mjs",
+    "luaModule": "abyss_3d_material_sample",
+    "luaSource": "assets/runtime.lua",
+    "api": "toggle(script.object, boolean) -> screen message",
+    "lifecycle": "caller re-applies toggle while comparison active after page refresh, invokes destroy before engine teardown; keep sample below battlePanel and HUD"
+  }
+}

@@ -82,7 +82,7 @@ function M.attach(view,root,api)
         control:SetVisible(false)
     end
     local function masks()
-        if self.mode~='3D' then return end
+        if self.mode~='3D' and not self.sceneOnlyEnabled then return end
         conceal(child(root,'canvasBackdrop'));conceal(child(root,'backdrop'))
         conceal(child(stage,'officialBattleBackdrop'))
         local battle=child(stage,'battlePanel')
@@ -166,6 +166,7 @@ function M.attach(view,root,api)
     end
     function self:setMode(mode)
         assert(mode=='2D' or mode=='3D','invalid lab mode')
+        self.sceneOnlyEnabled=false
         invalidateSample('采样期间切换/重建表现模式')
         clearNative();self.wanted=mode;self.readyMode=nil
         if mode=='2D' then
@@ -223,6 +224,11 @@ function M.attach(view,root,api)
         self:setMode('2D');status(reason or '已停止，回到 2D；手动实验仍可使用');log(reason or 'STOP')
     end
     function self:stop()stop('已停止自动测试；恢复 2D')end
+    function self:sceneOnly(enabled)
+        self:stop()
+        self.sceneOnlyEnabled=enabled==true
+        if self.sceneOnlyEnabled then masks()else restore()end
+    end
     local function endSample(label)
         self.sampleActive=false
         local session=self.sampleSession
@@ -285,7 +291,14 @@ function M.attach(view,root,api)
         end}
         return stages
     end
-    function self:performance()stageJob(performanceStages(),'性能配对测试')end
+    function self:performance()
+        if Config.motionDiagnostic then
+            status('动作入口诊断候选；不生成3D性能优胜结论')
+            log('UNVERIFIED 当前守卫使用1ms技能入口探针，保留原超时；不作性能配对')
+            return false
+        end
+        stageJob(performanceStages(),'性能配对测试')
+    end
     function self:animation(command)
         if command=='death'then log('死亡clip不可直接调用；本项测试原生销毁表现')end
         if command=='hit' and Config.models and Config.models[self.model] and Config.models[self.model].hit==false then
@@ -386,7 +399,11 @@ function M.attach(view,root,api)
         stages[#stages+1]={name='卡牌C',duration=4,run=function()self:cards()end}
         stages[#stages+1]={name='Tween A手动',duration=4,run=function()self:tween('manual')end}
         stages[#stages+1]={name='Tween B原生',duration=4,run=function()self:tween('tween')end}
-        for _,entry in ipairs(performanceStages())do stages[#stages+1]=entry end
+        if not Config.motionDiagnostic then
+            for _,entry in ipairs(performanceStages())do stages[#stages+1]=entry end
+        else
+            stages[#stages+1]={name='动作入口诊断候选，不生成3D性能结论',duration=1}
+        end
         stageJob(stages,'全部连续测试')
     end
     local function observe(before,battle,first)
@@ -549,6 +566,7 @@ function M.attach(view,root,api)
     self.log=log
     log('候选 '..tostring(Config.buildId or 'unknown')..'；官方视觉/手机未验证')
     log('原生动画来自官方；本实验不产生原生伤害')
+    if Config.motionDiagnostic then log('守卫动作改用1ms入口探针；diagnostic回执不代表完整动画，原超时继续保留')end
     safe('初始战斗',function()self:startBattle()end);updateMode()
     return self
 end

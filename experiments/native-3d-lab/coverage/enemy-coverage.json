@@ -1,0 +1,3564 @@
+{
+  "summary": {
+    "schemaVersion": 1,
+    "denominator": 67,
+    "denominatorContract": "unique registered enemy definition IDs across full-source Combat catalog; runtime suffixes and duplicate encounter instances are not new definitions",
+    "phaseDefinitions": 12,
+    "phaseStates": 30,
+    "nativeModelCandidates": 56,
+    "keepShapes": 11,
+    "readAnimationCandidates": 45,
+    "structuralOnly": 11,
+    "officiallyValidatedCoverage": 0,
+    "runtimeStatus": "runtime-unverified",
+    "groupCounts": {
+      "hydro-slime": 4,
+      "ruin-guard": 6,
+      "frost-fatui": 1,
+      "axe-mitachurl": 5,
+      "treasure-hoarder": 7,
+      "keep-simple-dagger-shape": 2,
+      "keep-simple-orb-shapes": 8,
+      "floating-bird": 1,
+      "shield-mitachurl": 2,
+      "eremite-caster": 5,
+      "hydro-wayob": 1,
+      "geo-slime": 8,
+      "hilichurl": 6,
+      "fungus": 1,
+      "keep-six-orbs": 1,
+      "yumkasaur-boss": 2,
+      "maguu-kenki": 2,
+      "pyro-slime": 1,
+      "geo-wayob": 3,
+      "ruin-grader": 1
+    },
+    "limitations": [
+      "asset catalogue presence is not spawnability or controllable animation proof",
+      "known lists are editor-read metadata, not verification of every clip",
+      "shape recommendations remain existing simple presentation; no custom rig is proposed",
+      "current milestone competition scope remains two acts; this is isolated full-source research"
+    ],
+    "sources": [
+      {
+        "path": "data/enemies.json",
+        "sha256": "0518e6b9e03ce4c194f6313e63a2db1203e4bfebdf447d688208a5cd2020b329"
+      },
+      {
+        "path": "src/lua/abyss_combat_enemy_setup.lua",
+        "sha256": "0bab5daf04c1f9b4d0b5762e39c047c1b6633be0fe573c6e28d16bf9810e39f8"
+      },
+      {
+        "path": "src/lua/abyss_event_combat_enemies.lua",
+        "sha256": "228e16f5fedcefe7b92c4af95a2a3b91c40c1ddd44c8dbc88f7613a8e109f0a9"
+      },
+      {
+        "path": "src/lua/abyss_act1_bosses.lua",
+        "sha256": "7dac7cdf2773862811b94e0dc90cb234bea8e466378ef56f1a2d9499922f2f28"
+      },
+      {
+        "path": "src/lua/abyss_act2_enemies.lua",
+        "sha256": "a9f931caa681879aef84ae7f79759fab33c71cd75907a368294a9e0741b5ac18"
+      },
+      {
+        "path": "src/lua/abyss_act3_enemies.lua",
+        "sha256": "cf7e505b9bd98fe65941e0f7ccbcff82d41ab565498fec0b87d0baeaef15e47c"
+      },
+      {
+        "path": "src/lua/abyss_act3_bosses.lua",
+        "sha256": "05040a53f82b0faefd0d6cace153a512710a13aed91afc04018f04b96563b7bf"
+      },
+      {
+        "path": "src/lua/abyss_awakened_one.lua",
+        "sha256": "3f68c2c98c221b7132efcd2adfb69a6e193bda7720451578ce5737f8609a4909"
+      },
+      {
+        "path": "src/lua/abyss_reptomancer.lua",
+        "sha256": "7fe1631cce3e6c328197b2e57edbaf375077d4248ccce2420a4158e6ed79ce06"
+      },
+      {
+        "path": "src/lua/abyss_darklings.lua",
+        "sha256": "0a3cd5503674d25b01654d3092e8d85f8e012fa31cbe44a1e5e7a48e07c7c1e7"
+      },
+      {
+        "path": "src/lua/abyss_spire_pair.lua",
+        "sha256": "11c5f223f4a90e26e4534e2b074740ccd1e0f3225de3adb4c6774c3e05021173"
+      },
+      {
+        "path": "src/lua/abyss_corrupt_heart.lua",
+        "sha256": "47b24453c2934e480d0acab37078d845b249b1ed00438993bcf6f4a9ccd35b9a"
+      },
+      {
+        "path": "src/lua/abyss_giant_head.lua",
+        "sha256": "a5692765e90ed0ab845e5d25fd6dbe00336063d54532a96b4ce415d59214d854"
+      },
+      {
+        "path": "src/lua/abyss_nemesis.lua",
+        "sha256": "5fbc8983928c273768618d4c92ab1388702f2a1892016096570b5db7204f4ba5"
+      },
+      {
+        "path": "src/lua/abyss_time_eater.lua",
+        "sha256": "90a96551c17a60f7aa3a5e17be5f35748824dbfd8d958a71abc2098649ec2a45"
+      },
+      {
+        "path": "src/lua/abyss_writhing_mass.lua",
+        "sha256": "57a2c34d0aa7df6733432ccfceff657460d87a9fd23e23002b942a20713eb5d6"
+      },
+      {
+        "path": "src/lua/abyss_enemy_ai.lua",
+        "sha256": "5ae51b85ab1459529b5c2c491e96ef4e372365b5d3700f0a67c106123d6aca21"
+      },
+      {
+        "path": "src/lua/abyss_act3_ai.lua",
+        "sha256": "af766af2cf5eb5112158e3ee6c0b80b948e844a4fa9c8ae323646cb54cf436c7"
+      },
+      {
+        "path": "src/lua/abyss_guardian_ai.lua",
+        "sha256": "a0ebb5ec54b36f6ddde3e516ce1956d2d5eb703829effa849c4a92df2d2f37a0"
+      },
+      {
+        "path": "src/lua/abyss_act2_ai.lua",
+        "sha256": "7751a8be3ca90d7f7a454aa045fffd018f69740aa9c877953bbc4d86c71deee2"
+      },
+      {
+        "path": "src/lua/abyss_act2_ai_moves.lua",
+        "sha256": "edc2c226f164d15dfdfb15eddd839cddd1e2ae1242d54ae16045cb5770552d60"
+      }
+    ],
+    "toolSources": [
+      {
+        "path": "src/scene/asset-catalog.json",
+        "sha256": "329d74f9621cb8282beccfcfb65f4e9a3590e9359bdeeb2f1a92b138e05c5529"
+      },
+      {
+        "path": "src/scene/media/creature-animations.json",
+        "sha256": "9d301576fb7f6b505f9c544adb085b5a5e7f59b21655fe4dca6f00cde93f8d8a"
+      }
+    ],
+    "generatedBy": "node experiments/native-3d-lab/coverage/build.mjs",
+    "counts": {
+      "registeredDefinitions": 67,
+      "nativeModelCandidates": 56,
+      "keepShapes": 11,
+      "uniqueNativeAssets": 17,
+      "uniqueAssetsWithReadAnimations": 10,
+      "phaseDefinitions": 12,
+      "phaseStates": 30,
+      "definitionOriginByAct": {
+        "1": 26,
+        "2": 20,
+        "3": 18,
+        "4": 3
+      }
+    },
+    "method": {
+      "registration": "Catalog.prepare(data) + Catalog.enemies(data) + Combat EnemySetup.register(catalog)",
+      "deduplication": "exact registered definition ID set; assignment set must equal live Lua catalogue set",
+      "phases": "explicit same-ID state appendix; descendants with separate IDs already in primary denominator",
+      "recommendations": "presentation-only proposal; catalogue lookup and metadata presence are never runtime verification"
+    },
+    "provenance": {
+      "sourceCommit": "92f8734abb6999e3eefd3a5f3a85eb5caef6f6e5",
+      "catalogData": {
+        "path": "build/lua/abyss_data.lua",
+        "sha256": "c8dd7a050839a50b2e895787f6a72824187f9c6eaaea4002261f82f4ad0de9a4"
+      },
+      "luaEnumeration": {
+        "path": "experiments/native-3d-lab/coverage/catalog.lua",
+        "sha256": "87e2ffcdd4617d8c6dda395ceec1aef0b6cedb40484a887516bef39048fc3193"
+      },
+      "mapping": {
+        "path": "experiments/native-3d-lab/coverage/mapping.mjs",
+        "sha256": "585cd858970e0dcf3ab5c46bef608dcbe43cc29e2086cd33a788ecf1a8a6b08c"
+      }
+    }
+  },
+  "enemies": [
+    {
+      "id": "acid_slime_l",
+      "name": "大型酸液团",
+      "tier": "normal",
+      "aiKind": "acid_slime_l",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 68,
+      "internalId": "acid_slime_l",
+      "acts": [
+        1
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30005006,
+      "displayName": "凝水团",
+      "reuseGroup": "hydro-slime",
+      "reason": "同一原生模型按体型缩放，覆盖分裂大小态",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "大型水史莱姆",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 4,
+      "knownAnimationKinds": [
+        {
+          "id": 5006001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5006002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5006003,
+          "name": "特殊攻击_01"
+        },
+        {
+          "id": 5006004,
+          "name": "特殊攻击_02_循环"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "acid_slime_m",
+      "name": "中型酸液团",
+      "tier": "normal",
+      "aiKind": "acid_slime_m",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 29,
+      "internalId": "acid_slime_m",
+      "acts": [
+        1
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30005006,
+      "displayName": "凝水团",
+      "reuseGroup": "hydro-slime",
+      "reason": "同一原生模型按体型缩放，覆盖分裂大小态",
+      "strategy": "native-model",
+      "scale": 0.7,
+      "officialAssetName": "大型水史莱姆",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 4,
+      "knownAnimationKinds": [
+        {
+          "id": 5006001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5006002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5006003,
+          "name": "特殊攻击_01"
+        },
+        {
+          "id": 5006004,
+          "name": "特殊攻击_02_循环"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "acid_slime_m",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "acid_slime_s",
+      "name": "小型酸液团",
+      "tier": "normal",
+      "aiKind": "acid_slime_s",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 10,
+      "internalId": "acid_slime_s",
+      "acts": [
+        1
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30005006,
+      "displayName": "凝水团",
+      "reuseGroup": "hydro-slime",
+      "reason": "同一原生模型按体型缩放，覆盖分裂大小态",
+      "strategy": "native-model",
+      "scale": 0.4,
+      "officialAssetName": "大型水史莱姆",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 4,
+      "knownAnimationKinds": [
+        {
+          "id": 5006001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5006002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5006003,
+          "name": "特殊攻击_01"
+        },
+        {
+          "id": 5006004,
+          "name": "特殊攻击_02_循环"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "automaton",
+      "name": "青铜机枢",
+      "tier": "boss",
+      "aiKind": "act2",
+      "aiPolicy": "automaton",
+      "sourceId": "",
+      "hp": 300,
+      "internalId": "automaton",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_act2_enemies.lua",
+      "assetId": 30005001,
+      "displayName": "遗迹战械",
+      "reuseGroup": "ruin-guard",
+      "reason": "现成无武器攻击与受击动画；机关/重型单位共用",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "遗迹守卫",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 14,
+      "knownAnimationKinds": [
+        {
+          "id": 5001001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5001002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5001003,
+          "name": "近战攻击_02"
+        },
+        {
+          "id": 5001004,
+          "name": "近战攻击_03"
+        },
+        {
+          "id": 5001005,
+          "name": "近战攻击_04_前摇"
+        },
+        {
+          "id": 5001006,
+          "name": "近战攻击_04_循环"
+        },
+        {
+          "id": 5001007,
+          "name": "近战攻击_04_后摇"
+        },
+        {
+          "id": 5001008,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5001011,
+          "name": "重受击"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "awakened_one",
+      "name": "苏醒的羽冠",
+      "tier": "boss",
+      "aiKind": "awakened_one",
+      "aiPolicy": "",
+      "sourceId": "AwakenedOne",
+      "hp": 300,
+      "internalId": "awakened_one",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_awakened_one.lua",
+      "assetId": 30006006,
+      "displayName": "霜铳重卫",
+      "reuseGroup": "frost-fatui",
+      "reason": "重型人形共用；武器挂载仍需验证",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "愚人众先遣队·冰铳重卫士",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 12,
+      "knownAnimationKinds": [
+        {
+          "id": 6006001,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 6006002,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 6006004,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 6006005,
+          "name": "特殊攻击_01"
+        },
+        {
+          "id": 6006006,
+          "name": "特殊攻击_02_前摇"
+        },
+        {
+          "id": 6006007,
+          "name": "特殊攻击_02_循环"
+        },
+        {
+          "id": 6006008,
+          "name": "特殊攻击_02_后摇"
+        },
+        {
+          "id": 6006009,
+          "name": "特殊攻击_03"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "bandit_bear",
+      "name": "巨熊盗匪",
+      "tier": "normal",
+      "aiKind": "event_combat",
+      "aiPolicy": "bear",
+      "sourceId": "",
+      "hp": 42,
+      "internalId": "bandit_bear",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_event_combat_enemies.lua",
+      "assetId": 30005002,
+      "displayName": "丘丘斗魁",
+      "reuseGroup": "axe-mitachurl",
+      "reason": "大型近战复用；武器挂载属于剩余表现工作",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "火斧丘丘暴徒",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 18,
+      "knownAnimationKinds": [
+        {
+          "id": 5002001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5002003,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5002004,
+          "name": "近战攻击_02"
+        },
+        {
+          "id": 5002005,
+          "name": "近战攻击_03"
+        },
+        {
+          "id": 5002006,
+          "name": "近战攻击_04_前摇"
+        },
+        {
+          "id": 5002007,
+          "name": "近战攻击_04_循环"
+        },
+        {
+          "id": 5002008,
+          "name": "近战攻击_04_后摇"
+        },
+        {
+          "id": 5002009,
+          "name": "近战攻击_04_打断"
+        },
+        {
+          "id": 5002010,
+          "name": "特殊攻击_01"
+        },
+        {
+          "id": 5002011,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5002012,
+          "name": "远程攻击_02"
+        },
+        {
+          "id": 5002013,
+          "name": "远程攻击_03"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "bandit_leader",
+      "name": "蒙面首领",
+      "tier": "normal",
+      "aiKind": "event_combat",
+      "aiPolicy": "romeo",
+      "sourceId": "",
+      "hp": 39,
+      "internalId": "bandit_leader",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_event_combat_enemies.lua",
+      "assetId": 30006009,
+      "displayName": "盗宝团众",
+      "reuseGroup": "treasure-hoarder",
+      "reason": "轻型人形共用；投掷物挂载及命中时机仍需逐项验证",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "盗宝团·斥候",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 20,
+      "knownAnimationKinds": [
+        {
+          "id": 6009001,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 6009002,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 6009004,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 6009005,
+          "name": "远程攻击_01"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "bandit_pointy",
+      "name": "尖刺盗匪",
+      "tier": "normal",
+      "aiKind": "event_combat",
+      "aiPolicy": "pointy",
+      "sourceId": "",
+      "hp": 30,
+      "internalId": "bandit_pointy",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_event_combat_enemies.lua",
+      "assetId": 30006009,
+      "displayName": "盗宝团众",
+      "reuseGroup": "treasure-hoarder",
+      "reason": "轻型人形共用；投掷物挂载及命中时机仍需逐项验证",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "盗宝团·斥候",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 20,
+      "knownAnimationKinds": [
+        {
+          "id": 6009001,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 6009002,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 6009004,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 6009005,
+          "name": "远程攻击_01"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "blue_slaver",
+      "name": "蓝衣束缚者",
+      "tier": "normal",
+      "aiKind": "blue_slaver",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 48,
+      "internalId": "blue_slaver",
+      "acts": [
+        1,
+        2
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30006009,
+      "displayName": "盗宝团众",
+      "reuseGroup": "treasure-hoarder",
+      "reason": "轻型人形共用；投掷物挂载及命中时机仍需逐项验证",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "盗宝团·斥候",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 20,
+      "knownAnimationKinds": [
+        {
+          "id": 6009001,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 6009002,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 6009004,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 6009005,
+          "name": "远程攻击_01"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "treasure-hoarder-pugilist",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "book_of_stabbing",
+      "name": "刺棘秘典",
+      "tier": "elite",
+      "aiKind": "act2",
+      "aiPolicy": "book",
+      "sourceId": "",
+      "hp": 164,
+      "internalId": "book_of_stabbing",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_act2_enemies.lua",
+      "assetId": null,
+      "displayName": null,
+      "reuseGroup": "keep-simple-dagger-shape",
+      "reason": "召唤飞刃保留简单shape；不为短命实体引入独立骨骼与武器系统",
+      "strategy": "keep-shapes",
+      "scale": 1,
+      "officialAssetName": null,
+      "assetGroup": null,
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "bronze_orb",
+      "name": "青铜浮核",
+      "tier": "normal",
+      "aiKind": "act2",
+      "aiPolicy": "orb",
+      "sourceId": "",
+      "hp": 58,
+      "internalId": "bronze_orb",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_act2_enemies.lua",
+      "assetId": null,
+      "displayName": null,
+      "reuseGroup": "keep-simple-orb-shapes",
+      "reason": "球/多面体敌人本来适合低成本shape，保留清晰轮廓和状态，不强行换人形",
+      "strategy": "keep-shapes",
+      "scale": 1,
+      "officialAssetName": null,
+      "assetGroup": null,
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "byrd",
+      "name": "巡风隼",
+      "tier": "normal",
+      "aiKind": "act2",
+      "aiPolicy": "byrd",
+      "sourceId": "",
+      "hp": 31,
+      "internalId": "byrd",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_act2_enemies.lua",
+      "assetId": 30001014,
+      "displayName": "浮流鸟",
+      "reuseGroup": "floating-bird",
+      "fallbackAssetId": 30005003,
+      "reason": "目录有鸟模型但非复杂造物，AI隔离/动画调用待核；可退回已有风史莱姆",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "浮流鸟",
+      "assetGroup": "怪物",
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "structural-only",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "centurion",
+      "name": "岩卫统领",
+      "tier": "normal",
+      "aiKind": "act2",
+      "aiPolicy": "centurion",
+      "sourceId": "",
+      "hp": 80,
+      "internalId": "centurion",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_act2_enemies.lua",
+      "assetId": 30006005,
+      "displayName": "木盾卫士",
+      "reuseGroup": "shield-mitachurl",
+      "reason": "原生盾持有者；盾/武器挂点仍需验证",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "木盾丘丘暴徒",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 20,
+      "knownAnimationKinds": [
+        {
+          "id": 6005001,
+          "name": "待机"
+        },
+        {
+          "id": 6005003,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 6005004,
+          "name": "近战攻击_02"
+        },
+        {
+          "id": 6005005,
+          "name": "近战攻击_03"
+        },
+        {
+          "id": 6005006,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 6005007,
+          "name": "远程攻击_02"
+        },
+        {
+          "id": 6005008,
+          "name": "特殊攻击_01_前摇"
+        },
+        {
+          "id": 6005009,
+          "name": "特殊攻击_01_循环"
+        },
+        {
+          "id": 6005010,
+          "name": "特殊攻击_01_后摇"
+        },
+        {
+          "id": 6005011,
+          "name": "特殊攻击_02_前摇"
+        },
+        {
+          "id": 6005012,
+          "name": "特殊攻击_02_循环"
+        },
+        {
+          "id": 6005013,
+          "name": "特殊攻击_02_后摇"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "rock-shieldwall-mitachurl",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "champ",
+      "name": "磐岩斗魁",
+      "tier": "boss",
+      "aiKind": "act2",
+      "aiPolicy": "champ",
+      "sourceId": "",
+      "hp": 420,
+      "internalId": "champ",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_act2_enemies.lua",
+      "assetId": 30005002,
+      "displayName": "丘丘斗魁",
+      "reuseGroup": "axe-mitachurl",
+      "reason": "大型近战复用；武器挂载属于剩余表现工作",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "火斧丘丘暴徒",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 18,
+      "knownAnimationKinds": [
+        {
+          "id": 5002001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5002003,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5002004,
+          "name": "近战攻击_02"
+        },
+        {
+          "id": 5002005,
+          "name": "近战攻击_03"
+        },
+        {
+          "id": 5002006,
+          "name": "近战攻击_04_前摇"
+        },
+        {
+          "id": 5002007,
+          "name": "近战攻击_04_循环"
+        },
+        {
+          "id": 5002008,
+          "name": "近战攻击_04_后摇"
+        },
+        {
+          "id": 5002009,
+          "name": "近战攻击_04_打断"
+        },
+        {
+          "id": 5002010,
+          "name": "特殊攻击_01"
+        },
+        {
+          "id": 5002011,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5002012,
+          "name": "远程攻击_02"
+        },
+        {
+          "id": 5002013,
+          "name": "远程攻击_03"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "chosen",
+      "name": "蚀咒使徒",
+      "tier": "normal",
+      "aiKind": "act2",
+      "aiPolicy": "chosen",
+      "sourceId": "",
+      "hp": 99,
+      "internalId": "chosen",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_act2_enemies.lua",
+      "assetId": 30006012,
+      "displayName": "净水术士",
+      "reuseGroup": "eremite-caster",
+      "reason": "人形术士共用；表现标签与状态区分职责",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "镀金旅团·沙中净水",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 26,
+      "knownAnimationKinds": [
+        {
+          "id": 6012001,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 6012002,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 6012003,
+          "name": "普通攻击"
+        },
+        {
+          "id": 6012004,
+          "name": "近战攻击_前摇_01"
+        },
+        {
+          "id": 6012005,
+          "name": "近战攻击_前摇_02"
+        },
+        {
+          "id": 6012007,
+          "name": "近战攻击"
+        },
+        {
+          "id": 6012008,
+          "name": "近战攻击_后摇"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "collector",
+      "name": "聚烬领主",
+      "tier": "boss",
+      "aiKind": "act2",
+      "aiPolicy": "collector",
+      "sourceId": "",
+      "hp": 282,
+      "internalId": "collector",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_act2_enemies.lua",
+      "assetId": 30006012,
+      "displayName": "净水术士",
+      "reuseGroup": "eremite-caster",
+      "reason": "人形术士共用；表现标签与状态区分职责",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "镀金旅团·沙中净水",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 26,
+      "knownAnimationKinds": [
+        {
+          "id": 6012001,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 6012002,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 6012003,
+          "name": "普通攻击"
+        },
+        {
+          "id": 6012004,
+          "name": "近战攻击_前摇_01"
+        },
+        {
+          "id": 6012005,
+          "name": "近战攻击_前摇_02"
+        },
+        {
+          "id": 6012007,
+          "name": "近战攻击"
+        },
+        {
+          "id": 6012008,
+          "name": "近战攻击_后摇"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "corrupt_heart",
+      "name": "腐化之心",
+      "tier": "boss",
+      "aiKind": "corrupt_heart",
+      "aiPolicy": "",
+      "sourceId": "CorruptHeart",
+      "hp": 750,
+      "internalId": "corrupt_heart",
+      "acts": [
+        4
+      ],
+      "definitionSource": "src/lua/abyss_corrupt_heart.lua",
+      "assetId": 30005014,
+      "displayName": "溯流显化身",
+      "reuseGroup": "hydro-wayob",
+      "fallbackAssetId": 30005006,
+      "reason": "作为终幕核心的可复用原生外观候选；动画与画面需验证",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "溯流·大灵显化身",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "structural-only",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "cultist",
+      "name": "祈火徒",
+      "tier": "normal",
+      "aiKind": "ritual_then_attack",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 50,
+      "internalId": "cultist",
+      "acts": [
+        1,
+        2,
+        3
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30006012,
+      "displayName": "净水术士",
+      "reuseGroup": "eremite-caster",
+      "reason": "人形术士共用；表现标签与状态区分职责",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "镀金旅团·沙中净水",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 26,
+      "knownAnimationKinds": [
+        {
+          "id": 6012001,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 6012002,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 6012003,
+          "name": "普通攻击"
+        },
+        {
+          "id": 6012004,
+          "name": "近战攻击_前摇_01"
+        },
+        {
+          "id": 6012005,
+          "name": "近战攻击_前摇_02"
+        },
+        {
+          "id": 6012007,
+          "name": "近战攻击"
+        },
+        {
+          "id": 6012008,
+          "name": "近战攻击_后摇"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "darkling",
+      "name": "共生暗影",
+      "tier": "normal",
+      "aiKind": "darkling",
+      "aiPolicy": "",
+      "sourceId": "Darkling",
+      "hp": 56,
+      "internalId": "darkling",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_darklings.lua",
+      "assetId": 30005008,
+      "displayName": "磐岩团",
+      "reuseGroup": "geo-slime",
+      "reason": "复用岩史莱姆，不重做虫/寄生兽精确外形",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "大型岩史莱姆",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 4,
+      "knownAnimationKinds": [
+        {
+          "id": 5008001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5008002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5008003,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5008004,
+          "name": "特殊攻击_01"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "deca",
+      "name": "棱岩守望者",
+      "tier": "boss",
+      "aiKind": "act3_boss",
+      "aiPolicy": "deca",
+      "sourceId": "Deca",
+      "hp": 250,
+      "internalId": "deca",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_act3_bosses.lua",
+      "assetId": null,
+      "displayName": null,
+      "reuseGroup": "keep-simple-orb-shapes",
+      "reason": "球/多面体敌人本来适合低成本shape，保留清晰轮廓和状态，不强行换人形",
+      "strategy": "keep-shapes",
+      "scale": 1,
+      "officialAssetName": null,
+      "assetGroup": null,
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "donu",
+      "name": "环岩守望者",
+      "tier": "boss",
+      "aiKind": "act3_boss",
+      "aiPolicy": "donu",
+      "sourceId": "Donu",
+      "hp": 250,
+      "internalId": "donu",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_act3_bosses.lua",
+      "assetId": null,
+      "displayName": null,
+      "reuseGroup": "keep-simple-orb-shapes",
+      "reason": "球/多面体敌人本来适合低成本shape，保留清晰轮廓和状态，不强行换人形",
+      "strategy": "keep-shapes",
+      "scale": 1,
+      "officialAssetName": null,
+      "assetGroup": null,
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "exploder",
+      "name": "自爆浮械",
+      "tier": "normal",
+      "aiKind": "act3",
+      "aiPolicy": "exploder",
+      "sourceId": "Exploder",
+      "hp": 30,
+      "internalId": "exploder",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_act3_enemies.lua",
+      "assetId": null,
+      "displayName": null,
+      "reuseGroup": "keep-simple-orb-shapes",
+      "reason": "球/多面体敌人本来适合低成本shape，保留清晰轮廓和状态，不强行换人形",
+      "strategy": "keep-shapes",
+      "scale": 1,
+      "officialAssetName": null,
+      "assetGroup": null,
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "fat_gremlin",
+      "name": "迟缓小魔",
+      "tier": "normal",
+      "aiKind": "rolled_attack",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 15,
+      "internalId": "fat_gremlin",
+      "acts": [
+        1,
+        2
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30007001,
+      "displayName": "丘丘侍从",
+      "reuseGroup": "hilichurl",
+      "reason": "复用已读无武器攻击，缩放/名字区分小魔职责",
+      "strategy": "native-model",
+      "scale": 0.75,
+      "officialAssetName": "打手丘丘人",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 32,
+      "knownAnimationKinds": [
+        {
+          "id": 7001002,
+          "name": "攻击"
+        },
+        {
+          "id": 7001006,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 7001007,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 7001012,
+          "name": "无武器攻击"
+        },
+        {
+          "id": 7001021,
+          "name": "待机_眩晕"
+        },
+        {
+          "id": 7001024,
+          "name": "单手武器_普通攻击"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "cryo-abyss-mage",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "fungi_beast",
+      "name": "蕈甲兽",
+      "tier": "normal",
+      "aiKind": "fungi_beast",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 26,
+      "internalId": "fungi_beast",
+      "acts": [
+        1,
+        2
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30002013,
+      "displayName": "有翼冰本真蕈",
+      "reuseGroup": "fungus",
+      "fallbackAssetId": 30005005,
+      "reason": "目录有蕈兽但非复杂造物；可退回已读冰史莱姆",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "有翼冰本真蕈",
+      "assetGroup": "怪物",
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "structural-only",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "giant_head",
+      "name": "沉思巨像",
+      "tier": "elite",
+      "aiKind": "giant_head",
+      "aiPolicy": "",
+      "sourceId": "GiantHead",
+      "hp": 500,
+      "internalId": "giant_head",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_giant_head.lua",
+      "assetId": 30005001,
+      "displayName": "遗迹战械",
+      "reuseGroup": "ruin-guard",
+      "reason": "现成无武器攻击与受击动画；机关/重型单位共用",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "遗迹守卫",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 14,
+      "knownAnimationKinds": [
+        {
+          "id": 5001001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5001002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5001003,
+          "name": "近战攻击_02"
+        },
+        {
+          "id": 5001004,
+          "name": "近战攻击_03"
+        },
+        {
+          "id": 5001005,
+          "name": "近战攻击_04_前摇"
+        },
+        {
+          "id": 5001006,
+          "name": "近战攻击_04_循环"
+        },
+        {
+          "id": 5001007,
+          "name": "近战攻击_04_后摇"
+        },
+        {
+          "id": 5001008,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5001011,
+          "name": "重受击"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "green_louse",
+      "name": "青甲虫",
+      "tier": "normal",
+      "aiKind": "louse",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 13,
+      "internalId": "green_louse",
+      "acts": [
+        1
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30005008,
+      "displayName": "磐岩团",
+      "reuseGroup": "geo-slime",
+      "reason": "复用岩史莱姆，不重做虫/寄生兽精确外形",
+      "strategy": "native-model",
+      "scale": 0.35,
+      "officialAssetName": "大型岩史莱姆",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 4,
+      "knownAnimationKinds": [
+        {
+          "id": 5008001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5008002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5008003,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5008004,
+          "name": "特殊攻击_01"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "stretchy-geo-fungus",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "gremlin_leader",
+      "name": "丘丘督军",
+      "tier": "elite",
+      "aiKind": "act2",
+      "aiPolicy": "leader",
+      "sourceId": "",
+      "hp": 148,
+      "internalId": "gremlin_leader",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_act2_enemies.lua",
+      "assetId": 30005002,
+      "displayName": "丘丘斗魁",
+      "reuseGroup": "axe-mitachurl",
+      "reason": "大型近战复用；武器挂载属于剩余表现工作",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "火斧丘丘暴徒",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 18,
+      "knownAnimationKinds": [
+        {
+          "id": 5002001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5002003,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5002004,
+          "name": "近战攻击_02"
+        },
+        {
+          "id": 5002005,
+          "name": "近战攻击_03"
+        },
+        {
+          "id": 5002006,
+          "name": "近战攻击_04_前摇"
+        },
+        {
+          "id": 5002007,
+          "name": "近战攻击_04_循环"
+        },
+        {
+          "id": 5002008,
+          "name": "近战攻击_04_后摇"
+        },
+        {
+          "id": 5002009,
+          "name": "近战攻击_04_打断"
+        },
+        {
+          "id": 5002010,
+          "name": "特殊攻击_01"
+        },
+        {
+          "id": 5002011,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5002012,
+          "name": "远程攻击_02"
+        },
+        {
+          "id": 5002013,
+          "name": "远程攻击_03"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "stonehide-lawachurl",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "gremlin_nob",
+      "name": "怒焰巨魔",
+      "tier": "elite",
+      "aiKind": "gremlin_nob",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 84,
+      "internalId": "gremlin_nob",
+      "acts": [
+        1
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30005002,
+      "displayName": "丘丘斗魁",
+      "reuseGroup": "axe-mitachurl",
+      "reason": "大型近战复用；武器挂载属于剩余表现工作",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "火斧丘丘暴徒",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 18,
+      "knownAnimationKinds": [
+        {
+          "id": 5002001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5002003,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5002004,
+          "name": "近战攻击_02"
+        },
+        {
+          "id": 5002005,
+          "name": "近战攻击_03"
+        },
+        {
+          "id": 5002006,
+          "name": "近战攻击_04_前摇"
+        },
+        {
+          "id": 5002007,
+          "name": "近战攻击_04_循环"
+        },
+        {
+          "id": 5002008,
+          "name": "近战攻击_04_后摇"
+        },
+        {
+          "id": 5002009,
+          "name": "近战攻击_04_打断"
+        },
+        {
+          "id": 5002010,
+          "name": "特殊攻击_01"
+        },
+        {
+          "id": 5002011,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5002012,
+          "name": "远程攻击_02"
+        },
+        {
+          "id": 5002013,
+          "name": "远程攻击_03"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "blazing-axe-mitachurl",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "guardian",
+      "name": "深渊守卫",
+      "tier": "boss",
+      "aiKind": "guardian",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 240,
+      "internalId": "guardian",
+      "acts": [
+        1
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30005001,
+      "displayName": "遗迹战械",
+      "reuseGroup": "ruin-guard",
+      "reason": "现成无武器攻击与受击动画；机关/重型单位共用",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "遗迹守卫",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 14,
+      "knownAnimationKinds": [
+        {
+          "id": 5001001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5001002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5001003,
+          "name": "近战攻击_02"
+        },
+        {
+          "id": 5001004,
+          "name": "近战攻击_03"
+        },
+        {
+          "id": 5001005,
+          "name": "近战攻击_04_前摇"
+        },
+        {
+          "id": 5001006,
+          "name": "近战攻击_04_循环"
+        },
+        {
+          "id": 5001007,
+          "name": "近战攻击_04_后摇"
+        },
+        {
+          "id": 5001008,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5001011,
+          "name": "重受击"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "hexaghost",
+      "name": "六焰幽核",
+      "tier": "boss",
+      "aiKind": "act1_boss",
+      "aiPolicy": "hexaghost",
+      "sourceId": "",
+      "hp": 250,
+      "internalId": "hexaghost",
+      "acts": [
+        1
+      ],
+      "definitionSource": "src/lua/abyss_act1_bosses.lua",
+      "assetId": null,
+      "displayName": null,
+      "reuseGroup": "keep-six-orbs",
+      "reason": "六个简洁球体加官方火元素特效，比不匹配的人形模型更省维护",
+      "strategy": "keep-shapes",
+      "scale": 1,
+      "officialAssetName": null,
+      "assetGroup": null,
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "pyro-hypostasis",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "jaw_worm",
+      "name": "石颚兽",
+      "tier": "normal",
+      "aiKind": "jaw_worm",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 42,
+      "internalId": "jaw_worm",
+      "acts": [
+        1
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30005008,
+      "displayName": "磐岩团",
+      "reuseGroup": "geo-slime",
+      "reason": "复用岩史莱姆，不重做虫/寄生兽精确外形",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "大型岩史莱姆",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 4,
+      "knownAnimationKinds": [
+        {
+          "id": 5008001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5008002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5008003,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5008004,
+          "name": "特殊攻击_01"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "geovishap-hatchling",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "jaw_worm_hard",
+      "name": "石颚兽",
+      "tier": "normal",
+      "aiKind": "jaw_worm",
+      "aiPolicy": "",
+      "sourceId": "JawWorm",
+      "hp": 44,
+      "internalId": "jaw_worm_hard",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_act3_enemies.lua",
+      "assetId": 30005008,
+      "displayName": "磐岩团",
+      "reuseGroup": "geo-slime",
+      "reason": "复用岩史莱姆，不重做虫/寄生兽精确外形",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "大型岩史莱姆",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 4,
+      "knownAnimationKinds": [
+        {
+          "id": 5008001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5008002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5008003,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5008004,
+          "name": "特殊攻击_01"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "lagavulin",
+      "name": "沉眠遗卫",
+      "tier": "elite",
+      "aiKind": "sleep_then_cycle",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 110,
+      "internalId": "lagavulin",
+      "acts": [
+        1
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30005001,
+      "displayName": "遗迹战械",
+      "reuseGroup": "ruin-guard",
+      "reason": "现成无武器攻击与受击动画；机关/重型单位共用",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "遗迹守卫",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 14,
+      "knownAnimationKinds": [
+        {
+          "id": 5001001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5001002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5001003,
+          "name": "近战攻击_02"
+        },
+        {
+          "id": 5001004,
+          "name": "近战攻击_03"
+        },
+        {
+          "id": 5001005,
+          "name": "近战攻击_04_前摇"
+        },
+        {
+          "id": 5001006,
+          "name": "近战攻击_04_循环"
+        },
+        {
+          "id": 5001007,
+          "name": "近战攻击_04_后摇"
+        },
+        {
+          "id": 5001008,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5001011,
+          "name": "重受击"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "ruin-guard",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "lagavulin_awake",
+      "name": "苏醒的深渊潜伏者",
+      "tier": "elite",
+      "aiKind": "event_combat",
+      "aiPolicy": "lagavulin_awake",
+      "sourceId": "",
+      "hp": 111,
+      "internalId": "lagavulin_awake",
+      "acts": [
+        1
+      ],
+      "definitionSource": "src/lua/abyss_event_combat_enemies.lua",
+      "assetId": 30005001,
+      "displayName": "遗迹战械",
+      "reuseGroup": "ruin-guard",
+      "reason": "现成无武器攻击与受击动画；机关/重型单位共用",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "遗迹守卫",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 14,
+      "knownAnimationKinds": [
+        {
+          "id": 5001001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5001002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5001003,
+          "name": "近战攻击_02"
+        },
+        {
+          "id": 5001004,
+          "name": "近战攻击_03"
+        },
+        {
+          "id": 5001005,
+          "name": "近战攻击_04_前摇"
+        },
+        {
+          "id": 5001006,
+          "name": "近战攻击_04_循环"
+        },
+        {
+          "id": 5001007,
+          "name": "近战攻击_04_后摇"
+        },
+        {
+          "id": 5001008,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5001011,
+          "name": "重受击"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "looter",
+      "name": "窃金客",
+      "tier": "normal",
+      "aiKind": "looter",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 48,
+      "internalId": "looter",
+      "acts": [
+        1,
+        2
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30006009,
+      "displayName": "盗宝团众",
+      "reuseGroup": "treasure-hoarder",
+      "reason": "轻型人形共用；投掷物挂载及命中时机仍需逐项验证",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "盗宝团·斥候",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 20,
+      "knownAnimationKinds": [
+        {
+          "id": 6009001,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 6009002,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 6009004,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 6009005,
+          "name": "远程攻击_01"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "treasure-hoarder-scout",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "mad_gremlin",
+      "name": "狂怒小魔",
+      "tier": "normal",
+      "aiKind": "mad_gremlin",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 22,
+      "internalId": "mad_gremlin",
+      "acts": [
+        1,
+        2
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30007001,
+      "displayName": "丘丘侍从",
+      "reuseGroup": "hilichurl",
+      "reason": "复用已读无武器攻击，缩放/名字区分小魔职责",
+      "strategy": "native-model",
+      "scale": 0.65,
+      "officialAssetName": "打手丘丘人",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 32,
+      "knownAnimationKinds": [
+        {
+          "id": 7001002,
+          "name": "攻击"
+        },
+        {
+          "id": 7001006,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 7001007,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 7001012,
+          "name": "无武器攻击"
+        },
+        {
+          "id": 7001021,
+          "name": "待机_眩晕"
+        },
+        {
+          "id": 7001024,
+          "name": "单手武器_普通攻击"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "pyro-abyss-mage",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "maw",
+      "name": "吞岩巨口",
+      "tier": "normal",
+      "aiKind": "act3",
+      "aiPolicy": "maw",
+      "sourceId": "Maw",
+      "hp": 300,
+      "internalId": "maw",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_act3_enemies.lua",
+      "assetId": 30006017,
+      "displayName": "匿叶龙山王",
+      "reuseGroup": "yumkasaur-boss",
+      "fallbackAssetId": 30005008,
+      "reason": "目录候选，未读取该模型动画；允许复用大型岩团作低成本替代",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "贪食匿叶龙山王",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "structural-only",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "mugger",
+      "name": "荒野劫匪",
+      "tier": "normal",
+      "aiKind": "looter",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 52,
+      "internalId": "mugger",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_act2_enemies.lua",
+      "assetId": 30006009,
+      "displayName": "盗宝团众",
+      "reuseGroup": "treasure-hoarder",
+      "reason": "轻型人形共用；投掷物挂载及命中时机仍需逐项验证",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "盗宝团·斥候",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 20,
+      "knownAnimationKinds": [
+        {
+          "id": 6009001,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 6009002,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 6009004,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 6009005,
+          "name": "远程攻击_01"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "mystic",
+      "name": "祈岩医者",
+      "tier": "normal",
+      "aiKind": "act2",
+      "aiPolicy": "mystic",
+      "sourceId": "",
+      "hp": 56,
+      "internalId": "mystic",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_act2_enemies.lua",
+      "assetId": 30006012,
+      "displayName": "净水术士",
+      "reuseGroup": "eremite-caster",
+      "reason": "人形术士共用；表现标签与状态区分职责",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "镀金旅团·沙中净水",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 26,
+      "knownAnimationKinds": [
+        {
+          "id": 6012001,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 6012002,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 6012003,
+          "name": "普通攻击"
+        },
+        {
+          "id": 6012004,
+          "name": "近战攻击_前摇_01"
+        },
+        {
+          "id": 6012005,
+          "name": "近战攻击_前摇_02"
+        },
+        {
+          "id": 6012007,
+          "name": "近战攻击"
+        },
+        {
+          "id": 6012008,
+          "name": "近战攻击_后摇"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "hydro-samachurl",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "nemesis",
+      "name": "天罚",
+      "tier": "elite",
+      "aiKind": "nemesis",
+      "aiPolicy": "",
+      "sourceId": "Nemesis",
+      "hp": 185,
+      "internalId": "nemesis",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_nemesis.lua",
+      "assetId": 30006010,
+      "displayName": "魔偶剑鬼",
+      "reuseGroup": "maguu-kenki",
+      "fallbackAssetId": 30005001,
+      "reason": "目录候选，动作/武器/形态未读；可先用已有遗迹守卫",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "魔偶剑鬼",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "structural-only",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "orb_walker",
+      "name": "雷核步行机关",
+      "tier": "normal",
+      "aiKind": "act3",
+      "aiPolicy": "orb_walker",
+      "sourceId": "Orb Walker",
+      "hp": 96,
+      "internalId": "orb_walker",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_act3_enemies.lua",
+      "assetId": 30005001,
+      "displayName": "遗迹战械",
+      "reuseGroup": "ruin-guard",
+      "reason": "现成无武器攻击与受击动画；机关/重型单位共用",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "遗迹守卫",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 14,
+      "knownAnimationKinds": [
+        {
+          "id": 5001001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5001002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5001003,
+          "name": "近战攻击_02"
+        },
+        {
+          "id": 5001004,
+          "name": "近战攻击_03"
+        },
+        {
+          "id": 5001005,
+          "name": "近战攻击_04_前摇"
+        },
+        {
+          "id": 5001006,
+          "name": "近战攻击_04_循环"
+        },
+        {
+          "id": 5001007,
+          "name": "近战攻击_04_后摇"
+        },
+        {
+          "id": 5001008,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5001011,
+          "name": "重受击"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "red_louse",
+      "name": "赤甲虫",
+      "tier": "normal",
+      "aiKind": "louse",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 13,
+      "internalId": "red_louse",
+      "acts": [
+        1
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30005007,
+      "displayName": "炽焰团",
+      "reuseGroup": "pyro-slime",
+      "reason": "以元素与颜色区分轻型敌人",
+      "strategy": "native-model",
+      "scale": 0.35,
+      "officialAssetName": "大型火史莱姆",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 5,
+      "knownAnimationKinds": [
+        {
+          "id": 5007001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5007002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5007003,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5007004,
+          "name": "特殊攻击_01"
+        },
+        {
+          "id": 5007005,
+          "name": "特殊攻击_02"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "stretchy-pyro-fungus",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "red_slaver",
+      "name": "赤衣束缚者",
+      "tier": "normal",
+      "aiKind": "red_slaver",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 48,
+      "internalId": "red_slaver",
+      "acts": [
+        1,
+        2
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30006009,
+      "displayName": "盗宝团众",
+      "reuseGroup": "treasure-hoarder",
+      "reason": "轻型人形共用；投掷物挂载及命中时机仍需逐项验证",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "盗宝团·斥候",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 20,
+      "knownAnimationKinds": [
+        {
+          "id": 6009001,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 6009002,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 6009004,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 6009005,
+          "name": "远程攻击_01"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "reptomancer",
+      "name": "唤刃蛇使",
+      "tier": "elite",
+      "aiKind": "reptomancer",
+      "aiPolicy": "reptomancer",
+      "sourceId": "Reptomancer",
+      "hp": 190,
+      "internalId": "reptomancer",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_reptomancer.lua",
+      "assetId": 30006012,
+      "displayName": "净水术士",
+      "reuseGroup": "eremite-caster",
+      "reason": "人形术士共用；表现标签与状态区分职责",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "镀金旅团·沙中净水",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 26,
+      "knownAnimationKinds": [
+        {
+          "id": 6012001,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 6012002,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 6012003,
+          "name": "普通攻击"
+        },
+        {
+          "id": 6012004,
+          "name": "近战攻击_前摇_01"
+        },
+        {
+          "id": 6012005,
+          "name": "近战攻击_前摇_02"
+        },
+        {
+          "id": 6012007,
+          "name": "近战攻击"
+        },
+        {
+          "id": 6012008,
+          "name": "近战攻击_后摇"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "repulsor",
+      "name": "斥力浮械",
+      "tier": "normal",
+      "aiKind": "act3",
+      "aiPolicy": "repulsor",
+      "sourceId": "Repulsor",
+      "hp": 35,
+      "internalId": "repulsor",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_act3_enemies.lua",
+      "assetId": null,
+      "displayName": null,
+      "reuseGroup": "keep-simple-orb-shapes",
+      "reason": "球/多面体敌人本来适合低成本shape，保留清晰轮廓和状态，不强行换人形",
+      "strategy": "keep-shapes",
+      "scale": 1,
+      "officialAssetName": null,
+      "assetGroup": null,
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "sentry",
+      "name": "符文哨卫",
+      "tier": "elite",
+      "aiKind": "sentry",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 40,
+      "internalId": "sentry",
+      "acts": [
+        1,
+        2
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": null,
+      "displayName": null,
+      "reuseGroup": "keep-simple-orb-shapes",
+      "reason": "球/多面体敌人本来适合低成本shape，保留清晰轮廓和状态，不强行换人形",
+      "strategy": "keep-shapes",
+      "scale": 1,
+      "officialAssetName": null,
+      "assetGroup": null,
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "shelled_parasite",
+      "name": "岩甲寄生兽",
+      "tier": "normal",
+      "aiKind": "act2",
+      "aiPolicy": "parasite",
+      "sourceId": "",
+      "hp": 72,
+      "internalId": "shelled_parasite",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_act2_enemies.lua",
+      "assetId": 30005008,
+      "displayName": "磐岩团",
+      "reuseGroup": "geo-slime",
+      "reason": "复用岩史莱姆，不重做虫/寄生兽精确外形",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "大型岩史莱姆",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 4,
+      "knownAnimationKinds": [
+        {
+          "id": 5008001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5008002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5008003,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5008004,
+          "name": "特殊攻击_01"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "shield_gremlin",
+      "name": "护盾小魔",
+      "tier": "normal",
+      "aiKind": "shield_gremlin",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 14,
+      "internalId": "shield_gremlin",
+      "acts": [
+        1,
+        2
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30007001,
+      "displayName": "丘丘侍从",
+      "reuseGroup": "hilichurl",
+      "reason": "复用已读无武器攻击，缩放/名字区分小魔职责",
+      "strategy": "native-model",
+      "scale": 0.65,
+      "officialAssetName": "打手丘丘人",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 32,
+      "knownAnimationKinds": [
+        {
+          "id": 7001002,
+          "name": "攻击"
+        },
+        {
+          "id": 7001006,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 7001007,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 7001012,
+          "name": "无武器攻击"
+        },
+        {
+          "id": 7001021,
+          "name": "待机_眩晕"
+        },
+        {
+          "id": 7001024,
+          "name": "单手武器_普通攻击"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "hydro-abyss-mage",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "slime_boss",
+      "name": "巨型凝胶君王",
+      "tier": "boss",
+      "aiKind": "act1_boss",
+      "aiPolicy": "slime_boss",
+      "sourceId": "",
+      "hp": 140,
+      "internalId": "slime_boss",
+      "acts": [
+        1
+      ],
+      "definitionSource": "src/lua/abyss_act1_bosses.lua",
+      "assetId": 30005006,
+      "displayName": "凝水团",
+      "reuseGroup": "hydro-slime",
+      "reason": "同一原生模型按体型缩放，覆盖分裂大小态",
+      "strategy": "native-model",
+      "scale": 1.5,
+      "officialAssetName": "大型水史莱姆",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 4,
+      "knownAnimationKinds": [
+        {
+          "id": 5006001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5006002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5006003,
+          "name": "特殊攻击_01"
+        },
+        {
+          "id": 5006004,
+          "name": "特殊攻击_02_循环"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "large-hydro-slime",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "snake_dagger",
+      "name": "浮游蛇刃",
+      "tier": "normal",
+      "aiKind": "reptomancer",
+      "aiPolicy": "dagger",
+      "sourceId": "Dagger",
+      "hp": 25,
+      "internalId": "snake_dagger",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_reptomancer.lua",
+      "assetId": null,
+      "displayName": null,
+      "reuseGroup": "keep-simple-dagger-shape",
+      "reason": "召唤飞刃保留简单shape；不为短命实体引入独立骨骼与武器系统",
+      "strategy": "keep-shapes",
+      "scale": 1,
+      "officialAssetName": null,
+      "assetGroup": null,
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "snake_plant",
+      "name": "噬岩藤",
+      "tier": "normal",
+      "aiKind": "act2",
+      "aiPolicy": "snake",
+      "sourceId": "",
+      "hp": 79,
+      "internalId": "snake_plant",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_act2_enemies.lua",
+      "assetId": 30005013,
+      "displayName": "窟岩显化身",
+      "reuseGroup": "geo-wayob",
+      "fallbackAssetId": 30005008,
+      "reason": "用原生元素造物替代植物/团块；动画未读，可先用岩团",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "窟岩·大灵显化身",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "structural-only",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "sneaky_gremlin",
+      "name": "潜行小魔",
+      "tier": "normal",
+      "aiKind": "opening_roll_attack",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 12,
+      "internalId": "sneaky_gremlin",
+      "acts": [
+        1,
+        2
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30007001,
+      "displayName": "丘丘侍从",
+      "reuseGroup": "hilichurl",
+      "reason": "复用已读无武器攻击，缩放/名字区分小魔职责",
+      "strategy": "native-model",
+      "scale": 0.6,
+      "officialAssetName": "打手丘丘人",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 32,
+      "knownAnimationKinds": [
+        {
+          "id": 7001002,
+          "name": "攻击"
+        },
+        {
+          "id": 7001006,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 7001007,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 7001012,
+          "name": "无武器攻击"
+        },
+        {
+          "id": 7001021,
+          "name": "待机_眩晕"
+        },
+        {
+          "id": 7001024,
+          "name": "单手武器_普通攻击"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "hydro-abyss-mage",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "snecko",
+      "name": "惑心蜥",
+      "tier": "normal",
+      "aiKind": "act2",
+      "aiPolicy": "snecko",
+      "sourceId": "",
+      "hp": 120,
+      "internalId": "snecko",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_act2_enemies.lua",
+      "assetId": 30006017,
+      "displayName": "匿叶龙山王",
+      "reuseGroup": "yumkasaur-boss",
+      "fallbackAssetId": 30005008,
+      "reason": "目录候选，未读取该模型动画；允许复用大型岩团作低成本替代",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "贪食匿叶龙山王",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "structural-only",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "spheric_guardian",
+      "name": "磐核守卫",
+      "tier": "normal",
+      "aiKind": "act2",
+      "aiPolicy": "sphere",
+      "sourceId": "",
+      "hp": 20,
+      "internalId": "spheric_guardian",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_act2_enemies.lua",
+      "assetId": null,
+      "displayName": null,
+      "reuseGroup": "keep-simple-orb-shapes",
+      "reason": "球/多面体敌人本来适合低成本shape，保留清晰轮廓和状态，不强行换人形",
+      "strategy": "keep-shapes",
+      "scale": 1,
+      "officialAssetName": null,
+      "assetGroup": null,
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "spike_slime_l",
+      "name": "大型棘刺团",
+      "tier": "normal",
+      "aiKind": "spike_slime_l",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 68,
+      "internalId": "spike_slime_l",
+      "acts": [
+        1
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30005008,
+      "displayName": "磐岩团",
+      "reuseGroup": "geo-slime",
+      "reason": "复用岩史莱姆，不重做虫/寄生兽精确外形",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "大型岩史莱姆",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 4,
+      "knownAnimationKinds": [
+        {
+          "id": 5008001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5008002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5008003,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5008004,
+          "name": "特殊攻击_01"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "large-geo-slime",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "spike_slime_m",
+      "name": "中型棘刺团",
+      "tier": "normal",
+      "aiKind": "spike_slime_m",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 30,
+      "internalId": "spike_slime_m",
+      "acts": [
+        1
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30005008,
+      "displayName": "磐岩团",
+      "reuseGroup": "geo-slime",
+      "reason": "复用岩史莱姆，不重做虫/寄生兽精确外形",
+      "strategy": "native-model",
+      "scale": 0.7,
+      "officialAssetName": "大型岩史莱姆",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 4,
+      "knownAnimationKinds": [
+        {
+          "id": 5008001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5008002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5008003,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5008004,
+          "name": "特殊攻击_01"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "spike_slime_s",
+      "name": "小型棘刺团",
+      "tier": "normal",
+      "aiKind": "rolled_attack",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 12,
+      "internalId": "spike_slime_s",
+      "acts": [
+        1
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30005008,
+      "displayName": "磐岩团",
+      "reuseGroup": "geo-slime",
+      "reason": "复用岩史莱姆，不重做虫/寄生兽精确外形",
+      "strategy": "native-model",
+      "scale": 0.4,
+      "officialAssetName": "大型岩史莱姆",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 4,
+      "knownAnimationKinds": [
+        {
+          "id": 5008001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5008002,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5008003,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5008004,
+          "name": "特殊攻击_01"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "spiker",
+      "name": "尖刺浮械",
+      "tier": "normal",
+      "aiKind": "act3",
+      "aiPolicy": "spiker",
+      "sourceId": "Spiker",
+      "hp": 56,
+      "internalId": "spiker",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_act3_enemies.lua",
+      "assetId": null,
+      "displayName": null,
+      "reuseGroup": "keep-simple-orb-shapes",
+      "reason": "球/多面体敌人本来适合低成本shape，保留清晰轮廓和状态，不强行换人形",
+      "strategy": "keep-shapes",
+      "scale": 1,
+      "officialAssetName": null,
+      "assetGroup": null,
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "spire_growth",
+      "name": "盘岩巨藤",
+      "tier": "normal",
+      "aiKind": "act3",
+      "aiPolicy": "spire_growth",
+      "sourceId": "Serpent",
+      "hp": 170,
+      "internalId": "spire_growth",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_act3_enemies.lua",
+      "assetId": 30005013,
+      "displayName": "窟岩显化身",
+      "reuseGroup": "geo-wayob",
+      "fallbackAssetId": 30005008,
+      "reason": "用原生元素造物替代植物/团块；动画未读，可先用岩团",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "窟岩·大灵显化身",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "structural-only",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "spire_shield",
+      "name": "尖塔之盾",
+      "tier": "elite",
+      "aiKind": "spire_pair",
+      "aiPolicy": "shield",
+      "sourceId": "SpireShield",
+      "hp": 110,
+      "internalId": "spire_shield",
+      "acts": [
+        4
+      ],
+      "definitionSource": "src/lua/abyss_spire_pair.lua",
+      "assetId": 30006005,
+      "displayName": "木盾卫士",
+      "reuseGroup": "shield-mitachurl",
+      "reason": "原生盾持有者；盾/武器挂点仍需验证",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "木盾丘丘暴徒",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 20,
+      "knownAnimationKinds": [
+        {
+          "id": 6005001,
+          "name": "待机"
+        },
+        {
+          "id": 6005003,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 6005004,
+          "name": "近战攻击_02"
+        },
+        {
+          "id": 6005005,
+          "name": "近战攻击_03"
+        },
+        {
+          "id": 6005006,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 6005007,
+          "name": "远程攻击_02"
+        },
+        {
+          "id": 6005008,
+          "name": "特殊攻击_01_前摇"
+        },
+        {
+          "id": 6005009,
+          "name": "特殊攻击_01_循环"
+        },
+        {
+          "id": 6005010,
+          "name": "特殊攻击_01_后摇"
+        },
+        {
+          "id": 6005011,
+          "name": "特殊攻击_02_前摇"
+        },
+        {
+          "id": 6005012,
+          "name": "特殊攻击_02_循环"
+        },
+        {
+          "id": 6005013,
+          "name": "特殊攻击_02_后摇"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "spire_spear",
+      "name": "尖塔之矛",
+      "tier": "elite",
+      "aiKind": "spire_pair",
+      "aiPolicy": "spear",
+      "sourceId": "SpireSpear",
+      "hp": 160,
+      "internalId": "spire_spear",
+      "acts": [
+        4
+      ],
+      "definitionSource": "src/lua/abyss_spire_pair.lua",
+      "assetId": 30005002,
+      "displayName": "丘丘斗魁",
+      "reuseGroup": "axe-mitachurl",
+      "reason": "大型近战复用；武器挂载属于剩余表现工作",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "火斧丘丘暴徒",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 18,
+      "knownAnimationKinds": [
+        {
+          "id": 5002001,
+          "name": "待机_循环"
+        },
+        {
+          "id": 5002003,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 5002004,
+          "name": "近战攻击_02"
+        },
+        {
+          "id": 5002005,
+          "name": "近战攻击_03"
+        },
+        {
+          "id": 5002006,
+          "name": "近战攻击_04_前摇"
+        },
+        {
+          "id": 5002007,
+          "name": "近战攻击_04_循环"
+        },
+        {
+          "id": 5002008,
+          "name": "近战攻击_04_后摇"
+        },
+        {
+          "id": 5002009,
+          "name": "近战攻击_04_打断"
+        },
+        {
+          "id": 5002010,
+          "name": "特殊攻击_01"
+        },
+        {
+          "id": 5002011,
+          "name": "远程攻击_01"
+        },
+        {
+          "id": 5002012,
+          "name": "远程攻击_02"
+        },
+        {
+          "id": 5002013,
+          "name": "远程攻击_03"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "taskmaster",
+      "name": "缚役监军",
+      "tier": "elite",
+      "aiKind": "act2",
+      "aiPolicy": "taskmaster",
+      "sourceId": "",
+      "hp": 60,
+      "internalId": "taskmaster",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_act2_enemies.lua",
+      "assetId": 30006009,
+      "displayName": "盗宝团众",
+      "reuseGroup": "treasure-hoarder",
+      "reason": "轻型人形共用；投掷物挂载及命中时机仍需逐项验证",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "盗宝团·斥候",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 20,
+      "knownAnimationKinds": [
+        {
+          "id": 6009001,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 6009002,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 6009004,
+          "name": "近战攻击_01"
+        },
+        {
+          "id": 6009005,
+          "name": "远程攻击_01"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "time_eater",
+      "name": "时蚀者",
+      "tier": "boss",
+      "aiKind": "act3_boss",
+      "aiPolicy": "time_eater",
+      "sourceId": "TimeEater",
+      "hp": 456,
+      "internalId": "time_eater",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_time_eater.lua",
+      "assetId": 30005011,
+      "displayName": "遗迹重机",
+      "reuseGroup": "ruin-grader",
+      "fallbackAssetId": 30005001,
+      "reason": "目录候选，攻击动画未读；可先用已有遗迹守卫",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "遗迹重机",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "structural-only",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "torch_head",
+      "name": "炬火侍从",
+      "tier": "normal",
+      "aiKind": "opening_roll_attack",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 40,
+      "internalId": "torch_head",
+      "acts": [
+        2
+      ],
+      "definitionSource": "src/lua/abyss_act2_enemies.lua",
+      "assetId": 30007001,
+      "displayName": "丘丘侍从",
+      "reuseGroup": "hilichurl",
+      "reason": "复用已读无武器攻击，缩放/名字区分小魔职责",
+      "strategy": "native-model",
+      "scale": 0.7,
+      "officialAssetName": "打手丘丘人",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 32,
+      "knownAnimationKinds": [
+        {
+          "id": 7001002,
+          "name": "攻击"
+        },
+        {
+          "id": 7001006,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 7001007,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 7001012,
+          "name": "无武器攻击"
+        },
+        {
+          "id": 7001021,
+          "name": "待机_眩晕"
+        },
+        {
+          "id": 7001024,
+          "name": "单手武器_普通攻击"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "transient",
+      "name": "流散之影",
+      "tier": "normal",
+      "aiKind": "act3",
+      "aiPolicy": "transient",
+      "sourceId": "Transient",
+      "hp": 999,
+      "internalId": "transient",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_act3_enemies.lua",
+      "assetId": 30006010,
+      "displayName": "魔偶剑鬼",
+      "reuseGroup": "maguu-kenki",
+      "fallbackAssetId": 30005001,
+      "reason": "目录候选，动作/武器/形态未读；可先用已有遗迹守卫",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "魔偶剑鬼",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "structural-only",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "wizard_gremlin",
+      "name": "蓄能小魔",
+      "tier": "normal",
+      "aiKind": "charge_then_attack",
+      "aiPolicy": "",
+      "sourceId": "",
+      "hp": 23,
+      "internalId": "wizard_gremlin",
+      "acts": [
+        1,
+        2
+      ],
+      "definitionSource": "data/enemies.json",
+      "assetId": 30007001,
+      "displayName": "丘丘侍从",
+      "reuseGroup": "hilichurl",
+      "reason": "复用已读无武器攻击，缩放/名字区分小魔职责",
+      "strategy": "native-model",
+      "scale": 0.65,
+      "officialAssetName": "打手丘丘人",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": true,
+      "knownAnimationCount": 32,
+      "knownAnimationKinds": [
+        {
+          "id": 7001002,
+          "name": "攻击"
+        },
+        {
+          "id": 7001006,
+          "name": "战中待机_循环"
+        },
+        {
+          "id": 7001007,
+          "name": "未入战待机_循环"
+        },
+        {
+          "id": 7001012,
+          "name": "无武器攻击"
+        },
+        {
+          "id": 7001021,
+          "name": "待机_眩晕"
+        },
+        {
+          "id": 7001024,
+          "name": "单手武器_普通攻击"
+        }
+      ],
+      "recommendationStatus": "recommended",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": "electro-abyss-mage",
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    },
+    {
+      "id": "writhing_mass",
+      "name": "Writhing Mass",
+      "tier": "normal",
+      "aiKind": "act3",
+      "aiPolicy": "writhing_mass",
+      "sourceId": "WrithingMass",
+      "hp": 160,
+      "internalId": "writhing_mass",
+      "acts": [
+        3
+      ],
+      "definitionSource": "src/lua/abyss_writhing_mass.lua",
+      "assetId": 30005013,
+      "displayName": "窟岩显化身",
+      "reuseGroup": "geo-wayob",
+      "fallbackAssetId": 30005008,
+      "reason": "用原生元素造物替代植物/团块；动画未读，可先用岩团",
+      "strategy": "native-model",
+      "scale": 1,
+      "officialAssetName": "窟岩·大灵显化身",
+      "assetGroup": "怪物(AI版)",
+      "animationListRead": false,
+      "knownAnimationCount": 0,
+      "knownAnimationKinds": [],
+      "recommendationStatus": "structural-only",
+      "runtimeStatus": "runtime-unverified",
+      "existing2DRegistryBinding": null,
+      "displayNamePolicy": "suggestion-only; do not change gameplay name/ID/references without explicit presentation binding",
+      "ruleMutation": false
+    }
+  ],
+  "phases": [
+    {
+      "enemyId": "lagavulin",
+      "states": [
+        "sleeping",
+        "awake"
+      ],
+      "source": "src/lua/abyss_enemy_ai.lua",
+      "presentation": "同定义的sleep/awake状态；事件lagavulin_awake是主表中的另一个现有定义，不改ID"
+    },
+    {
+      "enemyId": "hexaghost",
+      "states": [
+        "inactive",
+        "active"
+      ],
+      "source": "src/lua/abyss_act1_bosses.lua",
+      "presentation": "六焰核启动/活跃状态保留简单shape与官方光效；不是另一规则定义"
+    },
+    {
+      "enemyId": "transient",
+      "states": [
+        "present",
+        "fading",
+        "removed"
+      ],
+      "source": "src/lua/abyss_act3_ai.lua",
+      "presentation": "Fading到期离场和永久击杀分开，只读核心的移除结果，不用原生AI扣血驱动"
+    },
+    {
+      "enemyId": "guardian",
+      "states": [
+        "offensive",
+        "defensive"
+      ],
+      "source": "src/lua/abyss_guardian_ai.lua",
+      "presentation": "同模型；防御态用盾/姿态/官方特效，未证明存在直接变形clip"
+    },
+    {
+      "enemyId": "slime_boss",
+      "states": [
+        "whole",
+        "split"
+      ],
+      "source": "src/lua/abyss_act1_bosses.lua",
+      "presentation": "split生成acid_slime_l和spike_slime_l，二者已在67种分母中"
+    },
+    {
+      "enemyId": "acid_slime_l",
+      "states": [
+        "whole",
+        "split"
+      ],
+      "source": "data/enemies.json",
+      "presentation": "分裂到已有acid_slime_m；同模型缩放，保持真实子实体ID"
+    },
+    {
+      "enemyId": "spike_slime_l",
+      "states": [
+        "whole",
+        "split"
+      ],
+      "source": "data/enemies.json",
+      "presentation": "分裂到已有spike_slime_m；同模型缩放，保持真实子实体ID"
+    },
+    {
+      "enemyId": "byrd",
+      "states": [
+        "airborne",
+        "grounded",
+        "takeoff"
+      ],
+      "source": "src/lua/abyss_act2_ai.lua",
+      "presentation": "飞行/落地状态只读核心flight状态；鸟模型动画未读，不能当作已覆盖"
+    },
+    {
+      "enemyId": "champ",
+      "states": [
+        "normal",
+        "enraged"
+      ],
+      "source": "src/lua/abyss_act2_ai_moves.lua",
+      "presentation": "同模型加原生光效/状态标识，无需新规则定义"
+    },
+    {
+      "enemyId": "awakened_one",
+      "states": [
+        "first",
+        "half-dead",
+        "rebirth",
+        "second"
+      ],
+      "source": "src/lua/abyss_awakened_one.lua",
+      "presentation": "同规则ID/同模型；重生期间不能被普通死亡清除"
+    },
+    {
+      "enemyId": "darkling",
+      "states": [
+        "alive",
+        "half-dead",
+        "regrow",
+        "reincarnate"
+      ],
+      "source": "src/lua/abyss_darklings.lua",
+      "presentation": "同规则ID；halfDead不等于永久死亡，不能destroy后丢失槽位"
+    },
+    {
+      "enemyId": "nemesis",
+      "states": [
+        "tangible",
+        "intangible"
+      ],
+      "source": "src/lua/abyss_nemesis.lua",
+      "presentation": "同模型配透明/轮廓特效；不伪造原生无敌改变Lua规则"
+    }
+  ]
+}

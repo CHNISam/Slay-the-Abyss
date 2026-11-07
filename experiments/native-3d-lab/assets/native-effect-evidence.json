@@ -1,0 +1,66 @@
+{
+  "effect": {
+    "id": 7,
+    "name": "黄色闪光",
+    "kind": "timed",
+    "seconds": 1.17,
+    "source": "D:\\MiliastraTools\\genshin-miliastra-mcp\\src\\scene\\media\\effects.json",
+    "sourceSha256": "c75f4a52db3f3073660e6aaef4969fe465f9258c034d30436cc11d0f0b95da10",
+    "sourceNote": "Read from the effect lists of the editor (特效播放 component, 限时特效 and 循环特效) on 2026-10-11, game version of that day; names longer than the list is wide end in … . The 84 looping ids below 1000 are the ones found earlier by trying every number, which matches.",
+    "thumbnail": {
+      "path": "experiments/native-3d-lab/assets/native-hit-thumb.jpg",
+      "source": "D:\\MiliastraTools\\genshin-miliastra-mcp\\src\\scene\\media\\fx-thumbs.bin",
+      "indexSource": "D:\\MiliastraTools\\genshin-miliastra-mcp\\src\\scene\\media\\fx-thumbs.json",
+      "indexSha256": "6c07955a3a8f563a628b64c4a20c8148dd36e0588ab4257f160c03cf58608d86",
+      "offset": 5472,
+      "bytes": 1025,
+      "sha256": "b5407eb353da5140bd0a3b2ffa52eb5da84b4ea55f6929919be214065ed650cf",
+      "inspected": true,
+      "scope": "official editor catalog thumbnail, not a game screenshot"
+    }
+  },
+  "graphId": 1073741827,
+  "sourceSha256": "086d391c5d6ad288fbfee6e60d49d8495faeb235f1d7b96ebebf20d579dd5bc0",
+  "graphReadback": {
+    "id": 1073741827,
+    "name": "_GSTS_LAB3D_server",
+    "type": 20000,
+    "nodeCount": 431,
+    "editorCount": 1058,
+    "nodePayloadHash": "34ca6d685aa2af70035cd47770e8d035471a992b565fa76edadb851a55b0e28e",
+    "topology": {
+      "version": 1,
+      "nodeCount": 431,
+      "connectionCount": 675,
+      "hash": "8714047db80abad02518ef0b9284c911a41dff6075d32c76c9df1af50f9de1c8",
+      "scope": "Node indices, generic/concrete IDs and directed pin connections only; excludes layout, literal values, pin types, graph variables, bindings and runtime"
+    },
+    "signalReferences": [
+      {
+        "name": "LAB3D_COMMAND",
+        "role": "monitor",
+        "nodeIndex": 21,
+        "nodeId": 1610612754,
+        "signalVersion": null,
+        "resolution": "observed-definition-id-match",
+        "gameplay": "not_run"
+      }
+    ],
+    "writable": true
+  },
+  "maintenance": {
+    "extraGraphs": 0,
+    "extraSignals": 0,
+    "extraUiControls": 0,
+    "nativeAssets": 1,
+    "timedCallPerAcceptedHit": 1
+  },
+  "replaced2DFeedback": false,
+  "verification": {
+    "compiled": true,
+    "readback": true,
+    "visual": "not_run",
+    "gpuOrMemoryReduction": "not_measured",
+    "mobile": "not_run"
+  }
+}
