@@ -1,15 +1,25 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, rmSync, symlinkSync } from 'node:fs';
-import { join } from 'node:path';
+import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, rmSync, symlinkSync, lstatSync, realpathSync } from 'node:fs';
+import { join, resolve, relative, isAbsolute, dirname } from 'node:path';
 import { tmpdir } from 'node:os';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { inspectRepository, measureBuilds, requiredBuildOutputs } from '../scripts/repository-costs.mjs';
 
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 function fixture(t, payload = Buffer.from('verified asset bytes')) {
-  const root = mkdtempSync(join(tmpdir(), 'abyss-repo-cost-test-'));
+  const root = realpathSync.native(mkdtempSync(join(tmpdir(), 'abyss-repo-cost-test-')));
+  // All child Git calls, including inspectRepository, inherit only fixture configuration.
+  const inheritedGit = Object.fromEntries(Object.entries(process.env).filter(([key]) => key.startsWith('GIT_')));
+  for (const key of Object.keys(inheritedGit)) delete process.env[key];
+  const globalConfig = join(root, '.git/empty-global-config');
+  process.env.GIT_CONFIG_GLOBAL = globalConfig;
+  process.env.GIT_CONFIG_NOSYSTEM = '1';
+  t.after(() => {
+    for (const key of Object.keys(process.env)) if (key.startsWith('GIT_')) delete process.env[key];
+    Object.assign(process.env, inheritedGit);
+  });
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] }).trim();
   git('init', '-q'); git('config', 'core.autocrlf', 'false');
@@ -111,6 +121,124 @@ test('reports corrupt, missing and cached objects without any network transfer',
   assert.equal(result.lfs.objects[0].cache, 'verified');
   assert.equal(result.lfs.readableUniqueBytes, payload.length);
 });
+
+// The installed Git LFS implementation is the storage-path oracle; clean is local-only.
+function containedCachePath(root, path) {
+  const inside = candidate => {
+    const rel = relative(root, candidate);
+    assert.ok(rel && rel !== '..' && !rel.startsWith(`..${process.platform === 'win32' ? '\\' : '/'}`) && !isAbsolute(rel),
+      `Cache mutation escapes fixture: ${candidate}`);
+  };
+  path = resolve(path); inside(path);
+  let ancestor = path;
+  while (!lstatSync(ancestor, { throwIfNoEntry: false })) ancestor = dirname(ancestor);
+  const actualAncestor = realpathSync.native(ancestor);
+  if (actualAncestor !== root) inside(actualAncestor);
+  return path;
+}
+test('LFS mutation guard canonicalizes existing paths and rejects sibling and junction escapes', t => {
+  const root = realpathSync.native(mkdtempSync(join(tmpdir(), 'abyss-lfs-guard-')));
+  const external = realpathSync.native(mkdtempSync(join(tmpdir(), 'abyss-lfs-guard-external-')));
+  t.after(() => rmSync(root, { recursive: true, force: true }));
+  t.after(() => rmSync(external, { recursive: true, force: true }));
+  assert.equal(containedCachePath(root, join(root, 'new/cache')), join(root, 'new/cache'));
+  assert.throws(() => containedCachePath(root, root), /escapes fixture/);
+  assert.throws(() => containedCachePath(root, root + '-sibling/cache'), /escapes fixture/);
+  const link = join(root, 'alias');
+  symlinkSync(external, link, process.platform === 'win32' ? 'junction' : 'dir');
+  assert.throws(() => containedCachePath(root, join(link, 'new/cache')), /escapes fixture/);
+});
+const hasGitLfs = spawnSync('git', ['lfs', 'version'], { stdio: 'ignore' }).status === 0;
+const actualGitLfsNames = [];
+for (const linked of [false, true]) {
+  for (const storage of ['default', 'empty', 'relative', 'absolute', 'worktree override']) {
+    if (!linked && storage === 'worktree override') continue;
+    const name = `authenticates actual Git LFS ${storage} storage in ${linked ? 'linked' : 'ordinary'} worktree`;
+    actualGitLfsNames.push(name);
+    test(name,
+      { skip: !hasGitLfs && 'git-lfs is not installed' }, t => {
+        const { root, git, oid, payload, pointer } = fixture(t);
+        const cwd = linked ? join(root, 'linked') : root;
+        if (linked) git('worktree', 'add', '--detach', cwd, 'HEAD');
+        const run = (args, input) => execFileSync('git', args, { cwd, input, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] }).trim();
+        if (storage === 'empty') git('config', 'lfs.storage', '');
+        if (storage === 'relative') git('config', 'lfs.storage', '../relative cache');
+        if (storage === 'absolute') git('config', 'lfs.storage', join(root, 'absolute cache'));
+        if (storage === 'worktree override') {
+          git('config', 'lfs.storage', join(root, 'unused common cache'));
+          git('config', 'extensions.worktreeConfig', 'true');
+          run(['config', '--worktree', 'lfs.storage', 'worktree cache']);
+        }
+        const media = run(['lfs', 'env']).split('\n').find(line => line.startsWith('LocalMediaDir=')).slice('LocalMediaDir='.length);
+        const safe = path => containedCachePath(root, path);
+        safe(media); safe(dirname(media));
+        const object = safe(join(media, oid.slice(0, 2), oid.slice(2, 4), oid));
+        assert.equal(run(['lfs', 'clean', '--', 'asset.bin'], payload), pointer.trim());
+        assert.deepEqual(readFileSync(object), payload);
+        // Invoke below the checkout root too: Git tree paths remain root-relative.
+        const nested = join(cwd, 'nested'); mkdirSync(nested);
+        function check(state, bytes) {
+          for (const directory of [cwd, nested]) {
+            const report = inspectRepository(directory);
+            assert.equal(report.lfs.objects[0].cache, state);
+            assert.equal(report.lfs.readableUniqueBytes, bytes);
+            assert.equal(report.lfs.verifiedWorktreeBytes, 0);
+            assert.ok(report.lfs.paths.every(item => item.worktree === 'pointer'));
+          }
+        }
+        check('verified', payload.length);
+        writeFileSync(safe(object), Buffer.alloc(payload.length, 1)); check('corrupt', 0);
+        writeFileSync(safe(object), Buffer.concat([payload, Buffer.from('extra')])); check('corrupt', 0);
+        writeFileSync(safe(object), pointer); check('pointer', 0);
+        rmSync(safe(object));
+        // Correct bytes at the old/worktree-private or unconfigured path are not evidence.
+        const decoy = resolve(cwd, run(['rev-parse', '--git-path', `lfs/objects/${oid.slice(0, 2)}/${oid.slice(2, 4)}/${oid}`]));
+        if (resolve(decoy) !== resolve(object)) {
+          mkdirSync(safe(join(decoy, '..')), { recursive: true }); writeFileSync(safe(decoy), payload);
+        }
+        check('missing', 0);
+        if (process.platform !== 'win32') {
+          const target = join(root, 'outside-payload'); writeFileSync(safe(target), payload);
+          symlinkSync(safe(target), safe(object)); check('symlink', 0); rmSync(safe(object));
+          const external = join(root, 'outside-objects');
+          mkdirSync(safe(join(external, oid.slice(0, 2), oid.slice(2, 4))), { recursive: true });
+          writeFileSync(safe(join(external, oid.slice(0, 2), oid.slice(2, 4), oid)), payload);
+          rmSync(safe(media), { recursive: true }); symlinkSync(safe(external), safe(media)); check('symlink', 0);
+        }
+      });
+  }
+}
+
+test('LFS fixtures preserve caches named by inherited global and command configuration',
+  { skip: !hasGitLfs && 'git-lfs is not installed' }, t => {
+    const external = realpathSync.native(mkdtempSync(join(tmpdir(), 'abyss-lfs-external-test-')));
+    t.after(() => rmSync(external, { recursive: true, force: true }));
+    const payload = Buffer.from('verified asset bytes'), oid = hash(payload);
+    const media = join(external, 'shared/objects');
+    const object = join(media, oid.slice(0, 2), oid.slice(2, 4), oid);
+    mkdirSync(dirname(object), { recursive: true }); writeFileSync(object, payload);
+    const sentinel = join(media, 'sentinel'); writeFileSync(sentinel, 'keep shared cache');
+    const config = join(external, 'global-config');
+    execFileSync('git', ['config', '--file', config, 'lfs.storage', join(external, 'shared')]);
+    const childEnv = Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith('NODE_TEST_') && !key.startsWith('GIT_')));
+    assert.equal(actualGitLfsNames.length, 9);
+    for (const commandConfig of [{}, { GIT_CONFIG_COUNT: '1', GIT_CONFIG_KEY_0: 'lfs.storage', GIT_CONFIG_VALUE_0: join(external, 'shared') }]) {
+      // Retain all nine cases per inherited configuration and the original child deadline.
+      // Three-case children fit Windows Git startup cost without retrying or skipping cases.
+      for (let i = 0; i < actualGitLfsNames.length; i += 3) {
+        const names = actualGitLfsNames.slice(i, i + 3);
+        const pattern = `^(?:${names.join('|')})$`;
+        const output = execFileSync(process.execPath, ['--test', '--test-reporter=spec', `--test-name-pattern=${pattern}`, 'tests/repository-costs.test.mjs'], {
+          cwd: resolve(import.meta.dirname, '..'), timeout: 30000, stdio: 'pipe', encoding: 'utf8',
+          env: { ...childEnv, GIT_CONFIG_GLOBAL: config, GIT_CONFIG_SYSTEM: config, ...commandConfig },
+        });
+        assert.match(output, /pass 3(?:\s|$)/);
+        assert.deepEqual(readFileSync(object), payload);
+        assert.equal(readFileSync(sentinel, 'utf8'), 'keep shared cache');
+      }
+    }
+    assert.throws(() => containedCachePath(join(external, 'fixture'), media), /escapes fixture/);
+  });
 
 test('does not follow a replacement worktree symlink to classify an LFS asset', t => {
   if (process.platform === 'win32') return t.skip('symlink privilege is not assumed on Windows');
