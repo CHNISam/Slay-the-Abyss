@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "kind": "local-complete-file-planning-floor",
+  "file": "tests/end-turn-responsibilities.test.mjs",
+  "baseRevision": "d8a57cae2a867200ca8e588abc0d368e6cdb3799",
+  "beforeTimingsLfSha256": "a5841ddaa53d8bc810f9c16ae342ed2de8cb5479bbcb073562d2c6c921ed1b24",
+  "durationMs": 21279,
+  "environment": {
+    "platform": "linux",
+    "node": "v24.22.1",
+    "scope": "Cloud container local run; not a GitHub-hosted Linux or Windows observation and not a performance comparison."
+  },
+  "completedRun": {
+    "path": "build/end-turn-first-tests.log",
+    "rawTap": "✔ EndTurn retains the complete develop original source and Git blob (1.029285ms)\n✔ EndTurn fresh old/new complete action, state and return graph: matrix (489.645248ms)\nℹ {\"fixture\":\"matrix\",\"checkpoints\":311,\"bytes\":643954,\"sha256\":\"c6a20162a76126436f53729250854ba904cff3f578bce76df41a8cf50d1e80a6\",\"relocatedErrors\":[\"src/lua/abyss_end_turn_powers.lua:227: unknown owner-end action\",\"src/lua/abyss_end_turn_powers.lua:227: unknown owner-end action\",\"src/lua/abyss_end_turn_powers.lua:227: unknown owner-end action\",\"src/lua/abyss_end_turn_powers.lua:227: unknown owner-end action\",\"src/lua/abyss_end_turn_powers.lua:188: invalid temporary stat removal\",\"src/lua/abyss_end_turn_powers.lua:49: unsupported owner-end native callback\",\"src/lua/abyss_end_turn_powers.lua:59: inconsistent exhaust acquisition history\",\"src/lua/abyss_end_turn_powers.lua:57: invalid exhaust acquisition entry\",\"src/lua/abyss_end_turn_powers.lua:54: invalid exhaust acquisition history\",\"src/lua/abyss_end_turn_powers.lua:138: inconsistent Bomb Power\",\"src/lua/abyss_end_turn_powers.lua:178: unsupported owner-end native callback\",\"src/lua/abyss_end_turn_powers.lua:203: missing captured damage source\"]}\n✔ EndTurn fresh old/new complete action, state and return graph: tests/lua/owner_end_powers.lua (4081.294603ms)\nℹ {\"fixture\":\"tests/lua/owner_end_powers.lua\",\"checkpoints\":17,\"bytes\":3458485,\"sha256\":\"fc8d3231de5b5f875a5313ba22392d7824f279baf98ce1b9608cec5ee7b88fd7\",\"relocatedErrors\":[]}\n✔ EndTurn fresh old/new complete action, state and return graph: tests/lua/owner_end_retention.lua (3818.93828ms)\nℹ {\"fixture\":\"tests/lua/owner_end_retention.lua\",\"checkpoints\":21,\"bytes\":957131,\"sha256\":\"263c4fd7d57cea7c23ee332fe44d1df583471e7000893898df70d7f38dd304df\",\"relocatedErrors\":[]}\n✔ EndTurn fresh old/new complete action, state and return graph: tests/lua/owner_end_rollback.lua (6741.934503ms)\nℹ {\"fixture\":\"tests/lua/owner_end_rollback.lua\",\"checkpoints\":29,\"bytes\":1774913,\"sha256\":\"8abd4b0177b50502d412a5b7dcea3ae3dea62ba39b4cd0d858690024e6a8242f\",\"relocatedErrors\":[]}\n✔ EndTurn fresh old/new complete action, state and return graph: tests/lua/owner_end_orb_callbacks.lua (3834.998753ms)\nℹ {\"fixture\":\"tests/lua/owner_end_orb_callbacks.lua\",\"checkpoints\":13,\"bytes\":2194062,\"sha256\":\"606f73a878a112f02acb9fdcdced3d300e20800c71c24aca9b507c01a54979e0\",\"relocatedErrors\":[]}\n✔ EndTurn full module includes every callback and initialization under unchanged CC15 (1570.568765ms)\n✔ EndTurn exact outer source bridge freshly rechecks owner, CRLF and wrapper forms (1.982046ms)\n✔ EndTurn current source composes into frozen N35 without replacing its prior source or oracle (5.306932ms)\n✔ EndTurn real semantic mutant is killed: negative Ritual guard (175.059591ms)\n✔ EndTurn real semantic mutant is killed: retaining Ethereal cards (184.074277ms)\n✔ EndTurn real semantic mutant is killed: Regen decay (230.956651ms)\nℹ tests 12\nℹ suites 0\nℹ pass 12\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 21278.770844\n",
+    "sha256": "1be350bbc484314e255f0b2cbd916747a5144c5dc959f2730c7525fb758bd4de",
+    "durationMs": 21278.770844,
+    "tests": 12,
+    "passed": 12,
+    "failed": 0,
+    "skipped": 0,
+    "checkpoints": 391,
+    "bytesPerSide": 9028545
+  },
+  "sourceIdentity": {
+    "selectedFiles": [
+      {
+        "path": "src/lua/abyss_end_turn_powers.lua",
+        "sha256": "3124970981b679dd4964a7805a6b28277a286cf83b1dc0601e1e0e79ca4de527"
+      },
+      {
+        "path": "tests/end-turn-responsibilities.test.mjs",
+        "sha256": "fe8f418c0c5f8747bc4d6fdbf448bd9bc9f5ac3a2da72aec2df3db69eda573e9"
+      },
+      {
+        "path": "tests/helpers/end-turn-responsibilities-vm.mjs",
+        "sha256": "51fd531be6d19d3747c6842ded3fc6a4e4fd9438999611fb79fb34aaf264dc07"
+      },
+      {
+        "path": "tests/helpers/end-turn-responsibilities.lua",
+        "sha256": "63be1df5a1b0119389aa403f740e5af08433bdf41a1264ff21732614d91ddf17"
+      },
+      {
+        "path": "tests/fixtures/end-turn-responsibilities-before.lua",
+        "sha256": "0f8881d917f93efb26c7b53f67545c05e6c4f39b43b1694bc3d3d6080173ebda"
+      },
+      {
+        "path": "tests/helpers/end-turn-responsibilities-source-inverse.mjs",
+        "sha256": "b78920a602b7ad252bf6cc476c2658295a496b51d413e59b35d7a1337cabbe86"
+      },
+      {
+        "path": "scripts/check-lua-static.mjs",
+        "sha256": "93192734269e5db9a231172095cb9c977d33267643dfc72a5e2dd3fb99294ea9"
+      }
+    ]
+  }
+}
