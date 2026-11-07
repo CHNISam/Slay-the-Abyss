@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "base": "de218e5c4d8a8f71c9641e3499c8d6943c0b82ea",
+  "headState": "uncommitted extraction on feat/visibility-current",
+  "sourcePr": 532,
+  "sourceHead": "6bb9c21ee174b9625a33e856b059b89a68faa50e",
+  "pendingDependency": {
+    "pr": 538,
+    "head": "c816de48ee278f7f8a24246612e9637aeb2bd471",
+    "landed": false,
+    "files": [
+      {
+        "path": "tests/game-ui-host-result.test.mjs",
+        "blob": "03fb86bae77ce7fe49a7e13bae8e1f48982c5018",
+        "from": "origin/pr-538"
+      },
+      {
+        "path": "tests/helpers/historical-presentation-runner.mjs",
+        "blob": "20faa820450824128db5f26555a829fa37f86073",
+        "from": "origin/pr-538"
+      },
+      {
+        "path": "tests/helpers/lua-graph-observer.mjs",
+        "blob": "b5ead51ddbe95c11a6ac1025a6fffbb78c824f06",
+        "from": "origin/pr-538"
+      },
+      {
+        "path": "tests/lua-runner-cli-continuation.test.mjs",
+        "blob": "cf794f1959ff1dcc831077f9edd62b051d3e7006",
+        "from": "origin/pr-538"
+      }
+    ]
+  },
+  "source": {
+    "sha256": "61d6f88f0d043ffe6a359e0f8bf1f046476ac8b62236e022aad197e859b4c3d3",
+    "files": 494,
+    "beforeMatchesDevelopLF": true,
+    "beforeLFHash": "f535f2d14b15e8af3fe49bf3e3af45900b4cae4fcc8f8ccb29a407cf6fdcc6d9",
+    "manifestMatchesOriginalProtocol": true,
+    "sourceContentChangedSinceHistoricalBase": [
+      "src/lua/abyss_codex_relic.lua",
+      "src/lua/abyss_combat.lua",
+      "src/lua/abyss_original_v4.lua"
+    ],
+    "rawCheckoutDifference": "Current Windows CRLF hashes differ from historical Linux LF; no old sample is current-source evidence."
+  },
+  "protocolSha256": "831d60846b67843ee5e32b01c121a25336f57f2e1944fe359254345dade0794f",
+  "protocolUnchanged": true,
+  "startedAt": "2026-11-07T01:47:33.199Z",
+  "completedAt": "2026-11-07T01:51:49.490Z",
+  "preservedPr532Files": [
+    {
+      "path": "src/lua/abyss_battle_render_actors.lua",
+      "blob": "d61d734f594b82d0570267cc8f38b88d85d18060"
+    },
+    {
+      "path": "scripts/benchmark-intent-visibility-controlled.mjs",
+      "blob": "e6f29184385dd9d2c2e95cda83844d1746147d8a"
+    },
+    {
+      "path": "scripts/benchmark-intent-visibility.mjs",
+      "blob": "6a295d190daa3fcf04a97c8bd82c4c1632a6f6f1"
+    },
+    {
+      "path": "tests/fixtures/intent-visibility/before.lua",
+      "blob": "4c61a2b8f62f3d11ed784392d7fcd5f97fa9eb50"
+    },
+    {
+      "path": "tests/helpers/intent-visibility-vm.mjs",
+      "blob": "82339218ce9772409f9fa1766817561feeb508a0"
+    },
+    {
+      "path": "tests/intent-visibility-cache.test.mjs",
+      "blob": "ddeb1c78ddac1afcddc5bc5134ea8ad3d7554ab6"
+    },
+    {
+      "path": "tests/lua/intent_visibility_cache.lua",
+      "blob": "d9f6313dce57b9a9c4196c58c56cfae4d8399a8c"
+    },
+    {
+      "path": "docs/backlog-details/TASK-100-VISIBILITY-INTEGRATION.md",
+      "blob": "e4410f5ff86c0908f606d644b5b072bcf2386b1d"
+    },
+    {
+      "path": "docs/backlog-details/TASK-100-VISIBILITY.md",
+      "blob": "f4c8d806782306ffb025043875f699e171924d60"
+    },
+    {
+      "path": "docs/evidence/graph-observer-cost-20261106.json",
+      "blob": "cf3e3b3df504095f45fca5e3d9ba30b55f27d762"
+    },
+    {
+      "path": "docs/evidence/intent-visibility-controlled-20261106.json",
+      "blob": "d004c1eb7b355e2875cab511765ed94afce0ed22"
+    },
+    {
+      "path": "docs/evidence/intent-visibility-equivalence-20261106.json",
+      "blob": "a2ef9114b8a8bee92148cf7d887dcd80a670c95a"
+    },
+    {
+      "path": "docs/evidence/intent-visibility-integrated-equivalence-20261106.json",
+      "blob": "424d72847341f211b8c042559d0c3de12f785fad"
+    },
+    {
+      "path": "docs/evidence/intent-visibility-integrated-timing-20261106.json",
+      "blob": "ead8d78d6509000afda27029172bc9bc491933f5"
+    },
+    {
+      "path": "docs/evidence/intent-visibility-phase-diagnostic-20261106.json",
+      "blob": "481c3ec6986cd52c2fb5536fd6c8142ebaacf193"
+    },
+    {
+      "path": "docs/evidence/intent-visibility-timing-20261106.json",
+      "blob": "5e02074946f8c1194a312c601edaf0185d6a36af"
+    },
+    {
+      "path": "docs/evidence/runtime-path-visibility-integrated-20261106.json",
+      "blob": "6bac9d4a3a5fe4c0183bcc467cc5ec1bc759e9a4"
+    }
+  ],
+  "localTests": {
+    "command": "node24 --test --test-concurrency=1 tests/intent-visibility-cache.test.mjs tests/intent-geometry-cache.test.mjs",
+    "passed": 26,
+    "failed": 0,
+    "durationMs": 39740.3719
+  },
+  "reports": [
+    {
+      "path": "docs/evidence/intent-visibility-controlled-de218-20261107.json",
+      "sha256": "1cdfd8389abadb651bb9062af08f602fbf96b1068e86b602d04ed30123727cc5"
+    },
+    {
+      "path": "docs/evidence/intent-visibility-equivalence-de218-20261107.json",
+      "sha256": "6eeebee8abf0e951342e4707e32c5bb392fc4fbd01007c7e326bea041f672421"
+    },
+    {
+      "path": "docs/evidence/intent-visibility-statistics-de218-20261107.json",
+      "sha256": "e7352f7a1f81409f97af24b5a49a51eef5756414665319f8a2495cfd9db57a5f"
+    }
+  ],
+  "validation": {
+    "sourceReview": "pending",
+    "prFull": "not_run",
+    "mergeQueueFull": "not_run",
+    "developPushFull": "not_run",
+    "officialDevice": "UNVERIFIED"
+  },
+  "notes": [
+    "Exactly one controlled run. All48 samples retained, no retries, original thresholds/budgets.",
+    "Old unfavorable3pairs/diagnostic/old48 data retained unchanged.",
+    "CI inventory and old Backlog state excluded. Four538files remain pending dependency, not delivered visibility scope."
+  ]
+}

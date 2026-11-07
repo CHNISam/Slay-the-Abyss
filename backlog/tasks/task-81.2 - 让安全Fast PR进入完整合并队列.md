@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-06 15:41'
-updated_date: '2026-11-06 11:58'
+updated_date: '2026-11-07 02:44'
 labels: []
 milestone: m-7
 dependencies: []
@@ -41,4 +41,8 @@ TASK-81已有按影响选测，但当前develop Ruleset 25870651强制full-quali
 2026-11-06只读审计：TASK-81仍In Progress；PR307已提供Fast选择但原Ruleset六项Required含full-quality；scripts/publish-full-quality.mjs拒绝Fast发布Full成功，scripts/arm-auto-merge.mjs只接受Full入队。PR525已合入并发优化，PR527在做Sapphire超时；本任务不重复两者。开发、规则变更及真实Fast样本均未执行，验收保持未勾。
 
 已接续#529任务定义，实现pr-quality、双平台Fast不可变收据、schema6/7/8与原生队列Full/合后Full验证。固定Node24相关合同129/129及Fast组合回归29/29通过；远端Ruleset尚未切换，真实Fast链路尚待。技术证据docs/backlog-details/TASK-81.2.md，AC保持未勾。
+
+2026-11-07已读回远端pr-quality/Strict/空bypass/SQUASH ALLGREEN队列。#538正常queue Full42323846768通过并实际合为2c85bc61，合后Full42327242610验收发现slice3超时。#539从该真实base直接Ready且精确独审，正常Quality42327477690实际Fast；尚待完整自动链路。Free计划与20个Full活跃槽已读回，资源排队和真实执行分开；未取消必要验证或改保护/预算。技术证据追加TASK-81.2附件，AC保持未勾。
+
+#539旧c7 Fast已完成8项合同，13分11秒，双平台执行33/27秒，原入口dry-run eligible。但#538合后Full Win1真实失败后没有发布授权、没有入队；将已审M7成果与阶段诊断正常追加539，新HEAD必须新独审/Full，旧Fast不冒充新组合或完整链路通过。
 <!-- SECTION:NOTES:END -->

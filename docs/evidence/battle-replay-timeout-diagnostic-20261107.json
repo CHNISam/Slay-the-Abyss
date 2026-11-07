@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "baseRevision": "2c85bc618f39a4706dbc108eca0ebe5797630081",
+  "status": "DIAGNOSTIC_GAP_CLOSED_TIMEOUT_ROOT_CAUSE_UNRESOLVED",
+  "hostedFailure": {
+    "runId": 42327242610,
+    "jobId": 128265392489,
+    "fixture": "tests/lua/battle_ui_card_play_slice_3.lua",
+    "timeoutMs": 30000,
+    "durationMs": 31291,
+    "stdout": "none captured",
+    "log": "F:/New folder/.artifacts/m7-1107/push538-rules1-failed.log"
+  },
+  "scope": {
+    "productionChanges": 0,
+    "frozenCaseChanges": 0,
+    "caseGroups": "9-11 unchanged;6 fresh Host setups retained",
+    "deadlineMs": 30000,
+    "maxBuffer": 1048576,
+    "retries": 0,
+    "cache": false,
+    "newTestFiles": 0
+  },
+  "sourceFiles": [
+    {
+      "path": "tests/helpers/historical-monster-ui-runner.mjs",
+      "sha256LF": "f79e6474f8b8b6e318a5a7917d20fdf127de2284f5348d592314c3f204f540f7"
+    },
+    {
+      "path": "tests/helpers/historical-monster-ui-entry.mjs",
+      "sha256LF": "143ea95f70456ae6485d12e3051d16bf12db19f1c6d4274a0923e5c6c0d39a57"
+    },
+    {
+      "path": "tests/historical-monster-ui-runner.test.mjs",
+      "sha256LF": "15b4b359981a00e239c2e96145880ef1b6174248d18b452b28bc97bf75edb16a"
+    }
+  ],
+  "local": {
+    "before": "Historical pre-multi monster UI replay (03266f66) only: unchanged frozen cases/scenes; not current source-port acceptance.\r\nABYSS_RUN seed=1 source=explicit\r\nABYSS_RUN seed=1 source=explicit\r\nABYSS_RUN seed=1 source=explicit\r\nABYSS_RUN seed=1 source=explicit\r\nABYSS_FEEDBACK play source=- target=- amount=0\r\nPASS field touch is a tap: dragging or lifting outside cannot confirm\r\nABYSS_RUN seed=1 source=explicit\r\nPASS enemy confirmation from an earlier selection cannot submit a newly selected card\r\nABYSS_RUN seed=1 source=explicit\r\nABYSS_FEEDBACK play source=- target=- amount=0\r\nPASS click-only hosts toggle cards and confirm only on the distinct field\r\nLUA_CARD_PLAY 3 passed; 0 failed\r\nP0_CARD_PLAY_SLICE 9 11 3\r\nLua fixture tests/lua/battle_ui_card_play_slice_3.lua: 15936 ms\r\n",
+    "diagnostic": {
+      "durationMs": 16391,
+      "status": 0,
+      "stdout": "Historical pre-multi monster UI replay (03266f66) only: unchanged frozen cases/scenes; not current source-port acceptance.\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=- amount=0\nPASS field touch is a tap: dragging or lifting outside cannot confirm\nABYSS_RUN seed=1 source=explicit\nPASS enemy confirmation from an earlier selection cannot submit a newly selected card\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=- amount=0\nPASS click-only hosts toggle cards and confirm only on the distinct field\nLUA_CARD_PLAY 3 passed; 0 failed\nP0_CARD_PLAY_SLICE 9 11 3\n",
+      "stderr": "DIAGNOSTIC_BOOT\nHISTORICAL_STAGED 1411ms\nHISTORICAL_PROJECTED 1552ms\nDIAGNOSTIC_CHILD_START scripts/build-lua-data.mjs\nDIAGNOSTIC_CHILD_END scripts/build-lua-data.mjs 122ms\nDIAGNOSTIC_CHILD_START scripts/build-ui.mjs\nDIAGNOSTIC_CHILD_END scripts/build-ui.mjs 506ms\nHISTORICAL_BUILT 2181ms\nDIAGNOSTIC_CHILD_START lua\nDIAGNOSTIC_CHILD_END lua 13448ms\nDIAGNOSTIC_SETUP 1 1.6553771s\nDIAGNOSTIC_SETUP 2 2.0136077s\nDIAGNOSTIC_SETUP 3 2.2352085s\nDIAGNOSTIC_SETUP 4 1.9898722s\nDIAGNOSTIC_SETUP 5 2.1434745s\nDIAGNOSTIC_SETUP 6 1.9311394s\n"
+    },
+    "loggingProbe": [
+      {
+        "mode": "console",
+        "status": null,
+        "error": "ETIMEDOUT",
+        "stdout": "",
+        "stderr": "BOOT\nPHASE_BEFORE_BLOCK\n"
+      },
+      {
+        "mode": "sync",
+        "status": null,
+        "error": "ETIMEDOUT",
+        "stdout": "",
+        "stderr": "BOOT\nPHASE_BEFORE_BLOCK\n"
+      }
+    ],
+    "after": "Historical pre-multi monster UI replay (03266f66) only: unchanged frozen cases/scenes; not current source-port acceptance.\r\nABYSS_RUN seed=1 source=explicit\r\nABYSS_RUN seed=1 source=explicit\r\nABYSS_RUN seed=1 source=explicit\r\nABYSS_RUN seed=1 source=explicit\r\nABYSS_FEEDBACK play source=- target=- amount=0\r\nPASS field touch is a tap: dragging or lifting outside cannot confirm\r\nABYSS_RUN seed=1 source=explicit\r\nPASS enemy confirmation from an earlier selection cannot submit a newly selected card\r\nABYSS_RUN seed=1 source=explicit\r\nABYSS_FEEDBACK play source=- target=- amount=0\r\nPASS click-only hosts toggle cards and confirm only on the distinct field\r\nLUA_CARD_PLAY 3 passed; 0 failed\r\nP0_CARD_PLAY_SLICE 9 11 3\r\nLua fixture tests/lua/battle_ui_card_play_slice_3.lua: 10553 ms\r\n",
+    "preReviewRunnerContracts": "✔ only fourteen exact frozen fixtures and the two-capture differential are historical (2.0241ms)\r\n✔ all original historical inputs reject foreign edits independently of current implementation maintenance (2968.3725ms)\r\n✔ historical child keeps original total deadlines, buffer, signals and full error output (9.1625ms)\r\n✔ historical Fengari alone has an exact 1GiB old-space cap without changing its script (0.3845ms)\r\n✔ silent real timeout retains its own atomic phase and removes both temporary files (332.4384ms)\r\n✔ foreign, truncated and missing phase receipts cannot borrow progress or mask the original timeout (4.3365ms)\r\n✔ successful historical calls keep their exact result and leave no phase receipt (1.8095ms)\r\n✔ phase cleanup errors remain visible without masking the original child failure (2.727ms)\r\nℹ tests 8\r\nℹ suites 0\r\nℹ pass 8\r\nℹ fail 0\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 3500.3321\r\n",
+    "preReviewRootAndPartitionContracts": "✔ only fourteen exact frozen fixtures and the two-capture differential are historical (2.1854ms)\r\n✔ all original historical inputs reject foreign edits independently of current implementation maintenance (3269.2804ms)\r\n✔ historical child keeps original total deadlines, buffer, signals and full error output (9.4098ms)\r\n✔ historical Fengari alone has an exact 1GiB old-space cap without changing its script (0.3644ms)\r\n✔ silent real timeout retains its own atomic phase and removes both temporary files (204.1404ms)\r\n✔ foreign, truncated and missing phase receipts cannot borrow progress or mask the original timeout (21.7706ms)\r\n✔ successful historical calls keep their exact result and leave no phase receipt (2.6315ms)\r\n✔ phase cleanup errors remain visible without masking the original child failure (3.2602ms)\r\n✔ runtime replay roots contain independent original files outside the workspace and leave live source and art untouched (2355.2299ms)\r\n✔ runtime snapshots reject original writes through resource aliases and materialization rejects source aliases (3.4686ms)\r\n✔ single-root replay keeps an original private snapshot without allocating a second source root (1663.5461ms)\r\n✔ an original target cannot refresh a non-formal source or absence by rewriting its own hashes (204.7247ms)\r\n✔ the original #372 battle input epoch retains complete fixtures and refuses a refreshed source or absence (449.6932ms)\r\n✔ card-play partitions retain the complete original eleven cases and unchanged per-entry deadline (2.8041ms)\r\n✔ card-play original-body guard rejects assertion loss and duplicate selectors (2.0559ms)\r\n✔ card-play raw discovery rejects missing slices and additional family entries (0.7598ms)\r\n✔ card-play group coverage rejects an omitted or duplicated group after splitting (0.5112ms)\r\nℹ tests 17\r\nℹ suites 0\r\nℹ pass 17\r\nℹ fail 0\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 8631.1252\r\n",
+    "reviewedRunnerRootPartitionContracts": "✔ only fourteen exact frozen fixtures and the two-capture differential are historical (2.0617ms)\r\n✔ all original historical inputs reject foreign edits independently of current implementation maintenance (3645.1717ms)\r\n✔ historical child keeps original total deadlines, buffer, signals and full error output (20.6466ms)\r\n✔ historical Fengari alone has an exact 1GiB old-space cap without changing its script (0.5776ms)\r\n✔ a real child phase survives an injected silent timeout and removes both temporary files (92.6686ms)\r\n✔ entry cleanup always closes its runtime and preserves an existing replay failure (1.7184ms)\r\n✔ foreign, truncated and missing phase receipts cannot borrow progress or mask the original timeout (14.2855ms)\r\n✔ successful historical calls keep their exact result and leave no phase receipt (3.0188ms)\r\n✔ phase cleanup errors remain visible without masking the original child failure (3.8892ms)\r\n✔ runtime replay roots contain independent original files outside the workspace and leave live source and art untouched (2505.2062ms)\r\n✔ runtime snapshots reject original writes through resource aliases and materialization rejects source aliases (3.9103ms)\r\n✔ single-root replay keeps an original private snapshot without allocating a second source root (2275.8736ms)\r\n✔ an original target cannot refresh a non-formal source or absence by rewriting its own hashes (225.5374ms)\r\n✔ the original #372 battle input epoch retains complete fixtures and refuses a refreshed source or absence (468.2249ms)\r\n✔ card-play partitions retain the complete original eleven cases and unchanged per-entry deadline (3.3077ms)\r\n✔ card-play original-body guard rejects assertion loss and duplicate selectors (1.5792ms)\r\n✔ card-play raw discovery rejects missing slices and additional family entries (0.8996ms)\r\n✔ card-play group coverage rejects an omitted or duplicated group after splitting (0.6703ms)\r\nℹ tests 18\r\nℹ suites 0\r\nℹ pass 18\r\nℹ fail 0\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 5700.8911\r\n",
+    "afterScope": "Real original slice3 run after phase recording changes and before review cleanup-only correction; not a performance comparison. Cleanup helper correction is covered by the final 18 contracts, not another sampling run.",
+    "finalRunnerContracts": "✔ only fourteen exact frozen fixtures and the two-capture differential are historical (1.9991ms)\r\n✔ all original historical inputs reject foreign edits independently of current implementation maintenance (3178.5785ms)\r\n✔ historical child keeps original total deadlines, buffer, signals and full error output (9.5427ms)\r\n✔ historical Fengari alone has an exact 1GiB old-space cap without changing its script (0.3961ms)\r\n✔ a real child phase survives an injected silent timeout and removes both temporary files (89.281ms)\r\n✔ entry cleanup always closes its runtime and preserves an existing replay failure (0.7103ms)\r\n✔ foreign, truncated and missing phase receipts cannot borrow progress or mask the original timeout (4.0113ms)\r\n✔ successful historical calls keep their exact result and leave no phase receipt (9.0196ms)\r\n✔ phase cleanup errors remain visible without masking the original child failure (2.3531ms)\r\nℹ tests 9\r\nℹ suites 0\r\nℹ pass 9\r\nℹ fail 0\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 3478.4055\r\n"
+  },
+  "findings": [
+    "Six required fresh Host setups consumed11.969s of13.448s Lua in the profiled call.",
+    "Static import experiment225ms and private materialization/build2-3s do not explain hosted31.291s.",
+    "Archived generated Data/Layout use require and are not cleared per setup; repeated compilation cache is unsupported.",
+    "Profile8653 samples: luaV_execute17.92%, moveresults17.87%, adjust_top14.75%, GC3.72%; does not establish the hosted cause.",
+    "Short pipe experiment retained console.error and writeSync markers on this machine; missing hosted stdout alone cannot locate the timeout.",
+    "New random per-call atomic phase file binds runId/script/start and is used only on child infrastructure error, never as a passing replay receipt.",
+    "Local10.553s after vs15.936s before is not a claimed performance improvement; implementation changes diagnostics only.",
+    "Review caught and fixed a new cleanup hazard: a diagnostic write failure cannot skip runtime.close; an existing replay error remains the primary error. Actual helper contracts inject phase and close failures.",
+    "The prior real 300ms timeout probe remains historical evidence only. The committed contract now lets a real child write its phase and exit, then injects ETIMEDOUT at the spawn boundary, avoiding a new cold-start performance gate.",
+    "The final entry records lua-finished only on zero status, preserving original failed Lua output from later diagnostic IO errors. The last runner-only rerun is9/9; prior root5/partition4 contracts remain unchanged."
+  ],
+  "pending": [
+    "Independent exact combined review",
+    "Necessary current candidateFull/queue/develop verification",
+    "Actual cause of hosted31.291s",
+    "Official import/ready/device evidence"
+  ]
+}

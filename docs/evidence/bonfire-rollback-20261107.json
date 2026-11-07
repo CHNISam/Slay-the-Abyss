@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "scope": "Bonfire reward-before-removal, late refusal/throw rollback and retry; no production edit",
+  "base": "de218e5c4d8a8f71c9641e3499c8d6943c0b82ea",
+  "node": "24.18.0",
+  "fixture": "tests/lua/act1_event_content.lua",
+  "fixtureGitBlob": "4080372c17b5db35565a9ce3bc6e7e95338eae75",
+  "rawWindowsFixtureSha256": "11ceb15b535a501fb0e7b735d51c35fe51e8b7ddc3357ae7422c3a4bd997ef9a",
+  "command": "node scripts/test-lua.mjs tests/lua/act1_event_content.lua",
+  "result": {
+    "durationMs": 13350,
+    "maxBufferBytes": 1048576,
+    "timeoutMs": 30000,
+    "failed": 0,
+    "originalCases": 20,
+    "passed": 22
+  },
+  "negativeControls": {
+    "productionSourceSha256": "e7d43e9ae6a9aaf9d23654fff3455d0fcb81974c0fc25c766290b76b44793908",
+    "fixtureSha256": "11ceb15b535a501fb0e7b735d51c35fe51e8b7ddc3357ae7422c3a4bd997ef9a",
+    "results": [
+      {
+        "name": "remove-before-reward",
+        "status": "killed",
+        "exitCode": 1,
+        "sourceSha256": "e83ba4d0374be7b3a98928af5380d9ea83d3e07b7f63fe69e5fd3a9587f769b0",
+        "expectedFailure": "10 ~= 90",
+        "originalCasesCompleted": 20,
+        "log": "build/bonfire-remove-before-reward.log"
+      },
+      {
+        "name": "ignore-remove-refusal",
+        "status": "killed",
+        "exitCode": 1,
+        "sourceSha256": "0977f3fb2f8c984c95330d030b8561a50c8e97c9540566561b1cb4b203320c65",
+        "expectedFailure": "true ~= false",
+        "originalCasesCompleted": 20,
+        "log": "build/bonfire-ignore-remove-refusal.log"
+      }
+    ]
+  },
+  "throwOrderControl": {
+    "status": "killed",
+    "mode": "throw only",
+    "originalCasesCompleted": 20,
+    "expectedFailure": "10 ~= 90",
+    "exitCode": 1,
+    "log": "build/bonfire-throw-order.log",
+    "productionAndFixtureUnchanged": true
+  },
+  "evidenceNote": "Source SHA256 fields identify raw Windows bytes; Git blob also binds checkout-independent fixture. Negative controls ran in private build copies and retained all original cases.",
+  "logs": [
+    {
+      "bytes": 2247,
+      "name": "bonfire-green.log",
+      "sha256": "2e61e807349d672f42cac5dea47c0020096c9e87a982b8a834bc1048a45df204"
+    },
+    {
+      "bytes": 2452,
+      "name": "bonfire-remove-before-reward.log",
+      "sha256": "3aeac4d7f211e60247b3f074a4ee24ccef11db7f763e0f30609fc5b487af0a4b"
+    },
+    {
+      "bytes": 2457,
+      "name": "bonfire-ignore-remove-refusal.log",
+      "sha256": "ea8db66afb1d8baad3cbaf6e1c2bddf21ce7bc7ddaf26c12a2bbcc041cb6f3b6"
+    },
+    {
+      "bytes": 2452,
+      "name": "bonfire-throw-order.log",
+      "sha256": "3aeac4d7f211e60247b3f074a4ee24ccef11db7f763e0f30609fc5b487af0a4b"
+    },
+    {
+      "bytes": 2456,
+      "name": "verify-bonfire.mjs",
+      "sha256": "9ff96c4de3a7982392beb2f5b9e7975aa8dde1c06f000c0d87dd065f42c1f7c4"
+    },
+    {
+      "bytes": 1472,
+      "name": "verify-bonfire-throw.mjs",
+      "sha256": "7b8fbdc4ca3acabcee67a43ba6232421f2cb4c26e2bd9f7e9ec27bcfe530ac65"
+    }
+  ],
+  "validation": {
+    "native": "not_run",
+    "independentReview": "bonfire-rollback-readonly-review-20261107; no blocking findings",
+    "full": "pending",
+    "mobile": "not_run"
+  }
+}
