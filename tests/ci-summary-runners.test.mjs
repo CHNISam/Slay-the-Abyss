@@ -25,7 +25,7 @@ test('only the lightweight impact planner and two required summaries use slim', 
     const body = job(name);
     assert.match(body, /^    runs-on: ubuntu-slim$/m);
     assert.match(body, /^    timeout-minutes: 2$/m);
-    assert.match(body, /^    if: always\(\)$/m);
+    assert.match(body, /^    if: \$\{\{ !cancelled\(\) \}\}$/m);
     assert.doesNotMatch(body, /continue-on-error:|^    name:/m);
     if(name==='engineering-posix')assert.doesNotMatch(body,/uses:|permissions:/m);
     else{

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-05 07:58'
-updated_date: '2026-11-07 05:36'
+updated_date: '2026-11-07 05:42'
 labels: []
 milestone: m-7
 dependencies: []
@@ -62,4 +62,6 @@ PR516来源Full通过，但同树原生队列Windows1的JS和Lua均成功后，�
 已实现Full Windows45/POSIX30分钟硬guard，原30/20为性能目标；当前forecast仅诊断，全部唯一覆盖/非法成本/safety断言保持。Lua默认90/120/180秒集中，历史UI及Sapphire早退入口同步，显式timeout/buffer/heap/worker不变。专项首轮44/45（误改历史负控已恢复，原失败保留），仅修正项+新增逆投影2/2；当前库存1/1。默认runner专项首轮28/29（新逆层CR匹配错误，原失败保留），仅受影响diagnostics10/10。其余已通过游戏回归不重跑，ci-runtime组合合同与最终独审进行中。
 
 集中defaults已合入：普通90、battle/host120、重型180秒，Sapphire90秒，真实早退入口同步。ci-runtime组合首轮8/9，发现此前Power/Shop新增floor遗漏；按固定完整收据单独认证新floor，原8local+1hosted合同保留，针对项1/1通过。Full原有同run/HEAD/BASE failed-only证据链经独审确认可复用，无重试框架或规则变更；#542重复旧Full仅请求取消，实际末尾汇总排队未冒充terminal。最终独审和精确来源/队列/合后Full仍待。
+
+Owner要求本轮尽快收尾结束，停止Act1延伸。最后实修：旧run取消后always汇总排队堵住同PR新run，已用原生force-cancel清除精确过期550f并读回completed/cancelled；两汇总改!cancelled()，普通失败/漏片仍原shell拒绝，取消不再占并发组。仅验证当前6文件，原失败日志保留，业务回归未重跑；最终候选待GitHub正常验证，不提前Done。
 <!-- SECTION:NOTES:END -->

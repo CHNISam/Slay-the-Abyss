@@ -15,6 +15,10 @@ export function beforeExecutionTimeoutWorkflow(text){
   ['    # Separate hosted VMs keep generated files isolated and retain the original\n    # 20-minute budget. Weighted files execute once, serially per VM.',
    '    # Separate hosted VMs keep generated files isolated. Twenty minutes is a\n    # performance target; the hard guard allows host variance. Files execute once.'],
   ['    runs-on: ubuntu-24.04\n    timeout-minutes: 20\n','    runs-on: ubuntu-24.04\n    timeout-minutes: 30\n'],
+  ['    needs: [impact, rules, fast, presentation, engineering-posix]\n    if: always()\n',
+   '    needs: [impact, rules, fast, presentation, engineering-posix]\n    if: ${{ !cancelled() }}\n'],
+  ['    needs: [impact, engineering-posix-shards, fast]\n    if: always()\n',
+   '    needs: [impact, engineering-posix-shards, fast]\n    if: ${{ !cancelled() }}\n'],
  ].map(pair=>pair.map(value=>value.replaceAll('\n',eol)));
  if(changes.every(([,after])=>text.split(after).length===2))
   for(const [before,after]of changes)text=text.replace(after,before);

@@ -220,7 +220,8 @@ test('reviewed workflow inverse rejects partial wiring and preserves original ar
   workflow.replace('run: node scripts/publish-full-quality.mjs','run: echo forged'),
   workflow.replace('fast, presentation, engineering-posix]','fast]')])assert.equal(beforeAutoMergeWorkflow(drift),null);
  const drift=workflow.replace('timeout-minutes: 30','timeout-minutes: 31');
- assert(beforeAutoMergeWorkflow(drift).includes('timeout-minutes: 31'),'unrelated regression must remain visible to old guards');
+ const projected=beforeAutoMergeWorkflow(drift);
+ assert(projected===null||projected.includes('timeout-minutes: 31'),'unrelated regression must remain visible or fail closed');
 });
 
 test('execution slack restores only the complete approved workflow edit for historical guards',()=>{
@@ -232,9 +233,11 @@ test('execution slack restores only the complete approved workflow edit for hist
   assert.ok(old.includes('runs-on: ubuntu-24.04'+eol+'    timeout-minutes: 20'));
   for(const drift of [source.replace('75 || 45','75 || 46'),
    source.replace('timeout-minutes: 30','timeout-minutes: 31'),
+   source.replace('if: ${{ !cancelled() }}','if: success()'),
    source.replace('Files execute once.','Files execute twice.')])
    assert.equal(beforeExecutionTimeoutWorkflow(drift),drift,'partial or unreviewed edit remains visible');
   const drift=source.replace('contents: read','contents: write');
   assert.ok(beforeExecutionTimeoutWorkflow(drift).includes('contents: write'));
+  assert.equal((old.match(/^    if: always\(\)$/gm)??[]).length,2,'restore both original summary guards only');
  }
 });

@@ -370,7 +370,7 @@ jobs:
     # Preserve the required check name. A skipped/cancelled/missing shard must
     # never turn the aggregate green; fail-fast=false collects all shard results.
     needs: [impact, rules, fast, presentation, engineering-posix]
-    if: always()
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-slim
     timeout-minutes: 2
     permissions:
@@ -513,7 +513,7 @@ jobs:
   engineering-posix:
     # Preserve the required check name and reject every non-success outcome.
     needs: [impact, engineering-posix-shards, fast]
-    if: always()
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-slim
     timeout-minutes: 2
     steps:

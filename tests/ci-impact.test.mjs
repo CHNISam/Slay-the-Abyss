@@ -87,6 +87,8 @@ test('actual required gate commands reject every missing, failed, cancelled or s
       assert.ifError(r.error);
       assert.notEqual(r.status, 0, `${job}/${mode} cannot accept ${status || 'missing'} plan`);
     }
-    assert.match(body, /if: always\(\)/);
+    // A status function still runs the gate on failed/skipped dependencies;
+    // cancellation must release obsolete runs instead of queuing a summary.
+    assert.match(body, /^    if: \$\{\{ !cancelled\(\) \}\}$/m);
   }
 });
