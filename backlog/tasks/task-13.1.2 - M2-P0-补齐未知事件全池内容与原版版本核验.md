@@ -1,11 +1,11 @@
 ---
 id: TASK-13.1.2
 title: 补齐第一幕比赛可用事件与自然流程
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 16:11'
-updated_date: '2026-11-01 12:07'
+updated_date: '2026-11-07 03:47'
 due_date: '2026-10-28'
 labels:
   - p0
@@ -13,6 +13,7 @@ labels:
   - rule-parity
   - implementation-gap
   - partially-implemented
+  - 待验
 milestone: m-6
 dependencies:
   - TASK-13.1.1
@@ -120,4 +121,6 @@ PR334离线CI收口：失败源为launch-content未纳入完整来源外层，�
 2026-10-31 最终纯离线合证：原25目录与Note获准延期保持，24第一幕身份已有完整原池公开完成；two_act_selection公开原生mock递归每个可见合法选项，结合各真实handler精确代价/结果和同一事务入口、资格阈值与回滚，逐字复核足以关闭AC3，不因缺统一表或未穷举无穷组合否定已证事实。对应源码在完整d3 CI和最终本地合证范围；新最终HEAD仍须CI。配对转化官方验收、自然遇齐及用户旧次seed/两幕实机软锁复验AC5/6/8继续未完成。独立依据归档closing-audits/final-offline-ac-reconciliation.json。
 
 2026-11-01阶段收尾：用户明确确认本轮已打Tag并进入master，发版阶段到此结束。已交付的M3核心实现不重做；本任务仅将剩余未验要求转由M5遗留严格验收承接，保留原状态、范围、全部AC及历史证据，不把发版确认等同逐条严格验收通过，也不重新阻塞已接受的v1.0.0。本次不打包、不追发布回执、不创建新门禁或新期限。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

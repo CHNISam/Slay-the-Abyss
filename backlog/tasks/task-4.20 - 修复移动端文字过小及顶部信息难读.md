@@ -1,12 +1,13 @@
 ---
 id: TASK-4.20
 title: 修复移动端文字过小及顶部信息难读
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-10-31 23:38'
-updated_date: '2026-11-03 15:29'
-labels: []
+updated_date: '2026-11-07 03:47'
+labels:
+  - 待验
 milestone: m-8
 dependencies: []
 references:
@@ -49,4 +50,6 @@ ordinal: 135000
 
 2026-11-01 R2：165组真实Lua选中布局安全区与1/5/10手牌动态hover热区定向通过；当前选中抬升已有底沿clamp，未证实须改坐标。长卡面与触屏/瞄准/实机完整正文仍待同候选核验；不以扇形未选裁切当作已修。
 2026-11-03 赛后排期：m-5 → M7 产品体验；任务状态与未验 AC 保留。未定新截止日。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

@@ -1,12 +1,13 @@
 ---
 id: TASK-86
 title: 让回归合同只约束必要行为和候选完整性
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-10-29 12:26'
-updated_date: '2026-10-30 19:25'
-labels: []
+updated_date: '2026-11-07 03:48'
+labels:
+  - 待验
 dependencies: []
 priority: medium
 ordinal: 128000
@@ -43,4 +44,6 @@ Agent C读取PR336真实失败，区分历史快照与行为回归；仅对证�
 2026-10-31本轮治理：历史矩阵改在完整原始输入隔离树执行，现行动态Host另验；保留全部原source/oracle及变异负例。Nodes纯历史5/5为47.524s，PR323纯历史5/5为29.603s；原CI372.02/76.82s环境不同，不作严格倍数。原预算runtime代表4入口约5–15s通过；不再每次重复26个UI来源的重复逆变换。实际读源探针证明无关输入1次读，等价输入仍152次完整读且改脏关联owner严格拒绝；最终完整CI仍待。
 
 2026-10-31进一步明确历史责任：旧preMulti动作仍写教学字幕，与冻结fixture空提示断言本不自洽；找到Git38f4原始同body/support输入，固定1837路径整体身份，仅battle_ui七入口使用，原80frame/seeds/断言不变，主控battle1实跑33.660s通过。drag/22scene仍原032来源；单snapshot去掉重复原树写入，drag1/2为16.916/19.567s，22场景深比较26.097s通过，原30/60/120预算保留。当前input/runtime/真实validator保持当前代码，历史source不代替当前验收。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

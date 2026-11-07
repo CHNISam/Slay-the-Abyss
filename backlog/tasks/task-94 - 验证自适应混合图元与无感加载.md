@@ -1,15 +1,16 @@
 ---
 id: TASK-94
 title: 验证自适应混合图元与无感加载
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-10-31 10:47'
-updated_date: '2026-11-01 15:00'
+updated_date: '2026-11-07 03:48'
 labels:
   - art
   - technical-spike
   - competition-deferred
+  - 待验
 dependencies: []
 references:
   - docs/backlog-details/PLANNING-CONSOLIDATION-20261031.md
@@ -47,4 +48,6 @@ ordinal: 134000
 本轮范围不含新拟合引擎、大 benchmark、官方导入、设备性能或生产接入；背景源预览在当前工作树为 LFS 指针，明确拒绝作为图片输入。
 
 离线审计结果见 experiments/art-tech-lab/baseline-audit/README.md、results/comparison.png 与 results/results.json：strike/defend/bash 同源 144×64，918/835/916 矩形，既有 compact 编码逐字节复现；MAE 15.408/12.847/14.077，PSNR 19.927/20.949/20.653dB。已查看实际对照图，compact 明显丢失细节，不称同画质胜出。5项定向测试通过，含确定性、LFS指针/非法输入拒绝与已知误差校验。只是离线生成成本，不是官方加载/FPS。完整仓库CI、官方GIA、设备及混合算法未验证；父级AC保持未勾，待独审。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

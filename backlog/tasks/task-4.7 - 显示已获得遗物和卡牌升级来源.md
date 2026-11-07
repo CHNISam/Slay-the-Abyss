@@ -1,12 +1,13 @@
 ---
 id: TASK-4.7
 title: 显示已获得遗物和卡牌升级来源
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 14:39'
-updated_date: '2026-11-01 12:06'
-labels: []
+updated_date: '2026-11-07 03:47'
+labels:
+  - 待验
 milestone: m-5
 dependencies: []
 references:
@@ -75,4 +76,6 @@ PR336收口复审：原CI40871514608仅game_ui_result_gestures.lua在30秒超时
 2026-10-31 最后纯离线验收收口：原生成UI图标/中文/42件分页/状态绑定、map/battle同HUD入口和不覆盖6项通过；此前7a七遗物战后残计数F1确影响真实次数，现c07+6b公共victory/全敌逃/Smoke→reward/map源-1隐藏及下战重置已非作者窄审通过，方可勾7。不是只拿给定counter夹具当真实值；2/3/6手机与同候选设备仍未验。 依据及原始运行/源身份见docs/evidence/m3-final-acceptance-20261031/，最终精确HEAD CI及正常PR合并另核，不代替官方或设备。
 
 2026-11-01阶段收尾：用户明确确认本轮已打Tag并进入master，发版阶段到此结束。已交付的M3核心实现不重做；本任务仅将剩余未验要求转由M4体验与设备改进承接，保留原状态、范围、全部AC及历史证据，不把发版确认等同逐条严格验收通过，也不重新阻塞已接受的v1.0.0。本次不打包、不追发布回执、不创建新门禁或新期限。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

@@ -1,11 +1,11 @@
 ---
 id: TASK-29
 title: 让出牌、受击和敌人行动都有反馈
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 23:29'
-updated_date: '2026-10-29 16:51'
+updated_date: '2026-11-07 03:48'
 due_date: '2026-10-28'
 labels:
   - P1
@@ -49,3 +49,9 @@ ordinal: 38000
 
 2026-10-30 战斗表现升级：按 docs/plans/2026-10-30-battle-life.md，从最新develop隔离卡牌、待机、技能和独立回归；共享接线由中控统一，规则/RNG不改。复用本任务及29.1，不重复建任务。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-11-07 看板核对（develop 2c85bc61）：未发现实现提交或在途 PR，状态由 In Progress 归 To Do（未开始）；范围与原 AC 不变。
+<!-- SECTION:NOTES:END -->

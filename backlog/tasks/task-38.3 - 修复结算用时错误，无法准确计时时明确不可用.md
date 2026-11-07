@@ -1,13 +1,14 @@
 ---
 id: TASK-38.3
 title: 复验结算用时修复与异常降级
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-11-01 02:05'
-updated_date: '2026-11-03 15:31'
+updated_date: '2026-11-07 03:48'
 labels:
   - release-qa-20261101
+  - 待验
 milestone: m-8
 dependencies: []
 references:
@@ -48,4 +49,6 @@ PR #442 已合入结算用时修复及定向回归；投稿已完成，后续保
 2026-11-03 基于远端568da4e4独立复验PR442：计时安全JS1/1、真实GameUI16例及退出两片15例通过。官方入口强制暂不可用，不拿模拟计数证明官方准确时间；正常/非法值、胜败退出及新局边界已验。AC1/2据本轮离线证据勾选，AC3同候选实体手机NOT_RUN，整体仍In Progress。详见docs/backlog-details/TASK-38.3-REVERIFY-20261103.md。
 
 2026-11-03 补齐退出按钮＋不可用时钟直接组合：生产Host真实开局与首房敌人致死，原生退出触摸链取消/重启、ServerSignal抛错后取消重开重试与单次发送；新增JS包装本轮1/1通过。AC2退出缺口已补证，AC3手机仍NOT_RUN。原exit专项本轮30秒超时保留、不计通过，详见TASK-38.3-REVERIFY-20261103.md。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

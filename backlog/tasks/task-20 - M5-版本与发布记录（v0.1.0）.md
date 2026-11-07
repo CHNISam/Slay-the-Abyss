@@ -1,13 +1,14 @@
 ---
 id: TASK-20
 title: 保存发布版本、更新说明和投稿凭证
-status: In Progress
+status: To Do
 assignee:
   - Furinya
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-30 22:17'
+updated_date: '2026-11-07 03:47'
 due_date: '2026-10-30'
-labels: []
+labels:
+  - 待验
 milestone: m-0
 dependencies:
   - TASK-6
@@ -73,4 +74,6 @@ PR249评审修正：负责人按现行AGENTS保持Furinya。实际14版宿主遍
 2026-10-28 PR282@2ec8caa完整Quality发现遗漏的呈现合同适配，先前267项选择检查不代表完整通过，初始日志原样保留。修复仅测试侧：从干净5a基线独立采集79543/1215629804，与当前79475/1007819925逐行比较，精确删除公告入口/面板68项visible/SetVisible写入，其余79475项值与全局顺序完全相同，0增加/0替换；专用压缩证据独立保存，不改历史archives/goldens或严格记录器。theme仅逆向恢复旧公告主题并移除版本号新归属，完整恢复旧33f78464主题hash；当前fixture仅更换有证明的断言，逆投影恢复旧9a36c85b完整源码hash。10项实际相关检查全部通过、0跳过，包含逐条真实trace比较和删除/篡改/重排/恢复公告等负例，trace单例17.922秒，原30秒预算不变。不改生产源码、CI或历史凭证，仍待新HEAD完整Quality/官方导入/实机，不勾验收、不Done。
 
 2026-10-31：准备1.0.0正式候选版本字段与玩家说明；release-notes定向27项中21通过、6项Windows符号链接EPERM跳过，非整套CI。contest-2026候选说明加载成功，发布历史为空；真实GUID、官方导入、设备与投稿证据仍待，不创建Tag。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->

@@ -1,14 +1,15 @@
 ---
 id: TASK-4.4
 title: 敌人意图一眼看懂，状态详情改成分组卡片
-status: In Progress
+status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 10:34'
-updated_date: '2026-10-31 16:00'
+updated_date: '2026-11-07 03:47'
 due_date: '2026-10-26'
 labels:
   - awaiting-live
+  - 待验
 milestone: m-5
 dependencies: []
 references:
@@ -74,4 +75,6 @@ PR #304：手机反馈己方与敌方详情关闭不一致，可能为旧线上�
 2026-10-31：PR396@f5af0664意图详情改为最终伤害与必要修正，隐藏基础/力量+0/取整内部链；原数值与随机不变性oracle保留。AC8源码已有实现，同候选PC/手机可读性仍未验，既有AC不变。
 
 2026-10-31 PR432回归合同迁移：先红确认ui_final旧source intent y期望171.333而实际174；旧helper还锁1.15glyph、浮升和伤害左下偏移，未承接新的全文本净空合同。仅修改独立测试，保留原版constructor事实、世界x/root/命中框/单图标身份及6x2多段内容；用独立art/hitbox顶部推导原生净空，核40高数字在图标右侧同高且两框不相交。Node ui-final+原battle-info共4/4通过；另全部61种自然计划intent_face_clearance通过，原8类readability场景及负控未删改。未改生产，未做设备验收。
+
+2026-11-07 看板核对（develop 2c85bc61）：实现类交付已按历史记录保留，剩余 AC 待同候选官方/设备验证；当前无在途 PR，状态由 In Progress 归 To Do（待验）。
 <!-- SECTION:NOTES:END -->
