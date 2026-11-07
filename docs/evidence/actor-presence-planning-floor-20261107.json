@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "kind": "local-complete-file-planning-floor",
+  "notHostedCiMeasurement": true,
+  "file": "tests/actor-presence.test.mjs",
+  "sourceHeadSha": "9624804b44d4773a40c557f02e0b13b3a31f2497",
+  "sourceTreeSha": "3d7ff446596c93fd3b2992005a05d90bdeb20cda",
+  "beforeTimingsLfSha256": "a5841ddaa53d8bc810f9c16ae342ed2de8cb5479bbcb073562d2c6c921ed1b24",
+  "observation": {
+    "kind": "local-complete-file-planning-observation",
+    "notHostedCiMeasurement": true,
+    "file": "tests/actor-presence.test.mjs",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "--test",
+      "--test-concurrency=1",
+      "tests/actor-presence.test.mjs"
+    ],
+    "startedAt": "2026-11-07T06:00:49.462Z",
+    "finishedAt": "2026-11-07T06:01:20.515Z",
+    "durationMs": 31052.666793,
+    "planningFloorMs": 31053,
+    "status": 0,
+    "signal": null,
+    "error": null,
+    "stdoutSha256": "8f78fb8f561199f65fc2d8fbe0ad39a68c845e3a4e0763d451a1cd5fb235c9f7",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "testSha256": "e57ada7c28ed56e0db8078e348b91dcdc3ef914c38b5e3c12e2df8ce0da4681b"
+  },
+  "stdout": "✔ presence query consumers have no transitive Actor or combat execution dependency including deferred imports (5036.070336ms)\n✔ entire presence leaf and both dynamic bridges including nested functions enforce CC15 (2.242175ms)\n✔ actor_presence_contract: complete independent before/current graphs preserve states, aliases, RNG, returns and errors (2712.934699ms)\n✔ act2_party_snapshot: complete independent before/current graphs preserve states, aliases, RNG, returns and errors (6018.702303ms)\n✔ silent_discard_build: complete independent before/current graphs preserve states, aliases, RNG, returns and errors (11577.598083ms)\n✔ abyss_actor_presence: cold query loading does not initialize Actor and early overrides stay visible after facade load (952.219486ms)\n✔ abyss_act2_ai_moves: cold query loading does not initialize Actor and early overrides stay visible after facade load (934.836128ms)\n✔ abyss_act2_summons: cold query loading does not initialize Actor and early overrides stay visible after facade load (860.333714ms)\n✔ abyss_silent_discard_cards: cold query loading does not initialize Actor and early overrides stay visible after facade load (875.636715ms)\n✔ a parsed half-dead targetability regression fails its behavior assertion (541.899396ms)\n✔ a parsed rebirth encounter presence regression fails its behavior assertion (521.721186ms)\n✔ a parsed dead refund regression fails its behavior assertion (778.345816ms)\nℹ tests 12\nℹ suites 0\nℹ pass 12\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 30987.741928\n",
+  "stderr": "",
+  "sourceFiles": {
+    "tests/actor-presence.test.mjs": "e57ada7c28ed56e0db8078e348b91dcdc3ef914c38b5e3c12e2df8ce0da4681b",
+    "tests/helpers/actor-presence-source-inverse.mjs": "0e1a3fca7e4fd3b6bb3eced9bf1adac37eb25d2fdf90ffdb87baf5990ae16495",
+    "src/lua/abyss_actor.lua": "0435754ce97e731da0abaa1aafdbbd035988c09b411c47c192bb3e6ab0133c7a",
+    "src/lua/abyss_actor_presence.lua": "780975ab1e274168e19a8f04cbe27d2e95ab796ab72474fad35a1d8f1ecd440a",
+    "config/architecture.json": "b392acd776674ba2f2f818f2d6a5f841dd974a2fd06308577d04a8ae3e78a5e3",
+    "src/lua/abyss_act2_ai_moves.lua": "794f0bfdd215c57440b19c3d132efdac425b58a4b92ae3f11c62780a5d3570a4",
+    "src/lua/abyss_act2_summons.lua": "f8075f8c6891a8c9dc5ec789cc427c599a5729f5f9b155080d6d6ecf8627ad66",
+    "src/lua/abyss_silent_discard_cards.lua": "13d1b7f47480e3110ddf47cb8dcda80f42c5730b792ae5d4ea61c2db575a33bc",
+    "tests/helpers/actor-presence-source-proof.json": "ac619ef6c12f39d03009d71d04b956e59f571107a9e813c4f25aa003724a6a2a",
+    "tests/helpers/colorless-catalog-before-2ad07111.json.gz": "88c0ab46a951aacc45a2cf8e4a2d2c7a6ac0b5ebc153dcdf87ac600ad6ee8a95",
+    "tests/helpers/actor-presence-process.mjs": "1c987ffbdcf09029f810537b309e7b6dd5f127aa6ff56601a61023c10dae3bee",
+    "tests/helpers/actor-presence-vm.mjs": "4a6138549d473f644fef2803e1f2b01d84a24afb7c3695942c71c1cf8766ad1a",
+    "tests/lua/actor_presence_contract.lua": "f46c56f2a4d038a3ff52e817a0d15c441aced296f4fa67e77dd9d6aeefa98795"
+  },
+  "coverage": "Complete successful local file: 12 tests passed, zero failed, cancelled, skipped or todo; wall-clock CLI observation, not hosted CI or a Full pass.",
+  "sourceFileNormalization": "LF for text; raw bytes for gzip"
+}

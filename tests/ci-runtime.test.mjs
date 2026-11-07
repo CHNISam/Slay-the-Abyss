@@ -178,7 +178,7 @@ test('current timing records preserve all measured corrections without duplicate
   }
   for(const platform of ['win32','linux'])assert.equal(jsPlanningWeights([file],platform)[file],Math.max(timings.js[platform][file]??timings.unknownJsMs,entry.durationMs));
  }
- assert.equal(localFloorCount,8,'all eight original local floor contracts remain checked');assert.equal(Object.keys(timings.jsPlanning.localLowerBounds).length,9);
+ assert.equal(localFloorCount,9,'eight original local floors plus one complete presence observation');assert.equal(Object.keys(timings.jsPlanning.localLowerBounds).length,10);
  assert.ok(jsPlanningWeights(['tests/task77-current-source-layers.test.mjs'],'win32')['tests/task77-current-source-layers.test.mjs']>=394262,'retain the first complete successful hosted floor');
 });
 

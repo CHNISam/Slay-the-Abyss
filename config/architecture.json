@@ -158,6 +158,7 @@
     "abyss_golden_idol_event": "core",
     "abyss_wheel_event": "core",
     "abyss_actor": "core",
+    "abyss_actor_presence": "core",
     "abyss_battle_ui": "ui",
     "abyss_battle_card_view": "ui",
     "abyss_battle_aim_arrow": "ui",
@@ -434,6 +435,12 @@
     {"from":"abyss_writhing_mass","to":"abyss_relic_family_combat","reason":"Only an actual Parasite obtain invokes common before/onObtainCard rules with its owner-matched permanent health adapter."}
   ],
   "dependencyBoundaries": [
+    {
+      "id": "actor-presence-independence",
+      "from": ["abyss_actor_presence", "abyss_act2_ai_moves", "abyss_act2_summons", "abyss_silent_discard_cards"],
+      "forbiddenTargets": ["abyss_actor", "abyss_combat", "abyss_card_actions", "abyss_relic_combat_hooks", "abyss_relic_family_combat"],
+      "reason": "Targetability and encounter presence are read-only. AI decision, summon planning and discard-refund gates consume those predicates without importing Actor lifecycle execution. The full AST closure is guarded by actor-presence.test.mjs, including deferred edges."
+    },
     {
       "id": "relic-combat-session-independence",
       "from": [

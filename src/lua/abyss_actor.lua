@@ -1,5 +1,12 @@
 -- Actor arithmetic and turn status rules; no UI or platform globals.
-local M = {}
+local Presence=require('abyss_actor_presence')
+local function presenceIndex(_,key)
+    if key=='isActive' or key=='isPresent' then return Presence[key] end
+end
+local function presenceNewIndex(self,key,value)
+    if key=='isActive' or key=='isPresent' then Presence[key]=value else rawset(self,key,value) end
+end
+local M=setmetatable({}, {__index=presenceIndex,__newindex=presenceNewIndex})
 local PowerRules = require('abyss_actor_power_rules')
 local Events = require("abyss_events")
 local Act2Powers = require('abyss_act2_powers')
@@ -68,13 +75,6 @@ local function notifyHpLost(state,owner,actor,amount)
 end
 function M.hpLostFromCard(state,actor,amount) notifyHpLost(state,actor,actor,amount) end
 function M.hpLostFromDamage(state,actor,amount) notifyHpLost(state,nil,actor,amount) end
-
-function M.isActive(actor) return actor ~= nil and actor.hp > 0 and not actor.escaped and not actor.halfDead and not actor.isDying end
-
--- A half-dead monster is not targetable, but it has not ended the combat.
-function M.isPresent(actor)
-    return actor~=nil and not actor.escaped and not actor.isDying and (actor.hp>0 or actor.halfDead or actor.awakenedRebirthPending) or false
-end
 
 local function updatePlayerStatusOrder(actor,id,beforeRaw,before)
     if actor.definitionId then return end

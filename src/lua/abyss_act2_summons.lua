@@ -1,5 +1,5 @@
 -- Source summon constructors precede every spawned opening roll and leader roll.
-local A=require('abyss_actor')
+local A=require('abyss_actor_presence')
 local ER=require('abyss_enemy_random')
 local M={}
 local pool={'mad_gremlin','mad_gremlin','sneaky_gremlin','sneaky_gremlin','fat_gremlin','fat_gremlin','shield_gremlin','wizard_gremlin'}
