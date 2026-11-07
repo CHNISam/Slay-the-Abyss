@@ -150,23 +150,27 @@ end
 local function nextRound(op,value,remaining,extra)
  local x=extra or {};x.remaining=remaining;return e(op,value,x)
 end
-function M.planEffect(state,effect,context)
- context=context or {};local op=effect.op
- local p={top={},bottom={},consumeAllEnergy=false,instanceChanges={}}
- local function change(c,key,value)p.instanceChanges[#p.instanceChanges+1]={uid=c.uid,changes={[key]=value}}end
- if op=='growClaws' then
+-- Effect-specific pure planners share one plan result; execution stays with
+-- the existing combat owner. Dependencies are still read at the use site.
+local function change(p,c,key,value)p.instanceChanges[#p.instanceChanges+1]={uid=c.uid,changes={[key]=value}}end
+local planHandlers={}
+function planHandlers.growClaws(p,state,effect,context)
   assert(effect.value==2,'unsupported Claw increment')
   local original=context.instance or state.cardInUse
   assert(original and original.cardId=='claw','missing played Claw')
   local seen={}
-  local function grow(c)if c.cardId=='claw' and not seen[c.uid]then seen[c.uid]=true;change(c,'engineClawBonus',add(integer(c.engineClawBonus or 0),2))end end
+  local function grow(c)if c.cardId=='claw' and not seen[c.uid]then seen[c.uid]=true;change(p,c,'engineClawBonus',add(integer(c.engineClawBonus or 0),2))end end
   grow(original)
   for _,pile in ipairs({state.hand,state.draw,state.discard})do for _,c in ipairs(pile)do grow(c)end end
- elseif op=='loseSteamBlock' then
+end
+
+function planHandlers.loseSteamBlock(p,state,effect,context)
   assert(effect.value==1,'unsupported Steam decrement')
   local c=instanceByUid(state,context.uid or (state.cardInUse and state.cardInUse.uid));assert(c.cardId=='steam_barrier','wrong Steam instance')
-  change(c,'engineBlockLoss',add(integer(c.engineBlockLoss or 0),1))
- elseif op=='reduceStreamlineCost' then
+  change(p,c,'engineBlockLoss',add(integer(c.engineBlockLoss or 0),1))
+end
+
+function planHandlers.reduceStreamlineCost(p,state,effect,context)
   assert(effect.value==1,'unsupported Streamline decrement')
   local c=instanceByUid(state,context.uid or (state.cardInUse and state.cardInUse.uid));assert(c.cardId=='streamline','wrong Streamline instance')
   local def=state.catalog.cards.streamline
@@ -175,24 +179,40 @@ function M.planEffect(state,effect,context)
   local newBase,newTurn
   if turn>0 then newBase=math.max(0,turn-1);newTurn=newBase else newBase=math.max(0,base-1);newTurn=0 end
   p.instanceChanges[1]={uid=c.uid,changes={combatCost=newBase,turnCost=newTurn}}
- elseif op=='aggregateEnergy' then
+end
+
+function planHandlers.aggregateEnergy(p,state,effect)
   assert(effect.value==3 or effect.value==4,'invalid Aggregate divisor')
   p.top[1]=e('energy',math.floor(#state.draw/effect.value))
- elseif op=='autoShields' then
+end
+
+function planHandlers.autoShields(p,_state,effect)
   assert(type(effect.enabled)=='boolean' and effect.fixed==true,'Auto Shields not prepared')
   if effect.enabled then p.top[1]=e('block',integer(effect.value),{fixed=true})end
- elseif op=='blizzardDamage' then
+end
+
+function planHandlers.blizzardDamage(p,_state,effect)
   assert(effect.normalAmounts,'Blizzard not prepared');p.top[1]=e('damageAll',integer(effect.value),{normalAmounts=copy(effect.normalAmounts)})
- elseif op=='chaosOrbs' then
+end
+
+function planHandlers.chaosOrbs(p,_state,effect)
   assert(effect.orbs and #effect.orbs==effect.value,'Chaos not prepared')
   for _,kind in ipairs(effect.orbs)do assert(kinds[kind],'invalid prepared Chaos orb');p.top[#p.top+1]=channel(kind)end
- elseif op=='chillOrbs' then
+end
+
+function planHandlers.chillOrbs(p,_state,effect)
   integer(effect.count);if effect.count>0 then p.top[1]=nextRound('engineChannelRounds',1,effect.count,{orb='frost'})end
- elseif op=='randomEngineAttack' or op=='thunderStrike' then
+end
+
+function planHandlers.randomEngineAttack(p,_state,effect,_context,op)
   local count=op=='thunderStrike' and effect.count or effect.times
   integer(count);integer(effect.value)
   if count>0 then p.top[1]=nextRound('engineRandomRounds',effect.value,count)end
- elseif op=='engineRandomRounds' then
+end
+
+planHandlers.thunderStrike=planHandlers.randomEngineAttack
+
+function planHandlers.engineRandomRounds(p,state,effect,_context,op)
   integer(effect.remaining,1);integer(effect.value)
   local enemies=targets(state)
   if #enemies>0 then
@@ -202,13 +222,19 @@ function M.planEffect(state,effect,context)
    p.top[1]=e('damage',effect.value,{targetId=target.id,normalAmount=integer(Actors.attackAmount(state,state.player,target,effect.value))})
    if effect.remaining>1 then p.top[2]=nextRound(op,effect.value,effect.remaining-1)end
   end
- elseif op=='sunderDamage' then
+end
+
+function planHandlers.sunderDamage(p,_state,effect,context)
   assert(integer(effect.normalAmount) and context.target,'Sunder not prepared')
   p.top[1]=e('damage',effect.value,{normalAmount=effect.normalAmount})
   p.top[2]=e('engineSunderRefund',3,{targetId=context.target.id})
- elseif op=='engineSunderRefund' then
+end
+
+function planHandlers.engineSunderRefund(p,state,effect)
   for _,a in ipairs(state.enemies)do if a.id==effect.targetId and (a.hp<=0 or a.isDying)then p.bottom[1]=e('energy',3)end end
- elseif op=='tempestOrbs' or op=='multiCastOrb' then
+end
+
+function planHandlers.tempestOrbs(p,state,effect,context,op)
   assert(effect.value==0 or effect.value==1,'invalid X upgrade bonus')
   local x=context.energyOnUse;if x==nil or x==-1 then x=state.energy end;integer(x)
   assert(context.freeToPlayOnce==nil or type(context.freeToPlayOnce)=='boolean','invalid X free flag')
@@ -219,15 +245,28 @@ function M.planEffect(state,effect,context)
    p.consumeAllEnergy=context.freeToPlayOnce~=true
    p.bottom[1]=nextRound(op=='tempestOrbs' and 'engineChannelRounds' or 'engineEvokeRounds',1,count,{orb=op=='tempestOrbs' and 'lightning' or nil})
   end
- elseif op=='engineChannelRounds' then
+end
+
+planHandlers.multiCastOrb=planHandlers.tempestOrbs
+
+function planHandlers.engineChannelRounds(p,_state,effect,_context,op)
   integer(effect.remaining,1);assert(kinds[effect.orb],'invalid channel repetition')
   p.top[1]=channel(effect.orb)
   if effect.remaining>1 then p.top[2]=nextRound(op,1,effect.remaining-1,{orb=effect.orb})end
- elseif op=='engineEvokeRounds' then
+end
+
+function planHandlers.engineEvokeRounds(p,_state,effect,_context,op)
   integer(effect.remaining,1)
   p.top[1]=e(effect.remaining==1 and 'evokeOrb' or 'evokeWithoutRemovingOrb',1)
   if effect.remaining>1 then p.top[2]=nextRound(op,1,effect.remaining-1)end
- else return nil end
+end
+
+function M.planEffect(state,effect,context)
+ context=context or {};local op=effect.op
+ local p={top={},bottom={},consumeAllEnergy=false,instanceChanges={}}
+ local plan=planHandlers[op]
+ if not plan then return nil end
+ plan(p,state,effect,context,op)
  return p
 end
 function M.applyLockOn(state,target,amount)

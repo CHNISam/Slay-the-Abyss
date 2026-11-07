@@ -94,6 +94,9 @@ export function reviewRenderComplexity(diagnostics, sources) {
 // Budget only this governance slice and every extracted responsibility module.
 // Unrelated pre-existing Combat/UI hotspots keep their diagnostic reports.
 const responsibilityRoots = {
+  'src/lua/abyss_defect_engine_cards.lua': ['M.planEffect','change',
+    ...["growClaws", "loseSteamBlock", "reduceStreamlineCost", "aggregateEnergy", "autoShields", "blizzardDamage", "chaosOrbs", "chillOrbs", "randomEngineAttack", "engineRandomRounds", "sunderDamage", "engineSunderRefund", "tempestOrbs", "engineChannelRounds", "engineEvokeRounds"]
+      .map(name=>`planHandlers.${name}`)].map(name=>`function '${name}'`),
   'src/lua/abyss_act1_events.lua': ['M.choose','bonfireReward','bonfireCurseReward',
     ...['sssserpent','big_fish','accursed_blacksmith','scrap_ooze','transmogrifier','bonfire']
       .map(name=>`choiceHandlers.${name}`)].map(name=>`function '${name}'`),

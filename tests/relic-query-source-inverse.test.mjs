@@ -1,3 +1,4 @@
+import {preDefectPlanSource} from './helpers/defect-plan-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync} from 'node:fs';
@@ -16,7 +17,7 @@ const hash=s=>createHash('sha256').update(s).digest('hex');
 // Exercise the unchanged N35 source epoch itself. The new three-owner outer
 // epoch and single-owner extractions have their own fresh-owner,
 // missing/foreign-source and behavior contracts.
-const read=p=>preM7FinalSource(p,preWatcherExecutionSource(p,preInventoryResponsibilitiesSource(p,normalize(readFileSync(p,'utf8')))));
+const read=p=>preM7FinalSource(p,preWatcherExecutionSource(p,preInventoryResponsibilitiesSource(p,preDefectPlanSource(p,normalize(readFileSync(p,'utf8'))))));
 const bytes=readFileSync('tests/helpers/relic-query-baseline-391306af.json.gz');
 assert.equal(hash(bytes),'df89de0002fee32b9300489b95432ce4287c467435af804f481241ee3c3bbdf2');
 const frozen=JSON.parse(gunzipSync(bytes));
