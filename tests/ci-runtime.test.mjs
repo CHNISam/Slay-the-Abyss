@@ -12,6 +12,7 @@ import { partition, jsShard, jsPlanningWeights, discoverJs, timings } from '../s
 import { shardLuaScripts } from '../scripts/test-lua.mjs';
 import {historicalTest,readHistoricalBaselineSource} from './helpers/historical-baseline-inputs.mjs';
 import {qualityShardMatrices} from '../scripts/ci-quality-shape.mjs';
+import {cardUpgradeCiPlanningProof,validateCardUpgradeCiPlanningSource} from './helpers/card-upgrade-ci-planning-source-inverse.mjs';
 
 historicalTest('scheduler inverse preserves the frozen runner for LF/CRLF and rejects unrelated changes', () => {
   const source = readBeforeMobileQaSource('scripts/test-lua.mjs').replaceAll('\r\n', '\n');
@@ -140,6 +141,8 @@ test('real executor preserves test failure, continues later files, reports timin
 
 test('current timing records preserve all measured corrections without duplicate JSON keys',()=>{
  const raw=readFileSync('scripts/ci-test-timings.json','utf8');
+ const priorFloors=JSON.parse(validateCardUpgradeCiPlanningSource(raw)).jsPlanning.localLowerBounds;
+ assert.equal(Object.keys(priorFloors).length,9,'the exact prior epoch keeps eight local floors and Hosted RunMax');
  assert.equal((raw.match(/^  "jsCorrections":/gm)||[]).length,1,'one unambiguous correction inventory');
  assert.equal(timings.jsCorrections.length,3);
  for(const entry of timings.jsCorrections){
@@ -160,7 +163,7 @@ test('current timing records preserve all measured corrections without duplicate
  }
  assert.equal(timings.jsCalibration.runId,41097231681);assert.equal(timings.jsCalibration.runAttempt,1);
  assert.equal(timings.jsCalibration.headSha,'568d47a8f51164ed9e3cfb0656f57f2d832ed546');
- let localFloorCount=0;
+ let localFloorCount=0,cardUpgradeFloorCount=0;
  for(const [file,entry]of Object.entries(timings.jsPlanning.localLowerBounds)){
   if(file==='tests/run-max-hp-config-inverse.test.mjs'){
    assert.equal(entry.environment,'hosted Windows');assert.equal(entry.durationMs,889638);
@@ -173,12 +176,30 @@ test('current timing records preserve all measured corrections without duplicate
    assert.equal(sourceRecord.step.status,'completed');assert.equal(sourceRecord.step.conclusion,'success');assert.equal(sourceRecord.conclusion,'cancelled');
    assert.equal(entry.sourceLog,observation.logPath);assert.equal(entry.sourceLogSha256,observation.logSha256);assert.equal(entry.sourceJobId,observation.jobId);assert.equal(entry.sourceRunId,sourceRecord.runId);assert.equal(entry.sourceHeadSha,sourceRecord.headSha);
    assert.equal(receipt.censoredLinuxSource.measurementImported,false);assert.equal(timings.js.linux[file],254137,'retain the actual Linux observation independently of the cross-platform planning floor');
+  }else if(file===cardUpgradeCiPlanningProof.floorKey){
+   cardUpgradeFloorCount++;
+   assert.equal(file,'tests/card-upgrade-ownership.test.mjs');assert.equal(entry.durationMs,28384);
+   assert.equal(entry.sourceReceipt,'docs/evidence/m7-card-upgrade-planning-floor-20261107.json');
+   const bytes=readFileSync(entry.sourceReceipt,'utf8').replaceAll('\r\n','\n'),receipt=JSON.parse(bytes);
+   assert.equal(createHash('sha256').update(bytes).digest('hex'),entry.sourceReceiptSha256);
+   assert.equal(receipt.file,file);assert.equal(receipt.durationMs,cardUpgradeCiPlanningProof.floorMs);
+   assert.equal(receipt.notHostedCiMeasurement,true);assert.equal(receipt.sourceHead,'51f77e3fb21770a6fbb72bae9d602d631e2e7843');
+   const maximum=Math.max(...receipt.observations.filter(row=>row.status===0).flatMap(row=>[row.wallMs,row.nodeDurationMs]));
+   assert.equal(maximum,28383.44112300547);assert.equal(Math.ceil(maximum),entry.durationMs);
+   const final=receipt.observations.at(-1);
+   assert.deepEqual([final.status,final.tests,final.passed,final.failed],[0,21,21,0]);
+   assert.equal(createHash('sha256').update(final.rawLog).digest('hex'),final.logSha256);
+   assert.deepEqual(entry,{durationMs:28384,environment:'local cloud Linux; not GitHub Hosted',coverage:receipt.coverage,
+    kind:'Planning-only local lower bound from the maximum retained successful complete-file outer wall or Node duration; not a hosted measurement.',
+    sourceLog:final.log,sourceLogSha256:final.logSha256,sourceHeadSha:receipt.sourceHead,
+    sourceReceipt:'docs/evidence/m7-card-upgrade-planning-floor-20261107.json',sourceReceiptSha256:createHash('sha256').update(bytes).digest('hex')});
   }else{
    assert.match(entry.environment,/local/);assert.match(entry.kind,/not .*hosted/);localFloorCount++;
   }
+  if(file!==cardUpgradeCiPlanningProof.floorKey)assert.deepEqual(entry,priorFloors[file],'every prior floor stays exact; unknown floors are rejected');
   for(const platform of ['win32','linux'])assert.equal(jsPlanningWeights([file],platform)[file],Math.max(timings.js[platform][file]??timings.unknownJsMs,entry.durationMs));
  }
- assert.equal(localFloorCount,8,'all eight original local floor contracts remain checked');assert.equal(Object.keys(timings.jsPlanning.localLowerBounds).length,9);
+ assert.equal(localFloorCount,8,'all eight original local floor contracts remain checked');assert.equal(cardUpgradeFloorCount,1,'exactly one authenticated CardUpgrade local floor');assert.equal(Object.keys(timings.jsPlanning.localLowerBounds).length,10);
  assert.ok(jsPlanningWeights(['tests/task77-current-source-layers.test.mjs'],'win32')['tests/task77-current-source-layers.test.mjs']>=394262,'retain the first complete successful hosted floor');
 });
 
