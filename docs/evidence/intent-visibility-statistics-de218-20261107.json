@@ -1,0 +1,18 @@
+{
+  "independentPythonRecomputation": "matched",
+  "samples": 48,
+  "summary": {
+    "before": {
+      "p50Ms": 4910.377999999997,
+      "p95Ms": 6858.817999999999
+    },
+    "after": {
+      "p50Ms": 4695.673600000009,
+      "p95Ms": 5887.820500000009
+    }
+  },
+  "pairedGeometricWallRatio": 0.9466706039137727,
+  "upperOneSided95": 0.9902718967375186,
+  "meetsOriginalCriterion": true,
+  "verifierSource": "import json, math\nfrom pathlib import Path\n\nreport = json.loads(Path('build/intent-visibility/controlled.json').read_text())\np = report['protocol']\nassert report.get('completedAt') and 'failure' not in report\nsamples = report['samples']\nassert len(samples) == 2 * (p['warmupPairs'] + p['measuredPairs']) == 48\nassert all(s['status'] == 0 and s['error'] is None for s in samples)\nassert len({s['workloadSha256'] for s in samples}) == 1\nfor pair in range(1, 25):\n    assert [s['side'] for s in samples if s['pair'] == pair] == (['before', 'after'] if pair % 2 else ['after', 'before'])\nmeasured = [s for s in samples if s['phase'] == 'measurement']\nvalues = {side: [s['wallMs'] for s in measured if s['side'] == side] for side in ('before', 'after')}\ndef quantile(v, fraction):\n    return sorted(v)[math.ceil(len(v) * fraction) - 1]\nlogs = []\nfor pair in range(5, 25):\n    sides = {s['side']: s['wallMs'] for s in measured if s['pair'] == pair}\n    logs.append(math.log(sides['after'] / sides['before']))\nstate = p['bootstrapSeed'] & 0xffffffff\nbootstrap = []\nfor _ in range(p['bootstrapIterations']):\n    total = 0\n    for _ in logs:\n        state = (1664525 * state + 1013904223) & 0xffffffff\n        total += logs[math.floor((state / 4294967296) * len(logs))]\n    bootstrap.append(math.exp(total / len(logs)))\nupper = quantile(bootstrap, .95)\nratio = math.exp(sum(logs) / len(logs))\nsummary = {side: {'p50Ms': quantile(v, .5), 'p95Ms': quantile(v, .95)} for side, v in values.items()}\nanalysis = report['analysis']\nassert math.isclose(upper, analysis['upperOneSided95'], rel_tol=1e-12)\nassert math.isclose(ratio, analysis['pairedGeometricWallRatio'], rel_tol=1e-12)\nfor side, row in summary.items():\n    assert all(value == analysis['summary'][side][key] for key, value in row.items())\naccepted = upper <= 1 and all(summary['after'][key] <= summary['before'][key] for key in ('p50Ms', 'p95Ms'))\nassert accepted == analysis['meetsPredeclaredCriterion']\nresult = {'independentPythonRecomputation': 'matched', 'samples': 48, 'summary': summary,\n          'pairedGeometricWallRatio': ratio, 'upperOneSided95': upper, 'meetsOriginalCriterion': accepted}\nPath('build/visibility-independent-statistics.json').write_text(json.dumps(result, indent=2) + '\\n')\nprint(json.dumps(result))\n"
+}

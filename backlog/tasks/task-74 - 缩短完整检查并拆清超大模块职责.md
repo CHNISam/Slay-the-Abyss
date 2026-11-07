@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-11-06 04:25'
+updated_date: '2026-11-07 01:47'
 labels: []
 milestone: m-7
 dependencies: []
@@ -73,6 +73,8 @@ ordinal: 118000
 2026-11-04 领域切片：按已合设计先固定入队与公开替换合同，提取Combat Reactions；复用AST边检查职责边界，记录同基线SCC/边/复杂度，独立复审及完整CI后再收口。
 
 2026-11-05接续已合PR514：核对最终head/base/squash tree、PR/队列/push完整检查与Licenses，本轮独立重验旧新差分、变异和完整分片，按证据关闭最终交付AC；历史schema5产物未取得单独记录，不重做实现、不代验设备。
+
+2026-11-07：先恢复最新develop Full并集成现有成果；对本轮核心所有权审计找到的Bonfire晚失败合同缺口，仅补既有Act1夹具的false/throw、完整恢复和可重试回归，不为CC数字拆分事件状态机。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -165,6 +167,10 @@ a73新基线重放后49/49定向测试通过（42源码/架构消费者+7反应/
 PR521随后纳入74.20六核心职责与Power叶模块，父AC11涉及本轮当前HEAD，故经CLI重新取消勾选，等待新组合精确Full与实际合后。PR520的Host/drain历史交付和74.17/18 Done保持，不把旧dedb绿灯借给新源码。
 
 PR521来源Full通过后，merge_group 42157763480的rules5/16真实失败：Sapphire冻结夹具30秒总预算内准备约16.3秒，Lua首分片剩13.694秒超时，已过1至6组。已通过merge:auto --pause暂停并读回391306af。定位历史准备重复写1795+1779两套树；正在保留原历史epoch、fresh校验、21组断言及30秒预算，改为单私有树先全计划后写入。验收继续未勾，失败日志与修复验证按本轮留证。
+
+本轮最新de218e5c架构重采333模块/5385完整测量，CC>15为237、>30为58、最大75，SCC81+15；Lua源码与已合final-core逐文件相同。现有Run/Session owner及Actor/CardActions到Session禁边保持，未发现新P0，不宣称全库债务清零。Bonfire窄回归22/22通过13.350秒，原30秒预算；两个独立副本语义负控捕获提前移除及吞掉晚false，throw顺序另核。生产源码不改，当前独审、Full和合后验收待，AC11不勾。
+
+Bonfire技术证据持久化于docs/evidence/bonfire-rollback-20261107.json；两个新用例由另一执行者只读独审PASS，核对green/三个负控真实失败与来源摘要，未重复测试。当前集成仍待精确SHA与远端Full。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
