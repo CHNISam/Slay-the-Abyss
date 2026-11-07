@@ -4,8 +4,8 @@ title: 收敛核心依赖环与领域状态所有权
 status: In Progress
 assignee:
   - Furinya
-created_date: '2026-11-06 01:46'
-updated_date: '2026-11-06 12:02'
+created_date: 2026-11-06 01:46
+updated_date: '2026-11-07T04:49:00Z'
 labels: []
 milestone: m-7
 dependencies: []
@@ -42,6 +42,8 @@ ordinal: 161000
 6.仅收口当前PR521：按Full42176327678逐项修复drain、旧语义变异定位与历史预算输入适配，保留原oracle、case、断言和预算；对本轮真实超时仅用已完成成功文件实测校正分配并采用可容纳全库存的最小布局。独立复审、新SHA完整CI、原生队列和实际合后验收完成后结束，不开启下一架构切片或新任务。
 
 本轮最终有界切片：将Codex选牌生成与提交移回现有Combat选择事务owner，Codex仅保留开选和校验，消除其回导CardActions；原状态、RNG、事件与晚失败回滚逐字对照，保留完整图与残余，不扩大架构范围。
+
+2026-11-07 用户明确继续架构治理。本线仅接 Session 奖励准备能力切片：potion_rewards、event_combat、event_combat_routes 直接消费已有遗物只读查询/奖励预览固定槽，不加载完整 Session 命令门面；保留普通动态替换、nil恢复及RNG/状态/错误轨迹。先红后绿依赖防回退与旧新完整来源对照，复采完整SCC/CC；协调者统一集成公共历史来源层和门禁，不改原认领、不覆盖Combat/Watcher并行切片。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -68,4 +70,8 @@ D5来源扩展34项及独立有界审查PASS：23个391完整before另核Git blo
 本轮最终有界Codex切片已将生成、升级、插牌与完成移回Combat既有选择快照事务，Codex只做开选/校验。固定全图333模块1920引用；Combat SCC82→81、内部626→623位置/402→400对，Session15/62/41不变。原Act2遗物及Codex晚失败回滚通过；完整图和源码身份见docs/evidence/m7-final-core-20261106.json。独审/实际合前后Full仍待，不勾交付AC。
 
 最终本地完整收据补证：新8/8及原35-owner4/4通过；V4/Codex两个独立旧新VM合计79完整状态图检查点、每侧52,016,680字节一致，含V4直接execute付款后和伤害后部分写入、原错误对象。当前候选只提供本轮集成，不另开PR；独审及实际Full/队列/合后证据由主控同一候选绑定，AC仍不提前完成。
+
+2026-11-07 Session 奖励能力切片在自有隔离树实现：药水奖励与两类事件战斗准备直接消费已有查询/预览槽，未新增生产模块。实际同算法SCC 81/15→81/12，Session内部位置62→52；333模块5385/5385完整测量，CC>30=58、>15=237、最大75不变，14旧告警。84旧新VM完整图检查点逐字相等，既有事件8项与新来源3项通过；精确独审及组合历史来源/Full交付继续，所有AC保持未勾。技术证据 docs/evidence/m7-session-reward-capabilities-20261107.json。
+
+2026-11-07 最新基线2ad07111统一接入Session奖励能力与Watcher职责切片。实采SCC81/15→81/12；未触及并行PR541的Power/商店源码，Power显示顺序成果保留待其后接续。N35与Session来源7/7、隔离闭包4/4及静态/指引/Backlog通过；组合精确独审与PR Full、正常入队和合后Full继续，不勾AC。
 <!-- SECTION:NOTES:END -->
