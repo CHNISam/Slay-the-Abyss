@@ -435,6 +435,12 @@
   ],
   "dependencyBoundaries": [
     {
+      "id": "session-reward-capabilities",
+      "from": ["abyss_event_combat", "abyss_event_combat_routes", "abyss_potion_rewards"],
+      "forbiddenTargets": ["abyss_relic_hooks", "abyss_boss_relics", "abyss_uncommon_relics", "abyss_shop_relics", "abyss_run"],
+      "reason": "Reward preparation consumes shared query/preview slots; permanent relic commands and transaction ownership remain in Session."
+    },
+    {
       "id": "relic-combat-session-independence",
       "from": [
         "abyss_actor",

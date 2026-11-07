@@ -4,7 +4,8 @@ local R=require('abyss_sts_random')
 local Gold=require('abyss_gold_rewards')
 local Potion=require('abyss_potion_rewards')
 local Cards=require('abyss_card_pool')
-local Hooks=require('abyss_relic_hooks')
+local Queries=require('abyss_relic_queries').hooks
+local Rewards=require('abyss_relic_family_combat').common
 local M={}
 local groups={
  ['3 Sentries']={act=1,id='event_dead_sentries',enemies={'sentry','sentry','sentry'},positions={{-330,25},{-85,10},{140,30}},eliteTrigger=true},
@@ -67,7 +68,7 @@ local function addRelic(run,api,result,options)
  return true
 end
 local function fixedRelic(run,result,id)
- local expected=Hooks.owns(run,'red_mask')and'circlet'or'red_mask'
+ local expected=Queries.owns(run,'red_mask')and'circlet'or'red_mask'
  if id~=expected then return false,'event_reward_mismatch'end
  for _,definition in ipairs(run.data.relics.relics)do
   if definition.id==id and definition.rarity=='special'then
@@ -162,7 +163,7 @@ function M.finish(run)
  run.cardRng,run.cardRarityOffset=cardRng,offset
  local rewards={gold=context.gold,goldClaimed=context.gold==0,relics=C.copy(context.relics),cards=choices,
   cardUpgrades=upgrades,potion=potion,cardResolved=false,manualContinue=true}
- Hooks.previewCardReward(run,rewards,true)
+ Rewards.previewCardReward(run,rewards,true)
  return rewards
 end
 function M.escape(run)
