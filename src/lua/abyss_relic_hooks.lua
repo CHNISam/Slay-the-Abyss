@@ -1,5 +1,5 @@
 -- Session relic commands and lifecycle bridges; delegated APIs share fixed slots.
-local A=require('abyss_actor')
+local Potion=require('abyss_relic_potion_hooks')
 local S=require('abyss_sts_random')
 local Queries=require('abyss_relic_queries').hooks
 local Combat=require('abyss_relic_combat_hooks')
@@ -10,12 +10,14 @@ local ruleFields={gainGold=true,beforeObtainCard=true,onPreviewObtainCard=true,p
 local function queryIndex(_,key)
  if queryFields[key]then return Queries[key]
  elseif combatFields[key]then return Combat[key]
- elseif ruleFields[key]then return Rules[key]end
+ elseif ruleFields[key]then return Rules[key]
+ elseif key=='onUsePotion'then return Potion[key]end
 end
 local function queryNewIndex(self,key,value)
  if queryFields[key]then Queries[key]=value
  elseif combatFields[key]then Combat[key]=value
  elseif ruleFields[key]then Rules[key]=value
+ elseif key=='onUsePotion'then Potion[key]=value
  else rawset(self,key,value)end
 end
 local M=setmetatable({}, {__index=queryIndex,__newindex=queryNewIndex})
@@ -114,14 +116,6 @@ function M.obtainCirclet(run)
   run.relics=run.relics or {};run.relics[#run.relics+1]='circlet';c.circlet=1
  end
  return true,c.circlet
-end
-
-function M.onUsePotion(run,combat)
- if not M.owns(run,'toy_ornithopter')then return end
- if combat then
-  if not A.isActive(combat.player)then return end
-  require('abyss_combat_reactions').enqueue(combat,{op='heal',value=5,relic='toy_ornithopter'},combat.player)
- else healRun(run,5)end
 end
 
 function M.onRest(run,createCardReward)

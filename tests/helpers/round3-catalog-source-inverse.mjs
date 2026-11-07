@@ -1,3 +1,4 @@
+import {preparePotionCallbackRetirement} from './potion-callback-source-inverse.mjs';
 import {preIntegrationSource,prepareIntegrationRetirement} from './pr372-integration-source.mjs';
 import {preNativeMonsterArtSource} from './native-monster-art-source-inverse.mjs';
 // Exact outer replay of the reviewed catalog boundary. Historical bytes stay frozen.
@@ -49,16 +50,18 @@ export function preRound3CatalogSource(path,source,{readSource=path=>readFileSyn
 export function prepareRound3CatalogModuleRetirement(directory,{sourceRoot=process.cwd()}={}){
  assert.notEqual(resolve(directory),resolve(sourceRoot),'catalog retirement requires a separate historical destination');
  const target=join(directory,added);
- if(!existsSync(target))return ()=>{};
+ if(!existsSync(target))return preparePotionCallbackRetirement(directory,{sourceRoot});
  const realTarget=realpathSync(target),liveModule=join(sourceRoot,added);
  assert.notEqual(realTarget,realpathSync(liveModule),'catalog retirement requires a separate historical module');
  assert.equal(hash(normalize(readFileSync(target,'utf8'))),round3CatalogProof.files[added].afterSha256,
   'unreviewed catalog module destination');
+ const retirePotion=preparePotionCallbackRetirement(directory,{sourceRoot});
  return ()=>{
   assert.equal(realpathSync(target),realTarget,'catalog module destination changed after preparation');
   assert.notEqual(realTarget,realpathSync(liveModule),'catalog retirement requires a separate historical module');
   assert.equal(hash(normalize(readFileSync(target,'utf8'))),round3CatalogProof.files[added].afterSha256,
    'unreviewed catalog module destination');
+  retirePotion();
   rmSync(target);
  };
 }

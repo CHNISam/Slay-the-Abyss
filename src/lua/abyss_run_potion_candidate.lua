@@ -2,7 +2,7 @@
 local Combat=require('abyss_combat')
 local Inventory=require('abyss_inventory')
 local EventRandom=require('abyss_sts_random')
-local RelicHooks=require('abyss_relic_hooks')
+local RelicHooks=require('abyss_relic_potion_hooks')
 local M={}
 
 function M.eventRestricted(run)

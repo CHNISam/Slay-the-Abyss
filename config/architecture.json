@@ -1,5 +1,6 @@
 {
   "layers": {
+    "abyss_relic_potion_hooks": "core",
     "abyss_relic_combat_hooks": "core",
     "abyss_relic_family_combat": "core",
     "abyss_purge_candidates": "core",
@@ -434,6 +435,12 @@
     {"from":"abyss_writhing_mass","to":"abyss_relic_family_combat","reason":"Only an actual Parasite obtain invokes common before/onObtainCard rules with its owner-matched permanent health adapter."}
   ],
   "dependencyBoundaries": [
+    {
+      "id": "potion-callback-session-independence",
+      "from": ["abyss_relic_potion_hooks", "abyss_run_potion_candidate"],
+      "forbiddenTargets": ["abyss_run", "abyss_nodes", "abyss_relic_hooks", "abyss_boss_relics", "abyss_uncommon_relics", "abyss_rare_relics", "abyss_shop_relics", "abyss_relic_choices", "abyss_relic_pending", "abyss_relic_card_rewards", "abyss_run_potions", "abyss_run_rooms", "abyss_run_settlement", "abyss_event_combat", "abyss_event_combat_routes", "abyss_potion_rewards"],
+      "reason": "Staged potion effects and post-use relic callbacks must not load Session command or room owners; the existing Run potion coordinator owns commit and settlement."
+    },
     {
       "id": "relic-combat-session-independence",
       "from": [

@@ -5128,6 +5128,16 @@
         "sourceLogSha256": "93be917d80bf8d66c844b590c237d97c3812ab9e2ac6f6ac225b46a5bf1f8853",
         "sourceReceipt": "docs/evidence/run-catalog-planning-20261107.json",
         "sourceReceiptSha256": "7f9979256080cee4e4df92c8d97a45fbf82228d2891e999720d8f270f74ec7e3"
+      },
+      "tests/potion-callback.test.mjs": {
+        "durationMs": 29232,
+        "environment": "local cloud Linux",
+        "coverage": "10/10 complete file passed; 0 skipped; 31 complete-graph checkpoints",
+        "kind": "Local complete-run planning estimate only; not a hosted Linux or Windows measurement.",
+        "sourceLog": "build/potion-catalog-delivery/potion-complete.log",
+        "sourceLogSha256": "385c2fb5042e1a2040c5134382fb1a4504d402e7b82790120f2fde8e780445d6",
+        "sourceReceipt": "docs/evidence/potion-callback-planning-20261107.json",
+        "sourceReceiptSha256": "436eaef9eea243cd593671d924535a78794f0c65e28b983adf4d9f99b66702c1"
       }
     }
   },
