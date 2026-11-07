@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-06 01:46'
-updated_date: '2026-11-06 12:02'
+updated_date: '2026-11-07 08:47'
 labels: []
 milestone: m-7
 dependencies: []
@@ -42,6 +42,8 @@ ordinal: 161000
 6.仅收口当前PR521：按Full42176327678逐项修复drain、旧语义变异定位与历史预算输入适配，保留原oracle、case、断言和预算；对本轮真实超时仅用已完成成功文件实测校正分配并采用可容纳全库存的最小布局。独立复审、新SHA完整CI、原生队列和实际合后验收完成后结束，不开启下一架构切片或新任务。
 
 本轮最终有界切片：将Codex选牌生成与提交移回现有Combat选择事务owner，Codex仅保留开选和校验，消除其回导CardActions；原状态、RNG、事件与晚失败回滚逐字对照，保留完整图与残余，不扩大架构范围。
+
+2026-11-07接续药水遗物回调切片：fresh develop2ad07111与开放540–547/活动worker核对，RelicHooks、RunPotionCandidate及新PotionHooks无占用。将onUsePotion原outside治疗/Combat入队回调归独立职责，保留原Hooks公开动态槽、Queries.owns和Actor读时机；候选不再回导整个Session Hooks。完整图、旧新动态/失败/队列证据与来源/库存窄测，独审后交整合，不触Actor待批上传，不重复Full或改AC。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -68,4 +70,8 @@ D5来源扩展34项及独立有界审查PASS：23个391完整before另核Git blo
 本轮最终有界Codex切片已将生成、升级、插牌与完成移回Combat既有选择快照事务，Codex只做开选/校验。固定全图333模块1920引用；Combat SCC82→81、内部626→623位置/402→400对，Session15/62/41不变。原Act2遗物及Codex晚失败回滚通过；完整图和源码身份见docs/evidence/m7-final-core-20261106.json。独审/实际合前后Full仍待，不勾交付AC。
 
 最终本地完整收据补证：新8/8及原35-owner4/4通过；V4/Codex两个独立旧新VM合计79完整状态图检查点、每侧52,016,680字节一致，含V4直接execute付款后和伤害后部分写入、原错误对象。当前候选只提供本轮集成，不另开PR；独审及实际Full/队列/合后证据由主控同一候选绑定，AC仍不提前完成。
+
+2026-11-07：独立药水回调切片完成本地实现：RelicHooks 通过固定动态槽委派给 PotionHooks，RunPotionCandidate 不再回导 Session。完整图实测 Combat81不变、Session15→14，CC>30仍58/最大75；新行为10、来源54、库存8、既有JS3及4个raw药水fixture通过。完整行为本地26,661.777321ms，仅作26662ms planning floor候选，未改Hosted观测或预算；无Full、无用户设备，未上传Actor。证据 docs/backlog-details/M7-POTION-CALLBACK-20261107.md 与对应机器JSON；独审绑定提交外精确SHA，组合发布/合并仍待主控原门禁，不结清本任务AC。
+
+2026-11-07：本地从已公开 Run #548精确0bc05027叠入已审Potion e2ecb751，保留完整333源码/四owner桥和全部旧floor。组合完整5403测量、Combat81/Session14、CC>30为56（Run收益），Potion完整10/10与31全图检查点通过。新floor29232仅本组合完整Node runner下限，外层wall未单独采集；原26662外层wall收据保留。完整规划POSIX旧20min仅余367ms，未称Hosted成功。只本地提交待独审/发布，owner/status/AC不变。见M7-POTION-CATALOG-DELIVERY-20261107。
 <!-- SECTION:NOTES:END -->

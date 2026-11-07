@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-06 01:46'
-updated_date: '2026-11-07 08:28'
+updated_date: '2026-11-07 08:47'
 labels: []
 milestone: m-7
 dependencies: []
@@ -65,4 +65,6 @@ D5同源全采333模块5370/5370测量，CC>15降至240、>30仍61、最大75、
 最终三入口CC为validateEffects10、apply8、executeRoot11；17个入口/helper全部纳入CC15，新helper最大15，Codex全模块及新提交helper同门禁。新增8项最终8/8，原35-owner来源4/4保持，当前本轮集成候选待精确独审/Full，不启动下一切片。
 
 RunCardCatalog独立职责切片：prepare59→12、prepareSelected37→3，35项整模块最高14并受CC15；333模块5401完整测量，>30 58→56、>15 237→235、最大75，SCC81/15不变。新14/14、CI与源注册19/19，独审14冷热组254469条读写/元表/动态依赖轨迹和6故障身份保持。71,327ms真实完整文件planning floor保留原预算；托管Full、精确HEAD独审与合并待最终收口，不勾AC。
+
+2026-11-07：Run #548原生产、14项已审回放和71327ms floor全部保留，独立组合Potion后完整重采334模块5403/5403测量、1807 governed、CC>15=235/>30=56/max75，CC降幅仍归Run。JS/Lua真实库存并集749/1403，原九floor+Run+Potion共十一；无Actor或新RunMax诊断。旧30/20与#541拟议45/30预算分别报告，未跑Full/未发布/未合并，AC保持未勾。见M7-POTION-CATALOG-DELIVERY-20261107。
 <!-- SECTION:NOTES:END -->

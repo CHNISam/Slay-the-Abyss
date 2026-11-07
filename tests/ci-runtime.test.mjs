@@ -1,3 +1,4 @@
+import {potionCallbackFloorKey,verifiedPotionCallbackFloor} from './helpers/potion-callback-planning.mjs';
 import {runCatalogFloorKey,verifiedRunCatalogFloor} from './helpers/run-catalog-planning.mjs';
 import {preIntegrationSource} from './helpers/pr372-integration-source.mjs';
 import test from 'node:test';
@@ -176,12 +177,14 @@ test('current timing records preserve all measured corrections without duplicate
    assert.equal(receipt.censoredLinuxSource.measurementImported,false);assert.equal(timings.js.linux[file],254137,'retain the actual Linux observation independently of the cross-platform planning floor');
   }else if(file===runCatalogFloorKey){
    assert.deepEqual(entry,verifiedRunCatalogFloor());
+  }else if(file===potionCallbackFloorKey){
+   assert.deepEqual(entry,verifiedPotionCallbackFloor());
   }else{
    assert.match(entry.environment,/local/);assert.match(entry.kind,/not .*hosted/);localFloorCount++;
   }
   for(const platform of ['win32','linux'])assert.equal(jsPlanningWeights([file],platform)[file],Math.max(timings.js[platform][file]??timings.unknownJsMs,entry.durationMs));
  }
- assert.equal(localFloorCount,8,'all eight original local floor contracts remain checked');assert.equal(Object.keys(timings.jsPlanning.localLowerBounds).length,10);
+ assert.equal(localFloorCount,8,'all eight original local floor contracts remain checked');assert.equal(Object.keys(timings.jsPlanning.localLowerBounds).length,11);
  assert.ok(jsPlanningWeights(['tests/task77-current-source-layers.test.mjs'],'win32')['tests/task77-current-source-layers.test.mjs']>=394262,'retain the first complete successful hosted floor');
 });
 

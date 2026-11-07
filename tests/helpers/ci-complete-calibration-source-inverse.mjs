@@ -1,3 +1,4 @@
+import {prePotionCallbackPlanningSource} from './potion-callback-planning.mjs';
 // Exact test-only outer epoch. No live reads, production fallback or cache.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -20,6 +21,7 @@ const currentPlacementSha256=Object.freeze({
 // This placement-only bridge returns the existing complete approved source.
 // It adds no live owner, fixture dependency or permission-bearing cache.
 export function preCurrentCiPlacementSource(path,source){
+ source=prePotionCallbackPlanningSource(path,source);
  if(!Object.hasOwn(currentPlacementSha256,path)||typeof source!=='string'||hash(source.replaceAll('\r\n','\n'))!==currentPlacementSha256[path])return source;
  return ciCompleteCalibrationProof.files[path].afterSource;
 }
