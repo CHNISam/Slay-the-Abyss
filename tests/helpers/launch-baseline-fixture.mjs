@@ -16,7 +16,7 @@ export function launchBaselineFixture() {
   try{
   after(() => rmSync(root, { recursive: true, force: true }));
   const implementationRoot=fileURLToPath(new URL('../..',import.meta.url));
-  const realRoot=realpathSync(root);
+  const realRoot=realpathSync.native(root);
   process.chdir(root);
   // Keep the complete original filesystem unchanged while today's helpers
   // freshly validate their linked owners. Only this invocation owns the plan.
@@ -37,8 +37,8 @@ export function launchBaselineFixture() {
   const excluded=Object.keys(inputs).filter(path=>!/^(?:data|src|scripts|config|tools|tests\/lua)\//.test(path));
   // A changed source, removed input or filesystem alias cannot borrow the
   // earlier archive validation. Preflight every mutation before the first one.
-  assert.equal(realpathSync(root),realRoot,'historical launch root changed during planning');
-  const mounts=new Map(['tests/fixtures','node_modules'].map(path=>[path,realpathSync(resolve(implementationRoot,path))]));
+  assert.equal(realpathSync.native(root),realRoot,'historical launch root changed during planning');
+  const mounts=new Map(['tests/fixtures','node_modules'].map(path=>[path,realpathSync.native(resolve(implementationRoot,path))]));
   const directories=new Set(),files=[],links=[];
   for(const path of Object.keys(inputs)){
     let parent=path;
@@ -47,13 +47,17 @@ export function launchBaselineFixture() {
   function inspect(directory,prefix=''){
     for(const name of readdirSync(directory)){
       const path=prefix+name,target=historicalInputPath(root,path),entry=lstatSync(target);
+      const actual=realpathSync.native(target);
       if(mounts.has(path)){
-        assert(entry.isSymbolicLink(),'declared historical oracle link: '+path);
-        assert.equal(realpathSync(target),mounts.get(path),'historical oracle link owner: '+path);
+        // Some Windows junctions resolve correctly through the native API but
+        // lstat classifies their reparse point as a directory. Require a real
+        // alias to the freshly resolved owner, never an ordinary private copy.
+        assert.notEqual(actual,historicalInputPath(realRoot,path),'declared historical oracle link: '+path);
+        assert.equal(actual,mounts.get(path),'historical oracle link owner: '+path);
         links.push(path);continue;
       }
       assert(!entry.isSymbolicLink(),'original launch source must be a private file: '+path);
-      assert.equal(realpathSync(target),historicalInputPath(realRoot,path),'original launch source cannot alias another owner: '+path);
+      assert.equal(actual,historicalInputPath(realRoot,path),'original launch source cannot alias another owner: '+path);
       if(entry.isDirectory()){
         assert(directories.has(path),'unregistered original launch input: '+path);
         inspect(target,path+'/');
@@ -81,7 +85,7 @@ export function launchBaselineFixture() {
     const target=historicalInputPath(root,path);rmSync(target);
     let directory=dirname(target);
     while(directory!==root&&readdirSync(directory).length===0){
-      assert.equal(realpathSync(directory),join(realRoot,relative(root,directory)),'private launch directory cannot alias another owner');
+      assert.equal(realpathSync.native(directory),join(realRoot,relative(root,directory)),'private launch directory cannot alias another owner');
       rmdirSync(directory);directory=dirname(directory);
     }
   }
