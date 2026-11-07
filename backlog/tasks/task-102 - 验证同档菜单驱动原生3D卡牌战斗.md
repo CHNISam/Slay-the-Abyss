@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-07 10:29'
-updated_date: '2026-11-07 11:18'
+updated_date: '2026-11-07 11:39'
 labels: []
 dependencies: []
 references:
@@ -47,4 +47,6 @@ ordinal: 165000
 用户官方截图证实3f61866d试玩校验失败：出生点{0,2000.4,0}越界。根因是误用默认模板停放高度。bb331ebc统一改为[0,.4,0]并同步怪物/地板、增加坐标守卫与独立出生点读回；7项原生场景测试通过，正在重建。旧包不再交付，实机ready仍未验证。截图保存在.artifacts/native-3d-launch-failure.png。
 
 坐标修复完整候选85472c95构建/348模块/UI与出生点独立读回通过，hash758437bcb617e4e28572db6fa3fdf2113ec48cdf245b1489a3788e717928292e。简短路径 F:/New folder/.artifacts/原生3D实验-坐标修复-85472c95.gil 哈希一致。新增7项测试及小修独立复审通过，官方启动仍未验收。
+
+用户手动实测日志109已只读核查，当前85472c95 marker+ready匹配，官方1918外部Lua348/348一致。真实双向通信37请求53回执通过；TweenB完成，首次局部调用A84/B20。攻击/受击共8次animation_timeout且0completed，3D性能组正确作废，不能判整体通过。详情experiments/native-3d-lab/REAL-CLIENT-RESULTS.md，任务保持In Progress。
 <!-- SECTION:NOTES:END -->

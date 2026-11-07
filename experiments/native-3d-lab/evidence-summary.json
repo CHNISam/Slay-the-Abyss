@@ -24,13 +24,16 @@
     "uiReadback": "pass",
     "offlineRulesAndLifecycle": "pass",
     "independentReview": "pass_no_unresolved_P1_P2",
-    "officialImport": "not_run",
-    "runtimeReady": "not_run",
-    "realLuaServerRoundtrip": "not_run",
-    "nativeVisualAndTweenFluency": "not_run",
+    "officialImport": "observed_current_build_ready_and_external_source_match",
+    "runtimeReady": "pass",
+    "realLuaServerRoundtrip": "pass",
+    "nativeVisualAndTweenFluency": "tween_completed_visual_fluency_unverified",
     "mobilePerformance": "unverified",
     "fullLocalCheck": "not_run",
-    "remoteCI": "pending"
+    "remoteCI": "pending",
+    "nativeAttackHitEndpoint": "failed_8_animation_timeouts_0_completed",
+    "pairedPerformance": "invalid_3d_animation_failure"
   },
-  "decision": "continue_native_validation_do_not_migrate_production"
+  "decision": "continue_native_validation_do_not_migrate_production",
+  "realClientLogSha256": "07929fd9ecf7244923a236a4431a7949887e80b571c1213df972ba99a80b2a45"
 }
