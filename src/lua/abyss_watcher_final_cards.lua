@@ -236,108 +236,181 @@ function M.choose(combat,state,token,index)
  state.pendingChoice=nil
  return true
 end
+-- Card-local effect responsibilities. Combat/Actor/queue keep their existing
+-- ownership; shared choice operations retain their exact pause/return protocol.
+local function upgradeLessonCard(combat,state)
+ local eligible={};for _,c in ipairs(state.masterDeck)do if combat.canUpgrade(state,c)then eligible[#eligible+1]=c end end
+ if #eligible>0 then
+  local c=eligible[require('abyss_sts_random').randomInt(assert(state.miscRng,'missing Lesson Learned misc RNG'),#eligible-1)+1]
+  assert(combat.upgrade(state,c),'Lesson permanent upgrade failed')
+  state.masterDeckChanges=state.masterDeckChanges or {};state.masterDeckChanges[c.uid]=combat.copy(c)
+  require('abyss_events').emit(state,'permanent_upgrade',{uid=c.uid,cardId=c.cardId,source='lesson_learned'})
+ end
+end
+local executeHandlers={}
+function executeHandlers.gainPower(_,state,effect,_,Actor)
+ assert(M.availablePowers[effect.status],'unsupported Watcher final Power')
+ if effect.status=='deva_form' then state.devaEnergyGain=state.player.statuses.deva_form and state.devaEnergyGain+1 or 1 end
+ Actor.applyPower(state,state.player,effect.status,effect.value,state.player)
+ return true
+end
+
+function executeHandlers.endTurnEarly(_,state)
+ state.endTurnAfterCard=true
+ return true
+end
+
+function executeHandlers.skipEnemiesTurn(_,state)
+ state.skipMonsterTurn=true
+ return true
+end
+
+function executeHandlers.establishment(combat,state,effect)
+ for _,c in ipairs(state.hand)do
+  local d=combat.cardDefinition(state,c)
+  if (d.selfRetain or c.retain)and not d.costMode and d.cost>=0 then
+   local base=c.combatCost or combat.combatBaseCost(state,c)
+   local turn=c.turnCost or c.costForTurn or base
+   c.combatCost=math.max(0,(turn>0 and turn or base)-effect.value)
+   c.turnCost=turn>0 and c.combatCost or 0
+  end
+ end
+ return true
+end
+
+function executeHandlers.omega(combat,state,effect,_,Actor)
+ for _,enemy in ipairs(state.enemies)do if Actor.isActive(enemy)then combat.retaliate(state,nil,enemy,effect.value)end end
+ return true
+end
+
+function executeHandlers.generate(_,state,effect)
+ require('abyss_build_actions').makeCard(state,effect)
+ return true
+end
+
+function executeHandlers.openChoice(_,state,effect,_,_,op)
+ assert(not state.pendingChoice,'another choice is pending')
+ state.choiceSerial=(state.choiceSerial or 0)+1
+ local kind=op=='watcherFinalWish' and 'wish' or 'foreign'
+ local cards={}
+ if kind=='foreign' then cards=foreignChoices(state)
+ else for i,id in ipairs({'become_almighty','fame_and_fortune','live_forever'})do cards[i]={uid=i,cardId=id,upgraded=effect.value==1}end end
+ state.pendingChoice={op='watcher_final',kind=kind,token=state.choiceSerial,turn=state.turn,using=state.pendingPlay.uid,
+  uids={1,2,3},cards=cards,upgraded=effect.value==1}
+ require('abyss_events').emit(state,'card_choice',{op=kind,token=state.choiceSerial})
+ return 'pause'
+end
+
+function executeHandlers.lessonLearned(combat,state,effect,_,Actor)
+ local enemy=target(state)
+ if Actor.isActive(enemy)then
+  local before=enemy.hp
+  combat.damage(state,state.player,enemy,effect.value,nil,nil,effect.normalAmount)
+  if before>0 and (enemy.hp<=0 or enemy.isDying) and not enemy.halfDead and not enemy.minion and (enemy.statuses.minion or 0)<=0 then
+   upgradeLessonCard(combat,state)
+  end
+ end
+ return true
+end
+
+function executeHandlers.pileChoice(combat,state,effect,_,_,op)
+ return require('abyss_pile_choice').begin(state,op=='watcherFinalMeditate' and 'meditate' or 'omniscience',
+  op=='watcherFinalMeditate' and effect.value or 1,state.combatGeneration or 0,combat)
+end
+
+function executeHandlers.deusExMachina(combat,state,effect,queue)
+ if queue then
+  top(state,queue,{op='makeTempCard',cardId='miracle',pile='hand',value=effect.value})
+  top(state,queue,{op='exhaustHand',uid=effect.uid})
+ else
+  local actions=require('abyss_card_actions')
+  actions.enqueue(state,{op='makeTempCardInHand',card='miracle',value=effect.value},nil,nil,nil,true)
+  for i,c in ipairs(state.hand)do if c.uid==effect.uid then table.remove(state.hand,i);actions.exhaust(combat,state,c);break end end
+ end
+ return true
+end
+
+function executeHandlers.spiritShield(combat,state,effect)
+ combat.block(state,state.player,effect.value*#state.hand)
+ return true
+end
+
+function executeHandlers.conjureBlade(_,state,effect)
+ local context=assert(state.pendingPlay,'missing Conjure Blade context')
+ local x=context.energyOnUse+effect.value
+ if require('abyss_relic_queries').hooks.owns(state,'chemical_x')then x=x+2 end
+ local uid=state.nextUid
+ require('abyss_build_actions').makeCard(state,{cardId='expunger',pile='draw',randomSpot=true,value=1})
+ for _,c in ipairs(state.draw)do if c.uid==uid then c.expungerHits=x end end
+ if not context.freeToPlayOnce then state.energy=0 end
+ return true
+end
+
+function executeHandlers.judgment(_,state,effect,_,Actor)
+ local enemy=target(state)
+ if Actor.isActive(enemy)and enemy.hp<=effect.value then
+  local before=enemy.hp
+  Actor.instantKill(state,enemy)
+  require('abyss_enemy_ai').hpLost(state,enemy,before,true)
+  require('abyss_enemy_ai').flush(state)
+ end
+ return true
+end
+
+function executeHandlers.expungerHits(combat,state,effect,queue,Actor)
+ local enemy=target(state)
+ local hits=state.cardInUse.expungerHits or 0
+ if hits>0 and Actor.isActive(enemy)then
+  top(state,queue,{op='watcherFinalDamageHit',value=effect.value,remaining=hits,targetId=enemy.id,
+   normalAmount=combat.attackAmount(state,state.player,enemy,effect.value)})
+ end
+ return true
+end
+
+function executeHandlers.ragnarok(combat,state,effect,queue,Actor,op)
+ local alive={};for _,enemy in ipairs(state.enemies)do if Actor.isActive(enemy)then alive[#alive+1]=enemy end end
+ if #alive>0 then
+  if effect.times>1 then top(state,queue,{op=op,value=effect.value,times=effect.times-1})end
+  local enemy=alive[combat.cardRandom(state,#alive)]
+  top(state,queue,{op='damage',value=effect.value,targetId=enemy.id,
+   normalAmount=combat.attackAmount(state,state.player,enemy,effect.value)})
+ end
+ return true
+end
+
+function executeHandlers.damageHit(_,state,effect,queue,_,op)
+ if effect.remaining>1 then
+  top(state,queue,{op=op,value=effect.value,remaining=effect.remaining-1,targetId=effect.targetId,normalAmount=effect.normalAmount})
+ end
+ top(state,queue,{op='damage',value=effect.value,targetId=effect.targetId,normalAmount=effect.normalAmount})
+ return true
+end
+
+local executeByOp={
+ gainWatcherFinalPower=executeHandlers.gainPower,
+ watcherFinalEndTurnEarly=executeHandlers.endTurnEarly,
+ watcherFinalSkipEnemiesTurn=executeHandlers.skipEnemiesTurn,
+ watcherFinalEstablishment=executeHandlers.establishment,
+ watcherFinalOmega=executeHandlers.omega,
+ watcherFinalGenerate=executeHandlers.generate,
+ watcherFinalWish=executeHandlers.openChoice,
+ watcherFinalForeignInfluence=executeHandlers.openChoice,
+ watcherFinalLessonLearned=executeHandlers.lessonLearned,
+ watcherFinalMeditate=executeHandlers.pileChoice,
+ watcherFinalOmniscience=executeHandlers.pileChoice,
+ watcherFinalDeusExMachina=executeHandlers.deusExMachina,
+ watcherFinalSpiritShield=executeHandlers.spiritShield,
+ watcherFinalConjureBlade=executeHandlers.conjureBlade,
+ watcherFinalJudgment=executeHandlers.judgment,
+ watcherFinalExpungerHits=executeHandlers.expungerHits,
+ watcherFinalRagnarok=executeHandlers.ragnarok,
+ watcherFinalDamageHit=executeHandlers.damageHit,
+}
 function M.execute(combat,state,effect,queue)
  local Actor=require('abyss_actor')
  local op=effect.op
- if op=='gainWatcherFinalPower' then
-  assert(M.availablePowers[effect.status],'unsupported Watcher final Power')
-  if effect.status=='deva_form' then state.devaEnergyGain=state.player.statuses.deva_form and state.devaEnergyGain+1 or 1 end
-  Actor.applyPower(state,state.player,effect.status,effect.value,state.player)
- elseif op=='watcherFinalEndTurnEarly' then
-  state.endTurnAfterCard=true
- elseif op=='watcherFinalSkipEnemiesTurn' then
-  state.skipMonsterTurn=true
- elseif op=='watcherFinalEstablishment' then
-  for _,c in ipairs(state.hand)do
-   local d=combat.cardDefinition(state,c)
-   if (d.selfRetain or c.retain)and not d.costMode and d.cost>=0 then
-    local base=c.combatCost or combat.combatBaseCost(state,c)
-    local turn=c.turnCost or c.costForTurn or base
-    c.combatCost=math.max(0,(turn>0 and turn or base)-effect.value)
-    c.turnCost=turn>0 and c.combatCost or 0
-   end
-  end
- elseif op=='watcherFinalOmega' then
-  for _,enemy in ipairs(state.enemies)do if Actor.isActive(enemy)then combat.retaliate(state,nil,enemy,effect.value)end end
- elseif op=='watcherFinalGenerate' then
-  require('abyss_build_actions').makeCard(state,effect)
- elseif op=='watcherFinalWish' or op=='watcherFinalForeignInfluence' then
-  assert(not state.pendingChoice,'another choice is pending')
-  state.choiceSerial=(state.choiceSerial or 0)+1
-  local kind=op=='watcherFinalWish' and 'wish' or 'foreign'
-  local cards={}
-  if kind=='foreign' then cards=foreignChoices(state)
-  else for i,id in ipairs({'become_almighty','fame_and_fortune','live_forever'})do cards[i]={uid=i,cardId=id,upgraded=effect.value==1}end end
-  state.pendingChoice={op='watcher_final',kind=kind,token=state.choiceSerial,turn=state.turn,using=state.pendingPlay.uid,
-   uids={1,2,3},cards=cards,upgraded=effect.value==1}
-  require('abyss_events').emit(state,'card_choice',{op=kind,token=state.choiceSerial})
-  return 'pause'
- elseif op=='watcherFinalLessonLearned' then
-  local enemy=target(state)
-  if Actor.isActive(enemy)then
-   local before=enemy.hp
-   combat.damage(state,state.player,enemy,effect.value,nil,nil,effect.normalAmount)
-   if before>0 and (enemy.hp<=0 or enemy.isDying) and not enemy.halfDead and not enemy.minion and (enemy.statuses.minion or 0)<=0 then
-    local eligible={};for _,c in ipairs(state.masterDeck)do if combat.canUpgrade(state,c)then eligible[#eligible+1]=c end end
-    if #eligible>0 then
-     local c=eligible[require('abyss_sts_random').randomInt(assert(state.miscRng,'missing Lesson Learned misc RNG'),#eligible-1)+1]
-     assert(combat.upgrade(state,c),'Lesson permanent upgrade failed')
-     state.masterDeckChanges=state.masterDeckChanges or {};state.masterDeckChanges[c.uid]=combat.copy(c)
-     require('abyss_events').emit(state,'permanent_upgrade',{uid=c.uid,cardId=c.cardId,source='lesson_learned'})
-    end
-   end
-  end
- elseif op=='watcherFinalMeditate' or op=='watcherFinalOmniscience' then
-  return require('abyss_pile_choice').begin(state,op=='watcherFinalMeditate' and 'meditate' or 'omniscience',
-   op=='watcherFinalMeditate' and effect.value or 1,state.combatGeneration or 0,combat)
- elseif op=='watcherFinalDeusExMachina' then
-  if queue then
-   top(state,queue,{op='makeTempCard',cardId='miracle',pile='hand',value=effect.value})
-   top(state,queue,{op='exhaustHand',uid=effect.uid})
-  else
-   local actions=require('abyss_card_actions')
-   actions.enqueue(state,{op='makeTempCardInHand',card='miracle',value=effect.value},nil,nil,nil,true)
-   for i,c in ipairs(state.hand)do if c.uid==effect.uid then table.remove(state.hand,i);actions.exhaust(combat,state,c);break end end
-  end
- elseif op=='watcherFinalSpiritShield' then
-  combat.block(state,state.player,effect.value*#state.hand)
- elseif op=='watcherFinalConjureBlade' then
-  local context=assert(state.pendingPlay,'missing Conjure Blade context')
-  local x=context.energyOnUse+effect.value
-  if require('abyss_relic_queries').hooks.owns(state,'chemical_x')then x=x+2 end
-  local uid=state.nextUid
-  require('abyss_build_actions').makeCard(state,{cardId='expunger',pile='draw',randomSpot=true,value=1})
-  for _,c in ipairs(state.draw)do if c.uid==uid then c.expungerHits=x end end
-  if not context.freeToPlayOnce then state.energy=0 end
- elseif op=='watcherFinalJudgment' then
-  local enemy=target(state)
-  if Actor.isActive(enemy)and enemy.hp<=effect.value then
-   local before=enemy.hp
-   Actor.instantKill(state,enemy)
-   require('abyss_enemy_ai').hpLost(state,enemy,before,true)
-   require('abyss_enemy_ai').flush(state)
-  end
- elseif op=='watcherFinalExpungerHits' then
-  local enemy=target(state)
-  local hits=state.cardInUse.expungerHits or 0
-  if hits>0 and Actor.isActive(enemy)then
-   top(state,queue,{op='watcherFinalDamageHit',value=effect.value,remaining=hits,targetId=enemy.id,
-    normalAmount=combat.attackAmount(state,state.player,enemy,effect.value)})
-  end
- elseif op=='watcherFinalRagnarok' then
-  local alive={};for _,enemy in ipairs(state.enemies)do if Actor.isActive(enemy)then alive[#alive+1]=enemy end end
-  if #alive>0 then
-   if effect.times>1 then top(state,queue,{op=op,value=effect.value,times=effect.times-1})end
-   local enemy=alive[combat.cardRandom(state,#alive)]
-   top(state,queue,{op='damage',value=effect.value,targetId=enemy.id,
-    normalAmount=combat.attackAmount(state,state.player,enemy,effect.value)})
-  end
- elseif op=='watcherFinalDamageHit' then
-  if effect.remaining>1 then
-   top(state,queue,{op=op,value=effect.value,remaining=effect.remaining-1,targetId=effect.targetId,normalAmount=effect.normalAmount})
-  end
-  top(state,queue,{op='damage',value=effect.value,targetId=effect.targetId,normalAmount=effect.normalAmount})
- else error('unsupported Watcher final effect: '..tostring(op))end
- return true
+ local handler=executeByOp[op]
+ if not handler then error('unsupported Watcher final effect: '..tostring(op))end
+ return handler(combat,state,effect,queue,Actor,op)
 end
 return M

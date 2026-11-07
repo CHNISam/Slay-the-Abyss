@@ -132,6 +132,9 @@ const responsibilityRoots = {
       'relicUpgradeRandomHand','playTop','darklingAction','heartBeat','spireDeathRemove',
       'awakenedAction','capturedSharpHide','dispose','effectBatch'].map(name=>`function 'actionHandlers.${name}'`),
   ],
+  'src/lua/abyss_watcher_final_cards.lua': [
+    'M.execute','upgradeLessonCard','executeHandlers.gainPower','executeHandlers.endTurnEarly','executeHandlers.skipEnemiesTurn','executeHandlers.establishment','executeHandlers.omega','executeHandlers.generate','executeHandlers.openChoice','executeHandlers.lessonLearned','executeHandlers.pileChoice','executeHandlers.deusExMachina','executeHandlers.spiritShield','executeHandlers.conjureBlade','executeHandlers.judgment','executeHandlers.expungerHits','executeHandlers.ragnarok','executeHandlers.damageHit'
+  ].map(name=>`function '${name}'`),
   'src/lua/abyss_colorless_cards.lua': [
     ...['eligibleKill','rewardGreed','growRitual','resolveKill','M.apply',
       ...['apotheosis','shackles','impatience','enlightenment','discovery','madness',
