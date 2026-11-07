@@ -94,6 +94,9 @@ export function reviewRenderComplexity(diagnostics, sources) {
 // Budget only this governance slice and every extracted responsibility module.
 // Unrelated pre-existing Combat/UI hotspots keep their diagnostic reports.
 const responsibilityRoots = {
+  'src/lua/abyss_act1_events.lua': ['M.choose','bonfireReward','bonfireCurseReward',
+    ...['sssserpent','big_fish','accursed_blacksmith','scrap_ooze','transmogrifier','bonfire']
+      .map(name=>`choiceHandlers.${name}`)].map(name=>`function '${name}'`),
   'src/lua/abyss_watcher_final_cards.lua': ['M.execute',
     ...['gainWatcherFinalPower','watcherFinalEndTurnEarly','watcherFinalSkipEnemiesTurn',
       'watcherFinalEstablishment','watcherFinalOmega','watcherFinalGenerate','watcherFinalWish',

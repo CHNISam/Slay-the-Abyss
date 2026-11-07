@@ -4,8 +4,8 @@ title: 治理阻碍角色扩展的高风险复杂度
 status: In Progress
 assignee:
   - Furinya
-created_date: '2026-11-06 01:46'
-updated_date: '2026-11-07 05:06'
+created_date: 2026-11-06 01:46
+updated_date: '2026-11-07T05:33:00Z'
 labels: []
 milestone: m-7
 dependencies: []
@@ -83,4 +83,6 @@ Watcher与Inventory已在最新develop 2ad07111统一集成：全库CC>30为58�
 2026-11-07 Watcher execute由75降至2，新效果handler与永久升级helper最高13并纳入同一CC15门禁。对最新2ad07111全仓5386→5403项完整测量，CC>30为58→57，CC>15为237→236，最大75→69；残余未宣布完成。独立切片214旧新检查点及独审通过，组合来源/CRLF复核已过，PR及完整合前后CI待正常准入。证据docs/evidence/m7-session-watcher-20261107.json。
 
 Watcher/Inventory与Session单一并集：采用PR543真实Watcher实现，原9+PR542独有5场景全部保留，270完整图检查点一致；两侧不同变异合并为6项并绑定精确assert。全库CC>30仍58→54、>15=237→232、max75→69；完整333模块5428项测量。只补来源隔离依赖/CI库存，旧断言及预算不动；逐文件承接与失败/复测证据见M7-SESSION-INVENTORY-SUPERSET-20261107。待精确独审/远端门禁，AC未勾。
+
+2026-11-07 按Owner持续架构指派，在PR543精确939e0820上独立推进Act1事件选择职责：choose CC69→13，六事件handler与Bonfire奖励/永久移除边界保留，新增职责全纳入CC15。相对该候选全库CC>30为54→53、>15为232→230、max69→64；SCC81/12不变。完整原事件与39组边界差分、源码闭包和本轮独审证据见docs/evidence/m7-act1-choice-responsibilities-20261107.json。依赖PR543尚未合，未启动重复Full、不勾AC，不声称主线已完成。
 <!-- SECTION:NOTES:END -->
