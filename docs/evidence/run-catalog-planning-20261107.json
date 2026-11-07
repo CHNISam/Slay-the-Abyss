@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "kind": "local-complete-file-planning-floor",
+  "file": "tests/run-catalog-responsibilities.test.mjs",
+  "baseRevision": "2ad07111e3d5b5cb52b4229860b3b780941e29a9",
+  "beforeTimingsLfSha256": "a5841ddaa53d8bc810f9c16ae342ed2de8cb5479bbcb073562d2c6c921ed1b24",
+  "durationMs": 71327,
+  "environment": {
+    "platform": "linux",
+    "node": "v24.22.1",
+    "scope": "Cloud container local run; not a GitHub-hosted Linux or Windows observation and not a performance comparison."
+  },
+  "completedRun": {
+    "path": "build/catalog-final-tests.log",
+    "rawTap": "✔ Run catalogue full frozen source retains exact develop 2ad07111 SHA256 and Git blob (1.536692ms)\n✔ complete fresh old/new Run catalogue contracts graph and returned values match (10549.924674ms)\nℹ {\"suffix\":\"contracts\",\"checkpoints\":29,\"bytes\":4985064,\"sha256\":\"89f58db08d6ed176fce95060b6003ed147b87bdda17fa88de79fb6d4f268eb50\"}\n✔ complete fresh old/new Run catalogue isolation graph and returned values match (9328.938155ms)\nℹ {\"suffix\":\"isolation\",\"checkpoints\":41,\"bytes\":7910212,\"sha256\":\"7e37c8b4035e98e4ba28eebdc54788ecba42aad81a29141d182101ae725cb202\"}\n✔ complete fresh old/new Run catalogue caller_foreign graph and returned values match (6959.777884ms)\nℹ {\"suffix\":\"caller_foreign\",\"checkpoints\":35,\"bytes\":6086965,\"sha256\":\"1b960493d9c225b28f1f0cc578c58d50fe804e1bdabd311e6ee43b46d1a73d98\"}\n✔ complete fresh old/new Run catalogue review_card_graph graph and returned values match (6785.158509ms)\nℹ {\"suffix\":\"review_card_graph\",\"checkpoints\":29,\"bytes\":4988052,\"sha256\":\"66c6339337d7a3933034ff53ccacdd795b41b2054c227ee7262613c93e9efed2\"}\n✔ complete fresh old/new Run catalogue review_array graph and returned values match (3030.357176ms)\nℹ {\"suffix\":\"review_array\",\"checkpoints\":9,\"bytes\":1984995,\"sha256\":\"59cf4c5a4687784c7f98e494f9619b4f5839a7a9faf9747aa464faf2cc3afc07\"}\n✔ complete fresh old/new Run catalogue review_metadata graph and returned values match (7415.1868ms)\nℹ {\"suffix\":\"review_metadata\",\"checkpoints\":29,\"bytes\":5027851,\"sha256\":\"4c00090c632851028a67474f0711a1a0d5d64903eea3b9bf87788303bfa96c21\"}\n✔ complete fresh old/new Run catalogue metadata_conflicts graph and returned values match (6829.44726ms)\nℹ {\"suffix\":\"metadata_conflicts\",\"checkpoints\":35,\"bytes\":7299126,\"sha256\":\"77ddf3456095c1292c196295d76075425ec18fca279a0f382c5c6619bf241e7d\"}\n✔ complete fresh old/new Run catalogue owned_registration graph and returned values match (13023.546914ms)\nℹ {\"suffix\":\"owned_registration\",\"checkpoints\":57,\"bytes\":10036892,\"sha256\":\"1e01027e95df2ad17a05ac6504f2038def46be9d2f9912da066168b9d74a02e4\"}\n✔ Run catalogue full module includes every helper, callback and initialization in CC15 (1769.73213ms)\n✔ Run catalogue semantic oracle passes both complete source versions (2211.365341ms)\n✔ Run catalogue real semantic mutation detects caller directory identity (1104.753056ms)\n✔ Run catalogue real semantic mutation detects shared Power priority (1038.189815ms)\n✔ Run catalogue real semantic mutation detects native ABI ownership (1171.777764ms)\nℹ tests 14\nℹ suites 0\nℹ pass 14\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 71326.726364\n",
+    "sha256": "93be917d80bf8d66c844b590c237d97c3812ab9e2ac6f6ac225b46a5bf1f8853",
+    "durationMs": 71326.726364,
+    "tests": 14,
+    "passed": 14,
+    "failed": 0,
+    "skipped": 0,
+    "checkpoints": 264,
+    "bytesPerSide": 48319157
+  },
+  "sourceIdentity": {
+    "selectedFiles": [
+      {
+        "path": "src/lua/abyss_run_card_catalog.lua",
+        "sha256": "e6a005a33e95fda500f6ecefecfe1591b9a8054270995975d4b53be1a1eafe3f"
+      },
+      {
+        "path": "tests/run-catalog-responsibilities.test.mjs",
+        "sha256": "9e753f479da0fbcc2518f802366cf162faf4223116c4e77e1bf4ae622840e0fc"
+      },
+      {
+        "path": "tests/helpers/run-catalog-responsibilities-vm.mjs",
+        "sha256": "12f5084137075417ffdc3e1f3aa47604b41898fbca3fce4ff21cfa02f3cb2d21"
+      },
+      {
+        "path": "tests/helpers/run-catalog-responsibilities-oracle.lua",
+        "sha256": "ed5cf804097e62a6a1858e4f46b6a5bc5a89d7274c5d522afa25cb2d39f91117"
+      },
+      {
+        "path": "tests/fixtures/run-catalog-responsibilities-before.lua",
+        "sha256": "d8d7f52778dbfd6814ddebc1ecc960c6732317d3746a6aabf104e4b7ef7f4a54"
+      },
+      {
+        "path": "scripts/check-lua-static.mjs",
+        "sha256": "8b8cbc5acfff72a572a3a0fe524ed2fbb06c2bdfe4545a465a73b83cf8dcec9e"
+      }
+    ]
+  }
+}
