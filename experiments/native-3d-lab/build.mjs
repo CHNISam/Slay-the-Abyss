@@ -5,7 +5,7 @@ import {randomUUID} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {connect,data} from './rpc.mjs';
 import {labControls} from './layout.mjs';
-import {prepareNativeScene} from './native-scene.mjs';
+import {prepareNativeScene,labAnchor,validateLabAnchor} from './native-scene.mjs';
 import {instrumentCardTween} from './card-tween.mjs';
 import {fileRecord,sha256,writeExclusive,prepareOutputDirectory} from '../../scripts/evidence-files.mjs';
 import {writeScriptBatch} from '../../scripts/native-script-batch.mjs';
@@ -51,7 +51,8 @@ export function instrumentEntry(source,buildId){
   text=once(text,'function OnDestroy()','function OnDestroy()\n    if lab then pcall(function()lab:destroy()end);lab=nil end');
   return `print("ABYSS_BUILD ${buildId}")\nprint("ABYSS_3D_LAB ${buildId}")\n${text}`;
 }
-export async function buildLab({productionReceipt,output='.artifacts/native-3d-lab',anchor=[0,2000.4,0]}={}){
+export async function buildLab({productionReceipt,output='.artifacts/native-3d-lab',anchor=labAnchor}={}){
+  validateLabAnchor(anchor);
   const root=resolve(here,'../..');
   const original=JSON.parse(readFileSync(productionReceipt,'utf8'));
   if(original.statuses?.staticCheck!=='pass'||fileRecord(original.mapPath).sha256!==original.candidate.sha256)

@@ -4,14 +4,20 @@ import vm from 'node:vm';
 import {mkdtempSync,readFileSync,existsSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import {tmpdir} from 'node:os';
-import {nativeGraphSources,nativeModels,seedCreaturePrefabs} from './native-scene.mjs';
+import {nativeGraphSources,nativeModels,seedCreaturePrefabs,labAnchor,validateLabAnchor} from './native-scene.mjs';
+
+test('playable origin rejects the editor template parking altitude reported by official validation',()=>{
+ assert.deepEqual([...labAnchor],[0,0.4,0]);
+ assert.doesNotThrow(()=>validateLabAnchor(labAnchor));
+ assert.throws(()=>validateLabAnchor([0,2000.4,0]),/parking coordinates/);
+});
 
 function harness(){
   const graphs=Object.fromEntries(['server','unit','decision','attack','hit','idle','skill_attack','skill_hit'].map((name,index)=>[name,{graphId:index+1,name:'_GSTS_'+name}]));
   const prefabs=nativeModels.map((p,index)=>({...p,prefabId:1082130433+index}));
   const handlers={},ack=[],timers=[],units=[],variables=new Map([[100,{LAB_lastseq:0n}]]);let next=1000;
   const owner=()=>({onSignal(name,callback){handlers[name]=callback;return this},on(name,callback){handlers[name]=callback;return this}});
-  const sources=nativeGraphSources({graphs,prefabs,statusId:200,anchor:[0,2000.4,0]});
+  const sources=nativeGraphSources({graphs,prefabs,statusId:200,anchor:labAnchor});
   for(const source of sources.slice(0,2)){
     const code=source.code.replace(/^import .*$/gm,'').replace(/ as (const|bigint\[\]|string\[\]|number\[\])/g,'');
     vm.runInNewContext(code,{g:{server:owner},defineSignal:name=>name});

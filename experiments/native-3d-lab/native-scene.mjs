@@ -6,6 +6,13 @@ import {createHash} from 'node:crypto';
 const toolRoot=process.env.MILIASTRA_MCP_ROOT||'D:/MiliastraTools/genshin-miliastra-mcp';
 const load=name=>import(pathToFileURL(join(toolRoot,'src',name)));
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
+// Default character templates parked at y=2000 are not playable spawn points.
+export const labAnchor=Object.freeze([0,0.4,0]);
+export function validateLabAnchor(anchor){
+  if(!Array.isArray(anchor)||anchor.length!==3||!anchor.every(Number.isFinite)
+    ||Math.abs(anchor[0])>50||Math.abs(anchor[2])>50||Math.abs(anchor[1])>20)
+    throw Error('Experimental arena anchor must stay near the playable origin; template parking coordinates are invalid');
+}
 export const nativeModels=Object.freeze([
   {model:1,name:'遗迹守卫',asset:30005001,idle:5001001,attack:5001002,attackSeconds:3.58,hit:5001011,hitSeconds:2.16},
   {model:2,name:'大型风史莱姆',asset:30005003,idle:5003001,attack:5003002,attackSeconds:2.28,hit:null},
@@ -162,9 +169,9 @@ export function nativeGraphSources({graphs,prefabs,statusId,playerStatusId=statu
   return records.map(({graphId,code})=>({graphId,code}));
 }
 
-export async function prepareNativeScene({call,mapPath,anchor=[0,2000.4,0],outputPath,addFloor=true}={}){
+export async function prepareNativeScene({call,mapPath,anchor=labAnchor,outputPath,addFloor=true}={}){
   if(typeof call!=='function'||!mapPath)throw Error('prepareNativeScene needs call and mapPath');
-  if(!Array.isArray(anchor)||anchor.length!==3||!anchor.every(Number.isFinite))throw Error('anchor needs three finite coordinates');
+  validateLabAnchor(anchor);
   const seeded=await seedCreaturePrefabs({mapPath,outputPath});mapPath=seeded.mapPath;
   async function invoke(name,args={}){const result=await call(name,{...args,mapPath});if(result.error||result.isError)throw Error(`${name}: ${JSON.stringify(result)}`);if(result.mapPath)mapPath=result.mapPath;return result;}
   const listed=await invoke('scene_list_prefabs');
@@ -173,6 +180,9 @@ export async function prepareNativeScene({call,mapPath,anchor=[0,2000.4,0],outpu
   await invoke('scene_set_level_settings',{aggroMode:'custom'});
   await invoke('scene_set_player_count',{min:1,max:1});
   await invoke('scene_set_spawn',{position:anchor,rotation:[0,0,0]});
+  const points=await invoke('scene_list_preset_points');
+  const spawn=points.points.filter(p=>p.spawn);
+  if(spawn.length!==1||spawn[0].position.some((v,i)=>Math.abs(v-anchor[i])>0.001))throw Error('Playable spawn readback differs from arena anchor');
   let floor;
   if(addFloor){
     floor=await invoke('scene_add_prefab',{asset:20002055,name:'LAB3D_floor',scale:[5,1,5]});
