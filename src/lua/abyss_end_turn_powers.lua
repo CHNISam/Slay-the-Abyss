@@ -13,10 +13,13 @@ M.ops={ownerEndRegen=true,ownerEndClearLoss=true,ownerEndClearNoDraw=true,ownerE
 local function add(out,effect)
  out[#out+1]=effect.kind=='effect'and effect or {kind='effect',effect=effect}
 end
+local function hasTemporaryEndHooks(state,p)
+ return p.noDraw or (p.temporaryStrength or 0)>0 or (p.temporaryDexterity or 0)>0 or state.orbs and #state.orbs.balls>0
+end
 function M.needed(state,extension)
  local p=state.player
  if require('abyss_relic_combat_hooks').endTurnBlock(state)then return true end
- if p.noDraw or (p.temporaryStrength or 0)>0 or (p.temporaryDexterity or 0)>0 or state.orbs and #state.orbs.balls>0 then return true end
+ if hasTemporaryEndHooks(state,p) then return true end
  for id in pairs(p.statuses)do if ids[id]or preCards[id]or extension and extension.ownerEndIds and extension.ownerEndIds[id]then return true end end
  for _,b in ipairs(state.colorlessBombs or {})do if b.turns>0 then return true end end
  return false
@@ -47,12 +50,7 @@ function M.transferNative(state,queue)
   queue.pushBottom(state,{kind='effect',effect={op='ownerEndNative',item=item}})
  end
 end
-function M.prepareExhaust(state)
- local hooks={dark_embrace=true,feel_no_pain=true};local filter,order={},{}
- for id in pairs(hooks)do if (state.player.statuses[id]or 0)>0 then filter[id]=true end end
- for _,entry in ipairs(Schedule.ownerEnd(state,filter))do order[#order+1]=entry.id end
- local prior=state.exhaustPowerOrder
- if prior then
+local function validateExhaustHistory(state,prior,hooks,order)
   assert(type(prior)=='table'and getmetatable(prior)==nil,'invalid exhaust acquisition history')
   local count,seen=0,{}
   for k in pairs(prior)do assert(type(k)=='number'and k%1==0 and k>0,'invalid exhaust acquisition index');count=count+1 end
@@ -60,52 +58,106 @@ function M.prepareExhaust(state)
   local active={};for _,id in ipairs(prior)do if (state.player.statuses[id]or 0)>0 then active[#active+1]=id end end
   assert(#active==#order,'inconsistent exhaust acquisition history')
   for i,id in ipairs(active)do assert(id==order[i],'inconsistent exhaust acquisition history')end
+end
+function M.prepareExhaust(state)
+ local hooks={dark_embrace=true,feel_no_pain=true};local filter,order={},{}
+ for id in pairs(hooks)do if (state.player.statuses[id]or 0)>0 then filter[id]=true end end
+ for _,entry in ipairs(Schedule.ownerEnd(state,filter))do order[#order+1]=entry.id end
+ local prior=state.exhaustPowerOrder
+ if prior then
+  validateExhaustHistory(state,prior,hooks,order)
  end
  state.exhaustPowerOrder=order
 end
-function M.prepare(state,combat,extension)
+local function ownerEndFilter(state,extension)
  local filter={};for id in pairs(ids)do filter[id]=true end
  for id in pairs(extension and extension.ownerEndIds or {})do filter[id]=true end
  local bombs={};for _,b in ipairs(state.colorlessBombs or {})do if b.turns>0 then filter[b.id]=true;bombs[b.id]=b end end
+ return filter,bombs
+end
+local function virtualEndPowers(state)
  local p=state.player;local virtual={}
  for stat,field in pairs({strength='temporaryStrength',dexterity='temporaryDexterity'})do
   if (p[field]or 0)>0 then virtual['lose_'..stat]={amount=p[field],priority=5}end
  end
  if p.noDraw then virtual.no_draw={amount=1,priority=5}end
+ return virtual
+end
+-- Each planner owns the action order for one existing Power responsibility.
+-- Combat still owns queue execution, pausing and whole-command rollback.
+local powerPlans={}
+function powerPlans.regen(_state,_combat,_id,n,top,_bottom)
+ if n>0 then table.insert(top,1,{kind='effect',effect={op='ownerEndRegen',value=n}})end
+end
+function powerPlans.combust(state,_combat,id,_n,_top,_bottom)
+ return require('abyss_warrior_strength_cards').planHook(state,id,'turn_end')
+end
+function powerPlans.rage(state,_combat,id,n,_top,bottom)
+ if n>0 then
+  local registered=false;for _,record in ipairs(state.cardTriggerPowerOrder or {})do if record.id==id then registered=true end end
+  if registered then return {bottom=require('abyss_card_triggers').prepareEndTurn(state)}else add(bottom,{op='removeStatus',status=id,value=0})end
+ end
+end
+function powerPlans.study(state,_combat,id,_n,_top,_bottom)
+ return require('abyss_watcher_flow_cards').planHook(state,id,'turn_end')
+end
+function powerPlans.omega(_state,_combat,_id,n,_top,bottom)
+ add(bottom,{op='ownerEndDamageAll',value=n})
+end
+function powerPlans.establishment(_state,_combat,_id,n,_top,bottom)
+ add(bottom,{op='watcherFinalEstablishment',value=n})
+end
+function powerPlans.lose_strength(_state,_combat,id,n,_top,bottom)
+ local stat=id=='lose_strength'and 'strength'or 'dexterity'
+ add(bottom,{op='gainStatus',status=stat,value=-n});add(bottom,{op='ownerEndClearLoss',stat=stat})
+end
+powerPlans.lose_dexterity=powerPlans.lose_strength
+function powerPlans.ritual(_state,_combat,_id,n,_top,bottom)
+ if n>0 then add(bottom,{op='gainStatus',status='strength',value=n})end
+end
+function powerPlans.wraith_form(_state,_combat,_id,n,_top,bottom)
+ if n<0 then add(bottom,{op='gainStatus',status='dexterity',value=n})end
+end
+function powerPlans.shackled(_state,_combat,id,n,_top,bottom)
+ add(bottom,{op='gainStatus',status='strength',value=n});add(bottom,{op='removeStatus',status=id,value=0})
+end
+function powerPlans.no_draw(_state,_combat,_id,_n,_top,bottom)
+ add(bottom,{op='ownerEndClearNoDraw'})
+end
+function powerPlans.equilibrium(state,combat,_id,_n,_top,_bottom)
+ for _,c in ipairs(state.hand)do if not combat.cardDefinition(state,c).ethereal then c.retain=true end end
+end
+function powerPlans.well_laid_plans(_state,_combat,_id,n,_top,bottom)
+ if n>0 then add(bottom,{op='ownerEndRetain'})end
+end
+function powerPlans.rebound(_state,_combat,id,_n,_top,bottom)
+ add(bottom,{op='ownerEndRemoveDefect',status=id})
+end
+powerPlans.amplify=powerPlans.rebound
+local function planBomb(bombs,id,n,bottom)
+ local bomb=bombs[id];assert(n==bomb.turns,'inconsistent Bomb Power')
+ add(bottom,{op='ownerEndBombReduce',bomb=bomb});if n==1 then add(bottom,{op='ownerEndDamageAll',value=bomb.damage})end
+end
+local function planOwnerEnd(state,combat,extension,bombs,id,n,top,bottom)
+ local planner=powerPlans[id]
+ if planner then return planner(state,combat,id,n,top,bottom)
+ elseif bombs[id]then planBomb(bombs,id,n,bottom)
+ elseif extension and extension.ownerEndIds and extension.ownerEndIds[id]then
+  return extension.ownerEndPlan(state,id,n)
+ else add(bottom,{op='removeStatus',status=id,value=0})end
+end
+local function appendPowerPlan(plan,top,bottom)
+ for _,effect in ipairs(plan.top or {})do table.insert(top,1,effect.kind=='effect'and effect or {kind='effect',effect=effect})end
+ for _,effect in ipairs(plan.bottom or {})do add(bottom,effect)end
+end
+function M.prepare(state,combat,extension)
+ local filter,bombs=ownerEndFilter(state,extension)
+ local virtual=virtualEndPowers(state)
  local top,bottom={},{}
  for _,entry in ipairs(Schedule.ownerEnd(state,filter,virtual))do
-  local id,n=entry.id,entry.amount;local plan
-  if id=='regen'then if n>0 then table.insert(top,1,{kind='effect',effect={op='ownerEndRegen',value=n}})end
-  elseif id=='combust'then plan=require('abyss_warrior_strength_cards').planHook(state,id,'turn_end')
-  elseif id=='rage'then if n>0 then
-   local registered=false;for _,record in ipairs(state.cardTriggerPowerOrder or {})do if record.id==id then registered=true end end
-   if registered then plan={bottom=require('abyss_card_triggers').prepareEndTurn(state)}else add(bottom,{op='removeStatus',status=id,value=0})end
-  end
-  elseif id=='study'then plan=require('abyss_watcher_flow_cards').planHook(state,id,'turn_end')
-  elseif id=='omega'then add(bottom,{op='ownerEndDamageAll',value=n})
-  elseif id=='establishment'then add(bottom,{op='watcherFinalEstablishment',value=n})
-  elseif id=='lose_strength'or id=='lose_dexterity'then
-   local stat=id=='lose_strength'and 'strength'or 'dexterity'
-   add(bottom,{op='gainStatus',status=stat,value=-n});add(bottom,{op='ownerEndClearLoss',stat=stat})
-  elseif id=='ritual'then if n>0 then add(bottom,{op='gainStatus',status='strength',value=n})end
-  elseif id=='wraith_form'then if n<0 then add(bottom,{op='gainStatus',status='dexterity',value=n})end
-  elseif id=='shackled'then
-   add(bottom,{op='gainStatus',status='strength',value=n});add(bottom,{op='removeStatus',status=id,value=0})
-  elseif id=='no_draw'then add(bottom,{op='ownerEndClearNoDraw'})
-  elseif id=='equilibrium'then
-   for _,c in ipairs(state.hand)do if not combat.cardDefinition(state,c).ethereal then c.retain=true end end
-  elseif id=='well_laid_plans'then if n>0 then add(bottom,{op='ownerEndRetain'})end
-  elseif id=='rebound'or id=='amplify'then add(bottom,{op='ownerEndRemoveDefect',status=id})
-  elseif bombs[id]then
-   local bomb=bombs[id];assert(n==bomb.turns,'inconsistent Bomb Power')
-   add(bottom,{op='ownerEndBombReduce',bomb=bomb});if n==1 then add(bottom,{op='ownerEndDamageAll',value=bomb.damage})end
-  elseif extension and extension.ownerEndIds and extension.ownerEndIds[id]then
-   plan=extension.ownerEndPlan(state,id,n)
-  else add(bottom,{op='removeStatus',status=id,value=0})end
-  if plan then
-   for _,effect in ipairs(plan.top or {})do table.insert(top,1,effect.kind=='effect'and effect or {kind='effect',effect=effect})end
-   for _,effect in ipairs(plan.bottom or {})do add(bottom,effect)end
-  end
+  local id,n=entry.id,entry.amount
+  local plan=planOwnerEnd(state,combat,extension,bombs,id,n,top,bottom)
+  if plan then appendPowerPlan(plan,top,bottom)end
  end
  for _,action in ipairs(bottom)do top[#top+1]=action end
  return top
@@ -114,25 +166,24 @@ function M.retained(effect)
  return effect.op=='ownerPreCardBlock'or effect.op=='ownerEndDamageAll'or effect.op=='ownerEndThorns'or effect.op=='ownerEndRegen'
   or effect.op=='ownerEndNative'or effect.op=='ownerEndOrbEffect'and effect.action.kind=='frost'
 end
-function M.apply(combat,state,effect,queue)
- local p=state.player
- if effect.op=='ownerPreCardBlock'then combat.block(state,p,effect.value,true)
- elseif effect.op=='ownerEndOrbTrigger'then
+local function triggerOrbs(state,queue)
   local orbs=require('abyss_orbs')
   for i=1,#state.orbs.balls do
    local action=orbs.preparePassive(state,i,'end')
    if action then queue.pushBottom(state,{kind='effect',effect={op='ownerEndOrbEffect',action=action}})end
   end
   Events.emit(state,'orb_end_turn')
- elseif effect.op=='ownerEndOrbEffect'then require('abyss_orbs').resolve(state,effect.action,combat)
- elseif effect.op=='ownerEndNative'then
+end
+local function applyNative(combat,state,effect)
   assert(nativeDamage(state,effect.item),'unsupported owner-end native callback')
   require('abyss_card_actions').apply(combat,state,effect.item)
- elseif effect.op=='ownerEndRegen'then
+end
+local function applyRegen(combat,state,effect,p)
   require('abyss_card_actions').apply(combat,state,{effect={op='heal',value=effect.value},source=p})
   p.statuses.regen=math.max(0,(p.statuses.regen or 0)-1)
   if p.statuses.regen==0 then Schedule.remove(state,p,'regen')end
- elseif effect.op=='ownerEndClearLoss'then
+end
+local function clearTemporaryLoss(state,effect,p)
   local stat=effect.stat;local field=stat=='strength'and 'temporaryStrength'or stat=='dexterity'and 'temporaryDexterity'
   assert(field,'invalid temporary stat removal');p[field]=0
   local keep={};for _,id in ipairs(p.temporaryPowerOrder or {})do if id~=stat then keep[#keep+1]=id end end
@@ -140,16 +191,38 @@ function M.apply(combat,state,effect,queue)
   keep={};for _,id in ipairs(p.powerOrder or {})do if id~='lose_'..stat then keep[#keep+1]=id end end;p.powerOrder=keep
   -- Match Actor.endTurn: publish the completed loss/removal, not stale debt.
   state.events[#state.events].frame=Events.frame(state)
+end
+local function reduceBomb(state,effect,p)
+  local b=effect.bomb;b.turns=b.turns-1;p.statuses[b.id]=b.turns>0 and b.turns or nil
+  if b.turns==0 then Schedule.remove(state,p,b.id)end
+end
+local function damageAll(combat,state,effect)
+  for _,enemy in ipairs(state.enemies)do if enemy.hp>0 and not enemy.escaped then combat.retaliate(state,nil,enemy,effect.value)end end
+end
+local function applyThorns(combat,state,effect,p)
+  assert(type(effect.source)=='table'and effect.source~=p,'missing captured damage source')
+  combat.retaliate(state,effect.source,p,effect.value)
+end
+function M.apply(combat,state,effect,queue)
+ local p=state.player
+ if effect.op=='ownerPreCardBlock'then combat.block(state,p,effect.value,true)
+ elseif effect.op=='ownerEndOrbTrigger'then
+  triggerOrbs(state,queue)
+ elseif effect.op=='ownerEndOrbEffect'then require('abyss_orbs').resolve(state,effect.action,combat)
+ elseif effect.op=='ownerEndNative'then
+  applyNative(combat,state,effect)
+ elseif effect.op=='ownerEndRegen'then
+  applyRegen(combat,state,effect,p)
+ elseif effect.op=='ownerEndClearLoss'then
+  clearTemporaryLoss(state,effect,p)
  elseif effect.op=='ownerEndClearNoDraw'then
   p.noDraw=false;Events.emit(state,'no_draw_removed',{target=p.id})
  elseif effect.op=='ownerEndBombReduce'then
-  local b=effect.bomb;b.turns=b.turns-1;p.statuses[b.id]=b.turns>0 and b.turns or nil
-  if b.turns==0 then Schedule.remove(state,p,b.id)end
+  reduceBomb(state,effect,p)
  elseif effect.op=='ownerEndDamageAll'then
-  for _,enemy in ipairs(state.enemies)do if enemy.hp>0 and not enemy.escaped then combat.retaliate(state,nil,enemy,effect.value)end end
+  damageAll(combat,state,effect)
  elseif effect.op=='ownerEndThorns'then
-  assert(type(effect.source)=='table'and effect.source~=p,'missing captured damage source')
-  combat.retaliate(state,effect.source,p,effect.value)
+  applyThorns(combat,state,effect,p)
  elseif effect.op=='ownerEndRemoveDefect'then require('abyss_defect_final_cards').removePower(state,effect.status)
  else error('unknown owner-end action')end
  return true

@@ -1,0 +1,3670 @@
+{
+  "schemaVersion": 1,
+  "kind": "M7 EndTurnPower responsibility refactor",
+  "baseRevision": "d8a57cae2a867200ca8e588abc0d368e6cdb3799",
+  "productionFiles": [
+    "src/lua/abyss_end_turn_powers.lua"
+  ],
+  "scope": "Owner-assigned bounded sub-scope of TASK-74.20; not final acceptance of M7.",
+  "sourceIdentity": {
+    "before": [
+      {
+        "path": "src/lua/abyss_acid_slime_m_ai.lua",
+        "sha256": "972d81f4e3ed017249796267d242ab73f7bdac93945efb6a441ed53b603a90e6"
+      },
+      {
+        "path": "src/lua/abyss_acid_slime_s_ai.lua",
+        "sha256": "b3063719126444d01ec18bc7878d4ca614dda13dc0ddcc7599304e24b3703769"
+      },
+      {
+        "path": "src/lua/abyss_act1_bosses.lua",
+        "sha256": "9a3db2a6bb7e4625765cdb212172e940225a3b7c1a2f0bedae164acc3f7df1be"
+      },
+      {
+        "path": "src/lua/abyss_act1_events.lua",
+        "sha256": "5052bec306ea9d3544cf40bd9d1dc1327f61c6608b1557fd13fe3473fbc8ff25"
+      },
+      {
+        "path": "src/lua/abyss_act2_ai.lua",
+        "sha256": "aba682db573572693cf60f613bcd5ce3f1f0b11f2116610f23cacf285f89bad3"
+      },
+      {
+        "path": "src/lua/abyss_act2_ai_moves.lua",
+        "sha256": "b41dea36e6b664e76f4ce551027aa7372e21888efd7119f1f330c51da9b055af"
+      },
+      {
+        "path": "src/lua/abyss_act2_enemies.lua",
+        "sha256": "11d8b679c711ebff5a5a34609a8f4da737552377c556cfce63c8812c14329777"
+      },
+      {
+        "path": "src/lua/abyss_act2_event_relics.lua",
+        "sha256": "fbad6fda867e0dbc2b9347e9698bba6b66d1acdc208a3c966f222ec286f3af92"
+      },
+      {
+        "path": "src/lua/abyss_act2_events.lua",
+        "sha256": "75d8578d7cf4a3feaa0bfb6c4a0fd162625b3a0ce8dc6ad42d6f5b0520aacad6"
+      },
+      {
+        "path": "src/lua/abyss_act2_powers.lua",
+        "sha256": "966f9906c9fd03d306424c9ea430e3aa8840fdf6e852d13cecd274c0a3aa3629"
+      },
+      {
+        "path": "src/lua/abyss_act2_stasis.lua",
+        "sha256": "0a1b6da54329fe7c00cfb45bb57dfc1ff53663cd7437e1bb17b35f702181466a"
+      },
+      {
+        "path": "src/lua/abyss_act2_summons.lua",
+        "sha256": "ad88bd02442af998322d69dade30fbd9cdddb14983043003c75797c12b1d9dca"
+      },
+      {
+        "path": "src/lua/abyss_act3_ai.lua",
+        "sha256": "34511b1e1bfa55fccaa6f77cb8d549f60722a95fecaf324613abe427731a5b19"
+      },
+      {
+        "path": "src/lua/abyss_act3_bosses.lua",
+        "sha256": "e99bde5cc595bf0a3dac968a7ea61ee96faf7c8afd313464b52b653daba0d404"
+      },
+      {
+        "path": "src/lua/abyss_act3_enemies.lua",
+        "sha256": "c810114c966767fcdc9c04a37fb835577337a18799288c7f4b57c2214b7fdd74"
+      },
+      {
+        "path": "src/lua/abyss_act3_events.lua",
+        "sha256": "e30d2820eb81359f9112c4b32b36b1af61db1a294151407526b9c658316f2c9a"
+      },
+      {
+        "path": "src/lua/abyss_act3_powers.lua",
+        "sha256": "07064486b2bb60c770c748e503b5209ede5559619be946ccb00c192fe9c88365"
+      },
+      {
+        "path": "src/lua/abyss_act4_enemies.lua",
+        "sha256": "6c18570819c4f0a918bf51e04644f2f998fad696614a8f86cdd54493fb49f710"
+      },
+      {
+        "path": "src/lua/abyss_action_queue.lua",
+        "sha256": "5053ad084fee0bc15277ccbd9bc614c2acaa8e2b8d70bcb91f1bf4a01499cb2d"
+      },
+      {
+        "path": "src/lua/abyss_actor.lua",
+        "sha256": "8c65e3f385b412eac28c1ec7d56cac1495e4f91608320af46c2a6c11394be43a"
+      },
+      {
+        "path": "src/lua/abyss_actor_motion.lua",
+        "sha256": "c5bd7f59379629cd6c8a0523e1449f4a59267617a81c0fb0e9ebd426f2558687"
+      },
+      {
+        "path": "src/lua/abyss_actor_power_rules.lua",
+        "sha256": "ff5ee7976332e9e3a01a62c121d7a7246ad59ae5eae27f0cd4bb5bee5be6051a"
+      },
+      {
+        "path": "src/lua/abyss_acts.lua",
+        "sha256": "06307170ce3ee1627c9ea5ebe45f9042a4857ad153f7f92e625f2e9856cc8150"
+      },
+      {
+        "path": "src/lua/abyss_awakened_one.lua",
+        "sha256": "0d8fbb76c5db90539e995aabd2f02660184481463b842045b5687b38ab42de36"
+      },
+      {
+        "path": "src/lua/abyss_back_to_basics.lua",
+        "sha256": "5d83af37dc3bffcd16f61627e164dcb41b654647ed753aa7cdd0058c10926571"
+      },
+      {
+        "path": "src/lua/abyss_battle_action_bindings.lua",
+        "sha256": "84d11f396803b5bcd202aa6226e9d0b67a56fef6956b3e6bf167e089de933bd7"
+      },
+      {
+        "path": "src/lua/abyss_battle_actions.lua",
+        "sha256": "e558c6b3dba4bcfaae21c84473933f7c4a4440104400c27561d68cbeb68fc4c2"
+      },
+      {
+        "path": "src/lua/abyss_battle_aim_arrow.lua",
+        "sha256": "ca8b78b1df9ea3e764cd936a39027a73e0a99bc86c524937363e73887099fea4"
+      },
+      {
+        "path": "src/lua/abyss_battle_card_bindings.lua",
+        "sha256": "add73e13c968039d9eee32dacd3d7d866c21ec6e2ccc89182d4f199d2ee9b7e7"
+      },
+      {
+        "path": "src/lua/abyss_battle_card_gestures.lua",
+        "sha256": "9941287769dde812c12426f7a3ea47e685d0b5a64c4ee4c534f4d22d649d5536"
+      },
+      {
+        "path": "src/lua/abyss_battle_card_layout.lua",
+        "sha256": "a64d014875bf29300602b80bbb7d01260c59931434a509e5056b44a0f31713f8"
+      },
+      {
+        "path": "src/lua/abyss_battle_card_view.lua",
+        "sha256": "95f56c683140dc813684eb6bc67dea99ac02a1ad020ec4711346314b02056b12"
+      },
+      {
+        "path": "src/lua/abyss_battle_damage_view.lua",
+        "sha256": "0fdde0bd08f4d94f1a95b30a4236cca9b062fcfb3cafdd3df513c5599699df29"
+      },
+      {
+        "path": "src/lua/abyss_battle_detail_bindings.lua",
+        "sha256": "06f4f139894de966d8d49a1ed1855f5e08e5d127f186380b736177ad139be748"
+      },
+      {
+        "path": "src/lua/abyss_battle_details.lua",
+        "sha256": "975e2546741b40a74bd12e2424e0743f85f422b6215fec1c9b727aa17f9bfcc6"
+      },
+      {
+        "path": "src/lua/abyss_battle_ending_intent.lua",
+        "sha256": "fd7c1b135604fe71fefaabc5caedf107d22cefa4889bd2f109b5d4a30f06b466"
+      },
+      {
+        "path": "src/lua/abyss_battle_enemy_view.lua",
+        "sha256": "fb453b46085fd00e781a5ca7a5f2d85475d6883a5c18a9d00e6e355da95d4f5f"
+      },
+      {
+        "path": "src/lua/abyss_battle_info_content.lua",
+        "sha256": "6689b168fc44daee3f1eca6bc7d76db277fb6cdda00b43c13d3df7a3315c9f2c"
+      },
+      {
+        "path": "src/lua/abyss_battle_info_view.lua",
+        "sha256": "121297a5930b4ad8f954407caa019caed5b604474e35354539d80242e83d3eae"
+      },
+      {
+        "path": "src/lua/abyss_battle_input_state.lua",
+        "sha256": "f5ca34c51e6599284d574b8053297c429b4f14d7a1951395f5a4decfbb87cd3d"
+      },
+      {
+        "path": "src/lua/abyss_battle_intent_view.lua",
+        "sha256": "491d92710d2e269d98ef850ffc100631897fdfc0572e2da7e754776b653634e0"
+      },
+      {
+        "path": "src/lua/abyss_battle_potion_bindings.lua",
+        "sha256": "4d0529fe8b74cdf1807676dbf1c64d0913b27bb1348fbdd13069274ca006db64"
+      },
+      {
+        "path": "src/lua/abyss_battle_potion_popup.lua",
+        "sha256": "705397ad7afc3246e7c533932cef7cd63436535676087b0e4fdd51dd1e7c24cd"
+      },
+      {
+        "path": "src/lua/abyss_battle_potion_view.lua",
+        "sha256": "c14001f467b8abd9efa98bd550b183266c97a2a2292154d7c97f374064f65a92"
+      },
+      {
+        "path": "src/lua/abyss_battle_render.lua",
+        "sha256": "6ab3653f406287abd50cfd6773410fff2c9a64b238810390ee3fce509881daba"
+      },
+      {
+        "path": "src/lua/abyss_battle_render_actors.lua",
+        "sha256": "47157bd6b5d4819f674dfd0b542f40eda91268977b196f1f230a4815a60dd145"
+      },
+      {
+        "path": "src/lua/abyss_battle_render_hud.lua",
+        "sha256": "5f2cbce7d5d7411e9b575b4f88311540a7913860086a5515ebcc88cb2a8b7f55"
+      },
+      {
+        "path": "src/lua/abyss_battle_render_state.lua",
+        "sha256": "190bc4eca4ebaa7cc0147e8ddb901975f3ee3ef28bf27f945b73f70f485d9398"
+      },
+      {
+        "path": "src/lua/abyss_battle_reward_layout.lua",
+        "sha256": "e1b3a9d7963298deb5a82f9a470b416e88da3e98a11d7320254d75660ac2a1b8"
+      },
+      {
+        "path": "src/lua/abyss_battle_reward_owner.lua",
+        "sha256": "cb73427a6fdf4b952f5cf134eb59364f8af95db334dec6d2388d35cde8f5887a"
+      },
+      {
+        "path": "src/lua/abyss_battle_status_view.lua",
+        "sha256": "615fc1275429bef0ad4e1bc9a834d76c1aaac9e7c2baf53e284b06c7cf159b87"
+      },
+      {
+        "path": "src/lua/abyss_battle_target_bindings.lua",
+        "sha256": "430762c548eaecda576bb4edb8b85081501a5fc59d93ba11c8e7f2d192048b5b"
+      },
+      {
+        "path": "src/lua/abyss_battle_targeting.lua",
+        "sha256": "50922018fca25cbaf2ea7645b4ca9657b667c1f5e446edd52dd33b5103ae099f"
+      },
+      {
+        "path": "src/lua/abyss_battle_ui.lua",
+        "sha256": "978f475b859da331cef3bdcb94c53b067d2db03fa12c46c212dc8150a3837f76"
+      },
+      {
+        "path": "src/lua/abyss_battle_unit_view.lua",
+        "sha256": "e723f9d6f1d696cc317947935a1e9a04e10f0046311a4034712c1ec133eea74e"
+      },
+      {
+        "path": "src/lua/abyss_bgm.lua",
+        "sha256": "adcc610892b2c068e2c37a0f067080ec44e3b233e78d7799ac9371e1ddce39ec"
+      },
+      {
+        "path": "src/lua/abyss_blue_slaver_ai.lua",
+        "sha256": "f600520998bd33a13716e71ff93be6937db4d323a55aa1721ab6ce8e5be8108c"
+      },
+      {
+        "path": "src/lua/abyss_boss_relics.lua",
+        "sha256": "07202773300b3808fb154d473769f3c2c1ba9733141b2a6411f20748c88b147e"
+      },
+      {
+        "path": "src/lua/abyss_build_actions.lua",
+        "sha256": "77a03a52e8f07324605cb97017111023593e6497fe0cf66158807d73290f0ea7"
+      },
+      {
+        "path": "src/lua/abyss_card_actions.lua",
+        "sha256": "a89ef438e2f28f366fda05676b0724f5eac59c3447621d1253050b3105424578"
+      },
+      {
+        "path": "src/lua/abyss_card_art_runtime.lua",
+        "sha256": "4917a9486da0ff8848b1fb1388aaac19b9011bfb671a702a47f33e729c4cb0c3"
+      },
+      {
+        "path": "src/lua/abyss_card_capability.lua",
+        "sha256": "b9eca8f9caf716ac5264b80ee4dd8142ae74b41f83f8fe6aa847b7247c2de1f9"
+      },
+      {
+        "path": "src/lua/abyss_card_display.lua",
+        "sha256": "8b676a31d21df94b2244780ebf5816c670a886a0e3fcab5564f28caad7a932e8"
+      },
+      {
+        "path": "src/lua/abyss_card_flow.lua",
+        "sha256": "65dcdf5306c4a4a3665d934843f10974224b4b876189b0c0b0fa387458bec5fb"
+      },
+      {
+        "path": "src/lua/abyss_card_input.lua",
+        "sha256": "2bdbf7ef08346979524c336bd80a44e2e0b4c2c00998fcb8cf54efbf631f54e5"
+      },
+      {
+        "path": "src/lua/abyss_card_origin.lua",
+        "sha256": "44f4891881c0f9c982930298620dd789d49f5d87347ca6782e088af916099d06"
+      },
+      {
+        "path": "src/lua/abyss_card_origin_view.lua",
+        "sha256": "10ffbb328bf0660568f0e79bf439c93a61a44f739c5f1078ffc82a89ee96a285"
+      },
+      {
+        "path": "src/lua/abyss_card_pool.lua",
+        "sha256": "dfc3a89f7df686a677b960430b8ad1be5a8042fcb4ae9a29537659795a2d0f90"
+      },
+      {
+        "path": "src/lua/abyss_card_random.lua",
+        "sha256": "fe5890f5ea37f9cd32905321fe8a8245c25b90c527196f67bb6ff111ca962cb9"
+      },
+      {
+        "path": "src/lua/abyss_card_skin.lua",
+        "sha256": "8d6b77f09db24ce501f4f1cd03d7adb0de40001a440942730e0ce631e8ff0ff7"
+      },
+      {
+        "path": "src/lua/abyss_card_triggers.lua",
+        "sha256": "0fa45d814d1d1773e46358c2a7ea81b4ae2c8a823f330189609624485e2050bd"
+      },
+      {
+        "path": "src/lua/abyss_character_presentation.lua",
+        "sha256": "832d7871d48a9816f0285a30eacef48cbdbd4c4e8f394bf6eda0ee3425778bcf"
+      },
+      {
+        "path": "src/lua/abyss_character_presentation_text.lua",
+        "sha256": "c57e30f30c35ee7b7d8cc654a848e8ff9fea2be2fe1fa958cf48df23c21e8311"
+      },
+      {
+        "path": "src/lua/abyss_character_profiles.lua",
+        "sha256": "65a255630ead2887a58b34c37f3de1e25a636d3c02412774055e5294401b2a10"
+      },
+      {
+        "path": "src/lua/abyss_character_select.lua",
+        "sha256": "6eb3455bf6afa519ce9d9339a9ba58aece8ee9201c3c5ea13218047e140e6d35"
+      },
+      {
+        "path": "src/lua/abyss_character_select_view.lua",
+        "sha256": "d90169c2e5d369a218b9742747fda7cd71dc5b09f4face05d657cb96a9c09cbb"
+      },
+      {
+        "path": "src/lua/abyss_choice_ui.lua",
+        "sha256": "c05d16a48e5a11f0734b2f429cd634f383ebee5bdcc1edd9d55a73e988098b0b"
+      },
+      {
+        "path": "src/lua/abyss_class_card_pools.lua",
+        "sha256": "f9e6bf8162f964f6e28915c9add89b56ad514e3d436097f726370233fd8ac708"
+      },
+      {
+        "path": "src/lua/abyss_class_potions.lua",
+        "sha256": "ae68080730c0286280b04fdebb95e95e2415021873264e6628eb9bc2bddfb3b9"
+      },
+      {
+        "path": "src/lua/abyss_codex_relic.lua",
+        "sha256": "fbfdc03e939bd40d39178b887b65db37af16ca6e6edbfcfaa35e0d2d0dd6e339"
+      },
+      {
+        "path": "src/lua/abyss_colorless_cards.lua",
+        "sha256": "16dc66720b2eb4007e61c13f085335bf75ecec6d90728d6b77b3e8a64d3d3a5a"
+      },
+      {
+        "path": "src/lua/abyss_colosseum_event.lua",
+        "sha256": "a4d3d339d10b0f56ed97a95237d630fda8cb46f9d125dfa21c70fc5218627058"
+      },
+      {
+        "path": "src/lua/abyss_combat.lua",
+        "sha256": "609e75ba6e83da7b2311629adfdc2fd101c8167d3d17dbb1cdc0748baa9b1d1c"
+      },
+      {
+        "path": "src/lua/abyss_combat_catalog.lua",
+        "sha256": "3a82ccf1d73efc1274826b4093fcead3a62a663dc2968bed953059ec1c22b72d"
+      },
+      {
+        "path": "src/lua/abyss_combat_effect_cards.lua",
+        "sha256": "ad516e63bfa3528104d42a49bb7e8b5c446c2d0d6e4c855b984bcc524f2733e5"
+      },
+      {
+        "path": "src/lua/abyss_combat_effect_choice.lua",
+        "sha256": "28f6dc9c18cb44b172858bc5be388ace2aa727609402d2478529b5536d9c086f"
+      },
+      {
+        "path": "src/lua/abyss_combat_effect_damage.lua",
+        "sha256": "b8ff07660d5d8e4b2348082678a3e83dd17d70994ef78652435c19dcbb5ff044"
+      },
+      {
+        "path": "src/lua/abyss_combat_effect_dispatch.lua",
+        "sha256": "02fdbcf79108fb702d6e9508a989e12f2eb296e59d8a181ebe3ed80435aa269d"
+      },
+      {
+        "path": "src/lua/abyss_combat_effect_powers.lua",
+        "sha256": "abff029055d1ec47be657fb5a938c928309a925043796eb860e492df93b47afa"
+      },
+      {
+        "path": "src/lua/abyss_combat_enemy_setup.lua",
+        "sha256": "76c8aa93a85a272b80ff4ae74645bc26fe33b7f6d18eb733d8c54d904b9331da"
+      },
+      {
+        "path": "src/lua/abyss_combat_native_play.lua",
+        "sha256": "539c3a339016f9497b77f11daed7e0db0378f3e2fcb0923a2ebd39547881c6ec"
+      },
+      {
+        "path": "src/lua/abyss_combat_queued_play.lua",
+        "sha256": "ee51b70a7afbb8584b86dfd32477a9a9a29338128393f68a03065dcbd1b62ad7"
+      },
+      {
+        "path": "src/lua/abyss_combat_reactions.lua",
+        "sha256": "2772aa238ce72d7628958bcf625602cd40b437cc6c24570d48dcacd578ddb06d"
+      },
+      {
+        "path": "src/lua/abyss_compendium_catalog.lua",
+        "sha256": "d6594b4d276ab2f02983429227102282e51565acceca266c8971adfa9e32706a"
+      },
+      {
+        "path": "src/lua/abyss_controller.lua",
+        "sha256": "bfa156d81cbb4be11b5cdf6f5568051c46e2eacd724fa01b2d827736e6ddf482"
+      },
+      {
+        "path": "src/lua/abyss_copy.lua",
+        "sha256": "099de1e77e190d4e61ababe30916b93656e7dbceb489755a121a021657911cc9"
+      },
+      {
+        "path": "src/lua/abyss_corrupt_heart.lua",
+        "sha256": "a9b65915db69f66b9dc8a2be670ad2fb18f46f7e9fa254a406816b49cea496ac"
+      },
+      {
+        "path": "src/lua/abyss_corruption.lua",
+        "sha256": "a4ec793a0568245f32b79b0a6e074348b59d627b71fe2da8faa345fea2ef2f14"
+      },
+      {
+        "path": "src/lua/abyss_cursed_tome_event.lua",
+        "sha256": "6055e253d9af199bb0e263b9460238c835107cde7cf704c5923e98220af2a411"
+      },
+      {
+        "path": "src/lua/abyss_curses.lua",
+        "sha256": "942e7c65da29875fefbff132182ce7a7aab16afb4405e28d2a71e31d589a44b7"
+      },
+      {
+        "path": "src/lua/abyss_darklings.lua",
+        "sha256": "4cf5255fd3ba000fb5e9d94468a74685a2ca37fbb15d0c3f5d2efd9c90fec22e"
+      },
+      {
+        "path": "src/lua/abyss_dead_adventurer_event.lua",
+        "sha256": "2d225ea8e6852a4ccee55f8e1d794c111bf09f61b553d294c26c95753c76bc5c"
+      },
+      {
+        "path": "src/lua/abyss_deck_ui.lua",
+        "sha256": "e652f6c95c74a34072da49f6019e2915aa9c81b97d54300fca2d8a2fe997e908"
+      },
+      {
+        "path": "src/lua/abyss_defect_cards.lua",
+        "sha256": "7844025e58ffcf345243d29a8e24b21268f728e833456389acbd764bcbb8d6a3"
+      },
+      {
+        "path": "src/lua/abyss_defect_engine_cards.lua",
+        "sha256": "ecfccd24cac9aa6010555d4ac4d2502a75837e2ccfee4dc291aa511b494f76c0"
+      },
+      {
+        "path": "src/lua/abyss_defect_final_cards.lua",
+        "sha256": "df100051b93665ecc88dea658f9c3bfdf24148907fd740c50ca0166852f9be71"
+      },
+      {
+        "path": "src/lua/abyss_defect_utility_cards.lua",
+        "sha256": "e9372f029db58b62e4fff8f4889826607e8d114dcab2cfa00ca4f124fe29f670"
+      },
+      {
+        "path": "src/lua/abyss_designer_event.lua",
+        "sha256": "8597b051e23c7ad62276c3fa868f652ddb82f33dc6a9aa6bc0e5009935b852cc"
+      },
+      {
+        "path": "src/lua/abyss_discard.lua",
+        "sha256": "5742fbad7b6daf65b324ff9c0143d458f1fb864c006237ef5b150f4e34524265"
+      },
+      {
+        "path": "src/lua/abyss_drug_dealer_event.lua",
+        "sha256": "050e3ff36e02d4abf878248f4fac2a4bff3b6b8fbb3021965156f67cb901ff83"
+      },
+      {
+        "path": "src/lua/abyss_duplicator_event.lua",
+        "sha256": "12be2e5ebb7f0d54464d159d03829275cb1a9bfd30f46fd5d9b2912e97c6386b"
+      },
+      {
+        "path": "src/lua/abyss_effects.lua",
+        "sha256": "aa1c507c56ee8b1794641f710c4e2e2b603f52f3c29b51096f8860df58c74a71"
+      },
+      {
+        "path": "src/lua/abyss_effects_cards.lua",
+        "sha256": "28bb3255c8d038d905bcdbe1b8e5164b787223747ec20d0c15fb33a5ab989bc1"
+      },
+      {
+        "path": "src/lua/abyss_effects_damage.lua",
+        "sha256": "ae24c9ddd57d7ac2bac8c65d8f1f1768fad750ada74262501b9bad074d03ca41"
+      },
+      {
+        "path": "src/lua/abyss_effects_enemy.lua",
+        "sha256": "afa4d9172f210a5b459bbd38df18718babc3993477ffbc12ddd2615eb4f2f12a"
+      },
+      {
+        "path": "src/lua/abyss_effects_powers.lua",
+        "sha256": "323319953426476692bd7388526a249537651c46beb6b01c6e1877ceb4e70e36"
+      },
+      {
+        "path": "src/lua/abyss_emerald_elite.lua",
+        "sha256": "66f04ab348236f17a61125d8b76c7098b4fdf79607ae44b634892bff89be3d46"
+      },
+      {
+        "path": "src/lua/abyss_emerald_rewards.lua",
+        "sha256": "800a19f3a9f3c6e4dac423ac62d90ccb5ac4ddf6a23a255f12572b040490c83c"
+      },
+      {
+        "path": "src/lua/abyss_encounter_formation.lua",
+        "sha256": "de7afe27c70b14e724aa7f0ea67509e41df882e1e055904b82cc7be56916e8ec"
+      },
+      {
+        "path": "src/lua/abyss_encounter_queue.lua",
+        "sha256": "3fe80c7f00add3170c5bc3d2053889ac197e8a96e83aee1ab428b809baa4f7f8"
+      },
+      {
+        "path": "src/lua/abyss_end_turn_powers.lua",
+        "sha256": "0f8881d917f93efb26c7b53f67545c05e6c4f39b43b1694bc3d3d6080173ebda"
+      },
+      {
+        "path": "src/lua/abyss_ending_actions.lua",
+        "sha256": "2a2ada3efd984aec9b4a28cd5e60f5f18bb22f16ba44cec95afc1538ade5dd4a"
+      },
+      {
+        "path": "src/lua/abyss_ending_history.lua",
+        "sha256": "65c718fc07c01542e4aee1911d347d017e97b6ec3df4a789fcc3d8f09fb7ba9d"
+      },
+      {
+        "path": "src/lua/abyss_enemy_ai.lua",
+        "sha256": "3bfec14ef91be048c5fce7d807955c0c24beda4b98da27b91b1aff12a1ff5bf2"
+      },
+      {
+        "path": "src/lua/abyss_enemy_random.lua",
+        "sha256": "6e85867185aa114af1b0dd5faf38bc0a59a7292f1bfc39e513460909e22621cd"
+      },
+      {
+        "path": "src/lua/abyss_event_card_sampling.lua",
+        "sha256": "8ec3dcdbd2519f8d06d66ed96124178d0eab515c4c8d3cc6504d55c85739ae02"
+      },
+      {
+        "path": "src/lua/abyss_event_combat.lua",
+        "sha256": "6285d68921ff20b649d50252e9024eab794ce4df765aa5925cc34cafe6b222df"
+      },
+      {
+        "path": "src/lua/abyss_event_combat_enemies.lua",
+        "sha256": "730ec209b7b4808789ab90cd255697850c36cd0c3de6d63caec18bc7b2e105da"
+      },
+      {
+        "path": "src/lua/abyss_event_combat_routes.lua",
+        "sha256": "0bde4ab1ed47a606e42894d9d7cfbb549ad5a29fee8f51f2a4ff6ba1fa0bbfae"
+      },
+      {
+        "path": "src/lua/abyss_event_pool.lua",
+        "sha256": "2b3511baabf92f3007515de4d6707fe9b60c281d3c46ee04547109543f1219ca"
+      },
+      {
+        "path": "src/lua/abyss_event_transform_context.lua",
+        "sha256": "38c827ae2eb69dac8d0a7b9dc3f7d11d0964e2bf48d2157c23dc91d24eb4af44"
+      },
+      {
+        "path": "src/lua/abyss_events.lua",
+        "sha256": "82a1fd4f5903454220e95d55639bbb547ec13d00257051b703bf22464fd1968c"
+      },
+      {
+        "path": "src/lua/abyss_exhaust.lua",
+        "sha256": "a896da79d8206d763a28622ba5544920d14ee9e9b33d6fef9b11d72d8491de48"
+      },
+      {
+        "path": "src/lua/abyss_external_random.lua",
+        "sha256": "e328762910a732b84bd20b1d800f7372e0295156a8e66fae146acf758e834702"
+      },
+      {
+        "path": "src/lua/abyss_face_trader_event.lua",
+        "sha256": "cb82eb38e4d69656dc23f170ee197618123f887f83539074199030289f0dd66a"
+      },
+      {
+        "path": "src/lua/abyss_feedback.lua",
+        "sha256": "2219cdcb5d43fad4593e136b0ec40aa1505abb8e03f1e0c81aee8e767711afe1"
+      },
+      {
+        "path": "src/lua/abyss_feedback_actor_painter.lua",
+        "sha256": "e5e39be2a66b707e2385e2fd7171d9eac3a707ab2ef8eebcbb0c1689f9a3ebec"
+      },
+      {
+        "path": "src/lua/abyss_flow_actions.lua",
+        "sha256": "d1ce62d0481da5fef3c25fa835d4dd4c3a4d16d2ee4aefc6402bd01b4d7b3759"
+      },
+      {
+        "path": "src/lua/abyss_focus.lua",
+        "sha256": "a4cead026d11ade7e97e68190a77d4d12661a8119daaf6ecac14a31eca3c94ad"
+      },
+      {
+        "path": "src/lua/abyss_forgotten_altar_event.lua",
+        "sha256": "e353015785d8cbe3eefe1c181c160f17ad1bd58b124fc80202c1782a777db003"
+      },
+      {
+        "path": "src/lua/abyss_fountain.lua",
+        "sha256": "cedc147d608a7fe39020d494dc96a3326f0fc3a1c0473741b5e9031d069a97d5"
+      },
+      {
+        "path": "src/lua/abyss_fungi_beast_ai.lua",
+        "sha256": "2b9d1aea3c91a0570ef60e7b35ea7038c385b12c945c4058babafb71d65992e4"
+      },
+      {
+        "path": "src/lua/abyss_game_ui.lua",
+        "sha256": "76a6a648d8a1090572adb98a1b2d49d52b3911a9f48f40c578ea683a6a31984b"
+      },
+      {
+        "path": "src/lua/abyss_game_ui_input.lua",
+        "sha256": "a2630f7eee718be5b970a5e0fdfc8a8867fde6877e5c09402c0d1486ad096e39"
+      },
+      {
+        "path": "src/lua/abyss_game_ui_lifecycle.lua",
+        "sha256": "9f7ec19571c1103e536d2f579df52214cbca420f17da921459331b96c33c3f1c"
+      },
+      {
+        "path": "src/lua/abyss_game_ui_menu_view.lua",
+        "sha256": "20db628306d05a6dc7bc8b786715322e78d7c2840c028451544d8d9b308d588e"
+      },
+      {
+        "path": "src/lua/abyss_game_ui_overlays.lua",
+        "sha256": "cc8e70176ed82a7a8146507fb51c123ecbeeb6c5d01c8e1a98cb07cfb53fd1d2"
+      },
+      {
+        "path": "src/lua/abyss_game_ui_run.lua",
+        "sha256": "ae1d8e262a79ebc8a9e6749948f1a8d97b21a7ab13a28adcc4a886b1a98bc5b3"
+      },
+      {
+        "path": "src/lua/abyss_game_ui_view.lua",
+        "sha256": "edd045e7a13a1bac5af2669c1cd682cb45d928edbda45d1b8af4d055a0850b89"
+      },
+      {
+        "path": "src/lua/abyss_ghosts_event.lua",
+        "sha256": "d7fb720f4fd19f95bb1315a41eee54329227ead858c8dd58cd5f663ab8b1661c"
+      },
+      {
+        "path": "src/lua/abyss_giant_head.lua",
+        "sha256": "5806525b4634c5396e71e7c590bc00fc0047d81e6b3a612e417f889eba79f1b2"
+      },
+      {
+        "path": "src/lua/abyss_gold_rewards.lua",
+        "sha256": "8cb4b578939c8093917e521e7114ce7a8bfc53da71692cd2db1df71c78dbb5fb"
+      },
+      {
+        "path": "src/lua/abyss_golden_idol_event.lua",
+        "sha256": "14ea045b9e85ee54a6b7bbf3b5a633b3a077f85962ab92dc088b95c46e7f2af2"
+      },
+      {
+        "path": "src/lua/abyss_gremlin_nob_ai.lua",
+        "sha256": "b6739284fccfb553e229ce4f228cc8db602decbd9ee3ef4f93340ba39eeaa7e2"
+      },
+      {
+        "path": "src/lua/abyss_guardian_ai.lua",
+        "sha256": "f75fb008b6ddfffec6adaa49890c192d89b459f3119e3e8baf4d9b03a7c92eb3"
+      },
+      {
+        "path": "src/lua/abyss_hand_choice.lua",
+        "sha256": "4779464a8dbdb4e8531071e3c61b2217a8ed99aec3788275aba10e054a0e2d76"
+      },
+      {
+        "path": "src/lua/abyss_hp_loss.lua",
+        "sha256": "c850a947b868859d6fc522ccf547e76253473f29d4ebe762da0507ec9d9331ed"
+      },
+      {
+        "path": "src/lua/abyss_inventory.lua",
+        "sha256": "8fb3dddab386d221c76de49a1ca4b9937a2edbde93511c06ef3810cd71a7557c"
+      },
+      {
+        "path": "src/lua/abyss_jaw_worm_ai.lua",
+        "sha256": "c8408c9ebfdf3198db3a70e63ece71a89a642dee64548d907c64cf64208252e9"
+      },
+      {
+        "path": "src/lua/abyss_joust_event.lua",
+        "sha256": "c579ccb9efe508634e712388ccdf1ac61b54295922f59b89f47f032be2ea1a04"
+      },
+      {
+        "path": "src/lua/abyss_knowing_skull_event.lua",
+        "sha256": "fefcadeecba9b0f47fc1a7d7467585cfad81fe5645b885a73bae148b9ae293ec"
+      },
+      {
+        "path": "src/lua/abyss_library_event.lua",
+        "sha256": "10d0f6970d478ca4adb58cd287dfe5d17e8d779138bfea72ce413f3b5aa79c4b"
+      },
+      {
+        "path": "src/lua/abyss_living_wall.lua",
+        "sha256": "9fdf91e1b9ae66511b6c6e80d0e2b250b7245d2077452095c32c8515d281432a"
+      },
+      {
+        "path": "src/lua/abyss_lizard_tail.lua",
+        "sha256": "c4dbfaeb1049dd90eda158a02713977e5e968ee5e478f6986bb7fc74081ce299"
+      },
+      {
+        "path": "src/lua/abyss_looter_ai.lua",
+        "sha256": "c754cac73612052a71475d7a209cfe97634e6d134773a93475069245143b0d48"
+      },
+      {
+        "path": "src/lua/abyss_louse_ai.lua",
+        "sha256": "8e3201c61d29992883784b6165eb79512b2e4e974de5008fba8f227e6c7776f4"
+      },
+      {
+        "path": "src/lua/abyss_mantra.lua",
+        "sha256": "767b0c41782ce159b549fbbe163c1d3022bc416d0f06fa8de8d555910dc0c375"
+      },
+      {
+        "path": "src/lua/abyss_map.lua",
+        "sha256": "52d311bc4a863303906dfa3a29d65bc11606eda30759a560ed80266381900810"
+      },
+      {
+        "path": "src/lua/abyss_map_rooms.lua",
+        "sha256": "eef10661bd77af2e9464e4eab7199c0d487f72b1ba412cf0867f970169569e2c"
+      },
+      {
+        "path": "src/lua/abyss_map_topology.lua",
+        "sha256": "0b07a3269a9110c82a3a88b9fdd25313555a5e44d6121d86606f70ed654ed788"
+      },
+      {
+        "path": "src/lua/abyss_map_ui.lua",
+        "sha256": "893880f414ac726f627c599bdc066342db6a94c58b6d4dd284f4ca57ec376504"
+      },
+      {
+        "path": "src/lua/abyss_masked_bandits_event.lua",
+        "sha256": "e094fb78b5836742f1c55b00aaeb71face17f8c4af66c63f9ef5860c9ba45a80"
+      },
+      {
+        "path": "src/lua/abyss_match_event.lua",
+        "sha256": "c8e76f8be6640926de79b14cf435eb71688485072d174833f64a4fbe68361596"
+      },
+      {
+        "path": "src/lua/abyss_match_event_ui.lua",
+        "sha256": "fe0508489ec452737e78f35e42107861b7cc69ba98f8b3e54d83e873712b523b"
+      },
+      {
+        "path": "src/lua/abyss_max_hp_relics.lua",
+        "sha256": "be64e570ab9ca4ab28acf79b474531714e41fe93d7a04a284b88a79e683dc0d6"
+      },
+      {
+        "path": "src/lua/abyss_menu_background.lua",
+        "sha256": "343d0e5dad14423edc2bd5495c70632a2ff4b91e04c7102cc5eab397ef27d4f4"
+      },
+      {
+        "path": "src/lua/abyss_merchant.lua",
+        "sha256": "1406a09412592bc65e8cc39446fa4219250d837bc55a94f06c53ea68ad31435d"
+      },
+      {
+        "path": "src/lua/abyss_mind_bloom_event.lua",
+        "sha256": "90839bb4c97a29e8294f3ac97481c8d3851f079f5088570c48fd885a641b2bb8"
+      },
+      {
+        "path": "src/lua/abyss_moai_event.lua",
+        "sha256": "5e91422199049347db4c33429235023180cdc3ae6fda7b4645bbf2643e0c8026"
+      },
+      {
+        "path": "src/lua/abyss_monster_art.lua",
+        "sha256": "af776e697821870dd7c06b86862b4096262f9879ae66af3f8bbebb125d63644b"
+      },
+      {
+        "path": "src/lua/abyss_monster_displayed_intent.lua",
+        "sha256": "03ffebc6575d6ee7bca229b239276a452bec5e5800737238745ae129ead6e358"
+      },
+      {
+        "path": "src/lua/abyss_monster_escape.lua",
+        "sha256": "f5fa35cd7aa2f62fe1540d14b732647e79014e8266f64e28b4671d688c3f34a2"
+      },
+      {
+        "path": "src/lua/abyss_monster_intent_particle_view.lua",
+        "sha256": "8117dd827ff947880d410f19fc5999fdce6cbd8caeb0b8e2b2cdb11b9db3dd70"
+      },
+      {
+        "path": "src/lua/abyss_monster_intent_particles.lua",
+        "sha256": "53bc76d7bd0296944fff253e4d021e2319253acda758c48e8eb673878dc3aa5f"
+      },
+      {
+        "path": "src/lua/abyss_monster_power_surfaces.lua",
+        "sha256": "e9e81ea8648f22f3d2b6b2a489f72eda194304cc164a52f8cebbed9859bff15e"
+      },
+      {
+        "path": "src/lua/abyss_monster_power_view.lua",
+        "sha256": "64a01d5c8b97872a574749418afa0ee415290a760f62f8b70e40f369a9f90627"
+      },
+      {
+        "path": "src/lua/abyss_monster_source_geometry.lua",
+        "sha256": "72e5b5b88b3788f88597fb84d9e8df8c7369dbb38c75d2f99e9e81866f597d47"
+      },
+      {
+        "path": "src/lua/abyss_monster_source_intents.lua",
+        "sha256": "8992382ce56ae66c54194686160bfac78c035f545a50410557d02e8ae6820675"
+      },
+      {
+        "path": "src/lua/abyss_monster_source_positions.lua",
+        "sha256": "451aba7cc747b2ea24bcc26b646206f0c3da72be1784621e0024de2a96a8d755"
+      },
+      {
+        "path": "src/lua/abyss_monster_surfaces.lua",
+        "sha256": "217ea8492fb72867ef635d674987891e5a85a1d71dda7b70b52db6a0e53f0d8e"
+      },
+      {
+        "path": "src/lua/abyss_mushrooms_event.lua",
+        "sha256": "4cc7a98b481c4600cfbe497ad1b44e5a7fe18c08d14498b52b47225c559c25a5"
+      },
+      {
+        "path": "src/lua/abyss_mysterious_sphere_event.lua",
+        "sha256": "9532b65d22f0849ca4da946abe27c99ab48f06e2f902a30d39b1ce5b1d4c71a4"
+      },
+      {
+        "path": "src/lua/abyss_necronomicurse.lua",
+        "sha256": "173812f59fb1ae31decb2904785291b12c53a7b64f9eaca12d229ace07c5bbc8"
+      },
+      {
+        "path": "src/lua/abyss_nemesis.lua",
+        "sha256": "0aee581d8fef52d08d4318ca4ff3f8656970936d0690d5705c7036405e8fbe6b"
+      },
+      {
+        "path": "src/lua/abyss_neow.lua",
+        "sha256": "6d7c62735bcaae2b188c497b1b756216125ca85670141fb8a4c7e440a0b877d6"
+      },
+      {
+        "path": "src/lua/abyss_neow_history.lua",
+        "sha256": "6fe9d6b915f155a1edbd2581cc13af530b3fa7277aeab10c3249429a2d200b16"
+      },
+      {
+        "path": "src/lua/abyss_nest_event.lua",
+        "sha256": "5fe3c845db3520c0c91c43307b723b7c0a5f7b0c2acf6954758f6b31b68ad936"
+      },
+      {
+        "path": "src/lua/abyss_new_run_seed.lua",
+        "sha256": "3d22d46f72cae9cbeacf534091442d8e3205701bc1b118599c181e5adb981755"
+      },
+      {
+        "path": "src/lua/abyss_nloth_event.lua",
+        "sha256": "89395ef63c0876b09097b051941e0560e5788ba9b8f863066e02ac146c790605"
+      },
+      {
+        "path": "src/lua/abyss_node_ui.lua",
+        "sha256": "4f8da21e05e0289181c7890656cfca2f818cc6e3850f23e505327fd4a16acfba"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_camp.lua",
+        "sha256": "e67ee265250e0182f551c35b114abb39b539943caa346bbae5ea5f491fe20478"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_camp_actions.lua",
+        "sha256": "cfc7a17942f4c5770a06b38fe67b04183e673d890285fc50f950810130a04252"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_ending.lua",
+        "sha256": "b53dacef061da3574578cf1b7f623b5ade64a3fa80ccb464f4085deb72d052f3"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_event_cards.lua",
+        "sha256": "d87d2401a475451aa11505c46a04f90147f7772e128099bde934dc4a5ba63242"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_event_ownership.lua",
+        "sha256": "a9d0ebe3d0f9973274bfe0734c14881c90a5947ece6955770e27c15fb507af58"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_events.lua",
+        "sha256": "45d2aab93b2e0819cca54f4082b80fd006b5253be455cc3c36cdee66437544b0"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_faces.lua",
+        "sha256": "0ab8654addf095b7c00980aab325fe12f496b109f47714f78abfab8adacdfbd4"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_feedback.lua",
+        "sha256": "d684dc352f25e270991025ed37d262527d676c428e50ccf6faa7fff87dc43a27"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_input.lua",
+        "sha256": "c7aa8771c045dbdb24f7d36589f8671b548cca7c5bf55d0f5dcefddecac882ad"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_lifecycle.lua",
+        "sha256": "40db53d318a958922f25e84dc97825265f48b3a43f83abda54da3b6c4791651e"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_motion.lua",
+        "sha256": "3673190f95c5bf81a68c7a671942fb13549267114d702bfe40e36869057bc18f"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_reward_detail.lua",
+        "sha256": "166430794f9eb17607b5bed5102260c981caef9fdbf761e73c01d113b052d2f7"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_rewards.lua",
+        "sha256": "b9b321752c45bdf2800d3d9f1be68484cc3ea2e58b27f2803bf789404ad85bb2"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_shop.lua",
+        "sha256": "93cc968880309c10a73f38e6970c499b1ca5e14e173863a49eeb9fa20c2505b6"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_treasure.lua",
+        "sha256": "771421ff18215245dcd4967f210a96019562cd3dfb80deab1829edfbaf681ec2"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_treasure_list.lua",
+        "sha256": "8761f06908f2befeb9107be141e87f7d815d5e224382ba7ef93600f64e818060"
+      },
+      {
+        "path": "src/lua/abyss_nodes.lua",
+        "sha256": "f685e7a59b57f66721e3c2f8143b99aa37efd05be77371bbda61fd6e4a4a4d9f"
+      },
+      {
+        "path": "src/lua/abyss_nodes_common.lua",
+        "sha256": "584d9e65ce3ae76df830bc3603b2a2f815312dd336774c5d69a7f767f344bb4b"
+      },
+      {
+        "path": "src/lua/abyss_nodes_entry.lua",
+        "sha256": "b966569a6c79b03cf7734238fe516183be412cfbd0a3db9adeef2dd32ec95447"
+      },
+      {
+        "path": "src/lua/abyss_nodes_events.lua",
+        "sha256": "596ec0802d0df72c3e3a431051a16e225a434ffc43b0464d267891c9eafdc4a4"
+      },
+      {
+        "path": "src/lua/abyss_nodes_rare_camp.lua",
+        "sha256": "af58260d9f6ce43190589ba78ad46dae73485450a725d02b490644ed255bdfdf"
+      },
+      {
+        "path": "src/lua/abyss_nodes_sources.lua",
+        "sha256": "daf8bf82db53dc1fd1c8ef38d0356cc2c226d223d60d4883c8a27c96ff9ac310"
+      },
+      {
+        "path": "src/lua/abyss_numbers.lua",
+        "sha256": "857c071eefa67b128b5d8aaf16fb4ae04374ac3f80ba2eddb13b324382953c80"
+      },
+      {
+        "path": "src/lua/abyss_opening_hand.lua",
+        "sha256": "4b81ec5f9bfaf28f7f8c127db4df7f87de1455e5639a98ddf0162d830a664d28"
+      },
+      {
+        "path": "src/lua/abyss_orb_powers.lua",
+        "sha256": "7fd3fe6cad6a519c352403f65276caaae6eccc49c2a59bae64fd58de3a3ab811"
+      },
+      {
+        "path": "src/lua/abyss_orbs.lua",
+        "sha256": "8db88dc31db3e60e779e737cbb49b776f817ba3fdc945b8f7779fbb35b3442bf"
+      },
+      {
+        "path": "src/lua/abyss_original_v4.lua",
+        "sha256": "4728b4ab4838e664d7b2fe4efa6b55c089417c79428e4362412b682a84cd927f"
+      },
+      {
+        "path": "src/lua/abyss_original_v4_display.lua",
+        "sha256": "51f6f3bd0a93acb728a9c2a10c8d52041d4ac1133714ddb48758124f7cdc0711"
+      },
+      {
+        "path": "src/lua/abyss_original_v4_health.lua",
+        "sha256": "ed0efdbcf41527cf87b5e9b53d6afb08d73e3462e7a1528a4f1f4a33008849bd"
+      },
+      {
+        "path": "src/lua/abyss_original_v4_profiles.lua",
+        "sha256": "fb50790452127f2bae3821d4f8cc249cf71f9c7850e97906e65626dafc2cb9d4"
+      },
+      {
+        "path": "src/lua/abyss_pile_choice.lua",
+        "sha256": "a0d0e6cec6cc92b3e1d59425e712cdf1c0fb183fb2cc88653daf8931ba39edb5"
+      },
+      {
+        "path": "src/lua/abyss_plated_armor.lua",
+        "sha256": "dd80bf7c574748759fea2eb4dfc168b05f312f8d81b630cbb8e3b4fa18125813"
+      },
+      {
+        "path": "src/lua/abyss_player_revive.lua",
+        "sha256": "735fe7d5b055c5ddd66335b45273e920282cd891c4814e1c13afb9ab0a3b0d92"
+      },
+      {
+        "path": "src/lua/abyss_poison.lua",
+        "sha256": "c739ba6e3958531a0148752b46566963b69a315cf38dfd8fa27eecb701ac8e78"
+      },
+      {
+        "path": "src/lua/abyss_potion_discard_ui.lua",
+        "sha256": "5b7ad888b2f2407fc3dea893119f407f29a1600332862ddbbd75b8661d23d479"
+      },
+      {
+        "path": "src/lua/abyss_potion_discovery.lua",
+        "sha256": "27350b4591b352d28aae66ca4236b3c7301bf8363d02fb7c94592bf5f5d34e38"
+      },
+      {
+        "path": "src/lua/abyss_potion_events.lua",
+        "sha256": "2ff64303e05e625ce592f42797aef95f0c3d3b157e89b25ebd29ebf26c7dfb54"
+      },
+      {
+        "path": "src/lua/abyss_potion_fairy.lua",
+        "sha256": "fe6a3d984f7387ef1f5a52a65e3874634022d9cab86f6b17576a89720607194e"
+      },
+      {
+        "path": "src/lua/abyss_potion_generation.lua",
+        "sha256": "3f6c2b85cbc01a77199402cd9bdf5efd943461b42d9883bb7196cd198752b766"
+      },
+      {
+        "path": "src/lua/abyss_potion_health.lua",
+        "sha256": "8fa0f204f39258f80c6b63770d7138a5b267a193b35923d7b7020ec7466558bb"
+      },
+      {
+        "path": "src/lua/abyss_potion_random.lua",
+        "sha256": "9c2f9f9beaa848af047306215e1b36d6d2d93bcd156ef54c56531c3c78342dde"
+      },
+      {
+        "path": "src/lua/abyss_potion_rewards.lua",
+        "sha256": "965a96293ad56d4bd10cbbe1dc21b2b16301d7f5468d9a8ca897df0efef00954"
+      },
+      {
+        "path": "src/lua/abyss_potion_stance.lua",
+        "sha256": "8ac4826598d8d3e3eca5706420d1acce9d9b05f6852f2505affb9866d957eca6"
+      },
+      {
+        "path": "src/lua/abyss_potion_text.lua",
+        "sha256": "8c2907f1102699c59ea2167919e43a39e1c1be188756b104d5f64bf228369d59"
+      },
+      {
+        "path": "src/lua/abyss_power_order.lua",
+        "sha256": "5e36ae81090d59148ba821b54661413eace65e6127bf5e93c9ab6f3e24ea47ef"
+      },
+      {
+        "path": "src/lua/abyss_power_schedule.lua",
+        "sha256": "eb8fe768a1f161b8dc5ecbdff9e5e12fc38730048cefe2afc67aa125c4e275cf"
+      },
+      {
+        "path": "src/lua/abyss_prologue.lua",
+        "sha256": "90016c56a06e97ec7508729d85ef2422adbb0441e1b6e352d226a90ee6bdce83"
+      },
+      {
+        "path": "src/lua/abyss_purge_candidates.lua",
+        "sha256": "a1ab5102f39adf7f44159a45d9611458e67d3ee49a9c8aa6fa50432bee4ca592"
+      },
+      {
+        "path": "src/lua/abyss_random.lua",
+        "sha256": "a052a4996c3b7090b1d79112f18630400f21df4318afe68041a2167d1c92e09d"
+      },
+      {
+        "path": "src/lua/abyss_randomxs128.lua",
+        "sha256": "73af699eb931d4134c81db9bc980f0fa8cabbcf3c587c9031c85ce6886fe9777"
+      },
+      {
+        "path": "src/lua/abyss_rare_relics.lua",
+        "sha256": "2b05387c8d77ef9818d38a43c2d1b1f9fcd2f69f930db47a919df75744f74788"
+      },
+      {
+        "path": "src/lua/abyss_red_slaver_ai.lua",
+        "sha256": "7b785a5f8c9b14199f7907fe7e71ad1a1992144d2c168e58e251c462f4474457"
+      },
+      {
+        "path": "src/lua/abyss_relic_card_rewards.lua",
+        "sha256": "868af280866ff94468dd3b2ea2dc53b46eb5bb50b41289e57cd5c2b0bd5ba98c"
+      },
+      {
+        "path": "src/lua/abyss_relic_choices.lua",
+        "sha256": "6ff4a6f99f70c197f078ffccc9806871ad1896fa76a95bbd7e55e7a0945fa522"
+      },
+      {
+        "path": "src/lua/abyss_relic_combat_hooks.lua",
+        "sha256": "fda7e14cf4b4704ba30ca79f3fa8b3ed3c933f9d391887227ed463350f8755a9"
+      },
+      {
+        "path": "src/lua/abyss_relic_end_turn.lua",
+        "sha256": "0b28bacfb03f92e399c12b19e02ec880f70774d9ec56bf4993c9de7bc1a93ecd"
+      },
+      {
+        "path": "src/lua/abyss_relic_family_combat.lua",
+        "sha256": "2e001da46754b81afda1dc592beaf8519a0f308fef65ca47c5779b2ae3607e4c"
+      },
+      {
+        "path": "src/lua/abyss_relic_hooks.lua",
+        "sha256": "5d929b950824caaa51db1934fd1c7c0fea82ee4a763dc45f63e615d083a7fcfa"
+      },
+      {
+        "path": "src/lua/abyss_relic_loss.lua",
+        "sha256": "8a3196cd5838a838b47856703d9cc69c17b5bb61052b314ac68001508b2c964e"
+      },
+      {
+        "path": "src/lua/abyss_relic_names.lua",
+        "sha256": "b0d5f76ff66e76947c657bb06bf2bfb920907d00a840db5062b5e7c8c2cd06ae"
+      },
+      {
+        "path": "src/lua/abyss_relic_pending.lua",
+        "sha256": "269d672dd3f0190efff77991a21a96490d52e2bbd038b95e3e7f3bd3104c2446"
+      },
+      {
+        "path": "src/lua/abyss_relic_pending_ui.lua",
+        "sha256": "a1d5ba5d2d81ef63209651b571d91de24d967e12e144f3b454a5f9439cf2fe23"
+      },
+      {
+        "path": "src/lua/abyss_relic_pool.lua",
+        "sha256": "25ff5c96bf6ed5c35a77aba3d0664193211167e90de9cc478691f8da02e2f51c"
+      },
+      {
+        "path": "src/lua/abyss_relic_queries.lua",
+        "sha256": "a9ede443094115bdf31363d530ac89fa9ab011211ee68bfac866f99e4f2dd214"
+      },
+      {
+        "path": "src/lua/abyss_relic_rarity.lua",
+        "sha256": "6c92a5ede225452073ed8b283a0ce2bbe24bfc37d4651ebabc47dbef8fd8c8d4"
+      },
+      {
+        "path": "src/lua/abyss_relic_rewards.lua",
+        "sha256": "1a6afee50885e2e56065b05058e5e632745ba88ce202bd4fbea7ff47c54ec405"
+      },
+      {
+        "path": "src/lua/abyss_relic_text.lua",
+        "sha256": "b0c64b6f06ece16b2f3ddbc39d2b0e6ba0f78b2b67c4836c4829ded94c69fe79"
+      },
+      {
+        "path": "src/lua/abyss_relic_view_ui.lua",
+        "sha256": "59140cd7e1adbae288a50d44f631c6a2dd547069f01ecf3e9b584153c7a0c5a2"
+      },
+      {
+        "path": "src/lua/abyss_reptomancer.lua",
+        "sha256": "43eb35c06a1b1fae67e51319416a58febdf524f470c851db4641b8d2e27b7ebd"
+      },
+      {
+        "path": "src/lua/abyss_retained_cards.lua",
+        "sha256": "62f43f6c006b6a5400dcb401e08edb9701404b885012fa30df38426e2da3ffe0"
+      },
+      {
+        "path": "src/lua/abyss_retrieval_cards.lua",
+        "sha256": "25f54d3bc35ae4e91ed336e2565c94b8c41f0613a9b93ac4c73b47bb93d26fa2"
+      },
+      {
+        "path": "src/lua/abyss_room_encounters.lua",
+        "sha256": "f2e377c002ead24bdcf1ec71eece13290445980d2cd5ac142abc100ed560d73e"
+      },
+      {
+        "path": "src/lua/abyss_run.lua",
+        "sha256": "189e4a36804ec74f9dcc8c54a07ea5401fb07d81a44ef08d44153b15bac89030"
+      },
+      {
+        "path": "src/lua/abyss_run_admission.lua",
+        "sha256": "7a57fd9c9c11770f51f642df85180a4caddf5999901b7467c44eb8c52bd79992"
+      },
+      {
+        "path": "src/lua/abyss_run_card_catalog.lua",
+        "sha256": "d8d7f52778dbfd6814ddebc1ecc960c6732317d3746a6aabf104e4b7ef7f4a54"
+      },
+      {
+        "path": "src/lua/abyss_run_initialization.lua",
+        "sha256": "1b6779a80523c03c14bafdd399215190cadf04437d76a6db6e86a3f768fc73f9"
+      },
+      {
+        "path": "src/lua/abyss_run_potion_candidate.lua",
+        "sha256": "a81fe8ddc9542f28b219ab68510ef80641bff75d0fa3c703f53eb7c20284488e"
+      },
+      {
+        "path": "src/lua/abyss_run_potions.lua",
+        "sha256": "59434df0d36cecd33dbe58fc9c3be19aa42700011e0440c3e568390a68ba5be1"
+      },
+      {
+        "path": "src/lua/abyss_run_red_card_contract.lua",
+        "sha256": "933b9b7855e99736474cdff4c051a12a4613750bfe322061f3b3604aedf86397"
+      },
+      {
+        "path": "src/lua/abyss_run_rooms.lua",
+        "sha256": "0c8a3ff96133c6217abcfcb4b7287052b3929eb2e890d8aa2b7354b5f6de86d1"
+      },
+      {
+        "path": "src/lua/abyss_run_score.lua",
+        "sha256": "417229ed8d4b836761e4d001465cfc7739ed932f81ec41ed55ddedc480023685"
+      },
+      {
+        "path": "src/lua/abyss_run_scoring.lua",
+        "sha256": "3fca7eb3bb4c5149b4c2b9ac975386393de5c8ae5151ffd97503dca0eb76e03a"
+      },
+      {
+        "path": "src/lua/abyss_run_seed.lua",
+        "sha256": "d94d44a66d183f6ffd5b1e082f7a14de66cc6969b0257b4920bc8c94616a576c"
+      },
+      {
+        "path": "src/lua/abyss_run_settlement.lua",
+        "sha256": "65c4ebaea52e996ef6dc129baa145a24b11ff4a728ffa4eab04f8eab38ce4ec1"
+      },
+      {
+        "path": "src/lua/abyss_run_transition.lua",
+        "sha256": "7f4136e52c4bd7fe4ceb71958830cbbe90d79ecbcedb998703e1897bbf2d2120"
+      },
+      {
+        "path": "src/lua/abyss_scry.lua",
+        "sha256": "786a5b20a63abaf08f1251402238e410fedf4aefab47abd75a38ab9fc3f1d4a5"
+      },
+      {
+        "path": "src/lua/abyss_sensory_stone_event.lua",
+        "sha256": "3df3cc4708f6d2704b503c9805b8e9bdf130afc60a348519ffdac152aa3dc890"
+      },
+      {
+        "path": "src/lua/abyss_sentry_ai.lua",
+        "sha256": "c174f622e36a645a8e989d1162fc1bbbc7c52f7a3e60d503638eebb85995265d"
+      },
+      {
+        "path": "src/lua/abyss_shivs.lua",
+        "sha256": "f96896a0280691c2ed5cb04f516d1bf9a92854be817dea922b9858d52a91a57e"
+      },
+      {
+        "path": "src/lua/abyss_shop.lua",
+        "sha256": "c13adbaa4fd921a4b69a341f43eff5d60179b59fd3ca848a336f76b9d5a6b3f7"
+      },
+      {
+        "path": "src/lua/abyss_shop_price.lua",
+        "sha256": "c882362aba486ae139b1d0bec7e67b5bd1b85f4cf812c3d365573a2ac7b45a1f"
+      },
+      {
+        "path": "src/lua/abyss_shop_relics.lua",
+        "sha256": "4d193801023eb938b4a25878b61c0210ab3023f1133ab395daadbcdf11f810ba"
+      },
+      {
+        "path": "src/lua/abyss_shop_selection.lua",
+        "sha256": "66ac3deb3029d761fea245cc1a37e9d6096ae13a7a06e18223490ce8253efb20"
+      },
+      {
+        "path": "src/lua/abyss_shop_ui.lua",
+        "sha256": "373302ed5d715034c5c0b3c14f8d65bca4b4ba1569935c2f6d65d8dfe2fbce71"
+      },
+      {
+        "path": "src/lua/abyss_silent.lua",
+        "sha256": "32705c37dbe7dd4123663d9eb985f11c6fcc700fc92e07f1726903fcacccccd5"
+      },
+      {
+        "path": "src/lua/abyss_silent_attack_cards.lua",
+        "sha256": "4b2efb9f0724c958d4a22aae8fef1e5bd0b3ae74f4af34e375c79640fe740efa"
+      },
+      {
+        "path": "src/lua/abyss_silent_discard_cards.lua",
+        "sha256": "b64414afecc1ba0026c649fa794f7923656ba737e282c3933f3d2c8e87973159"
+      },
+      {
+        "path": "src/lua/abyss_silent_final_cards.lua",
+        "sha256": "a8648acd0e294f142be20bc4e1561ceded10c1455ec8b493cc96c7e1f6d36fef"
+      },
+      {
+        "path": "src/lua/abyss_silent_potions.lua",
+        "sha256": "ec5a9c8cdc398211d0e4e25f9ac737e012d2103315350daa534bac770b44d292"
+      },
+      {
+        "path": "src/lua/abyss_silent_tactics_cards.lua",
+        "sha256": "8ea7cc9fcd64559b999431997613ae02f394de2eaa6cd04947e2695ff3d48d76"
+      },
+      {
+        "path": "src/lua/abyss_skill_feedback.lua",
+        "sha256": "6bc4bbfc994d1b031f0857a4f690a1c7e9a405ec457d542abf82497e91f3dce6"
+      },
+      {
+        "path": "src/lua/abyss_snapshot.lua",
+        "sha256": "8952ff07bea54c924d9a04200acce11be26cbb4bc66096de72a1b6a39e079b63"
+      },
+      {
+        "path": "src/lua/abyss_spike_slime_m_ai.lua",
+        "sha256": "941795ae786277e32c0382c785063a241f9dc4ae3f93dba595b346bef329dd2e"
+      },
+      {
+        "path": "src/lua/abyss_spire_pair.lua",
+        "sha256": "42aaa7b747edd6a717a4be3051974d77c4dd236fd61cfe78d2ea7570ae2d62e5"
+      },
+      {
+        "path": "src/lua/abyss_stances.lua",
+        "sha256": "c88a7c42694836b921b10bc791161ef0e0deca62f8545974f57b0aeb11ca6610"
+      },
+      {
+        "path": "src/lua/abyss_sts_random.lua",
+        "sha256": "1e0e0f64fe6a7d2edfe8609419080266c554b763fd71b9565b52eed99aaa42b9"
+      },
+      {
+        "path": "src/lua/abyss_time_eater.lua",
+        "sha256": "678c77192bce317778f4ef9447b29632446babb69a5d0b86645182ed25f3f0f7"
+      },
+      {
+        "path": "src/lua/abyss_tomb_red_mask_event.lua",
+        "sha256": "190184898fdaa23de61c1bd9d8739d1d7569d2cac416c691c91654b189c8e4b4"
+      },
+      {
+        "path": "src/lua/abyss_trade_event.lua",
+        "sha256": "e512ecc1e8b1fecd181da0401d5f8819e6af96d9fde3881fb0bb41acaf1f29b2"
+      },
+      {
+        "path": "src/lua/abyss_transform_card.lua",
+        "sha256": "6fe97f0ed053616db17834ca25ec52551e1dfda898a404ba0c8f0e14d8b0a5b9"
+      },
+      {
+        "path": "src/lua/abyss_traveler_portraits.lua",
+        "sha256": "0f7b17f05bfee88f6d54fa575ca494c77dd388b102af8e837a485f644b73104c"
+      },
+      {
+        "path": "src/lua/abyss_treasure.lua",
+        "sha256": "ced731d340e84dcc340926ad2b320f9bbcbec464d720d6a7065cad1f297d778e"
+      },
+      {
+        "path": "src/lua/abyss_treasure_source.lua",
+        "sha256": "44ae73c0d996c4f336d18f225a44466c73db6db85921f1eca28c00865f8601da"
+      },
+      {
+        "path": "src/lua/abyss_treasure_ui.lua",
+        "sha256": "b948aefb729dff7bcd160e991bf331d5fddf41e646eabe45fbe0d9fd4c7aadd2"
+      },
+      {
+        "path": "src/lua/abyss_turn_powers.lua",
+        "sha256": "e93e1cf190e0be800705c10fec054dd114701d68d7f7d313d56662240509f7da"
+      },
+      {
+        "path": "src/lua/abyss_ui.lua",
+        "sha256": "5a3eb4513cd979edc5bf8038ce47af16fa306914b46a39214715e3b82a788c88"
+      },
+      {
+        "path": "src/lua/abyss_uncommon_relics.lua",
+        "sha256": "8e260bd5c52f8ca90f61281858099afbf98d7ec91a5f82a3c7b8f9e74108093c"
+      },
+      {
+        "path": "src/lua/abyss_unknown.lua",
+        "sha256": "1a35af89546437350e32caaf12ab64ca379f37c06f636348933d5f5f4840b69c"
+      },
+      {
+        "path": "src/lua/abyss_vampires_event.lua",
+        "sha256": "53270489c6ac1ca6e9b97fc7cc43efaa2cad992a79872d9f37c574032bea4c53"
+      },
+      {
+        "path": "src/lua/abyss_victory_easter_egg.lua",
+        "sha256": "53fa603781dff67b44deb317e3ed212b714785475dc7bdd02606c22c05fa256e"
+      },
+      {
+        "path": "src/lua/abyss_viewport.lua",
+        "sha256": "14b9a3f0ac0dd4873d7735cacc2daa7b96ac41fcef4a41692194a16e437092fb"
+      },
+      {
+        "path": "src/lua/abyss_warrior_cards.lua",
+        "sha256": "cf9fe3d1aa038be990b1ab47ad0b1ed7898b952a6ef5f49feb931764d0d9dabb"
+      },
+      {
+        "path": "src/lua/abyss_warrior_exhaust_cards.lua",
+        "sha256": "5b425f3cfc4c7d94128cc5a0a77a856a1a44edfe1dbd5abf427a8444f4bc4a1b"
+      },
+      {
+        "path": "src/lua/abyss_warrior_status_cards.lua",
+        "sha256": "554181c678d5387ca7de54095db78a37225c04acc23878bce0392d21acc33a63"
+      },
+      {
+        "path": "src/lua/abyss_warrior_strength_cards.lua",
+        "sha256": "222eca8efdd2568cd81dd21c1cb3b2f738e7326ac5d37ae33f66cca3be6176da"
+      },
+      {
+        "path": "src/lua/abyss_watcher_attack_cards.lua",
+        "sha256": "c6adcaf2a4c88988e7e957104a4812c9cefcd67a9740a2290cd73b9e3aa2d38e"
+      },
+      {
+        "path": "src/lua/abyss_watcher_cards.lua",
+        "sha256": "c93259044790a3e3d6d257d21355707c5879417ea65cc833bfd17ee6f6f5ad3c"
+      },
+      {
+        "path": "src/lua/abyss_watcher_final_cards.lua",
+        "sha256": "343888e746943d3c97608033ac65f52fe02a390c0dba8283b23f18c4a2118018"
+      },
+      {
+        "path": "src/lua/abyss_watcher_flow_cards.lua",
+        "sha256": "08c363feb2269edbe1058457f5d7de39c1b1bf7e0b69b5ce05ad834641a961b9"
+      },
+      {
+        "path": "src/lua/abyss_watcher_foreign_pool.lua",
+        "sha256": "5bd9c29d05fe493053b03a4c8272b7a55cc774dc357968899bbdd7d8724bcd01"
+      },
+      {
+        "path": "src/lua/abyss_wheel_event.lua",
+        "sha256": "f775746a95c2f33eeb9a5d7c688c536b3dd0b6b3ddefeb3455fbd28468f6bc2c"
+      },
+      {
+        "path": "src/lua/abyss_winding_event.lua",
+        "sha256": "1f3a5d5f40847660638443ac9c553065b1e8cec03bb523882d235d4271daebaa"
+      },
+      {
+        "path": "src/lua/abyss_writhing_mass.lua",
+        "sha256": "fc362d8be41e3744169067903fc979ad8bc671eda47c754e4c67f8fe6a7d2d4f"
+      }
+    ],
+    "after": [
+      {
+        "path": "src/lua/abyss_acid_slime_m_ai.lua",
+        "sha256": "972d81f4e3ed017249796267d242ab73f7bdac93945efb6a441ed53b603a90e6"
+      },
+      {
+        "path": "src/lua/abyss_acid_slime_s_ai.lua",
+        "sha256": "b3063719126444d01ec18bc7878d4ca614dda13dc0ddcc7599304e24b3703769"
+      },
+      {
+        "path": "src/lua/abyss_act1_bosses.lua",
+        "sha256": "9a3db2a6bb7e4625765cdb212172e940225a3b7c1a2f0bedae164acc3f7df1be"
+      },
+      {
+        "path": "src/lua/abyss_act1_events.lua",
+        "sha256": "5052bec306ea9d3544cf40bd9d1dc1327f61c6608b1557fd13fe3473fbc8ff25"
+      },
+      {
+        "path": "src/lua/abyss_act2_ai.lua",
+        "sha256": "aba682db573572693cf60f613bcd5ce3f1f0b11f2116610f23cacf285f89bad3"
+      },
+      {
+        "path": "src/lua/abyss_act2_ai_moves.lua",
+        "sha256": "b41dea36e6b664e76f4ce551027aa7372e21888efd7119f1f330c51da9b055af"
+      },
+      {
+        "path": "src/lua/abyss_act2_enemies.lua",
+        "sha256": "11d8b679c711ebff5a5a34609a8f4da737552377c556cfce63c8812c14329777"
+      },
+      {
+        "path": "src/lua/abyss_act2_event_relics.lua",
+        "sha256": "fbad6fda867e0dbc2b9347e9698bba6b66d1acdc208a3c966f222ec286f3af92"
+      },
+      {
+        "path": "src/lua/abyss_act2_events.lua",
+        "sha256": "75d8578d7cf4a3feaa0bfb6c4a0fd162625b3a0ce8dc6ad42d6f5b0520aacad6"
+      },
+      {
+        "path": "src/lua/abyss_act2_powers.lua",
+        "sha256": "966f9906c9fd03d306424c9ea430e3aa8840fdf6e852d13cecd274c0a3aa3629"
+      },
+      {
+        "path": "src/lua/abyss_act2_stasis.lua",
+        "sha256": "0a1b6da54329fe7c00cfb45bb57dfc1ff53663cd7437e1bb17b35f702181466a"
+      },
+      {
+        "path": "src/lua/abyss_act2_summons.lua",
+        "sha256": "ad88bd02442af998322d69dade30fbd9cdddb14983043003c75797c12b1d9dca"
+      },
+      {
+        "path": "src/lua/abyss_act3_ai.lua",
+        "sha256": "34511b1e1bfa55fccaa6f77cb8d549f60722a95fecaf324613abe427731a5b19"
+      },
+      {
+        "path": "src/lua/abyss_act3_bosses.lua",
+        "sha256": "e99bde5cc595bf0a3dac968a7ea61ee96faf7c8afd313464b52b653daba0d404"
+      },
+      {
+        "path": "src/lua/abyss_act3_enemies.lua",
+        "sha256": "c810114c966767fcdc9c04a37fb835577337a18799288c7f4b57c2214b7fdd74"
+      },
+      {
+        "path": "src/lua/abyss_act3_events.lua",
+        "sha256": "e30d2820eb81359f9112c4b32b36b1af61db1a294151407526b9c658316f2c9a"
+      },
+      {
+        "path": "src/lua/abyss_act3_powers.lua",
+        "sha256": "07064486b2bb60c770c748e503b5209ede5559619be946ccb00c192fe9c88365"
+      },
+      {
+        "path": "src/lua/abyss_act4_enemies.lua",
+        "sha256": "6c18570819c4f0a918bf51e04644f2f998fad696614a8f86cdd54493fb49f710"
+      },
+      {
+        "path": "src/lua/abyss_action_queue.lua",
+        "sha256": "5053ad084fee0bc15277ccbd9bc614c2acaa8e2b8d70bcb91f1bf4a01499cb2d"
+      },
+      {
+        "path": "src/lua/abyss_actor.lua",
+        "sha256": "8c65e3f385b412eac28c1ec7d56cac1495e4f91608320af46c2a6c11394be43a"
+      },
+      {
+        "path": "src/lua/abyss_actor_motion.lua",
+        "sha256": "c5bd7f59379629cd6c8a0523e1449f4a59267617a81c0fb0e9ebd426f2558687"
+      },
+      {
+        "path": "src/lua/abyss_actor_power_rules.lua",
+        "sha256": "ff5ee7976332e9e3a01a62c121d7a7246ad59ae5eae27f0cd4bb5bee5be6051a"
+      },
+      {
+        "path": "src/lua/abyss_acts.lua",
+        "sha256": "06307170ce3ee1627c9ea5ebe45f9042a4857ad153f7f92e625f2e9856cc8150"
+      },
+      {
+        "path": "src/lua/abyss_awakened_one.lua",
+        "sha256": "0d8fbb76c5db90539e995aabd2f02660184481463b842045b5687b38ab42de36"
+      },
+      {
+        "path": "src/lua/abyss_back_to_basics.lua",
+        "sha256": "5d83af37dc3bffcd16f61627e164dcb41b654647ed753aa7cdd0058c10926571"
+      },
+      {
+        "path": "src/lua/abyss_battle_action_bindings.lua",
+        "sha256": "84d11f396803b5bcd202aa6226e9d0b67a56fef6956b3e6bf167e089de933bd7"
+      },
+      {
+        "path": "src/lua/abyss_battle_actions.lua",
+        "sha256": "e558c6b3dba4bcfaae21c84473933f7c4a4440104400c27561d68cbeb68fc4c2"
+      },
+      {
+        "path": "src/lua/abyss_battle_aim_arrow.lua",
+        "sha256": "ca8b78b1df9ea3e764cd936a39027a73e0a99bc86c524937363e73887099fea4"
+      },
+      {
+        "path": "src/lua/abyss_battle_card_bindings.lua",
+        "sha256": "add73e13c968039d9eee32dacd3d7d866c21ec6e2ccc89182d4f199d2ee9b7e7"
+      },
+      {
+        "path": "src/lua/abyss_battle_card_gestures.lua",
+        "sha256": "9941287769dde812c12426f7a3ea47e685d0b5a64c4ee4c534f4d22d649d5536"
+      },
+      {
+        "path": "src/lua/abyss_battle_card_layout.lua",
+        "sha256": "a64d014875bf29300602b80bbb7d01260c59931434a509e5056b44a0f31713f8"
+      },
+      {
+        "path": "src/lua/abyss_battle_card_view.lua",
+        "sha256": "95f56c683140dc813684eb6bc67dea99ac02a1ad020ec4711346314b02056b12"
+      },
+      {
+        "path": "src/lua/abyss_battle_damage_view.lua",
+        "sha256": "0fdde0bd08f4d94f1a95b30a4236cca9b062fcfb3cafdd3df513c5599699df29"
+      },
+      {
+        "path": "src/lua/abyss_battle_detail_bindings.lua",
+        "sha256": "06f4f139894de966d8d49a1ed1855f5e08e5d127f186380b736177ad139be748"
+      },
+      {
+        "path": "src/lua/abyss_battle_details.lua",
+        "sha256": "975e2546741b40a74bd12e2424e0743f85f422b6215fec1c9b727aa17f9bfcc6"
+      },
+      {
+        "path": "src/lua/abyss_battle_ending_intent.lua",
+        "sha256": "fd7c1b135604fe71fefaabc5caedf107d22cefa4889bd2f109b5d4a30f06b466"
+      },
+      {
+        "path": "src/lua/abyss_battle_enemy_view.lua",
+        "sha256": "fb453b46085fd00e781a5ca7a5f2d85475d6883a5c18a9d00e6e355da95d4f5f"
+      },
+      {
+        "path": "src/lua/abyss_battle_info_content.lua",
+        "sha256": "6689b168fc44daee3f1eca6bc7d76db277fb6cdda00b43c13d3df7a3315c9f2c"
+      },
+      {
+        "path": "src/lua/abyss_battle_info_view.lua",
+        "sha256": "121297a5930b4ad8f954407caa019caed5b604474e35354539d80242e83d3eae"
+      },
+      {
+        "path": "src/lua/abyss_battle_input_state.lua",
+        "sha256": "f5ca34c51e6599284d574b8053297c429b4f14d7a1951395f5a4decfbb87cd3d"
+      },
+      {
+        "path": "src/lua/abyss_battle_intent_view.lua",
+        "sha256": "491d92710d2e269d98ef850ffc100631897fdfc0572e2da7e754776b653634e0"
+      },
+      {
+        "path": "src/lua/abyss_battle_potion_bindings.lua",
+        "sha256": "4d0529fe8b74cdf1807676dbf1c64d0913b27bb1348fbdd13069274ca006db64"
+      },
+      {
+        "path": "src/lua/abyss_battle_potion_popup.lua",
+        "sha256": "705397ad7afc3246e7c533932cef7cd63436535676087b0e4fdd51dd1e7c24cd"
+      },
+      {
+        "path": "src/lua/abyss_battle_potion_view.lua",
+        "sha256": "c14001f467b8abd9efa98bd550b183266c97a2a2292154d7c97f374064f65a92"
+      },
+      {
+        "path": "src/lua/abyss_battle_render.lua",
+        "sha256": "6ab3653f406287abd50cfd6773410fff2c9a64b238810390ee3fce509881daba"
+      },
+      {
+        "path": "src/lua/abyss_battle_render_actors.lua",
+        "sha256": "47157bd6b5d4819f674dfd0b542f40eda91268977b196f1f230a4815a60dd145"
+      },
+      {
+        "path": "src/lua/abyss_battle_render_hud.lua",
+        "sha256": "5f2cbce7d5d7411e9b575b4f88311540a7913860086a5515ebcc88cb2a8b7f55"
+      },
+      {
+        "path": "src/lua/abyss_battle_render_state.lua",
+        "sha256": "190bc4eca4ebaa7cc0147e8ddb901975f3ee3ef28bf27f945b73f70f485d9398"
+      },
+      {
+        "path": "src/lua/abyss_battle_reward_layout.lua",
+        "sha256": "e1b3a9d7963298deb5a82f9a470b416e88da3e98a11d7320254d75660ac2a1b8"
+      },
+      {
+        "path": "src/lua/abyss_battle_reward_owner.lua",
+        "sha256": "cb73427a6fdf4b952f5cf134eb59364f8af95db334dec6d2388d35cde8f5887a"
+      },
+      {
+        "path": "src/lua/abyss_battle_status_view.lua",
+        "sha256": "615fc1275429bef0ad4e1bc9a834d76c1aaac9e7c2baf53e284b06c7cf159b87"
+      },
+      {
+        "path": "src/lua/abyss_battle_target_bindings.lua",
+        "sha256": "430762c548eaecda576bb4edb8b85081501a5fc59d93ba11c8e7f2d192048b5b"
+      },
+      {
+        "path": "src/lua/abyss_battle_targeting.lua",
+        "sha256": "50922018fca25cbaf2ea7645b4ca9657b667c1f5e446edd52dd33b5103ae099f"
+      },
+      {
+        "path": "src/lua/abyss_battle_ui.lua",
+        "sha256": "978f475b859da331cef3bdcb94c53b067d2db03fa12c46c212dc8150a3837f76"
+      },
+      {
+        "path": "src/lua/abyss_battle_unit_view.lua",
+        "sha256": "e723f9d6f1d696cc317947935a1e9a04e10f0046311a4034712c1ec133eea74e"
+      },
+      {
+        "path": "src/lua/abyss_bgm.lua",
+        "sha256": "adcc610892b2c068e2c37a0f067080ec44e3b233e78d7799ac9371e1ddce39ec"
+      },
+      {
+        "path": "src/lua/abyss_blue_slaver_ai.lua",
+        "sha256": "f600520998bd33a13716e71ff93be6937db4d323a55aa1721ab6ce8e5be8108c"
+      },
+      {
+        "path": "src/lua/abyss_boss_relics.lua",
+        "sha256": "07202773300b3808fb154d473769f3c2c1ba9733141b2a6411f20748c88b147e"
+      },
+      {
+        "path": "src/lua/abyss_build_actions.lua",
+        "sha256": "77a03a52e8f07324605cb97017111023593e6497fe0cf66158807d73290f0ea7"
+      },
+      {
+        "path": "src/lua/abyss_card_actions.lua",
+        "sha256": "a89ef438e2f28f366fda05676b0724f5eac59c3447621d1253050b3105424578"
+      },
+      {
+        "path": "src/lua/abyss_card_art_runtime.lua",
+        "sha256": "4917a9486da0ff8848b1fb1388aaac19b9011bfb671a702a47f33e729c4cb0c3"
+      },
+      {
+        "path": "src/lua/abyss_card_capability.lua",
+        "sha256": "b9eca8f9caf716ac5264b80ee4dd8142ae74b41f83f8fe6aa847b7247c2de1f9"
+      },
+      {
+        "path": "src/lua/abyss_card_display.lua",
+        "sha256": "8b676a31d21df94b2244780ebf5816c670a886a0e3fcab5564f28caad7a932e8"
+      },
+      {
+        "path": "src/lua/abyss_card_flow.lua",
+        "sha256": "65dcdf5306c4a4a3665d934843f10974224b4b876189b0c0b0fa387458bec5fb"
+      },
+      {
+        "path": "src/lua/abyss_card_input.lua",
+        "sha256": "2bdbf7ef08346979524c336bd80a44e2e0b4c2c00998fcb8cf54efbf631f54e5"
+      },
+      {
+        "path": "src/lua/abyss_card_origin.lua",
+        "sha256": "44f4891881c0f9c982930298620dd789d49f5d87347ca6782e088af916099d06"
+      },
+      {
+        "path": "src/lua/abyss_card_origin_view.lua",
+        "sha256": "10ffbb328bf0660568f0e79bf439c93a61a44f739c5f1078ffc82a89ee96a285"
+      },
+      {
+        "path": "src/lua/abyss_card_pool.lua",
+        "sha256": "dfc3a89f7df686a677b960430b8ad1be5a8042fcb4ae9a29537659795a2d0f90"
+      },
+      {
+        "path": "src/lua/abyss_card_random.lua",
+        "sha256": "fe5890f5ea37f9cd32905321fe8a8245c25b90c527196f67bb6ff111ca962cb9"
+      },
+      {
+        "path": "src/lua/abyss_card_skin.lua",
+        "sha256": "8d6b77f09db24ce501f4f1cd03d7adb0de40001a440942730e0ce631e8ff0ff7"
+      },
+      {
+        "path": "src/lua/abyss_card_triggers.lua",
+        "sha256": "0fa45d814d1d1773e46358c2a7ea81b4ae2c8a823f330189609624485e2050bd"
+      },
+      {
+        "path": "src/lua/abyss_character_presentation.lua",
+        "sha256": "832d7871d48a9816f0285a30eacef48cbdbd4c4e8f394bf6eda0ee3425778bcf"
+      },
+      {
+        "path": "src/lua/abyss_character_presentation_text.lua",
+        "sha256": "c57e30f30c35ee7b7d8cc654a848e8ff9fea2be2fe1fa958cf48df23c21e8311"
+      },
+      {
+        "path": "src/lua/abyss_character_profiles.lua",
+        "sha256": "65a255630ead2887a58b34c37f3de1e25a636d3c02412774055e5294401b2a10"
+      },
+      {
+        "path": "src/lua/abyss_character_select.lua",
+        "sha256": "6eb3455bf6afa519ce9d9339a9ba58aece8ee9201c3c5ea13218047e140e6d35"
+      },
+      {
+        "path": "src/lua/abyss_character_select_view.lua",
+        "sha256": "d90169c2e5d369a218b9742747fda7cd71dc5b09f4face05d657cb96a9c09cbb"
+      },
+      {
+        "path": "src/lua/abyss_choice_ui.lua",
+        "sha256": "c05d16a48e5a11f0734b2f429cd634f383ebee5bdcc1edd9d55a73e988098b0b"
+      },
+      {
+        "path": "src/lua/abyss_class_card_pools.lua",
+        "sha256": "f9e6bf8162f964f6e28915c9add89b56ad514e3d436097f726370233fd8ac708"
+      },
+      {
+        "path": "src/lua/abyss_class_potions.lua",
+        "sha256": "ae68080730c0286280b04fdebb95e95e2415021873264e6628eb9bc2bddfb3b9"
+      },
+      {
+        "path": "src/lua/abyss_codex_relic.lua",
+        "sha256": "fbfdc03e939bd40d39178b887b65db37af16ca6e6edbfcfaa35e0d2d0dd6e339"
+      },
+      {
+        "path": "src/lua/abyss_colorless_cards.lua",
+        "sha256": "16dc66720b2eb4007e61c13f085335bf75ecec6d90728d6b77b3e8a64d3d3a5a"
+      },
+      {
+        "path": "src/lua/abyss_colosseum_event.lua",
+        "sha256": "a4d3d339d10b0f56ed97a95237d630fda8cb46f9d125dfa21c70fc5218627058"
+      },
+      {
+        "path": "src/lua/abyss_combat.lua",
+        "sha256": "609e75ba6e83da7b2311629adfdc2fd101c8167d3d17dbb1cdc0748baa9b1d1c"
+      },
+      {
+        "path": "src/lua/abyss_combat_catalog.lua",
+        "sha256": "3a82ccf1d73efc1274826b4093fcead3a62a663dc2968bed953059ec1c22b72d"
+      },
+      {
+        "path": "src/lua/abyss_combat_effect_cards.lua",
+        "sha256": "ad516e63bfa3528104d42a49bb7e8b5c446c2d0d6e4c855b984bcc524f2733e5"
+      },
+      {
+        "path": "src/lua/abyss_combat_effect_choice.lua",
+        "sha256": "28f6dc9c18cb44b172858bc5be388ace2aa727609402d2478529b5536d9c086f"
+      },
+      {
+        "path": "src/lua/abyss_combat_effect_damage.lua",
+        "sha256": "b8ff07660d5d8e4b2348082678a3e83dd17d70994ef78652435c19dcbb5ff044"
+      },
+      {
+        "path": "src/lua/abyss_combat_effect_dispatch.lua",
+        "sha256": "02fdbcf79108fb702d6e9508a989e12f2eb296e59d8a181ebe3ed80435aa269d"
+      },
+      {
+        "path": "src/lua/abyss_combat_effect_powers.lua",
+        "sha256": "abff029055d1ec47be657fb5a938c928309a925043796eb860e492df93b47afa"
+      },
+      {
+        "path": "src/lua/abyss_combat_enemy_setup.lua",
+        "sha256": "76c8aa93a85a272b80ff4ae74645bc26fe33b7f6d18eb733d8c54d904b9331da"
+      },
+      {
+        "path": "src/lua/abyss_combat_native_play.lua",
+        "sha256": "539c3a339016f9497b77f11daed7e0db0378f3e2fcb0923a2ebd39547881c6ec"
+      },
+      {
+        "path": "src/lua/abyss_combat_queued_play.lua",
+        "sha256": "ee51b70a7afbb8584b86dfd32477a9a9a29338128393f68a03065dcbd1b62ad7"
+      },
+      {
+        "path": "src/lua/abyss_combat_reactions.lua",
+        "sha256": "2772aa238ce72d7628958bcf625602cd40b437cc6c24570d48dcacd578ddb06d"
+      },
+      {
+        "path": "src/lua/abyss_compendium_catalog.lua",
+        "sha256": "d6594b4d276ab2f02983429227102282e51565acceca266c8971adfa9e32706a"
+      },
+      {
+        "path": "src/lua/abyss_controller.lua",
+        "sha256": "bfa156d81cbb4be11b5cdf6f5568051c46e2eacd724fa01b2d827736e6ddf482"
+      },
+      {
+        "path": "src/lua/abyss_copy.lua",
+        "sha256": "099de1e77e190d4e61ababe30916b93656e7dbceb489755a121a021657911cc9"
+      },
+      {
+        "path": "src/lua/abyss_corrupt_heart.lua",
+        "sha256": "a9b65915db69f66b9dc8a2be670ad2fb18f46f7e9fa254a406816b49cea496ac"
+      },
+      {
+        "path": "src/lua/abyss_corruption.lua",
+        "sha256": "a4ec793a0568245f32b79b0a6e074348b59d627b71fe2da8faa345fea2ef2f14"
+      },
+      {
+        "path": "src/lua/abyss_cursed_tome_event.lua",
+        "sha256": "6055e253d9af199bb0e263b9460238c835107cde7cf704c5923e98220af2a411"
+      },
+      {
+        "path": "src/lua/abyss_curses.lua",
+        "sha256": "942e7c65da29875fefbff132182ce7a7aab16afb4405e28d2a71e31d589a44b7"
+      },
+      {
+        "path": "src/lua/abyss_darklings.lua",
+        "sha256": "4cf5255fd3ba000fb5e9d94468a74685a2ca37fbb15d0c3f5d2efd9c90fec22e"
+      },
+      {
+        "path": "src/lua/abyss_dead_adventurer_event.lua",
+        "sha256": "2d225ea8e6852a4ccee55f8e1d794c111bf09f61b553d294c26c95753c76bc5c"
+      },
+      {
+        "path": "src/lua/abyss_deck_ui.lua",
+        "sha256": "e652f6c95c74a34072da49f6019e2915aa9c81b97d54300fca2d8a2fe997e908"
+      },
+      {
+        "path": "src/lua/abyss_defect_cards.lua",
+        "sha256": "7844025e58ffcf345243d29a8e24b21268f728e833456389acbd764bcbb8d6a3"
+      },
+      {
+        "path": "src/lua/abyss_defect_engine_cards.lua",
+        "sha256": "ecfccd24cac9aa6010555d4ac4d2502a75837e2ccfee4dc291aa511b494f76c0"
+      },
+      {
+        "path": "src/lua/abyss_defect_final_cards.lua",
+        "sha256": "df100051b93665ecc88dea658f9c3bfdf24148907fd740c50ca0166852f9be71"
+      },
+      {
+        "path": "src/lua/abyss_defect_utility_cards.lua",
+        "sha256": "e9372f029db58b62e4fff8f4889826607e8d114dcab2cfa00ca4f124fe29f670"
+      },
+      {
+        "path": "src/lua/abyss_designer_event.lua",
+        "sha256": "8597b051e23c7ad62276c3fa868f652ddb82f33dc6a9aa6bc0e5009935b852cc"
+      },
+      {
+        "path": "src/lua/abyss_discard.lua",
+        "sha256": "5742fbad7b6daf65b324ff9c0143d458f1fb864c006237ef5b150f4e34524265"
+      },
+      {
+        "path": "src/lua/abyss_drug_dealer_event.lua",
+        "sha256": "050e3ff36e02d4abf878248f4fac2a4bff3b6b8fbb3021965156f67cb901ff83"
+      },
+      {
+        "path": "src/lua/abyss_duplicator_event.lua",
+        "sha256": "12be2e5ebb7f0d54464d159d03829275cb1a9bfd30f46fd5d9b2912e97c6386b"
+      },
+      {
+        "path": "src/lua/abyss_effects.lua",
+        "sha256": "aa1c507c56ee8b1794641f710c4e2e2b603f52f3c29b51096f8860df58c74a71"
+      },
+      {
+        "path": "src/lua/abyss_effects_cards.lua",
+        "sha256": "28bb3255c8d038d905bcdbe1b8e5164b787223747ec20d0c15fb33a5ab989bc1"
+      },
+      {
+        "path": "src/lua/abyss_effects_damage.lua",
+        "sha256": "ae24c9ddd57d7ac2bac8c65d8f1f1768fad750ada74262501b9bad074d03ca41"
+      },
+      {
+        "path": "src/lua/abyss_effects_enemy.lua",
+        "sha256": "afa4d9172f210a5b459bbd38df18718babc3993477ffbc12ddd2615eb4f2f12a"
+      },
+      {
+        "path": "src/lua/abyss_effects_powers.lua",
+        "sha256": "323319953426476692bd7388526a249537651c46beb6b01c6e1877ceb4e70e36"
+      },
+      {
+        "path": "src/lua/abyss_emerald_elite.lua",
+        "sha256": "66f04ab348236f17a61125d8b76c7098b4fdf79607ae44b634892bff89be3d46"
+      },
+      {
+        "path": "src/lua/abyss_emerald_rewards.lua",
+        "sha256": "800a19f3a9f3c6e4dac423ac62d90ccb5ac4ddf6a23a255f12572b040490c83c"
+      },
+      {
+        "path": "src/lua/abyss_encounter_formation.lua",
+        "sha256": "de7afe27c70b14e724aa7f0ea67509e41df882e1e055904b82cc7be56916e8ec"
+      },
+      {
+        "path": "src/lua/abyss_encounter_queue.lua",
+        "sha256": "3fe80c7f00add3170c5bc3d2053889ac197e8a96e83aee1ab428b809baa4f7f8"
+      },
+      {
+        "path": "src/lua/abyss_end_turn_powers.lua",
+        "sha256": "3124970981b679dd4964a7805a6b28277a286cf83b1dc0601e1e0e79ca4de527"
+      },
+      {
+        "path": "src/lua/abyss_ending_actions.lua",
+        "sha256": "2a2ada3efd984aec9b4a28cd5e60f5f18bb22f16ba44cec95afc1538ade5dd4a"
+      },
+      {
+        "path": "src/lua/abyss_ending_history.lua",
+        "sha256": "65c718fc07c01542e4aee1911d347d017e97b6ec3df4a789fcc3d8f09fb7ba9d"
+      },
+      {
+        "path": "src/lua/abyss_enemy_ai.lua",
+        "sha256": "3bfec14ef91be048c5fce7d807955c0c24beda4b98da27b91b1aff12a1ff5bf2"
+      },
+      {
+        "path": "src/lua/abyss_enemy_random.lua",
+        "sha256": "6e85867185aa114af1b0dd5faf38bc0a59a7292f1bfc39e513460909e22621cd"
+      },
+      {
+        "path": "src/lua/abyss_event_card_sampling.lua",
+        "sha256": "8ec3dcdbd2519f8d06d66ed96124178d0eab515c4c8d3cc6504d55c85739ae02"
+      },
+      {
+        "path": "src/lua/abyss_event_combat.lua",
+        "sha256": "6285d68921ff20b649d50252e9024eab794ce4df765aa5925cc34cafe6b222df"
+      },
+      {
+        "path": "src/lua/abyss_event_combat_enemies.lua",
+        "sha256": "730ec209b7b4808789ab90cd255697850c36cd0c3de6d63caec18bc7b2e105da"
+      },
+      {
+        "path": "src/lua/abyss_event_combat_routes.lua",
+        "sha256": "0bde4ab1ed47a606e42894d9d7cfbb549ad5a29fee8f51f2a4ff6ba1fa0bbfae"
+      },
+      {
+        "path": "src/lua/abyss_event_pool.lua",
+        "sha256": "2b3511baabf92f3007515de4d6707fe9b60c281d3c46ee04547109543f1219ca"
+      },
+      {
+        "path": "src/lua/abyss_event_transform_context.lua",
+        "sha256": "38c827ae2eb69dac8d0a7b9dc3f7d11d0964e2bf48d2157c23dc91d24eb4af44"
+      },
+      {
+        "path": "src/lua/abyss_events.lua",
+        "sha256": "82a1fd4f5903454220e95d55639bbb547ec13d00257051b703bf22464fd1968c"
+      },
+      {
+        "path": "src/lua/abyss_exhaust.lua",
+        "sha256": "a896da79d8206d763a28622ba5544920d14ee9e9b33d6fef9b11d72d8491de48"
+      },
+      {
+        "path": "src/lua/abyss_external_random.lua",
+        "sha256": "e328762910a732b84bd20b1d800f7372e0295156a8e66fae146acf758e834702"
+      },
+      {
+        "path": "src/lua/abyss_face_trader_event.lua",
+        "sha256": "cb82eb38e4d69656dc23f170ee197618123f887f83539074199030289f0dd66a"
+      },
+      {
+        "path": "src/lua/abyss_feedback.lua",
+        "sha256": "2219cdcb5d43fad4593e136b0ec40aa1505abb8e03f1e0c81aee8e767711afe1"
+      },
+      {
+        "path": "src/lua/abyss_feedback_actor_painter.lua",
+        "sha256": "e5e39be2a66b707e2385e2fd7171d9eac3a707ab2ef8eebcbb0c1689f9a3ebec"
+      },
+      {
+        "path": "src/lua/abyss_flow_actions.lua",
+        "sha256": "d1ce62d0481da5fef3c25fa835d4dd4c3a4d16d2ee4aefc6402bd01b4d7b3759"
+      },
+      {
+        "path": "src/lua/abyss_focus.lua",
+        "sha256": "a4cead026d11ade7e97e68190a77d4d12661a8119daaf6ecac14a31eca3c94ad"
+      },
+      {
+        "path": "src/lua/abyss_forgotten_altar_event.lua",
+        "sha256": "e353015785d8cbe3eefe1c181c160f17ad1bd58b124fc80202c1782a777db003"
+      },
+      {
+        "path": "src/lua/abyss_fountain.lua",
+        "sha256": "cedc147d608a7fe39020d494dc96a3326f0fc3a1c0473741b5e9031d069a97d5"
+      },
+      {
+        "path": "src/lua/abyss_fungi_beast_ai.lua",
+        "sha256": "2b9d1aea3c91a0570ef60e7b35ea7038c385b12c945c4058babafb71d65992e4"
+      },
+      {
+        "path": "src/lua/abyss_game_ui.lua",
+        "sha256": "76a6a648d8a1090572adb98a1b2d49d52b3911a9f48f40c578ea683a6a31984b"
+      },
+      {
+        "path": "src/lua/abyss_game_ui_input.lua",
+        "sha256": "a2630f7eee718be5b970a5e0fdfc8a8867fde6877e5c09402c0d1486ad096e39"
+      },
+      {
+        "path": "src/lua/abyss_game_ui_lifecycle.lua",
+        "sha256": "9f7ec19571c1103e536d2f579df52214cbca420f17da921459331b96c33c3f1c"
+      },
+      {
+        "path": "src/lua/abyss_game_ui_menu_view.lua",
+        "sha256": "20db628306d05a6dc7bc8b786715322e78d7c2840c028451544d8d9b308d588e"
+      },
+      {
+        "path": "src/lua/abyss_game_ui_overlays.lua",
+        "sha256": "cc8e70176ed82a7a8146507fb51c123ecbeeb6c5d01c8e1a98cb07cfb53fd1d2"
+      },
+      {
+        "path": "src/lua/abyss_game_ui_run.lua",
+        "sha256": "ae1d8e262a79ebc8a9e6749948f1a8d97b21a7ab13a28adcc4a886b1a98bc5b3"
+      },
+      {
+        "path": "src/lua/abyss_game_ui_view.lua",
+        "sha256": "edd045e7a13a1bac5af2669c1cd682cb45d928edbda45d1b8af4d055a0850b89"
+      },
+      {
+        "path": "src/lua/abyss_ghosts_event.lua",
+        "sha256": "d7fb720f4fd19f95bb1315a41eee54329227ead858c8dd58cd5f663ab8b1661c"
+      },
+      {
+        "path": "src/lua/abyss_giant_head.lua",
+        "sha256": "5806525b4634c5396e71e7c590bc00fc0047d81e6b3a612e417f889eba79f1b2"
+      },
+      {
+        "path": "src/lua/abyss_gold_rewards.lua",
+        "sha256": "8cb4b578939c8093917e521e7114ce7a8bfc53da71692cd2db1df71c78dbb5fb"
+      },
+      {
+        "path": "src/lua/abyss_golden_idol_event.lua",
+        "sha256": "14ea045b9e85ee54a6b7bbf3b5a633b3a077f85962ab92dc088b95c46e7f2af2"
+      },
+      {
+        "path": "src/lua/abyss_gremlin_nob_ai.lua",
+        "sha256": "b6739284fccfb553e229ce4f228cc8db602decbd9ee3ef4f93340ba39eeaa7e2"
+      },
+      {
+        "path": "src/lua/abyss_guardian_ai.lua",
+        "sha256": "f75fb008b6ddfffec6adaa49890c192d89b459f3119e3e8baf4d9b03a7c92eb3"
+      },
+      {
+        "path": "src/lua/abyss_hand_choice.lua",
+        "sha256": "4779464a8dbdb4e8531071e3c61b2217a8ed99aec3788275aba10e054a0e2d76"
+      },
+      {
+        "path": "src/lua/abyss_hp_loss.lua",
+        "sha256": "c850a947b868859d6fc522ccf547e76253473f29d4ebe762da0507ec9d9331ed"
+      },
+      {
+        "path": "src/lua/abyss_inventory.lua",
+        "sha256": "8fb3dddab386d221c76de49a1ca4b9937a2edbde93511c06ef3810cd71a7557c"
+      },
+      {
+        "path": "src/lua/abyss_jaw_worm_ai.lua",
+        "sha256": "c8408c9ebfdf3198db3a70e63ece71a89a642dee64548d907c64cf64208252e9"
+      },
+      {
+        "path": "src/lua/abyss_joust_event.lua",
+        "sha256": "c579ccb9efe508634e712388ccdf1ac61b54295922f59b89f47f032be2ea1a04"
+      },
+      {
+        "path": "src/lua/abyss_knowing_skull_event.lua",
+        "sha256": "fefcadeecba9b0f47fc1a7d7467585cfad81fe5645b885a73bae148b9ae293ec"
+      },
+      {
+        "path": "src/lua/abyss_library_event.lua",
+        "sha256": "10d0f6970d478ca4adb58cd287dfe5d17e8d779138bfea72ce413f3b5aa79c4b"
+      },
+      {
+        "path": "src/lua/abyss_living_wall.lua",
+        "sha256": "9fdf91e1b9ae66511b6c6e80d0e2b250b7245d2077452095c32c8515d281432a"
+      },
+      {
+        "path": "src/lua/abyss_lizard_tail.lua",
+        "sha256": "c4dbfaeb1049dd90eda158a02713977e5e968ee5e478f6986bb7fc74081ce299"
+      },
+      {
+        "path": "src/lua/abyss_looter_ai.lua",
+        "sha256": "c754cac73612052a71475d7a209cfe97634e6d134773a93475069245143b0d48"
+      },
+      {
+        "path": "src/lua/abyss_louse_ai.lua",
+        "sha256": "8e3201c61d29992883784b6165eb79512b2e4e974de5008fba8f227e6c7776f4"
+      },
+      {
+        "path": "src/lua/abyss_mantra.lua",
+        "sha256": "767b0c41782ce159b549fbbe163c1d3022bc416d0f06fa8de8d555910dc0c375"
+      },
+      {
+        "path": "src/lua/abyss_map.lua",
+        "sha256": "52d311bc4a863303906dfa3a29d65bc11606eda30759a560ed80266381900810"
+      },
+      {
+        "path": "src/lua/abyss_map_rooms.lua",
+        "sha256": "eef10661bd77af2e9464e4eab7199c0d487f72b1ba412cf0867f970169569e2c"
+      },
+      {
+        "path": "src/lua/abyss_map_topology.lua",
+        "sha256": "0b07a3269a9110c82a3a88b9fdd25313555a5e44d6121d86606f70ed654ed788"
+      },
+      {
+        "path": "src/lua/abyss_map_ui.lua",
+        "sha256": "893880f414ac726f627c599bdc066342db6a94c58b6d4dd284f4ca57ec376504"
+      },
+      {
+        "path": "src/lua/abyss_masked_bandits_event.lua",
+        "sha256": "e094fb78b5836742f1c55b00aaeb71face17f8c4af66c63f9ef5860c9ba45a80"
+      },
+      {
+        "path": "src/lua/abyss_match_event.lua",
+        "sha256": "c8e76f8be6640926de79b14cf435eb71688485072d174833f64a4fbe68361596"
+      },
+      {
+        "path": "src/lua/abyss_match_event_ui.lua",
+        "sha256": "fe0508489ec452737e78f35e42107861b7cc69ba98f8b3e54d83e873712b523b"
+      },
+      {
+        "path": "src/lua/abyss_max_hp_relics.lua",
+        "sha256": "be64e570ab9ca4ab28acf79b474531714e41fe93d7a04a284b88a79e683dc0d6"
+      },
+      {
+        "path": "src/lua/abyss_menu_background.lua",
+        "sha256": "343d0e5dad14423edc2bd5495c70632a2ff4b91e04c7102cc5eab397ef27d4f4"
+      },
+      {
+        "path": "src/lua/abyss_merchant.lua",
+        "sha256": "1406a09412592bc65e8cc39446fa4219250d837bc55a94f06c53ea68ad31435d"
+      },
+      {
+        "path": "src/lua/abyss_mind_bloom_event.lua",
+        "sha256": "90839bb4c97a29e8294f3ac97481c8d3851f079f5088570c48fd885a641b2bb8"
+      },
+      {
+        "path": "src/lua/abyss_moai_event.lua",
+        "sha256": "5e91422199049347db4c33429235023180cdc3ae6fda7b4645bbf2643e0c8026"
+      },
+      {
+        "path": "src/lua/abyss_monster_art.lua",
+        "sha256": "af776e697821870dd7c06b86862b4096262f9879ae66af3f8bbebb125d63644b"
+      },
+      {
+        "path": "src/lua/abyss_monster_displayed_intent.lua",
+        "sha256": "03ffebc6575d6ee7bca229b239276a452bec5e5800737238745ae129ead6e358"
+      },
+      {
+        "path": "src/lua/abyss_monster_escape.lua",
+        "sha256": "f5fa35cd7aa2f62fe1540d14b732647e79014e8266f64e28b4671d688c3f34a2"
+      },
+      {
+        "path": "src/lua/abyss_monster_intent_particle_view.lua",
+        "sha256": "8117dd827ff947880d410f19fc5999fdce6cbd8caeb0b8e2b2cdb11b9db3dd70"
+      },
+      {
+        "path": "src/lua/abyss_monster_intent_particles.lua",
+        "sha256": "53bc76d7bd0296944fff253e4d021e2319253acda758c48e8eb673878dc3aa5f"
+      },
+      {
+        "path": "src/lua/abyss_monster_power_surfaces.lua",
+        "sha256": "e9e81ea8648f22f3d2b6b2a489f72eda194304cc164a52f8cebbed9859bff15e"
+      },
+      {
+        "path": "src/lua/abyss_monster_power_view.lua",
+        "sha256": "64a01d5c8b97872a574749418afa0ee415290a760f62f8b70e40f369a9f90627"
+      },
+      {
+        "path": "src/lua/abyss_monster_source_geometry.lua",
+        "sha256": "72e5b5b88b3788f88597fb84d9e8df8c7369dbb38c75d2f99e9e81866f597d47"
+      },
+      {
+        "path": "src/lua/abyss_monster_source_intents.lua",
+        "sha256": "8992382ce56ae66c54194686160bfac78c035f545a50410557d02e8ae6820675"
+      },
+      {
+        "path": "src/lua/abyss_monster_source_positions.lua",
+        "sha256": "451aba7cc747b2ea24bcc26b646206f0c3da72be1784621e0024de2a96a8d755"
+      },
+      {
+        "path": "src/lua/abyss_monster_surfaces.lua",
+        "sha256": "217ea8492fb72867ef635d674987891e5a85a1d71dda7b70b52db6a0e53f0d8e"
+      },
+      {
+        "path": "src/lua/abyss_mushrooms_event.lua",
+        "sha256": "4cc7a98b481c4600cfbe497ad1b44e5a7fe18c08d14498b52b47225c559c25a5"
+      },
+      {
+        "path": "src/lua/abyss_mysterious_sphere_event.lua",
+        "sha256": "9532b65d22f0849ca4da946abe27c99ab48f06e2f902a30d39b1ce5b1d4c71a4"
+      },
+      {
+        "path": "src/lua/abyss_necronomicurse.lua",
+        "sha256": "173812f59fb1ae31decb2904785291b12c53a7b64f9eaca12d229ace07c5bbc8"
+      },
+      {
+        "path": "src/lua/abyss_nemesis.lua",
+        "sha256": "0aee581d8fef52d08d4318ca4ff3f8656970936d0690d5705c7036405e8fbe6b"
+      },
+      {
+        "path": "src/lua/abyss_neow.lua",
+        "sha256": "6d7c62735bcaae2b188c497b1b756216125ca85670141fb8a4c7e440a0b877d6"
+      },
+      {
+        "path": "src/lua/abyss_neow_history.lua",
+        "sha256": "6fe9d6b915f155a1edbd2581cc13af530b3fa7277aeab10c3249429a2d200b16"
+      },
+      {
+        "path": "src/lua/abyss_nest_event.lua",
+        "sha256": "5fe3c845db3520c0c91c43307b723b7c0a5f7b0c2acf6954758f6b31b68ad936"
+      },
+      {
+        "path": "src/lua/abyss_new_run_seed.lua",
+        "sha256": "3d22d46f72cae9cbeacf534091442d8e3205701bc1b118599c181e5adb981755"
+      },
+      {
+        "path": "src/lua/abyss_nloth_event.lua",
+        "sha256": "89395ef63c0876b09097b051941e0560e5788ba9b8f863066e02ac146c790605"
+      },
+      {
+        "path": "src/lua/abyss_node_ui.lua",
+        "sha256": "4f8da21e05e0289181c7890656cfca2f818cc6e3850f23e505327fd4a16acfba"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_camp.lua",
+        "sha256": "e67ee265250e0182f551c35b114abb39b539943caa346bbae5ea5f491fe20478"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_camp_actions.lua",
+        "sha256": "cfc7a17942f4c5770a06b38fe67b04183e673d890285fc50f950810130a04252"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_ending.lua",
+        "sha256": "b53dacef061da3574578cf1b7f623b5ade64a3fa80ccb464f4085deb72d052f3"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_event_cards.lua",
+        "sha256": "d87d2401a475451aa11505c46a04f90147f7772e128099bde934dc4a5ba63242"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_event_ownership.lua",
+        "sha256": "a9d0ebe3d0f9973274bfe0734c14881c90a5947ece6955770e27c15fb507af58"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_events.lua",
+        "sha256": "45d2aab93b2e0819cca54f4082b80fd006b5253be455cc3c36cdee66437544b0"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_faces.lua",
+        "sha256": "0ab8654addf095b7c00980aab325fe12f496b109f47714f78abfab8adacdfbd4"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_feedback.lua",
+        "sha256": "d684dc352f25e270991025ed37d262527d676c428e50ccf6faa7fff87dc43a27"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_input.lua",
+        "sha256": "c7aa8771c045dbdb24f7d36589f8671b548cca7c5bf55d0f5dcefddecac882ad"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_lifecycle.lua",
+        "sha256": "40db53d318a958922f25e84dc97825265f48b3a43f83abda54da3b6c4791651e"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_motion.lua",
+        "sha256": "3673190f95c5bf81a68c7a671942fb13549267114d702bfe40e36869057bc18f"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_reward_detail.lua",
+        "sha256": "166430794f9eb17607b5bed5102260c981caef9fdbf761e73c01d113b052d2f7"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_rewards.lua",
+        "sha256": "b9b321752c45bdf2800d3d9f1be68484cc3ea2e58b27f2803bf789404ad85bb2"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_shop.lua",
+        "sha256": "93cc968880309c10a73f38e6970c499b1ca5e14e173863a49eeb9fa20c2505b6"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_treasure.lua",
+        "sha256": "771421ff18215245dcd4967f210a96019562cd3dfb80deab1829edfbaf681ec2"
+      },
+      {
+        "path": "src/lua/abyss_node_ui_treasure_list.lua",
+        "sha256": "8761f06908f2befeb9107be141e87f7d815d5e224382ba7ef93600f64e818060"
+      },
+      {
+        "path": "src/lua/abyss_nodes.lua",
+        "sha256": "f685e7a59b57f66721e3c2f8143b99aa37efd05be77371bbda61fd6e4a4a4d9f"
+      },
+      {
+        "path": "src/lua/abyss_nodes_common.lua",
+        "sha256": "584d9e65ce3ae76df830bc3603b2a2f815312dd336774c5d69a7f767f344bb4b"
+      },
+      {
+        "path": "src/lua/abyss_nodes_entry.lua",
+        "sha256": "b966569a6c79b03cf7734238fe516183be412cfbd0a3db9adeef2dd32ec95447"
+      },
+      {
+        "path": "src/lua/abyss_nodes_events.lua",
+        "sha256": "596ec0802d0df72c3e3a431051a16e225a434ffc43b0464d267891c9eafdc4a4"
+      },
+      {
+        "path": "src/lua/abyss_nodes_rare_camp.lua",
+        "sha256": "af58260d9f6ce43190589ba78ad46dae73485450a725d02b490644ed255bdfdf"
+      },
+      {
+        "path": "src/lua/abyss_nodes_sources.lua",
+        "sha256": "daf8bf82db53dc1fd1c8ef38d0356cc2c226d223d60d4883c8a27c96ff9ac310"
+      },
+      {
+        "path": "src/lua/abyss_numbers.lua",
+        "sha256": "857c071eefa67b128b5d8aaf16fb4ae04374ac3f80ba2eddb13b324382953c80"
+      },
+      {
+        "path": "src/lua/abyss_opening_hand.lua",
+        "sha256": "4b81ec5f9bfaf28f7f8c127db4df7f87de1455e5639a98ddf0162d830a664d28"
+      },
+      {
+        "path": "src/lua/abyss_orb_powers.lua",
+        "sha256": "7fd3fe6cad6a519c352403f65276caaae6eccc49c2a59bae64fd58de3a3ab811"
+      },
+      {
+        "path": "src/lua/abyss_orbs.lua",
+        "sha256": "8db88dc31db3e60e779e737cbb49b776f817ba3fdc945b8f7779fbb35b3442bf"
+      },
+      {
+        "path": "src/lua/abyss_original_v4.lua",
+        "sha256": "4728b4ab4838e664d7b2fe4efa6b55c089417c79428e4362412b682a84cd927f"
+      },
+      {
+        "path": "src/lua/abyss_original_v4_display.lua",
+        "sha256": "51f6f3bd0a93acb728a9c2a10c8d52041d4ac1133714ddb48758124f7cdc0711"
+      },
+      {
+        "path": "src/lua/abyss_original_v4_health.lua",
+        "sha256": "ed0efdbcf41527cf87b5e9b53d6afb08d73e3462e7a1528a4f1f4a33008849bd"
+      },
+      {
+        "path": "src/lua/abyss_original_v4_profiles.lua",
+        "sha256": "fb50790452127f2bae3821d4f8cc249cf71f9c7850e97906e65626dafc2cb9d4"
+      },
+      {
+        "path": "src/lua/abyss_pile_choice.lua",
+        "sha256": "a0d0e6cec6cc92b3e1d59425e712cdf1c0fb183fb2cc88653daf8931ba39edb5"
+      },
+      {
+        "path": "src/lua/abyss_plated_armor.lua",
+        "sha256": "dd80bf7c574748759fea2eb4dfc168b05f312f8d81b630cbb8e3b4fa18125813"
+      },
+      {
+        "path": "src/lua/abyss_player_revive.lua",
+        "sha256": "735fe7d5b055c5ddd66335b45273e920282cd891c4814e1c13afb9ab0a3b0d92"
+      },
+      {
+        "path": "src/lua/abyss_poison.lua",
+        "sha256": "c739ba6e3958531a0148752b46566963b69a315cf38dfd8fa27eecb701ac8e78"
+      },
+      {
+        "path": "src/lua/abyss_potion_discard_ui.lua",
+        "sha256": "5b7ad888b2f2407fc3dea893119f407f29a1600332862ddbbd75b8661d23d479"
+      },
+      {
+        "path": "src/lua/abyss_potion_discovery.lua",
+        "sha256": "27350b4591b352d28aae66ca4236b3c7301bf8363d02fb7c94592bf5f5d34e38"
+      },
+      {
+        "path": "src/lua/abyss_potion_events.lua",
+        "sha256": "2ff64303e05e625ce592f42797aef95f0c3d3b157e89b25ebd29ebf26c7dfb54"
+      },
+      {
+        "path": "src/lua/abyss_potion_fairy.lua",
+        "sha256": "fe6a3d984f7387ef1f5a52a65e3874634022d9cab86f6b17576a89720607194e"
+      },
+      {
+        "path": "src/lua/abyss_potion_generation.lua",
+        "sha256": "3f6c2b85cbc01a77199402cd9bdf5efd943461b42d9883bb7196cd198752b766"
+      },
+      {
+        "path": "src/lua/abyss_potion_health.lua",
+        "sha256": "8fa0f204f39258f80c6b63770d7138a5b267a193b35923d7b7020ec7466558bb"
+      },
+      {
+        "path": "src/lua/abyss_potion_random.lua",
+        "sha256": "9c2f9f9beaa848af047306215e1b36d6d2d93bcd156ef54c56531c3c78342dde"
+      },
+      {
+        "path": "src/lua/abyss_potion_rewards.lua",
+        "sha256": "965a96293ad56d4bd10cbbe1dc21b2b16301d7f5468d9a8ca897df0efef00954"
+      },
+      {
+        "path": "src/lua/abyss_potion_stance.lua",
+        "sha256": "8ac4826598d8d3e3eca5706420d1acce9d9b05f6852f2505affb9866d957eca6"
+      },
+      {
+        "path": "src/lua/abyss_potion_text.lua",
+        "sha256": "8c2907f1102699c59ea2167919e43a39e1c1be188756b104d5f64bf228369d59"
+      },
+      {
+        "path": "src/lua/abyss_power_order.lua",
+        "sha256": "5e36ae81090d59148ba821b54661413eace65e6127bf5e93c9ab6f3e24ea47ef"
+      },
+      {
+        "path": "src/lua/abyss_power_schedule.lua",
+        "sha256": "eb8fe768a1f161b8dc5ecbdff9e5e12fc38730048cefe2afc67aa125c4e275cf"
+      },
+      {
+        "path": "src/lua/abyss_prologue.lua",
+        "sha256": "90016c56a06e97ec7508729d85ef2422adbb0441e1b6e352d226a90ee6bdce83"
+      },
+      {
+        "path": "src/lua/abyss_purge_candidates.lua",
+        "sha256": "a1ab5102f39adf7f44159a45d9611458e67d3ee49a9c8aa6fa50432bee4ca592"
+      },
+      {
+        "path": "src/lua/abyss_random.lua",
+        "sha256": "a052a4996c3b7090b1d79112f18630400f21df4318afe68041a2167d1c92e09d"
+      },
+      {
+        "path": "src/lua/abyss_randomxs128.lua",
+        "sha256": "73af699eb931d4134c81db9bc980f0fa8cabbcf3c587c9031c85ce6886fe9777"
+      },
+      {
+        "path": "src/lua/abyss_rare_relics.lua",
+        "sha256": "2b05387c8d77ef9818d38a43c2d1b1f9fcd2f69f930db47a919df75744f74788"
+      },
+      {
+        "path": "src/lua/abyss_red_slaver_ai.lua",
+        "sha256": "7b785a5f8c9b14199f7907fe7e71ad1a1992144d2c168e58e251c462f4474457"
+      },
+      {
+        "path": "src/lua/abyss_relic_card_rewards.lua",
+        "sha256": "868af280866ff94468dd3b2ea2dc53b46eb5bb50b41289e57cd5c2b0bd5ba98c"
+      },
+      {
+        "path": "src/lua/abyss_relic_choices.lua",
+        "sha256": "6ff4a6f99f70c197f078ffccc9806871ad1896fa76a95bbd7e55e7a0945fa522"
+      },
+      {
+        "path": "src/lua/abyss_relic_combat_hooks.lua",
+        "sha256": "fda7e14cf4b4704ba30ca79f3fa8b3ed3c933f9d391887227ed463350f8755a9"
+      },
+      {
+        "path": "src/lua/abyss_relic_end_turn.lua",
+        "sha256": "0b28bacfb03f92e399c12b19e02ec880f70774d9ec56bf4993c9de7bc1a93ecd"
+      },
+      {
+        "path": "src/lua/abyss_relic_family_combat.lua",
+        "sha256": "2e001da46754b81afda1dc592beaf8519a0f308fef65ca47c5779b2ae3607e4c"
+      },
+      {
+        "path": "src/lua/abyss_relic_hooks.lua",
+        "sha256": "5d929b950824caaa51db1934fd1c7c0fea82ee4a763dc45f63e615d083a7fcfa"
+      },
+      {
+        "path": "src/lua/abyss_relic_loss.lua",
+        "sha256": "8a3196cd5838a838b47856703d9cc69c17b5bb61052b314ac68001508b2c964e"
+      },
+      {
+        "path": "src/lua/abyss_relic_names.lua",
+        "sha256": "b0d5f76ff66e76947c657bb06bf2bfb920907d00a840db5062b5e7c8c2cd06ae"
+      },
+      {
+        "path": "src/lua/abyss_relic_pending.lua",
+        "sha256": "269d672dd3f0190efff77991a21a96490d52e2bbd038b95e3e7f3bd3104c2446"
+      },
+      {
+        "path": "src/lua/abyss_relic_pending_ui.lua",
+        "sha256": "a1d5ba5d2d81ef63209651b571d91de24d967e12e144f3b454a5f9439cf2fe23"
+      },
+      {
+        "path": "src/lua/abyss_relic_pool.lua",
+        "sha256": "25ff5c96bf6ed5c35a77aba3d0664193211167e90de9cc478691f8da02e2f51c"
+      },
+      {
+        "path": "src/lua/abyss_relic_queries.lua",
+        "sha256": "a9ede443094115bdf31363d530ac89fa9ab011211ee68bfac866f99e4f2dd214"
+      },
+      {
+        "path": "src/lua/abyss_relic_rarity.lua",
+        "sha256": "6c92a5ede225452073ed8b283a0ce2bbe24bfc37d4651ebabc47dbef8fd8c8d4"
+      },
+      {
+        "path": "src/lua/abyss_relic_rewards.lua",
+        "sha256": "1a6afee50885e2e56065b05058e5e632745ba88ce202bd4fbea7ff47c54ec405"
+      },
+      {
+        "path": "src/lua/abyss_relic_text.lua",
+        "sha256": "b0c64b6f06ece16b2f3ddbc39d2b0e6ba0f78b2b67c4836c4829ded94c69fe79"
+      },
+      {
+        "path": "src/lua/abyss_relic_view_ui.lua",
+        "sha256": "59140cd7e1adbae288a50d44f631c6a2dd547069f01ecf3e9b584153c7a0c5a2"
+      },
+      {
+        "path": "src/lua/abyss_reptomancer.lua",
+        "sha256": "43eb35c06a1b1fae67e51319416a58febdf524f470c851db4641b8d2e27b7ebd"
+      },
+      {
+        "path": "src/lua/abyss_retained_cards.lua",
+        "sha256": "62f43f6c006b6a5400dcb401e08edb9701404b885012fa30df38426e2da3ffe0"
+      },
+      {
+        "path": "src/lua/abyss_retrieval_cards.lua",
+        "sha256": "25f54d3bc35ae4e91ed336e2565c94b8c41f0613a9b93ac4c73b47bb93d26fa2"
+      },
+      {
+        "path": "src/lua/abyss_room_encounters.lua",
+        "sha256": "f2e377c002ead24bdcf1ec71eece13290445980d2cd5ac142abc100ed560d73e"
+      },
+      {
+        "path": "src/lua/abyss_run.lua",
+        "sha256": "189e4a36804ec74f9dcc8c54a07ea5401fb07d81a44ef08d44153b15bac89030"
+      },
+      {
+        "path": "src/lua/abyss_run_admission.lua",
+        "sha256": "7a57fd9c9c11770f51f642df85180a4caddf5999901b7467c44eb8c52bd79992"
+      },
+      {
+        "path": "src/lua/abyss_run_card_catalog.lua",
+        "sha256": "d8d7f52778dbfd6814ddebc1ecc960c6732317d3746a6aabf104e4b7ef7f4a54"
+      },
+      {
+        "path": "src/lua/abyss_run_initialization.lua",
+        "sha256": "1b6779a80523c03c14bafdd399215190cadf04437d76a6db6e86a3f768fc73f9"
+      },
+      {
+        "path": "src/lua/abyss_run_potion_candidate.lua",
+        "sha256": "a81fe8ddc9542f28b219ab68510ef80641bff75d0fa3c703f53eb7c20284488e"
+      },
+      {
+        "path": "src/lua/abyss_run_potions.lua",
+        "sha256": "59434df0d36cecd33dbe58fc9c3be19aa42700011e0440c3e568390a68ba5be1"
+      },
+      {
+        "path": "src/lua/abyss_run_red_card_contract.lua",
+        "sha256": "933b9b7855e99736474cdff4c051a12a4613750bfe322061f3b3604aedf86397"
+      },
+      {
+        "path": "src/lua/abyss_run_rooms.lua",
+        "sha256": "0c8a3ff96133c6217abcfcb4b7287052b3929eb2e890d8aa2b7354b5f6de86d1"
+      },
+      {
+        "path": "src/lua/abyss_run_score.lua",
+        "sha256": "417229ed8d4b836761e4d001465cfc7739ed932f81ec41ed55ddedc480023685"
+      },
+      {
+        "path": "src/lua/abyss_run_scoring.lua",
+        "sha256": "3fca7eb3bb4c5149b4c2b9ac975386393de5c8ae5151ffd97503dca0eb76e03a"
+      },
+      {
+        "path": "src/lua/abyss_run_seed.lua",
+        "sha256": "d94d44a66d183f6ffd5b1e082f7a14de66cc6969b0257b4920bc8c94616a576c"
+      },
+      {
+        "path": "src/lua/abyss_run_settlement.lua",
+        "sha256": "65c4ebaea52e996ef6dc129baa145a24b11ff4a728ffa4eab04f8eab38ce4ec1"
+      },
+      {
+        "path": "src/lua/abyss_run_transition.lua",
+        "sha256": "7f4136e52c4bd7fe4ceb71958830cbbe90d79ecbcedb998703e1897bbf2d2120"
+      },
+      {
+        "path": "src/lua/abyss_scry.lua",
+        "sha256": "786a5b20a63abaf08f1251402238e410fedf4aefab47abd75a38ab9fc3f1d4a5"
+      },
+      {
+        "path": "src/lua/abyss_sensory_stone_event.lua",
+        "sha256": "3df3cc4708f6d2704b503c9805b8e9bdf130afc60a348519ffdac152aa3dc890"
+      },
+      {
+        "path": "src/lua/abyss_sentry_ai.lua",
+        "sha256": "c174f622e36a645a8e989d1162fc1bbbc7c52f7a3e60d503638eebb85995265d"
+      },
+      {
+        "path": "src/lua/abyss_shivs.lua",
+        "sha256": "f96896a0280691c2ed5cb04f516d1bf9a92854be817dea922b9858d52a91a57e"
+      },
+      {
+        "path": "src/lua/abyss_shop.lua",
+        "sha256": "c13adbaa4fd921a4b69a341f43eff5d60179b59fd3ca848a336f76b9d5a6b3f7"
+      },
+      {
+        "path": "src/lua/abyss_shop_price.lua",
+        "sha256": "c882362aba486ae139b1d0bec7e67b5bd1b85f4cf812c3d365573a2ac7b45a1f"
+      },
+      {
+        "path": "src/lua/abyss_shop_relics.lua",
+        "sha256": "4d193801023eb938b4a25878b61c0210ab3023f1133ab395daadbcdf11f810ba"
+      },
+      {
+        "path": "src/lua/abyss_shop_selection.lua",
+        "sha256": "66ac3deb3029d761fea245cc1a37e9d6096ae13a7a06e18223490ce8253efb20"
+      },
+      {
+        "path": "src/lua/abyss_shop_ui.lua",
+        "sha256": "373302ed5d715034c5c0b3c14f8d65bca4b4ba1569935c2f6d65d8dfe2fbce71"
+      },
+      {
+        "path": "src/lua/abyss_silent.lua",
+        "sha256": "32705c37dbe7dd4123663d9eb985f11c6fcc700fc92e07f1726903fcacccccd5"
+      },
+      {
+        "path": "src/lua/abyss_silent_attack_cards.lua",
+        "sha256": "4b2efb9f0724c958d4a22aae8fef1e5bd0b3ae74f4af34e375c79640fe740efa"
+      },
+      {
+        "path": "src/lua/abyss_silent_discard_cards.lua",
+        "sha256": "b64414afecc1ba0026c649fa794f7923656ba737e282c3933f3d2c8e87973159"
+      },
+      {
+        "path": "src/lua/abyss_silent_final_cards.lua",
+        "sha256": "a8648acd0e294f142be20bc4e1561ceded10c1455ec8b493cc96c7e1f6d36fef"
+      },
+      {
+        "path": "src/lua/abyss_silent_potions.lua",
+        "sha256": "ec5a9c8cdc398211d0e4e25f9ac737e012d2103315350daa534bac770b44d292"
+      },
+      {
+        "path": "src/lua/abyss_silent_tactics_cards.lua",
+        "sha256": "8ea7cc9fcd64559b999431997613ae02f394de2eaa6cd04947e2695ff3d48d76"
+      },
+      {
+        "path": "src/lua/abyss_skill_feedback.lua",
+        "sha256": "6bc4bbfc994d1b031f0857a4f690a1c7e9a405ec457d542abf82497e91f3dce6"
+      },
+      {
+        "path": "src/lua/abyss_snapshot.lua",
+        "sha256": "8952ff07bea54c924d9a04200acce11be26cbb4bc66096de72a1b6a39e079b63"
+      },
+      {
+        "path": "src/lua/abyss_spike_slime_m_ai.lua",
+        "sha256": "941795ae786277e32c0382c785063a241f9dc4ae3f93dba595b346bef329dd2e"
+      },
+      {
+        "path": "src/lua/abyss_spire_pair.lua",
+        "sha256": "42aaa7b747edd6a717a4be3051974d77c4dd236fd61cfe78d2ea7570ae2d62e5"
+      },
+      {
+        "path": "src/lua/abyss_stances.lua",
+        "sha256": "c88a7c42694836b921b10bc791161ef0e0deca62f8545974f57b0aeb11ca6610"
+      },
+      {
+        "path": "src/lua/abyss_sts_random.lua",
+        "sha256": "1e0e0f64fe6a7d2edfe8609419080266c554b763fd71b9565b52eed99aaa42b9"
+      },
+      {
+        "path": "src/lua/abyss_time_eater.lua",
+        "sha256": "678c77192bce317778f4ef9447b29632446babb69a5d0b86645182ed25f3f0f7"
+      },
+      {
+        "path": "src/lua/abyss_tomb_red_mask_event.lua",
+        "sha256": "190184898fdaa23de61c1bd9d8739d1d7569d2cac416c691c91654b189c8e4b4"
+      },
+      {
+        "path": "src/lua/abyss_trade_event.lua",
+        "sha256": "e512ecc1e8b1fecd181da0401d5f8819e6af96d9fde3881fb0bb41acaf1f29b2"
+      },
+      {
+        "path": "src/lua/abyss_transform_card.lua",
+        "sha256": "6fe97f0ed053616db17834ca25ec52551e1dfda898a404ba0c8f0e14d8b0a5b9"
+      },
+      {
+        "path": "src/lua/abyss_traveler_portraits.lua",
+        "sha256": "0f7b17f05bfee88f6d54fa575ca494c77dd388b102af8e837a485f644b73104c"
+      },
+      {
+        "path": "src/lua/abyss_treasure.lua",
+        "sha256": "ced731d340e84dcc340926ad2b320f9bbcbec464d720d6a7065cad1f297d778e"
+      },
+      {
+        "path": "src/lua/abyss_treasure_source.lua",
+        "sha256": "44ae73c0d996c4f336d18f225a44466c73db6db85921f1eca28c00865f8601da"
+      },
+      {
+        "path": "src/lua/abyss_treasure_ui.lua",
+        "sha256": "b948aefb729dff7bcd160e991bf331d5fddf41e646eabe45fbe0d9fd4c7aadd2"
+      },
+      {
+        "path": "src/lua/abyss_turn_powers.lua",
+        "sha256": "e93e1cf190e0be800705c10fec054dd114701d68d7f7d313d56662240509f7da"
+      },
+      {
+        "path": "src/lua/abyss_ui.lua",
+        "sha256": "5a3eb4513cd979edc5bf8038ce47af16fa306914b46a39214715e3b82a788c88"
+      },
+      {
+        "path": "src/lua/abyss_uncommon_relics.lua",
+        "sha256": "8e260bd5c52f8ca90f61281858099afbf98d7ec91a5f82a3c7b8f9e74108093c"
+      },
+      {
+        "path": "src/lua/abyss_unknown.lua",
+        "sha256": "1a35af89546437350e32caaf12ab64ca379f37c06f636348933d5f5f4840b69c"
+      },
+      {
+        "path": "src/lua/abyss_vampires_event.lua",
+        "sha256": "53270489c6ac1ca6e9b97fc7cc43efaa2cad992a79872d9f37c574032bea4c53"
+      },
+      {
+        "path": "src/lua/abyss_victory_easter_egg.lua",
+        "sha256": "53fa603781dff67b44deb317e3ed212b714785475dc7bdd02606c22c05fa256e"
+      },
+      {
+        "path": "src/lua/abyss_viewport.lua",
+        "sha256": "14b9a3f0ac0dd4873d7735cacc2daa7b96ac41fcef4a41692194a16e437092fb"
+      },
+      {
+        "path": "src/lua/abyss_warrior_cards.lua",
+        "sha256": "cf9fe3d1aa038be990b1ab47ad0b1ed7898b952a6ef5f49feb931764d0d9dabb"
+      },
+      {
+        "path": "src/lua/abyss_warrior_exhaust_cards.lua",
+        "sha256": "5b425f3cfc4c7d94128cc5a0a77a856a1a44edfe1dbd5abf427a8444f4bc4a1b"
+      },
+      {
+        "path": "src/lua/abyss_warrior_status_cards.lua",
+        "sha256": "554181c678d5387ca7de54095db78a37225c04acc23878bce0392d21acc33a63"
+      },
+      {
+        "path": "src/lua/abyss_warrior_strength_cards.lua",
+        "sha256": "222eca8efdd2568cd81dd21c1cb3b2f738e7326ac5d37ae33f66cca3be6176da"
+      },
+      {
+        "path": "src/lua/abyss_watcher_attack_cards.lua",
+        "sha256": "c6adcaf2a4c88988e7e957104a4812c9cefcd67a9740a2290cd73b9e3aa2d38e"
+      },
+      {
+        "path": "src/lua/abyss_watcher_cards.lua",
+        "sha256": "c93259044790a3e3d6d257d21355707c5879417ea65cc833bfd17ee6f6f5ad3c"
+      },
+      {
+        "path": "src/lua/abyss_watcher_final_cards.lua",
+        "sha256": "343888e746943d3c97608033ac65f52fe02a390c0dba8283b23f18c4a2118018"
+      },
+      {
+        "path": "src/lua/abyss_watcher_flow_cards.lua",
+        "sha256": "08c363feb2269edbe1058457f5d7de39c1b1bf7e0b69b5ce05ad834641a961b9"
+      },
+      {
+        "path": "src/lua/abyss_watcher_foreign_pool.lua",
+        "sha256": "5bd9c29d05fe493053b03a4c8272b7a55cc774dc357968899bbdd7d8724bcd01"
+      },
+      {
+        "path": "src/lua/abyss_wheel_event.lua",
+        "sha256": "f775746a95c2f33eeb9a5d7c688c536b3dd0b6b3ddefeb3455fbd28468f6bc2c"
+      },
+      {
+        "path": "src/lua/abyss_winding_event.lua",
+        "sha256": "1f3a5d5f40847660638443ac9c553065b1e8cec03bb523882d235d4271daebaa"
+      },
+      {
+        "path": "src/lua/abyss_writhing_mass.lua",
+        "sha256": "fc362d8be41e3744169067903fc979ad8bc671eda47c754e4c67f8fe6a7d2d4f"
+      }
+    ],
+    "beforeAllVerifiedAgainstGit": "d8a57cae2a867200ca8e588abc0d368e6cdb3799",
+    "afterAllVerifiedAgainstCurrentFiles": true
+  },
+  "metrics": {
+    "before": {
+      "modules": 333,
+      "measurements": 5386,
+      "expectedMeasurements": 5386,
+      "ccOver30": 58,
+      "ccOver15": 237,
+      "maxCC": 75,
+      "cycles": [
+        {
+          "members": [
+            "abyss_act2_ai",
+            "abyss_act2_ai_moves",
+            "abyss_act2_event_relics",
+            "abyss_act2_powers",
+            "abyss_act2_stasis",
+            "abyss_act2_summons",
+            "abyss_act3_ai",
+            "abyss_act3_bosses",
+            "abyss_act3_enemies",
+            "abyss_act3_powers",
+            "abyss_act4_enemies",
+            "abyss_actor",
+            "abyss_awakened_one",
+            "abyss_build_actions",
+            "abyss_card_actions",
+            "abyss_card_capability",
+            "abyss_card_triggers",
+            "abyss_class_potions",
+            "abyss_colorless_cards",
+            "abyss_combat",
+            "abyss_combat_catalog",
+            "abyss_combat_effect_cards",
+            "abyss_combat_effect_choice",
+            "abyss_combat_effect_damage",
+            "abyss_combat_effect_dispatch",
+            "abyss_combat_effect_powers",
+            "abyss_combat_enemy_setup",
+            "abyss_combat_native_play",
+            "abyss_combat_queued_play",
+            "abyss_darklings",
+            "abyss_defect_engine_cards",
+            "abyss_defect_final_cards",
+            "abyss_defect_utility_cards",
+            "abyss_discard",
+            "abyss_effects",
+            "abyss_effects_cards",
+            "abyss_effects_damage",
+            "abyss_effects_enemy",
+            "abyss_effects_powers",
+            "abyss_end_turn_powers",
+            "abyss_ending_actions",
+            "abyss_enemy_ai",
+            "abyss_exhaust",
+            "abyss_flow_actions",
+            "abyss_focus",
+            "abyss_guardian_ai",
+            "abyss_hand_choice",
+            "abyss_hp_loss",
+            "abyss_inventory",
+            "abyss_mantra",
+            "abyss_nemesis",
+            "abyss_orb_powers",
+            "abyss_orbs",
+            "abyss_original_v4",
+            "abyss_original_v4_health",
+            "abyss_pile_choice",
+            "abyss_plated_armor",
+            "abyss_player_revive",
+            "abyss_poison",
+            "abyss_potion_fairy",
+            "abyss_power_order",
+            "abyss_power_schedule",
+            "abyss_relic_combat_hooks",
+            "abyss_relic_family_combat",
+            "abyss_scry",
+            "abyss_shivs",
+            "abyss_silent",
+            "abyss_silent_attack_cards",
+            "abyss_silent_discard_cards",
+            "abyss_silent_final_cards",
+            "abyss_silent_potions",
+            "abyss_silent_tactics_cards",
+            "abyss_stances",
+            "abyss_time_eater",
+            "abyss_turn_powers",
+            "abyss_warrior_status_cards",
+            "abyss_warrior_strength_cards",
+            "abyss_watcher_attack_cards",
+            "abyss_watcher_final_cards",
+            "abyss_watcher_flow_cards",
+            "abyss_writhing_mass"
+          ],
+          "memberCount": 81,
+          "edgeOccurrences": 623,
+          "modulePairs": 400
+        },
+        {
+          "members": [
+            "abyss_boss_relics",
+            "abyss_event_combat",
+            "abyss_event_combat_routes",
+            "abyss_potion_rewards",
+            "abyss_relic_card_rewards",
+            "abyss_relic_choices",
+            "abyss_relic_hooks",
+            "abyss_relic_pending",
+            "abyss_run",
+            "abyss_run_potion_candidate",
+            "abyss_run_potions",
+            "abyss_run_rooms",
+            "abyss_run_settlement",
+            "abyss_shop_relics",
+            "abyss_uncommon_relics"
+          ],
+          "memberCount": 15,
+          "edgeOccurrences": 62,
+          "modulePairs": 41
+        }
+      ]
+    },
+    "after": {
+      "modules": 333,
+      "measurements": 5414,
+      "expectedMeasurements": 5414,
+      "ccOver30": 56,
+      "ccOver15": 233,
+      "maxCC": 75,
+      "cycles": [
+        {
+          "members": [
+            "abyss_act2_ai",
+            "abyss_act2_ai_moves",
+            "abyss_act2_event_relics",
+            "abyss_act2_powers",
+            "abyss_act2_stasis",
+            "abyss_act2_summons",
+            "abyss_act3_ai",
+            "abyss_act3_bosses",
+            "abyss_act3_enemies",
+            "abyss_act3_powers",
+            "abyss_act4_enemies",
+            "abyss_actor",
+            "abyss_awakened_one",
+            "abyss_build_actions",
+            "abyss_card_actions",
+            "abyss_card_capability",
+            "abyss_card_triggers",
+            "abyss_class_potions",
+            "abyss_colorless_cards",
+            "abyss_combat",
+            "abyss_combat_catalog",
+            "abyss_combat_effect_cards",
+            "abyss_combat_effect_choice",
+            "abyss_combat_effect_damage",
+            "abyss_combat_effect_dispatch",
+            "abyss_combat_effect_powers",
+            "abyss_combat_enemy_setup",
+            "abyss_combat_native_play",
+            "abyss_combat_queued_play",
+            "abyss_darklings",
+            "abyss_defect_engine_cards",
+            "abyss_defect_final_cards",
+            "abyss_defect_utility_cards",
+            "abyss_discard",
+            "abyss_effects",
+            "abyss_effects_cards",
+            "abyss_effects_damage",
+            "abyss_effects_enemy",
+            "abyss_effects_powers",
+            "abyss_end_turn_powers",
+            "abyss_ending_actions",
+            "abyss_enemy_ai",
+            "abyss_exhaust",
+            "abyss_flow_actions",
+            "abyss_focus",
+            "abyss_guardian_ai",
+            "abyss_hand_choice",
+            "abyss_hp_loss",
+            "abyss_inventory",
+            "abyss_mantra",
+            "abyss_nemesis",
+            "abyss_orb_powers",
+            "abyss_orbs",
+            "abyss_original_v4",
+            "abyss_original_v4_health",
+            "abyss_pile_choice",
+            "abyss_plated_armor",
+            "abyss_player_revive",
+            "abyss_poison",
+            "abyss_potion_fairy",
+            "abyss_power_order",
+            "abyss_power_schedule",
+            "abyss_relic_combat_hooks",
+            "abyss_relic_family_combat",
+            "abyss_scry",
+            "abyss_shivs",
+            "abyss_silent",
+            "abyss_silent_attack_cards",
+            "abyss_silent_discard_cards",
+            "abyss_silent_final_cards",
+            "abyss_silent_potions",
+            "abyss_silent_tactics_cards",
+            "abyss_stances",
+            "abyss_time_eater",
+            "abyss_turn_powers",
+            "abyss_warrior_status_cards",
+            "abyss_warrior_strength_cards",
+            "abyss_watcher_attack_cards",
+            "abyss_watcher_final_cards",
+            "abyss_watcher_flow_cards",
+            "abyss_writhing_mass"
+          ],
+          "memberCount": 81,
+          "edgeOccurrences": 623,
+          "modulePairs": 400
+        },
+        {
+          "members": [
+            "abyss_boss_relics",
+            "abyss_event_combat",
+            "abyss_event_combat_routes",
+            "abyss_potion_rewards",
+            "abyss_relic_card_rewards",
+            "abyss_relic_choices",
+            "abyss_relic_hooks",
+            "abyss_relic_pending",
+            "abyss_run",
+            "abyss_run_potion_candidate",
+            "abyss_run_potions",
+            "abyss_run_rooms",
+            "abyss_run_settlement",
+            "abyss_shop_relics",
+            "abyss_uncommon_relics"
+          ],
+          "memberCount": 15,
+          "edgeOccurrences": 62,
+          "modulePairs": 41
+        }
+      ]
+    }
+  },
+  "target": {
+    "before": {
+      "file": "src/lua/abyss_end_turn_powers.lua",
+      "sha256": "0f8881d917f93efb26c7b53f67545c05e6c4f39b43b1694bc3d3d6080173ebda",
+      "lines": 157,
+      "functions": [
+        {
+          "id": "$",
+          "name": "<chunk>",
+          "kind": "chunk",
+          "constructorName": false,
+          "line": 1,
+          "column": 1,
+          "endLine": 157,
+          "lines": 157,
+          "complexity": 1
+        },
+        {
+          "id": "$/add#1",
+          "name": "add",
+          "kind": "function",
+          "constructorName": false,
+          "line": 13,
+          "column": 7,
+          "endLine": 15,
+          "lines": 3,
+          "complexity": 3
+        },
+        {
+          "id": "$/M.needed#1",
+          "name": "M.needed",
+          "kind": "function",
+          "constructorName": false,
+          "line": 16,
+          "column": 1,
+          "endLine": 23,
+          "lines": 8,
+          "complexity": 18
+        },
+        {
+          "id": "$/M.preparePreCards#1",
+          "name": "M.preparePreCards",
+          "kind": "function",
+          "constructorName": false,
+          "line": 24,
+          "column": 1,
+          "endLine": 33,
+          "lines": 10,
+          "complexity": 6
+        },
+        {
+          "id": "$/nativeDamage#1",
+          "name": "nativeDamage",
+          "kind": "function",
+          "constructorName": false,
+          "line": 36,
+          "column": 7,
+          "endLine": 42,
+          "lines": 7,
+          "complexity": 11
+        },
+        {
+          "id": "$/M.transferNative#1",
+          "name": "M.transferNative",
+          "kind": "function",
+          "constructorName": false,
+          "line": 43,
+          "column": 1,
+          "endLine": 49,
+          "lines": 7,
+          "complexity": 3
+        },
+        {
+          "id": "$/M.prepareExhaust#1",
+          "name": "M.prepareExhaust",
+          "kind": "function",
+          "constructorName": false,
+          "line": 50,
+          "column": 1,
+          "endLine": 65,
+          "lines": 16,
+          "complexity": 16
+        },
+        {
+          "id": "$/M.prepare#1",
+          "name": "M.prepare",
+          "kind": "function",
+          "constructorName": false,
+          "line": 66,
+          "column": 1,
+          "endLine": 112,
+          "lines": 47,
+          "complexity": 55
+        },
+        {
+          "id": "$/M.retained#1",
+          "name": "M.retained",
+          "kind": "function",
+          "constructorName": false,
+          "line": 113,
+          "column": 1,
+          "endLine": 116,
+          "lines": 4,
+          "complexity": 7
+        },
+        {
+          "id": "$/M.apply#1",
+          "name": "M.apply",
+          "kind": "function",
+          "constructorName": false,
+          "line": 117,
+          "column": 1,
+          "endLine": 156,
+          "lines": 40,
+          "complexity": 34
+        }
+      ]
+    },
+    "after": {
+      "file": "src/lua/abyss_end_turn_powers.lua",
+      "sha256": "3124970981b679dd4964a7805a6b28277a286cf83b1dc0601e1e0e79ca4de527",
+      "lines": 230,
+      "functions": [
+        {
+          "id": "$",
+          "name": "<chunk>",
+          "kind": "chunk",
+          "constructorName": false,
+          "line": 1,
+          "column": 1,
+          "endLine": 230,
+          "lines": 230,
+          "complexity": 1
+        },
+        {
+          "id": "$/add#1",
+          "name": "add",
+          "kind": "function",
+          "constructorName": false,
+          "line": 13,
+          "column": 7,
+          "endLine": 15,
+          "lines": 3,
+          "complexity": 3
+        },
+        {
+          "id": "$/hasTemporaryEndHooks#1",
+          "name": "hasTemporaryEndHooks",
+          "kind": "function",
+          "constructorName": false,
+          "line": 16,
+          "column": 7,
+          "endLine": 18,
+          "lines": 3,
+          "complexity": 7
+        },
+        {
+          "id": "$/M.needed#1",
+          "name": "M.needed",
+          "kind": "function",
+          "constructorName": false,
+          "line": 19,
+          "column": 1,
+          "endLine": 26,
+          "lines": 8,
+          "complexity": 12
+        },
+        {
+          "id": "$/M.preparePreCards#1",
+          "name": "M.preparePreCards",
+          "kind": "function",
+          "constructorName": false,
+          "line": 27,
+          "column": 1,
+          "endLine": 36,
+          "lines": 10,
+          "complexity": 6
+        },
+        {
+          "id": "$/nativeDamage#1",
+          "name": "nativeDamage",
+          "kind": "function",
+          "constructorName": false,
+          "line": 39,
+          "column": 7,
+          "endLine": 45,
+          "lines": 7,
+          "complexity": 11
+        },
+        {
+          "id": "$/M.transferNative#1",
+          "name": "M.transferNative",
+          "kind": "function",
+          "constructorName": false,
+          "line": 46,
+          "column": 1,
+          "endLine": 52,
+          "lines": 7,
+          "complexity": 3
+        },
+        {
+          "id": "$/validateExhaustHistory#1",
+          "name": "validateExhaustHistory",
+          "kind": "function",
+          "constructorName": false,
+          "line": 53,
+          "column": 7,
+          "endLine": 61,
+          "lines": 9,
+          "complexity": 11
+        },
+        {
+          "id": "$/M.prepareExhaust#1",
+          "name": "M.prepareExhaust",
+          "kind": "function",
+          "constructorName": false,
+          "line": 62,
+          "column": 1,
+          "endLine": 71,
+          "lines": 10,
+          "complexity": 6
+        },
+        {
+          "id": "$/ownerEndFilter#1",
+          "name": "ownerEndFilter",
+          "kind": "function",
+          "constructorName": false,
+          "line": 72,
+          "column": 7,
+          "endLine": 77,
+          "lines": 6,
+          "complexity": 8
+        },
+        {
+          "id": "$/virtualEndPowers#1",
+          "name": "virtualEndPowers",
+          "kind": "function",
+          "constructorName": false,
+          "line": 78,
+          "column": 7,
+          "endLine": 85,
+          "lines": 8,
+          "complexity": 5
+        },
+        {
+          "id": "$/powerPlans.regen#1",
+          "name": "powerPlans.regen",
+          "kind": "function",
+          "constructorName": false,
+          "line": 89,
+          "column": 1,
+          "endLine": 91,
+          "lines": 3,
+          "complexity": 2
+        },
+        {
+          "id": "$/powerPlans.combust#1",
+          "name": "powerPlans.combust",
+          "kind": "function",
+          "constructorName": false,
+          "line": 92,
+          "column": 1,
+          "endLine": 94,
+          "lines": 3,
+          "complexity": 1
+        },
+        {
+          "id": "$/powerPlans.rage#1",
+          "name": "powerPlans.rage",
+          "kind": "function",
+          "constructorName": false,
+          "line": 95,
+          "column": 1,
+          "endLine": 100,
+          "lines": 6,
+          "complexity": 6
+        },
+        {
+          "id": "$/powerPlans.study#1",
+          "name": "powerPlans.study",
+          "kind": "function",
+          "constructorName": false,
+          "line": 101,
+          "column": 1,
+          "endLine": 103,
+          "lines": 3,
+          "complexity": 1
+        },
+        {
+          "id": "$/powerPlans.omega#1",
+          "name": "powerPlans.omega",
+          "kind": "function",
+          "constructorName": false,
+          "line": 104,
+          "column": 1,
+          "endLine": 106,
+          "lines": 3,
+          "complexity": 1
+        },
+        {
+          "id": "$/powerPlans.establishment#1",
+          "name": "powerPlans.establishment",
+          "kind": "function",
+          "constructorName": false,
+          "line": 107,
+          "column": 1,
+          "endLine": 109,
+          "lines": 3,
+          "complexity": 1
+        },
+        {
+          "id": "$/powerPlans.lose_strength#1",
+          "name": "powerPlans.lose_strength",
+          "kind": "function",
+          "constructorName": false,
+          "line": 110,
+          "column": 1,
+          "endLine": 113,
+          "lines": 4,
+          "complexity": 3
+        },
+        {
+          "id": "$/powerPlans.ritual#1",
+          "name": "powerPlans.ritual",
+          "kind": "function",
+          "constructorName": false,
+          "line": 115,
+          "column": 1,
+          "endLine": 117,
+          "lines": 3,
+          "complexity": 2
+        },
+        {
+          "id": "$/powerPlans.wraith_form#1",
+          "name": "powerPlans.wraith_form",
+          "kind": "function",
+          "constructorName": false,
+          "line": 118,
+          "column": 1,
+          "endLine": 120,
+          "lines": 3,
+          "complexity": 2
+        },
+        {
+          "id": "$/powerPlans.shackled#1",
+          "name": "powerPlans.shackled",
+          "kind": "function",
+          "constructorName": false,
+          "line": 121,
+          "column": 1,
+          "endLine": 123,
+          "lines": 3,
+          "complexity": 1
+        },
+        {
+          "id": "$/powerPlans.no_draw#1",
+          "name": "powerPlans.no_draw",
+          "kind": "function",
+          "constructorName": false,
+          "line": 124,
+          "column": 1,
+          "endLine": 126,
+          "lines": 3,
+          "complexity": 1
+        },
+        {
+          "id": "$/powerPlans.equilibrium#1",
+          "name": "powerPlans.equilibrium",
+          "kind": "function",
+          "constructorName": false,
+          "line": 127,
+          "column": 1,
+          "endLine": 129,
+          "lines": 3,
+          "complexity": 3
+        },
+        {
+          "id": "$/powerPlans.well_laid_plans#1",
+          "name": "powerPlans.well_laid_plans",
+          "kind": "function",
+          "constructorName": false,
+          "line": 130,
+          "column": 1,
+          "endLine": 132,
+          "lines": 3,
+          "complexity": 2
+        },
+        {
+          "id": "$/powerPlans.rebound#1",
+          "name": "powerPlans.rebound",
+          "kind": "function",
+          "constructorName": false,
+          "line": 133,
+          "column": 1,
+          "endLine": 135,
+          "lines": 3,
+          "complexity": 1
+        },
+        {
+          "id": "$/planBomb#1",
+          "name": "planBomb",
+          "kind": "function",
+          "constructorName": false,
+          "line": 137,
+          "column": 7,
+          "endLine": 140,
+          "lines": 4,
+          "complexity": 2
+        },
+        {
+          "id": "$/planOwnerEnd#1",
+          "name": "planOwnerEnd",
+          "kind": "function",
+          "constructorName": false,
+          "line": 141,
+          "column": 7,
+          "endLine": 148,
+          "lines": 8,
+          "complexity": 6
+        },
+        {
+          "id": "$/appendPowerPlan#1",
+          "name": "appendPowerPlan",
+          "kind": "function",
+          "constructorName": false,
+          "line": 149,
+          "column": 7,
+          "endLine": 152,
+          "lines": 4,
+          "complexity": 7
+        },
+        {
+          "id": "$/M.prepare#1",
+          "name": "M.prepare",
+          "kind": "function",
+          "constructorName": false,
+          "line": 153,
+          "column": 1,
+          "endLine": 164,
+          "lines": 12,
+          "complexity": 4
+        },
+        {
+          "id": "$/M.retained#1",
+          "name": "M.retained",
+          "kind": "function",
+          "constructorName": false,
+          "line": 165,
+          "column": 1,
+          "endLine": 168,
+          "lines": 4,
+          "complexity": 7
+        },
+        {
+          "id": "$/triggerOrbs#1",
+          "name": "triggerOrbs",
+          "kind": "function",
+          "constructorName": false,
+          "line": 169,
+          "column": 7,
+          "endLine": 176,
+          "lines": 8,
+          "complexity": 3
+        },
+        {
+          "id": "$/applyNative#1",
+          "name": "applyNative",
+          "kind": "function",
+          "constructorName": false,
+          "line": 177,
+          "column": 7,
+          "endLine": 180,
+          "lines": 4,
+          "complexity": 1
+        },
+        {
+          "id": "$/applyRegen#1",
+          "name": "applyRegen",
+          "kind": "function",
+          "constructorName": false,
+          "line": 181,
+          "column": 7,
+          "endLine": 185,
+          "lines": 5,
+          "complexity": 3
+        },
+        {
+          "id": "$/clearTemporaryLoss#1",
+          "name": "clearTemporaryLoss",
+          "kind": "function",
+          "constructorName": false,
+          "line": 186,
+          "column": 7,
+          "endLine": 194,
+          "lines": 9,
+          "complexity": 12
+        },
+        {
+          "id": "$/reduceBomb#1",
+          "name": "reduceBomb",
+          "kind": "function",
+          "constructorName": false,
+          "line": 195,
+          "column": 7,
+          "endLine": 198,
+          "lines": 4,
+          "complexity": 4
+        },
+        {
+          "id": "$/damageAll#1",
+          "name": "damageAll",
+          "kind": "function",
+          "constructorName": false,
+          "line": 199,
+          "column": 7,
+          "endLine": 201,
+          "lines": 3,
+          "complexity": 4
+        },
+        {
+          "id": "$/applyThorns#1",
+          "name": "applyThorns",
+          "kind": "function",
+          "constructorName": false,
+          "line": 202,
+          "column": 7,
+          "endLine": 205,
+          "lines": 4,
+          "complexity": 2
+        },
+        {
+          "id": "$/M.apply#1",
+          "name": "M.apply",
+          "kind": "function",
+          "constructorName": false,
+          "line": 206,
+          "column": 1,
+          "endLine": 229,
+          "lines": 24,
+          "complexity": 12
+        }
+      ]
+    }
+  },
+  "graph": {
+    "edgeOccurrences": 1920,
+    "modulePairs": 1546,
+    "unchangedCanonicalFromToDeferredMultiset": true,
+    "unchangedCycleMembershipAndInternalMultiset": true,
+    "note": "Line numbers move with responsibility extraction; original dependency endpoints and deferred flags are compared as a complete multiset."
+  },
+  "behavior": {
+    "directCases": 155,
+    "checkpoints": 391,
+    "bytesPerSide": 9028545,
+    "newTests": 12,
+    "sourceIsolationTests": 26,
+    "oldN35Tests": 4,
+    "ciAndAdmissionTests": 19,
+    "rawExistingLuaFixtures": 8,
+    "semanticMutants": 3,
+    "errors": "Only observer copies of exact full unchanged error statements map relocated source lines; real thrown/returned objects are untouched."
+  },
+  "planning": {
+    "inventory": {
+      "js": 747,
+      "lua": 1402
+    },
+    "reserveMs": 60000,
+    "workers": 2,
+    "shards": {
+      "win32": 17,
+      "linux": 13
+    },
+    "budgets": {
+      "win32": 1800000,
+      "linux": 1200000
+    },
+    "win32": {
+      "maxPlusReserveMs": 1712321,
+      "withinBudget": true
+    },
+    "linux": {
+      "maxPlusReserveMs": 1192766,
+      "withinBudget": true
+    }
+  },
+  "independentReview": {
+    "status": "PASS for source snapshot; final commit binding required outside this self-referential artifact",
+    "productionSha256": "3124970981b679dd4964a7805a6b28277a286cf83b1dc0601e1e0e79ca4de527",
+    "behaviorProbes": 44,
+    "completeMeasurements": 38,
+    "negativeComplexityAndOmissionProbes": 76,
+    "realRollback": {
+      "epochs": 2,
+      "faultsPerEpoch": 4,
+      "endTurnOriginalTables": 2415,
+      "chooseCardOriginalTables": 2526,
+      "exactTableErrorIdentity": true
+    },
+    "artifacts": [
+      {
+        "path": "build/review-end-turn/probe-first-fixture-error.log",
+        "sha256": "2b35a69711ab87109b337694b17951715c6a6add70d7e2d1f8a677e64d72abb1",
+        "contents": "PASS prepare all responsibilities, top order, wrappers and captured Bomb identity\nPASS prepare sign boundaries, unregistered Rage and nil/false hook plans\nPASS prepare built-in over Bomb and Bomb over extension precedence\nPASS prepare dynamic require, hook members and Schedule replacement across calls\nPASS prepare callback error preserves object and preceding side effects\nPASS prepare property read order and extension late getter\nPASS needed ordered short circuit relic\nPASS needed ordered short circuit noDraw\nPASS needed ordered short circuit strength\nPASS needed ordered short circuit dexterity\nPASS needed ordered short circuit orbs\nPASS needed ordered short circuit status\nPASS needed ordered short circuit extension\nPASS needed ordered short circuit bomb\nPASS needed ordered short circuit none\nPASS needed captures player before relic callback mutation\nPASS exhaust history absent\nPASS exhaust history valid\nPASS exhaust history inactive\nPASS exhaust history reverse\nPASS exhaust history duplicate\nPASS exhaust history hole\nPASS exhaust history metatable\nPASS exhaust history false\nPASS apply repeated effect.op reads ownerPreCardBlock\nPASS apply repeated effect.op reads ownerEndOrbTrigger\nPASS apply repeated effect.op reads ownerEndOrbEffect\nPASS apply repeated effect.op reads ownerEndNative\nPASS apply repeated effect.op reads ownerEndRegen\nPASS apply repeated effect.op reads ownerEndClearLoss\nPASS apply repeated effect.op reads ownerEndClearNoDraw\nPASS apply repeated effect.op reads ownerEndBombReduce\nPASS apply repeated effect.op reads ownerEndDamageAll\n...esponsibilities-20261107/build/review-end-turn/probe.lua:173: assertion failed!\nstack traceback:\n\t[JS]: in function 'assert'\n\t...esponsibilities-20261107/build/review-end-turn/probe.lua:173: in field '?'\n\t...esponsibilities-20261107/build/review-end-turn/probe.lua:246: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\nLua fixture build/review-end-turn/probe.lua: 611 ms\n"
+      },
+      {
+        "path": "build/review-end-turn/probe.log",
+        "sha256": "00d690ac830a701a078baff5bb339eeac975f8a80bb9e07bcb95b1d8e6271b0e",
+        "contents": "PASS prepare all responsibilities, top order, wrappers and captured Bomb identity\nPASS prepare sign boundaries, unregistered Rage and nil/false hook plans\nPASS prepare built-in over Bomb and Bomb over extension precedence\nPASS prepare dynamic require, hook members and Schedule replacement across calls\nPASS prepare callback error preserves object and preceding side effects\nPASS prepare property read order and extension late getter\nPASS needed ordered short circuit relic\nPASS needed ordered short circuit noDraw\nPASS needed ordered short circuit strength\nPASS needed ordered short circuit dexterity\nPASS needed ordered short circuit orbs\nPASS needed ordered short circuit status\nPASS needed ordered short circuit extension\nPASS needed ordered short circuit bomb\nPASS needed ordered short circuit none\nPASS needed captures player before relic callback mutation\nPASS exhaust history absent\nPASS exhaust history valid\nPASS exhaust history inactive\nPASS exhaust history reverse\nPASS exhaust history duplicate\nPASS exhaust history hole\nPASS exhaust history metatable\nPASS exhaust history false\nPASS apply repeated effect.op reads ownerPreCardBlock\nPASS apply repeated effect.op reads ownerEndOrbTrigger\nPASS apply repeated effect.op reads ownerEndOrbEffect\nPASS apply repeated effect.op reads ownerEndNative\nPASS apply repeated effect.op reads ownerEndRegen\nPASS apply repeated effect.op reads ownerEndClearLoss\nPASS apply repeated effect.op reads ownerEndClearNoDraw\nPASS apply repeated effect.op reads ownerEndBombReduce\nPASS apply repeated effect.op reads ownerEndDamageAll\nPASS apply repeated effect.op reads ownerEndThorns\nPASS apply repeated effect.op reads ownerEndRemoveDefect\nPASS apply repeated effect.op reads unknown\nPASS apply op getter changes value per read and dispatch remains sequential\nPASS orb captured module, dynamic preparePassive/queue member and final Events lookup\nPASS orb queue failure preserves exact object and consumed RNG before emission\nPASS damageAll reads current enemy state, combat member and effect value per target\nPASS regen captured player, late Schedule.remove and downstream failure identity\nPASS temporary loss mutation precedes dynamic Events.frame failure\nPASS native callback validation and application keep item/source identity\nPASS native invalid callback and transfer partial work preserve ordering\nINDEPENDENT_END_TURN_PASS 44\nLua fixture build/review-end-turn/probe.lua: 674 ms\n"
+      },
+      {
+        "path": "build/review-end-turn/probe.lua",
+        "sha256": "78f5288bd58805f6cb41d2dc93acd1f341a41fa30b8b21b0c352413ba1c81b6b",
+        "contents": "-- Independent review probes; never loaded by the shipped runtime or shared tests.\nlocal old='tests/fixtures/end-turn-responsibilities-before.lua'\nlocal new='src/lua/abyss_end_turn_powers.lua'\nlocal function snapshot(value)\n local seen,nextId={},0\n local function visit(v)\n  local t=type(v)\n  if t=='string'then return string.format('%q',v)end\n  if t~='table'then return t=='function'and '<function>'or tostring(v)end\n  if seen[v]then return '@'..seen[v]end\n  nextId=nextId+1;seen[v]=nextId\n  local keys={};for k in pairs(v)do keys[#keys+1]=k end\n  table.sort(keys,function(a,b)if type(a)==type(b)then return a<b else return type(a)<type(b)end end)\n  local out={'#'..nextId..'{'}\n  for _,k in ipairs(keys)do out[#out+1]=visit(k)..'='..visit(v[k])..';'end\n  out[#out+1]='}';return table.concat(out)\n end\n return visit(value)\nend\nlocal function setup(path)\n local x={trace={},entries={},sentinel={error='identity'},rng={counter=0},modules={}}\n function x.log(v)x.trace[#x.trace+1]=v end\n function x.proxy(name,values,reads)\n  return setmetatable({}, {__index=function(_,k)\n   x.log(name..'.'..tostring(k));if reads then return reads(k,values)end;return values[k]\n  end,__newindex=function(_,k,v)x.log(name..'.'..tostring(k)..'=');values[k]=v end})\n end\n local p={id='p',hp=60,statuses={},temporaryStrength=0,temporaryDexterity=0,powerOrder={},temporaryPowerOrder={}}\n local s={player=p,events={{kind='prior'}},enemies={{id='a',hp=12},{id='b',hp=0},{id='c',hp=10,escaped=true},{id='d',hp=14}},hand={{cardId='a'},{cardId='e'}},rng=x.rng}\n x.state=s;x.player=p\n x.schedule={ownerEnd=function(_,filter,virtual)x.log('schedule.ownerEnd()');x.filter=filter;x.virtual=virtual;return x.entries end,\n remove=function(_,who,id)x.log('schedule.remove:'..id);assert(who==p);x.removed=id end}\n x.events={emit=function(_,id,detail)x.log('events.emit:'..id);s.events[#s.events+1]={kind=id,detail=detail}end,\n frame=function(_)x.log('events.frame()');return {temporaryStrength=p.temporaryStrength,temporaryDexterity=p.temporaryDexterity}end}\n x.modules.abyss_power_schedule=x.proxy('Schedule',x.schedule)\n x.modules.abyss_events=x.proxy('Events',x.events)\n x.relic={endTurnBlock=function(_)x.log('relic.endTurnBlock()');return nil end}\n x.modules.abyss_relic_combat_hooks=x.proxy('Relic',x.relic)\n x.strength={planHook=function(_,id,phase)x.log('strength:'..id..':'..phase);return x.plan end}\n x.flow={planHook=function(_,id,phase)x.log('flow:'..id..':'..phase);return x.plan end}\n x.triggers={prepareEndTurn=function(_)x.log('triggers()');return {{op='rage_cleanup'}}end}\n x.orbs={preparePassive=function(_,i,phase)x.log('passive:'..i..':'..phase);x.rng.counter=x.rng.counter+1;return {kind=i==1 and 'dark'or 'frost',index=i}end,\n resolve=function(_,action,_)x.log('resolve:'..action.kind);x.rng.counter=x.rng.counter+1 end}\n x.cardActions={apply=function(_,_,item)x.log('cardActions:'..item.effect.op);x.captured=item;x.rng.counter=x.rng.counter+1 end}\n x.defect={removePower=function(_,id)x.log('removePower:'..id)end}\n for name,values in pairs({abyss_warrior_strength_cards=x.strength,abyss_watcher_flow_cards=x.flow,abyss_card_triggers=x.triggers,abyss_orbs=x.orbs,abyss_card_actions=x.cardActions,abyss_defect_final_cards=x.defect})do x.modules[name]=x.proxy(name,values)end\n x.combatValues={block=function(_,who,n,flag)x.log('block:'..n..':'..tostring(flag));assert(who==p);p.block=(p.block or 0)+n end,\n retaliate=function(_,source,target,n)x.log('retaliate:'..tostring(source and source.id)..':'..target.id..':'..n);target.hp=target.hp-n;x.rng.counter=x.rng.counter+1 end,\n cardDefinition=function(_,card)x.log('cardDefinition:'..card.cardId);return {ethereal=card.cardId=='e'}end}\n x.combat=x.proxy('Combat',x.combatValues)\n x.queued={};x.queueValues={pushBottom=function(_,action)x.log('push:'..action.effect.op);x.queued[#x.queued+1]=action end};x.queue=x.proxy('Queue',x.queueValues)\n local env=setmetatable({require=function(name)x.log('require:'..name);return assert(x.modules[name],name)end},{__index=_G})\n x.module=assert(loadfile(path,'t',env))();x.trace={}\n return x\nend\nlocal tests={}\nlocal function case(name,run)tests[#tests+1]={name,run}end\nlocal function outcome(x,ok,result,extra)\n return {trace=x.trace,state=x.state,queue=x.queued,filter=x.filter,virtual=x.virtual,captured=x.captured,removed=x.removed,ok=ok,result=result,extra=extra}\nend\ncase('prepare all responsibilities, top order, wrappers and captured Bomb identity',function(x)\n local s,p=x.state,x.player\n p.temporaryStrength=4;p.temporaryDexterity=2;p.noDraw=true\n local bomb={id='bomb',turns=1,damage=50};s.colorlessBombs={bomb,{id='inactive',turns=0,damage=1}}\n s.cardTriggerPowerOrder={{id='rage'}}\n local wrapped={kind='effect',effect={op='topWrapped'}}\n x.plan={top={{op='topPlain'},wrapped},bottom={{op='bottomPlain'},{kind='effect',effect={op='bottomWrapped'}}}}\n for _,id in ipairs({'regen','combust','rage','study','omega','establishment','lose_strength','lose_dexterity','ritual','wraith_form','shackled','no_draw','equilibrium','well_laid_plans','rebound','amplify','bomb','extension','entangled','double_tap','burst'})do\n  x.entries[#x.entries+1]={id=id,amount=id=='wraith_form'and -2 or id=='bomb'and 1 or 3}\n end\n local ext=x.proxy('Extension',{ownerEndIds={extension=true},ownerEndPlan=function(_,id,n)x.log('extension:'..id..':'..n);return {top={{op='extTop'}},bottom={{op='extBottom'}}}end})\n local result=x.module.prepare(s,x.combat,ext)\n assert(result[1].effect.op=='extTop');assert(s.hand[1].retain and not s.hand[2].retain)\n local captured=false;for _,a in ipairs(result)do if a.effect.op=='ownerEndBombReduce'then assert(a.effect.bomb==bomb);captured=true end end;assert(captured)\n return outcome(x,true,result,{wrapped=wrapped,bomb=bomb})\nend)\ncase('prepare sign boundaries, unregistered Rage and nil/false hook plans',function(x)\n x.entries={{id='regen',amount=0},{id='ritual',amount=-1},{id='wraith_form',amount=0},{id='well_laid_plans',amount=0},{id='rage',amount=0},{id='rage',amount=1},{id='combust',amount=1},{id='study',amount=1}}\n x.strength.planHook=function()x.log('nil plan');return nil,{}end\n x.flow.planHook=function()x.log('false plan');return false,{}end\n local out=x.module.prepare(x.state,x.combat)\n assert(#out==1 and out[1].effect.op=='removeStatus'and out[1].effect.status=='rage')\n return outcome(x,true,out)\nend)\ncase('prepare built-in over Bomb and Bomb over extension precedence',function(x)\n x.state.colorlessBombs={{id='omega',turns=1,damage=99},{id='bomb',turns=1,damage=51}}\n x.entries={{id='omega',amount=7},{id='bomb',amount=1}}\n local ext={ownerEndIds={omega=true,bomb=true},ownerEndPlan=function()error('must not dispatch')end}\n local out=x.module.prepare(x.state,x.combat,ext)\n assert(#out==3 and out[1].effect.value==7 and out[2].effect.bomb==x.state.colorlessBombs[2] and out[3].effect.value==51)\n return outcome(x,true,out)\nend)\ncase('prepare dynamic require, hook members and Schedule replacement across calls',function(x)\n x.entries={{id='combust',amount=1},{id='combust',amount=2},{id='study',amount=3},{id='extension',amount=4}}\n local ext={ownerEndIds={extension=true}}\n x.strength.planHook=function()\n  x.log('first callback');x.strength.planHook=function()x.log('replacement callback');return {bottom={{op='replacement'}}}end\n  x.modules.abyss_watcher_flow_cards=x.proxy('replacedFlow',{planHook=function()x.log('replaced flow callback');return {bottom={{op='flowReplacement'}}}end})\n  ext.ownerEndPlan=function()x.log('late extension');return {top={{op='lateTop'}}}end\n  return {bottom={{op='first'}}}\n end\n local first=x.module.prepare(x.state,x.combat,ext)\n x.schedule.ownerEnd=function()x.log('replaced ownerEnd()');return {{id='ritual',amount=9}}end\n local second=x.module.prepare(x.state,x.combat,ext)\n assert(first[1].effect.op=='lateTop' and first[3].effect.op=='replacement' and first[4].effect.op=='flowReplacement')\n assert(second[1].effect.value==9)\n return outcome(x,true,{first,second})\nend)\ncase('prepare callback error preserves object and preceding side effects',function(x)\n x.entries={{id='equilibrium',amount=1},{id='combust',amount=1}}\n x.strength.planHook=function()x.log('raise sentinel');error(x.sentinel,0)end\n local ok,err=pcall(x.module.prepare,x.state,x.combat)\n assert(not ok and err==x.sentinel and x.state.hand[1].retain)\n return outcome(x,ok,err==x.sentinel)\nend)\ncase('prepare property read order and extension late getter',function(x)\n local p=x.player;local s=x.state\n p.temporaryStrength=1;p.noDraw=true;s.colorlessBombs={{id='bomb',turns=1,damage=13}}\n x.state=x.proxy('State',s);s.player=x.proxy('Player',p)\n local backing={{id='bomb',amount=1},{id='extension',amount=2}}\n x.entries={x.proxy('entry1',backing[1]),x.proxy('entry2',backing[2])}\n local calls=0;local ext=x.proxy('Extension',{},function(k)\n  if k=='ownerEndIds'then calls=calls+1;return {extension=true}end\n  if k=='ownerEndPlan'then return function()return {bottom={{op='extension'}}}end end\n end)\n local result=x.module.prepare(x.state,x.combat,ext)\n assert(calls==3)\n x.state=s;s.player=p\n return outcome(x,true,result)\nend)\nfor _,kind in ipairs({'relic','noDraw','strength','dexterity','orbs','status','extension','bomb','none'})do\n case('needed ordered short circuit '..kind,function(x)\n  local s,p=x.state,x.player\n  if kind=='relic'then x.relic.endTurnBlock=function()x.log('relic positive');return 0 end\n  elseif kind=='noDraw'then p.noDraw=true elseif kind=='strength'then p.temporaryStrength=1\n  elseif kind=='dexterity'then p.temporaryDexterity=1 elseif kind=='orbs'then s.orbs={balls={{kind='frost'}}}\n  elseif kind=='status'then p.statuses={regen=0} elseif kind=='extension'then p.statuses={extension=0}\n  elseif kind=='bomb'then s.colorlessBombs={{turns=0},{turns=1}}end\n  x.state=x.proxy('State',s);s.player=x.proxy('Player',p)\n  local ext=x.proxy('Extension',{ownerEndIds={extension=true}})\n  local result=x.module.needed(x.state,ext);assert(result==(kind~='none'))\n  x.state=s;s.player=p;return outcome(x,true,result)\n end)\nend\ncase('needed captures player before relic callback mutation',function(x)\n x.player.noDraw=true\n x.relic.endTurnBlock=function(s)x.log('replace player');s.player={statuses={}};return nil end\n assert(x.module.needed(x.state));return outcome(x,true,true)\nend)\nfor _,prior in ipairs({'absent','valid','inactive','reverse','duplicate','hole','metatable','false'})do\n case('exhaust history '..prior,function(x)\n  local s,p=x.state,x.player;p.statuses={dark_embrace=1,feel_no_pain=2};x.entries={{id='feel_no_pain'},{id='dark_embrace'}}\n  if prior=='valid'then s.exhaustPowerOrder={'feel_no_pain','dark_embrace'}\n  elseif prior=='inactive'then p.statuses.dark_embrace=nil;x.entries={{id='feel_no_pain'}};s.exhaustPowerOrder={'dark_embrace','feel_no_pain'}\n  elseif prior=='reverse'then s.exhaustPowerOrder={'dark_embrace','feel_no_pain'}\n  elseif prior=='duplicate'then s.exhaustPowerOrder={'feel_no_pain','feel_no_pain'}\n  elseif prior=='hole'then s.exhaustPowerOrder={[1]='feel_no_pain',[3]='dark_embrace'}\n  elseif prior=='metatable'then s.exhaustPowerOrder=setmetatable({},{})\n  elseif prior=='false'then s.exhaustPowerOrder=false end\n  local oldOrder=s.exhaustPowerOrder;local ok,err=pcall(x.module.prepareExhaust,s)\n  if ok then assert(s.exhaustPowerOrder~=oldOrder)else assert(s.exhaustPowerOrder==oldOrder);err=tostring(err):gsub('^.-:%d+: ','')end\n  return outcome(x,ok,err)\n end)\nend\nlocal ops={'ownerPreCardBlock','ownerEndOrbTrigger','ownerEndOrbEffect','ownerEndNative','ownerEndRegen','ownerEndClearLoss','ownerEndClearNoDraw','ownerEndBombReduce','ownerEndDamageAll','ownerEndThorns','ownerEndRemoveDefect','unknown'}\nfor index,op in ipairs(ops)do\n case('apply repeated effect.op reads '..op,function(x)\n  local s,p=x.state,x.player;s.orbs={balls={{kind='dark'},{kind='frost'}}};p.statuses.regen=1;p.temporaryStrength=4;p.temporaryPowerOrder={'strength','dexterity'};p.powerOrder={'lose_strength','ritual'}\n  local data={op=op,value=3,stat='strength',status='amplify',action={kind='frost'},item={source=p,effect={op='damageRandom',fixed=true}},source=s.enemies[1],bomb={id='bomb',turns=1}}\n  local reads=0;local effect=x.proxy('Effect',data,function(k,v)if k=='op'then reads=reads+1 end;return v[k]end)\n  local ok,err=pcall(x.module.apply,x.combat,s,effect,x.queue)\n  assert(reads==math.min(index,11),'source effect.op read count changed')\n  if not ok then assert(op=='unknown');err=tostring(err):gsub('^.-:%d+: ','')else assert(err==true)end\n  return outcome(x,ok,err,{effect=data,reads=reads})\n end)\nend\ncase('apply op getter changes value per read and dispatch remains sequential',function(x)\n local data={value=8};local reads=0\n local effect=x.proxy('Effect',data,function(k,v)if k=='op'then reads=reads+1;return reads==9 and 'ownerEndDamageAll'or 'other'end;return v[k]end)\n assert(x.module.apply(x.combat,x.state,effect,x.queue));assert(reads==9 and x.rng.counter==2)\n return outcome(x,true,reads)\nend)\ncase('orb captured module, dynamic preparePassive/queue member and final Events lookup',function(x)\n x.state.orbs={balls={{},{},{}}}\n x.orbs.preparePassive=function(_,i)\n  x.log('initial passive:'..i);x.rng.counter=x.rng.counter+1\n  x.orbs.preparePassive=function(_,j)x.log('replaced passive:'..j);x.rng.counter=x.rng.counter+1;return {kind='frost',index=j}end\n  x.modules.abyss_orbs={preparePassive=function()error('captured module must remain')end}\n  x.events.emit=function(_,kind)x.log('late emit:'..kind)end\n  return {kind='dark',index=i}\n end\n x.queueValues.pushBottom=function(_,a)\n  x.log('first push');x.queued[#x.queued+1]=a\n  x.queueValues.pushBottom=function(_,next)x.log('late push');x.queued[#x.queued+1]=next end\n end\n assert(x.module.apply(x.combat,x.state,{op='ownerEndOrbTrigger'},x.queue));assert(#x.queued==3 and x.rng.counter==3)\n return outcome(x,true,true)\nend)\ncase('orb queue failure preserves exact object and consumed RNG before emission',function(x)\n x.state.orbs={balls={{},{},{}}}\n x.queueValues.pushBottom=function(_,a)x.queued[#x.queued+1]=a;if #x.queued==2 then error(x.sentinel,0)end end\n local ok,err=pcall(x.module.apply,x.combat,x.state,{op='ownerEndOrbTrigger'},x.queue)\n assert(not ok and err==x.sentinel and #x.queued==2 and x.rng.counter==2 and #x.state.events==1)\n return outcome(x,ok,err==x.sentinel)\nend)\ncase('damageAll reads current enemy state, combat member and effect value per target',function(x)\n local reads=0;local effect=x.proxy('Effect',{op='ownerEndDamageAll'},function(k,v)if k=='value'then reads=reads+1;return reads+2 end;return v[k]end)\n x.combatValues.retaliate=function(_,_,enemy,n)\n  x.log('first retaliation:'..enemy.id..':'..n);enemy.hp=enemy.hp-n;x.state.enemies[2].hp=20\n  x.combatValues.retaliate=function(_,_,target,value)x.log('late retaliation:'..target.id..':'..value);target.hp=target.hp-value end\n end\n assert(x.module.apply(x.combat,x.state,effect,x.queue));assert(reads==3)\n return outcome(x,true,reads)\nend)\ncase('regen captured player, late Schedule.remove and downstream failure identity',function(x)\n local p=x.player;p.statuses.regen=1\n x.cardActions.apply=function(_,s,item)\n  assert(item.source==p);x.log('heal callback');s.player={statuses={regen=90}}\n  x.schedule.remove=function(_,who,id)assert(who==p and id=='regen');x.log('late remove');error(x.sentinel,0)end\n end\n local ok,err=pcall(x.module.apply,x.combat,x.state,{op='ownerEndRegen',value=2},x.queue)\n assert(not ok and err==x.sentinel and p.statuses.regen==0 and x.state.player.statuses.regen==90)\n return outcome(x,ok,err==x.sentinel,{capturedPlayer=p})\nend)\ncase('temporary loss mutation precedes dynamic Events.frame failure',function(x)\n local p=x.player;p.temporaryDexterity=4;p.temporaryPowerOrder={'dexterity','strength'};p.powerOrder={'lose_dexterity','ritual'}\n x.events.frame=function()x.log('late frame');assert(p.temporaryDexterity==0 and p.temporaryPowerOrder[1]=='strength'and p.powerOrder[1]=='ritual');error(x.sentinel,0)end\n local ok,err=pcall(x.module.apply,x.combat,x.state,{op='ownerEndClearLoss',stat='dexterity'},x.queue)\n assert(not ok and err==x.sentinel);return outcome(x,ok,err==x.sentinel)\nend)\ncase('native callback validation and application keep item/source identity',function(x)\n local item={source=x.player,effect={op='colorless',kind='sadisticDamage'},target=x.state.enemies[1]}\n x.state.cardActions={item};x.module.transferNative(x.state,x.queue)\n assert(x.queued[1].effect.item==item and x.state.cardActions==nil)\n assert(x.module.apply(x.combat,x.state,x.queued[1].effect,x.queue));assert(x.captured==item)\n return outcome(x,true,true,{item=item})\nend)\ncase('native invalid callback and transfer partial work preserve ordering',function(x)\n local first={source=x.player,effect={op='silentFinal',kind='corpseDamage'}}\n x.state.cardActions={first,{source=x.player,effect={op='heal',value=1}}}\n local ok,err=pcall(x.module.transferNative,x.state,x.queue)\n assert(not ok and x.state.cardActions==nil and #x.queued==1 and x.queued[1].effect.item==first)\n return outcome(x,ok,tostring(err):gsub('^.-:%d+: ',''))\nend)\nfor _,test in ipairs(tests)do\n local a=test[2](setup(old));local b=test[2](setup(new))\n local sa,sb=snapshot(a),snapshot(b)\n assert(sa==sb,'[INDEPENDENT_END_TURN] mismatch '..test[1]..'\\nOLD '..sa..'\\nNEW '..sb)\n print('PASS '..test[1])\nend\nprint('INDEPENDENT_END_TURN_PASS '..#tests)\n"
+      },
+      {
+        "path": "build/review-end-turn/real-after-fixture-parse-error.log",
+        "sha256": "879d23dec8dbc6f22ce3338a80d1cf7b0fad69ec48b33166d1726f14560297be",
+        "contents": "build/review-end-turn/real-rollback.lua:63: ')' expected near 'fired'\nstack traceback:\n\t[JS]: in function 'dofile'\n\t...sibilities-20261107/build/review-end-turn/real-after.lua:3: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\nLua fixture build/review-end-turn/real-after.lua: 115 ms\n"
+      },
+      {
+        "path": "build/review-end-turn/real-after-nested-wrapper-error.log",
+        "sha256": "68ffe5ab442512e47db0be3aaacf253a022ec8a553a2b7b2138012a0db23d8b1",
+        "contents": "EXACT_RAW_GRAPH endTurn 2415 tables\nPASS whole endTurn rollback after Burn/Regen/Combust/Study RNG failure with original graphs false\nbuild/review-end-turn/real-rollback.lua:79: assertion failed!\nstack traceback:\n\t[JS]: in function 'assert'\n\tbuild/review-end-turn/real-rollback.lua:79: in main chunk\n\t[JS]: in function 'dofile'\n\t...sibilities-20261107/build/review-end-turn/real-after.lua:3: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\nLua fixture build/review-end-turn/real-after.lua: 1702 ms\n"
+      },
+      {
+        "path": "build/review-end-turn/real-after.log",
+        "sha256": "92e10d619f3a3ad6de91b101ad115a4b3c841c4c3ba02da4cf2d352139ce154f",
+        "contents": "EXACT_RAW_GRAPH endTurn 2415 tables\nPASS whole endTurn rollback after Burn/Regen/Combust/Study RNG failure with original graphs false\nEXACT_RAW_GRAPH chooseCard 2526 tables\nPASS same WLP continuation survives late retained callback failure, original pending/queue, retry once false\nEXACT_RAW_GRAPH endTurn 2415 tables\nPASS whole endTurn rollback after Burn/Regen/Combust/Study RNG failure with original graphs true\nEXACT_RAW_GRAPH chooseCard 2526 tables\nPASS same WLP continuation survives late retained callback failure, original pending/queue, retry once true\nOWNER_END_ROLLBACK_PASS\nINDEPENDENT_PUBLIC_ROLLBACK_PASS 4\nLua fixture build/review-end-turn/real-after.lua: 3377 ms\n"
+      },
+      {
+        "path": "build/review-end-turn/real-after.lua",
+        "sha256": "b5831a54ee699e03e5f9c25d1992444d397563719afefdd1bf7f8a59ce051bb0",
+        "contents": "package.path='src/lua/?.lua;build/lua/?.lua;'..package.path\npackage.loaded.abyss_end_turn_powers=dofile('src/lua/abyss_end_turn_powers.lua')\ndofile('build/review-end-turn/real-rollback.lua')\n"
+      },
+      {
+        "path": "build/review-end-turn/real-before-fixture-parse-error.log",
+        "sha256": "8941377721f17fe24cf03900b412976b15da8729b8a66ad97afeae6f1736f0d5",
+        "contents": "build/review-end-turn/real-rollback.lua:63: ')' expected near 'fired'\nstack traceback:\n\t[JS]: in function 'dofile'\n\t...ibilities-20261107/build/review-end-turn/real-before.lua:3: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\nLua fixture build/review-end-turn/real-before.lua: 153 ms\n"
+      },
+      {
+        "path": "build/review-end-turn/real-before-nested-wrapper-error.log",
+        "sha256": "227a9a31d96fa3b9d9fd2ec593ba0b787a8e2f2feaa43ebcc61a03a107c4d3f8",
+        "contents": "EXACT_RAW_GRAPH endTurn 2415 tables\nPASS whole endTurn rollback after Burn/Regen/Combust/Study RNG failure with original graphs false\nbuild/review-end-turn/real-rollback.lua:79: assertion failed!\nstack traceback:\n\t[JS]: in function 'assert'\n\tbuild/review-end-turn/real-rollback.lua:79: in main chunk\n\t[JS]: in function 'dofile'\n\t...ibilities-20261107/build/review-end-turn/real-before.lua:3: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\nLua fixture build/review-end-turn/real-before.lua: 1683 ms\n"
+      },
+      {
+        "path": "build/review-end-turn/real-before.log",
+        "sha256": "36fd5dc5f69969904135ce95006996bdd60158458b6ebadc9456a20c69060b62",
+        "contents": "EXACT_RAW_GRAPH endTurn 2415 tables\nPASS whole endTurn rollback after Burn/Regen/Combust/Study RNG failure with original graphs false\nEXACT_RAW_GRAPH chooseCard 2526 tables\nPASS same WLP continuation survives late retained callback failure, original pending/queue, retry once false\nEXACT_RAW_GRAPH endTurn 2415 tables\nPASS whole endTurn rollback after Burn/Regen/Combust/Study RNG failure with original graphs true\nEXACT_RAW_GRAPH chooseCard 2526 tables\nPASS same WLP continuation survives late retained callback failure, original pending/queue, retry once true\nOWNER_END_ROLLBACK_PASS\nINDEPENDENT_PUBLIC_ROLLBACK_PASS 4\nLua fixture build/review-end-turn/real-before.lua: 3218 ms\n"
+      },
+      {
+        "path": "build/review-end-turn/real-before.lua",
+        "sha256": "3482386de9822facd986c5f195ba0851eb4f6bd000c6ee65685dce7d118ff0d3",
+        "contents": "package.path='src/lua/?.lua;build/lua/?.lua;'..package.path\npackage.loaded.abyss_end_turn_powers=dofile('tests/fixtures/end-turn-responsibilities-before.lua')\ndofile('build/review-end-turn/real-rollback.lua')\n"
+      },
+      {
+        "path": "build/review-end-turn/real-rollback.lua",
+        "sha256": "d5da0a13e49d384118af02f447cfd1f07cf9a556d27ec2a5bce105f5626f8ceb",
+        "contents": "local failureToken={kind='independent-error-identity'}\npackage.path='src/lua/?.lua;build/lua/?.lua;'..package.path\nlocal C,Actions,R,Retained=require('abyss_combat'),require('abyss_card_actions'),require('abyss_sts_random'),require('abyss_retained_cards')\nlocal D=require('abyss_silent_final_cards').withCardDefinitions(require('abyss_warrior_strength_cards').withCards(require('abyss_character_profiles').prepare(require('abyss_data'),'watcher')))\nlocal function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end\nlocal function same(a,b,seen)\n eq(type(a),type(b));if type(a)~='table'then eq(a,b);return end\n seen=seen or {};if seen[a]==b then return end;seen[a]=b\n for k,v in pairs(a)do same(v,b[k],seen)end;for k in pairs(b)do assert(a[k]~=nil)end\nend\nlocal exactRollbacks,publicDepth=0,0\nlocal function captureRaw(root)\n local saved,pending={[root]={}},{root}\n while #pending>0 do\n  local t=table.remove(pending)\n  for k,v in next,t do\n   saved[t][k]=v\n   for _,item in ipairs({k,v})do if type(item)=='table'and not saved[item]then saved[item]={};pending[#pending+1]=item end end\n  end\n end\n return function()\n  local tables=0\n  for t,values in next,saved do\n   tables=tables+1\n   for k,v in next,values do assert(rawequal(rawget(t,k),v),'complete graph value or identity changed after rollback')end\n   for k in next,t do assert(rawget(values,k)~=nil,'new key survived rollback')end\n  end\n  return tables\n end\nend\nfor _,name in ipairs({'endTurn','chooseCard'})do\n local original=C[name]\n C[name]=function(state,...)\n  local outer=publicDepth==0\n  local verify=outer and captureRaw(state)\n  publicDepth=publicDepth+1\n  local result=table.pack(pcall(original,state,...))\n  publicDepth=publicDepth-1\n  if not result[1]and not outer then error(result[2],0)end\n  if not result[1]then\n   assert(result[2]==failureToken,'public API changed exact error object')\n   local tables=verify();exactRollbacks=exactRollbacks+1\n   print('EXACT_RAW_GRAPH '..name..' '..tables..' tables')\n   error(result[2],0)\n  end\n  return table.unpack(result,2,result.n)\n end\nend\nlocal function fresh(advanced,deck)\n local s=C.new(D,{deck=deck,enemies={'cultist'},seed=42,enableStances=true,orbSlots=0,cardRandomSeed='42'})\n s.experimentalMechanics=advanced;return s\nend\nlocal function play(s,id)for _,c in ipairs(s.hand)do if c.cardId==id then assert(C.play(s,c.uid));return end end;error('missing real Power')end\nfor _,advanced in ipairs({false,true})do\n local s=fresh(advanced,{'combust','study'});play(s,'combust');play(s,'study');s.player.hp=20\n C.applyEffects(s,{{op='gainStatus',status='regen',value=3}},s.player)\n local burn=Actions.fresh(C,s,'burn');burn.costForTurn=0;Actions.toHand(s,burn)\n s.draw[#s.draw+1]=Actions.fresh(C,s,'defend_purple')\n local before=C.copy(s);local hand,draw,discard,player,enemy,rng=s.hand,s.draw,s.discard,s.player,s.enemies[1],s.cardRandomRng\n local original=R.randomInt;local fired=false\n R.randomInt=function(stream,max)\n  local result=original(stream,max)\n  if stream==rng then eq(s.player.statuses.regen,2);eq(s.enemies[1].hp,before.enemies[1].hp-5);fired=true;error(failureToken,0)end\n  return result\n end\n local ok,why=pcall(C.endTurn,s);R.randomInt=original\n assert(not ok and (why==failureToken)and fired)\n same(s,before);eq(s.hand,hand);eq(s.draw,draw);eq(s.discard,discard);eq(s.player,player);eq(s.enemies[1],enemy);eq(s.cardRandomRng,rng);eq(burn.costForTurn,0)\n print('PASS whole endTurn rollback after Burn/Regen/Combust/Study RNG failure with original graphs '..tostring(advanced))\n local t=fresh(advanced,{'combust','establishment','well_laid_plans'});for _,id in ipairs({'combust','establishment','well_laid_plans'})do play(t,id)end\n local cards={};for _,id in ipairs({'defend_purple','perseverance','dazed'})do local c=Actions.fresh(C,t,id);Actions.toHand(t,c);cards[id]=c end\n assert(C.endTurn(t));assert(C.chooseCard(t,t.pendingChoice.token,cards.defend_purple.uid))\n local pending,queue=t.pendingChoice,t.actionQueue;before=C.copy(t);local retained=Retained.onRetained;fired=false\n Retained.onRetained=function(state,card)\n  local accepted,intent=retained(state,card)\n  if card==cards.perseverance then\n   eq(card.retainedBlockBonus,2);eq(state.exhaust[1].uid,cards.dazed.uid);eq(C.cardDefinition(state,cards.defend_purple).cost,0)\n   fired=true;error(failureToken,0)\n  end\n  return accepted,intent\n end\n ok,why=pcall(C.chooseCard,t,pending.token,0);Retained.onRetained=retained\n assert(not ok and (why==failureToken)and fired)\n same(t,before);eq(t.pendingChoice,pending);eq(t.actionQueue,queue);eq(queue.paused,true);eq(C.cardDefinition(t,cards.defend_purple).cost,1)\n assert(C.chooseCard(t,pending.token,0));eq(cards.perseverance.retainedBlockBonus,2);eq(t.pendingChoice,nil);eq(t.actionQueue,nil)\n print('PASS same WLP continuation survives late retained callback failure, original pending/queue, retry once '..tostring(advanced))\nend\nprint('OWNER_END_ROLLBACK_PASS')\n\nassert(exactRollbacks==4);print('INDEPENDENT_PUBLIC_ROLLBACK_PASS 4')\n"
+      },
+      {
+        "path": "build/review-end-turn/static.log",
+        "sha256": "755063fc4ed4f2b0812b1ef780d8f3610d7012f4afdf584336535bb7fa6ed461",
+        "contents": "{\n  \"tool\": {\n    \"asset\": \"luacheck\",\n    \"sha256\": \"d68da17fca0697d9e2fb04201f3884abd259fa558b3a449bccaed47f1390defc\",\n    \"version\": \"1.2.0\",\n    \"file\": \"/workspace/scratch/c1a4970a76e0/m7-end-turn-responsibilities-20261107/build/tools/luacheck/luacheck\",\n    \"url\": \"https://github.com/lunarmodules/luacheck/releases/download/v1.2.0/luacheck\"\n  },\n  \"sourceSha256\": \"3124970981b679dd4964a7805a6b28277a286cf83b1dc0601e1e0e79ca4de527\",\n  \"count\": 38,\n  \"max\": 12,\n  \"functions\": [\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 1,\n      \"subject\": \"main chunk\",\n      \"complexity\": 1,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 13,\n      \"subject\": \"function 'add'\",\n      \"complexity\": 3,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 16,\n      \"subject\": \"function 'hasTemporaryEndHooks'\",\n      \"complexity\": 7,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 19,\n      \"subject\": \"function 'M.needed'\",\n      \"complexity\": 12,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 27,\n      \"subject\": \"function 'M.preparePreCards'\",\n      \"complexity\": 6,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 39,\n      \"subject\": \"function 'nativeDamage'\",\n      \"complexity\": 11,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 46,\n      \"subject\": \"function 'M.transferNative'\",\n      \"complexity\": 3,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 53,\n      \"subject\": \"function 'validateExhaustHistory'\",\n      \"complexity\": 11,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 62,\n      \"subject\": \"function 'M.prepareExhaust'\",\n      \"complexity\": 6,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 72,\n      \"subject\": \"function 'ownerEndFilter'\",\n      \"complexity\": 8,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 78,\n      \"subject\": \"function 'virtualEndPowers'\",\n      \"complexity\": 5,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 89,\n      \"subject\": \"function 'powerPlans.regen'\",\n      \"complexity\": 2,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 92,\n      \"subject\": \"function 'powerPlans.combust'\",\n      \"complexity\": 1,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 95,\n      \"subject\": \"function 'powerPlans.rage'\",\n      \"complexity\": 6,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 101,\n      \"subject\": \"function 'powerPlans.study'\",\n      \"complexity\": 1,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 104,\n      \"subject\": \"function 'powerPlans.omega'\",\n      \"complexity\": 1,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 107,\n      \"subject\": \"function 'powerPlans.establishment'\",\n      \"complexity\": 1,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 110,\n      \"subject\": \"function 'powerPlans.lose_strength'\",\n      \"complexity\": 3,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 115,\n      \"subject\": \"function 'powerPlans.ritual'\",\n      \"complexity\": 2,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 118,\n      \"subject\": \"function 'powerPlans.wraith_form'\",\n      \"complexity\": 2,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 121,\n      \"subject\": \"function 'powerPlans.shackled'\",\n      \"complexity\": 1,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 124,\n      \"subject\": \"function 'powerPlans.no_draw'\",\n      \"complexity\": 1,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 127,\n      \"subject\": \"function 'powerPlans.equilibrium'\",\n      \"complexity\": 3,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 130,\n      \"subject\": \"function 'powerPlans.well_laid_plans'\",\n      \"complexity\": 2,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 133,\n      \"subject\": \"function 'powerPlans.rebound'\",\n      \"complexity\": 1,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 137,\n      \"subject\": \"function 'planBomb'\",\n      \"complexity\": 2,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 141,\n      \"subject\": \"function 'planOwnerEnd'\",\n      \"complexity\": 6,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 149,\n      \"subject\": \"function 'appendPowerPlan'\",\n      \"complexity\": 7,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 153,\n      \"subject\": \"function 'M.prepare'\",\n      \"complexity\": 4,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 165,\n      \"subject\": \"function 'M.retained'\",\n      \"complexity\": 7,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 169,\n      \"subject\": \"function 'triggerOrbs'\",\n      \"complexity\": 3,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 177,\n      \"subject\": \"function 'applyNative'\",\n      \"complexity\": 1,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 181,\n      \"subject\": \"function 'applyRegen'\",\n      \"complexity\": 3,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 186,\n      \"subject\": \"function 'clearTemporaryLoss'\",\n      \"complexity\": 12,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 195,\n      \"subject\": \"function 'reduceBomb'\",\n      \"complexity\": 4,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 199,\n      \"subject\": \"function 'damageAll'\",\n      \"complexity\": 4,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 202,\n      \"subject\": \"function 'applyThorns'\",\n      \"complexity\": 2,\n      \"limit\": 15\n    },\n    {\n      \"file\": \"src/lua/abyss_end_turn_powers.lua\",\n      \"line\": 206,\n      \"subject\": \"function 'M.apply'\",\n      \"complexity\": 12,\n      \"limit\": 15\n    }\n  ]\n}\nINDEPENDENT_STATIC_PASS 38 current measurements; 38 CC16 and 38 omission negative controls rejected\n"
+      }
+    ],
+    "probeFailures": "Initial reviewer fixtures omitted player hp, missed a token separator, and wrongly expected nested endTurn rollback before outer chooseCard ownership. Raw failed logs are retained alongside corrected independent probes."
+  },
+  "logs": [
+    {
+      "path": "build/end-turn-first-tests.log",
+      "sha256": "1be350bbc484314e255f0b2cbd916747a5144c5dc959f2730c7525fb758bd4de",
+      "contents": "✔ EndTurn retains the complete develop original source and Git blob (1.029285ms)\n✔ EndTurn fresh old/new complete action, state and return graph: matrix (489.645248ms)\nℹ {\"fixture\":\"matrix\",\"checkpoints\":311,\"bytes\":643954,\"sha256\":\"c6a20162a76126436f53729250854ba904cff3f578bce76df41a8cf50d1e80a6\",\"relocatedErrors\":[\"src/lua/abyss_end_turn_powers.lua:227: unknown owner-end action\",\"src/lua/abyss_end_turn_powers.lua:227: unknown owner-end action\",\"src/lua/abyss_end_turn_powers.lua:227: unknown owner-end action\",\"src/lua/abyss_end_turn_powers.lua:227: unknown owner-end action\",\"src/lua/abyss_end_turn_powers.lua:188: invalid temporary stat removal\",\"src/lua/abyss_end_turn_powers.lua:49: unsupported owner-end native callback\",\"src/lua/abyss_end_turn_powers.lua:59: inconsistent exhaust acquisition history\",\"src/lua/abyss_end_turn_powers.lua:57: invalid exhaust acquisition entry\",\"src/lua/abyss_end_turn_powers.lua:54: invalid exhaust acquisition history\",\"src/lua/abyss_end_turn_powers.lua:138: inconsistent Bomb Power\",\"src/lua/abyss_end_turn_powers.lua:178: unsupported owner-end native callback\",\"src/lua/abyss_end_turn_powers.lua:203: missing captured damage source\"]}\n✔ EndTurn fresh old/new complete action, state and return graph: tests/lua/owner_end_powers.lua (4081.294603ms)\nℹ {\"fixture\":\"tests/lua/owner_end_powers.lua\",\"checkpoints\":17,\"bytes\":3458485,\"sha256\":\"fc8d3231de5b5f875a5313ba22392d7824f279baf98ce1b9608cec5ee7b88fd7\",\"relocatedErrors\":[]}\n✔ EndTurn fresh old/new complete action, state and return graph: tests/lua/owner_end_retention.lua (3818.93828ms)\nℹ {\"fixture\":\"tests/lua/owner_end_retention.lua\",\"checkpoints\":21,\"bytes\":957131,\"sha256\":\"263c4fd7d57cea7c23ee332fe44d1df583471e7000893898df70d7f38dd304df\",\"relocatedErrors\":[]}\n✔ EndTurn fresh old/new complete action, state and return graph: tests/lua/owner_end_rollback.lua (6741.934503ms)\nℹ {\"fixture\":\"tests/lua/owner_end_rollback.lua\",\"checkpoints\":29,\"bytes\":1774913,\"sha256\":\"8abd4b0177b50502d412a5b7dcea3ae3dea62ba39b4cd0d858690024e6a8242f\",\"relocatedErrors\":[]}\n✔ EndTurn fresh old/new complete action, state and return graph: tests/lua/owner_end_orb_callbacks.lua (3834.998753ms)\nℹ {\"fixture\":\"tests/lua/owner_end_orb_callbacks.lua\",\"checkpoints\":13,\"bytes\":2194062,\"sha256\":\"606f73a878a112f02acb9fdcdced3d300e20800c71c24aca9b507c01a54979e0\",\"relocatedErrors\":[]}\n✔ EndTurn full module includes every callback and initialization under unchanged CC15 (1570.568765ms)\n✔ EndTurn exact outer source bridge freshly rechecks owner, CRLF and wrapper forms (1.982046ms)\n✔ EndTurn current source composes into frozen N35 without replacing its prior source or oracle (5.306932ms)\n✔ EndTurn real semantic mutant is killed: negative Ritual guard (175.059591ms)\n✔ EndTurn real semantic mutant is killed: retaining Ethereal cards (184.074277ms)\n✔ EndTurn real semantic mutant is killed: Regen decay (230.956651ms)\nℹ tests 12\nℹ suites 0\nℹ pass 12\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 21278.770844\n"
+    },
+    {
+      "path": "build/end-turn-source-initial.log",
+      "sha256": "1642c36198cf295b78105d0945c2c0681b2bbcf7ad4d6942adaa87c724a75077",
+      "contents": "✔ complete final lifecycle epoch restores all thirty existing Lua owners and exact 391 architecture without inventing witness history (200.848356ms)\n✔ foreign, original, partial, duplicate and escaped-token sources retain their bytes without reading any linked owner (10.578425ms)\n✔ each direct and common source call freshly binds all thirty-five raw owners after warm successes, failures and reader wrapping (21754.766297ms)\n✔ real isolated thirty-five-owner files reject warm source edits, configuration reformatting and deletion without borrowing the live tree (4707.120191ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 26826.479502\n"
+    },
+    {
+      "path": "build/end-turn-isolation.log",
+      "sha256": "3667e3fb664db79c54ba92a0dde9629a715d23084e8038d399437486c0214706",
+      "contents": "✔ reaction architecture inverse restores complete prior bytes through LF, CRLF and layout variants (1497.316593ms)\n✔ reaction inverse never hides partial registrations, boundary drift, duplicates or reordered policy (21.252109ms)\n✔ warm reaction projection freshly binds linked config and exposes disk mutation or deletion (29.376553ms)\n✔ compendium inverse restores exact pre-change bytes and leaves unrelated edits visible (316.779411ms)\n✔ compendium architecture inverse rejects incomplete, duplicate, reordered or wrong-layer registrations (358.824279ms)\n✔ compendium projections bind every new owner and never accept drift in detached providers (535.087838ms)\n✔ M9 projection accepts only the exact two core registrations and preserves unrelated drift (26.857241ms)\n✔ Runtime host projection recognizes complete before/after bytes but rejects partial, duplicate and foreign edits (812.73129ms)\n✔ warm Runtime projections still reread actual linked host files and reject disk drift or deletion (120.415847ms)\nGAME_UI_EXTRACTION_FS_READS {\"reads\":{\"foreign\":0,\"old\":0,\"equivalent\":30,\"warm-drift\":15,\"warm-missing\":14},\"opens\":{\"foreign\":0,\"old\":0,\"equivalent\":30,\"warm-drift\":15,\"warm-missing\":15}}\n✔ one complete extraction restores immutable full Host/config and authenticates each fresh owner (195.274824ms)\n✔ foreign and old epochs perform zero linked reads, including duplicate keys and escaped JSON tokens (9.446231ms)\n✔ configuration owner names never waive complete tokens or fresh linked validation (85.724872ms)\n✔ nested linked readers keep fresh raw identities across composed historical boundaries (35.305433ms)\n✔ actual current Host reaches every direct and transitive consumer with frozen historical results (949.125029ms)\n✔ injected readers at shared consumer seams never fall back to live owners (284.233854ms)\n✔ actual detached filesystem owners reject warm drift and deletion separately for every module (148.339731ms)\n✔ retirement verifies the full isolated destination before deleting, and revalidates deferred cleanup (5.629643ms)\n✔ retirement rejects a destination or nested owner junction aliasing the live source (1.060533ms)\n✔ retirement accepts real repository-local historical copies and preserves every live owner (2.747791ms)\n✔ retirement rejects live Lua directories and source ancestors before any deletion (0.693796ms)\n✔ repository-local cleanup rejects nested symlink escapes and revalidates all targets before deletion (4.025109ms)\n✔ real filesystem traces distinguish foreign/old inputs from fresh equivalent and warm owner reads (602.738207ms)\n✔ only the complete LivingWall increment restores authenticated prior architecture and all older witnesses (2000.381889ms)\n✔ missing, duplicate, partial or foreign LivingWall policy never enters any historical inverse (32.931258ms)\n✔ warm LivingWall projections freshly bind linked policy bytes, including guard removal and deletion (41.223561ms)\n✔ both outer entries authenticate foreign tokens before IO and reread reviewed linked inputs after warmup (380.600776ms)\nℹ tests 26\nℹ suites 0\nℹ pass 26\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 2654.256942\n"
+    },
+    {
+      "path": "build/end-turn-remaining.log",
+      "sha256": "9521a3b68dc3f87247f0f6e009d33ccee4f595dec7c7f83c03e462daf72616d1",
+      "contents": "{\"file\":\"owner_end_orichalcum\",\"durationMs\":1330.406526,\"status\":0,\"stdout\":\"PASS Orichalcum hook eligibility before Metallicize/Orb/Juggernaut false block0\\nPASS Orichalcum hook eligibility before Metallicize/Orb/Juggernaut false block1\\nPASS Orichalcum hook eligibility before Metallicize/Orb/Juggernaut true block0\\nPASS Orichalcum hook eligibility before Metallicize/Orb/Juggernaut true block1\\nPASS Orichalcum prelude queues all three source BOT target draws false\\nPASS Orichalcum prelude queues all three source BOT target draws true\\nPASS Orichalcum-only prelude failure keeps original owners and retries once false\\nPASS Orichalcum-only prelude failure keeps original owners and retries once true\\nOWNER_END_ORICHALCUM 8 passed; 0 failed\\n\"}\n{\"file\":\"owner_end_native_cleanup\",\"durationMs\":1221.0396389999999,\"status\":0,\"stdout\":\"PASS retained nine Protect restored before DE draw; full hand sends second draw to discard false\\nPASS retained nine Protect restored before DE draw; full hand sends second draw to discard true\\nOWNER_END_NATIVE_CLEANUP_PASS\\n\"}\n{\"file\":\"owner_end_pre_cards\",\"durationMs\":1102.964136,\"status\":0,\"stdout\":\"PASS source block acquisition -> Frost -> Burn -> Combust -> Ethereal false\\nPASS source block acquisition -> Frost -> Burn -> Combust -> Ethereal true\\nOWNER_END_PRE_CARDS_PASS\\n\"}\n{\"file\":\"owner_end_membership\",\"durationMs\":1527.80969,\"status\":0,\"stdout\":\"PASS source acquisition study first false\\nPASS source acquisition combust first false\\nPASS source acquisition study first true\\nPASS source acquisition combust first true\\nPASS priority5 temporary loss precedes earlier acquired105 false\\nPASS retained captured-source damage after final Combust gives defeat false\\nPASS priority5 temporary loss precedes earlier acquired105 true\\nPASS retained captured-source damage after final Combust gives defeat true\\nOWNER_END_MEMBERSHIP 8 passed; 0 failed\\n\"}\n{\"file\":\"owner_end_order\",\"durationMs\":1025.6452169999993,\"status\":0,\"stdout\":\"PASS automatic Burn death precedes ordinary Combust false\\nPASS Regen TOP action precedes queued Combust loss false\\nPASS real native Rage cleanup keeps its owning registration false\\nPASS automatic Burn death precedes ordinary Combust true\\nPASS Regen TOP action precedes queued Combust loss true\\nPASS real native Rage cleanup keeps its owning registration true\\nPASS lethal queued real Strike still executes useCard disposal\\nOWNER_END_ORDER 7 passed; 0 failed\\n\"}\n{\"file\":\"end_turn_admission\",\"durationMs\":5627.8216090000005,\"status\":0,\"stdout\":\"ok admission 1 potion-first\\nok admission 2 direct-native\\nok admission 3 direct-experimental-and-reads\\nok admission 4 second-predicate-fallback\\nok admission 5 catalog-short-circuit\\nok admission 6 relic-false\\nok admission 7 relic-pause\\nok admission 8 relic-terminal\\nok admission 9 retained-public-resume\\nok admission 10 original-overrides-experimental\\nok admission 11 snapshot-before-resolver-read\\nok admission 12 owner-and-atomic-alias-restore\\nEND_TURN_ADMISSION_PASS 12\\n\"}\n{\"file\":\"end_turn_discard_order\",\"durationMs\":1330.807429999999,\"status\":0,\"stdout\":\"ok end_turn_discard_order 1 - single Ethereal hand hook lowers ordinary high-cost skill before auto discard\\nok end_turn_discard_order 2 - retained instances leave hand before Ethereal, ordinary discard precedes Restore\\nok end_turn_discard_order 3 - nonadvanced automatic discard takes hand tail without manual discard hooks\\nok end_turn_discard_order 4 - NoDraw removal precedes Ethereal and permits the later real Dark Embrace draw\\nEND_TURN_DISCARD_ORDER_PASS 4\\n\"}\n{\"file\":\"warrior_exhaust_endturn\",\"durationMs\":2205.5147770000003,\"status\":0,\"stdout\":\"ok warrior exhaust endturn 1 - Dazed and Carnage each trigger FNP and DE at end turn without asserting their random order\\nok warrior exhaust endturn 2 - single Ethereal preserves Power acquisition order with feel_no_pain first\\nok warrior exhaust endturn 3 - single Ethereal preserves Power acquisition order with dark_embrace first\\nok warrior exhaust endturn 4 - retained cards return before DE draws while their queued cost reduction remains after those tails\\nok warrior exhaust endturn 5 - restoring nine retained cards leaves one hand slot for a two-card DE draw\\nok warrior exhaust endturn 6 - real Battle Trance NoDraw is removed before Ethereal and allows end-turn DE\\nok warrior exhaust endturn 7 - lethal Regret stops before NoDraw removal and preserves the original card in use\\nok warrior exhaust endturn 8 - post-reset DE draws get temporary zero cost that survives the following start turn\\nok warrior exhaust endturn 9 - removing Corruption retains old combat reductions through end-turn reset\\nok warrior exhaust endturn 10 - Corruption preserves a positive energy threshold while actual Skill payment stays free\\nok warrior exhaust endturn 11 - advanced end-turn failure restores original costs, cards, piles, RNG and nested graph before retry\\nWARRIOR_EXHAUST_ENDTURN_PASS11\\n\"}\nEND_TURN_REMAINING_PASS 8\n"
+    },
+    {
+      "path": "build/end-turn-ci-admission.log",
+      "sha256": "cfc507010e407dbd9cc2d85affbe80d04f5627f72a5f77c900de984da6b33de2",
+      "contents": "✔ complete native successful rows authenticate every observed file and only raise effective placement costs (67.573746ms)\n✔ only complete approved sources reverse 16/12 to 14/9 to 13/9 and new timing to d580 to original 8e epoch (14.911178ms)\n✔ historical physical Windows16 POSIX12 Full33 covers final inventory under original budgets and unchanged setup reserve (96.597463ms)\n✔ frozen Windows17 POSIX13 Full35 receipt covers its exact 741 JS and 1401 Lua files within unchanged budgets (89.421044ms)\n✔ current Full35 includes all post-placement files once at explicit unknown costs within unchanged budgets (93.148471ms)\n✔ current placement authenticates 1458 complete successful assigned files without claiming failed containing jobs passed (54.918291ms)\n✔ current 129 placement raises reconstruct exact timings while preserving all old floors and raw worker safety bytes (17.038447ms)\n✔ only two exact current source identities enter the unchanged pure historical CI chain and all byte drift remains visible (17.529919ms)\n✔ [historical 98fef source contract] scheduler inverse preserves the frozen runner for LF/CRLF and rejects unrelated changes (546.160831ms)\n✔ weighted scheduling balances unequal files deterministically and rejects unsafe inputs (0.705146ms)\n✔ platform gates reserve their measured first-shard cost for every valid shard count (0.503011ms)\n✔ all current JS and Lua files are scheduled exactly once; new unmeasured files cannot disappear (213.297059ms)\n✔ platform-native placement covers every current file once and unknown platforms retain the conservative fallback (54.470995ms)\n✔ workflow uses the same balanced plan for materialization and execution without changing concurrency (0.487047ms)\n✔ real executor preserves test failure, continues later files, reports timings and includes added files (333.244542ms)\n✔ current timing records preserve all measured corrections without duplicate JSON keys (231.3766ms)\n✔ [historical 98fef source contract] fresh relic base retains its complete accepted scheduling measurements (466.208694ms)\n✔ public end-turn admission preserves full graphs, short-circuit reads, rollback owners and return arity (21252.838545ms)\nℹ complete trace 2739223 bytes, SHA256 d05b686fa93c2566ef548a525c262b1597ddd45e611c4015eaa8981ec5967559\n✔ public end-turn semantic mutations fail real route, capability and arity assertions (8238.024182ms)\nℹ tests 19\nℹ suites 0\nℹ pass 19\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 29629.516108\n"
+    },
+    {
+      "path": "build/static.log",
+      "sha256": "ae468feff1902377c3de3bcd892803dc3a038eba174d7aa5b512891f882dd911",
+      "contents": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 check:lua-static\n> node scripts/check-lua-static.mjs\n\nLuacheck 1.2.0: no new diagnostics; 14 explicit historical warnings. Battle render <=10; every scoped function <=15; 1807 governed responsibility measurements.\n"
+    },
+    {
+      "path": "build/architecture.log",
+      "sha256": "507f0495bc945a2d7c5881a0f47b2fb4b847505015b2a7cb0bb6def0ed24798c",
+      "contents": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 check:architecture\n> node scripts/check-architecture.mjs\n\nArchitecture passed: 333 modules, 1920 edges; build/architecture.json\n"
+    },
+    {
+      "path": "build/quality.log",
+      "sha256": "9296d88e15c13def5bb271422f9be2eddb7d4a4d4547efdf0c15793903b6910c",
+      "contents": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 check:quality\n> node scripts/check-engineering-quality.mjs\n\nQuality reported: 333 modules; 5414/5414 measurements; new thresholds report-only. See build/engineering-quality.{json,md}\n"
+    },
+    {
+      "path": "build/guidance.log",
+      "sha256": "857c4e7b87797f74dc3a352f0abd9090ad5be686df225901a72edb4ade3030db",
+      "contents": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 check:guidance\n> node scripts/check-agent-guidance.mjs\n\n{\n  \"errors\": [],\n  \"metrics\": [\n    {\n      \"file\": \"AGENTS.md\",\n      \"lines\": 41,\n      \"characters\": 2985\n    },\n    {\n      \"file\": \"CLAUDE.md\",\n      \"lines\": 5,\n      \"characters\": 150\n    },\n    {\n      \"file\": \".cursor/rules/miliastra.mdc\",\n      \"lines\": 6,\n      \"characters\": 82\n    }\n  ]\n}\n"
+    },
+    {
+      "path": "build/backlog.log",
+      "sha256": "a4713a2d2fedb45f490a85a35d164af8d315b96821d0f1a7348e42ef69544946",
+      "contents": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> slay-the-abyss@1.0.0 verify:backlog\n> node scripts/verify-backlog-roadmap.mjs\n\n任务编号、首发排期、负责人及仅岩系旅行者前两幕规划范围检查通过；当前任务均有优先级、未完成High不超过5项；不认证运行时准入、平台或实机。\n"
+    },
+    {
+      "path": "build/doctor.log",
+      "sha256": "d367f84adfaf58324dd67df5e4e97069393d7a56330cf6eabaf60cfbcdb6b790",
+      "contents": "No duplicate IDs, self-referential dependencies, or dependency cycles found.\n"
+    }
+  ],
+  "reproduction": [
+    {
+      "path": "build/end-turn-cost.mjs",
+      "sha256": "19e92009ec839da4a10a1f1d2359d050f182ba0808aa1140e155842bc74b7d10",
+      "contents": "import{discoverJs,partition,timings}from'../scripts/ci-shards.mjs';import{shardLuaScripts}from'../scripts/test-lua.mjs';import{readdirSync,writeFileSync}from'node:fs';\nconst js=discoverJs(),lua=readdirSync('tests/lua').filter(x=>x.endsWith('.lua')).map(x=>'tests/lua/'+x),out={inventory:{js:js.length,lua:lua.length},reserveMs:60000,workers:2,shards:{win32:17,linux:13},budgets:{win32:1800000,linux:1200000}};\nfor(const platform of ['win32','linux']){const count=out.shards[platform];const weights=Object.fromEntries(js.map(f=>[f,Math.max(timings.js[platform][f]??timings.unknownJsMs,timings.jsPlanning.localLowerBounds[f]?.durationMs??0)]));const loads=partition(js,`1/${count}`,weights,timings.unknownJsMs,Array.from({length:count},(_,i)=>i===0?timings.initialMs[platform][0]:0)).loads;if(platform==='linux'){out[platform]={maxPlusReserveMs:Math.max(...loads)+60000};continue;}const plan={...timings,windowsJsShardMs:loads};const bins=Array.from({length:count},(_,i)=>shardLuaScripts(lua,`${i+1}/${count}`,plan,2));const cost=f=>timings.luaShard[f]??timings.lua[f]??timings.unknownLuaMs,safety=f=>timings.lua[f]??timings.unknownLuaMs;const total=bins.map((bin,i)=>{let pool=[0,0];for(const f of bin.filter(f=>safety(f)<10000).sort((a,b)=>safety(b)-safety(a)||a.localeCompare(b)))pool[pool[0]<=pool[1]?0:1]+=cost(f);return loads[i]+bin.filter(f=>safety(f)>=10000).reduce((s,f)=>s+cost(f),0)+Math.max(...pool)});out[platform]={maxPlusReserveMs:Math.max(...total)+60000};}\nfor(const p of ['win32','linux'])out[p].withinBudget=out[p].maxPlusReserveMs<out.budgets[p];writeFileSync('build/end-turn-cost.json',JSON.stringify(out,null,2)+'\\n');console.log(out);\n"
+    },
+    {
+      "path": "build/end-turn-remaining.mjs",
+      "sha256": "d550cf04c829a06cd3f4158943751bbb23c75e219db9de255e637a3bac02eef9",
+      "contents": "import {runLua}from'../scripts/test-lua.mjs';\nfor(const file of ['owner_end_orichalcum','owner_end_native_cleanup','owner_end_pre_cards','owner_end_membership','owner_end_order','end_turn_admission','end_turn_discard_order','warrior_exhaust_endturn']){\n const t=performance.now(),r=runLua('tests/lua/'+file+'.lua');if(r.status!==0)throw Error(file+' '+r.stderr);console.log(JSON.stringify({file,durationMs:performance.now()-t,status:r.status,stdout:r.stdout}));\n}console.log('END_TURN_REMAINING_PASS 8');\n"
+    }
+  ],
+  "notClaimed": [
+    "Full CI",
+    "post-merge Full",
+    "official import",
+    "real device ready",
+    "phone validation",
+    "M7 complete",
+    "accepted residual complexity"
+  ]
+}

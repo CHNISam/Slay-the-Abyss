@@ -67,7 +67,8 @@ test('warm LivingWall projections freshly bind linked policy bytes, including gu
  t.after(()=>rmSync(root,{recursive:true,force:true}));
  mkdirSync(join(root,'tests/helpers'),{recursive:true});mkdirSync(join(root,'config'));
  copyFileSync('tests/helpers/architecture-source-format.mjs',join(root,'tests/helpers/architecture-source-format.mjs'));
- for(const name of ['game-ui-extraction-source-inverse.mjs','game-ui-extraction-source-layer.json','core-lifecycle-source-inverse.mjs','actor-lifecycle-before.lua','combat-lifecycle-before.json','relic-query-source-inverse.mjs','relic-query-baseline-391306af.json.gz','query-living-wall-before.lua','relic-lifecycle-baseline-391306af.json.gz','relic-lifecycle-architecture-source-inverse.json','m7-core-final-source-inverse.mjs','m7-core-final-before.json.gz'])copyFileSync('tests/helpers/'+name,join(root,'tests/helpers',name));
+ for(const name of ['game-ui-extraction-source-inverse.mjs','game-ui-extraction-source-layer.json','core-lifecycle-source-inverse.mjs','actor-lifecycle-before.lua','combat-lifecycle-before.json','relic-query-source-inverse.mjs','relic-query-baseline-391306af.json.gz','query-living-wall-before.lua','relic-lifecycle-baseline-391306af.json.gz','relic-lifecycle-architecture-source-inverse.json','m7-core-final-source-inverse.mjs','m7-core-final-before.json.gz','end-turn-responsibilities-source-inverse.mjs'])copyFileSync('tests/helpers/'+name,join(root,'tests/helpers',name));
+ mkdirSync(join(root,'tests/fixtures'),{recursive:true});copyFileSync('tests/fixtures/end-turn-responsibilities-before.lua',join(root,'tests/fixtures/end-turn-responsibilities-before.lua'));
  const file=join(root,path);writeFileSync(file,source);
  const {preLivingWallCopyArchitecture:outer,preCombatReactionArchitecture:reaction}=await import(pathToFileURL(join(root,'tests/helpers/architecture-source-format.mjs')));
  const prior=outer(path,source);

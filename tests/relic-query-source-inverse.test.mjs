@@ -1,3 +1,4 @@
+import {preEndTurnResponsibilitiesSource} from './helpers/end-turn-responsibilities-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync} from 'node:fs';
@@ -13,7 +14,7 @@ const normalize=s=>s.replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 // Exercise the unchanged N35 source epoch itself. The new three-owner outer
 // epoch has its own fresh-owner, missing/foreign-source and behavior contracts.
-const read=p=>preM7FinalSource(p,normalize(readFileSync(p,'utf8')));
+const read=p=>preM7FinalSource(p,preEndTurnResponsibilitiesSource(p,normalize(readFileSync(p,'utf8'))));
 const bytes=readFileSync('tests/helpers/relic-query-baseline-391306af.json.gz');
 assert.equal(hash(bytes),'df89de0002fee32b9300489b95432ce4287c467435af804f481241ee3c3bbdf2');
 const frozen=JSON.parse(gunzipSync(bytes));

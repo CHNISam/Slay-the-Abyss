@@ -1,3 +1,4 @@
+import {preEndTurnResponsibilitiesSource,endTurnResponsibilitiesReader} from './end-turn-responsibilities-source-inverse.mjs';
 // Exact outer epoch for read-only relic queries. Frozen source strings may be
 // retained; authorization always comes from a new read of every linked owner.
 import assert from 'node:assert/strict';
@@ -92,6 +93,9 @@ function inputIdentity(path,source){
  }catch{return false;}
 }
 export function preRelicQuerySource(path,source,{readSource=readLive}={}){
+ const endTurnRaw=rawReaders.get(readSource)??readSource;
+ source=preEndTurnResponsibilitiesSource(path,source,{readSource:endTurnRaw});
+ readSource=endTurnResponsibilitiesReader(endTurnRaw);
  readSource=m7FinalReader(rawReaders.get(readSource)??readSource);
  source=preM7FinalSource(path,source,{readSource});
  if(!Object.hasOwn(files[path]??{},'beforeSha256')||!inputIdentity(path,source))return source;
