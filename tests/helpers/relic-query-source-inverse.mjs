@@ -1,3 +1,4 @@
+import {preAct1ChoiceSource,act1ChoiceReader} from './act1-choice-source-inverse.mjs';
 // Exact outer epoch for read-only relic queries. Frozen source strings may be
 // retained; authorization always comes from a new read of every linked owner.
 import assert from 'node:assert/strict';
@@ -94,7 +95,9 @@ function inputIdentity(path,source){
  }catch{return false;}
 }
 export function preRelicQuerySource(path,source,{readSource=readLive}={}){
- const extractionRaw=rawReaders.get(readSource)??readSource;
+ let extractionRaw=rawReaders.get(readSource)??readSource;
+ source=preAct1ChoiceSource(path,source,{readSource:extractionRaw});
+ extractionRaw=act1ChoiceReader(extractionRaw);
  source=preInventoryResponsibilitiesSource(path,source,{readSource:extractionRaw});
  source=preWatcherExecutionSource(path,source,{readSource:extractionRaw});
  readSource=watcherExecutionReader(inventoryResponsibilitiesReader(extractionRaw));
