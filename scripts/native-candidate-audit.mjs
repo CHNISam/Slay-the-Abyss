@@ -53,7 +53,7 @@ export function normalizeUi(value, context = Array.isArray(value) ? 'controls' :
   }
   return result;
 }
-function interfaceMetadata(spec) {
+export function interfaceMetadata(spec) {
   const { controls, script, scripts = [], ...metadata } = spec;
   metadata.scripts = [...(script === undefined ? [] : [script]), ...scripts];
   for (const flag of ['hidden', 'showCursor', 'blockKeys', 'blockCursor', 'isolateNavigation']) {
@@ -75,7 +75,7 @@ function uiComparisonContext(context, key, value) {
   if (context === 'grid' && ['itemSize', 'spacing', 'padding'].includes(key)) return 'float-vector';
   return 'opaque';
 }
-function equivalent(left, right, context = 'opaque') {
+export function equivalent(left, right, context = 'opaque') {
   if (context === 'alpha-byte') {
     return validAlpha(left) && validAlpha(right) && Math.round(left * 255) / 255 === right;
   }

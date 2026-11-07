@@ -1,0 +1,13 @@
+internalId,states,source,presentation
+"lagavulin","sleeping|awake","src/lua/abyss_enemy_ai.lua","同定义的sleep/awake状态；事件lagavulin_awake是主表中的另一个现有定义，不改ID"
+"hexaghost","inactive|active","src/lua/abyss_act1_bosses.lua","六焰核启动/活跃状态保留简单shape与官方光效；不是另一规则定义"
+"transient","present|fading|removed","src/lua/abyss_act3_ai.lua","Fading到期离场和永久击杀分开，只读核心的移除结果，不用原生AI扣血驱动"
+"guardian","offensive|defensive","src/lua/abyss_guardian_ai.lua","同模型；防御态用盾/姿态/官方特效，未证明存在直接变形clip"
+"slime_boss","whole|split","src/lua/abyss_act1_bosses.lua","split生成acid_slime_l和spike_slime_l，二者已在67种分母中"
+"acid_slime_l","whole|split","data/enemies.json","分裂到已有acid_slime_m；同模型缩放，保持真实子实体ID"
+"spike_slime_l","whole|split","data/enemies.json","分裂到已有spike_slime_m；同模型缩放，保持真实子实体ID"
+"byrd","airborne|grounded|takeoff","src/lua/abyss_act2_ai.lua","飞行/落地状态只读核心flight状态；鸟模型动画未读，不能当作已覆盖"
+"champ","normal|enraged","src/lua/abyss_act2_ai_moves.lua","同模型加原生光效/状态标识，无需新规则定义"
+"awakened_one","first|half-dead|rebirth|second","src/lua/abyss_awakened_one.lua","同规则ID/同模型；重生期间不能被普通死亡清除"
+"darkling","alive|half-dead|regrow|reincarnate","src/lua/abyss_darklings.lua","同规则ID；halfDead不等于永久死亡，不能destroy后丢失槽位"
+"nemesis","tangible|intangible","src/lua/abyss_nemesis.lua","同模型配透明/轮廓特效；不伪造原生无敌改变Lua规则"

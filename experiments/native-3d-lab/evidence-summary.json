@@ -1,0 +1,39 @@
+{
+  "task": "TASK-102",
+  "pullRequest": "https://github.com/FurinyaWorks/Slay-the-Abyss/pull/553",
+  "buildId": "85472c95-6d2f-421c-b16a-8e8b8dc1a4d2",
+  "sourceCommit": "bb331ebc7698358baadbbc2f5feda616bdc203e1",
+  "sourceDirty": false,
+  "candidate": {
+    "path": ".artifacts/native-3d-lab/85472c95-6d2f-421c-b16a-8e8b8dc1a4d2/native-3d-lab.gil",
+    "sha256": "758437bcb617e4e28572db6fa3fdf2113ec48cdf245b1489a3788e717928292e",
+    "bytes": 15867034
+  },
+  "receipt": ".artifacts/native-3d-lab/85472c95-6d2f-421c-b16a-8e8b8dc1a4d2/experiment.json",
+  "embeddedModules": 348,
+  "clientErrors": 0,
+  "clientWarnings": {
+    "count": 357,
+    "kind": "UNKNOWN_METHOD",
+    "suppressed": false
+  },
+  "tweenSourceSha256": "d7b7f28478350a64df2d8a138be8461962e7ac56b383c5c6b1bd2b81b2b0522c",
+  "statuses": {
+    "nativeGraphsCompileWriteReadback": "pass",
+    "scriptReadback": "pass",
+    "uiReadback": "pass",
+    "offlineRulesAndLifecycle": "pass",
+    "independentReview": "pass_no_unresolved_P1_P2",
+    "officialImport": "observed_current_build_ready_and_external_source_match",
+    "runtimeReady": "pass",
+    "realLuaServerRoundtrip": "pass",
+    "nativeVisualAndTweenFluency": "tween_completed_visual_fluency_unverified",
+    "mobilePerformance": "unverified",
+    "fullLocalCheck": "not_run",
+    "remoteCI": "pending",
+    "nativeAttackHitEndpoint": "failed_8_animation_timeouts_0_completed",
+    "pairedPerformance": "invalid_3d_animation_failure"
+  },
+  "decision": "continue_native_validation_do_not_migrate_production",
+  "realClientLogSha256": "07929fd9ecf7244923a236a4431a7949887e80b571c1213df972ba99a80b2a45"
+}
