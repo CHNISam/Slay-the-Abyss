@@ -103,6 +103,7 @@
     "abyss_potion_fairy": "core",
     "abyss_class_card_pools": "core",
     "abyss_colorless_cards": "core",
+    "abyss_colorless_catalog": "core",
     "abyss_act2_summons": "core",
     "abyss_act2_stasis": "core",
     "abyss_action_queue": "core",
@@ -434,6 +435,12 @@
     {"from":"abyss_writhing_mass","to":"abyss_relic_family_combat","reason":"Only an actual Parasite obtain invokes common before/onObtainCard rules with its owner-matched permanent health adapter."}
   ],
   "dependencyBoundaries": [
+    {
+      "id": "colorless-catalog-independence",
+      "from": ["abyss_combat_catalog", "abyss_colorless_catalog"],
+      "forbiddenTargets": ["abyss_colorless_cards", "abyss_actor", "abyss_combat", "abyss_card_actions", "abyss_relic_combat_hooks", "abyss_relic_family_combat"],
+      "reason": "Definition registration and detached encounter catalogs cannot import combat execution or lifecycle owners. Full AST transitive closure is guarded by colorless-catalog.test.mjs."
+    },
     {
       "id": "relic-combat-session-independence",
       "from": [

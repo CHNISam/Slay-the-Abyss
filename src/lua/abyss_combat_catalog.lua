@@ -1,7 +1,7 @@
 -- Definition ownership shared by real battles and preconstructed encounters.
 -- No actors, RNG, room callbacks or enemy registration run in this boundary.
 local Copy=require('abyss_copy').copy
-local Colorless=require('abyss_colorless_cards')
+local Colorless=require('abyss_colorless_catalog')
 local M={}
 local function index(entries)
  local result={}

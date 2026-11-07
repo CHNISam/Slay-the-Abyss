@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-11-06 01:46'
-updated_date: '2026-11-06 12:02'
+updated_date: '2026-11-07 05:10'
 labels: []
 milestone: m-7
 dependencies: []
@@ -41,6 +41,8 @@ ordinal: 162000
 5.首轮同模块提取令Actor增至1039行，提交前继续提取无外部依赖的Power校验与堆叠规则叶模块；Actor保留状态提交及动态公开接口。Actor/叶模块1000行硬门禁与叶反向依赖门禁先红后绿，来源升级四源精确epoch并保留旧布局/新鲜读取合同。
 
 本轮最终有界切片：按既有剩余风险建议，仅治理original_v4 validateEffects/apply/executeRoot及新helper，保持支付、唯一快照、逐效果、角色结算与AI flush顺序。全函数含匿名/初始化同口径复采并对新职责执行CC15，冻结旧源、全状态与失败对照后独立复审。
+
+主控分配下一空闲CardCapability切片，已与Colorless依赖worker核对无生产文件重叠。基于2ad07111固定完整旧源，将isImplemented的OriginalV4绑定、激活限制、状态生命周期和普通卡准入分为私有职责，保留短路字段读取、nil/false/非布尔返回及动态支持API。全模块/helper执行CC15；旧新完整图、实际卡库/升级/对抗动态读取和语义负控后独审，不重复Full或伪称重新领取。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -61,4 +63,8 @@ D5同源全采333模块5370/5370测量，CC>15降至240、>30仍61、最大75、
 本轮仅治理既有建议V4三入口及全部新helper：validateEffects32、apply69、executeRoot40均降至15以内，原支付/唯一快照/逐效果/角色结算顺序保持。333模块5385/5385测量，CC>30=58、CC>15=237；本批各减3，最大75未掩盖。原1200冻结向量及合同/生命周期23项通过，新增支付/快照/Codex RNG真语义负控检出；静态1769职责门禁、14旧告警无新增。实际合前后Full和精确独审仍待，不提前勾AC。
 
 最终三入口CC为validateEffects10、apply8、executeRoot11；17个入口/helper全部纳入CC15，新helper最大15，Codex全模块及新提交helper同门禁。新增8项最终8/8，原35-owner来源4/4保持，当前本轮集成候选待精确独审/Full，不启动下一切片。
+
+CardCapability空闲切片完成本地验证：isImplemented CC57→8，全模块10测量最高11并受CC15；最新develop2ad07111同口径>15=237→236、>30=58→57，最大75及SCC81/15保持。新10/10、1739完整检查点每侧3246966字节一致，4真实语义负控及独立612对读序/故障探针通过；原25项JS与3份RunCardCatalog Lua回归通过。独审及统一集成/Full仍待，不改任务状态/AC。见docs/backlog-details/M7-CARD-CAPABILITY-RESPONSIBILITIES-20261107.md。
+
+CardCapability与Colorless目录组合已全采：CC>30 58→57、>15 237→235、最大75，Capability57→8且模块最高11；完整源/库存与验证见M7-COLORLESS-CAPABILITY-INTEGRATION-20261107。未把#541/#543在途成果算入本片，未提前完成AC。
 <!-- SECTION:NOTES:END -->

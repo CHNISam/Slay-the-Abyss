@@ -11,7 +11,7 @@ import {discoverSources,measureSources} from '../scripts/lua-quality-metrics.mjs
 
 const file='src/lua/abyss_colorless_cards.lua';
 const normalized=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
-const responsibilities=['eligibleKill','rewardGreed','growRitual','resolveKill','M.apply',
+const responsibilities=['catalogIndex','catalogNewIndex','eligibleKill','rewardGreed','growRitual','resolveKill','M.apply',
   ...['apotheosis','shackles','impatience','enlightenment','discovery','madness',
     'generateColorless','generateDraw','transmutation','deepBreath','deepBreathShuffle',
     'violence','panache','bomb','mayhem','mayhemPlay','sadisticDamage'].map(name=>`actionHandlers.${name}`)];
